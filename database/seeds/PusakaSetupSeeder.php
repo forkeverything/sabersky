@@ -28,6 +28,8 @@ class PusakaSetupSeeder extends Seeder
         ]);
 
         $company->employees()->save($user);
-        $user->roles()->sync([1]);
+        $user->update([
+            'role_id' => 1
+        ]);
     }
 }

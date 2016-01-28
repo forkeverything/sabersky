@@ -15,6 +15,6 @@ class Role extends Model
     // A role has many users
     public function users()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->hasMany(User::class);
     }
 }

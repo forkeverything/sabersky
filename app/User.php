@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -37,10 +37,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // User has many roles
-    public function roles()
+    // Every user has a role.
+    public function role()
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        return $this->belongsTo(Role::class);
     }
 
     public function company()

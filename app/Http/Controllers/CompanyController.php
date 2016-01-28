@@ -30,7 +30,9 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->all());
         $company->employees()->save($user = Auth::user());
-        $user->roles()->sync([1]);
+        $user->update([
+            'role_id' => 1 // Assign user director role
+        ]);
         return redirect('/dashboard');
     }
 }
