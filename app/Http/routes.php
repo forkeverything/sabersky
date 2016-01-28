@@ -26,14 +26,13 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/dashboard', function () {
-        return 'This is the users\'s adaptive menu page';
-    });
-});
-
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
+
+    Route::get('/dashboard', 'PagesController@showDashboard');
+
+    Route::get('/company', 'CompanyController@registerCompany');
+    Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
 });
