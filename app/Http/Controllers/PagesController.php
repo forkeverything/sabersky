@@ -22,27 +22,6 @@ class PagesController extends Controller
             return redirect('company');
         }
 
-        switch (Auth::user()->role->position) {
-            case 'director':
-                return view('dashboard.director');
-                break;
-            case 'planner':
-                return view('dashboard.planner');
-                break;
-            case 'manager':
-                return view('dashboard.manager');
-                break;
-            case 'buyer':
-                return view('dashboard.buyer');
-                break;
-            case 'cashier':
-                return view('dashboard.cashier');
-                break;
-            case 'technician':
-                return view('dashboard.technician');
-                break;
-            default:
-                return 'no role. please contact system administrator to assign role manually.';
-        }
+        return view('dashboard');
     }
 }

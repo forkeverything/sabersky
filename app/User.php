@@ -47,4 +47,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function assignRole($role)
+    {
+        $this->role()->save(
+            Role::wherePosition($role)->firstOrFail()
+        );
+    }
 }
