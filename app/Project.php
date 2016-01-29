@@ -25,4 +25,10 @@ class Project extends Model
         'operational',
         'company_id'
     ];
+
+    public function teamMembers()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }

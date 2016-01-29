@@ -5782,13 +5782,81 @@ button.close {
   #projects-all .project-list .project-single-link .project-single:hover {
     background: #f2f2f2; }
 
-.page-title {
+#project-single-view .project-title {
+  margin-bottom: 15px; }
+
+#project-single-view .project-bar {
+  margin-bottom: 15px; }
+  #project-single-view .project-bar .project-status {
+    font-weight: bold; }
+    #project-single-view .project-bar .project-status.active {
+      color: #2880CB; }
+
+#project-single-view section {
   margin-bottom: 30px; }
+  #project-single-view section:last-child {
+    margin-bottom: 0; }
+
+#project-single-view .team-wrap {
+  margin-bottom: 30px; }
+
+#project-single-view .team-members h5 {
+  display: inline-block;
+  margin-right: 10px; }
+
+#project-single-view .team-members .team-wrap {
+  padding: 30px; }
+  #project-single-view .team-members .team-wrap .team-single-member {
+    height: 150px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center; }
+    #project-single-view .team-members .team-wrap .team-single-member .fa-user {
+      -webkit-flex: 100%;
+      -ms-flex: 100%;
+      flex: 100%;
+      text-align: center;
+      font-size: 125px;
+      color: #A7AEB3; }
+    #project-single-view .team-members .team-wrap .team-single-member span {
+      -webkit-flex: 100%;
+      -ms-flex: 100%;
+      flex: 100%;
+      text-align: center; }
+
+body {
+  font-family: 'helvetica'; }
+
+.fa-btn {
+  margin-right: 6px; }
+
+.page-title {
+  margin-bottom: 30px;
+  font-weight: bold; }
 
 a {
   color: initial; }
   a:hover {
     color: initial;
     text-decoration: none; }
+  a:active {
+    color: initial;
+    text-decoration: none; }
+  a.link-underline:hover {
+    border-bottom: 1px dotted #000; }
+
+h5 {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 15px; }
 
 /*# sourceMappingURL=app.css.map */

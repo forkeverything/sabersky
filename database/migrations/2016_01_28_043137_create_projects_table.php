@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('location');
             $table->text('description');
-            $table->boolean('operational'); // starting / stopping
+            $table->boolean('operational')->default(1); // starting / stopping
 
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

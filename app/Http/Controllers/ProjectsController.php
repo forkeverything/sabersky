@@ -18,7 +18,11 @@ class ProjectsController extends Controller
 
     public function __construct()
     {
-        $this->company = Auth::user()->company;
+        $this->middleware('auth');
+        if ($user = Auth::user()) {
+            $this->company = $user->company;
+        }
+
     }
 
     public function showAll()
@@ -38,13 +42,14 @@ class ProjectsController extends Controller
 
     public function startProject(StartProjectRequest $request)
     {
-        $this->company->projects()->create($request->all());
+        $project = $this->company->projects()->create($request->all());
+        Auth::user()->projects()->save($project);
         return redirect('/projects');
     }
 
     public function single(Project $project)
     {
-        dd($project);
+        return view('projects.single', compact('project'));
     }
 
 }

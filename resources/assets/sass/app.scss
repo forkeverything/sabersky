@@ -1,9 +1,19 @@
+@import "partials/variables";
 @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "pages/dashboard";
 @import "pages/projects";
 
+body {
+  font-family: 'helvetica';
+}
+
+.fa-btn {
+  margin-right: 6px;
+}
+
 .page-title {
   margin-bottom: 30px;
+  font-weight: bold;
 }
 
 a {
@@ -12,4 +22,22 @@ a {
     color: initial;
     text-decoration: none;
   }
+
+  &:active {
+    color: initial;
+    text-decoration: none;
+  }
+  
+  &.link-underline {
+    &:hover {
+      border-bottom: 1px dotted #000;
+    }
+  }
 }
+
+h5 {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+

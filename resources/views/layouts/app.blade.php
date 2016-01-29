@@ -12,16 +12,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'helvetica';
-        }
-
-        .fa-btn {
-            margin-right: 6px;
-        }
-    </style>
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default">

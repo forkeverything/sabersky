@@ -58,4 +58,13 @@ class User extends Authenticatable
             Role::wherePosition($role)->firstOrFail()
         );
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
 }

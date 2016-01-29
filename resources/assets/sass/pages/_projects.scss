@@ -17,3 +17,59 @@
     }
   }
 }
+
+#project-single-view {
+  .project-title {
+    margin-bottom: 15px;
+  }
+  .project-bar {
+    margin-bottom: 15px;
+    .project-status {
+      font-weight: bold;
+      &.active {
+        color: $blue;
+      }
+    }
+  }
+  section {
+    margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .team-wrap {
+    margin-bottom: 30px;
+  }
+
+  .team-members {
+
+    h5 {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .team-wrap {
+      padding: 30px;
+
+      .team-single-member {
+        height: 150px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        .fa-user {
+          flex: 100%;
+          text-align: center;
+          font-size: 125px;
+          color: $grey;
+        }
+        span {
+          flex: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
