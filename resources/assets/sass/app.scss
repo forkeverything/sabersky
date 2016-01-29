@@ -1,6 +1,15 @@
- @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
- @import "pages/dashboard";
+@import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "pages/dashboard";
+@import "pages/projects";
 
- .page-title {
+.page-title {
   margin-bottom: 30px;
- }
+}
+
+a {
+  color: initial;
+  &:hover {
+    color: initial;
+    text-decoration: none;
+  }
+}

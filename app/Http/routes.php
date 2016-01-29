@@ -35,4 +35,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/company', 'CompanyController@registerCompany');
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
+
+    Route::get('/projects', 'ProjectsController@showAll');
+    Route::get('/projects/start', 'ProjectsController@getProjectForm');
+    Route::post('/projects/start', ['as' => 'startProject', 'uses' => 'ProjectsController@startProject']);
+    Route::get('/projects/single/{project}', ['as' => 'singleProject', 'uses' => 'ProjectsController@single']);
 });

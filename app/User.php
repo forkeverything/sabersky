@@ -16,6 +16,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property integer $company_id
+ * @property integer $role_id
+ * @property-read \App\Role $role
+ * @property-read \App\Company $company
  */
 class User extends Authenticatable
 {

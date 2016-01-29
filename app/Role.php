@@ -6,6 +6,14 @@ use App\Permission;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Role
+ *
+ * @property integer $id
+ * @property string $position
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Permission[] $permissions
+ */
 class Role extends Model
 {
 
