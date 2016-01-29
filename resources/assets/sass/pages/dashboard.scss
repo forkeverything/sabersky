@@ -1,0 +1,23 @@
+#dashboard-nav {
+
+  .dashboard-link {
+    color: #000;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 75px 0;
+    justify-content: center;
+    align-items: center;
+    display:  flex;
+    margin-bottom: 30px;
+
+    &:hover {
+      text-decoration: none;
+      background: #353535;
+      color: #fff;
+    }
+
+    @media screen and (max-width:768px) {
+      margin-bottom: 15px;
+    }
+  }
+}
