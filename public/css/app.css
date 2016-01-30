@@ -5833,6 +5833,13 @@ button.close {
       flex: 100%;
       text-align: center; }
 
+#projects-team-add .panel {
+  margin: 20px 0 0 0; }
+  #projects-team-add .panel section {
+    margin: 0 0 30px 0; }
+    #projects-team-add .panel section:last-child {
+      margin: 0; }
+
 body {
   font-family: 'helvetica'; }
 
@@ -5848,7 +5855,7 @@ a {
   a:hover {
     color: initial;
     text-decoration: none; }
-  a:active {
+  a:active, a:visited, a:active, a:focus {
     color: initial;
     text-decoration: none; }
   a.link-underline:hover {

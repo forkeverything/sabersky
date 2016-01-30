@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="project-single-view">
-        <a href="{{ route('allProjects') }}" class="link-underline">Back to Projects</a>
+        <a href="{{ route('allProjects') }}" class="link-underline"><i class="fa  fa-arrow-left fa-btn"></i>Back to Projects</a>
         <section class="project-info">
             <h1 class="page-title">{{ $project->name }}</h1>
             <div class="project-bar">
@@ -17,7 +17,7 @@
         </section>
         <section class="team-members">
             <h5>Team Members</h5>
-            <button class="btn btn-default"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button>
+            <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-default"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
             <div class="team-wrap">
                 @foreach($project->teamMembers->chunk(3) as $chunk)
                     <div class="row">

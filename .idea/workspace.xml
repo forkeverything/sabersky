@@ -2,21 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/projects/single.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/projects/team/add.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Project.php" afterPath="$PROJECT_DIR$/app/Project.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/User.php" afterPath="$PROJECT_DIR$/app/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/projects/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/projects/single.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,11 +38,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="single.blade.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/resources/views/projects/single.blade.php">
+          <file leaf-file-name="add.blade.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/resources/views/projects/team/add.blade.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.31193838">
-                  <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+                <state vertical-scroll-proportion="0.43216464">
+                  <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
                   <folding />
                 </state>
               </provider>
@@ -54,12 +52,14 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="app.scss" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+          <file leaf-file-name="SaveTeamMemberRequest.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Http/Requests/SaveTeamMemberRequest.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5198973">
-                  <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-                  <folding />
+                <state vertical-scroll-proportion="0.84375">
+                  <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
+                  <folding>
+                    <element signature="e#37#67#0#PHP" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -71,12 +71,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/bower.json" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/resources/views/welcome.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
         <option value="$PROJECT_DIR$/config/database.php" />
         <option value="$PROJECT_DIR$/.env" />
@@ -113,18 +113,21 @@
         <option value="$PROJECT_DIR$/resources/views/projects/start.blade.php" />
         <option value="$PROJECT_DIR$/app/Company.php" />
         <option value="$PROJECT_DIR$/resources/views/projects/all.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss" />
-        <option value="$PROJECT_DIR$/app/User.php" />
-        <option value="$PROJECT_DIR$/app/Project.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_29_155538_create_project_user_table.php" />
         <option value="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/StaffController.php" />
         <option value="$PROJECT_DIR$/resources/views/projects/single.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
+        <option value="$PROJECT_DIR$/app/Project.php" />
+        <option value="$PROJECT_DIR$/resources/views/projects/team/add.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" />
+        <option value="$PROJECT_DIR$/app/User.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/SaveTeamMemberRequest.php" />
       </list>
     </option>
   </component>
@@ -144,8 +147,8 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="828" />
+    <option name="width" value="2560" />
+    <option name="height" value="1361" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -172,7 +175,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -201,349 +203,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="storage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="projects" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layouts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="errors" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="partials" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jquery" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="seeds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="factories" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -558,6 +218,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Jobs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -576,50 +240,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Requests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="procure" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Middleware" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -648,6 +268,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -704,7 +325,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="828" extended-state="6" />
+    <frame x="0" y="23" width="2560" height="1361" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -721,6 +342,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -746,622 +368,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/seeds/.gitkeep">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12347561">
-          <caret line="34" column="15" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="15" />
-          <folding>
-            <marker date="1453781737000" expanded="false" signature="52:1243" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="1357:95561" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="1367:1441" placeholder=" The connection name for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="1479:1555" placeholder=" The table associated with the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="1588:1658" placeholder=" The primary key for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="1703:1786" placeholder=" The number of models to return for pagination. ..." />
-            <marker date="1453781737000" expanded="true" signature="1826:1907" placeholder=" Indicates if the IDs are auto-incrementing. ..." />
-            <marker date="1453781737000" expanded="true" signature="1951:2034" placeholder=" Indicates if the model should be timestamped. ..." />
-            <marker date="1453781737000" expanded="true" signature="2076:2138" placeholder=" The model's attributes. ..." />
-            <marker date="1453781737000" expanded="true" signature="2181:2257" placeholder=" The model attribute's original state. ..." />
-            <marker date="1453781737000" expanded="true" signature="2298:2376" placeholder=" The loaded relationships for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="2418:2505" placeholder=" The attributes that should be hidden for arrays. ..." />
-            <marker date="1453781737000" expanded="true" signature="2544:2631" placeholder=" The attributes that should be visible in arrays. ..." />
-            <marker date="1453781737000" expanded="true" signature="2671:2760" placeholder=" The accessors to append to the model's array form. ..." />
-            <marker date="1453781737000" expanded="true" signature="2800:2879" placeholder=" The attributes that are mass assignable. ..." />
-            <marker date="1453781737000" expanded="true" signature="2920:3002" placeholder=" The attributes that aren't mass assignable. ..." />
-            <marker date="1453781737000" expanded="true" signature="3045:3131" placeholder=" The attributes that should be mutated to dates. ..." />
-            <marker date="1453781737000" expanded="true" signature="3169:3256" placeholder=" The storage format of the model's date columns. ..." />
-            <marker date="1453781737000" expanded="true" signature="3294:3384" placeholder=" The attributes that should be cast to native types. ..." />
-            <marker date="1453781737000" expanded="true" signature="3422:3510" placeholder=" The relationships that should be touched on save. ..." />
-            <marker date="1453781737000" expanded="true" signature="3550:3620" placeholder=" User exposed observable events. ..." />
-            <marker date="1453781737000" expanded="true" signature="3664:3746" placeholder=" The relations to eager load on every query. ..." />
-            <marker date="1453781737000" expanded="true" signature="3783:3874" placeholder=" The class name to be used in polymorphic relations. ..." />
-            <marker date="1453781737000" expanded="true" signature="3912:3980" placeholder=" Indicates if the model exists. ..." />
-            <marker date="1453781737000" expanded="true" signature="4019:4130" placeholder=" Indicates if the model was inserted during the current request lifecycle. ..." />
-            <marker date="1453781737000" expanded="true" signature="4181:4274" placeholder=" Indicates whether attributes are snake cased on arrays. ..." />
-            <marker date="1453781737000" expanded="true" signature="4328:4443" placeholder=" The connection resolver instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="4486:4589" placeholder=" The event dispatcher instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="4634:4700" placeholder=" The array of booted models. ..." />
-            <marker date="1453781737000" expanded="true" signature="4746:4825" placeholder=" The array of global scopes on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="4877:4959" placeholder=" Indicates if all mass assignment is enabled. ..." />
-            <marker date="1453781737000" expanded="true" signature="5011:5101" placeholder=" The cache of the mutated attributes for each class. ..." />
-            <marker date="1453781737000" expanded="true" signature="5153:5230" placeholder=" The many to many relationship methods. ..." />
-            <marker date="1453781737000" expanded="true" signature="5325:5401" placeholder=" The name of the &quot;created at&quot; column. ..." />
-            <marker date="1453781737000" expanded="true" signature="5449:5525" placeholder=" The name of the &quot;updated at&quot; column. ..." />
-            <marker date="1453781737000" expanded="true" signature="5573:5685" placeholder=" Create a new Eloquent model instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="5743:5856" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="5865:5961" placeholder=" Check if the model needs to be booted and if so, do it. ..." />
-            <marker date="1453781737000" expanded="true" signature="6004:6290" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="6094:6283" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="6299:6374" placeholder=" The &quot;booting&quot; method of the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="6413:6455" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="6464:6550" placeholder=" Boot all of the bootable traits on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="6595:6864" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="6672:6857" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="6766:6847" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="6873:6972" placeholder=" Clear the list of booted models so they will be re-booted. ..." />
-            <marker date="1453781737000" expanded="true" signature="7021:7099" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="7108:7360" placeholder=" Register a new global scope on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="7444:7997" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="7511:7608" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="7651:7748" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="7789:7888" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="8006:8153" placeholder=" Determine if a model has a global scope. ..." />
-            <marker date="1453781737000" expanded="true" signature="8205:8275" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="8284:8481" placeholder=" Get a global scope registered with the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="8533:8884" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="8653:8740" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="8769:8876" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="8821:8875" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="8893:8981" placeholder=" Get the global scopes for this class instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="9021:9103" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="9112:9256" placeholder=" Register an observer with the Model. ..." />
-            <marker date="1453781737000" expanded="true" signature="9316:9906" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="9741:9899" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="9790:9889" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="9915:10110" placeholder=" Fill the model with an array of attributes. ..." />
-            <marker date="1453781737000" expanded="true" signature="10156:10829" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="10290:10799" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="10627:10691" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="10719:10789" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="10838:10980" placeholder=" Fill the model with an array of attributes. Force mass assignment. ..." />
-            <marker date="1453781737000" expanded="true" signature="11031:11431" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="11328:11423" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="11367:11422" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="11440:11561" placeholder=" Get the fillable attributes of a given array. ..." />
-            <marker date="1453781737000" expanded="true" signature="11623:11832" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="11700:11796" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="11841:11988" placeholder=" Create a new instance of the given model. ..." />
-            <marker date="1453781737000" expanded="true" signature="12057:12422" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="12431:12593" placeholder=" Create a new model instance that is existing. ..." />
-            <marker date="1453781737000" expanded="true" signature="12668:12879" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="12888:13082" placeholder=" Create a collection of models from plain arrays. ..." />
-            <marker date="1453781737000" expanded="true" signature="13153:13413" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="13250:13355" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="13284:13346" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="13422:13648" placeholder=" Create a collection of models from a raw query. ..." />
-            <marker date="1453781737000" expanded="true" signature="13732:13933" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="13942:14060" placeholder=" Save a new model and return the instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="14120:14223" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="14232:14373" placeholder=" Save a new model and return the instance. Allow mass-assignment. ..." />
-            <marker date="1453781737000" expanded="true" signature="14433:14840" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="14735:14832" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="14774:14831" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="14849:14984" placeholder=" Get the first record matching the attributes or create it. ..." />
-            <marker date="1453781737000" expanded="true" signature="15046:15248" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="15157:15196" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="15257:15397" placeholder=" Get the first record matching the attributes or instantiate it. ..." />
-            <marker date="1453781737000" expanded="true" signature="15456:15654" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="15567:15606" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="15663:15876" placeholder=" Create or update a record matching the attributes, and fill it with values. ..." />
-            <marker date="1453781737000" expanded="true" signature="15980:16123" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="16132:16231" placeholder=" Begin querying the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="16268:16321" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="16330:16491" placeholder=" Begin querying the model on a given connection. ..." />
-            <marker date="1453781737000" expanded="true" signature="16543:16918" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="16927:17047" placeholder=" Begin querying the model on the write connection. ..." />
-            <marker date="1453781737000" expanded="true" signature="17096:17194" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="17203:17366" placeholder=" Get all of the models from the database. ..." />
-            <marker date="1453781737000" expanded="true" signature="17417:17584" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="17593:17777" placeholder=" Find a model by its primary key or return new static. ..." />
-            <marker date="1453781737000" expanded="true" signature="17839:17979" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="17908:17944" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="17988:18111" placeholder=" Reload a fresh model instance from the database. ..." />
-            <marker date="1453781737000" expanded="true" signature="18157:18343" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="18194:18223" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="18352:18468" placeholder=" Eager load relations on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="18507:18732" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="18550:18601" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="18741:18904" placeholder=" Begin querying a model with eager loading. ..." />
-            <marker date="1453781737000" expanded="true" signature="18950:19141" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="18993:19044" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="19150:19282" placeholder=" Append attributes to query when building a query. ..." />
-            <marker date="1453781737000" expanded="true" signature="19324:19554" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="19368:19420" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="19461:19523" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="19563:19779" placeholder=" Define a one-to-one relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="19856:20127" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="20136:20416" placeholder=" Define a polymorphic one-to-one relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="20508:20820" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="20829:21098" placeholder=" Define an inverse one-to-one or many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="21196:22451" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="21486:21628" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="21914:21978" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="22460:22691" placeholder=" Define a polymorphic, inverse one-to-one or many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="22761:24209" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="23047:23197" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="23563:23685" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="23955:24202" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="24218:24343" placeholder=" Retrieve the fully qualified class name from a slug. ..." />
-            <marker date="1453781737000" expanded="true" signature="24400:24475" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="24484:24702" placeholder=" Define a one-to-many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="24780:25052" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="25061:25370" placeholder=" Define a has-many-through relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="25482:25818" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="25827:26109" placeholder=" Define a polymorphic one-to-many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="26202:26771" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="26780:27068" placeholder=" Define a many-to-many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="27185:28638" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="27463:27529" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="28197:28258" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="28647:28971" placeholder=" Define a polymorphic many-to-many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="29093:30021" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="30030:30333" placeholder=" Define a polymorphic, inverse many-to-many relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="30439:30897" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="30906:30998" placeholder=" Get the relationship name of the belongs to many. ..." />
-            <marker date="1453781737000" expanded="true" signature="31048:31405" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="31115:31332" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="31198:31331" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="31414:31544" placeholder=" Get the joining table name for a many-to-many relation. ..." />
-            <marker date="1453781737000" expanded="true" signature="31589:32302" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="32311:32419" placeholder=" Destroy the models for the given IDs. ..." />
-            <marker date="1453781737000" expanded="true" signature="32462:33312" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="33196:33281" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="33232:33271" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="33321:33435" placeholder=" Delete the model from the database. ..." />
-            <marker date="1453781737000" expanded="true" signature="33466:34473" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="33516:33594" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="33625:34466" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="33688:33731" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="34482:34666" placeholder=" Force a hard delete on a soft deleted model. ..." />
-            <marker date="1453781737000" expanded="true" signature="34702:34746" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="34755:34851" placeholder=" Perform the actual delete query on this model instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="34899:34989" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="34998:35161" placeholder=" Register a saving model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="35223:35303" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="35312:35474" placeholder=" Register a saved model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="35535:35614" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="35623:35789" placeholder=" Register an updating model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="35853:35935" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="35944:36109" placeholder=" Register an updated model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="36172:36253" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="36262:36427" placeholder=" Register a creating model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="36491:36573" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="36582:36746" placeholder=" Register a created model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="36809:36890" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="36899:37064" placeholder=" Register a deleting model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="37128:37210" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="37219:37383" placeholder=" Register a deleted model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="37446:37527" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="37536:37625" placeholder=" Remove all of the event listeners for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="37676:37952" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="37726:37755" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="37853:37945" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="37961:38147" placeholder=" Register a model event with the dispatcher. ..." />
-            <marker date="1453781737000" expanded="true" signature="38232:38430" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="38280:38423" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="38439:38512" placeholder=" Get the observable event names. ..." />
-            <marker date="1453781737000" expanded="true" signature="38556:38828" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="38590:38820" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="38604:38778" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="38837:38945" placeholder=" Set the observable event names. ..." />
-            <marker date="1453781737000" expanded="true" signature="39007:39085" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="39094:39205" placeholder=" Add an observable event name. ..." />
-            <marker date="1453781737000" expanded="true" signature="39261:39444" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="39453:39567" placeholder=" Remove an observable event name. ..." />
-            <marker date="1453781737000" expanded="true" signature="39626:39794" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="39803:39976" placeholder=" Increment a column's value by a given amount. ..." />
-            <marker date="1453781737000" expanded="true" signature="40052:40147" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="40156:40329" placeholder=" Decrement a column's value by a given amount. ..." />
-            <marker date="1453781737000" expanded="true" signature="40405:40500" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="40509:40719" placeholder=" Run the increment or decrement method on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="40800:41139" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="40874:40947" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="41148:41343" placeholder=" Increment the underlying attribute value and sync with original. ..." />
-            <marker date="1453781737000" expanded="true" signature="41430:41587" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="41596:41739" placeholder=" Update the model in the database. ..." />
-            <marker date="1453781737000" expanded="true" signature="41813:41983" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="41850:41918" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="41992:42077" placeholder=" Save the model and all of its relationships. ..." />
-            <marker date="1453781737000" expanded="true" signature="42106:42794" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="42143:42178" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="42487:42765" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="42650:42755" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="42690:42741" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="42803:42906" placeholder=" Save the model to the database. ..." />
-            <marker date="1453781737000" expanded="true" signature="42954:44133" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="43314:43349" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="43627:43697" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="43958:44028" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="44052:44102" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="44142:44296" placeholder=" Save the model to the database using transaction. ..." />
-            <marker date="1453781737000" expanded="true" signature="44350:44496" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="44408:44488" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="44436:44487" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="44505:44626" placeholder=" Finish processing on a successful save operation. ..." />
-            <marker date="1453781737000" expanded="true" signature="44678:44863" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="44813:44856" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="44872:45038" placeholder=" Perform a model update operation. ..." />
-            <marker date="1453781737000" expanded="true" signature="45114:46490" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="45190:46461" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="45518:45561" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="45900:45956" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="46301:46451" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="46499:46665" placeholder=" Perform a model insert operation. ..." />
-            <marker date="1453781737000" expanded="true" signature="46741:48354" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="46806:46841" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="47174:47222" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="47557:47622" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="47895:47945" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="48363:48555" placeholder=" Insert the given attributes and set the ID on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="48624:48761" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="48770:48851" placeholder=" Touch the owning relations of the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="48887:49379" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="48941:49372" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="49035:49164" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="49215:49362" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="49255:49347" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="49283:49346" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="49388:49510" placeholder=" Determine if the model touches a given relation. ..." />
-            <marker date="1453781737000" expanded="true" signature="49551:49615" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="49624:49758" placeholder=" Fire the given event for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="49820:50322" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="49870:49904" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="50331:50503" placeholder=" Set the keys for a save update query. ..." />
-            <marker date="1453781737000" expanded="true" signature="50564:50678" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="50687:50772" placeholder=" Get the primary key value for a save query. ..." />
-            <marker date="1453781737000" expanded="true" signature="50818:51014" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="50883:50949" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="51023:51100" placeholder=" Update the model's update timestamp. ..." />
-            <marker date="1453781737000" expanded="true" signature="51130:51280" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="51171:51206" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="51289:51372" placeholder=" Update the creation and update timestamps. ..." />
-            <marker date="1453781737000" expanded="true" signature="51416:51694" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="51516:51565" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="51638:51687" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="51703:51818" placeholder=" Set the value of the &quot;created at&quot; attribute. ..." />
-            <marker date="1453781737000" expanded="true" signature="51861:51942" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="51951:52066" placeholder=" Set the value of the &quot;updated at&quot; attribute. ..." />
-            <marker date="1453781737000" expanded="true" signature="52109:52190" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="52199:52282" placeholder=" Get the name of the &quot;created at&quot; column. ..." />
-            <marker date="1453781737000" expanded="true" signature="52325:52372" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="52381:52464" placeholder=" Get the name of the &quot;updated at&quot; column. ..." />
-            <marker date="1453781737000" expanded="true" signature="52507:52554" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="52563:52650" placeholder=" Get a fresh timestamp for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="52689:52728" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="52737:52816" placeholder=" Get a fresh timestamp for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="52861:52934" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="52943:53063" placeholder=" Get a new query builder for the model's table. ..." />
-            <marker date="1453781737000" expanded="true" signature="53096:53326" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="53224:53293" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="53335:53522" placeholder=" Get a new query instance without a given scope. ..." />
-            <marker date="1453781737000" expanded="true" signature="53573:53677" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="53686:53827" placeholder=" Get a new query builder that doesn't have any global scopes. ..." />
-            <marker date="1453781737000" expanded="true" signature="53873:54286" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="53925:53975" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="54295:54484" placeholder=" Create a new Eloquent query builder for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="54533:54581" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="54590:54713" placeholder=" Get a new query builder instance for the connection. ..." />
-            <marker date="1453781737000" expanded="true" signature="54760:54936" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="54945:55094" placeholder=" Create a new Eloquent Collection instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="55150:55202" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="55211:55480" placeholder=" Create a new pivot model instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="55562:55639" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="55648:55731" placeholder=" Get the table associated with the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="55764:55941" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="55805:55847" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="55950:56062" placeholder=" Set the table associated with the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="56101:56167" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="56176:56259" placeholder=" Get the value of the model's primary key. ..." />
-            <marker date="1453781737000" expanded="true" signature="56290:56359" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="56368:56452" placeholder=" Get the queueable identity for the entity. ..." />
-            <marker date="1453781737000" expanded="true" signature="56491:56535" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="56544:56621" placeholder=" Get the primary key for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="56656:56702" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="56711:56815" placeholder=" Set the primary key for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="56854:56923" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="56932:57008" placeholder=" Get the table qualified key name. ..." />
-            <marker date="1453781737000" expanded="true" signature="57052:57122" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="57131:57212" placeholder=" Get the value of the model's route key. ..." />
-            <marker date="1453781737000" expanded="true" signature="57248:57322" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="57331:57406" placeholder=" Get the route key for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="57446:57494" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="57503:57583" placeholder=" Determine if the model uses timestamps. ..." />
-            <marker date="1453781737000" expanded="true" signature="57622:57668" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="57677:57845" placeholder=" Get the polymorphic relationship columns. ..." />
-            <marker date="1453781737000" expanded="true" signature="57899:58016" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="58025:58113" placeholder=" Get the class name for polymorphic relations. ..." />
-            <marker date="1453781737000" expanded="true" signature="58151:58420" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="58301:58368" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="58429:58513" placeholder=" Get the number of models to return per page. ..." />
-            <marker date="1453781737000" expanded="true" signature="58548:58591" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="58600:58715" placeholder=" Set the number of models to return per page. ..." />
-            <marker date="1453781737000" expanded="true" signature="58758:58828" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="58837:58927" placeholder=" Get the default foreign key name for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="58965:59033" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="59042:59124" placeholder=" Get the hidden attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="59158:59200" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="59209:59321" placeholder=" Set the hidden attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="59368:59436" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="59445:59568" placeholder=" Add hidden attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="59620:59775" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="59784:59920" placeholder=" Make the given, typically hidden, attributes visible. ..." />
-            <marker date="1453781737000" expanded="true" signature="59967:60074" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="60083:60303" placeholder=" Make the given, typically hidden, attributes visible. ..." />
-            <marker date="1453781737000" expanded="true" signature="60349:60409" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="60418:60501" placeholder=" Get the visible attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="60536:60579" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="60588:60702" placeholder=" Set the visible attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="60751:60821" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="60830:60954" placeholder=" Add visible attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="61007:61164" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="61173:61290" placeholder=" Set the accessors to append to model arrays. ..." />
-            <marker date="1453781737000" expanded="true" signature="61339:61409" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="61418:61502" placeholder=" Get the fillable attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="61538:61582" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="61591:61707" placeholder=" Set the fillable attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="61755:61827" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="61836:61919" placeholder=" Get the guarded attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="61954:61997" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="62006:62120" placeholder=" Set the guarded attributes for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="62164:62234" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="62243:62353" placeholder=" Disable all mass assignable restrictions. ..." />
-            <marker date="1453781737000" expanded="true" signature="62405:62454" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="62463:62544" placeholder=" Enable the mass assignment restrictions. ..." />
-            <marker date="1453781737000" expanded="true" signature="62583:62631" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="62640:62723" placeholder=" Determine if current state is &quot;unguarded&quot;. ..." />
-            <marker date="1453781737000" expanded="true" signature="62766:62813" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="62822:62944" placeholder=" Run the given callable while being unguarded. ..." />
-            <marker date="1453781737000" expanded="true" signature="63003:63204" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="63043:63084" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="63213:63336" placeholder=" Determine if the given attribute may be mass assigned. ..." />
-            <marker date="1453781737000" expanded="true" signature="63375:63940" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="63415:63449" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="63747:63781" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="63821:63856" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="63949:64056" placeholder=" Determine if the given key is guarded. ..." />
-            <marker date="1453781737000" expanded="true" signature="64094:64190" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="64199:64282" placeholder=" Determine if the model is totally guarded. ..." />
-            <marker date="1453781737000" expanded="true" signature="64321:64414" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="64423:64533" placeholder=" Remove the table name from a given key. ..." />
-            <marker date="1453781737000" expanded="true" signature="64583:64714" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="64631:64665" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="64723:64812" placeholder=" Get the relationships that are touched on save. ..." />
-            <marker date="1453781737000" expanded="true" signature="64856:64899" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="64908:65028" placeholder=" Set the relationships that are touched on save. ..." />
-            <marker date="1453781737000" expanded="true" signature="65086:65156" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="65165:65264" placeholder=" Get the value indicating whether the IDs are incrementing. ..." />
-            <marker date="1453781737000" expanded="true" signature="65304:65352" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="65361:65464" placeholder=" Set whether IDs are incrementing. ..." />
-            <marker date="1453781737000" expanded="true" signature="65510:65583" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="65592:65699" placeholder=" Convert the model instance to JSON. ..." />
-            <marker date="1453781737000" expanded="true" signature="65742:65816" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="65825:65919" placeholder=" Convert the object into something JSON serializable. ..." />
-            <marker date="1453781737000" expanded="true" signature="65957:66002" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="66011:66092" placeholder=" Convert the model instance to an array. ..." />
-            <marker date="1453781737000" expanded="true" signature="66124:66255" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="66264:66349" placeholder=" Convert the model's attributes to an array. ..." />
-            <marker date="1453781737000" expanded="true" signature="66391:68738" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="66749:66967" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="66795:66834" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="66890:66956" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="67327:67553" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="67384:67423" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="67489:67542" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="67861:68308" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="67972:68011" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="68067:68120" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="68208:68298" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="68617:68702" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="68747:68840" placeholder=" Get an attribute array of all arrayable attributes. ..." />
-            <marker date="1453781737000" expanded="true" signature="68890:68962" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="68971:69065" placeholder=" Get all of the appendable values that are arrayable. ..." />
-            <marker date="1453781737000" expanded="true" signature="69112:69307" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="69157:69189" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="69232:69299" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="69316:69402" placeholder=" Get the model's relationships in array form. ..." />
-            <marker date="1453781737000" expanded="true" signature="69443:71023" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="69545:70987" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="69840:69900" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="70186:70235" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="70528:70582" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="70886:70946" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="71032:71124" placeholder=" Get an attribute array of all arrayable relations. ..." />
-            <marker date="1453781737000" expanded="true" signature="71173:71244" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="71253:71372" placeholder=" Get an attribute array of all arrayable values. ..." />
-            <marker date="1453781737000" expanded="true" signature="71430:71653" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="71482:71573" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="71662:71764" placeholder=" Get an attribute from the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="71805:72012" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="71898:71958" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="72021:72134" placeholder=" Get a plain attribute (not a relationship). ..." />
-            <marker date="1453781737000" expanded="true" signature="72180:73358" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="72520:72586" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="72858:72924" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="73217:73327" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="73254:73317" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="73367:73456" placeholder=" Get a relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="73501:74203" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="73791:73843" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="74128:74196" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="74212:74326" placeholder=" Get an attribute from the $attributes array. ..." />
-            <marker date="1453781737000" expanded="true" signature="74379:74502" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="74442:74495" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="74511:74661" placeholder=" Get a relationship value from a method. ..." />
-            <marker date="1453781737000" expanded="true" signature="74721:75060" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="74815:74983" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="75069:75189" placeholder=" Determine if a get mutator exists for an attribute. ..." />
-            <marker date="1453781737000" expanded="true" signature="75231:75317" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="75326:75473" placeholder=" Get the value of an attribute using its mutator. ..." />
-            <marker date="1453781737000" expanded="true" signature="75528:75609" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="75618:75786" placeholder=" Get the value of an attribute using its mutator for array conversion. ..." />
-            <marker date="1453781737000" expanded="true" signature="75849:75990" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="75999:76172" placeholder=" Determine whether an attribute should be cast to a native type. ..." />
-            <marker date="1453781737000" expanded="true" signature="76223:76418" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="76286:76388" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="76427:76489" placeholder=" Get the casts array. ..." />
-            <marker date="1453781737000" expanded="true" signature="76522:76718" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="76563:76681" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="76595:76670" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="76596:76655" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="76727:76875" placeholder=" Determine whether a value is Date / DateTime castable for inbound manipulation. ..." />
-            <marker date="1453781737000" expanded="true" signature="76921:76992" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="77001:77138" placeholder=" Determine whether a value is JSON castable for inbound manipulation. ..." />
-            <marker date="1453781737000" expanded="true" signature="77184:77276" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="77285:77399" placeholder=" Get the type of cast for a model attribute. ..." />
-            <marker date="1453781737000" expanded="true" signature="77442:77512" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="77521:77659" placeholder=" Cast an attribute to a native PHP type. ..." />
-            <marker date="1453781737000" expanded="true" signature="77712:78727" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="77749:77785" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="77831:78720" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="77883:77920" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="77998:78037" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78064:78104" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78157:78195" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78222:78276" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78327:78375" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78406:78474" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78528:78578" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78608:78659" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78680:78711" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="78736:78870" placeholder=" Set a given attribute on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="78919:79912" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="79208:79322" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="79661:79720" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="79786:79839" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="79921:80041" placeholder=" Determine if a set mutator exists for an attribute. ..." />
-            <marker date="1453781737000" expanded="true" signature="80083:80169" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="80178:80273" placeholder=" Get the attributes that should be converted to dates. ..." />
-            <marker date="1453781737000" expanded="true" signature="80306:80469" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="80478:80598" placeholder=" Convert a DateTime to a storable string. ..." />
-            <marker date="1453781737000" expanded="true" signature="80641:80781" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="80790:80908" placeholder=" Return a timestamp as DateTime object. ..." />
-            <marker date="1453781737000" expanded="true" signature="80952:82716" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="81248:81284" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="81578:81632" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="81918:81983" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="82300:82385" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="82725:82831" placeholder=" Return a timestamp as unix timestamp. ..." />
-            <marker date="1453781737000" expanded="true" signature="82876:82947" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="82956:83077" placeholder=" Prepare a date for array / JSON serialization. ..." />
-            <marker date="1453781737000" expanded="true" signature="83132:83198" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="83207:83291" placeholder=" Get the format for database stored dates. ..." />
-            <marker date="1453781737000" expanded="true" signature="83332:83440" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="83449:83560" placeholder=" Set the date format used by the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="83605:83677" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="83686:83789" placeholder=" Encode the given value as JSON. ..." />
-            <marker date="1453781737000" expanded="true" signature="83829:83877" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="83886:84040" placeholder=" Decode the given JSON back into an array or object. ..." />
-            <marker date="1453781737000" expanded="true" signature="84098:84159" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="84168:84325" placeholder=" Clone the model into a new, non-existing instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="84379:84741" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="84416:84540" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="84750:84839" placeholder=" Get all of the current attributes on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="84877:84923" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="84932:85090" placeholder=" Set the array of model attributes. No checking is done. ..." />
-            <marker date="1453781737000" expanded="true" signature="85163:85306" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="85232:85276" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="85315:85463" placeholder=" Get the model's original attribute values. ..." />
-            <marker date="1453781737000" expanded="true" signature="85527:85597" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="85606:85694" placeholder=" Sync the original attributes with the current. ..." />
-            <marker date="1453781737000" expanded="true" signature="85731:85811" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="85820:85952" placeholder=" Sync a single original attribute with its current value. ..." />
-            <marker date="1453781737000" expanded="true" signature="86008:86112" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="86121:86272" placeholder=" Determine if the model or given attribute(s) have been modified. ..." />
-            <marker date="1453781737000" expanded="true" signature="86322:86727" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="86401:86448" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="86489:86541" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="86589:86697" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="86645:86687" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="86736:86836" placeholder=" Get the attributes that have been changed since last sync. ..." />
-            <marker date="1453781737000" expanded="true" signature="86869:87287" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="86953:87256" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="87014:87066" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="87194:87246" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="87296:87444" placeholder=" Determine if the new and old values for a given key are numerically equivalent. ..." />
-            <marker date="1453781737000" expanded="true" signature="87507:87725" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="87734:87822" placeholder=" Get all the loaded relations for the instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="87859:87904" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="87913:88017" placeholder=" Get a specified relationship. ..." />
-            <marker date="1453781737000" expanded="true" signature="88062:88118" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="88127:88238" placeholder=" Determine if the given relation is loaded. ..." />
-            <marker date="1453781737000" expanded="true" signature="88281:88350" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="88359:88506" placeholder=" Set the specific relationship in the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="88559:88640" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="88649:88768" placeholder=" Set the entire relations array on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="88821:88895" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="88904:89014" placeholder=" Get the database connection for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="89052:89125" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="89134:89223" placeholder=" Get the current connection name for the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="89265:89311" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="89320:89436" placeholder=" Set the connection associated with the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="89479:89549" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="89558:89696" placeholder=" Resolve a connection instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="89763:89834" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="89843:89965" placeholder=" Get the connection resolver instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="90018:90064" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="90073:90226" placeholder=" Set the connection resolver instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="90297:90348" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="90357:90439" placeholder=" Unset the connection resolver for models. ..." />
-            <marker date="1453781737000" expanded="true" signature="90494:90540" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="90549:90659" placeholder=" Get the event dispatcher instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="90709:90757" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="90766:90909" placeholder=" Set the event dispatcher instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="90981:91036" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="91045:91124" placeholder=" Unset the event dispatcher for models. ..." />
-            <marker date="1453781737000" expanded="true" signature="91176:91224" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="91233:91323" placeholder=" Get the mutated attributes for a given instance. ..." />
-            <marker date="1453781737000" expanded="true" signature="91368:91579" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="91464:91525" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="91588:91715" placeholder=" Extract and cache all the mutated attributes of a class. ..." />
-            <marker date="1453781737000" expanded="true" signature="91775:92491" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="92182:92423" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="92228:92413" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="92276:92342" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="92500:92615" placeholder=" Dynamically retrieve attributes on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="92649:92703" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="92712:92850" placeholder=" Dynamically set attributes on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="92892:92947" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="92956:93067" placeholder=" Determine if the given attribute exists. ..." />
-            <marker date="1453781737000" expanded="true" signature="93111:93161" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="93170:93275" placeholder=" Get the value for a given offset. ..." />
-            <marker date="1453781737000" expanded="true" signature="93316:93359" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="93368:93501" placeholder=" Set the value for a given offset. ..." />
-            <marker date="1453781737000" expanded="true" signature="93550:93595" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="93604:93710" placeholder=" Unset the value for a given offset. ..." />
-            <marker date="1453781737000" expanded="true" signature="93753:93796" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="93805:93920" placeholder=" Determine if an attribute exists on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="93956:94143" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="94152:94253" placeholder=" Unset an attribute on the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="94289:94365" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="94374:94524" placeholder=" Handle dynamic method calls into the model. ..." />
-            <marker date="1453781737000" expanded="true" signature="94575:94837" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="94642:94723" placeholder="..." />
-            <marker date="1453781737000" expanded="true" signature="94846:95004" placeholder=" Handle dynamic static method calls into the method. ..." />
-            <marker date="1453781737000" expanded="true" signature="95068:95185" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="95194:95284" placeholder=" Convert the model to its string representation. ..." />
-            <marker date="1453781737000" expanded="true" signature="95319:95363" placeholder="{...}" />
-            <marker date="1453781737000" expanded="true" signature="95372:95480" placeholder=" When a model is being unserialized, check if it needs to be booted. ..." />
-            <marker date="1453781737000" expanded="true" signature="95513:95559" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/1991_06_01_000002_create_companies_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30868903">
@@ -1464,7 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39011407">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1549,7 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21019109">
           <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1557,7 +561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2675305">
           <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1565,7 +568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38312173">
           <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3316,17 +2318,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.47332317">
           <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-          <folding>
-            <marker date="1453964936000" expanded="true" signature="44:1588" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="71:1586" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="97:1575" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="149:1560" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="668:1541" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="752:984" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="1029:1344" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="1228:1317" placeholder="..." />
-            <marker date="1453964936000" expanded="true" signature="1389:1517" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3367,24 +2358,137 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.63795733">
           <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/projects/all.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43216464">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37042683">
+          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10289634">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_28_125533_create_permission_role_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30868903">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_29_155538_create_project_user_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6996951">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28125">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/laravel-elixir/elixir-test-app/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21052632">
+          <caret line="13" column="62" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3910061">
+          <caret line="28" column="51" selection-start-line="28" selection-start-column="51" selection-end-line="44" selection-end-column="123" />
           <folding>
-            <marker date="1454064742000" expanded="true" signature="44:1314" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="71:1312" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="249:1299" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="317:516" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="553:795" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="732:776" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="832:1101" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="1015:1082" placeholder="..." />
-            <marker date="1454064742000" expanded="true" signature="1166:1283" placeholder="..." />
+            <marker date="1454162311000" expanded="false" signature="9:383" placeholder="..." />
+            <marker date="1454162311000" expanded="true" signature="398:446" placeholder="..." />
+            <marker date="1454162311000" expanded="true" signature="416:445" placeholder="..." />
+            <marker date="1454162311000" expanded="true" signature="452:829" placeholder="..." />
+            <marker date="1454162311000" expanded="true" signature="846:1807" placeholder="..." />
+            <marker date="1454162311000" expanded="true" signature="1805:1806" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7118902">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+          <folding>
+            <marker date="1454162688000" expanded="true" signature="14:308" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="40:70" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="88:306" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="115:302" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="139:296" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="246:288" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="331:1184" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="350:380" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="396:526" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="443:522" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="485:516" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="537:616" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="581:612" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="631:661" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="679:1182" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="689:751" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="768:1178" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="818:1172" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="971:1086" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="1101:1164" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="1205:1343" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="1216:1340" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="1255:1336" placeholder="{...}" />
+            <marker date="1454162688000" expanded="true" signature="1302:1330" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49390244">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <marker date="1454162902000" expanded="true" signature="167:198" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="208:232" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="246:293" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="297:562" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="327:379" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="422:474" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="497:560" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="511:556" placeholder="{...}" />
+            <marker date="1454162902000" expanded="true" signature="567:633" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Company.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37042683">
-          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.47332317">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <marker date="1454061721000" expanded="false" signature="27:76" placeholder="..." />
             <marker date="1454061721000" expanded="true" signature="81:431" placeholder=" App\Company ..." />
@@ -3397,249 +2501,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/projects/all.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/projects/single.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43216464">
-          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
-          <folding>
-            <marker date="1454066514000" expanded="true" signature="44:1222" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="89:1220" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="118:134" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="462:1074" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="613:1035" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="658:1014" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="683:754" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="797:867" placeholder="..." />
-            <marker date="1454066514000" expanded="true" signature="891:991" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3910061">
-          <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
-          <folding>
-            <marker date="1454070017000" expanded="false" signature="9:383" placeholder="..." />
-            <marker date="1454070017000" expanded="true" signature="398:446" placeholder="..." />
-            <marker date="1454070017000" expanded="true" signature="416:445" placeholder="..." />
-            <marker date="1454070017000" expanded="true" signature="452:829" placeholder="..." />
-            <marker date="1454070017000" expanded="true" signature="846:1568" placeholder="..." />
-            <marker date="1454070017000" expanded="true" signature="884:1567" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37042683">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-          <folding>
-            <marker date="1454081837000" expanded="false" signature="11:94" placeholder="..." />
-            <marker date="1454081837000" expanded="true" signature="139:899" placeholder="{...}" />
-            <marker date="1454081837000" expanded="true" signature="149:209" placeholder=" Run the migrations. ..." />
-            <marker date="1454081837000" expanded="true" signature="236:749" placeholder="{...}" />
-            <marker date="1454081837000" expanded="true" signature="266:741" placeholder="..." />
-            <marker date="1454081837000" expanded="true" signature="307:740" placeholder="..." />
-            <marker date="1454081837000" expanded="true" signature="758:822" placeholder=" Reverse the migrations. ..." />
-            <marker date="1454081837000" expanded="true" signature="851:897" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10289634">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.41158536">
+          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8917683">
-          <caret line="66" column="40" selection-start-line="66" selection-start-column="40" selection-end-line="66" selection-end-column="40" />
-          <folding>
-            <marker date="1454083037000" expanded="false" signature="27:109" placeholder="..." />
-            <marker date="1454083037000" expanded="true" signature="114:355" placeholder=" App\User ..." />
-            <marker date="1454083037000" expanded="true" signature="114:492" placeholder=" App\User ..." />
-            <marker date="1454083037000" expanded="true" signature="529:1412" placeholder="{...}" />
-            <marker date="1454083037000" expanded="true" signature="539:618" placeholder=" The attributes that are mass assignable. ..." />
-            <marker date="1454083037000" expanded="true" signature="648:700" placeholder="..." />
-            <marker date="1454083037000" expanded="true" signature="711:801" placeholder=" The attributes excluded from the model's JSON form. ..." />
-            <marker date="1454083037000" expanded="true" signature="829:872" placeholder="..." />
-            <marker date="1454083037000" expanded="true" signature="932:990" placeholder="{...}" />
-            <marker date="1454083037000" expanded="true" signature="1021:1082" placeholder="{...}" />
-            <marker date="1454083037000" expanded="true" signature="1121:1227" placeholder="{...}" />
-            <marker date="1454083037000" expanded="true" signature="1156:1219" placeholder="..." />
-            <marker date="1454083037000" expanded="true" signature="1236:1311" placeholder=" @return \Illuminate\Database\Eloquent\Relations\BelongsToMany ..." />
-            <marker date="1454083037000" expanded="true" signature="1344:1409" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Project.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63795733">
-          <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.49390244">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
           <folding>
-            <marker date="1454083037000" expanded="true" signature="67:348" placeholder=" App\Project ..." />
-            <marker date="1454083037000" expanded="true" signature="378:618" placeholder="{...}" />
-            <marker date="1454083037000" expanded="true" signature="408:516" placeholder="..." />
-            <marker date="1454083037000" expanded="true" signature="553:615" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_28_125533_create_permission_role_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30868903">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="51" />
-          <folding>
-            <marker date="1453993489000" expanded="false" signature="11:94" placeholder="..." />
-            <marker date="1453993489000" expanded="true" signature="145:863" placeholder="{...}" />
-            <marker date="1453993489000" expanded="true" signature="155:215" placeholder=" Run the migrations. ..." />
-            <marker date="1453993489000" expanded="true" signature="242:706" placeholder="{...}" />
-            <marker date="1453993489000" expanded="true" signature="272:698" placeholder="..." />
-            <marker date="1453993489000" expanded="true" signature="320:697" placeholder="..." />
-            <marker date="1453993489000" expanded="true" signature="715:779" placeholder=" Reverse the migrations. ..." />
-            <marker date="1453993489000" expanded="true" signature="808:861" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_29_155538_create_project_user_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6996951">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding>
-            <marker date="1454083406000" expanded="false" signature="11:94" placeholder="..." />
-            <marker date="1454083406000" expanded="true" signature="142:841" placeholder="{...}" />
-            <marker date="1454083406000" expanded="true" signature="152:212" placeholder=" Run the migrations. ..." />
-            <marker date="1454083406000" expanded="true" signature="239:687" placeholder="{...}" />
-            <marker date="1454083406000" expanded="true" signature="269:679" placeholder="..." />
-            <marker date="1454083406000" expanded="true" signature="314:678" placeholder="..." />
-            <marker date="1454083406000" expanded="true" signature="696:760" placeholder=" Reverse the migrations. ..." />
-            <marker date="1454083406000" expanded="true" signature="789:839" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28125">
-          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-          <folding>
-            <marker date="1454083424000" expanded="true" signature="37:195" placeholder="..." />
-            <marker date="1454083424000" expanded="true" signature="246:1206" placeholder="{...}" />
-            <marker date="1454083424000" expanded="true" signature="256:335" placeholder=" The policy mappings for the application. ..." />
-            <marker date="1454083424000" expanded="true" signature="365:421" placeholder="..." />
-            <marker date="1454083424000" expanded="true" signature="432:599" placeholder=" Register any application authentication / authorization services. ..." />
-            <marker date="1454083424000" expanded="true" signature="646:956" placeholder="{...}" />
-            <marker date="1454083424000" expanded="true" signature="752:947" placeholder="..." />
-            <marker date="1454083424000" expanded="true" signature="779:936" placeholder="..." />
-            <marker date="1454083424000" expanded="true" signature="834:935" placeholder="..." />
-            <marker date="1454083424000" expanded="true" signature="965:1101" placeholder=" Retrieves all the permissions eager loading roles. ..." />
-            <marker date="1454083424000" expanded="true" signature="1143:1204" placeholder="{...}" />
+            <marker date="1454162986000" expanded="true" signature="67:348" placeholder=" App\Project ..." />
+            <marker date="1454162986000" expanded="true" signature="378:710" placeholder="{...}" />
+            <marker date="1454162986000" expanded="true" signature="408:516" placeholder="..." />
+            <marker date="1454162986000" expanded="true" signature="553:615" placeholder="{...}" />
+            <marker date="1454162986000" expanded="true" signature="646:707" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6737805">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.31631097">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
           <folding>
-            <marker date="1454083504000" expanded="false" signature="44:263" placeholder="..." />
-            <marker date="1454083504000" expanded="true" signature="308:1209" placeholder="{...}" />
-            <marker date="1454083504000" expanded="true" signature="370:509" placeholder="{...}" />
-            <marker date="1454083504000" expanded="true" signature="447:501" placeholder="..." />
-            <marker date="1454083504000" expanded="true" signature="540:664" placeholder="{...}" />
-            <marker date="1454083504000" expanded="true" signature="702:852" placeholder="{...}" />
-            <marker date="1454083504000" expanded="true" signature="754:805" placeholder="..." />
-            <marker date="1454083504000" expanded="true" signature="916:1088" placeholder="{...}" />
-            <marker date="1454083504000" expanded="true" signature="1134:1206" placeholder="{...}" />
+            <element signature="e#40#84#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/laravel-elixir/elixir-test-app/resources/assets/sass/app.scss">
+    <entry file="file://$PROJECT_DIR$/app/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.3292683">
+          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
           <folding>
-            <marker date="1438218324000" expanded="true" signature="5:24" placeholder="{...}" />
+            <marker date="1454165150000" expanded="false" signature="27:109" placeholder="..." />
+            <marker date="1454165150000" expanded="true" signature="114:355" placeholder=" App\User ..." />
+            <marker date="1454165150000" expanded="true" signature="114:492" placeholder=" App\User ..." />
+            <marker date="1454165150000" expanded="true" signature="529:1502" placeholder="{...}" />
+            <marker date="1454165150000" expanded="true" signature="539:618" placeholder=" The attributes that are mass assignable. ..." />
+            <marker date="1454165150000" expanded="true" signature="648:700" placeholder="..." />
+            <marker date="1454165150000" expanded="true" signature="711:801" placeholder=" The attributes excluded from the model's JSON form. ..." />
+            <marker date="1454165150000" expanded="true" signature="829:872" placeholder="..." />
+            <marker date="1454165150000" expanded="true" signature="932:990" placeholder="{...}" />
+            <marker date="1454165150000" expanded="true" signature="1021:1080" placeholder="{...}" />
+            <marker date="1454165150000" expanded="true" signature="1111:1172" placeholder="{...}" />
+            <marker date="1454165150000" expanded="true" signature="1211:1317" placeholder="{...}" />
+            <marker date="1454165150000" expanded="true" signature="1246:1309" placeholder="..." />
+            <marker date="1454165150000" expanded="true" signature="1326:1401" placeholder=" @return \Illuminate\Database\Eloquent\Relations\BelongsToMany ..." />
+            <marker date="1454165150000" expanded="true" signature="1434:1499" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/projects/team/add.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21052632">
-          <caret line="13" column="62" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="62" />
-          <folding>
-            <marker date="1454093167000" expanded="true" signature="31:2614" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="38:463" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="261:390" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="486:2606" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="526:2469" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="558:2458" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="598:1198" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="773:1019" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="1123:1179" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="1275:2443" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="1364:1463" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="1567:2424" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="1881:2375" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="2005:2123" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="2191:2345" placeholder="..." />
-            <marker date="1454093167000" expanded="true" signature="2480:2516" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9062902">
-          <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-          <folding>
-            <marker date="1454094185000" expanded="true" signature="14:308" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="40:70" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="88:306" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="115:302" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="139:296" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="246:288" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="331:1183" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="350:380" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="396:526" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="443:522" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="485:516" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="537:616" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="581:612" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="631:661" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="679:1181" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="689:751" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="768:1177" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="818:1171" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="971:1086" placeholder="{...}" />
-            <marker date="1454094185000" expanded="true" signature="1100:1163" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5198973">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.43216464">
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/projects/single.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/SaveTeamMemberRequest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31193838">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-          <folding />
+        <state vertical-scroll-proportion="0.84375">
+          <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
+          <folding>
+            <element signature="e#37#67#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

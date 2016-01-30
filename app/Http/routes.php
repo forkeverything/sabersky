@@ -39,5 +39,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/projects', ['as' => 'allProjects', 'uses' => 'ProjectsController@showAll']);
     Route::get('/projects/start', 'ProjectsController@getProjectForm');
     Route::post('/projects/start', ['as' => 'startProject', 'uses' => 'ProjectsController@startProject']);
-    Route::get('/projects/single/{project}', ['as' => 'singleProject', 'uses' => 'ProjectsController@single']);
+    Route::get('/projects/{project}', ['as' => 'singleProject', 'uses' => 'ProjectsController@single']);
+
+    Route::get('/projects/{project}/team/add', ['as' => 'addTeamMember', 'uses' => 'ProjectsController@addTeamMember']);
+    Route::post('/projects/{project}/team/add', ['as' => 'saveTeamMember', 'uses' => 'ProjectsController@saveTeamMember']);
 });

@@ -65,6 +65,7 @@
           font-size: 125px;
           color: $grey;
         }
+
         span {
           flex: 100%;
           text-align: center;
@@ -72,4 +73,18 @@
       }
     }
   }
+}
+
+#projects-team-add {
+  .panel {
+    margin: 20px 0 0 0;
+
+    section {
+      margin: 0 0 30px 0;
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
 }
