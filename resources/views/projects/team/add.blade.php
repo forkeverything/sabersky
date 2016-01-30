@@ -12,14 +12,16 @@
                     {{ csrf_field() }}
                     <section class="add-existing-user">
                         <h4>Existing User</h4>
-                        <select name="existing_user" id="field-existing-user">
-                            <option disabled value="" selected>Please select a user</option>
-                            @foreach($project->company->employees as $employee)
-                                @if(! $project->teamMembers->contains($employee))
-                                <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <div class="form-group">
+                            <select name="existing_user" id="field-existing-user" class="form-control">
+                                <option disabled value="" selected>Please select a user</option>
+                                @foreach($project->company->employees as $employee)
+                                    @if(! $project->teamMembers->contains($employee))
+                                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
                     </section>
                     <section class="add-new-user">
                         <h4>New User</h4>
@@ -33,6 +35,17 @@
                             <input type="text" id="field-new-user-email" name="email" value="{{ old('email') }}"
                                    class="form-control">
                         </div>
+                        <label for="field-new-user-role">Role</label>
+                        <select name="role_id" id="field-new-user-role" class="form-control">
+                            <option disabled selected value="">Choose a position</option>
+                            @if(Auth::user()->is('director'))
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ ucfirst($role->position) }}</option>
+                                @endforeach
+                            @elseif(Auth::user()->is('manager'))
+                                <option value="4">Buyer</option>
+                            @endif
+                        </select>
                     </section>
                     <!-- Submit -->
                     <div class="form-group">

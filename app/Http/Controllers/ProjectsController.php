@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveTeamMemberRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Project;
+use App\Role;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -55,7 +56,8 @@ class ProjectsController extends Controller
 
     public function addTeamMember(Project $project)
     {
-        return view('projects.team.add', compact('project'));
+        $roles = Role::all();
+        return view('projects.team.add', compact('project', 'roles'));
     }
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request)
