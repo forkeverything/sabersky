@@ -13,7 +13,7 @@
                     <section class="add-existing-user">
                         <h4>Existing User</h4>
                         <div class="form-group">
-                            <select name="existing_user" id="field-existing-user" class="form-control">
+                            <select name="existing_user_id" id="field-existing-user" class="form-control">
                                 <option disabled value="" selected>Please select a user</option>
                                 @foreach($project->company->employees as $employee)
                                     @if(! $project->teamMembers->contains($employee))
@@ -40,7 +40,9 @@
                             <option disabled selected value="">Choose a position</option>
                             @if(Auth::user()->is('director'))
                                 @foreach($roles as $role)
+                                    @if($role->id !== 1)
                                     <option value="{{ $role->id }}">{{ ucfirst($role->position) }}</option>
+                                    @endif
                                 @endforeach
                             @elseif(Auth::user()->is('manager'))
                                 <option value="4">Buyer</option>

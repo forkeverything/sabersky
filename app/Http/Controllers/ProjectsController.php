@@ -6,6 +6,7 @@ use App\Http\Requests\SaveTeamMemberRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Project;
 use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -62,7 +63,14 @@ class ProjectsController extends Controller
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request)
     {
-        dd($request->all());
+        if($existingUserId = $request->input('existing_user_id')) {
+            // Adding existing user
+            $user = User::find($existingUserId);
+            $project->teamMembers()->save($user);
+            return redirect(route('singleProject', [$project->id]));
+        } else {
+            return 'adding new user';
+        }
     }
 
 }
