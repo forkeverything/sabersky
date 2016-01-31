@@ -2,19 +2,19 @@
 @section('content')
     <div class="container" id="project-single-view">
         <a href="{{ route('allProjects') }}" class="link-underline"><i class="fa  fa-arrow-left fa-btn"></i>Back to Projects</a>
-        <section class="project-info">
-            <h1 class="page-title">{{ $project->name }}</h1>
-            <div class="project-bar">
-                @if($project->operational)
-                    <span class="project-status active">Currently Developing</span>
-                @else
-                    <span class="project-status inactive">Inactive</span>
-                @endif
-            </div>
-            <p>
-                {{ $project->description }}
-            </p>
-        </section>
+       <div class="page-header">
+           <h1 class="page-title">{{ $project->name }}</h1>
+           <div class="project-bar">
+               @if($project->operational)
+                   <span class="project-status active">Currently Developing</span>
+               @else
+                   <span class="project-status inactive">Inactive</span>
+               @endif
+           </div>
+       </div>
+        <p>
+            {{ $project->description }}
+        </p>
         <section class="team-members">
             <h5>Team Members</h5>
             @if(Auth::user()->is('director') || Auth::user()->is('manager'))
@@ -25,12 +25,21 @@
                     <div class="row">
                         @foreach($chunk as $member)
                             <div class="team-single-member col-md-4">
+                                @if($member->invite_key)
+                                    <i class="fa fa-user pending"></i>
+                                    @else
                                 <i class="fa fa-user"></i>
+                                @endif
                             <span>
                             <strong>{{ $member->name }}</strong>
+                                <br>
+                                {{ ucfirst($member->role->position) }}
                                 @if($member->id == Auth::user()->id)
-                                    <br>(You)
+                                    <em>(You)</em>
+                                @elseif($member->invite_key)
+                                    <em>(Pending)</em>
                                 @endif
+
                             </span>
                             </div>
                         @endforeach

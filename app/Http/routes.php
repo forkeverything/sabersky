@@ -43,4 +43,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/projects/{project}/team/add', ['as' => 'addTeamMember', 'uses' => 'ProjectsController@addTeamMember']);
     Route::post('/projects/{project}/team/add', ['as' => 'saveTeamMember', 'uses' => 'ProjectsController@saveTeamMember']);
+
+    Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
+    Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
 });

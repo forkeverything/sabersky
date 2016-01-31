@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property boolean $operational
  * @property integer $company_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $teamMembers
+ * @property-read \App\Company $company
  */
 class Project extends Model
 {

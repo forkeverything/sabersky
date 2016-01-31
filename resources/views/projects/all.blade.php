@@ -2,10 +2,9 @@
 
 @section('content')
     <div class="container" id="projects-all">
-        <div class="header">
-
+        <div class="page-header">
+            <h1 class="page-title">Projects</h1>
         </div>
-        <h2 class="page-title">Projects</h2>
         @can('project_manage')
         <a href="/projects/start"><button class="btn btn-primary button-start-project">Start New Project</button></a>
         @endcan

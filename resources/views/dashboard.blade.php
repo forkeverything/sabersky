@@ -4,7 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h2 class="page-title">{{ ucfirst(Auth::user()->role->position) }} Dashboard</h2>
+                <div class="page-header">
+                    <h1 class="page-title">{{ ucfirst(Auth::user()->role->position) }} Dashboard</h1>
+                </div>
                 <div id="dashboard-nav">
                     <div class="row">
                         <div class="col-sm-4"><a class="dashboard-link" href="/projects">Projects</a></div>

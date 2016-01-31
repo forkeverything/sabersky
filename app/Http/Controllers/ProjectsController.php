@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveTeamMemberRequest;
 use App\Http\Requests\StartProjectRequest;
+use App\Mailers\UserMailer;
 use App\Project;
 use App\Role;
 use App\User;
@@ -61,7 +62,7 @@ class ProjectsController extends Controller
         return view('projects.team.add', compact('project', 'roles'));
     }
 
-    public function saveTeamMember(Project $project, SaveTeamMemberRequest $request)
+    public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
     {
         if($existingUserId = $request->input('existing_user_id')) {
             // Adding existing user
@@ -69,7 +70,18 @@ class ProjectsController extends Controller
             $project->teamMembers()->save($user);
             return redirect(route('singleProject', [$project->id]));
         } else {
-            return 'adding new user';
+            $inviteKey = str_random(25);
+            $user = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'role_id' => $request->input('role_id'),
+                'invite_key' => $inviteKey
+            ]);
+            $this->company->employees()->save($user);
+            $project->teamMembers()->save($user);
+            $userMailer->sendNewUserInvitation($user);
+            // Flash some success notification
+            return redirect(route('singleProject', [$project->id]));
         }
     }
 

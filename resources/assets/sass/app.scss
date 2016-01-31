@@ -2,6 +2,7 @@
 @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "pages/dashboard";
 @import "pages/projects";
+@import "pages/invitation";
 
 body {
   font-family: 'helvetica';
@@ -12,7 +13,7 @@ body {
 }
 
 .page-title {
-  margin-bottom: 30px;
+  margin: 0 0 30px;
   font-weight: bold;
 }
 
@@ -41,3 +42,6 @@ h5 {
   margin-bottom: 15px;
 }
 
+p {
+  margin: 0 0 15px;
+}

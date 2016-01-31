@@ -5807,7 +5807,7 @@ button.close {
 #project-single-view .team-members .team-wrap {
   padding: 30px; }
   #project-single-view .team-members .team-wrap .team-single-member {
-    height: 150px;
+    height: 175px;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -5819,14 +5819,17 @@ button.close {
     align-items: center;
     -webkit-justify-content: center;
     -ms-flex-pack: center;
-    justify-content: center; }
+    justify-content: center;
+    margin: 0 0 15px; }
     #project-single-view .team-members .team-wrap .team-single-member .fa-user {
       -webkit-flex: 100%;
       -ms-flex: 100%;
       flex: 100%;
       text-align: center;
       font-size: 125px;
-      color: #A7AEB3; }
+      color: #2880CB; }
+      #project-single-view .team-members .team-wrap .team-single-member .fa-user.pending {
+        color: #A7AEB3; }
     #project-single-view .team-members .team-wrap .team-single-member span {
       -webkit-flex: 100%;
       -ms-flex: 100%;
@@ -5840,6 +5843,12 @@ button.close {
     #projects-team-add .panel section:last-child {
       margin: 0; }
 
+#accept-invitation .intro, #accept-invitation section {
+  margin: 0 0 30px 0; }
+
+#accept-invitation section:last-child {
+  margin: 0; }
+
 body {
   font-family: 'helvetica'; }
 
@@ -5847,7 +5856,7 @@ body {
   margin-right: 6px; }
 
 .page-title {
-  margin-bottom: 30px;
+  margin: 0 0 30px;
   font-weight: bold; }
 
 a {
@@ -5865,5 +5874,8 @@ h5 {
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 15px; }
+
+p {
+  margin: 0 0 15px; }
 
 /*# sourceMappingURL=app.css.map */
