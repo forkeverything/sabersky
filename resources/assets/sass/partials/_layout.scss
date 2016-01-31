@@ -1,0 +1,58 @@
+.navbar {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-bottom: 0;
+
+  .navbar-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    .navbar-brand {
+      padding: 0 15px;
+      height: 60px;
+      display: flex;
+
+      .nav-logo {
+        width: 25px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      display: block;
+      button {
+        margin:8px 15px;
+      }
+    }
+  }
+
+  li {
+    a {
+      padding: 20px 15px;
+    }
+  }
+
+  .dropdown-menu {
+    li {
+      a {
+        padding: 10px 15px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    li {
+      a {
+        padding: 10px 15px;
+      }
+    }
+
+    .navbar-header {
+      button {
+        margin: 13px 15px;
+      }
+    }
+  }
+
+}

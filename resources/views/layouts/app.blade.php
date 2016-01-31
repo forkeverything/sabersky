@@ -28,7 +28,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    PJI Purchasing
+                    <img src="/images/logo/logo-pji.svg" class="nav-logo">
                 </a>
             </div>
 

@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="container" id="projects-all">
+        <a href="{{ route('dashboard') }}" class="link-underline"><i class="fa  fa-arrow-left fa-btn"></i>Back to Dashboard</a>
         <div class="page-header">
-            <h1 class="page-title">Projects</h1>
+            <h1 class="page-title">Projects & Teams</h1>
         </div>
         @can('project_manage')
         <a href="/projects/start"><button class="btn btn-primary button-start-project">Start New Project</button></a>

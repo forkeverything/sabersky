@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +25,15 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => 'web'], function () {
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
     Route::auth();
+    
 
-    Route::get('/home', 'HomeController@index');
-
-    Route::get('/dashboard', 'PagesController@showDashboard');
+    Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'PagesController@showDashboard']);
 
     Route::get('/company', 'CompanyController@registerCompany');
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
@@ -46,4 +48,6 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
+
+    Route::get('/purchase_requests', 'PurchaseRequestController@all');
 });

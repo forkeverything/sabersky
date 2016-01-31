@@ -3,17 +3,23 @@
   .dashboard-link {
     color: #000;
     font-weight: bold;
-    border: 1px solid #000;
+    border: 1px solid #c7c7c7;
     padding: 75px 0;
     justify-content: center;
     align-items: center;
     display:  flex;
     margin-bottom: 30px;
+    -webkit-transition: 0.15s ease-in;
+    -moz-transition: 0.15s ease-in;
+    -ms-transition: 0.15s ease-in;
+    -o-transition: 0.15s ease-in;
+    transition: 0.15s ease-in;
 
     &:hover {
       text-decoration: none;
-      background: #353535;
+      background: $yellow;
       color: #fff;
+      border:0;
     }
 
     @media screen and (max-width:768px) {
