@@ -4,13 +4,11 @@
         <a href="{{ route('allProjects') }}" class="link-underline"><i class="fa  fa-arrow-left fa-btn"></i>Back to Projects</a>
        <div class="page-header">
            <h1 class="page-title">{{ $project->name }}</h1>
-           <div class="project-bar">
                @if($project->operational)
-                   <span class="project-status active">Currently Developing</span>
+                   <span class="project-status active label label-success">Currently Developing</span>
                @else
-                   <span class="project-status inactive">Inactive</span>
+                   <span class="project-status inactive label label-default">Inactive</span>
                @endif
-           </div>
        </div>
         <p>
             {{ $project->description }}

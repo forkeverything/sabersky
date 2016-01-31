@@ -19,18 +19,21 @@
 }
 
 #project-single-view {
-  .project-title {
-    margin-bottom: 15px;
-  }
-  .project-bar {
-    margin-bottom: 15px;
+  .page-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+
+    .page-title {
+      margin: 0 15px 0 0;
+      display: inline-block;
+    }
+
     .project-status {
-      font-weight: bold;
-      &.active {
-        color: $blue;
-      }
+      padding: 5px 10px;
     }
   }
+
   section {
     margin-bottom: 30px;
     &:last-child {

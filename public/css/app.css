@@ -5782,15 +5782,19 @@ button.close {
   #projects-all .project-list .project-single-link .project-single:hover {
     background: #f2f2f2; }
 
-#project-single-view .project-title {
-  margin-bottom: 15px; }
-
-#project-single-view .project-bar {
-  margin-bottom: 15px; }
-  #project-single-view .project-bar .project-status {
-    font-weight: bold; }
-    #project-single-view .project-bar .project-status.active {
-      color: #2880CB; }
+#project-single-view .page-header {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-bottom: 30px; }
+  #project-single-view .page-header .page-title {
+    margin: 0 15px 0 0;
+    display: inline-block; }
+  #project-single-view .page-header .project-status {
+    padding: 5px 10px; }
 
 #project-single-view section {
   margin-bottom: 30px; }

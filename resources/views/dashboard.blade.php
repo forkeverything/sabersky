@@ -9,7 +9,7 @@
                 </div>
                 <div id="dashboard-nav">
                     <div class="row">
-                        <div class="col-sm-4"><a class="dashboard-link" href="/projects">Projects</a></div>
+                        <div class="col-sm-4"><a class="dashboard-link" href="/projects">Projects & Teams</a></div>
                         <div class="col-sm-4"><a class="dashboard-link" href="/purchase_requests">Purchase Requests</a>
                         </div>
                         <div class="col-sm-4"><a class="dashboard-link" href="/vendors">Vendors</a></div>
