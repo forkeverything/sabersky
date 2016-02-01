@@ -7,6 +7,8 @@
 
     <title>PJI Purchasing</title>
 
+    <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
+
     <!-- Fonts -->
     {{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
 
