@@ -85,19 +85,20 @@
     @endif
 </th>
 <th>
-    @if($field != 'due_date' && $field != 'project' && $field != 'item' && $field != 'quantity' && $field != 'user' && $order == 'desc')
+    @if($field == 'time_requested' && $order == 'desc')
         <a href="/purchase_requests?sort=time_requested&order=asc">
             <i class="fa fa-caret-down fa-btn"></i>
             Requested
         </a>
-    @elseif ($field != 'due_date' && $field != 'project' && $field != 'item' && $field != 'quantity' && $field != 'user')
+    @elseif ($field == 'time_requested')
         <a href="/purchase_requests?sort=time_requested&order=desc">
             <i class="fa fa-caret-up fa-btn"></i>
             Requested
         </a>
     @else
-        <a href="/purchase_requests?sort=time_requested&order=asc">
+        <a href="/purchase_requests?sort=time_requested&order=desc">
             Requested
         </a>
     @endif
 </th>
+
