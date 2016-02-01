@@ -4,6 +4,7 @@
 @import "pages/dashboard";
 @import "pages/projects";
 @import "pages/invitation";
+@import "pages/purchase-requests";
 
 body {
   font-family: 'helvetica';
@@ -14,8 +15,8 @@ body {
 }
 
 .page-title {
-  margin: 0 0 30px;
-  font-weight: bold;
+  margin: 0 0 15px;
+  font-size: 30px;
 }
 
 a {
@@ -45,4 +46,15 @@ h5 {
 
 p {
   margin: 0 0 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: normal;
+  color: $grey;
+  margin: 0 0 10px 0;
+}
+
+textarea {
+  resize: none;
 }

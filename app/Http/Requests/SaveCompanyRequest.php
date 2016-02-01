@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaveCompanyRequest extends Request
 {
@@ -13,10 +14,7 @@ class SaveCompanyRequest extends Request
      */
     public function authorize()
     {
-        if(! \Auth::user()->company) {
-            return true;
-        }
-        return false;
+        return ! Auth::user()->company;
     }
 
     /**

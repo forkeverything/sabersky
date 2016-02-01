@@ -14,10 +14,7 @@ class StartProjectRequest extends Request
      */
     public function authorize()
     {
-        if(Gate::denies('project_manage')) {
-         return false;
-        }
-        return true;
+            return Gate::allows('project_manage');
     }
 
     /**

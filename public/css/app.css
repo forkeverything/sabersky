@@ -5892,6 +5892,18 @@ button.close {
 #accept-invitation section:last-child {
   margin: 0; }
 
+#purchase-requests-all #button-make-purchase-request {
+  margin-bottom: 15px; }
+
+#purchase-requests-add .urgent-button {
+  border: 2px solid #E2B000;
+  color: #E2B000;
+  background: #fff;
+  box-shadow: none; }
+  #purchase-requests-add .urgent-button.active {
+    background: #E2B000;
+    color: #fff; }
+
 body {
   font-family: 'helvetica'; }
 
@@ -5899,8 +5911,8 @@ body {
   margin-right: 6px; }
 
 .page-title {
-  margin: 0 0 30px;
-  font-weight: bold; }
+  margin: 0 0 15px;
+  font-size: 30px; }
 
 a {
   color: initial; }
@@ -5920,5 +5932,14 @@ h5 {
 
 p {
   margin: 0 0 15px; }
+
+label {
+  font-size: 14px;
+  font-weight: normal;
+  color: #A7AEB3;
+  margin: 0 0 10px 0; }
+
+textarea {
+  resize: none; }
 
 /*# sourceMappingURL=app.css.map */

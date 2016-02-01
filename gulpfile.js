@@ -28,5 +28,5 @@ elixir(function(mix) {
         'bootstrap-sass/assets/javascripts/bootstrap.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
-    mix.browserSync({proxy: 'procure.app'});
+    mix.browserSync({proxy: 'pusakagroup.app'});
 });

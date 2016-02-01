@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SaveTeamMemberRequest extends Request
 {
@@ -14,10 +15,7 @@ class SaveTeamMemberRequest extends Request
      */
     public function authorize()
     {
-        if (Auth::user()->is('director') || Auth::user()->is('manager')) {
-            return true;
-        }
-        return false;
+       return Gate::allows('team_manage') || Gate::allows('buyer_manage');
     }
 
     /**

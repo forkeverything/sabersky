@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Requests\MakePurchaseRequestRequest;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -36,6 +37,30 @@ class Project extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function purchaseRequests()
+    {
+        return $this->hasMany(PurchaseRequest::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    /**
+     * Processes a request to save an item to a project.
+     *
+     * @param MakePurchaseRequestRequest $request
+     * @return Model
+     */
+    public function saveItem(MakePurchaseRequestRequest $request)
+    {
+        return $this->items()->create([
+            'name' => $request->input('name'),
+            'specification' => $request->input('specification')
+        ]);
     }
 
 }

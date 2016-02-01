@@ -23,16 +23,44 @@ class Company extends Model
         'description'
     ];
 
+    /**
+     * Company has many Employees (Users).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function employees()
     {
         return $this->hasMany(User::class);
     }
 
     /**
+     * A company can have many Projects.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    /**
+     * Company has many Purchase Requests THROUGH the projects
+     * that it has.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function purchaseRequests()
+    {
+        return $this->hasManyThrough(PurchaseRequest::class, Project::class);
+    }
+
+    /**
+     * A company has many items that it has purchased.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items()
+    {
+        return $this->hasManyThrough(Item::class, Project::class);
     }
 }

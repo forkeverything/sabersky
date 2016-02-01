@@ -49,5 +49,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
 
-    Route::get('/purchase_requests', 'PurchaseRequestController@all');
+    Route::get('/purchase_requests', ['as' => 'showAllPurchaseRequests', 'uses' => 'PurchaseRequestController@all']);
+    Route::get('/purchase_requests/add', ['as' => 'makePurchaseRequest', 'uses' => 'PurchaseRequestController@make']);
+    Route::post('/purchase_requests/add', ['as' => 'savePurchaseRequest', 'uses' => 'PurchaseRequestController@save']);
 });

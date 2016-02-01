@@ -18,7 +18,11 @@ class CreateItemsTable extends Migration
 
             $table->string('name');
             $table->text('specification');
-            $table->integer('price_mean');
+            $table->float('price_mean')->nullable();
+
+            $table->integer('project_id')->unsigned();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+
         });
     }
 
