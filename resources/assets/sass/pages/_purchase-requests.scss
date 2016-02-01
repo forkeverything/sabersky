@@ -1,15 +1,27 @@
 #purchase-requests-all {
 
   #button-make-purchase-request {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+    display: block;
   }
+
+
+
+  .table-purchase-requests {
+    tbody {
+      tr {
+        cursor: pointer;
+      }
+    }
+  }
+
 }
 
 #purchase-requests-add {
   .urgent-button {
-    border: 2px solid $yellow;
-    color: $yellow;
-    background: #fff;
+    border: 2px solid $border-light;
+    background: $grey;
+    color: $text-muted;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -17,6 +29,7 @@
     &.active {
       background: $yellow;
       color: #fff;
+      border: 2px solid $yellow;
     }
   }
 }

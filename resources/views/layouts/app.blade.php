@@ -28,7 +28,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/images/logo/logo-pji.svg" class="nav-logo">
+                    <img src="/images/logo/logo-pji.svg" class="nav-logo"><span class="navbar-name">Pusaka Jaya</span>
                 </a>
             </div>
 
@@ -64,5 +64,6 @@
 
     <!-- JavaScripts -->
     <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 </body>
 </html>

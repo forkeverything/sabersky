@@ -18,10 +18,13 @@ class PurchaseRequestController extends Controller
         $this->middleware('auth');
     }
 
-    public function all()
+    public function all(Request $request)
     {
+        $sortBy = $request->input('sort');
+        $filterBy = $request->input('filter');
+
         $purchaseRequests = Auth::user()->company->purchaseRequests;
-        return view('purchase_requests.all', compact('purchaseRequests'));
+        return view('purchase_requests.all', compact('purchaseRequests', 'sort'));
     }
 
     public function make()
@@ -38,13 +41,19 @@ class PurchaseRequestController extends Controller
         $project = Project::findOrFail($request->input('project_id'));
         $item = $project->saveItem($request);
         PurchaseRequest::create(
-            array_merge($request->all(), ['item_id' => $item->id])
+            array_merge($request->all(), [
+                'item_id' => $item->id,
+                'user_id' => Auth::user()->id
+            ])
         );
-
-
-
         return redirect(route('showAllPurchaseRequests'));
     }
+
+    public function single(PurchaseRequest $purchaseRequest)
+    {
+        return $purchaseRequest;
+    }
+
 
 
 }

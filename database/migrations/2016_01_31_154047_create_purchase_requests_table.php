@@ -23,9 +23,11 @@ class CreatePurchaseRequestsTable extends Migration
 
             $table->integer('item_id')->unsigned()->nullable();
             $table->integer('project_id')->unsigned();
+            $table->integer('user_id')->unsigned();
 
             $table->foreign('item_id')->references('id')->on('items');
             $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -1,6 +1,7 @@
 @import "partials/variables";
 @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "partials/layout";
+@import "partials/buttons";
 @import "pages/dashboard";
 @import "pages/projects";
 @import "pages/invitation";
@@ -14,9 +15,28 @@ body {
   margin-right: 6px;
 }
 
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+
+  &:hover {
+    border-bottom: 1px dotted #000;
+    margin-bottom: 15px;
+  }
+
+}
+
+.page-header {
+  margin: 0 0 15px 0;
+}
+
 .page-title {
   margin: 0 0 15px;
   font-size: 30px;
+}
+
+.page-intro {
+  margin: 0 0 30px 0;
 }
 
 a {
@@ -29,12 +49,6 @@ a {
   &:active, &:visited, &:active, &:focus {
     color: initial;
     text-decoration: none;
-  }
-  
-  &.link-underline {
-    &:hover {
-      border-bottom: 1px dotted #000;
-    }
   }
 }
 
@@ -51,7 +65,7 @@ p {
 label {
   font-size: 14px;
   font-weight: normal;
-  color: $grey;
+  color: $text-muted;
   margin: 0 0 10px 0;
 }
 

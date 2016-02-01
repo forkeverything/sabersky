@@ -1,0 +1,129 @@
+.btn {
+  &:focus, :active, :hover {
+    outline: 0 !important;
+  }
+}
+
+.btn-outline-yellow {
+  color: $dark-yellow;
+  border: 1px solid $dark-yellow;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: $yellow;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px $yellow !important;
+    -moz-box-shadow: 0 0 0 3px $yellow !important;
+    -webkit-box-shadow: 0 0 0 3px $yellow !important;
+    fill: $yellow;
+    outline: 0;
+  }
+
+  &:focus {
+    color: $dark-yellow;
+  }
+}
+
+.btn-solid-yellow {
+  color: #FFFFFF;
+  border-color: $dark-yellow;
+  background-color: $dark-yellow;
+  border: 0 !important;
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  height: 3em;
+  width: 100%;
+
+  &:hover, &:focus, &:active {
+    outline: 0;
+    color: #FFFFFF;
+    background-color: $yellow;
+    border-color: $yellow;
+    box-shadow: 0 0 0 3px $light-yellow;
+    -moz-box-shadow: 0 0 0 3px $light-yellow;
+    -webkit-box-shadow: 0 0 0 3px $light-yellow;
+    fill: $light-yellow;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.btn-solid-green {
+  color: #FFFFFF;
+  border-color: $dark-green;
+  background-color: $dark-green;
+  border: 0 !important;
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  height: 3em;
+  width: 100%;
+
+  &:hover, &:focus, &:active {
+    outline: 0;
+    color: #FFFFFF;
+    background-color: $green;
+    border-color: $green;
+    box-shadow: 0 0 0 3px $light-green;
+    -moz-box-shadow: 0 0 0 3px $light-green;
+    -webkit-box-shadow: 0 0 0 3px $light-green;
+    fill: $light-green;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.btn-solid-blue {
+  color: #FFFFFF;
+  border-color: $dark-blue;
+  background-color: $dark-blue;
+  border: 0 !important;
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  height: 3em;
+  width: 100%;
+
+  &:hover, &:focus, &:active {
+    outline: 0;
+    color: #FFFFFF;
+    background-color: $blue;
+    border-color: $blue;
+    box-shadow: 0 0 0 3px $light-blue;
+    -moz-box-shadow: 0 0 0 3px $light-blue;
+    -webkit-box-shadow: 0 0 0 3px $light-blue;
+    fill: $light-blue;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
