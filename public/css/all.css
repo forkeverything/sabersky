@@ -5896,6 +5896,9 @@ button.close {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
   margin-bottom: 30px;
   transition: 0.15s ease-in; }
   #dashboard-nav .dashboard-link:hover {
@@ -5906,6 +5909,14 @@ button.close {
   @media screen and (max-width: 768px) {
     #dashboard-nav .dashboard-link {
       margin-bottom: 15px; } }
+  #dashboard-nav .dashboard-link .icon-dashboard {
+    -webkit-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%;
+    font-size: 38px;
+    display: block;
+    text-align: center;
+    margin: 0 0 10px; }
 
 #projects-all .button-start-project {
   margin-bottom: 30px; }

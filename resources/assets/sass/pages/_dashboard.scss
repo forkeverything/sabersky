@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     display:  flex;
+    flex-wrap: wrap;
     margin-bottom: 30px;
     -webkit-transition: 0.15s ease-in;
     -moz-transition: 0.15s ease-in;
@@ -24,6 +25,14 @@
 
     @media screen and (max-width:768px) {
       margin-bottom: 15px;
+    }
+
+    .icon-dashboard {
+      flex: 100%;
+      font-size: 38px;
+      display: block;
+      text-align: center;
+      margin: 0 0 10px;
     }
   }
 }
