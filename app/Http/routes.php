@@ -31,7 +31,7 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     Route::auth();
-    
+
 
     Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'PagesController@showDashboard']);
 
