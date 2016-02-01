@@ -35,4 +35,84 @@ class PurchaseRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function sort($user, $field, $order)
+    {
+        if ($order !== 'asc' && $order !== 'desc') {
+            $order = 'asc';
+        }
+
+        $query =  $user->company->purchaseRequests();
+
+        switch($field) {
+            case 'due_date':
+                return self::scopeSortDue($query, $order);
+                break;
+            case 'project':
+                return self::scopeSortProjectName($query, $order);
+                break;
+            case 'item':
+                return self::scopeSortItemName($query, $order);
+                break;
+            case 'quantity':
+                return self::scopeSortQuantity($query, $order);
+                break;
+            case 'user':
+                return self::scopeSortUserName($query, $order);
+                break;
+            case 'time_requested':
+                return self::scopeSortTimeRequested($query, $order);
+                break;
+            default:
+                return $query->latest()->get();
+        }
+
+    }
+
+
+    public static function scopeSortDue($query, $order = 'asc')
+    {
+        return $query->orderBy('due', $order)
+            ->with('project', 'item', 'user')
+            ->get();
+    }
+
+    public static function scopeSortQuantity($query, $order = 'asc')
+    {
+        return $query->orderBy('quantity', $order)
+            ->with('project', 'item', 'user')
+            ->get();
+    }
+
+    public static function scopeSortProjectName($query, $order = 'asc')
+    {
+        return $query->orderBy('projects.name', $order)
+            ->with('project', 'item', 'user')
+            ->get(['purchase_requests.*']);
+    }
+
+    public static function scopeSortItemName($query, $order = 'asc')
+    {
+        return $query->join('items', 'purchase_requests.item_id', '=', 'items.id')
+            ->orderBy('items.name', $order)
+            ->with('project', 'item', 'user')
+            ->get(['purchase_requests.*']);
+    }
+
+    public static function scopeSortUserName($query, $order = 'asc')
+    {
+        return $query->join('users', 'purchase_requests.user_id', '=', 'users.id')
+            ->orderBy('users.name', $order)
+            ->with('project', 'item', 'user')
+            ->get(['purchase_requests.*']);
+    }
+
+    public static function scopeSortTimeRequested($query, $order = 'asc')
+    {
+        return $query->orderBy('created_at', $order)
+            ->with('project', 'item', 'user')
+            ->get();
+    }
+
+
 }

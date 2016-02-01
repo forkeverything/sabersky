@@ -20,11 +20,13 @@ class PurchaseRequestController extends Controller
 
     public function all(Request $request)
     {
-        $sortBy = $request->input('sort');
+        $field = $request->input('sort');
+        $order = $request->input('order');
         $filterBy = $request->input('filter');
 
-        $purchaseRequests = Auth::user()->company->purchaseRequests;
-        return view('purchase_requests.all', compact('purchaseRequests', 'sort'));
+        $purchaseRequests = PurchaseRequest::sort(Auth::user(), $field, $order);
+
+        return view('purchase_requests.all', compact('purchaseRequests', 'field', 'order'));
     }
 
     public function make()

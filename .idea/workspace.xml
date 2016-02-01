@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseRequest.php" afterPath="$PROJECT_DIR$/app/PurchaseRequest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,30 +32,43 @@
     <favorites_list name="procure" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="PurchaseRequestController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="table_headers.blade.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.6440549">
+                  <caret line="87" column="116" selection-start-line="87" selection-start-column="116" selection-end-line="87" selection-end-column="135" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="PurchaseRequest.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/PurchaseRequest.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.7324695">
+                  <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="39" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
-    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/assets/sass/pages/_invitation.scss" />
         <option value="$PROJECT_DIR$/app/Http/Requests/AcceptInvitationRequest.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" />
@@ -80,7 +101,6 @@
         <option value="$PROJECT_DIR$/storage/framework/views/c8b5a93ce7b3c6e4e39c2f1bb84ab266357c7750.php" />
         <option value="$PROJECT_DIR$/storage/framework/views/f2c8839d70c625e0f47d3e1630263d49365b7006.php" />
         <option value="$PROJECT_DIR$/storage/framework/views/fd2fa4d5a979269ad71523ec7a749bd496a378e8.php" />
-        <option value="$PROJECT_DIR$/app/PurchaseRequest.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/purchase-request.js" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
@@ -90,14 +110,16 @@
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
         <option value="$PROJECT_DIR$/resources/views/projects/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" />
-        <option value="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_31_154046_create_items_table.php" />
         <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
+        <option value="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
+        <option value="$PROJECT_DIR$/app/PurchaseRequest.php" />
+        <option value="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php" />
       </list>
     </option>
   </component>
@@ -117,7 +139,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="2560" />
+    <option name="width" value="1280" />
     <option name="height" value="1361" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -146,6 +168,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -161,6 +184,86 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="purchase_requests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="purchase_requests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="partials" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -198,7 +301,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -255,7 +357,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1361" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="1361" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -264,8 +366,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -274,8 +374,10 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935026" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -298,13 +400,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24695122">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37042683">
@@ -437,27 +532,6 @@
             <marker date="1454308096000" expanded="true" signature="570:834" placeholder="..." />
             <marker date="1454308096000" expanded="true" signature="874:1271" placeholder="{...}" />
             <marker date="1454308096000" expanded="true" signature="897:1263" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Company.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8147866">
-          <caret line="63" column="64" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
-          <folding>
-            <marker date="1454309847000" expanded="false" signature="27:76" placeholder="..." />
-            <marker date="1454309847000" expanded="true" signature="81:431" placeholder=" App\Company ..." />
-            <marker date="1454309847000" expanded="true" signature="461:1529" placeholder="{...}" />
-            <marker date="1454309847000" expanded="true" signature="491:534" placeholder="..." />
-            <marker date="1454309847000" expanded="true" signature="545:664" placeholder=" Company has many Employees (Users). ..." />
-            <marker date="1454309847000" expanded="true" signature="698:754" placeholder="{...}" />
-            <marker date="1454309847000" expanded="true" signature="763:880" placeholder=" A company can have many Projects. ..." />
-            <marker date="1454309847000" expanded="true" signature="913:972" placeholder="{...}" />
-            <marker date="1454309847000" expanded="true" signature="981:1147" placeholder=" Company has many Purchase Requests THROUGH the projects ..." />
-            <marker date="1454309847000" expanded="true" signature="1188:1278" placeholder="{...}" />
-            <marker date="1454309847000" expanded="true" signature="1287:1418" placeholder=" A company has many items that it has purchased. ..." />
-            <marker date="1454309847000" expanded="true" signature="1448:1527" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -657,7 +731,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3542654">
           <caret line="0" column="188905" selection-start-line="0" selection-start-column="188905" selection-end-line="0" selection-end-column="188905" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -676,7 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6355828">
           <caret line="0" column="448742" selection-start-line="0" selection-start-column="448742" selection-end-line="0" selection-end-column="448742" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -863,14 +935,14 @@
         <state vertical-scroll-proportion="0.061997704">
           <caret line="2" column="62" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
           <folding>
-            <marker date="1454314102000" expanded="true" signature="95:2318" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="169:242" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="276:349" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="538:760" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="610:744" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="819:2297" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="865:951" placeholder="..." />
-            <marker date="1454314102000" expanded="true" signature="2201:2296" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="95:2305" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="169:242" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="276:349" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="538:760" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="610:744" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="815:2284" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="861:947" placeholder="..." />
+            <marker date="1454338320000" expanded="true" signature="2188:2283" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1064,29 +1136,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.80259144">
-          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-          <folding>
-            <marker date="1454314015000" expanded="true" signature="285:316" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="326:350" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="363:493" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="424:490" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="508:533" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="547:589" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="603:628" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="632:811" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="662:714" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="757:809" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="816:882" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="886:909" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="917:1006" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="1017:1036" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/projects/all.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20579268">
@@ -1123,18 +1172,9 @@
             <marker date="1454314197000" expanded="true" signature="139:206" placeholder="{...}" />
             <marker date="1454314197000" expanded="true" signature="151:202" placeholder="{...}" />
             <marker date="1454314197000" expanded="true" signature="162:196" placeholder="{...}" />
-            <marker date="1454314197000" expanded="true" signature="234:524" placeholder="{...}" />
             <marker date="1454314197000" expanded="true" signature="253:522" placeholder="{...}" />
             <marker date="1454314197000" expanded="true" signature="432:518" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30564025">
-          <caret line="15" column="73" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,21 +1191,6 @@
         <state vertical-scroll-proportion="0.34984756">
           <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/PurchaseRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5762195">
-          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-          <folding>
-            <marker date="1454312555000" expanded="true" signature="99:579" placeholder="{...}" />
-            <marker date="1454312555000" expanded="true" signature="129:263" placeholder="..." />
-            <marker date="1454312555000" expanded="true" signature="291:310" placeholder="..." />
-            <marker date="1454312555000" expanded="true" signature="341:399" placeholder="{...}" />
-            <marker date="1454312555000" expanded="true" signature="430:491" placeholder="{...}" />
-            <marker date="1454312555000" expanded="true" signature="519:577" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1262,10 +1287,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Company.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32088414">
+          <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30868903">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47332317">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+          <folding>
+            <marker date="1454338314000" expanded="true" signature="43:2036" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="97:2034" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="159:232" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="266:339" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="579:713" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="842:1914" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="870:1038" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="899:1009" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="1066:1889" placeholder="..." />
+            <marker date="1454338314000" expanded="true" signature="1234:1828" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.29039633">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+          <folding>
+            <marker date="1454338519000" expanded="false" signature="44:258" placeholder="..." />
+            <marker date="1454338519000" expanded="true" signature="310:1541" placeholder="{...}" />
+            <marker date="1454338519000" expanded="true" signature="346:393" placeholder="{...}" />
+            <marker date="1454338519000" expanded="true" signature="436:756" placeholder="{...}" />
+            <marker date="1454338519000" expanded="true" signature="784:989" placeholder="{...}" />
+            <marker date="1454338519000" expanded="true" signature="863:923" placeholder="..." />
+            <marker date="1454338519000" expanded="true" signature="1052:1429" placeholder="{...}" />
+            <marker date="1454338519000" expanded="true" signature="1209:1362" placeholder="..." />
+            <marker date="1454338519000" expanded="true" signature="1234:1352" placeholder="..." />
+            <marker date="1454338519000" expanded="true" signature="1252:1351" placeholder="..." />
+            <marker date="1454338519000" expanded="true" signature="1491:1536" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7324695">
+          <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6440549">
+          <caret line="87" column="116" selection-start-line="87" selection-start-column="116" selection-end-line="87" selection-end-column="135" />
           <folding />
         </state>
       </provider>

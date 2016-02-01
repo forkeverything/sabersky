@@ -6013,10 +6013,13 @@ body {
 
 .back-link {
   display: inline-block;
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+  color: #777777; }
   .back-link:hover {
-    border-bottom: 1px dotted #000;
+    border-bottom: 1px dotted #777777;
     margin-bottom: 15px; }
+  .back-link:visited {
+    color: #777777; }
 
 .page-header {
   margin: 0 0 15px 0; }

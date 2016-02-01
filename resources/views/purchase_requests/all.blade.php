@@ -12,16 +12,11 @@
                 <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
             </a>
         @endif
-        @if(! $purchaseRequests->isEmpty())
+        @if($purchaseRequests->first())
                 <table class="table table-hover table-purchase-requests">
                     <thead>
                         <tr>
-                            <th>Due Date</th>
-                            <th>Project</th>
-                            <th>Item</th>
-                            <th>Specification</th>
-                            <th>Quantity</th>
-                            <th>Requested By</th>
+                           @include('purchase_requests.partials.table_headers')
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +28,7 @@
                             <td>{{ str_limit($purchaseRequest->item->specification, 45, ' ...') }}</td>
                             <td>{{ $purchaseRequest->quantity }}</td>
                             <td>{{ $purchaseRequest->user->name }}</td>
+                            <td>{{ $purchaseRequest->created_at->diffForHumans() }}</td>
                         </tr>
                     @endforeach
                     </tbody>
