@@ -11,4 +11,9 @@ class Item extends Model
         'specification',
         'project_id'
     ];
+
+    public function getNameAttribute($property)
+    {
+        return ucfirst($property);
+    }
 }

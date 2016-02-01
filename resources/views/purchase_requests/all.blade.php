@@ -13,11 +13,12 @@
             </a>
         @endif
         @if($purchaseRequests->first())
+            <div class="table-responsive">
                 <table class="table table-hover table-purchase-requests">
                     <thead>
-                        <tr>
-                           @include('purchase_requests.partials.table_headers')
-                        </tr>
+                    <tr>
+                        @include('purchase_requests.partials.table_headers')
+                    </tr>
                     </thead>
                     <tbody>
                     @foreach($purchaseRequests as $purchaseRequest)
@@ -33,6 +34,7 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
         @else
             <h4 class="text-center">No Purchase Requests have been made.</h4>
         @endif

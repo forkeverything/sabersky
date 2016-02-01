@@ -63,4 +63,9 @@ class Project extends Model
         ]);
     }
 
+    public function getNameAttribute($property)
+    {
+        return ucfirst($property);
+    }
+
 }

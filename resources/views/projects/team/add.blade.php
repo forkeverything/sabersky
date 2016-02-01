@@ -41,7 +41,7 @@
                             @if(Auth::user()->is('director'))
                                 @foreach($roles as $role)
                                     @if($role->id !== 1)
-                                    <option value="{{ $role->id }}">{{ ucfirst($role->position) }}</option>
+                                    <option value="{{ $role->id }}">{{ $role->position }}</option>
                                     @endif
                                 @endforeach
                             @elseif(Auth::user()->is('manager'))

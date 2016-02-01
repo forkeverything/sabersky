@@ -53,7 +53,7 @@ class PurchaseRequestController extends Controller
 
     public function single(PurchaseRequest $purchaseRequest)
     {
-        return $purchaseRequest;
+        return view('purchase_requests.single', compact('purchaseRequest'));
     }
 
 

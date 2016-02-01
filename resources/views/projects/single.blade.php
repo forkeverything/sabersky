@@ -31,7 +31,7 @@
                             <span>
                             <strong>{{ $member->name }}</strong>
                                 <br>
-                                {{ ucfirst($member->role->position) }}
+                                {{ $member->role->position }}
                                 @if($member->id == Auth::user()->id)
                                     <em>(You)</em>
                                 @elseif($member->invite_key)

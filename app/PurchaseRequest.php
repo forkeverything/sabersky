@@ -114,5 +114,10 @@ class PurchaseRequest extends Model
             ->get();
     }
 
+    public function getStateAttribute($property)
+    {
+        return ucfirst($property);
+    }
+
 
 }
