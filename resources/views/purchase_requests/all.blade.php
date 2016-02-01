@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                     @foreach($purchaseRequests as $purchaseRequest)
-                        <tr data-href="{{ route('singlePurchaseRequest', $purchaseRequest->id) }}">
+                        <tr data-href="{{ route('singlePurchaseRequest', $purchaseRequest->id) }}" class="@if($purchaseRequest->urgent) purchase-request-urgent @endif">
                             <td>{{ $purchaseRequest->due->format('d M Y') }}</td>
                             <td>{{ $purchaseRequest->project->name }}</td>
                             <td>{{ $purchaseRequest->item->name }}</td>

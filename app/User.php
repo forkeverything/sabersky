@@ -66,7 +66,7 @@ class User extends Authenticatable
      */
     public function is($role)
     {
-        return $this->role->position == $role;
+        return $this->role->position == ucfirst($role);
     }
 
     /**

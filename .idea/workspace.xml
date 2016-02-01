@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/User.php" afterPath="$PROJECT_DIR$/app/User.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="table_headers.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php">
+      <file leaf-file-name="_purchase-requests.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52667683">
-              <caret line="86" column="4" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.2675305">
+              <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -43,7 +50,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" />
         <option value="$PROJECT_DIR$/storage/framework/views/ecfe647aa80aa90fc35466d1d778d08b47a9aee4.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_31_154713_create_items_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" />
@@ -73,7 +79,6 @@
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
         <option value="$PROJECT_DIR$/resources/views/projects/all.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/_projects.scss" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_28_043137_create_projects_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_01_31_154046_create_items_table.php" />
@@ -86,14 +91,16 @@
         <option value="$PROJECT_DIR$/resources/views/projects/team/add.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/projects/single.blade.php" />
         <option value="$PROJECT_DIR$/app/PurchaseRequest.php" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
         <option value="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
-        <option value="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/_dashboard.scss" />
         <option value="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" />
+        <option value="$PROJECT_DIR$/app/User.php" />
+        <option value="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
       </list>
     </option>
   </component>
@@ -374,22 +381,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/StartProjectRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28810975">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-          <folding>
-            <marker date="1454308038000" expanded="false" signature="41:104" placeholder="..." />
-            <marker date="1454308038000" expanded="true" signature="147:638" placeholder="{...}" />
-            <marker date="1454308038000" expanded="true" signature="157:255" placeholder=" Determine if the user is authorized to make this request. ..." />
-            <marker date="1454308038000" expanded="true" signature="289:352" placeholder="{...}" />
-            <marker date="1454308038000" expanded="true" signature="361:454" placeholder=" Get the validation rules that apply to the request. ..." />
-            <marker date="1454308038000" expanded="true" signature="484:636" placeholder="{...}" />
-            <marker date="1454308038000" expanded="true" signature="507:628" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/AcceptInvitationRequest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5762195">
@@ -629,14 +620,14 @@
         <state vertical-scroll-proportion="0.061997704">
           <caret line="2" column="62" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
           <folding>
-            <marker date="1454342503000" expanded="true" signature="95:2356" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="169:242" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="276:349" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="538:760" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="610:744" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="815:2335" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="861:964" placeholder="..." />
-            <marker date="1454342503000" expanded="true" signature="2239:2334" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="95:2443" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="169:242" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="276:349" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="538:760" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="610:744" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="815:2422" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="861:964" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="2326:2421" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -765,32 +756,6 @@
             <marker date="1454313915000" expanded="true" signature="2239:2970" placeholder="{...}" />
             <marker date="1454313915000" expanded="true" signature="2593:2841" placeholder="{...}" />
             <marker date="1454313915000" expanded="true" signature="2856:2968" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8765244">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding>
-            <marker date="1454314015000" expanded="true" signature="8:1079" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="235:754" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="317:630" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="400:458" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="479:624" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="673:750" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="710:744" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="761:806" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="769:802" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="825:891" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="834:887" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="844:881" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="932:1076" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="941:994" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="951:988" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="1015:1072" placeholder="{...}" />
-            <marker date="1454314015000" expanded="true" signature="1030:1066" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1124,23 +1089,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.535061">
-          <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-          <folding>
-            <marker date="1454341878000" expanded="true" signature="23:209" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="58:108" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="139:206" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="151:202" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="162:196" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="234:524" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="253:522" placeholder="{...}" />
-            <marker date="1454341878000" expanded="true" signature="432:518" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3910061">
@@ -1322,14 +1270,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30868903">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.41158536">
@@ -1397,8 +1337,116 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/partials/table_headers.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52667683">
-          <caret line="86" column="4" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.50609756">
+          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+          <folding>
+            <marker date="1454343960000" expanded="true" signature="3:507" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="115:201" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="299:383" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="456:490" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="512:1008" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="622:707" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="803:886" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="958:991" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1013:1485" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1117:1199" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1289:1369" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1438:1468" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1513:2017" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1625:1711" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1809:1893" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="1966:2000" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2022:2518" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2126:2216" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2306:2394" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2463:2501" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2523:3060" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2647:2734" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="2844:2929" placeholder="..." />
+            <marker date="1454343960000" expanded="true" signature="3008:3043" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24695122">
+          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding>
+            <marker date="1454344738000" expanded="true" signature="8:1079" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="235:754" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="317:630" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="400:458" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="479:624" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="673:750" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="710:744" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="761:806" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="769:802" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="825:891" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="834:887" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="844:881" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="932:1076" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="941:994" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="951:988" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="1015:1072" placeholder="{...}" />
+            <marker date="1454344738000" expanded="true" signature="1030:1066" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32088414">
+          <caret line="55" column="5" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
+          <folding>
+            <marker date="1454344974000" expanded="false" signature="27:109" placeholder="..." />
+            <marker date="1454344974000" expanded="true" signature="114:608" placeholder=" App\User ..." />
+            <marker date="1454344974000" expanded="true" signature="645:2386" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="655:734" placeholder=" The attributes that are mass assignable. ..." />
+            <marker date="1454344974000" expanded="true" signature="764:862" placeholder="..." />
+            <marker date="1454344974000" expanded="true" signature="873:963" placeholder=" The attributes excluded from the model's JSON form. ..." />
+            <marker date="1454344974000" expanded="true" signature="991:1034" placeholder="..." />
+            <marker date="1454344974000" expanded="true" signature="1045:1164" placeholder=" Every user has a role / position. ..." />
+            <marker date="1454344974000" expanded="true" signature="1193:1251" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="1260:1376" placeholder=" Checks whether user's role is the ..." />
+            <marker date="1454344974000" expanded="true" signature="1408:1476" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="1485:1624" placeholder=" A user (employee) belongs to a single ..." />
+            <marker date="1454344974000" expanded="true" signature="1656:1717" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="1726:1791" placeholder=" Assign a role to a user. ..." />
+            <marker date="1454344974000" expanded="true" signature="1831:1937" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="1866:1929" placeholder="..." />
+            <marker date="1454344974000" expanded="true" signature="1946:2021" placeholder=" @return \Illuminate\Database\Eloquent\Relations\BelongsToMany ..." />
+            <marker date="1454344974000" expanded="true" signature="2054:2119" placeholder="{...}" />
+            <marker date="1454344974000" expanded="true" signature="2128:2253" placeholder=" Gets a user object from a the provided ..." />
+            <marker date="1454344974000" expanded="true" signature="2313:2383" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49390244">
+          <caret line="24" column="153" selection-start-line="24" selection-start-column="153" selection-end-line="24" selection-end-column="153" />
+          <folding>
+            <marker date="1454345220000" expanded="true" signature="43:2156" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="97:2154" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="159:232" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="266:339" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="579:713" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="811:2034" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="885:2015" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="913:1070" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="938:1041" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="1098:1990" placeholder="..." />
+            <marker date="1454345220000" expanded="true" signature="1335:1929" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2675305">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
           <folding />
         </state>
       </provider>

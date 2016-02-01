@@ -5,12 +5,14 @@
     display: block;
   }
 
-
-
   .table-purchase-requests {
     tbody {
       tr {
         cursor: pointer;
+
+        &.purchase-request-urgent {
+          color: $dark-yellow;
+        }
       }
     }
   }
