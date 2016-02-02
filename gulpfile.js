@@ -18,7 +18,8 @@ elixir(function(mix) {
         // App
         '../../../public/css/app.css',
         // Packages
-        'font-awesome/css/font-awesome.min.css'
+        'font-awesome/css/font-awesome.min.css',
+        'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -26,7 +27,11 @@ elixir(function(mix) {
     mix.scripts([
         'jquery/dist/jquery.min.js',
         'bootstrap-sass/assets/javascripts/bootstrap.min.js',
-        'vue/dist/vue.js'
+        'vue/dist/vue.js',
+        'lodash/lodash.js',
+        'moment/min/moment-with-locales.min.js',
+        'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
+        'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
     mix.scriptsIn('resources/assets/js', 'public/js/app.js');

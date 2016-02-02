@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="project-single-view">
-        <a href="{{ route('allProjects') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Back to Projects</a>
+        <a href="{{ route('allProjects') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Projects</a>
        <div class="page-header">
            <h1 class="page-title">{{ $project->name }}</h1>
                @if($project->operational)
@@ -15,7 +15,7 @@
         </p>
         <section class="team-members">
             <h5>Team Members</h5>
-            @if(Auth::user()->is('director') || Auth::user()->is('manager'))
+            @if(Gate::allows('team_manage') || Gate::allows('buyer_manage'))
             <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-default"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
             @endif
             <div class="team-wrap">

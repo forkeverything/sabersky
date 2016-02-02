@@ -2,7 +2,7 @@
 @section('content')
     <div class="container" id="projects-team-add">
         <a href="{{ route('singleProject', $project->id) }}" class="back-link"><i
-                    class="fa  fa-arrow-left fa-btn"></i>Back to {{ $project->name }}</a>
+                    class="fa  fa-arrow-left fa-btn"></i>{{ $project->name }}</a>
         <div class="panel panel-default">
             <div class="panel-heading text-center"><strong>Add Team Member for {{ $project->name }}</strong></div>
             <div class="panel-body">
@@ -38,13 +38,13 @@
                         <label for="field-new-user-role">Role</label>
                         <select name="role_id" id="field-new-user-role" class="form-control">
                             <option disabled selected value="">Choose a position</option>
-                            @if(Auth::user()->is('director'))
+                            @if(Gate::allows('team_manage'))
                                 @foreach($roles as $role)
                                     @if($role->id !== 1)
                                     <option value="{{ $role->id }}">{{ $role->position }}</option>
                                     @endif
                                 @endforeach
-                            @elseif(Auth::user()->is('manager'))
+                            @elseif(Gate::allows('buyer_manage'))
                                 <option value="4">Buyer</option>
                             @endif
                         </select>

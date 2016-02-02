@@ -1,0 +1,141 @@
+@extends('layouts.app')
+@section('content')
+    <div class="container" id="add-line-item">
+        <a href="{{ route('submitPurchaseOrder') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Submit
+            Purchase Order</a>
+        <div class="page-header">
+            <h1 class="page-title">
+                Add Purchase Request
+            </h1>
+        </div>
+        <div class="page-intro">
+            <h5>How to fill fulfill a Purchase Request</h5>
+            <ol>
+                <li>Select a Purchase Request</li>
+                <li>Set Quantity purchasing from vendor</li>
+                <li>Insert the quoted Unit Price</li>
+                <li>Enter Payable Date as given by vendor</li>
+                <li>Give estimated Delivery Date for order</li>
+            </ol>
+        </div>
+        <p class="text-center"
+           v-if="! purchaseRequests.length > 0"
+        >
+            There aren't any Open Purchase Requests for this project. Please have a Director or
+            Planner add it first before you submit a Purchase Order.</p>
+
+        <div class="table-responsive"
+             v-show="! selectedPurchaseRequest"
+        >
+            <h5>Select Purchase Request to Order</h5>
+            <table class="table table-hover table-purchase-requests">
+                <thead>
+                <tr>
+                    <th>Date Due</th>
+                    <th>Item</th>
+                    <th>Specification</th>
+                    <th>Quantity</th>
+                    <th>Requested By</th>
+                    <th>Requested</th>
+                </tr>
+                </thead>
+                <tbody>
+                <template v-for="purchaseRequest in purchaseRequests">
+                    <tr @click="selectPurchaseRequest(purchaseRequest)">
+                    <td>
+                        @{{ purchaseRequest.due | easyDate}}
+                    </td>
+                    <td>
+                        @{{ purchaseRequest.item.name }}
+                    </td>
+                    <td>
+                        @{{ purchaseRequest.item.specification }}
+                    </td>
+                    <td>
+                        @{{ purchaseRequest.quantity }}
+                    </td>
+                    <td>
+                        @{{ purchaseRequest.user.name }}
+                    </td>
+                    <td>
+                        @{{ purchaseRequest.created_at | diffHuman}}
+                    </td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+
+        <div
+                v-show="selectedPurchaseRequest"
+        >
+            <h5>Selected Purchase Request</h5>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>@{{ selectedPurchaseRequest.item.name }}</strong>
+                    <a class="close"
+                    @click="removeSelectedPurchaseRequest"
+                    >
+                    &times;</a>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        @{{ selectedPurchaseRequest.item.specification }}
+                    </p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="text-muted">Requested By @{{ selectedPurchaseRequest.user.name }}</span>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <span class="text-muted">Requested @{{ selectedPurchaseRequest.created_at | diffHuman }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tabel-responsive purchase-order-details">
+                <h5>Order Details</h5>
+                <!-- Line Item Details Table -->
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Requested Quantity</th>
+                        <td class="text-muted">@{{ selectedPurchaseRequest.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Order Quantity</th>
+                        <td><input v-model="quantity" type="number" min="0"></td>
+                    </tr>
+                    <tr>
+                        <th>Unit Price</th>
+                        <td><input v-model="price" type="number" min="0"></td>
+                    </tr>
+                    <tr>
+                        <th>Item Subtotal</th>
+                        <td class="text-muted">@{{ subtotal | numberFormat}}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Payable</th>
+                        <td><input v-model="payable" type="text" class="datepicker"
+                                   placeholder="Click to choose a date"></td>
+                    </tr>
+                    <tr>
+                        <th>Due Date</th>
+                        <td class="text-muted">@{{ selectedPurchaseRequest.due | date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estimated Arrival Date</th>
+                        <td><input type="text" v-model="delivery" class="datepicker"
+                                   placeholder="Click to choose a date"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn-solid-green"
+                    v-show="canAddPurchaseRequest"
+                    @click="submitAddingPR"
+            >Add Purchase Request</button>
+        </div>
+
+    </div>
+@endsection

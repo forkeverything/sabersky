@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container" id="projects-all">
-        <a href="{{ route('dashboard') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Back to Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Dashboard</a>
         <div class="page-header">
             <h1 class="page-title">Projects & Teams</h1>
         </div>

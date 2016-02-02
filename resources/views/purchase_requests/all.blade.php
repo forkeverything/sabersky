@@ -7,11 +7,11 @@
             <h1 class="page-title">Purchase Requests</h1>
         </div>
         <p class="page-intro">This is where you can find purchase requests made by Engineers / Planners.</p>
-        @if(Auth::user()->is('director') || Auth::user()->is('planner'))
+        @can('pr_make')
             <a href="{{ route('makePurchaseRequest') }}">
                 <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
             </a>
-        @endif
+        @endcan
         @include('purchase_requests.partials.filters')
         @if($purchaseRequests->first())
             <div class="table-responsive">
@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                     @foreach($purchaseRequests as $purchaseRequest)
-                        <tr data-href="{{ route('singlePurchaseRequest', $purchaseRequest->id) }}" class="@if($purchaseRequest->urgent) purchase-request-urgent @endif">
+                        <tr data-href="{{ route('singlePurchaseRequest', $purchaseRequest->id) }}" class="@if($purchaseRequest->urgent) purchase-request-urgent @endif {{ strtolower($purchaseRequest->state) }}">
                             <td>{{ $purchaseRequest->due->format('d M Y') }}</td>
                             <td>{{ $purchaseRequest->project->name }}</td>
                             <td>{{ $purchaseRequest->item->name }}</td>

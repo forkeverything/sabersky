@@ -1,0 +1,15 @@
+#add-line-item {
+
+  .table-purchase-requests {
+    border-top: 2px solid #ddd;
+
+    tbody {
+      tr {
+        cursor: pointer;
+        &:hover {
+          background: $light-green;
+        }
+      }
+    }
+  }
+}

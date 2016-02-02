@@ -15,6 +15,14 @@
         &.purchase-request-urgent {
           color: $dark-yellow;
         }
+
+        &.completed {
+          color: $dark-grey;
+        }
+
+        &.cancelled {
+          color: $dark-red;
+        }
       }
     }
   }

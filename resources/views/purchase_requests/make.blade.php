@@ -30,11 +30,11 @@
             </div>
             <div class="form-group">
                 <label for="field-new-item-name">New Item: Name</label>
-                <input type="text" id="field-new-item-name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Steel Pipe (3m)">
+                <input type="text" id="field-new-item-name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Steel Pipe">
             </div>
             <div class="form-group">
                 <label for="field-new-item-specification">New Item: Detailed Specification</label>
-                <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control" placeholder="60cm Diameter, 2.4 inches Thick...">{{ old('specification') }}</textarea>
+                <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control" placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}</textarea>
             </div>
             <div class="form-group">
                 <label for="field-quantity">How many Item(s) are needed</label>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PurchaseRequestController extends Controller
 {
@@ -49,7 +50,7 @@ class PurchaseRequestController extends Controller
 
     public function make()
     {
-        if(Auth::user()->is('director') || Auth::user()->is('planner')){
+        if(Gate::allows('pr_make')) {
             return view('purchase_requests.make');
         }
         return redirect(route('showAllPurchaseRequests'));
@@ -87,6 +88,14 @@ class PurchaseRequestController extends Controller
         $urgent = ($urgent == '1' || $urgent == '0') ? $urgent: 0;
 
         return compact('sort', 'order', 'filter', 'urgent');
+    }
+
+    public function available()
+    {
+        if(Auth::user()->purchaseOrders()->whereSubmitted(0)->first() && Gate::allows('po_submit')) {
+            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'user'])->get();
+        }
+        return [];
     }
 
 

@@ -58,18 +58,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks whether user's role is the
-     * one provided.
-     * 
-     * @param $role
-     * @return bool
-     */
-    public function is($role)
-    {
-        return $this->role->position == ucfirst($role);
-    }
-
-    /**
      * A user (employee) belongs to a single
      * company.
      *
@@ -110,6 +98,11 @@ class User extends Authenticatable
     public static function fetchFromInviteKey($inviteKey)
     {
         return self::whereInviteKey($inviteKey)->first();
+    }
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
     }
 
 }

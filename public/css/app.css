@@ -6010,6 +6010,10 @@ button.close {
     cursor: pointer; }
     #purchase-requests-all .table-purchase-requests tbody tr.purchase-request-urgent {
       color: #F39C12; }
+    #purchase-requests-all .table-purchase-requests tbody tr.completed {
+      color: #989898; }
+    #purchase-requests-all .table-purchase-requests tbody tr.cancelled {
+      color: #C0392B; }
 
 #purchase-requests-all .purchase-request-filters {
   display: -webkit-flex;
@@ -6042,6 +6046,30 @@ button.close {
     background: #F1C40F;
     color: #fff;
     border: 2px solid #F1C40F; }
+
+#purchase-orders-submit section {
+  margin: 0 0 30px; }
+  #purchase-orders-submit section h5 {
+    font-size: 18px;
+    margin: 0 0 30px; }
+
+#purchase-orders-submit .button-select-vendor-type {
+  margin-bottom: 30px; }
+  #purchase-orders-submit .button-select-vendor-type button.active {
+    background: #F39C12;
+    color: #fff; }
+  #purchase-orders-submit .button-select-vendor-type button:hover, #purchase-orders-submit .button-select-vendor-type button:active, #purchase-orders-submit .button-select-vendor-type button:focus {
+    outline: 0; }
+
+#purchase-orders-submit .button-add-line-item {
+  margin: 0 0 15px; }
+
+#add-line-item .table-purchase-requests {
+  border-top: 2px solid #ddd; }
+  #add-line-item .table-purchase-requests tbody tr {
+    cursor: pointer; }
+    #add-line-item .table-purchase-requests tbody tr:hover {
+      background: #9CFFA8; }
 
 body {
   font-family: 'helvetica'; }

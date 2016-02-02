@@ -1,0 +1,29 @@
+#purchase-orders-submit {
+  section {
+    margin: 0 0 30px;
+
+    h5 {
+      font-size: 18px;
+      margin: 0 0 30px;
+    }
+  }
+
+  .button-select-vendor-type {
+    margin-bottom: 30px;
+
+    button {
+      &.active {
+        background: $dark-yellow;
+        color: #fff;
+      }
+
+      &:hover, &:active, &:focus {
+        outline: 0;
+      }
+    }
+  }
+
+  .button-add-line-item {
+    margin: 0 0 15px;
+  }
+}
