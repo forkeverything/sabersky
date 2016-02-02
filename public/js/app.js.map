@@ -1,1 +1,1 @@
-{"version":3,"sources":["purchase-request.js"],"names":[],"mappings":"AAAA;AACA;AACA","file":"app.js","sourcesContent":["$('.table-purchase-requests tbody tr').click(function () {\n    window.document.location = $(this).data(\"href\");\n});"],"sourceRoot":"/source/"}
+{"version":3,"sources":["purchase-request.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA","file":"app.js","sourcesContent":["$('.table-purchase-requests tbody tr').click(function () {\n    window.document.location = $(this).data(\"href\");\n});\n"],"sourceRoot":"/source/"}

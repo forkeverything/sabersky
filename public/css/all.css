@@ -6004,9 +6004,33 @@ button.close {
   margin-bottom: 30px;
   display: block; }
 
-#purchase-requests-all .table-purchase-requests tbody tr {
-  cursor: pointer; }
-  #purchase-requests-all .table-purchase-requests tbody tr.purchase-request-urgent {
+#purchase-requests-all .table-purchase-requests {
+  border-top: 2px solid #ddd; }
+  #purchase-requests-all .table-purchase-requests tbody tr {
+    cursor: pointer; }
+    #purchase-requests-all .table-purchase-requests tbody tr.purchase-request-urgent {
+      color: #F39C12; }
+
+#purchase-requests-all .purchase-request-filters {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+  #purchase-requests-all .purchase-request-filters h5 {
+    -webkit-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%; }
+  #purchase-requests-all .purchase-request-filters a {
+    color: #777777; }
+    #purchase-requests-all .purchase-request-filters a.active {
+      font-weight: bold;
+      color: #000; }
+  #purchase-requests-all .purchase-request-filters .filter-urgent.active {
     color: #F39C12; }
 
 #purchase-requests-add .urgent-button {

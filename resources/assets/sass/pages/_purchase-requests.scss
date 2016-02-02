@@ -6,6 +6,8 @@
   }
 
   .table-purchase-requests {
+    border-top: 2px solid #ddd;
+
     tbody {
       tr {
         cursor: pointer;
@@ -17,6 +19,29 @@
     }
   }
 
+  .purchase-request-filters {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    h5 {
+      flex: 100%;
+    }
+
+    a {
+      color: $text-muted;
+      &.active {
+        font-weight: bold;
+        color: #000;
+      }
+    }
+    .filter-urgent {
+      &.active {
+        color: $dark-yellow;
+      }
+    }
+  }
 }
 
 #purchase-requests-add {
@@ -35,4 +60,6 @@
     }
   }
 }
+
+
 

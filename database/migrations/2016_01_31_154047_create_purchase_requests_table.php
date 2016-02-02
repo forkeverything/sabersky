@@ -18,7 +18,7 @@ class CreatePurchaseRequestsTable extends Migration
 
             $table->integer('quantity');
             $table->dateTime('due');
-            $table->string('state')->default('open'); // State can be 'open', 'fulfilled', 'cancelled'
+            $table->string('state')->default('open'); // State can be 'open', 'completed', 'cancelled'
             $table->boolean('urgent')->default(0);
 
             $table->integer('item_id')->unsigned()->nullable();

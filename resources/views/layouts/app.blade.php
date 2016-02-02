@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PJI Purchasing</title>
+    <title>Pusaka Group</title>
 
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
 
@@ -66,6 +66,7 @@
 
     <!-- JavaScripts -->
     <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
+
     <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 </body>
 </html>

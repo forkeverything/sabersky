@@ -36,15 +36,18 @@ class PurchaseRequest extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function sort($user, $field, $order)
+    public static function sortFilter($user, $sort, $order, $filter, $urgent)
     {
-        if ($order !== 'asc' && $order !== 'desc') {
-            $order = 'asc';
-        }
 
         $query =  $user->company->purchaseRequests();
 
-        switch($field) {
+        if ($urgent) {
+            $query->where('urgent', 1);
+        }
+
+        $query->whereState($filter);
+
+        switch($sort) {
             case 'due_date':
                 return self::scopeSortDue($query, $order);
                 break;

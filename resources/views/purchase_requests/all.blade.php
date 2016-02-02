@@ -12,6 +12,7 @@
                 <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
             </a>
         @endif
+        @include('purchase_requests.partials.filters')
         @if($purchaseRequests->first())
             <div class="table-responsive">
                 <table class="table table-hover table-purchase-requests">
@@ -36,7 +37,7 @@
                 </table>
             </div>
         @else
-            <h4 class="text-center">No Purchase Requests have been made.</h4>
+            <h4 class="text-center">No Purchase Requests could be found.</h4>
         @endif
 
 

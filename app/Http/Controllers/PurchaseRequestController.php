@@ -20,13 +20,31 @@ class PurchaseRequestController extends Controller
 
     public function all(Request $request)
     {
-        $field = $request->input('sort');
-        $order = $request->input('order');
-        $filterBy = $request->input('filter');
 
-        $purchaseRequests = PurchaseRequest::sort(Auth::user(), $field, $order);
+        $query = $this->queryStringFilter($request);
 
-        return view('purchase_requests.all', compact('purchaseRequests', 'field', 'order'));
+        $tableHeadings = [
+            'due_date' => 'Due Date',
+            'project' => 'Project',
+            'item' => 'Item',
+            'specification' => 'Specification',
+            'quantity' => 'Quantity',
+            'user' => 'Requested by',
+            'time_requested' => 'Requested'
+        ];
+
+        $filterStates = [
+            'open' => 'Open',
+            'completed' => 'Completed',
+            'cancelled' => 'Cancelled'
+        ];
+
+
+        $purchaseRequests = PurchaseRequest::sortFilter(Auth::user(), $query['sort'], $query['order'], $query['filter'], $query['urgent']);
+
+        $variables = array_merge($query, compact('purchaseRequests', 'tableHeadings', 'filterStates'));
+
+        return view('purchase_requests.all', $variables);
     }
 
     public function make()
@@ -54,6 +72,21 @@ class PurchaseRequestController extends Controller
     public function single(PurchaseRequest $purchaseRequest)
     {
         return view('purchase_requests.single', compact('purchaseRequest'));
+    }
+
+    protected function queryStringFilter(Request $request)
+    {
+        $sort = $request->input('sort');
+        $order = $request->input('order');
+        $filter = $request->input('filter');
+        $urgent = $request->input('urgent');
+
+        $sort = ($sort === 'due_date' || $sort === 'project' || $sort === 'item' || $sort === 'quantity' || $sort === 'user' || $sort === 'time_requested') ? $sort: 'time_requested';
+        $order = ($order === 'asc' || $order === 'desc') ? $order: 'asc';
+        $filter = ($filter === 'open' || $filter === 'completed' || $filter === 'cancelled') ? $filter: 'open';
+        $urgent = ($urgent == '1' || $urgent == '0') ? $urgent: 0;
+
+        return compact('sort', 'order', 'filter', 'urgent');
     }
 
 

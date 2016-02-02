@@ -25,7 +25,8 @@ elixir(function(mix) {
 
     mix.scripts([
         'jquery/dist/jquery.min.js',
-        'bootstrap-sass/assets/javascripts/bootstrap.min.js'
+        'bootstrap-sass/assets/javascripts/bootstrap.min.js',
+        'vue/dist/vue.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
     mix.scriptsIn('resources/assets/js', 'public/js/app.js');
