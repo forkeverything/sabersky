@@ -1,4 +1,5 @@
 new Vue({
+    name: 'addLineItem',
     el: '#add-line-item',
     data: {
         purchaseRequests: [],
@@ -73,9 +74,11 @@ new Vue({
         subtotal: function() {
             return this.quantity * this.price;
         },
+        validQuantity: function() {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
         canAddPurchaseRequest: function() {
-            return true;
-            return (!! this.selectedPurchaseRequest && !! this.quantity & !! this.price && !! this.payable && !! this.delivery)
+            return (!! this.selectedPurchaseRequest && !! this.quantity & !! this.price && !! this.payable && !! this.delivery && this.validQuantity)
         }
     }
 });

@@ -120,6 +120,11 @@ class PurchaseOrdersController extends Controller
     public function complete()
     {
         if (Gate::allows('po_submit')) {
+            foreach ($this->existingPO->lineItems as $lineItem) {
+                $lineItem->purchaseRequest->update([
+                    'quantity' =>  $lineItem->purchaseRequest->quantity - $lineItem->quantity
+                ]);
+            }
             $this->existingPO->submitted = true;
             $this->existingPO->save();
             return redirect(route('showAllPurchaseOrders'));

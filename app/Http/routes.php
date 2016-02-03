@@ -65,4 +65,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_orders/cancel_unsubmitted', ['as' => 'cancelUnsubmittedPO', 'uses' => 'PurchaseOrdersController@cancelUnsubmitted']);
     Route::post('/purchase/orders/submit', ['as' => 'completePurchaseOrder', 'uses' => 'purchaseOrdersController@complete']);
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiAll');
+
+    Route::get('/test', function () {
+        $addedPRIds = \Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->lineItems->pluck('purchase_request_id');
+        return App\PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'user'])->whereNotIn('id', $addedPRIds)->get();
+
+    });
 });

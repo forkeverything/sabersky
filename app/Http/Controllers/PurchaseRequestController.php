@@ -92,10 +92,10 @@ class PurchaseRequestController extends Controller
 
     public function available()
     {
-        if(Auth::user()->purchaseOrders()->whereSubmitted(0)->first() && Gate::allows('po_submit')) {
-            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'user'])->get();
+        if(($unfinishedPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first()) && Gate::allows('po_submit')) {
+            $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id');
+            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'user'])->where('quantity','>',0)->whereNotIn('id', $addedPRIds)->get();
         }
-        return [];
     }
 
 

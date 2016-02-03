@@ -2,39 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/layouts/partials/nav.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/partials/selected_info.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/partials/step_1_fields.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/partials/step_2_fields.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/partials/step_3_fields.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/partials/table_all.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Company.php" afterPath="$PROJECT_DIR$/app/Company.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/SaveLineItemRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/SaveLineItemRequest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseOrder.php" afterPath="$PROJECT_DIR$/app/PurchaseOrder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_01_31_154046_create_items_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_01_31_154046_create_items_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_02_02_072849_create_purchase_orders_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_02_02_072849_create_purchase_orders_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_02_02_074346_create_line_items_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_02_02_074346_create_line_items_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js" afterPath="$PROJECT_DIR$/public/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js.map" afterPath="$PROJECT_DIR$/public/js/app.js.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/line-items.js" afterPath="$PROJECT_DIR$/resources/assets/js/line-items.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/purchase-orders.js" afterPath="$PROJECT_DIR$/resources/assets/js/purchase-orders.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/line-items.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/line-items.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_orders/add_line_item.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/add_line_item.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_orders/submit.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/submit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,14 +31,14 @@
     <favorites_list name="procure" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.46416804">
       <split-first>
         <leaf>
-          <file leaf-file-name="all.blade.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php">
+          <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.61737806">
-                  <caret line="41" column="52" selection-start-line="41" selection-start-column="52" selection-end-line="41" selection-end-column="52" />
+                <state vertical-scroll-proportion="0.77362806">
+                  <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="70" selection-end-column="205" />
                   <folding />
                 </state>
               </provider>
@@ -72,11 +48,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="purchase-orders.scss" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss">
+          <file leaf-file-name="ModelFactory.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6707317">
-                  <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+                <state vertical-scroll-proportion="0.38262194">
+                  <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -113,7 +89,6 @@
         <option value="$PROJECT_DIR$/app/Http/Requests/POStep1Request.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/POStep2Request.php" />
         <option value="$PROJECT_DIR$/app/Vendor.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/misc.js" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/public/js/app.js" />
@@ -133,8 +108,6 @@
         <option value="$PROJECT_DIR$/database/migrations/2016_02_02_074346_create_line_items_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_02_02_072849_create_purchase_orders_table.php" />
         <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/purchase-orders.js" />
         <option value="$PROJECT_DIR$/app/Http/Requests/SaveLineItemRequest.php" />
         <option value="$PROJECT_DIR$/resources/views/purchase_orders/partials/step_3_fields.blade.php" />
@@ -142,11 +115,14 @@
         <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/line-items.scss" />
         <option value="$PROJECT_DIR$/resources/assets/js/vue/filters.js" />
-        <option value="$PROJECT_DIR$/resources/assets/js/line-items.js" />
         <option value="$PROJECT_DIR$/resources/views/purchase_orders/add_line_item.blade.php" />
         <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/line-items.js" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
       </list>
     </option>
   </component>
@@ -535,13 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6996951">
-          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/POStep1Request.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24695122">
@@ -754,31 +723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7058366">
-          <caret line="95" column="148" selection-start-line="95" selection-start-column="144" selection-end-line="95" selection-end-column="148" />
-          <folding>
-            <marker date="1454420136000" expanded="false" signature="44:295" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="347:3193" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="383:430" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="473:1303" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="561:842" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="871:989" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="1331:1501" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="1375:1435" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="1564:1941" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="1721:1874" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="1746:1864" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="1764:1863" placeholder="..." />
-            <marker date="1454420136000" expanded="true" signature="2003:2092" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="2152:2837" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="2870:3188" placeholder="{...}" />
-            <marker date="1454420136000" expanded="true" signature="2978:3162" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/PurchaseRequest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5556402">
@@ -818,19 +762,6 @@
             <marker date="1454397087000" expanded="true" signature="2931:3063" placeholder="{...}" />
             <marker date="1454397087000" expanded="true" signature="3010:3035" placeholder="..." />
             <marker date="1454397087000" expanded="true" signature="3113:3160" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/LineItem.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.535061">
-          <caret line="26" column="47" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
-          <folding>
-            <marker date="1454465903000" expanded="true" signature="92:484" placeholder="{...}" />
-            <marker date="1454465903000" expanded="true" signature="122:301" placeholder="..." />
-            <marker date="1454465903000" expanded="true" signature="329:372" placeholder="..." />
-            <marker date="1454465903000" expanded="true" signature="413:482" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -903,34 +834,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6089939">
-          <caret line="53" column="74" selection-start-line="53" selection-start-column="74" selection-end-line="53" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_02_02_072848_create_vendors_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5967988">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7530488">
-          <caret line="61" column="113" selection-start-line="61" selection-start-column="113" selection-end-line="61" selection-end-column="113" />
-          <folding>
-            <marker date="1454490353000" expanded="false" signature="9:383" placeholder="..." />
-            <marker date="1454490353000" expanded="true" signature="391:768" placeholder="..." />
-            <marker date="1454490353000" expanded="true" signature="785:3792" placeholder="..." />
-            <marker date="1454490353000" expanded="true" signature="823:3791" placeholder="..." />
-            <marker date="1454490353000" expanded="true" signature="840:896" placeholder="..." />
-            <marker date="1454490353000" expanded="true" signature="858:895" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1179,22 +1087,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/add_line_item.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54319066">
-          <caret line="105" column="25" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/line-items.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55638534">
-          <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/vue/filters.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.54443616">
@@ -1214,51 +1106,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php">
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40853658">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.6707317">
+          <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41158536">
+          <caret line="31" column="53" selection-start-line="31" selection-start-column="53" selection-end-line="31" selection-end-column="53" />
           <folding>
-            <marker date="1454490447000" expanded="false" signature="44:418" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="469:3711" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="533:633" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="660:716" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="762:1034" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="800:997" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1064:1272" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="1111:1208" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1324:1502" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="1554:2012" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="1616:1722" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1655:1711" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1656:1710" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1730:1950" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1881:1939" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="1882:1938" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2064:2293" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="2145:2265" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2201:2255" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2328:2548" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="2396:2463" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2471:2541" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2612:2784" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="2650:2735" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="2840:3032" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="2887:2968" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="3073:3402" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="3112:3338" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="3178:3228" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="3434:3708" placeholder="{...}" />
-            <marker date="1454490447000" expanded="true" signature="3481:3639" placeholder="..." />
-            <marker date="1454490447000" expanded="true" signature="3647:3701" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="43:2253" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="95:2251" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="244:315" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="477:603" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="658:2240" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="738:2225" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="762:1047" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="783:1022" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1071:2204" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1138:2179" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1163:2151" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1334:1651" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1388:1621" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1470:1587" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1680:1765" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1814:2125" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="1869:1963" placeholder="..." />
+            <marker date="1454494654000" expanded="true" signature="2018:2095" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6227134">
-          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.65015244">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding>
             <marker date="1454494421000" expanded="true" signature="97:918" placeholder="{...}" />
             <marker date="1454494421000" expanded="true" signature="127:250" placeholder="..." />
@@ -1273,18 +1159,121 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/all.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/LineItem.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61737806">
-          <caret line="41" column="52" selection-start-line="41" selection-start-column="52" selection-end-line="41" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.5967988">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <marker date="1454465903000" expanded="true" signature="92:484" placeholder="{...}" />
+            <marker date="1454465903000" expanded="true" signature="122:301" placeholder="..." />
+            <marker date="1454465903000" expanded="true" signature="329:372" placeholder="..." />
+            <marker date="1454465903000" expanded="true" signature="413:482" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/line-items.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.52427185">
+          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+          <folding>
+            <marker date="1454509803000" expanded="true" signature="8:2782" placeholder="{&quot;name&quot;: 'addLineItem'...}" />
+            <marker date="1454509803000" expanded="true" signature="71:309" placeholder="{&quot;selectedPurchaseRequest&quot;: ''...}" />
+            <marker date="1454509803000" expanded="true" signature="333:568" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="375:560" placeholder="{&quot;method&quot;: 'GET'...}" />
+            <marker date="1454509803000" expanded="true" signature="489:550" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="583:2319" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="635:700" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="752:934" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="968:1956" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="1028:1946" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="1091:1930" placeholder="{&quot;url&quot;: '/purchase_orders/add_line_item'...}" />
+            <marker date="1454509803000" expanded="true" signature="1214:1604" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="1651:1741" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="1800:1912" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="1998:2217" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2040:2114" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2120:2207" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2252:2313" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2335:2780" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2366:2424" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2460:2569" placeholder="{...}" />
+            <marker date="1454509803000" expanded="true" signature="2613:2774" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/add_line_item.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74009144">
+          <caret line="114" column="25" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders.scss">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6707317">
-          <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.7118902">
+          <caret line="109" column="32" selection-start-line="109" selection-start-column="32" selection-end-line="109" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77362806">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="70" selection-end-column="205" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50609756">
+          <caret line="85" column="55" selection-start-line="85" selection-start-column="55" selection-end-line="85" selection-end-column="55" />
+          <folding>
+            <marker date="1454512375000" expanded="false" signature="44:295" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="347:3330" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="383:430" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="473:1303" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="561:842" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="871:989" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="1331:1501" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="1375:1435" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="1564:1941" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="1721:1874" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="1746:1864" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="1764:1863" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="2003:2092" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="2152:2837" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="2870:3325" placeholder="{...}" />
+            <marker date="1454512375000" expanded="true" signature="2996:3318" placeholder="..." />
+            <marker date="1454512375000" expanded="true" signature="3283:3300" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49390244">
+          <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+          <folding>
+            <marker date="1454387270000" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1454387270000" expanded="true" signature="147:1198" placeholder="{...}" />
+            <marker date="1454387270000" expanded="true" signature="157:217" placeholder=" Run the migrations. ..." />
+            <marker date="1454387270000" expanded="true" signature="244:1039" placeholder="{...}" />
+            <marker date="1454387270000" expanded="true" signature="274:1031" placeholder="..." />
+            <marker date="1454387270000" expanded="true" signature="324:1030" placeholder="..." />
+            <marker date="1454387270000" expanded="true" signature="1048:1112" placeholder=" Reverse the migrations. ..." />
+            <marker date="1454387270000" expanded="true" signature="1141:1196" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38262194">
+          <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
           <folding />
         </state>
       </provider>
