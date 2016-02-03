@@ -6,15 +6,9 @@
   }
 
   .table-purchase-requests {
-    border-top: 2px solid #ddd;
 
     tbody {
       tr {
-        cursor: pointer;
-
-        &.purchase-request-urgent {
-          color: $dark-yellow;
-        }
 
         &.completed {
           color: $dark-grey;

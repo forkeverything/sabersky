@@ -8,11 +8,34 @@
         </div>
         <p class="page-intro">This is where you can find purchase requests made by Engineers / Planners.</p>
         @can('pr_make')
-            <a href="{{ route('makePurchaseRequest') }}">
-                <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
-            </a>
+        <a href="{{ route('makePurchaseRequest') }}">
+            <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
+        </a>
         @endcan
-        @include('purchase_requests.partials.filters')
+        <div class="purchase-request-filters">
+            <ul class="list-unstyled list-inline">
+                <li class="unselectable"
+                @click="changeFilter('')"
+                >
+                Open
+                </li>
+                <li class="unselectable"
+                @click="changeFilter('complete')"
+                >
+                Complete
+                </li>
+                <li class="unselectable"
+                @click="changeFilter('cancelled')"
+                >
+                Cancelled
+                </li>
+            </ul>
+            <span class="filter-urgent unselectable"
+            @click="toggleUrgent"
+            :class="{ 'active': urgent}"
+            >
+            Urgent Only</span>
+        </div>
         @if($purchaseRequests->first())
             @include('purchase_requests.partials.table_all')
         @else

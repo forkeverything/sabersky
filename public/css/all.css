@@ -6022,16 +6022,11 @@ button.close {
   margin-bottom: 30px;
   display: block; }
 
-#purchase-requests-all .table-purchase-requests {
-  border-top: 2px solid #ddd; }
-  #purchase-requests-all .table-purchase-requests tbody tr {
-    cursor: pointer; }
-    #purchase-requests-all .table-purchase-requests tbody tr.purchase-request-urgent {
-      color: #F39C12; }
-    #purchase-requests-all .table-purchase-requests tbody tr.completed {
-      color: #989898; }
-    #purchase-requests-all .table-purchase-requests tbody tr.cancelled {
-      color: #C0392B; }
+#purchase-requests-all .table-purchase-requests tbody tr.completed {
+  color: #989898; }
+
+#purchase-requests-all .table-purchase-requests tbody tr.cancelled {
+  color: #C0392B; }
 
 #purchase-requests-all .purchase-request-filters {
   display: -webkit-flex;
@@ -6134,21 +6129,6 @@ button.close {
   display: block;
   text-align: right; }
 
-#add-line-item .table-purchase-requests {
-  border-top: 2px solid #ddd; }
-  #add-line-item .table-purchase-requests thead th.active {
-    background: #fff; }
-  #add-line-item .table-purchase-requests thead th.active.asc:before {
-    content: "\f0d8";
-    font-family: 'FontAwesome'; }
-  #add-line-item .table-purchase-requests thead th.active.desc:before {
-    content: "\f0d7";
-    font-family: 'FontAwesome'; }
-  #add-line-item .table-purchase-requests tbody tr {
-    cursor: pointer; }
-    #add-line-item .table-purchase-requests tbody tr.urgent {
-      color: #F39C12; }
-
 body {
   font-family: 'helvetica'; }
 
@@ -6233,6 +6213,21 @@ textarea {
 .filter-urgent.active {
   font-weight: bold;
   color: #F39C12 !important; }
+
+.table-sort {
+  border-top: 2px solid #ddd; }
+  .table-sort thead th.active {
+    background: #fff; }
+  .table-sort thead th.active.asc:before {
+    content: "\f0d8";
+    font-family: 'FontAwesome'; }
+  .table-sort thead th.active.desc:before {
+    content: "\f0d7";
+    font-family: 'FontAwesome'; }
+  .table-sort tbody tr {
+    cursor: pointer; }
+    .table-sort tbody tr.urgent {
+      color: #F39C12; }
 
 /*# sourceMappingURL=app.css.map */
 

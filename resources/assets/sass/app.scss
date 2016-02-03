@@ -119,3 +119,35 @@ textarea {
     color: $dark-yellow!important;
   }
 }
+
+.table-sort {
+  border-top: 2px solid #ddd;
+
+  thead {
+    th {
+
+      &.active {
+        background: #fff;
+      }
+
+      &.active.asc:before {
+        content: "\f0d8";
+        font-family: 'FontAwesome';
+      }
+
+      &.active.desc:before {
+        content: "\f0d7";
+        font-family: 'FontAwesome';
+      }
+    }
+  }
+  tbody {
+    tr {
+      cursor: pointer;
+
+      &.urgent {
+        color: $dark-yellow;
+      }
+    }
+  }
+}

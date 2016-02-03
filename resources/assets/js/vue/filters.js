@@ -28,7 +28,6 @@ Vue.filter('numberFormat', function (val) {
     return n.join(".");
 });
 
-
 Vue.filter('numberModel', {
     read: function (val) {
         //Seperates the components of the number
@@ -42,3 +41,15 @@ Vue.filter('numberModel', {
         return val;
     }
 });
+
+Vue.filter('limitString', function (val, limit) {
+    if (val) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
+        return trimmedString
+    }
+
+    return val;
+});
+
+
