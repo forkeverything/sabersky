@@ -7,7 +7,10 @@ new Vue({
         price: '',
         payable: '',
         delivery: '',
-        canAjax: true
+        canAjax: true,
+        field: '',
+        order: '',
+        urgent: ''
     },
     ready: function() {
         var self = this;
@@ -53,6 +56,17 @@ new Vue({
                     }
                 });
             }
+        },
+        changeSort: function($newField) {
+            if(this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function() {
+            this.urgent = (this.urgent) ? '' : 1;
         }
     },
     computed: {

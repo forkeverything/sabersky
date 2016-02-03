@@ -15,6 +15,10 @@ class PurchaseOrder extends Model
         'vendor_id'
     ];
 
+    protected $appends = [
+        'total'
+    ];
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -28,6 +32,20 @@ class PurchaseOrder extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->lineItems as $lineItem) {
+            $total = $total + ($lineItem->price * $lineItem->quantity);
+        }
+        return number_format($total) . ' Rp';
     }
 
 }

@@ -68,4 +68,9 @@ class Company extends Model
     {
         return $this->hasMany(Vendor::class);
     }
+
+    public function purchaseOrders()
+    {
+        return $this->hasManyThrough(PurchaseOrder::class, Project::class);
+    }
 }

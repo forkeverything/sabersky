@@ -17,10 +17,11 @@ class CreateLineItemsTable extends Migration
             $table->timestamps();
 
             $table->integer('quantity');
-            $table->integer('price');
+            $table->float('price', 15, 2);
             $table->dateTime('payable');
             $table->dateTime('delivery');
             $table->boolean('delivered')->default(0);
+            $table->boolean('paid')->default(0);
             $table->string('status')->default('unreceived'); // 'unreceived', 'accepted', 'rejected'
 
             $table->integer('purchase_order_id')->unsigned();

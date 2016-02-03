@@ -26,7 +26,7 @@ class SaveLineItemRequest extends Request
     {
         return [
             'purchase_request_id' => 'required|integer',
-            'quantity' => 'required|integer',
+            'quantity' => 'required|integer|min:1',
             'price' => 'required|integer',
             'payable' => 'required|date',
             'delivery' => 'required|date'

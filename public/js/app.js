@@ -7,7 +7,10 @@ new Vue({
         price: '',
         payable: '',
         delivery: '',
-        canAjax: true
+        canAjax: true,
+        field: '',
+        order: '',
+        urgent: ''
     },
     ready: function() {
         var self = this;
@@ -53,6 +56,17 @@ new Vue({
                     }
                 });
             }
+        },
+        changeSort: function($newField) {
+            if(this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function() {
+            this.urgent = (this.urgent) ? '' : 1;
         }
     },
     computed: {
@@ -87,7 +101,8 @@ new Vue({
         address: '',
         bank_account_name: '',
         bank_account_number: '',
-        bank_name: ''
+        bank_name: '',
+        canAjax: true
     },
     computed: {
         readyStep3: function() {
@@ -104,7 +119,49 @@ new Vue({
             this.bank_account_number = '';
             this.bank_name = '';
             this.vendorType = type;
+        },
+        removeLineItem: function(lineItemId) {
+            console.log('hehehe');
+            var self = this;
+            if(self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/remove_line_item/' + lineItemId,
+                    method: 'POST',
+                    data: {},
+                    success: function (data) {
+                        console.log('success');4
+                        window.location='/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(error);
+                        self.canAjax = true;
+                    }
+                });
+            }
         }
+    }
+});
+
+new Vue({
+    name: 'allPurchaseOrders',
+    el: '#purchase-orders-all',
+    data: {
+        purchaseOrders: []
+    },
+    ready: function() {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+
     }
 });
 $('.table-purchase-requests tbody tr').click(function () {

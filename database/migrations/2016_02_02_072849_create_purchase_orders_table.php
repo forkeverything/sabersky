@@ -17,7 +17,6 @@ class CreatePurchaseOrdersTable extends Migration
             $table->timestamps();
 
             $table->boolean('approved')->default(0);
-            $table->boolean('paid')->default(0);
             $table->boolean('submitted')->default(0);
 
             $table->integer('project_id')->unsigned();

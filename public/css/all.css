@@ -6052,8 +6052,6 @@ button.close {
     #purchase-requests-all .purchase-request-filters a.active {
       font-weight: bold;
       color: #000; }
-  #purchase-requests-all .purchase-request-filters .filter-urgent.active {
-    color: #F39C12; }
 
 #purchase-requests-add .urgent-button {
   border: 2px solid #CDCFD2;
@@ -6103,12 +6101,53 @@ button.close {
       font-weight: bold;
       font-size: 26px; }
 
+#purchase-orders-submit .po-order-total {
+  font-weight: bold;
+  font-size: 16px;
+  display: inline-block;
+  text-align: right;
+  border-bottom: 1px solid #000;
+  margin: 0 0 30px;
+  float: right; }
+  #purchase-orders-submit .po-order-total .border {
+    border-bottom: 1px solid #000;
+    margin: 0 0 10px; }
+
+#purchase-orders-submit .line-item-remove {
+  background: initial;
+  font-size: 24px; }
+  #purchase-orders-submit .line-item-remove:hover {
+    color: #E74C3C; }
+
+#purchase-orders-all #button-submit-purchase-order {
+  margin: 0 0 30px; }
+
+#purchase-orders-all .fa {
+  font-size: 18px; }
+  #purchase-orders-all .fa.fa-check {
+    color: #2ECC71; }
+  #purchase-orders-all .fa.fa-close {
+    color: #E74C3C; }
+
+#add-line-item .filter-urgent {
+  margin: 0 0 15px;
+  display: block;
+  text-align: right; }
+
 #add-line-item .table-purchase-requests {
   border-top: 2px solid #ddd; }
+  #add-line-item .table-purchase-requests thead th.active {
+    background: #fff; }
+  #add-line-item .table-purchase-requests thead th.active.asc:before {
+    content: "\f0d8";
+    font-family: 'FontAwesome'; }
+  #add-line-item .table-purchase-requests thead th.active.desc:before {
+    content: "\f0d7";
+    font-family: 'FontAwesome'; }
   #add-line-item .table-purchase-requests tbody tr {
     cursor: pointer; }
-    #add-line-item .table-purchase-requests tbody tr:hover {
-      background: #9CFFA8; }
+    #add-line-item .table-purchase-requests tbody tr.urgent {
+      color: #F39C12; }
 
 body {
   font-family: 'helvetica'; }
@@ -6178,6 +6217,22 @@ textarea {
   .datepicker:focus {
     outline: none;
     border: 1px solid #3498DB; }
+
+.unselectable {
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* Chrome/Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none; }
+
+.filter-urgent.active {
+  font-weight: bold;
+  color: #F39C12 !important; }
 
 /*# sourceMappingURL=app.css.map */
 

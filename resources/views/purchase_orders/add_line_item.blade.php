@@ -28,20 +28,76 @@
              v-show="! selectedPurchaseRequest"
         >
             <h5>Select Purchase Request to Order</h5>
+            <span class="filter-urgent unselectable"
+                @click="toggleUrgent"
+                :class="{ 'active': urgent}"
+            >
+            Urgent Only</span>
             <table class="table table-hover table-purchase-requests">
                 <thead>
                 <tr>
-                    <th>Date Due</th>
-                    <th>Item</th>
-                    <th>Specification</th>
-                    <th>Quantity</th>
-                    <th>Requested By</th>
-                    <th>Requested</th>
+                    <th
+                    @click="changeSort('due')"
+                    class="unselectable"
+                    :class="{
+                        'active': field == 'due',
+                        'asc' : order == '',
+                        'desc': order == '-1'
+                    }"
+                    >
+                    Date Due
+                    </th>
+                    <th
+                    @click="changeSort('item.name')"
+                    class="unselectable"
+                    :class="{
+                        'active': field == 'item.name',
+                        'asc' : order == '',
+                        'desc': order == '-1'
+                    }"
+                    >Item
+                    </th>
+                    <th>
+                        Specification
+                    </th>
+                    <th
+                    @click="changeSort('quantity')"
+                    class="unselectable"
+                    :class="{
+                        'active': field == 'quantity',
+                        'asc' : order == '',
+                        'desc': order == '-1'
+                    }"
+                    >Quantity
+                    </th>
+                    <th
+                    @click="changeSort('user.name')"
+                    class="unselectable"
+                    :class="{
+                        'active': field == 'user.name',
+                        'asc' : order == '',
+                        'desc': order == '-1'
+                    }"
+                    >Made by
+                    </th>
+                    <th
+                    @click="changeSort('created_at')"
+                    class="unselectable"
+                    :class="{
+                        'active': field == 'created_at',
+                        'asc' : order == '',
+                        'desc': order == '-1'
+                    }"
+                    >Requested
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <template v-for="purchaseRequest in purchaseRequests">
-                    <tr @click="selectPurchaseRequest(purchaseRequest)">
+                <template v-for="purchaseRequest in purchaseRequests | orderBy field order | filterBy urgent in 'urgent'">
+                    <tr @click="selectPurchaseRequest(purchaseRequest)"
+                    class="unselectable"
+                    :class="{'urgent': purchaseRequest.urgent}"
+                    >
                     <td>
                         @{{ purchaseRequest.due | easyDate}}
                     </td>
@@ -133,7 +189,7 @@
             </div>
             <button class="btn-solid-green"
                     v-show="canAddPurchaseRequest"
-                    @click="addLineItem"
+            @click="addLineItem"
             >Add Purchase Request</button>
         </div>
 

@@ -32,11 +32,21 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Vendor::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'PT.' . $faker->company,
+        'phone' => $faker->phoneNumber,
+        'address' => $faker->address,
+        'bank_name' => $faker->randomElement(['BNI', 'Maybank', 'BCA', 'BRI', 'HSBC']),
+        'bank_account_number' => $faker->randomNumber(8),
+        'company_id' => 1
+    ];
+});
+
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'specification' => $faker->paragraph(2),
-        'price_mean' => $faker->randomFloat(2,0),
         'project_id' => factory(App\Project::class)->create()->id
     ];
 });

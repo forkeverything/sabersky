@@ -100,3 +100,22 @@ textarea {
     border: 1px solid $blue;
   }
 }
+
+.unselectable {
+  cursor: pointer;
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+}
+
+.filter-urgent {
+
+  &.active {
+    font-weight: bold;
+    color: $dark-yellow!important;
+  }
+}
