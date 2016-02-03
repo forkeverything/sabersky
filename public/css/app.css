@@ -5819,6 +5819,24 @@ button.close {
   .btn-outline-yellow:focus {
     color: #F39C12; }
 
+.btn-outline-blue {
+  color: #2980B9;
+  border: 1px solid #2980B9;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+  transition: all 0.15s ease-out; }
+  .btn-outline-blue:hover {
+    color: #3498DB;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px #3498DB !important;
+    -moz-box-shadow: 0 0 0 3px #3498DB !important;
+    -webkit-box-shadow: 0 0 0 3px #3498DB !important;
+    fill: #3498DB;
+    outline: 0; }
+  .btn-outline-blue:focus {
+    color: #2980B9; }
+
 .btn-solid-yellow {
   color: #FFFFFF;
   border-color: #F39C12;
@@ -6064,6 +6082,27 @@ button.close {
 #purchase-orders-submit .button-add-line-item {
   margin: 0 0 15px; }
 
+#purchase-orders-submit .po-selected-info {
+  background: #F2F2F2;
+  padding: 15px;
+  margin: 0 0 30px; }
+  #purchase-orders-submit .po-selected-info hr {
+    border-color: #A1A4AA;
+    margin: 15px 0; }
+  #purchase-orders-submit .po-selected-info .header {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #purchase-orders-submit .po-selected-info .header .project-name {
+      font-weight: bold;
+      font-size: 26px; }
+
 #add-line-item .table-purchase-requests {
   border-top: 2px solid #ddd; }
   #add-line-item .table-purchase-requests tbody tr {
@@ -6131,5 +6170,13 @@ textarea {
   border-radius: 4px;
   font-size: 14px;
   margin: 0 10px; }
+
+.datepicker {
+  border: 1px dashed #CDCFD2;
+  cursor: pointer;
+  letter-spacing: 1px; }
+  .datepicker:focus {
+    outline: none;
+    border: 1px solid #3498DB; }
 
 /*# sourceMappingURL=app.css.map */

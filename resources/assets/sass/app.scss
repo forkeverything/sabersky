@@ -89,3 +89,14 @@ textarea {
   font-size: 14px;
   margin: 0 10px;
 }
+
+.datepicker {
+  border: 1px dashed $border-light;
+  cursor: pointer;
+  letter-spacing: 1px;
+
+  &:focus {
+    outline: none;
+    border: 1px solid $blue;
+  }
+}

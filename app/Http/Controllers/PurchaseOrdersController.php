@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\POStep1Request;
 use App\Http\Requests\POStep2Request;
+use App\Http\Requests\SaveLineItemRequest;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
 use App\User;
@@ -72,8 +73,40 @@ class PurchaseOrdersController extends Controller
     {
         if (Gate::allows('po_submit')) {
             return view('purchase_orders.add_line_item');
+        } else {
+            return redirect(route('showAllPurchaseOrders'));
+        }
+    }
+
+    public function saveLineItem(SaveLineItemRequest $request)
+    {
+        if ($request->ajax()) {
+            return $this->existingPO->lineItems()->create($request->all());
+        }
+        abort(403, 'Wrong way go back.');
+    }
+
+    public function cancelUnsubmitted()
+    {
+        if ($this->existingPO) {
+            foreach ($this->existingPO->lineItems as $lineItem) {
+                $lineItem->delete();
+            }
+            $this->existingPO->delete();
+            return redirect(route('submitPurchaseOrder'));
         }
         return redirect(route('showAllPurchaseOrders'));
+    }
+
+    public function complete()
+    {
+        if (Gate::allows('po_submit')) {
+            $this->existingPO->submitted = true;
+            $this->existingPO->save();
+            return redirect(route('showAllPurchaseOrders'));
+        } else {
+            abort(402, 'Forbidden Kingdom');
+        }
     }
 
 }

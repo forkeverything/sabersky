@@ -1,4 +1,3 @@
-
 new Vue({
     el: '#add-line-item',
     data: {
@@ -7,7 +6,8 @@ new Vue({
         quantity: '',
         price: '',
         payable: '',
-        delivery: ''
+        delivery: '',
+        canAjax: true
     },
     ready: function() {
         var self = this;
@@ -30,8 +30,29 @@ new Vue({
             this.payable = '';
             this.delivery = '';
         },
-        submitAddingPR: function() {
-
+        addLineItem: function() {
+            var self = this;
+            if(self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location='/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(error);
+                        self.canAjax = true;
+                    }
+                });
+            }
         }
     },
     computed: {
@@ -39,6 +60,7 @@ new Vue({
             return this.quantity * this.price;
         },
         canAddPurchaseRequest: function() {
+            return true;
             return (!! this.selectedPurchaseRequest && !! this.quantity & !! this.price && !! this.payable && !! this.delivery)
         }
     }

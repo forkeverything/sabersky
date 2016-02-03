@@ -9,7 +9,7 @@
             </h1>
         </div>
         <div class="page-intro">
-            <h5>How to fill fulfill a Purchase Request</h5>
+            <h5>How to fulfill a Purchase Request</h5>
             <ol>
                 <li>Select a Purchase Request</li>
                 <li>Set Quantity purchasing from vendor</li>
@@ -112,12 +112,12 @@
                     </tr>
                     <tr>
                         <th>Item Subtotal</th>
-                        <td class="text-muted">@{{ subtotal | numberFormat}}</td>
+                        <td class="text-muted">@{{ subtotal | numberFormat}} Rp</td>
                     </tr>
                     <tr>
                         <th>Date Payable</th>
                         <td><input v-model="payable" type="text" class="datepicker"
-                                   placeholder="Click to choose a date"></td>
+                                   placeholder="Pick Date"></td>
                     </tr>
                     <tr>
                         <th>Due Date</th>
@@ -126,14 +126,14 @@
                     <tr>
                         <th>Estimated Arrival Date</th>
                         <td><input type="text" v-model="delivery" class="datepicker"
-                                   placeholder="Click to choose a date"></td>
+                                   placeholder="Pick Date"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <button class="btn-solid-green"
                     v-show="canAddPurchaseRequest"
-                    @click="submitAddingPR"
+                    @click="addLineItem"
             >Add Purchase Request</button>
         </div>
 

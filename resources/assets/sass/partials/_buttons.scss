@@ -32,6 +32,34 @@
   }
 }
 
+.btn-outline-blue {
+  color: $dark-blue;
+  border: 1px solid $dark-blue;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: $blue;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px $blue !important;
+    -moz-box-shadow: 0 0 0 3px $blue !important;
+    -webkit-box-shadow: 0 0 0 3px $blue !important;
+    fill: $blue;
+    outline: 0;
+  }
+
+  &:focus {
+    color: $dark-blue;
+  }
+}
+
 .btn-solid-yellow {
   color: #FFFFFF;
   border-color: $dark-yellow;

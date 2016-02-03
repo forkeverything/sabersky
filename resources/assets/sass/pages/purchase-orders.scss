@@ -26,4 +26,25 @@
   .button-add-line-item {
     margin: 0 0 15px;
   }
+
+  .po-selected-info {
+    background: #F2F2F2;
+    padding: 15px;
+    margin: 0 0 30px;
+
+    hr {
+      border-color: $border-dark;
+      margin: 15px 0;
+    }
+    
+    .header {
+      display:  flex;
+      justify-content: space-between;
+      align-items: center;
+      .project-name {
+        font-weight: bold;
+        font-size: 26px;
+      }
+    }
+  }
 }

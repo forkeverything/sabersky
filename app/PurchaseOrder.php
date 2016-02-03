@@ -25,4 +25,9 @@ class PurchaseOrder extends Model
         return $this->hasMany(LineItem::class);
     }
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
 }
