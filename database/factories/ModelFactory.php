@@ -38,6 +38,7 @@ $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
         'bank_name' => $faker->randomElement(['BNI', 'Maybank', 'BCA', 'BRI', 'HSBC']),
+        'bank_account_name' => $faker->name,
         'bank_account_number' => $faker->randomNumber(8),
         'company_id' => 1
     ];

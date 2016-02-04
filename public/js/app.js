@@ -220,6 +220,9 @@ new Vue({
         },
         toggleUrgent: function () {
             this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function(POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
         }
     }
 });

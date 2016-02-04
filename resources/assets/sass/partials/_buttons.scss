@@ -32,6 +32,34 @@
   }
 }
 
+.btn-outline-red {
+  color: $dark-red;
+  border: 1px solid $dark-red;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: $red;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px $red !important;
+    -moz-box-shadow: 0 0 0 3px $red !important;
+    -webkit-box-shadow: 0 0 0 3px $red !important;
+    fill: $red;
+    outline: 0;
+  }
+
+  &:focus {
+    color: $dark-red;
+  }
+}
+
 .btn-outline-blue {
   color: $dark-blue;
   border: 1px solid $dark-blue;
@@ -146,6 +174,38 @@
     -moz-box-shadow: 0 0 0 3px $light-blue;
     -webkit-box-shadow: 0 0 0 3px $light-blue;
     fill: $light-blue;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.btn-solid-red {
+  color: #FFFFFF;
+  border-color: $dark-red;
+  background-color: $dark-red;
+  border: 0 !important;
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  height: 3em;
+  width: 100%;
+
+  &:hover, &:focus, &:active {
+    outline: 0;
+    color: #FFFFFF;
+    background-color: $red;
+    border-color: $red;
+    box-shadow: 0 0 0 3px $light-red;
+    -moz-box-shadow: 0 0 0 3px $light-red;
+    -webkit-box-shadow: 0 0 0 3px $light-red;
+    fill: $light-red;
   }
 
   &:disabled {

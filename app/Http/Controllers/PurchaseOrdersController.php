@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApprovePurchaseOrderRequest;
 use App\Http\Requests\POStep1Request;
 use App\Http\Requests\POStep2Request;
 use App\Http\Requests\SaveLineItemRequest;
@@ -129,6 +130,23 @@ class PurchaseOrdersController extends Controller
         } else {
             abort(402, 'Forbidden Kingdom');
         }
+    }
+
+    public function single(PurchaseOrder $purchaseOrder)
+    {
+        return view('purchase_orders.single', compact('purchaseOrder'));
+    }
+
+    public function approve(ApprovePurchaseOrderRequest $request)
+    {
+        PurchaseOrder::find($request->input('purchase_order_id'))->markApproved();
+        return redirect(route('showAllPurchaseOrders'));
+    }
+
+    public function reject(ApprovePurchaseOrderRequest $request)
+    {
+        PurchaseOrder::find($request->input('purchase_order_id'))->markRejected();
+        return redirect(route('showAllPurchaseOrders'));
     }
 
 }

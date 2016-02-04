@@ -35,11 +35,6 @@
             <table class="table table-hover table-sort">
                 <thead>
                 <tr>
-                    {{--<th>Date Submitted</th>--}}
-                    {{--<th>Project</th>--}}
-                    {{--<th>Item(s)</th>--}}
-                    {{--<th>Order Total</th>--}}
-                    {{--<th class="text-center">Approved</th>--}}
                     <template v-for="heading in headings">
                         <th v-if="heading[0] !== ''"
                         @click="changeSort(heading[0])"
@@ -66,6 +61,7 @@
                             'urgent': checkUrgent(purchaseOrder)
                         }"
                         v-show="! urgent || checkUrgent(purchaseOrder)"
+                        @click="loadSinglePO(purchaseOrder.id)"
                     >
                         <td>@{{ purchaseOrder.created_at | easyDate}}</td>
                         <td>@{{ purchaseOrder.project.name }}</td>

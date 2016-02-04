@@ -105,11 +105,20 @@ class PurchaseOrder extends Model
         if (!$this->over_high && !$this->over_med && !$this->item_over_md && !$this->new_item && !$this->new_vendor) {
             $this->markApproved();
         }
+        $this->save();
     }
 
-    protected function markApproved()
+    public function markApproved()
     {
         $this->status = 'approved';
+        $this->save();
+        return $this;
+    }
+
+    public function markRejected()
+    {
+        $this->status = 'rejected';
+        $this->save();
         return $this;
     }
 

@@ -64,8 +64,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/purchase_orders/remove_line_item/{lineItem}', ['as' => 'removeLineItem', 'uses' => 'PurchaseOrdersController@removeLineItem']);
     Route::post('/purchase_orders/add_line_item', 'PurchaseOrdersController@saveLineItem');
     Route::get('/purchase_orders/cancel_unsubmitted', ['as' => 'cancelUnsubmittedPO', 'uses' => 'PurchaseOrdersController@cancelUnsubmitted']);
-    Route::post('/purchase/orders/submit', ['as' => 'completePurchaseOrder', 'uses' => 'purchaseOrdersController@complete']);
+    Route::post('/purchase_orders/submit', ['as' => 'completePurchaseOrder', 'uses' => 'purchaseOrdersController@complete']);
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiAll');
+    Route::get('/purchase_orders/single/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@single']);
+    Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder' , 'uses' => 'PurchaseOrdersController@approve']);
+    Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder' , 'uses' => 'PurchaseOrdersController@reject']);
 
     Route::get('/settings', 'SettingsController@show');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
