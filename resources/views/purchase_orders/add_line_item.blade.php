@@ -33,7 +33,7 @@
                 :class="{ 'active': urgent}"
             >
             Urgent Only</span>
-            <table class="table table-hover table-purchase-requests">
+            <table class="table table-hover table-purchase-requests table-sort">
                 <thead>
                 <tr>
                     <th

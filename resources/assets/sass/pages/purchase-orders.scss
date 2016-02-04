@@ -75,6 +75,7 @@
 
 #purchase-orders-all {
   #button-submit-purchase-order {
+    width: 370px;
     margin: 0 0 30px;
   }
 
@@ -117,22 +118,29 @@
       margin: 0 0 30px;
       color: #fff;
       font-size: 45px;
+      padding: 30px;
+      display: inline-block;
+
 
       &.pending {
         color: $dark-grey;
+        border: 3px solid $dark-grey;
       }
 
       &.approved {
         color: $green;
+        border: 3px solid $green;
       }
 
       &.rejected {
         color: $red;
+        border: 3px solid $red;
       }
     }
 
 
     .buttons-approvals {
+      width: 370px;
       display: flex;
       justify-content: space-between;
 

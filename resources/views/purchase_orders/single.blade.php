@@ -83,7 +83,7 @@
         </div>
         <div class="order-summary">
             <div class="second-border">
-                <p class="total"><strong>Order Total {{ $purchaseOrder->total }}</strong></p>
+                <p class="total"><strong>Order Total {{ number_format($purchaseOrder->total) }} Rp</strong></p>
             </div>
         </div>
         <div class="pr-serviced">

@@ -5976,6 +5976,7 @@ button.close {
     margin: 0 0 10px; }
 
 #projects-all .button-start-project {
+  width: 370px;
   margin-bottom: 30px; }
 
 #projects-all .project-list .project-single-link .project-single {
@@ -6058,6 +6059,7 @@ button.close {
   margin: 0; }
 
 #purchase-requests-all #button-make-purchase-request {
+  width: 370px;
   margin-bottom: 30px;
   display: block; }
 
@@ -6134,6 +6136,7 @@ button.close {
     color: #E74C3C; }
 
 #purchase-orders-all #button-submit-purchase-order {
+  width: 370px;
   margin: 0 0 30px; }
 
 #purchase-orders-all table tbody tr td .fa {
@@ -6153,14 +6156,20 @@ button.close {
     font-weight: bold;
     margin: 0 0 30px;
     color: #fff;
-    font-size: 45px; }
+    font-size: 45px;
+    padding: 30px;
+    display: inline-block; }
     #purchase-order-single .po-single-status h2.pending {
-      color: #989898; }
+      color: #989898;
+      border: 3px solid #989898; }
     #purchase-order-single .po-single-status h2.approved {
-      color: #2ECC71; }
+      color: #2ECC71;
+      border: 3px solid #2ECC71; }
     #purchase-order-single .po-single-status h2.rejected {
-      color: #E74C3C; }
+      color: #E74C3C;
+      border: 3px solid #E74C3C; }
   #purchase-order-single .po-single-status .buttons-approvals {
+    width: 370px;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;

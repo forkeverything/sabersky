@@ -16,7 +16,7 @@
         <section class="team-members">
             <h5>Team Members</h5>
             @if(Gate::allows('team_manage') || Gate::allows('buyer_manage'))
-            <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-default"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
+            <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-outline-yellow"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
             @endif
             <div class="team-wrap">
                 @foreach($project->teamMembers->chunk(3) as $chunk)
