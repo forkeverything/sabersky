@@ -7,7 +7,7 @@ $(document).ready(function () {
             headings: [
                 ['due', 'Due Date'],
                 ['project.name', 'Project'],
-                ['item', 'Item'],
+                ['item.name', 'Item'],
                 ['specification', 'Specification'],
                 ['quantity', 'Quantity'],
                 ['user.name', 'Made by'],

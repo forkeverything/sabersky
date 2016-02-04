@@ -12,7 +12,7 @@
             <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
         </a>
         @endcan
-        <div class="purchase-request-filters">
+        <div class="purchase-request-filters table-filters">
             <ul class="list-unstyled list-inline">
                 <li class="unselectable"
                     @click="changeFilter('')"
