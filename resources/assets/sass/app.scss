@@ -125,7 +125,7 @@ textarea {
 
   thead {
     th {
-
+      white-space: nowrap;
       &.active {
         background: #fff;
       }
@@ -133,11 +133,13 @@ textarea {
       &.active.asc:before {
         content: "\f0d8";
         font-family: 'FontAwesome';
+        margin-right: 5px;
       }
 
       &.active.desc:before {
         content: "\f0d7";
         font-family: 'FontAwesome';
+        margin-right: 5px;
       }
     }
   }
@@ -150,4 +152,8 @@ textarea {
       }
     }
   }
+}
+
+li.active {
+  font-weight: bold;
 }

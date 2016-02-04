@@ -27,7 +27,9 @@
                 @click="loadSinglePR(purchaseRequest.id)"
                 class="unselectable"
                 :class="{
-                'urgent': purchaseRequest.urgent
+                'urgent': purchaseRequest.urgent,
+                'completed': purchaseRequest.quantity == 0,
+                'cancelled': purchaseRequest.state == 'Cancelled'
                 }"
                 v-show="checkShow(purchaseRequest)"
             >

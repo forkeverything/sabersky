@@ -70,7 +70,7 @@ class ProjectsController extends Controller
             $project->teamMembers()->save($user);
             return redirect(route('singleProject', [$project->id]));
         } else {
-            $inviteKey = str_random(25);
+            $inviteKey = str_random(13);
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),

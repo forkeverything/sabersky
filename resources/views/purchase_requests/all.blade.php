@@ -15,16 +15,25 @@
         <div class="purchase-request-filters">
             <ul class="list-unstyled list-inline">
                 <li class="unselectable"
-                @click="changeFilter('')"
+                    @click="changeFilter('')"
+                    :class="{
+                        'active': filter !== 'complete' && filter !== 'cancelled'
+                    }"
                 >
                 Open
                 </li>
                 <li class="unselectable"
+                    :class="{
+                        'active': filter == 'complete'
+                    }"
                 @click="changeFilter('complete')"
                 >
                 Complete
                 </li>
                 <li class="unselectable"
+                    :class="{
+                        'active': filter == 'cancelled'
+                    }"
                 @click="changeFilter('cancelled')"
                 >
                 Cancelled

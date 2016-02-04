@@ -63,7 +63,7 @@ $(document).ready(function () {
                         }
                         break;
                     default:
-                        if (purchaseRequest.quantity > 0) {
+                        if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
                             return true;
                         }
                 }

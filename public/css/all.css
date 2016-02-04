@@ -6216,18 +6216,25 @@ textarea {
 
 .table-sort {
   border-top: 2px solid #ddd; }
-  .table-sort thead th.active {
-    background: #fff; }
-  .table-sort thead th.active.asc:before {
-    content: "\f0d8";
-    font-family: 'FontAwesome'; }
-  .table-sort thead th.active.desc:before {
-    content: "\f0d7";
-    font-family: 'FontAwesome'; }
+  .table-sort thead th {
+    white-space: nowrap; }
+    .table-sort thead th.active {
+      background: #fff; }
+    .table-sort thead th.active.asc:before {
+      content: "\f0d8";
+      font-family: 'FontAwesome';
+      margin-right: 5px; }
+    .table-sort thead th.active.desc:before {
+      content: "\f0d7";
+      font-family: 'FontAwesome';
+      margin-right: 5px; }
   .table-sort tbody tr {
     cursor: pointer; }
     .table-sort tbody tr.urgent {
       color: #F39C12; }
+
+li.active {
+  font-weight: bold; }
 
 /*# sourceMappingURL=app.css.map */
 
