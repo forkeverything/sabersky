@@ -16,7 +16,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->boolean('approved')->default(0);
+            $table->string('status')->default('pending'); // pending, approved or rejected
             $table->boolean('submitted')->default(0);
             $table->float('total', '15', 2)->default(0);
             $table->boolean('over_high')->default(0);

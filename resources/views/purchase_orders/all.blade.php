@@ -29,21 +29,24 @@
                         <td>@{{ purchaseOrder.created_at | easyDate}}</td>
                         <td>@{{ purchaseOrder.project.name }}</td>
                         <td>
-                            <ul class="po-item-list">
+                            <ul class="po-item-list list-unstyled">
                                 <li v-for="lineItem in purchaseOrder.line_items">
-                                    @{{ lineItem.purchase_request.item.name }}
+                                    - @{{ lineItem.purchase_request.item.name }}
                                 </li>
                             </ul>
                         </td>
                         <td>
-                            @{{ purchaseOrder.total }}
+                            @{{ purchaseOrder.total | numberFormat }} Rp
                         </td>
                         <td class="text-center">
                             <span class="fa fa-check"
-                            v-if="purchaseOrder.approved"
+                            v-if="purchaseOrder.status =='approved'"
                             ></span>
                             <span class="fa fa-close"
-                                  v-else
+                                  v-if="purchaseOrder.status == 'rejected'"
+                            ></span>
+                            <span class="fa fa-warning"
+                                  v-if="purchaseOrder.status == 'pending'"
                             ></span>
                         </td>
                     </tr>

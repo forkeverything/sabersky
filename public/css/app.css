@@ -6117,11 +6117,13 @@ button.close {
 #purchase-orders-all #button-submit-purchase-order {
   margin: 0 0 30px; }
 
-#purchase-orders-all .fa {
+#purchase-orders-all table tbody tr td .fa {
   font-size: 18px; }
-  #purchase-orders-all .fa.fa-check {
+  #purchase-orders-all table tbody tr td .fa.fa-check {
     color: #2ECC71; }
-  #purchase-orders-all .fa.fa-close {
+  #purchase-orders-all table tbody tr td .fa.fa-warning {
+    color: #F39C12; }
+  #purchase-orders-all table tbody tr td .fa.fa-close {
     color: #E74C3C; }
 
 #add-line-item .filter-urgent {

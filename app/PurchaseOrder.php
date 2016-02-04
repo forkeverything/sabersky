@@ -81,7 +81,7 @@ class PurchaseOrder extends Model
     {
         foreach ($this->lineItems as $lineItem) {
             $lineItem->purchaseRequest->update([
-                'quantity' =>  $lineItem->purchaseRequest->quantity - $lineItem->quantity
+                'quantity' => $lineItem->purchaseRequest->quantity - $lineItem->quantity
             ]);
         }
     }
@@ -94,14 +94,23 @@ class PurchaseOrder extends Model
         foreach ($this->lineItems as $lineItem) {
             if ($lineItem->purchaseRequest->item->new) {
                 $this->new_item = true;
-            }
-            $itemMean = $lineItem->purchaseRequest->item->mean;
-            $meanDifference = ($lineItem->price - $itemMean) / $itemMean;
-            if ($meanDifference > $settings->item_md_max) {
-                dd('over');
+            }elseif($itemMean = $lineItem->purchaseRequest->item->mean){
+                $meanDifference = ($lineItem->price - $itemMean) / $itemMean;
+                if ($meanDifference > $settings->item_md_max) {
+                    $this->item_over_md = true;
+                }
             }
         }
         $this->new_vendor = $this->vendor->purchaseOrders->count() == 1;
+        if (!$this->over_high && !$this->over_med && !$this->item_over_md && !$this->new_item && !$this->new_vendor) {
+            $this->markApproved();
+        }
+    }
+
+    protected function markApproved()
+    {
+        $this->status = 'approved';
+        return $this;
     }
 
 }

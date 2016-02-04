@@ -78,17 +78,31 @@
     margin: 0 0 30px;
   }
 
+  table {
+    tbody{
+      tr {
+        td {
+          .fa {
+            font-size: 18px;
 
-  .fa {
-    font-size: 18px;
+            &.fa-check {
+              color:$green;
+            }
 
-    &.fa-check {
-      color:$green;
-    }
+            &.fa-warning {
+              color: $dark-yellow;
+            }
 
-    &.fa-close {
-      color: $red;
+            &.fa-close {
+              color: $red;
+            }
+          }
+
+        }
+      }
     }
   }
+
+
 
 }

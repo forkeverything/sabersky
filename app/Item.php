@@ -49,35 +49,28 @@ class Item extends Model
 
     public function getNewAttribute()
     {
-        return $this->lineItems->count() < 2;
+        return $this->approvedLineItems()->count() < 1;
     }
 
     public function getMeanAttribute()
     {
-//        $numOrdered = array_sum($this->lineItems()->where(function($query) {
-//            return true;
-//        })->pluck('quantity')->toArray());
-        $test = $this->lineItems()->join('purchase_orders', '')
-        return $test;
-
-
-        /*********
-         * NEED TO FIND THE RIGHT LINE ITEMS THAT AREN'T SUBMITTED YET
-         */
-
-
-
-
-
+        $numOrdered = array_sum($this->approvedLineItems()->pluck('quantity')->toArray());
 
         if ($numOrdered) {
             $sumOrderedValue = 0;
-            foreach ($this->lineItems->pluck('quantity', 'price') as $quantity => $price) {
+            foreach ($this->approvedLineItems()->pluck('quantity', 'price') as $quantity => $price) {
                 $sumOrderedValue += ($quantity * $price);
             }
-            $mean = $sumOrderedValue / $numOrdered;
-            return $mean;
+            return $sumOrderedValue / $numOrdered;
         }
         return null;
+    }
+
+    protected function approvedLineItems()
+    {
+        return $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
+            ->where('purchase_orders.submitted', 1)
+            ->where('purchase_orders.status', 'approved')
+            ->get(['line_items.*']);
     }
 }
