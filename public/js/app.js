@@ -52,7 +52,7 @@ new Vue({
                         window.location='/purchase_orders/submit';
                     },
                     error: function (res, status, error) {
-                        console.log(error);
+                        console.log(res);
                         self.canAjax = true;
                     }
                 });

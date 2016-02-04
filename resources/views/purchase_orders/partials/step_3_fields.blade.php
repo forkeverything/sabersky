@@ -59,7 +59,7 @@
                     </tbody>
                 </table>
             </div>
-            <span class="po-order-total"><span class="border">Order Total: {{ $existingPO->total }}</span></span>
+            <span class="po-order-total"><span class="border">Order Total: {{ number_format($existingPO->total) . ' Rp' }}</span></span>
         </div>
         <button class="btn btn-solid-green">Submit Purchase Order</button>
     @else

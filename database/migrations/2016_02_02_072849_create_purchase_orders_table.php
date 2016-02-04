@@ -18,10 +18,18 @@ class CreatePurchaseOrdersTable extends Migration
 
             $table->boolean('approved')->default(0);
             $table->boolean('submitted')->default(0);
+            $table->float('total', '15', 2)->default(0);
+            $table->boolean('over_high')->default(0);
+            $table->boolean('over_med')->default(0);
+            $table->boolean('item_over_md')->default(0);
+            $table->boolean('new_vendor')->default(0);
+            $table->boolean('new_item')->default(0);
+
 
             $table->integer('project_id')->unsigned();
             $table->integer('vendor_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
+
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('project_id')->references('id')->on('projects');

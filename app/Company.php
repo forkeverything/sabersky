@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $employees
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $vendors
  */
 class Company extends Model
 {

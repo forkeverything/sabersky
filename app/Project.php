@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $company_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $teamMembers
  * @property-read \App\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
  */
 class Project extends Model
 {

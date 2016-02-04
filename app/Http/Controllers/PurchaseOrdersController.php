@@ -91,6 +91,8 @@ class PurchaseOrdersController extends Controller
     public function saveLineItem(SaveLineItemRequest $request)
     {
         if ($request->ajax()) {
+            $this->existingPO->total += ($request->input('price') * $request->input('quantity'));
+            $this->existingPO->save();
             return $this->existingPO->lineItems()->create($request->all());
         }
         abort(403, 'Wrong way go back.');
@@ -99,6 +101,8 @@ class PurchaseOrdersController extends Controller
     public function removeLineItem(LineItem $lineItem)
     {
         if (Gate::allows('po_submit')) {
+            $this->existingPO->total -= ($lineItem->price * $lineItem->quantity);
+            $this->existingPO->save();
             $lineItem->delete();
             return redirect()->back();
         }
@@ -120,13 +124,7 @@ class PurchaseOrdersController extends Controller
     public function complete()
     {
         if (Gate::allows('po_submit')) {
-            foreach ($this->existingPO->lineItems as $lineItem) {
-                $lineItem->purchaseRequest->update([
-                    'quantity' =>  $lineItem->purchaseRequest->quantity - $lineItem->quantity
-                ]);
-            }
-            $this->existingPO->submitted = true;
-            $this->existingPO->save();
+            $this->existingPO->processSubmission();
             return redirect(route('showAllPurchaseOrders'));
         } else {
             abort(402, 'Forbidden Kingdom');
