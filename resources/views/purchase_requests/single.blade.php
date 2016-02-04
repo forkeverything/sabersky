@@ -40,6 +40,15 @@
                 </tbody>
             </table>
         </div>
-
+        @can('pr_make')
+        <form action="{{ route('cancelPurchaseRequest')}}" id="form-pr-cancel" method="POST">
+            {{ csrf_field() }}
+            <input type="hidden" value="{{ $purchaseRequest->id }}" name="purchase_request_id">
+            <!-- Submit -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger form-control">Cancel</button>
+            </div>
+        </form>
+        @endcan
     </div>
 @endsection

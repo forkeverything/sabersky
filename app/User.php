@@ -36,7 +36,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'invite_key'
+        'invite_key',
+        'company_id'
     ];
 
     /**

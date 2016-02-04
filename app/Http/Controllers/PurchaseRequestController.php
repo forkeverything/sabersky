@@ -69,6 +69,18 @@ class PurchaseRequestController extends Controller
         }
     }
 
+    public function cancel(Request $request)
+    {
+        if (Gate::allows('pr_make')) {
+            $purchaseRequest = PurchaseRequest::find($request->input('purchase_request_id'));
+            if (Auth::user()->company_id == $purchaseRequest->project->company_id) {
+                $purchaseRequest->state = 'cancelled';
+                $purchaseRequest->save();
+            }
+        }
+        return redirect(route('showAllPurchaseRequests'));
+    }
+
 
 
 }
