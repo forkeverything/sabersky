@@ -40,7 +40,7 @@
                         @endcan
                     </div>
                     <div class="row">
-                        @can('settings_view')
+                        @can('settings_change')
                         <div class="col-sm-4"><a class="dashboard-link" href="/settings">
                                 <i class="fa fa-gears icon-dashboard"></i>
                                 Settings

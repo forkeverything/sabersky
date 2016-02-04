@@ -13,8 +13,7 @@ class PermissionRoleTableSeeder extends Seeder
             'po_submit',
             'team_manage',
             'report_view',
-            'settings_view',
-            'settings_update'
+            'settings_change'
         ],
         'planner' => [
             'pr_make'

@@ -15,6 +15,7 @@ class PusakaSetupSeeder extends Seeder
     {
         DB::table('companies')->truncate();
         DB::table('users')->truncate();
+        DB::table('settings')->truncate();
 
         $company = Company::create([
             'name' => 'Pusaka Jaya',
@@ -42,5 +43,10 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         $user->projects()->save($project);
 
 
+        DB::table('settings')->insert([
+            'po_high_max' => 10000000,
+            'po_med_max' => 5000000,
+            'item_md_max' => 0.2
+        ]);
     }
 }

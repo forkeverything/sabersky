@@ -15,8 +15,7 @@ class PermissionsTableSeeder extends Seeder
         'buyer_manage' => 'Manage Buyers for a Team',
         'po_payments' => 'Handle Payments for Purchase Orders',
         'po_warehousing' => 'Handle Warehousing for Line Items',
-        'settings_view' => 'View System Settings',
-        'settings_update' => 'Update and Change System Settings'
+        'settings_change' => 'Change System Settings'
     ];
 
     /**
