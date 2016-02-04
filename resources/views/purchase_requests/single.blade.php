@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="purchase-request-single">
-        <a href="{{ route('showAllPurchaseRequests') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Back
+        <a href="{{ route('showAllPurchaseRequests') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Back
             to Purchase Requests</a>
         <div class="page-header">
             <div class="page-title">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="project-single-view">
-        <a href="{{ route('allProjects') }}" class="back-link"><i class="fa  fa-arrow-left fa-btn"></i>Projects</a>
+        <a href="{{ route('allProjects') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Projects</a>
        <div class="page-header">
            <h1 class="page-title">{{ $project->name }}</h1>
                @if($project->operational)

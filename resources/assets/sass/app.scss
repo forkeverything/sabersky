@@ -176,3 +176,11 @@ textarea {
 li.active {
   font-weight: bold;
 }
+
+@media print
+{
+  .no-print, .no-print *
+  {
+    display: none !important;
+  }
+}

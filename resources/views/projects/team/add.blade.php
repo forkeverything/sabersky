@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="projects-team-add">
-        <a href="{{ route('singleProject', $project->id) }}" class="back-link"><i
+        <a href="{{ route('singleProject', $project->id) }}" class="back-link no-print"><i
                     class="fa  fa-arrow-left fa-btn"></i>{{ $project->name }}</a>
         <div class="panel panel-default">
             <div class="panel-heading text-center"><strong>Add Team Member for {{ $project->name }}</strong></div>
