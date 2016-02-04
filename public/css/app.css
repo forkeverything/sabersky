@@ -6321,20 +6321,21 @@ textarea {
       font-weight: bold;
       color: #000; }
 
+table thead th {
+  white-space: nowrap; }
+
 .table-sort {
   border-top: 2px solid #ddd; }
-  .table-sort thead th {
-    white-space: nowrap; }
-    .table-sort thead th.active {
-      background-color: #fff !important; }
-    .table-sort thead th.active.asc:before {
-      content: "\f0d8";
-      font-family: 'FontAwesome';
-      margin-right: 5px; }
-    .table-sort thead th.active.desc:before {
-      content: "\f0d7";
-      font-family: 'FontAwesome';
-      margin-right: 5px; }
+  .table-sort thead th.active {
+    background-color: #fff !important; }
+  .table-sort thead th.active.asc:before {
+    content: "\f0d8";
+    font-family: 'FontAwesome';
+    margin-right: 5px; }
+  .table-sort thead th.active.desc:before {
+    content: "\f0d7";
+    font-family: 'FontAwesome';
+    margin-right: 5px; }
   .table-sort tbody tr {
     cursor: pointer; }
     .table-sort tbody tr.urgent {

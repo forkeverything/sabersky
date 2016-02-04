@@ -139,12 +139,18 @@ textarea {
   }
 }
 
+table {
+  thead {
+    th {
+      white-space: nowrap;
+    }
+  }
+}
 .table-sort {
   border-top: 2px solid #ddd;
 
   thead {
     th {
-      white-space: nowrap;
       &.active {
         background-color: #fff!important;
       }

@@ -51,7 +51,6 @@
                 <li>{{ $purchaseOrder->user->name }}</li>
             </ul>
         </div>
-        <div class="table-responsive">
             <h5>Order Items</h5>
             <!-- Single PO Table -->
             <table class="table table-bordered">
@@ -64,6 +63,10 @@
                     <th>Subtotal</th>
                     <th>Payable</th>
                     <th>Delivery</th>
+                    <th>Due</th>
+                    <th>Requested by</th>
+                    <th>Paid</th>
+                    <th>Delivered</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,18 +79,40 @@
                         <td>{{ $lineItem->quantity * $lineItem->price }}</td>
                         <td>{{ $lineItem->payable->format('d M Y') }}</td>
                         <td>{{ $lineItem->delivery->format('d M Y') }}</td>
+                        <td>{{ $lineItem->purchaseRequest->due->format('d M Y') }}</td>
+                        <td>{{ $lineItem->purchaseRequest->user->name }}</td>
+                        <td class="text-center">
+                            @if($lineItem->paid)
+                                <i class="fa fa-check"></i>
+                            @else
+                                @can('po_payments')
+                                    <form action="{{ route('markLineItemPaid')}}" id="form-mark-line-item-paid" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" value="{{ $lineItem->id }}" name="line_item_id">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary form-control">Mark Paid</button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <i class="fa fa-close"></i>
+                                @endcan
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if($lineItem->delivered)
+                                <i class="fa fa-check"></i>
+                            @else
+                                <i class="fa fa-close"></i>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
         <div class="order-summary">
             <div class="second-border">
                 <p class="total"><strong>Order Total {{ number_format($purchaseOrder->total) }} Rp</strong></p>
             </div>
-        </div>
-        <div class="pr-serviced">
-
         </div>
     </div>
 @endsection
