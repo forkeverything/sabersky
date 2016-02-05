@@ -15,7 +15,7 @@
             <ul class="list-unstyled list-inline">
                 <li
                         v-for="status in statuses"
-                        class="unselectable"
+                        class="clickable"
                 @click="changeFilter(status.key)"
                 :class="{
                             'active': filter == status.key
@@ -24,7 +24,7 @@
                 @{{ status.label }}
                 </li>
             </ul>
-            <span class="filter-urgent unselectable"
+            <span class="filter-urgent clickable"
             @click="toggleUrgent"
             :class="{ 'active': urgent}"
             >
@@ -38,7 +38,7 @@
                     <template v-for="heading in headings">
                         <th v-if="heading[0] !== ''"
                         @click="changeSort(heading[0])"
-                        class="unselectable"
+                        class="clickable"
                         :class="{
                                 'active': field == heading[0],
                                 'asc' : order == '',

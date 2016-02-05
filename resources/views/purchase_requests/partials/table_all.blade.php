@@ -6,7 +6,7 @@
                 <th
                     v-if="heading[0] !== 'specification'"
                 @click="changeSort(heading[0])"
-                class="unselectable"
+                class="clickable"
                 :class="{
                             'active': field == heading[0],
                             'asc' : order == '',
@@ -25,7 +25,7 @@
         <template v-for="purchaseRequest in purchaseRequests | orderBy field order | filterBy urgent in 'urgent'">
             <tr
                 @click="loadSinglePR(purchaseRequest.id)"
-                class="unselectable"
+                class="clickable"
                 :class="{
                 'urgent': purchaseRequest.urgent,
                 'completed': purchaseRequest.quantity == 0,

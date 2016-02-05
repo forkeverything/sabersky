@@ -14,7 +14,7 @@
         @endcan
         <div class="purchase-request-filters table-filters">
             <ul class="list-unstyled list-inline">
-                <li class="unselectable"
+                <li class="clickable"
                     @click="changeFilter('')"
                     :class="{
                         'active': filter !== 'complete' && filter !== 'cancelled'
@@ -22,7 +22,7 @@
                 >
                 Open
                 </li>
-                <li class="unselectable"
+                <li class="clickable"
                     :class="{
                         'active': filter == 'complete'
                     }"
@@ -30,7 +30,7 @@
                 >
                 Complete
                 </li>
-                <li class="unselectable"
+                <li class="clickable"
                     :class="{
                         'active': filter == 'cancelled'
                     }"
@@ -39,7 +39,7 @@
                 Cancelled
                 </li>
             </ul>
-            <span class="filter-urgent unselectable"
+            <span class="filter-urgent clickable"
             @click="toggleUrgent"
             :class="{ 'active': urgent}"
             >

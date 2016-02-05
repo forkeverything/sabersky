@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="purchase-order-single">
+        <a href="{{ route('showAllPurchaseOrders') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Back
+            to Purchase Orders</a>
         <div class="po-single-status">
             <h2 class="{{ $purchaseOrder->status }}">{{ $purchaseOrder->status }}</h2>
             @if($purchaseOrder->status == 'pending')

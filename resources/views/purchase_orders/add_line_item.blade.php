@@ -28,7 +28,7 @@
              v-show="! selectedPurchaseRequest"
         >
             <h5>Select Purchase Request to Order</h5>
-            <span class="filter-urgent unselectable"
+            <span class="filter-urgent clickable"
                 @click="toggleUrgent"
                 :class="{ 'active': urgent}"
             >
@@ -38,7 +38,7 @@
                 <tr>
                     <th
                     @click="changeSort('due')"
-                    class="unselectable"
+                    class="clickable"
                     :class="{
                         'active': field == 'due',
                         'asc' : order == '',
@@ -49,7 +49,7 @@
                     </th>
                     <th
                     @click="changeSort('item.name')"
-                    class="unselectable"
+                    class="clickable"
                     :class="{
                         'active': field == 'item.name',
                         'asc' : order == '',
@@ -62,7 +62,7 @@
                     </th>
                     <th
                     @click="changeSort('quantity')"
-                    class="unselectable"
+                    class="clickable"
                     :class="{
                         'active': field == 'quantity',
                         'asc' : order == '',
@@ -72,7 +72,7 @@
                     </th>
                     <th
                     @click="changeSort('user.name')"
-                    class="unselectable"
+                    class="clickable"
                     :class="{
                         'active': field == 'user.name',
                         'asc' : order == '',
@@ -82,7 +82,7 @@
                     </th>
                     <th
                     @click="changeSort('created_at')"
-                    class="unselectable"
+                    class="clickable"
                     :class="{
                         'active': field == 'created_at',
                         'asc' : order == '',
@@ -95,7 +95,7 @@
                 <tbody>
                 <template v-for="purchaseRequest in purchaseRequests | orderBy field order | filterBy urgent in 'urgent'">
                     <tr @click="selectPurchaseRequest(purchaseRequest)"
-                    class="unselectable"
+                    class="clickable"
                     :class="{'urgent': purchaseRequest.urgent}"
                     >
                     <td>

@@ -30,6 +30,12 @@ class Vendor extends Model
         'company_id'
     ];
 
+    protected $appends = [
+        'numberPO',
+        'averagePO',
+        'contactedBy'
+    ];
+
     /**
      * A vendor / Supplier can service many
      * Purchase Orders.
@@ -39,5 +45,34 @@ class Vendor extends Model
     public function purchaseOrders()
     {
         return $this->hasMany(PurchaseOrder::class);
+    }
+
+    public function getNumberPOAttribute()
+    {
+        return $this->purchaseOrders()->count();
+    }
+
+    public function getAveragePOAttribute()
+    {
+        $numPO = $this->getNumberPOAttribute();
+        $sumPO = 0;
+        foreach ($this->purchaseOrders as $purchaseOrder) {
+            $sumPO += $purchaseOrder->total;
+        }
+        return ($numPO) ?  $sumPO / $numPO : 0;
+    }
+
+    public function getContactedByAttribute()
+    {
+        $contactedBy = [];
+        $userIds = $this->purchaseOrders()->groupBy('user_id')->pluck('user_id');
+        foreach ($userIds as $userId) {
+            array_push($contactedBy, User::find($userId)->name);
+        }
+        if ($contactedBy) {
+            return implode(', ', $contactedBy);
+        } else {
+            return 'N/A';
+        }
     }
 }
