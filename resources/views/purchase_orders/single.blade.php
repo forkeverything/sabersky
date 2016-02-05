@@ -84,7 +84,7 @@
                         <td class="text-center">
                             @if($lineItem->paid)
                                 <i class="fa fa-check"></i>
-                            @else
+                            @elseif($lineItem->purchaseOrder->status == 'approved')
                                 @can('po_payments')
                                     <form action="{{ route('markLineItemPaid')}}" id="form-mark-line-item-paid" method="POST">
                                         {{ csrf_field() }}
@@ -96,14 +96,28 @@
                                 @else
                                     <i class="fa fa-close"></i>
                                 @endcan
+                            @else
+                                    <i class="fa fa-close"></i>
                             @endif
                         </td>
                         <td class="text-center">
                             @if($lineItem->delivered)
                                 <i class="fa fa-check"></i>
+                            @elseif($lineItem->purchaseOrder->status == 'approved')
+                                @can('po_warehousing')
+                                <form action="{{ route('markLineItemDelivered')}}" id="form-mark-line-item-delivered" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" value="{{ $lineItem->id }}" name="line_item_id">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary form-control">Mark Delivered</button>
+                                    </div>
+                                </form>
                             @else
                                 <i class="fa fa-close"></i>
-                            @endif
+                                @endcan
+                                @else
+                                    <i class="fa fa-close"></i>
+                                @endif
                         </td>
                     </tr>
                 @endforeach

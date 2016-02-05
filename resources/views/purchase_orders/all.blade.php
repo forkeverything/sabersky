@@ -16,12 +16,12 @@
                 <li
                         v-for="status in statuses"
                         class="unselectable"
-                        @click="changeFilter(status.key)"
-                        :class="{
+                @click="changeFilter(status.key)"
+                :class="{
                             'active': filter == status.key
                         }"
                 >
-                    @{{ status.label }}
+                @{{ status.label }}
                 </li>
             </ul>
             <span class="filter-urgent unselectable"
@@ -57,27 +57,27 @@
                 <tbody>
                 <template v-for="purchaseOrder in purchaseOrders | orderBy field order | filterBy filter in 'status'">
                     <tr
-                        :class="{
+                            :class="{
                             'urgent': checkUrgent(purchaseOrder)
                         }"
-                        v-show="! urgent || checkUrgent(purchaseOrder)"
-                        @click="loadSinglePO(purchaseOrder.id)"
+                            v-show="! urgent || checkUrgent(purchaseOrder)"
+                    @click="loadSinglePO(purchaseOrder.id)"
                     >
-                        <td>@{{ purchaseOrder.created_at | easyDate}}</td>
-                        <td>@{{ purchaseOrder.project.name }}</td>
-                        <td>
-                            <ul class="po-item-list list-unstyled">
-                                <li v-for="lineItem in purchaseOrder.line_items">
-                                    - @{{ lineItem.purchase_request.item.name }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            @{{ purchaseOrder.total | numberFormat }} Rp
-                        </td>
-                        <td class="text-center">
+                    <td>@{{ purchaseOrder.created_at | easyDate}}</td>
+                    <td>@{{ purchaseOrder.project.name }}</td>
+                    <td>
+                        <ul class="po-item-list list-unstyled">
+                            <li v-for="lineItem in purchaseOrder.line_items">
+                                - @{{ lineItem.purchase_request.item.name }}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        @{{ purchaseOrder.total | numberFormat }} Rp
+                    </td>
+                    <td class="text-center">
                             <span class="fa fa-check"
-                            v-if="purchaseOrder.status =='approved'"
+                                  v-if="purchaseOrder.status =='approved'"
                             ></span>
                             <span class="fa fa-close"
                                   v-if="purchaseOrder.status == 'rejected'"
@@ -85,7 +85,23 @@
                             <span class="fa fa-warning"
                                   v-if="purchaseOrder.status == 'pending'"
                             ></span>
-                        </td>
+                    </td>
+                    <td class="text-center">
+                            <span class="fa fa-check"
+                                  v-if="checkProperty(purchaseOrder, 'paid')"
+                            ></span>
+                            <span class="fa fa-close"
+                                  v-else
+                            ></span>
+                    </td>
+                    <td class="text-center">
+                            <span class="fa fa-check"
+                                  v-if="checkProperty(purchaseOrder, 'delivered')"
+                            ></span>
+                            <span class="fa fa-close"
+                                  v-else
+                            ></span>
+                    </td>
                     </tr>
                 </template>
                 </tbody>

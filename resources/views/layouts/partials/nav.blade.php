@@ -19,8 +19,8 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/dashboard') }}"><i class="fa fa-btn  fa-power-off"></i>Dashboard</a></li>
                 <li><a href="{{ url('/desk') }}"><i class="fa fa-btn  fa-pencil"></i>Desk</a></li>
+                <li><a href="{{ url('/dashboard') }}"><i class="fa fa-btn  fa-power-off"></i>Dashboard</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

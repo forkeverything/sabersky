@@ -160,4 +160,15 @@ class PurchaseOrdersController extends Controller
         return redirect()->back();
     }
 
+    public function markDelivered(Request $request)
+    {
+        $id = $request->input('line_item_id');
+        $lineItem = LineItem::find($id);
+        if(Gate::allows('po_warehousing') && Auth::user()->company_id == $lineItem->purchaseRequest->project->company_id){
+            $lineItem->delivered = true;
+            $lineItem->save();
+        }
+        return redirect()->back();
+    }
+
 }

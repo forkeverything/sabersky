@@ -71,6 +71,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder' , 'uses' => 'PurchaseOrdersController@approve']);
     Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder' , 'uses' => 'PurchaseOrdersController@reject']);
     Route::post('/purchase_orders/line_item/paid', ['as' => 'markLineItemPaid', 'uses' => 'PurchaseOrdersController@markPaid']);
+    Route::post('/purchase_orders/line_item/delivered', ['as' => 'markLineItemDelivered', 'uses' => 'PurchaseOrdersController@markDelivered']);
 
     Route::get('/settings', 'SettingsController@show');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);

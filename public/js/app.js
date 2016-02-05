@@ -157,7 +157,9 @@ new Vue({
             ['project.name', 'Project'],
             ['', 'Item(s)'],
             ['total', 'OrderTotal'],
-            ['', 'Status']
+            ['', 'Status'],
+            ['', 'Paid'],
+            ['', 'Delivered']
         ],
         statuses: [
             {
@@ -223,6 +225,16 @@ new Vue({
         },
         loadSinglePO: function(POID) {
             window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function(purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty ++ : '';
+            });
+            if(numLineItems == numTrueForProperty) {
+                return true;
+            }
         }
     }
 });
