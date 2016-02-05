@@ -8,6 +8,7 @@
 @import "pages/purchase-requests";
 @import "pages/purchase-orders";
 @import "pages/line-items";
+@import "pages/vendors";
 
 body {
   font-family: 'helvetica';
@@ -145,6 +146,12 @@ table {
       white-space: nowrap;
     }
   }
+
+  tbody {
+    td.icon {
+      text-align:  center;
+    }
+  }
 }
 .table-sort {
   border-top: 2px solid #ddd;
@@ -190,3 +197,4 @@ li.active {
     display: none !important;
   }
 }
+

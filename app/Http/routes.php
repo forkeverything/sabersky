@@ -39,6 +39,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'PagesController@showDashboard']);
     Route::get('/company', 'CompanyController@registerCompany');
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
+    Route::get('/desk', ['as' => 'desk', 'uses' => 'PagesController@showDesk']);
 
     /**
      * Project - Main

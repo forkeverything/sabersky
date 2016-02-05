@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
+    <div class="container" id="vendors-all">
         <div class="page-header">
             <h1 class="page-title">Vendors</h1>
         </div>
         <p class="page-intro">Overview of all vendors, past purchases from the vendors and other relevant
             statistics.</p>
-        <div class="table-response">
+        <div class="table-responsive">
             <!-- Vendors Table Table -->
             <table class="table table-hover">
                 <thead>
@@ -39,13 +39,14 @@
                         <h3 class="modal-title" id="myModalLabel">{{ $vendor->name }}</h3>
                     </div>
                     <div class="modal-body">
+                        <h5>Contact Details</h5>
                         <p class="contact-details">
                             <strong>Phone: </strong>{{ $vendor->phone }}
                             <br>
                             <strong>Address: </strong>{{ $vendor->address }}
                         </p>
-                        <hr>
                         <div class="vendor_stats">
+                            <h5>Overview</h5>
                             <div class="table-responsive">
                                 <!-- Vendor Stat Table Table -->
                                 <table class="table table-bordered">
@@ -65,6 +66,57 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="vendor-past-pos table-responsive">
+                            <h5>Past Purchase Orders</h5>
+                            <!--  Table -->
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Submitted On</th>
+                                        <th>Total</th>
+                                        @can('report_view')
+                                        <th>New Item</th>
+                                        <th>Over High</th>
+                                        <th>Over Med</th>
+                                        @endcan
+                                    <tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($vendor->purchaseOrders as $purchaseOrder)
+                                        <tr>
+                                            <td>{{ $purchaseOrder->project->name }}</td>
+                                            <td>{{ $purchaseOrder->created_at->format ('d M Y') }}</td>
+                                            <td>{{ $purchaseOrder->total }}</td>
+                                            @can('report_view')
+                                            <td class="icon">
+                                                @if($purchaseOrder->new_item)
+                                                    <i class="fa fa-check"></i>
+                                                    @else
+                                                <i class="fa fa-close"></i>
+                                                    @endif
+                                            </td>
+                                            <td class="icon">
+                                                @if($purchaseOrder->over_high)
+                                                    <i class="fa fa-check"></i>
+                                                @else
+                                                    <i class="fa fa-close"></i>
+                                                @endif
+                                            </td>
+                                            <td class="icon">
+                                                @if($purchaseOrder->over_med)
+                                                    <i class="fa fa-check"></i>
+                                                @else
+                                                    <i class="fa fa-close"></i>
+                                                @endif
+                                            </td>
+                                            @endcan
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                     <div class="modal-footer">
