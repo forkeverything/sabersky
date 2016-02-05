@@ -69,54 +69,57 @@
                         </div>
                         <div class="vendor-past-pos table-responsive">
                             <h5>Past Purchase Orders</h5>
-                            <!--  Table -->
+                            @if($vendor->purchaseOrders()->first())
+                                    <!--  Table -->
                             <table class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Submitted On</th>
-                                        <th>Total</th>
-                                        @can('report_view')
-                                        <th>New Item</th>
-                                        <th>Over High</th>
-                                        <th>Over Med</th>
-                                        @endcan
-                                    <tr>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Submitted On</th>
+                                    <th>Total</th>
+                                    @can('report_view')
+                                    <th>New Item</th>
+                                    <th>Over High</th>
+                                    <th>Over Med</th>
+                                @endcan
+                                <tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($vendor->purchaseOrders as $purchaseOrder)
-                                        <tr>
-                                            <td>{{ $purchaseOrder->project->name }}</td>
-                                            <td>{{ $purchaseOrder->created_at->format ('d M Y') }}</td>
-                                            <td>{{ $purchaseOrder->total }}</td>
-                                            @can('report_view')
-                                            <td class="icon">
-                                                @if($purchaseOrder->new_item)
-                                                    <i class="fa fa-check"></i>
-                                                    @else
+                                @foreach($vendor->purchaseOrders as $purchaseOrder)
+                                    <tr>
+                                        <td>{{ $purchaseOrder->project->name }}</td>
+                                        <td>{{ $purchaseOrder->created_at->format ('d M Y') }}</td>
+                                        <td>{{ $purchaseOrder->total }}</td>
+                                        @can('report_view')
+                                        <td class="icon">
+                                            @if($purchaseOrder->new_item)
+                                                <i class="fa fa-check"></i>
+                                            @else
                                                 <i class="fa fa-close"></i>
-                                                    @endif
-                                            </td>
-                                            <td class="icon">
-                                                @if($purchaseOrder->over_high)
-                                                    <i class="fa fa-check"></i>
-                                                @else
-                                                    <i class="fa fa-close"></i>
-                                                @endif
-                                            </td>
-                                            <td class="icon">
-                                                @if($purchaseOrder->over_med)
-                                                    <i class="fa fa-check"></i>
-                                                @else
-                                                    <i class="fa fa-close"></i>
-                                                @endif
-                                            </td>
-                                            @endcan
-                                        </tr>
-                                    @endforeach
+                                            @endif
+                                        </td>
+                                        <td class="icon">
+                                            @if($purchaseOrder->over_high)
+                                                <i class="fa fa-check"></i>
+                                            @else
+                                                <i class="fa fa-close"></i>
+                                            @endif
+                                        </td>
+                                        <td class="icon">
+                                            @if($purchaseOrder->over_med)
+                                                <i class="fa fa-check"></i>
+                                            @else
+                                                <i class="fa fa-close"></i>
+                                            @endif
+                                        </td>
+                                        @endcan
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
-
+                            @else
+                                <p class="text-center">No P/O's have been submitted for this vendor</p>
+                            @endif
                         </div>
                     </div>
                     <div class="modal-footer">
