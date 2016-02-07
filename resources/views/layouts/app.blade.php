@@ -32,5 +32,6 @@
         });
     </script>
     <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+    @include('flash')
 </body>
 </html>
