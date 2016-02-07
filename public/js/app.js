@@ -94,151 +94,164 @@ $(document).ready(function () {
     });
 });
 
-new Vue({
-    el: '#purchase-orders-submit',
-    data: {
-        vendorType: '',
-        vendor_id: 'Choose an existing vendor',
-        name: '',
-        phone: '',
-        address: '',
-        bank_account_name: '',
-        bank_account_number: '',
-        bank_name: '',
-        canAjax: true
-    },
-    computed: {
-        readyStep3: function () {
-            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
-        }
-    },
-    methods: {
-        selectVendor: function (type) {
-            this.vendor_id = 'Choose an existing vendor';
-            this.name = '';
-            this.phone = '';
-            this.address = '';
-            this.bank_account_name = '';
-            this.bank_account_number = '';
-            this.bank_name = '';
-            this.vendorType = type;
-        },
-        removeLineItem: function (lineItemId) {
-            console.log('hehehe');
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/remove_line_item/' + lineItemId,
-                    method: 'POST',
-                    data: {},
-                    success: function (data) {
-                        console.log('success');
-                        4
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(error);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        }
-    }
-});
+$(document).ready(function () {
 
-new Vue({
-    name: 'allPurchaseOrders',
-    el: '#purchase-orders-all',
-    data: {
-        purchaseOrders: [],
-        headings: [
-            ['created_at', 'Date Submitted'],
-            ['project.name', 'Project'],
-            ['', 'Item(s)'],
-            ['total', 'OrderTotal'],
-            ['', 'Status'],
-            ['', 'Paid'],
-            ['', 'Delivered']
-        ],
-        statuses: [
-            {
-                key: 'pending',
-                label: 'Pending'
-            },
-            {
-                key: 'approved',
-                label: 'Approved'
-            },
-            {
-                key: 'rejected',
-                label: 'Rejected'
-            },
-            {
-                key: '',
-                label: 'All'
-            }
-        ],
-        field: '',
-        order: '',
-        urgent: '',
-        filter: 'pending'
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
-    methods: {
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
+    /**
+     * PO - SUBMIT
+     */
+    new Vue({
+        el: '#purchase-orders-submit',
+        data: {
+            vendorType: '',
+            vendor_id: 'Choose an existing vendor',
+            name: '',
+            phone: '',
+            address: '',
+            bank_account_name: '',
+            bank_account_number: '',
+            bank_name: '',
+            canAjax: true
+        },
+        computed: {
+            readyStep3: function () {
+                return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
             }
         },
-        checkUrgent: function(purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if(item.purchase_request.urgent) {
-                    urgent = true;
+        methods: {
+            selectVendor: function (type) {
+                this.vendor_id = 'Choose an existing vendor';
+                this.name = '';
+                this.phone = '';
+                this.address = '';
+                this.bank_account_name = '';
+                this.bank_account_number = '';
+                this.bank_name = '';
+                this.vendorType = type;
+            },
+            removeLineItem: function (lineItemId) {
+                console.log('hehehe');
+                var self = this;
+                if (self.canAjax) {
+                    self.canAjax = false;
+                    $.ajax({
+                        url: '/purchase_orders/remove_line_item/' + lineItemId,
+                        method: 'POST',
+                        data: {},
+                        success: function (data) {
+                            console.log('success');
+                            window.location = '/purchase_orders/submit';
+                        },
+                        error: function (res, status, error) {
+                            console.log(error);
+                            self.canAjax = true;
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+
+    /**
+     * PO - VIEW ALL
+     */
+    new Vue({
+        name: 'allPurchaseOrders',
+        el: '#purchase-orders-all',
+        data: {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        },
+        ready: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/purchase_orders',
+                method: 'GET',
+                success: function (data) {
+                    self.purchaseOrders = data;
+                },
+                error: function (data) {
+                    console.log(data);
                 }
             });
-            return urgent;
         },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function(POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function(purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty ++ : '';
-            });
-            if(numLineItems == numTrueForProperty) {
-                return true;
+        methods: {
+            changeSort: function ($newField) {
+                if (this.field == $newField) {
+                    this.order = (this.order == '') ? -1 : '';
+                } else {
+                    this.field = $newField;
+                    this.order = ''
+                }
+            },
+            checkUrgent: function (purchaseOrder) {
+                // takes a purchaseOrder and sees
+                // if there are any PR's with urgent tags
+                var urgent = false;
+                _.forEach(purchaseOrder.line_items, function (item) {
+                    if (item.purchase_request.urgent) {
+                        urgent = true;
+                    }
+                });
+                return urgent;
+            },
+            changeFilter: function (filter) {
+                this.filter = filter;
+            },
+            toggleUrgent: function () {
+                this.urgent = (this.urgent) ? '' : 1;
+            },
+            loadSinglePO: function (POID) {
+                window.document.location = '/purchase_orders/single/' + POID;
+            },
+            checkProperty: function (purchaseOrder, property) {
+                var numLineItems = purchaseOrder.line_items.length;
+                var numTrueForProperty = 0;
+                _.forEach(purchaseOrder.line_items, function (item) {
+                    item[property] ? numTrueForProperty++ : '';
+                });
+                if (numLineItems == numTrueForProperty) {
+                    return true;
+                }
             }
         }
-    }
+    });
 });
 $(document).ready(function () {
+
+    /**
+     * PR - VIEW ALL
+     */
     new Vue({
         name: 'allPurchaseRequests',
         el: '#purchase-requests-all',
@@ -312,6 +325,55 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    new Vue({
+        name: 'Settings',
+        el: '#system-settings',
+        data: {
+            settings: [],
+            ajaxReady: true
+        },
+        ready: function() {
+            var self = this;
+            $.ajax({
+                url: '/api/settings',
+                method: 'GET',
+                success: function(data) {
+                    self.settings = data;
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        },
+        methods: {
+            saveSettings: function() {
+                var self = this;
+                if(self.ajaxReady) {
+                    self.ajaxReady = false;
+                    $.ajax({
+                        url: '/settings',
+                        method: 'POST',
+                        data: self.settings,
+                        success: function (data) {
+                            console.log('Successfully saved settings');
+                            self.ajaxReady = true;
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            self.ajaxReady = true;
+                        }
+                    });
+                }
+            }
+        },
+        computed: {
+            saveButtonText: function() {
+                return this.ajaxReady ? 'Save Settings' : 'Saving...';
+            }
+        }
+    });
+});
 Vue.filter('date', function (value) {
     if (value !== '0000-00-00 00:00:00') {
         return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
@@ -344,15 +406,23 @@ Vue.filter('numberFormat', function (val) {
 
 Vue.filter('numberModel', {
     read: function (val) {
-        //Seperates the components of the number
-        var n = val.toString().split(".");
-        //Comma-fies the first part
-        n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        //Combines the two sections
-        return n.join(".");
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
     },
-    write: function (val, oldVal) {
-        return val;
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        return parseInt(val.replace(/[^0-9.]/g, ""))
     }
 });
 
@@ -365,6 +435,18 @@ Vue.filter('limitString', function (val, limit) {
 
     return val;
 });
+
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        return val / 100;
+    }
+});
+
+
+
 
 
 

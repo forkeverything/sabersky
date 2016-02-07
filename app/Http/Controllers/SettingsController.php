@@ -12,13 +12,25 @@ use Illuminate\Support\Facades\Gate;
 
 class SettingsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
     public function show()
     {
         if (Gate::allows('settings_change')) {
-            $settings = (object)\DB::table('settings')->first();
-            return view('settings.show', compact('settings'));
+            return view('settings.show');
         }
         return redirect('/dashboard');
+    }
+
+    public function apiShow(Request $request)
+    {
+        if (Gate::allows('settings_change') && $request->ajax()) {
+            return (array)\DB::table('settings')->first();
+        }
+        abort(403, 'You shall not pass.');
     }
 
     public function save(SaveSettingsRequest $request)
@@ -30,7 +42,7 @@ class SettingsController extends Controller
         ]);
 
         // flash settings saved
-        return redirect()->back();
+        return response('Succesfull updated settings!', 200);
     }
 
 }

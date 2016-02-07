@@ -95,6 +95,7 @@ Route::group(['middleware' => 'web'], function () {
      * Settings
      */
     Route::get('/settings', 'SettingsController@show');
+    Route::get('/api/settings', 'SettingsController@apiShow');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
 
     /**

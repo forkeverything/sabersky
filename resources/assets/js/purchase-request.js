@@ -1,4 +1,8 @@
 $(document).ready(function () {
+
+    /**
+     * PR - VIEW ALL
+     */
     new Vue({
         name: 'allPurchaseRequests',
         el: '#purchase-requests-all',
