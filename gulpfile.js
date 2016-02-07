@@ -1,4 +1,4 @@
-var elixir = require('laravel-elixir');
+1var elixir = require('laravel-elixir');
 
 /*
  |--------------------------------------------------------------------------
@@ -19,7 +19,8 @@ elixir(function(mix) {
         '../../../public/css/app.css',
         // Packages
         'font-awesome/css/font-awesome.min.css',
-        'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'
+        'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
+        'animate.css/animate.min.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -31,7 +32,8 @@ elixir(function(mix) {
         'lodash/lodash.js',
         'moment/min/moment-with-locales.min.js',
         'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
-        'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js'
+        'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
+        'noty/js/noty/packaged/jquery.noty.packaged.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
     mix.scriptsIn('resources/assets/js', 'public/js/app.js');
