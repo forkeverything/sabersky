@@ -41,6 +41,15 @@ class Flash
     }
 
     /**
+     * Flash error message
+     * @param $message
+     */
+    public function error($message)
+    {
+        $this->create($message, 'error');
+    }
+
+    /**
      * Flash success message
      * @param $message
      */

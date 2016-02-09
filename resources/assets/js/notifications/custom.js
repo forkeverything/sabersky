@@ -139,7 +139,6 @@ $.noty.themes.customTheme = {
                 this.$bar.css({
                     backgroundColor: '#E74C3C', borderColor: '#C0392B', color: '#FFFFFF'
                 });
-                this.$message.css({fontWeight: 'bold'});
                 this.$buttons.css({borderTop: '1px solid darkred'});
                 break;
             case 'information':

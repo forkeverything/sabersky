@@ -19,6 +19,7 @@ class UsersController extends Controller
             return view('auth.accept', compact('user'));
         };
         // TODO:::Flash error key not valid, please re-send
+        flash()->error('Error: Could not accept invitation');
         return redirect('/');
     }
 
@@ -31,11 +32,11 @@ class UsersController extends Controller
                 'password' => bcrypt($request->input('password')),
                 'invite_key' => ''
             ]);
-            // TODO:::Flash success on joining team.
+            flash()->success('Welcome, you have succesfully joined the team!');
             Auth::login($user);
             return redirect(route('singleProject', $user->projects()->first()->id));
         }
-        // TODO:::Flash error, something went wrong, please ask someone to resend invitation.
+        flash()->error('Oops! please resent invitation');
         return redirect('/');
     }
 

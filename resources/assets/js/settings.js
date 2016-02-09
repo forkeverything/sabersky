@@ -31,6 +31,7 @@ $(document).ready(function () {
                         success: function (data) {
                             console.log('Successfully saved settings');
                             self.ajaxReady = true;
+                            flashNotify('success', 'Successfully updated settings')
                         },
                         error: function (err) {
                             console.log(err);

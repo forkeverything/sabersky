@@ -358,6 +358,7 @@ $(document).ready(function () {
                         success: function (data) {
                             console.log('Successfully saved settings');
                             self.ajaxReady = true;
+                            flashNotify('success', 'Successfully updated settings')
                         },
                         error: function (err) {
                             console.log(err);
@@ -515,7 +516,6 @@ $.noty.themes.customTheme = {
                 this.$bar.css({
                     backgroundColor: '#E74C3C', borderColor: '#C0392B', color: '#FFFFFF'
                 });
-                this.$message.css({fontWeight: 'bold'});
                 this.$buttons.css({borderTop: '1px solid darkred'});
                 break;
             case 'information':
