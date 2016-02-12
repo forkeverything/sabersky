@@ -2,16 +2,17 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\PurchaseRequest
  *
  * @property integer $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property integer $quantity
- * @property \Carbon\Carbon $due
+ * @property Carbon $due
  * @property string $state
  * @property boolean $urgent
  * @property integer $item_id
@@ -61,6 +62,11 @@ class PurchaseRequest extends Model
     public function lineItems()
     {
         return $this->hasMany(LineItem::class);
+    }
+
+    public function setDueAttribute($value)
+    {
+        $this->attributes['due'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
 

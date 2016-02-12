@@ -20,7 +20,9 @@ elixir(function(mix) {
         // Packages
         'font-awesome/css/font-awesome.min.css',
         'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
-        'animate.css/animate.min.css'
+        'animate.css/animate.min.css',
+        'selectize/dist/css/selectize.css',
+        'selectize/dist/css/selectize.bootstrap3.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -34,8 +36,10 @@ elixir(function(mix) {
         'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
         'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
         'noty/js/noty/packaged/jquery.noty.packaged.min.js',
+        'selectize/dist/js/standalone/selectize.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
+    mix.scriptsIn('resources/assets/js/vue', 'public/js/dependencies.js');
     mix.scriptsIn('resources/assets/js', 'public/js/app.js');
 
     mix.browserSync({proxy: 'pusakagroup.app'});

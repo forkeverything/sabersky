@@ -47,7 +47,11 @@
                         >
                         @{{ heading[1] }}
                         </th>
-                        <th v-else>
+                        <th v-else
+                            :class="{
+                                'text-center': (heading[1] == 'Status' || heading[1] == 'Paid' || heading[1] == 'Delivered')
+                            }"
+                        >
                             @{{ heading[1] }}
                         </th>
                     </template>
@@ -68,7 +72,7 @@
                     <td>
                         <ul class="po-item-list list-unstyled">
                             <li v-for="lineItem in purchaseOrder.line_items">
-                                - @{{ lineItem.purchase_request.item.name }}
+                                @{{ lineItem.purchase_request.item.name }}
                             </li>
                         </ul>
                     </td>

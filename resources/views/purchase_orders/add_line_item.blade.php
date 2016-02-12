@@ -172,8 +172,13 @@
                     </tr>
                     <tr>
                         <th>Date Payable</th>
-                        <td><input v-model="payable" type="text" class="datepicker"
-                                   placeholder="Pick Date"></td>
+                        <td>
+                            <input v-model="payable"
+                                   type="text"
+                                   class="datepicker"
+                                   placeholder="Pick Date"
+                            >
+                        </td>
                     </tr>
                     <tr>
                         <th>Due Date</th>
@@ -181,8 +186,13 @@
                     </tr>
                     <tr>
                         <th>Estimated Arrival Date</th>
-                        <td><input type="text" v-model="delivery" class="datepicker"
-                                   placeholder="Pick Date"></td>
+                        <td>
+                            <input type="text"
+                                   v-model="delivery"
+                                   class="datepicker"
+                                   placeholder="Pick Date"
+                            >
+                        </td>
                     </tr>
                     </tbody>
                 </table>

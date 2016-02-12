@@ -6091,15 +6091,18 @@ button.close {
     border: 2px solid #F1C40F; }
 
 #purchase-requests-add .item-selection {
-  background: #f2f2f2;
+  border: 2px solid #CDCFD2;
   padding: 30px;
-  border-radius: 6px; }
+  border-radius: 6px;
+  margin: 0 0 30px; }
   #purchase-requests-add .item-selection .item_buttons {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
     #purchase-requests-add .item-selection .item_buttons button:first-child {
       margin-right: 30px; }
+    #purchase-requests-add .item-selection .item_buttons button {
+      margin: 0 0 15px; }
   #purchase-requests-add .item-selection .existing_item .spec-table-wrap {
     background: #fff;
     max-height: 650px;
@@ -6109,9 +6112,6 @@ button.close {
       border-radius: 3px; }
       #purchase-requests-add .item-selection .existing_item .spec-table-wrap table td {
         padding: 10px 15px; }
-        #purchase-requests-add .item-selection .existing_item .spec-table-wrap table td:hover {
-          background: #3498DB;
-          color: #fff; }
 
 #purchase-orders-submit section {
   margin: 0 0 30px; }
@@ -6391,5 +6391,8 @@ li.active {
 @media print {
   .no-print, .no-print * {
     display: none !important; } }
+
+.display-block {
+  display: block; }
 
 /*# sourceMappingURL=app.css.map */

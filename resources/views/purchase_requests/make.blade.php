@@ -13,8 +13,8 @@
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="field-project-id">Which Project is this Purchase Request for?</label>
-                <select name="project_id" id="field-project-id" class="form-control" v-model="projectId">
-                    <option disabled selected value="">Select a project</option>
+                <select v-selectize="" class="form-group" name="project_id">
+                    <option></option>
                     @foreach(Auth::user()->projects as $project)
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
@@ -22,14 +22,22 @@
             </div>
             <div class="item-selection">
                 <div class="button-group form-group item_buttons" role="group" aria-label="choose_item_buttons">
-                    <button class="btn btn-solid-blue"
+                    <button class="btn"
                             type="button"
+                            :class="{
+                                'btn-solid-blue': existingItem,
+                                'btn-outline-blue': ! existingItem
+                            }"
                     @click="changeExistingItem(true)"
                     >
                     Existing Item
                     </button>
                     <button class="btn btn-outline-blue"
                             type="button"
+                            :class="{
+                                'btn-solid-blue': ! existingItem,
+                                'btn-outline-blue': existingItem
+                            }"
                     @click="changeExistingItem(false)"
                     >
                     New Item
@@ -43,17 +51,14 @@
                          v-show="! selectedItem"
                     >
                         <div class="form-group">
-                            <select
-                                    id="field-item-id"
-                                    class="form-control"
-                                    v-model="existingItemName"
-                            >
-                                <option disabled selected value="">Choose an Item Name</option>
-                                <template v-for="item in uniqueItemNames">
-                                    <option>@{{ item.name }}</option>
-                                </template>
-                            </select>
                             <input type="hidden" name="item_id" v-model="selectedItem.id">
+                            <select id="select-existing-item-id" v-selectize="existingItemName" class="form-group">
+                                <option></option>
+                                @foreach(Auth::user()->company->items() as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                         <div class="table-responsive spec-table-wrap"
                              v-show="existingItemName"
@@ -71,8 +76,10 @@
                                 >
                                     <tr>
                                         <td class="clickable"
-                                        @click="selectItem(item)"
-                                        >@{{ item.specification }}</td>
+                                            @click="selectItem(item)"
+                                        >
+                                        @{{ item.specification }}
+                                        </td>
                                     </tr>
                                 </template>
                                 </tbody>
@@ -83,7 +90,8 @@
                          v-show="selectedItem"
                     >
                         <p class="item-details">
-                            <strong>@{{ selectedItem.name }}</strong><span @click="clearSelectedExisting" class="clickable btn-remove">&times;</span>
+                            <strong>@{{ selectedItem.name }}</strong><span @click="clearSelectedExisting" class="
+                            clickable btn-remove">&times;</span>
                             <br>
                             @{{ selectedItem.specification }}
                         </p>
@@ -95,30 +103,35 @@
                     <h5>Add New Item</h5>
                     <div class="form-group">
                         <label for="field-new-item-name">Name</label>
-                        <input type="text" id="field-new-item-name" name="name" value="{{ old('name') }}"
-                               class="form-control" placeholder="Steel Pipe">
+                        <select name="name" id="select-new-item-name">
+                            <option></option>
+                            @foreach(Auth::user()->company->items() as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <label for="field-new-item-specification">Detailed Specification</label>
                     <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control"
                               placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}</textarea>
                 </div>
             </div>
-            <hr>
             <div class="form-group">
                 <label for="field-quantity">How many Item(s) are needed</label>
                 <input type="number" id="field-quantity" name="quantity" value="{{ old('quantity') }}"
                        class="form-control" placeholder="10">
             </div>
-            <div class="form-group">
-                <label for="field-date">Approximate date required by</label>
-                <input type="date" class="form-control" name="due" id="field-date">
-            </div>
-            <div class="form-group">
-                <label for="button-urgent">Do you need this item immediately?</label>
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default urgent-button">
-                        <input type="checkbox" autocomplete="off" name="urgent" id="button-urgent" value="1">URGENT
-                    </label>
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label for="field-date">Date needed by</label>
+                    <input type="text" name="due" class="datepicker" placeholder="Pick a date">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="button-urgent">Is this a high priority item?</label>
+                    <div class="btn-group display-block" data-toggle="buttons">
+                        <label class="btn btn-default urgent-button">
+                            <input type="checkbox" autocomplete="off" name="urgent" id="button-urgent" value="1">Urgent
+                        </label>
+                    </div>
                 </div>
             </div>
             <!-- Submit -->
