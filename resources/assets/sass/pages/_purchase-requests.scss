@@ -46,7 +46,7 @@
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    margin: 0 0 30px;
+    margin: 0 0 15px;
 
     .item_buttons {
       display: flex;
@@ -74,6 +74,12 @@
             padding: 10px 15px;
           }
         }
+      }
+
+      .selected-existing {
+        background: $grey;
+        padding: 10px 15px;
+        border-radius: 3px;
       }
     }
   }

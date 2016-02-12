@@ -120,20 +120,20 @@
                 <input type="number" id="field-quantity" name="quantity" value="{{ old('quantity') }}"
                        class="form-control" placeholder="10">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-2">
-                    <label for="field-date">Date needed by</label>
+            <div class="form-group">
+                <label for="field-date">Date needed by</label>
+                <div class="display-block">
                     <input type="text" name="due" class="datepicker" placeholder="Pick a date">
                 </div>
-                <div class="form-group col-sm-3">
-                    <label for="button-urgent">Is this a high priority item?</label>
-                    <div class="btn-group display-block" data-toggle="buttons">
-                        <label class="btn btn-default urgent-button">
-                            <input type="checkbox" autocomplete="off" name="urgent" id="button-urgent" value="1">Urgent
-                        </label>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="checkbox-urgent">High priority item?</label>
+                <div class="display-block">
+                    <input type="checkbox" name="urgent" value="1" id="checkbox-urgent"> Urgent
                 </div>
             </div>
+
+
             <!-- Submit -->
             <div class="form-group">
                 <button type="submit" class="btn btn-solid-green form-control">Make Request</button>

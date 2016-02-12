@@ -124,12 +124,25 @@ $(document).ready(function () {
                     self.items = data;
                 }
             });
-
-            $('#select-new-item-name').selectize({
+            
+            var unique = $('#select-new-item-name').selectize({
                 create: true,
                 sortField: 'text',
-                placeholder: 'Choose an existing name or enter a new one...'
-            });
+                placeholder: 'Choose an existing name or enter a new one...',
+                createFilter: function(input) {
+                    input = input.toLowerCase();
+                    var array = $.map(unique.options, function(value) {
+                        return [value];
+                    });
+                    var unmatched = true;
+                    _.forEach(array, function (option) {
+                        if((option.text).toLowerCase() === input) {
+                            unmatched = false;
+                        }
+                    });
+                    return unmatched;
+                }
+            })[0].selectize;
         }
     });
 
