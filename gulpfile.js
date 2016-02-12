@@ -33,7 +33,7 @@ elixir(function(mix) {
         'moment/min/moment-with-locales.min.js',
         'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
         'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
-        'noty/js/noty/packaged/jquery.noty.packaged.min.js'
+        'noty/js/noty/packaged/jquery.noty.packaged.min.js',
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
     mix.scriptsIn('resources/assets/js', 'public/js/app.js');

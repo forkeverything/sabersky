@@ -47,8 +47,7 @@ $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
-        'specification' => $faker->paragraph(2),
-        'project_id' => factory(App\Project::class)->create()->id
+        'specification' => $faker->paragraph(2)
     ];
 });
 

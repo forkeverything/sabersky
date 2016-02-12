@@ -1,6 +1,8 @@
 <?php
 
 use App\Company;
+use App\Item;
+use App\Project;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +18,8 @@ class PusakaSetupSeeder extends Seeder
         DB::table('companies')->truncate();
         DB::table('users')->truncate();
         DB::table('settings')->truncate();
+        DB::table('items')->truncate();
+        DB::table('projects')->truncate();
 
         $company = Company::create([
             'name' => 'Pusaka Jaya',
@@ -48,5 +52,22 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'po_med_max' => 5000000,
             'item_md_max' => 0.2
         ]);
+
+        // Test items
+
+        // Unique item names
+        for ($x = 0; $x < 5; $x++) {
+            $item = factory(Item::class)->create();
+            $project->items()->save($item);
+        }
+
+        // Existing item names
+        for ($x = 0; $x < 20; $x++) {
+            $itemName = Item::all()->random(1)->name;
+            $item = factory(Item::class)->create([
+                'name' => $itemName
+            ]);
+            $project->items()->save($item);
+        }
     }
 }

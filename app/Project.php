@@ -48,7 +48,7 @@ class Project extends Model
 
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Item::class);
     }
 
     /**
@@ -59,10 +59,18 @@ class Project extends Model
      */
     public function saveItem(MakePurchaseRequestRequest $request)
     {
-        return $this->items()->create([
-            'name' => $request->input('name'),
-            'specification' => $request->input('specification')
-        ]);
+        if (! $item = Item::find($request->input('item_id'))) {
+            $item = Item::create([
+                'name' => $request->input('name'),
+                'specification' => $request->input('specification')
+            ]);
+        }
+
+        if (! $this->items->contains($item->id)) {
+            $this->items()->save($item);
+        }
+
+        return $item;
     }
 
     public function getNameAttribute($property)

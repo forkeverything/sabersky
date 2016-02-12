@@ -215,3 +215,14 @@
     box-shadow: none;
   }
 }
+
+.btn-remove {
+  font-size: 18px;
+  font-weight: bold;
+  color: $dark-grey;
+  margin-left: 5px;
+
+  &:hover {
+    color: $red;
+  }
+}

@@ -62,7 +62,14 @@ class Company extends Model
      */
     public function items()
     {
-        return $this->hasManyThrough(Item::class, Project::class);
+        $itemsArray = [];
+        foreach ($this->projects as $project) {
+            array_push($itemsArray, $project->items->load('projects')->all());
+        }
+        $itemsCollection = collect(array_flatten($itemsArray));
+
+        return $itemsCollection;
+
     }
 
     public function vendors()

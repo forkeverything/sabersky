@@ -73,6 +73,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/purchase_requests', 'PurchaseRequestController@apiAll');
 
     /**
+     * Items
+     */
+    Route::get('/api/items', 'ItemsController@apiAll');
+
+
+    /**
      * Purchase Orders & Line Items
      */
     Route::get('/purchase_orders', ['as' => 'showAllPurchaseOrders', 'uses' => 'PurchaseOrdersController@all']);

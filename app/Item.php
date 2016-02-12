@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Project;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,6 +31,11 @@ class Item extends Model
     public function getNameAttribute($property)
     {
         return ucfirst($property);
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
     }
 
     /**
