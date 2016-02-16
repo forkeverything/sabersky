@@ -108,4 +108,10 @@ Route::group(['middleware' => 'web'], function () {
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@showAll']);
+
+
+    /**
+     * Photos
+     */
+    Route::post('/items/single/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'PhotosController@addItem']);
 });

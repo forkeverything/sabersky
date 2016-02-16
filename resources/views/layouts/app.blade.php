@@ -10,18 +10,26 @@
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-
-    <!-- Fonts -->
-    {{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
-
-            <!-- Styles -->
-    <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+<!--
+========== Stylez ===========
+ -->
+<link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+<!-- Fonts -->
+{{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
 </head>
+
 <body id="app-layout">
+
+<!--
+========== Content ===========
+ -->
 @include('layouts.partials.nav')
 @yield('content')
-        <!-- JavaScripts -->
 
+<!--
+========== Scripts ===========
+ -->
+<!-- Plugins / Frameworks -->
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
 <script type="text/javascript">
     $.ajaxSetup({
@@ -31,8 +39,13 @@
         }
     });
 </script>
+<!-- Setup & Initz' -->
 <script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
+<!-- Global Scripts -->
 <script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+<!-- Page Specific Scripts -->
+@yield('scripts.footer')
+<!-- Flash Notification -->
 @include('flash')
 </body>
 </html>

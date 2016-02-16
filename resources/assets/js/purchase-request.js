@@ -124,7 +124,7 @@ $(document).ready(function () {
                     self.items = data;
                 }
             });
-            
+
             var unique = $('#select-new-item-name').selectize({
                 create: true,
                 sortField: 'text',
