@@ -41,8 +41,10 @@ elixir(function(mix) {
         'dropzone/dist/min/dropzone.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
-    mix.scriptsIn('resources/assets/js/vue', 'public/js/dependencies.js');
-    mix.scriptsIn('resources/assets/js', 'public/js/app.js');
+
+    mix.scriptsIn('resources/assets/js/setup', 'public/js/setup.js');
+    mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
+    mix.copy('resources/assets/js/page', 'public/js/page');
 
     mix.browserSync({proxy: 'pusakagroup.app'});
 });

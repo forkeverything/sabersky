@@ -42,3 +42,6 @@
         </form>
     </div>
 @endsection
+@section('scripts.footer')
+<script src="{{ asset('/js/page/purchase-orders/submit.js') }}"></script>
+@endsection

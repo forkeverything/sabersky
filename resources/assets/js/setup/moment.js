@@ -1,0 +1,4 @@
+$(document).ready(function () {
+    // Moment JS
+    moment.locale('id'); // 'en';
+});

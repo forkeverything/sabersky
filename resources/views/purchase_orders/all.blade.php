@@ -113,3 +113,6 @@
         </div>
     </div>
 @endsection
+@section('scripts.footer')
+<script src="{{ asset('/js/page/purchase-orders/all.js') }}"></script>
+@endsection

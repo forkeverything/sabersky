@@ -141,3 +141,6 @@
         </form>
     </div>
 @endsection
+@section('scripts.footer')
+    <script src="{{ asset('/js/page/purchase-requests/make.js') }}"></script>
+@endsection

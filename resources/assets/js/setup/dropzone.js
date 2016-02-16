@@ -1,15 +1,4 @@
-$(document).ready(function () {
-
-    // Moment JS
-    moment.locale('id'); // 'en'
-
-    // Bootstrap Datepicker
-    $('.datepicker').datepicker({
-        format: "dd/mm/yyyy",
-        startDate: 'today',
-        language: 'id'
-    });
-
+$(document).ready(function() {
     // Dropzone
     Dropzone.options.addPhotosForm = {
         paramName: 'photo',                             // name of the input, in controller: $request->file('photo')

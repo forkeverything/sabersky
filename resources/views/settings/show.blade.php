@@ -50,3 +50,6 @@
             </form>
     </div>
 @endsection
+@section('scripts.footer')
+<script src="{{ asset('/js/page/settings/show.js') }}"></script>
+@endsection

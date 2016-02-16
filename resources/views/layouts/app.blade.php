@@ -31,18 +31,10 @@
  -->
 <!-- Plugins / Frameworks -->
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
-<script type="text/javascript">
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    });
-</script>
 <!-- Setup & Initz' -->
-<script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/setup.js') }}"></script>
 <!-- Global Scripts -->
-<script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
+{{--<script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>--}}
 <!-- Page Specific Scripts -->
 @yield('scripts.footer')
 <!-- Flash Notification -->
