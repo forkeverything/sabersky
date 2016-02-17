@@ -26,6 +26,7 @@ new Vue({
             this.existingItemName = '';
             $('#select-new-item-name')[0].selectize.clear();
             $('#field-new-item-specification').val('');
+            $('.input-item-photos').fileinput('clear');
         }
     },
     computed: {
@@ -64,6 +65,9 @@ new Vue({
                 return unmatched;
             }
         })[0].selectize;
+    },
+    compiled: function() {
+        $('#purchase-requests-add').show();
     }
 });
 

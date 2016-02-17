@@ -43,7 +43,7 @@
                     New Item
                     </button>
                 </div>
-                <div class="existing_item"
+                <div class="pr-existing-item"
                      v-show="existingItem"
                 >
                     <h5>Select Existing Item</h5>
@@ -89,21 +89,18 @@
                     <div class="selected-existing"
                          v-show="selectedItem"
                     >
-                        <div class="form-group">
-                            <p class="item-details">
-                                <strong>@{{ selectedItem.name }}</strong><span @click="clearSelectedExisting" class="
+                        <span @click="clearSelectedExisting" class="
                             clickable btn-remove">&times;</span>
-                                <br>
+                        <div class="form-group">
+                            <h2>@{{ selectedItem.name }}</h2>
+                            <p class="item-details">
                                 @{{ selectedItem.specification }}
                             </p>
                         </div>
-                        <div class="form-group new-item-add-photo">
-                            <label for="input-new-item-photos">Add Item Photos</label>
-                            <input type="file" class="file input-item-photos" multiple="true" name="item_photos[]">
-                        </div>
+                        @include('purchase_requests.partials.input_item_photos')
                     </div>
                 </div>
-                <div class="pr_new_item"
+                <div class="pr-new-item"
                      v-show="!existingItem"
                 >
                     <h5>Add New Item</h5>
@@ -122,10 +119,7 @@
                               placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}
                         </textarea>
                     </div>
-                    <div class="form-group new-item-add-photo">
-                        <label for="input-new-item-photos">Add Item Photos</label>
-                        <input type="file" class="file input-item-photos" multiple="true" name="item_photos[]">
-                    </div>
+                    @include('purchase_requests.partials.input_item_photos')
                 </div>
             </div>
             <div class="form-group">
@@ -167,7 +161,19 @@
             },
             'browseLabel': 'Browse',
             'browseIcon': '<i class="fa fa-folder-open"></i> &nbsp;',
-            'browseClass': 'btn btn-outline-grey'
+            'browseClass': 'btn btn-outline-grey',
+            'layoutTemplates': {
+                preview: '<div class="file-preview {class}">\n' +
+                '    <div class="close fileinput-remove">Clear</div>\n' +
+                '    <div class="{dropClass}">\n' +
+                '    <div class="file-preview-thumbnails">\n' +
+                '    </div>\n' +
+                '    <div class="clearfix"></div>' +
+                '    <div class="file-preview-status text-center text-success"></div>\n' +
+                '    <div class="kv-fileinput-error"></div>\n' +
+                '    </div>\n' +
+                '</div>'
+            }
         });
     </script>
 @endsection

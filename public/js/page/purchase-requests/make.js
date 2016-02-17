@@ -65,6 +65,9 @@ new Vue({
                 return unmatched;
             }
         })[0].selectize;
+    },
+    compiled: function() {
+        $('#purchase-requests-add').show();
     }
 });
 
