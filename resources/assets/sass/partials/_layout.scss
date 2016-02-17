@@ -33,7 +33,7 @@
     @media screen and (max-width: 768px) {
       display: block;
       button {
-        margin:8px 15px;
+        margin: 8px 15px;
       }
     }
   }
@@ -66,4 +66,11 @@
     }
   }
 
+}
+
+.page-body {
+  background: #FFFFFF;
+  padding: 30px;
+  border: 1px solid $grey;
+  margin: 0 0 45px;
 }

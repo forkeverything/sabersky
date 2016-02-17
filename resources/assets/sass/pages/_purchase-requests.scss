@@ -1,7 +1,6 @@
 #purchase-requests-all {
 
   #button-make-purchase-request {
-    width: 370px;
     margin-bottom: 30px;
     display: block;
   }
@@ -42,12 +41,16 @@
     }
   }
 
+  .project-selection {
+    margin: 0 0 30px;
+  }
+
   .item-selection {
     padding: 30px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    margin: 0 0 15px;
+    margin: 0 0 30px;
     background: $light-grey;
 
     h5 {
@@ -119,6 +122,48 @@
 
   .new-pr-add-photo {
     position: relative;
+  }
+
+  .request-specifics {
+
+    table {
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+
+      tr {
+        height: 50px;
+
+        th, td {
+          vertical-align: middle;
+        }
+
+        td {
+          width: 80%;
+
+          input {
+            border: 0;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            width: 100%;
+
+            &[type='checkbox'] {
+              width: auto;
+              margin: 0 5px 0 0;
+            }
+
+            &:hover, &:focus, &:active {
+              outline: none;
+            }
+          }
+
+          label {
+            margin: 0;
+          }
+        }
+      }
+    }
   }
 }
 

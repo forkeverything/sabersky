@@ -75,7 +75,6 @@
 
 #purchase-orders-all {
   #button-submit-purchase-order {
-    width: 370px;
     margin: 0 0 30px;
   }
 
@@ -120,6 +119,8 @@
       font-size: 45px;
       padding: 30px;
       display: inline-block;
+      width: 100%;
+      text-align: center;
 
 
       &.pending {
@@ -140,7 +141,7 @@
 
 
     .buttons-approvals {
-      width: 370px;
+
       display: flex;
       justify-content: space-between;
 
@@ -175,7 +176,8 @@
   }
 
   .order-summary {
-
+    display: inline-block;
+    width: 100%;
     .second-border {
       float:right;
       display: inline-block;

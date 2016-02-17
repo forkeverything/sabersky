@@ -97,6 +97,37 @@
   }
 }
 
+.btn-outline-green {
+  color: $dark-green;
+  border: 1px solid $dark-green;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: $green;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px $green !important;
+    -moz-box-shadow: 0 0 0 3px $green !important;
+    -webkit-box-shadow: 0 0 0 3px $green !important;
+    fill: $green;
+    outline: 0;
+  }
+
+  &:focus {
+    color: $dark-green;
+  }
+}
+
 .btn-outline-blue {
   color: $dark-blue;
   border: 1px solid $dark-blue;

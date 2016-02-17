@@ -6,9 +6,11 @@
             <h1 class="page-title">
                 System Settings
             </h1>
+            <p class="page-intro">Change Application settings to determine what needs approval for whom. Defaults have
+                been automatically set for you.</p>
         </div>
-        <p>Change Application settings to determine what needs approval for whom. Defaults have been automatically set for you.</p>
-        @include('errors.list')
+        <div class="page-body">
+            @include('errors.list')
             <form id="form-settings">
                 <div class="form-group">
                     <label for="field-po-high-max">
@@ -17,7 +19,8 @@
                         Purchase orders with totals over this amount will require <em>Director's</em> approval
                     </label>
                     <div class="input-group col-xs-2">
-                        <input type="text" id="field-po-high-max" name="po_high_max" v-model="settings.po_high_max | numberModel" class="form-control text-right">
+                        <input type="text" id="field-po-high-max" name="po_high_max"
+                               v-model="settings.po_high_max | numberModel" class="form-control text-right">
                         <span class="input-group-addon">Rp</span>
                     </div>
                 </div>
@@ -28,7 +31,8 @@
                         Purchase orders with totals over this amount will require <em>Manager's</em> approval
                     </label>
                     <div class="input-group col-xs-2">
-                        <input type="text" id="field-po-med-max" name="po_med_max" v-model="settings.po_med_max | numberModel" class="form-control text-right">
+                        <input type="text" id="field-po-med-max" name="po_med_max"
+                               v-model="settings.po_med_max | numberModel" class="form-control text-right">
                         <span class="input-group-addon">Rp</span>
                     </div>
                 </div>
@@ -36,20 +40,22 @@
                     <label for="field-item-md-max">
                         <strong>Maximum Item Mean Difference</strong>
                         <br>
-                        Items with a mean difference percentage over this amount will require <em>Manager's</em> approval
+                        Items with a mean difference percentage over this amount will require <em>Manager's</em>
+                        approval
                     </label>
                     <div class="input-group col-xs-2">
-                        <input type="number" step="1" id="field-item-md-max" name="item_md_max" v-model="settings.item_md_max | percentage" class="form-control text-right">
+                        <input type="number" step="1" id="field-item-md-max" name="item_md_max"
+                               v-model="settings.item_md_max | percentage" class="form-control text-right">
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
                 <!-- Submit -->
-                <div class="form-group">
-                    <button type="button" class="btn btn-solid-blue form-control" @click="saveSettings">@{{ saveButtonText }}</button>
-                </div>
+                    <button type="button" class="btn btn-solid-blue form-control" @click="saveSettings"
+                    >@{{ saveButtonText }}</button>
             </form>
+        </div>
     </div>
 @endsection
 @section('scripts.footer')
-<script src="{{ asset('/js/page/settings/show.js') }}"></script>
+    <script src="{{ asset('/js/page/settings/show.js') }}"></script>
 @endsection

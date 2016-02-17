@@ -14,6 +14,7 @@
 
 body {
   font-family: 'helvetica';
+  background: #EAEAEA;
 }
 
 .fa-btn {
@@ -22,12 +23,12 @@ body {
 
 .back-link {
   display: inline-block;
-  margin-bottom: 16px;
   color: $text-muted;
+  padding-bottom: 1px;
 
   &:hover {
     border-bottom: 1px dotted #777777;
-    margin-bottom: 15px;
+    padding-bottom: 0px;
   }
 
   &:visited {
@@ -37,16 +38,22 @@ body {
 }
 
 .page-header {
-  margin: 0 0 15px 0;
+  margin: 15px 0 30px 0;
+  border: 0;
+  padding: 0;
 }
 
 .page-title {
-  margin: 0 0 15px;
-  font-size: 30px;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 0;
+  color: $dark-grey;
 }
 
 .page-intro {
-  margin: 0 0 30px 0;
+  margin: 10px 0 0 0;
+  color: $dark-grey;
 }
 
 a {
@@ -65,7 +72,7 @@ a {
 h5 {
   font-weight: bold;
   font-size: 16px;
-  margin-bottom: 15px;
+  margin: 0 0 15px;
 }
 
 p {
@@ -202,5 +209,26 @@ li.active {
 
 .display-block {
   display:block;
+}
+
+.page-error {
+  color: $dark-grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 150px 100px;
+  font-size: 30px;
+  font-weight: normal;
+  text-align: center;
+
+  @media screen and (max-width: 980px) {
+    padding: 100px 75px;
+    font-size: 26px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 75px 15px;
+    font-size: 20px;
+  }
 }
 

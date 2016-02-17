@@ -1,11 +1,11 @@
 #projects-all {
   .button-start-project {
-    width: 370px;
     margin-bottom: 30px;
   }
 
   .project-list {
     .project-single-link {
+
       .project-single {
         border: 2px solid #c7c7c7;
         border-radius: 4px;
@@ -15,18 +15,22 @@
         &:hover {
           background: #f2f2f2;
         }
+
+        &:last-child {
+          margin: 0;
+        }
       }
     }
   }
 }
 
 #project-single-view {
-  .page-header {
+
+  .project-header {
     display: flex;
     align-items: center;
-    padding-bottom: 30px;
 
-    .page-title {
+    .project-title {
       margin: 0 15px 0 0;
       display: inline-block;
     }
