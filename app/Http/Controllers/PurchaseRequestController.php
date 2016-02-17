@@ -44,7 +44,6 @@ class PurchaseRequestController extends Controller
 
     public function save(MakePurchaseRequestRequest $request)
     {
-
         $project = Project::findOrFail($request->input('project_id'));
         $item = $project->saveItem($request);
         PurchaseRequest::create(

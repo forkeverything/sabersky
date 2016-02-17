@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
+use App\Utilities\BuildPhoto;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -59,6 +60,7 @@ class Project extends Model
      */
     public function saveItem(MakePurchaseRequestRequest $request)
     {
+        // New Item
         if (! $item = Item::find($request->input('item_id'))) {
             $item = Item::create([
                 'name' => $request->input('name'),
@@ -66,9 +68,23 @@ class Project extends Model
             ]);
         }
 
+        // Project doesn't contain existing item...
         if (! $this->items->contains($item->id)) {
             $this->items()->save($item);
         }
+
+        // Adding photos to items
+            $files = $request->file('item_photos');
+            // if photos attached to request
+            if (!! $files[0]) {
+                foreach ($files as $file) {
+                    if ($file) {
+                        // Build up the photo
+                        $photo = (new BuildPhoto($file))->item($item);
+                        $item->attachPhoto($photo);
+                    }
+                }
+            }
 
         return $item;
     }

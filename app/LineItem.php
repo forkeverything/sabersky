@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $purchase_order_id
  * @property integer $purchase_request_id
  * @property-read \App\PurchaseRequest $purchaseRequest
+ * @property-read \App\PurchaseOrder $purchaseOrder
  */
 class LineItem extends Model
 {

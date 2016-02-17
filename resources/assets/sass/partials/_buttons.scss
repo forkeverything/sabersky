@@ -10,6 +10,9 @@
   background-color: #FFFFFF;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -32,12 +35,46 @@
   }
 }
 
+.btn-outline-grey {
+  color: $dark-grey;
+  border: 1px solid $dark-grey;
+  background-color: #FFFFFF;
+  height: 3em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -ms-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: $dark-grey;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px $dark-grey !important;
+    -moz-box-shadow: 0 0 0 3px $dark-grey !important;
+    -webkit-box-shadow: 0 0 0 3px $dark-grey !important;
+    fill: $dark-grey;
+    outline: 0;
+  }
+
+  &:focus {
+    color: $dark-grey;
+  }
+}
+
 .btn-outline-red {
   color: $dark-red;
   border: 1px solid $dark-red;
   background-color: #FFFFFF;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -66,6 +103,9 @@
   background-color: #FFFFFF;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -100,6 +140,9 @@
   transition: all 0.15s ease-out;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -132,6 +175,9 @@
   transition: all 0.15s ease-out;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -164,6 +210,9 @@
   transition: all 0.15s ease-out;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -196,6 +245,9 @@
   transition: all 0.15s ease-out;
   height: 3em;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover, &:focus, &:active {
     outline: 0;

@@ -9,7 +9,7 @@
             <h1 class="page-title">Make Purchase Request</h1>
         </div>
         @include('errors.list')
-        <form action="{{ route('savePurchaseRequest') }}" id="form-make-purchase-request" method="POST">
+        <form action="{{ route('savePurchaseRequest') }}" id="form-make-purchase-request" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="field-project-id">Which Project is this Purchase Request for?</label>
@@ -76,7 +76,7 @@
                                 >
                                     <tr>
                                         <td class="clickable"
-                                            @click="selectItem(item)"
+                                        @click="selectItem(item)"
                                         >
                                         @{{ item.specification }}
                                         </td>
@@ -89,12 +89,18 @@
                     <div class="selected-existing"
                          v-show="selectedItem"
                     >
-                        <p class="item-details">
-                            <strong>@{{ selectedItem.name }}</strong><span @click="clearSelectedExisting" class="
+                        <div class="form-group">
+                            <p class="item-details">
+                                <strong>@{{ selectedItem.name }}</strong><span @click="clearSelectedExisting" class="
                             clickable btn-remove">&times;</span>
-                            <br>
-                            @{{ selectedItem.specification }}
-                        </p>
+                                <br>
+                                @{{ selectedItem.specification }}
+                            </p>
+                        </div>
+                        <div class="form-group new-item-add-photo">
+                            <label for="input-new-item-photos">Add Item Photos</label>
+                            <input type="file" class="file input-item-photos" multiple="true" name="item_photos[]">
+                        </div>
                     </div>
                 </div>
                 <div class="pr_new_item"
@@ -110,9 +116,16 @@
                             @endforeach
                         </select>
                     </div>
-                    <label for="field-new-item-specification">Detailed Specification</label>
-                    <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control"
-                              placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}</textarea>
+                    <div class="form-group">
+                        <label for="field-new-item-specification">Detailed Specification</label>
+                        <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control"
+                              placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}
+                        </textarea>
+                    </div>
+                    <div class="form-group new-item-add-photo">
+                        <label for="input-new-item-photos">Add Item Photos</label>
+                        <input type="file" class="file input-item-photos" multiple="true" name="item_photos[]">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -143,4 +156,18 @@
 @endsection
 @section('scripts.footer')
     <script src="{{ asset('/js/page/purchase-requests/make.js') }}"></script>
+    <script>
+        $('.input-item-photos').fileinput({
+            'showUpload': false,
+            'allowedFileExtensions': ['jpg', 'gif', 'png'],
+            'showRemove': false,
+            'showCaption': false,
+            'previewSettings': {
+                image: {width: "120px", height: "120px"}
+            },
+            'browseLabel': 'Browse',
+            'browseIcon': '<i class="fa fa-folder-open"></i> &nbsp;',
+            'browseClass': 'btn btn-outline-grey'
+        });
+    </script>
 @endsection

@@ -1,7 +1,6 @@
 /**
  * PR - Make
  */
-
 new Vue({
     name: 'makePurchaseRequest',
     el: '#purchase-requests-add',

@@ -17,6 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $bank_account_name
  * @property string $bank_account_number
  * @property integer $company_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
+ * @property-read mixed $number_p_o
+ * @property-read mixed $average_p_o
+ * @property-read mixed $contacted_by
  */
 class Vendor extends Model
 {

@@ -1,5 +1,7 @@
 <?php
 
+use Vinkla\Hashids\Facades\Hashids;
+
 function flash($message = null)
 {
     $flash = app(App\Utilities\Flash::class);
@@ -15,18 +17,22 @@ function flash($message = null)
     return $flash->info($message);
 }
 
-function add_photo_path(Flyer $flyer)
-{
-    return route('store_photo_path', [$flyer->zip, $flyer->street]);
+/**
+ * Encodes an id using Hashids package.
+ *
+ * @param $id
+ * @return mixed
+ */
+function encode($id){
+    return Hashids::encode($id);
 }
 
 /**
- * Path to a given flyer
- * @param Flyer $flyer
- * @return string
+ * Decodes id using Hashids package.
+ * @param $id
+ * @return mixed
  */
-function flyer_path(Flyer $flyer)
-{
-    return $flyer->zip . '/' . str_replace(' ', '-', $flyer->street);
+function decode($id){
+    return Hashids::decode($id);
 }
 

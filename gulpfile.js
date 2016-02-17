@@ -23,7 +23,8 @@ elixir(function(mix) {
         'animate.css/animate.min.css',
         'selectize/dist/css/selectize.css',
         'selectize/dist/css/selectize.bootstrap3.css',
-        'dropzone/dist/min/dropzoine.min.css'
+        'dropzone/dist/min/dropzone.min.css',
+        'bootstrap-fileinput/css/fileinput.min.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -38,7 +39,9 @@ elixir(function(mix) {
         'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
         'noty/js/noty/packaged/jquery.noty.packaged.min.js',
         'selectize/dist/js/standalone/selectize.min.js',
-        'dropzone/dist/min/dropzone.min.js'
+        'dropzone/dist/min/dropzone.min.js',
+        'bootstrap-fileinput/js/fileinput.min.js',
+        'bootstrap-fileinput/js/fileinput_locale_id.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

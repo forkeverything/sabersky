@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\DB;
  * @property-read \App\Project $project
  * @property-read \App\User $user
  * @property-read mixed $total
+ * @property string $status
+ * @property boolean $over_high
+ * @property boolean $over_med
+ * @property boolean $item_over_md
+ * @property boolean $new_vendor
+ * @property boolean $new_item
  */
 class PurchaseOrder extends Model
 {

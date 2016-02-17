@@ -1,7 +1,6 @@
 /**
  * PR - Make
  */
-
 new Vue({
     name: 'makePurchaseRequest',
     el: '#purchase-requests-add',
@@ -27,6 +26,7 @@ new Vue({
             this.existingItemName = '';
             $('#select-new-item-name')[0].selectize.clear();
             $('#field-new-item-specification').val('');
+            $('.input-item-photos').fileinput('clear');
         }
     },
     computed: {

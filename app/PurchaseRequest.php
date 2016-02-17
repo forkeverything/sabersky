@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Item $item
  * @property-read \App\Project $project
  * @property-read \App\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\LineItem[] $lineItems
  */
 class PurchaseRequest extends Model
 {

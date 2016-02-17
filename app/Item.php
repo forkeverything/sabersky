@@ -14,6 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $specification
  * @property integer $project_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
+ * @property-read mixed $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
+ * @property-read mixed $new
+ * @property-read mixed $mean
  */
 class Item extends Model
 {
@@ -36,6 +41,21 @@ class Item extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class);
+    }
+
+    public function getCompanyAttribute()
+    {
+        return $this->projects()->first()->company;
+    }
+
+    /**
+     * An Item can have many photos.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function photos()
+    {
+        return $this->morphMany(Photo::class, 'model');
     }
 
     /**
@@ -78,5 +98,10 @@ class Item extends Model
             ->where('purchase_orders.submitted', 1)
             ->where('purchase_orders.status', 'approved')
             ->get(['line_items.*']);
+    }
+
+    public function attachPhoto(Photo $photo)
+    {
+        return $this->photos()->save($photo);
     }
 }
