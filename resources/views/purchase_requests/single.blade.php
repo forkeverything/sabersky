@@ -4,15 +4,23 @@
         <a href="{{ route('showAllPurchaseRequests') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Back
             to Purchase Requests</a>
         <div class="page-header">
-            <div class="page-title">
-                <strong>Purchase Request - </strong> {{ $purchaseRequest->item->name }}
-                for {{ $purchaseRequest->project->name }}  @if($purchaseRequest->urgent)<span class="badge-warning">URGENT</span> @endif
-            </div>
+            <h1 class="page-title">
+                Purchase Request
+            </h1>
         </div>
         <div class="page-body">
-            <div class="purchase-request-single-details">
-                <h5>Purchase Request Details</h5>
-                <table class="table table-bordered">
+            <div class="item-details">
+                <h2>{{ $purchaseRequest->item->name }}@if($purchaseRequest->urgent)<span class="badge-warning"><i class="fa fa-warning"></i>URGENT</span> @endif</h2>
+                <p>
+                    {{ $purchaseRequest->item->specification }}
+                </p>
+                @if($photos = $purchaseRequest->item->photos)
+                    @include('layouts.partials.photo_gallery')
+                @endif
+            </div>
+            <div class="request-details">
+                <h5>Request Details</h5>
+                <table class="table table-bordered table-striped">
                     <tbody>
                     <tr>
                         <th>State</th>
@@ -23,8 +31,8 @@
                         <td>{{ $purchaseRequest->created_at->diffForHumans() }}</td>
                     </tr>
                     <tr>
-                        <th>Specification</th>
-                        <td>{{ $purchaseRequest->item->specification }}</td>
+                        <th>Project</th>
+                        <td>{{ $purchaseRequest->project->name }}</td>
                     </tr>
                     <tr>
                         <th>Quantity Outstanding</th>

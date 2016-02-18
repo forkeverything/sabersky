@@ -68,7 +68,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_requests/add', ['as' => 'makePurchaseRequest', 'uses' => 'PurchaseRequestController@make']);
     Route::post('/purchase_requests/add', ['as' => 'savePurchaseRequest', 'uses' => 'PurchaseRequestController@save']);
     Route::get('/purchase_requests/single/{purchaseRequest}', ['as' => 'singlePurchaseRequest', 'uses' => 'PurchaseRequestController@single']);
-    Route::get('/purchase_requests/available', 'PurchaseRequestController@available');
+    Route::get('/api/purchase_requests/available', 'PurchaseRequestController@available');
     Route::post('/purchase_requests/cancel', ['as' => 'cancelPurchaseRequest', 'uses' => 'PurchaseRequestController@cancel']);
     Route::get('/api/purchase_requests', 'PurchaseRequestController@apiAll');
 

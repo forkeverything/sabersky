@@ -19,6 +19,9 @@ $(document).ready(function() {
         acceptedFiles: '.jpg, .jpeg, .png, .bmp',       // file formats accepted
     }
 });
+$(document).ready(function() {
+    $(".fancybox").fancybox();
+});
 $(document).ready(function () {
     // Moment JS
     moment.locale('id'); // 'en';

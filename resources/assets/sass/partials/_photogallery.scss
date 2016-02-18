@@ -1,0 +1,32 @@
+.photo-gallery {
+  display: flex;
+  margin: 0 0 15px;
+
+  a {
+    flex: 0 1 250px;
+    margin: .5vw;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      flex: 0 1 125px;
+    }
+  }
+}

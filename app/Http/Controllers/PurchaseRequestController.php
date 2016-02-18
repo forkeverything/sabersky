@@ -57,6 +57,7 @@ class PurchaseRequestController extends Controller
 
     public function single(PurchaseRequest $purchaseRequest)
     {
+        $purchaseRequest = $purchaseRequest->load('item', 'project');
         return view('purchase_requests.single', compact('purchaseRequest'));
     }
 
@@ -64,7 +65,7 @@ class PurchaseRequestController extends Controller
     {
         if(($unfinishedPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first()) && Gate::allows('po_submit')) {
             $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id');
-            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'user'])->where('quantity','>',0)->whereNotIn('id', $addedPRIds)->get();
+            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'item.photos', 'user'])->where('quantity','>',0)->whereNotIn('id', $addedPRIds)->get();
         }
     }
 

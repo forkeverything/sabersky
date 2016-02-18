@@ -32,4 +32,14 @@ class Photo extends Model
         'model_id',
         'model_type'
     ];
+
+    public function getPathAttribute($property)
+    {
+        return '/' . $property;
+    }
+
+    public function getThumbnailPathAttribute($property)
+    {
+        return '/' . $property;
+    }
 }

@@ -24,7 +24,8 @@ elixir(function(mix) {
         'selectize/dist/css/selectize.css',
         'selectize/dist/css/selectize.bootstrap3.css',
         'dropzone/dist/min/dropzone.min.css',
-        'bootstrap-fileinput/css/fileinput.min.css'
+        'bootstrap-fileinput/css/fileinput.min.css',
+        'fancybox/source/jquery.fancybox.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -41,13 +42,27 @@ elixir(function(mix) {
         'selectize/dist/js/standalone/selectize.min.js',
         'dropzone/dist/min/dropzone.min.js',
         'bootstrap-fileinput/js/fileinput.min.js',
-        'bootstrap-fileinput/js/fileinput_locale_id.js'
+        'bootstrap-fileinput/js/fileinput_locale_id.js',
+        'fancybox/lib/jquery.mousewheel-3.0.6.pack.js',
+        'fancybox/source/jquery.fancybox.pack.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 
     mix.scriptsIn('resources/assets/js/setup', 'public/js/setup.js');
     mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
+
     mix.copy('resources/assets/js/page', 'public/js/page');
+
+    mix.copy(
+        [
+            'resources/assets/bower/fancybox/source/fancybox_overlay.png',
+            'resources/assets/bower/fancybox/source/fancybox_loading@2x.gif',
+            'resources/assets/bower/fancybox/source/fancybox_loading.gif',
+            'resources/assets/bower/fancybox/source/fancybox_sprite.png',
+            'resources/assets/bower/fancybox/source/fancybox_sprite@2x.png',
+            'resources/assets/bower/fancybox/source/blank.gif'
+        ],
+        'public/css');
 
     mix.browserSync({proxy: 'pusakagroup.app'});
 });

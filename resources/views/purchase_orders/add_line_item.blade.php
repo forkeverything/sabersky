@@ -139,7 +139,20 @@
                         <p>
                             @{{ selectedPurchaseRequest.item.specification }}
                         </p>
-                        <hr>
+                        <div class="photo-gallery"
+                             v-if="selectedPurchaseRequest.item.photos.length > 0"
+                        >
+                            <template
+                                    v-for="photo in selectedPurchaseRequest.item.photos"
+                            >
+                                <a class="fancybox"
+                                   rel="group"
+                                   href="@{{ photo.path }}"
+                                >
+                                    <img src="@{{ photo.thumbnail_path }}" alt="" />
+                                </a>
+                            </template>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <span class="text-muted">Requested By @{{ selectedPurchaseRequest.user.name }}</span>
