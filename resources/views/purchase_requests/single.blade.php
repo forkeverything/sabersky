@@ -17,6 +17,14 @@
                 @if($photos = $purchaseRequest->item->photos)
                     @include('layouts.partials.photo_gallery')
                 @endif
+                @can('pr_make')
+                    @if($purchaseRequest->state === 'Open')
+                        <form id="form-item-photo" action="{{ route('addItemPhoto', $purchaseRequest->item->id) }}" method="POST">
+                            {{ csrf_field() }}
+                        @include('layouts.partials.input_item_photos')
+                        </form>
+                    @endif
+                @endcan
             </div>
             <div class="request-details">
                 <h5>Request Details</h5>
@@ -50,13 +58,38 @@
                 </table>
             </div>
             @can('pr_make')
-            <form action="{{ route('cancelPurchaseRequest')}}" id="form-pr-cancel" method="POST">
-                {{ csrf_field() }}
-                <input type="hidden" value="{{ $purchaseRequest->id }}" name="purchase_request_id">
-                <!-- Submit -->
-                    <button type="submit" class="btn btn-outline-red form-control">Cancel</button>
-            </form>
+                @if($purchaseRequest->state === 'Open')
+                    <form action="{{ route('cancelPurchaseRequest')}}" id="form-pr-cancel" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" value="{{ $purchaseRequest->id }}" name="purchase_request_id">
+                        <!-- Submit -->
+                            <button type="submit" class="btn btn-outline-red form-control button-cancel">Cancel</button>
+                    </form>
+                @endif
             @endcan
         </div>
     </div>
 @endsection
+@section('scripts.footer')
+    <script>
+        var uploadUrl = 'http:' + $('#form-item-photo').attr('action');
+        var $input = $('.input-item-photos');
+        $input.fileinput({
+            uploadUrl: uploadUrl,
+            uploadAsync: true,
+            allowedFileExtensions: ['jpg', 'gif', 'png'],
+            showRemove: false,
+            showCaption: false,
+            showPreview: false,
+            showCancel: false,
+            showUpload: false,
+            browseIcon: '<i class="fa fa-folder-open"></i> &nbsp;',
+            browseClass: 'btn btn-outline-grey',
+            browseLabel: 'Browse'
+        }).on("filebatchselected", function(event, files) {
+            $input.fileinput("upload");
+        }).on('filebatchuploadcomplete', function(event, files, extra) {
+            location.reload();
+        });
+    </script>
+    @endsection

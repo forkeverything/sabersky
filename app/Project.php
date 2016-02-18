@@ -79,9 +79,7 @@ class Project extends Model
             if (!! $files[0]) {
                 foreach ($files as $file) {
                     if ($file) {
-                        // Build up the photo
-                        $photo = (new BuildPhoto($file))->item($item);
-                        $item->attachPhoto($photo);
+                        $item->attachPhoto($file);
                     }
                 }
             }

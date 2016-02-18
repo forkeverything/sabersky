@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Item;
 use App\LineItem;
 use App\Permission;
+use App\Policies\ItemPolicy;
 use App\Policies\PurchaseOrderPolicy;
 use App\PurchaseOrder;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-        PurchaseOrder::class => PurchaseOrderPolicy::class
+        PurchaseOrder::class => PurchaseOrderPolicy::class,
+        Item::class => ItemPolicy::class
     ];
 
     /**

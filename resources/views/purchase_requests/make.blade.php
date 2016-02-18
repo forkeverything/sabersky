@@ -99,7 +99,7 @@
                                     @{{ selectedItem.specification }}
                                 </p>
                             </div>
-                            @include('purchase_requests.partials.input_item_photos')
+                            @include('layouts.partials.input_item_photos')
                         </div>
                     </div>
                     <div class="pr-new-item"
@@ -121,7 +121,7 @@
                                   placeholder="60cm Diameter, 2.4 inches Thick, Length 3m...">{{ old('specification') }}
                         </textarea>
                         </div>
-                        @include('purchase_requests.partials.input_item_photos')
+                        @include('layouts.partials.input_item_photos')
                     </div>
                 </div>
 

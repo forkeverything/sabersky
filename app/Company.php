@@ -81,4 +81,9 @@ class Company extends Model
     {
         return $this->hasManyThrough(PurchaseOrder::class, Project::class);
     }
+
+    public function company()
+    {
+        return $this->projects()->first()->company;
+    }
 }

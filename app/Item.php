@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Project;
+use App\Utilities\BuildPhoto;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * App\Item
@@ -41,6 +43,11 @@ class Item extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class);
+    }
+
+    public function company()
+    {
+        return $this->projects()->first()->company;
     }
 
     public function getCompanyAttribute()
@@ -100,8 +107,11 @@ class Item extends Model
             ->get(['line_items.*']);
     }
 
-    public function attachPhoto(Photo $photo)
+    public function attachPhoto(UploadedFile $file)
     {
+        // Build up the photo
+        $photo = (new BuildPhoto($file))->item($this);
+        // attach it to model
         return $this->photos()->save($photo);
     }
 }
