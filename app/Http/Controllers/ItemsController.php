@@ -17,6 +17,12 @@ class ItemsController extends Controller
         $this->middleware('auth');
     }
 
+    public function all()
+    {
+        $itemNames = Auth::user()->company->items()->unique('name')->pluck('name');
+        return view('items.all', compact('itemNames'));
+    }
+
     public function apiAll()
     {
         return Auth::user()->company->items();
