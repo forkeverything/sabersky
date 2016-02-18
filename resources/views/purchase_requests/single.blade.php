@@ -83,9 +83,9 @@
             showPreview: false,
             showCancel: false,
             showUpload: false,
-            browseIcon: '<i class="fa fa-folder-open"></i> &nbsp;',
+            browseIcon: '<i class="fa fa-plus"></i> &nbsp;',
             browseClass: 'btn btn-outline-grey',
-            browseLabel: 'Browse'
+            browseLabel: 'Photo'
         }).on("filebatchselected", function(event, files) {
             $input.fileinput("upload");
         }).on('filebatchuploadcomplete', function(event, files, extra) {

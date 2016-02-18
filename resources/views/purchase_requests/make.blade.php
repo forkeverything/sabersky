@@ -177,8 +177,8 @@
             'previewSettings': {
                 image: {width: "120px", height: "120px"}
             },
-            'browseLabel': 'Browse',
-            'browseIcon': '<i class="fa fa-folder-open"></i> &nbsp;',
+            'browseLabel': 'Photo',
+            'browseIcon': '<i class="fa fa-plus"></i> &nbsp;',
             'browseClass': 'btn btn-outline-grey',
             'layoutTemplates': {
                 preview: '<div class="file-preview {class}">\n' +
