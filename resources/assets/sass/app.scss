@@ -1,5 +1,6 @@
 @import "partials/variables";
 @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "partials/bootstrap-ms";
 @import "partials/layout";
 @import "partials/buttons";
 @import "pages/dashboard";
@@ -12,6 +13,7 @@
 @import "partials/notifications";
 @import "partials/fileinput";
 @import "partials/photogallery";
+@import "pages/items";
 
 body {
   font-family: 'helvetica';

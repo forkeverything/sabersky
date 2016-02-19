@@ -64,7 +64,7 @@ class Company extends Model
     {
         $itemsArray = [];
         foreach ($this->projects as $project) {
-            array_push($itemsArray, $project->items->load('projects')->all());
+            array_push($itemsArray, $project->items->load('projects', 'photos')->all());
         }
         $itemsCollection = collect(array_flatten($itemsArray));
 

@@ -5,31 +5,43 @@
         <div class="page-header">
             <h1 class="page-title">Items</h1>
         </div>
-        @if($itemNames->first())
-            <div class="page-body">
-                <div class="item-gallery">
-                    @foreach($itemNames->chunk(4) as $chunk)
-                        <div class="row">
-                            @foreach($chunk as $itemName)
-                                <div class="col-xs-3">
-                                    <a href="#" class="item-link">
-                                        {{--@if($photo = $item->photos()->first())--}}
-                                        {{--<img src="{{ $item->photos()->first()->thumbnail_path }}" alt="item thumbnail">--}}
-                                            {{--@else--}}
-                                        {{--<div class="item-placeholder">--}}
-                                            {{--<i class="fa fa-paperclip"></i>--}}
-                                        {{--</div>--}}
-                                        {{--@endif--}}
-                                        <h5 class="item-name">{{ $itemName }}</h5>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
+        <div class="page-body"
+             v-if="items.length > 0"
+        >
+            <div class="item-gallery">
+                <template v-for="chunk in uniqueItems | chunk 6">
+                    <div class="row">
+                        <template v-for="item in chunk">
+                            <div class="col-ms-2">
+                                <a href="#" class="item-link">
+                                    <div class="item-thumbnail">
+                                        <img
+                                                v-if="item.photos.length > 0"
+                                                :src="item.photos[0].thumbnail_path"
+                                        >
+                                        <span
+                                                v-else
+                                                class="item-placeholder">
+                                            <i class="fa fa-wrench"></i>
+                                        </span>
+                                    </div>
+                                    <span class="name">@{{ item.name }}</span>
+                                </a>
+                            </div>
+                        </template>
+                    </div>
+                </template>
             </div>
-        @else
-            <span class="page-error">No items have been created. Make your first purchase request to create an item!</span>
-        @endif
+        </div>
+        <span class="page-error"
+              v-else
+        >
+            No items have been created. Make your first purchase request to create an item!
+        </span>
+
     </div>
+@endsection
+@section('scripts.footer')
+    <script src="{{ asset('/js/page/items/all.js') }}" type="text/javascript"></script>
+
 @endsection

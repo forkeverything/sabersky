@@ -12,20 +12,26 @@ use Illuminate\Support\Facades\Gate;
 
 class ItemsController extends Controller
 {
+    protected $items;
+
     public function __construct()
     {
         $this->middleware('auth');
+        if ($user = Auth::user()) {
+            $this->items = $user->company->items();
+        }
     }
 
     public function all()
     {
-        $itemNames = Auth::user()->company->items()->unique('name')->pluck('name');
-        return view('items.all', compact('itemNames'));
+//        $itemNames = Auth::user()->company->items()->unique('name')->pluck('name');
+//        $items = $this->items;
+        return view('items.all', compact('itemNames', 'items'));
     }
 
     public function apiAll()
     {
-        return Auth::user()->company->items();
+        return $this->items;
     }
 
     public function addPhoto(Request $request, Item $item)
@@ -47,4 +53,15 @@ class ItemsController extends Controller
             abort(403, 'Wrong way, go back!');
         }
     }
+
+    public function single(Item $item)
+    {
+
+    }
+
+    public function getName($name)
+    {
+        return $this->items->where('name', $name);
+    }
+
 }

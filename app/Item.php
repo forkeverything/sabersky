@@ -35,11 +35,6 @@ class Item extends Model
         'mean'
     ];
 
-    public function getNameAttribute($property)
-    {
-        return ucfirst($property);
-    }
-
     public function projects()
     {
         return $this->belongsToMany(Project::class);
