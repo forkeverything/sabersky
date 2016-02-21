@@ -6655,38 +6655,19 @@ button.close {
         -ms-flex: 0 1 125px;
         flex: 0 1 125px; } }
 
-#items-all .item-gallery .row {
-  margin: 0 0 30px; }
-  #items-all .item-gallery .row:last-child {
-    margin: 0; }
-  #items-all .item-gallery .row .item-link .item-thumbnail {
-    background: #D2D2D2;
-    margin: 0 0 10px; }
-    #items-all .item-gallery .row .item-link .item-thumbnail img {
-      width: 100%; }
-    #items-all .item-gallery .row .item-link .item-thumbnail .item-placeholder {
-      height: 150px;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center; }
-      #items-all .item-gallery .row .item-link .item-thumbnail .item-placeholder i {
-        font-size: 48px;
-        color: #fff; }
-  #items-all .item-gallery .row .item-link .name {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: capitalize; }
+#items-all .table-items .item-row .item-thumbnail {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #D2D2D2; }
+  #items-all .table-items .item-row .item-thumbnail img {
+    width: 100%; }
+
+#items-all .table-items .item-row td {
+  vertical-align: middle; }
 
 body {
   font-family: 'helvetica';
-  background: #EAEAEA; }
+  background: #ebeef0; }
 
 .fa-btn {
   margin-right: 6px; }

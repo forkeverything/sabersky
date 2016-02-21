@@ -39,5 +39,22 @@ new Vue({
         })
     },
     methods: {
+        getVariants: function(item) {
+            // Get variants of an item name
+            var givenItemName = item.name;
+            return _.filter(this.items, function(item) {
+                return item.name === givenItemName;
+            });
+        },
+        getProjects: function(item) {
+            var variants = this.getVariants(item);
+            var projects = [];
+            _.forEach(variants, function (variant) {
+                _.forEach(variant.projects, function (project) {
+                    projects.push(project.name);
+                });
+            });
+            return _.uniq(projects);
+        }
     }
 });
