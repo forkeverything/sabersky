@@ -8,7 +8,7 @@
             together with you.</p>
         <section class="details">
             <h5>Details</h5>
-            <p>You will be operating as a <strong>{{ $user->role->position }}</strong> for the <strong>{{ $user->projects()->first()->name }}</strong> project.</p>
+            <p>You will be operating as a <span class="role-position"><strong>{{ $user->role->position }}</strong></span> for the <strong>{{ $user->projects()->first()->name }}</strong> project.</p>
         </section>
             <h5>Set Credentials</h5>
             @include('errors.list')

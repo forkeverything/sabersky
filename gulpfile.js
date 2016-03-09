@@ -25,7 +25,8 @@ elixir(function(mix) {
         'selectize/dist/css/selectize.bootstrap3.css',
         'dropzone/dist/min/dropzone.min.css',
         'bootstrap-fileinput/css/fileinput.min.css',
-        'fancybox/source/jquery.fancybox.css'
+        'fancybox/source/jquery.fancybox.css',
+        'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -44,7 +45,8 @@ elixir(function(mix) {
         'bootstrap-fileinput/js/fileinput.min.js',
         'bootstrap-fileinput/js/fileinput_locale_id.js',
         'fancybox/lib/jquery.mousewheel-3.0.6.pack.js',
-        'fancybox/source/jquery.fancybox.pack.js'
+        'fancybox/source/jquery.fancybox.pack.js',
+        'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

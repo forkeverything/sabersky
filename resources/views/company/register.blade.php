@@ -22,9 +22,7 @@
                         </div>
                         <div class="form-group">
                             <label for="field-company-description">Description</label>
-                        <textarea id="field-company-description" class="form-control" rows="15" name="description">
-                            {{ old('description') }}
-                        </textarea>
+                        <textarea id="field-company-description" class="form-control" rows="15" name="description">{{ old('description') }}</textarea>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary form-control">Register</button>

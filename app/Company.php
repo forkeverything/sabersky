@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $employees
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $vendors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  */
 class Company extends Model
 {
@@ -86,4 +88,24 @@ class Company extends Model
     {
         return $this->projects()->first()->company;
     }
+
+    public function roles() {
+        return $this->hasMany(Role::class);
+    }
+
+    /**
+     * Creates a admin role for a company
+     * (if one doesn't already exist).
+     *
+     * @return Model
+     */
+    public function createAdmin() {
+        if(! $this->roles->contains('position', 'admin')) {
+            return $this->roles()->create([
+                'position' => 'admin',
+            ]);
+        }
+        abort(403, 'Already have an admin');
+    }
+
 }

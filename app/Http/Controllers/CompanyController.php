@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Http\Requests\SaveCompanyRequest;
+use App\Permission;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -30,9 +31,13 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->all());
         $company->employees()->save($user = Auth::user());
-        $user->update([
-            'role_id' => 1 // Assign user director role
-        ]);
+
+        $role = $company->createAdmin();
+
+        $role->giveAdminPermissions();
+
+        $user->setRole($role);
+
         return redirect('/dashboard');
     }
 }

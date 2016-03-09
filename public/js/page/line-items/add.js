@@ -13,6 +13,16 @@ new Vue({
         order: '',
         urgent: ''
     },
+    ready: function() {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/purchase_requests/available',
+            success: function(data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
     methods: {
         selectPurchaseRequest: function($selected){
             this.selectedPurchaseRequest = $selected;
@@ -70,16 +80,6 @@ new Vue({
         canAddPurchaseRequest: function() {
             return (!! this.selectedPurchaseRequest && !! this.quantity & !! this.price && !! this.payable && !! this.delivery && this.validQuantity)
         }
-    },
-    ready: function() {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function(data) {
-                self.purchaseRequests = data;
-            }
-        });
     }
 });
 

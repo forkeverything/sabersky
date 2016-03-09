@@ -32,7 +32,7 @@
                                     <span>
                             <strong>{{ $member->name }}</strong>
                                 <br>
-                                        {{ $member->role->position }}
+                                        <span class="role-position">{{ $member->role->position }}</span>
                                         @if($member->id == Auth::user()->id)
                                             <em>(You)</em>
                                         @elseif($member->invite_key)

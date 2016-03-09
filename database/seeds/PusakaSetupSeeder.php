@@ -33,41 +33,42 @@ class PusakaSetupSeeder extends Seeder
         ]);
 
         $company->employees()->save($user);
-        $user->update([
-            'role_id' => 1
-        ]);
 
-        $project = $company->projects()->create([
-            'name' => 'Tanjung Selor 7MW',
-            'location' => 'Jawa Tengah',
-            'description' => 'Gallia est omnis divisa in partes tres, quarum. Ab illo tempore, ab est sed immemorabili. Nihil hic munitissimus habendi senatus locus, nihil horum? Quam diu etiam furor iste tuus nos eludet? Idque Caesaris facere voluntate liceret: sese habere. Magna pars studiorum, prodita quaerimus.
-A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Quae vero auctorem tractata ab fiducia dicuntur. Quam temere in vitiis, legem sancimus haerentia. Unam incolunt Belgae, aliam Aquitani, tertiam. Curabitur est gravida et libero vitae dictum.'
-        ]);
+        $role = $company->createAdmin();
+        $role->giveAdminPermissions();
 
-        $user->projects()->save($project);
-
-
-        DB::table('settings')->insert([
-            'po_high_max' => 10000000,
-            'po_med_max' => 5000000,
-            'item_md_max' => 0.2
-        ]);
-
-        // Test items
-
-        // Unique item names
-        for ($x = 0; $x < 5; $x++) {
-            $item = factory(Item::class)->create();
-            $project->items()->save($item);
-        }
-
-        // Existing item names
-        for ($x = 0; $x < 20; $x++) {
-            $itemName = Item::all()->random(1)->name;
-            $item = factory(Item::class)->create([
-                'name' => $itemName
-            ]);
-            $project->items()->save($item);
-        }
+        $user->setRole($role);
+//
+//        $project = $company->projects()->create([
+//            'name' => 'Tanjung Selor 7MW',
+//            'location' => 'Jawa Tengah',
+//            'description' => 'Gallia est omnis divisa in partes tres, quarum. Ab illo tempore, ab est sed immemorabili. Nihil hic munitissimus habendi senatus locus, nihil horum? Quam diu etiam furor iste tuus nos eludet? Idque Caesaris facere voluntate liceret: sese habere. Magna pars studiorum, prodita quaerimus.
+//A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Quae vero auctorem tractata ab fiducia dicuntur. Quam temere in vitiis, legem sancimus haerentia. Unam incolunt Belgae, aliam Aquitani, tertiam. Curabitur est gravida et libero vitae dictum.'
+//        ]);
+//
+//        $user->projects()->save($project);
+//
+//        DB::table('settings')->insert([
+//            'po_high_max' => 10000000,
+//            'po_med_max' => 5000000,
+//            'item_md_max' => 0.2
+//        ]);
+//
+//        // Test items
+//
+//        // Unique item names
+//        for ($x = 0; $x < 5; $x++) {
+//            $item = factory(Item::class)->create();
+//            $project->items()->save($item);
+//        }
+//
+//        // Existing item names
+//        for ($x = 0; $x < 20; $x++) {
+//            $itemName = Item::all()->random(1)->name;
+//            $item = factory(Item::class)->create([
+//                'name' => $itemName
+//            ]);
+//            $project->items()->save($item);
+//        }
     }
 }

@@ -107,4 +107,10 @@ class User extends Authenticatable
         return $this->hasMany(PurchaseOrder::class);
     }
 
+    public function setRole($role) {
+        $this->role_id = $role->id;
+        $this->save();
+        return $this;
+    }
+
 }

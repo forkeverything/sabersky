@@ -1,0 +1,112 @@
+#system-settings {
+
+  .triggers {
+    margin: 0 0 30px;
+  }
+
+  .wrap-table-roles {
+
+    .table-roles {
+      margin: 0;
+
+      .role-row.changeable {
+        td:hover {
+          .fa {
+            color: #B2B2B2;
+          }
+        }
+      }
+
+      td, th {
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      th {
+        color: $dark-grey;
+        
+        &.removable {
+          position: relative;
+
+          .overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(231, 76, 60, 0.8);
+            color: #fff;
+          }
+          
+          &:hover {
+            .overlay {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+
+      td {
+        .fa-circle {
+          font-size: 0.7em;
+          color: $blue;
+        }
+      }
+
+      .td-has-permission {
+        .fa-close {
+          display: none;
+        }
+
+        &:hover {
+          .fa-circle {
+            display: none;
+          }
+
+          .fa-close {
+            display: block;
+          }
+        }
+      }
+
+      .td-no-permission {
+        .fa-circle {
+          display: none;
+        }
+
+        &:hover {
+          .fa-circle {
+            display: block;
+          }
+        }
+      }
+
+      .role-add-row {
+        height: 47px;
+
+        #link-add-role {
+          border-bottom: 0;
+
+          &:before {
+            font-family: FontAwesome;
+            content: "\f067  ";
+          }
+        }
+      }
+
+      @media screen and (min-width: 1200px) {
+        table-layout: fixed;
+
+        td, th {
+          overflow: hidden;
+          word-wrap: break-word;
+          white-space: normal;
+        }
+      }
+
+    }
+  }
+}

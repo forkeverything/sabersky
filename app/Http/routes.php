@@ -108,6 +108,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
 
     /**
+     * Roles
+     */
+    Route::get('/api/roles', 'RolesController@getRoles');
+    Route::post('/api/roles', 'RolesController@postNewRole');
+    Route::post('/api/roles/delete', 'RolesController@removeRole');
+    Route::post('/api/roles/remove_permission', 'RolesController@postRemovePermission');
+    Route::post('/api/roles/give_permission', 'RolesController@postGivePermission');
+
+    /**
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@showAll']);

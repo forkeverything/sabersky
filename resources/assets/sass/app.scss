@@ -14,6 +14,7 @@
 @import "partials/fileinput";
 @import "partials/photogallery";
 @import "pages/items";
+@import "pages/settings";
 
 body {
   font-family: 'helvetica';
@@ -75,7 +76,7 @@ a {
 h5 {
   font-weight: bold;
   font-size: 16px;
-  margin: 0 0 15px;
+  margin: 0 0 5px;
 }
 
 p {
@@ -225,3 +226,33 @@ li.active {
   }
 }
 
+.role-position {
+  text-transform: capitalize;
+}
+
+.modal {
+  .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+  }
+  .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+  }
+  .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+  }
+
+  h5, p {
+    margin: 0;
+  }
+}

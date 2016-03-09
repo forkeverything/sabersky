@@ -7,15 +7,15 @@ class PermissionsTableSeeder extends Seeder
 {
 
     protected $permissions = [
-        'project_manage' => 'Start & Stop Projects',
-        'pr_make' => 'Make or Cancel Purchase Request',
-        'po_submit' => 'Submit or Remove Purchase Orders',
-        'team_manage' => 'Manage (Add/Remove) All Team Member Roles',
+        'project_manage' => 'Projects',
+        'team_manage' => 'Departments',
+        'buyer_manage' => 'Teams',
+        'pr_make' => 'Make Purchase Requests',
+        'po_submit' => 'Submit Purchase Orders',
+        'po_payments' => 'Mark Paid',
+        'po_warehousing' => 'Mark Received',
         'report_view' => 'View Reports',
-        'buyer_manage' => 'Manage Buyers for a Team',
-        'po_payments' => 'Handle Payments for Purchase Orders',
-        'po_warehousing' => 'Handle Warehousing for Line Items',
-        'settings_change' => 'Change System Settings'
+        'settings_change' => 'Change Settings'
     ];
 
     /**

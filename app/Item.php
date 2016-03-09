@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
  * @property-read mixed $new
  * @property-read mixed $mean
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Photo[] $photos
  */
 class Item extends Model
 {
