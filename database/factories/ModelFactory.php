@@ -19,7 +19,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => bcrypt('password'),
         'remember_token' => str_random(10),
         'company_id' => 1,
-        'role_id' => $faker->numberBetween(1,6)
+        'role_id' => $faker->numberBetween(1, 6)
     ];
 });
 
@@ -54,11 +54,11 @@ $factory->define(App\Item::class, function (Faker\Generator $faker) {
 $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
     return [
         'quantity' => $faker->randomDigitNotNull,
-        'due' => $faker->dateTimeThisYear,
+        'due' => $faker->dateTimeThisYear->format('d/m/Y'),
         'urgent' => $faker->boolean(20),
         'state' => $faker->randomElement(['open', 'cancelled']),
         'item_id' => factory(App\Item::class)->create()->id,
-        'project_id' => factory(App\Project::class)->create()->id,
+        'project_id' => 1,
         'user_id' => factory(App\User::class)->create([
             'role_id' => 2
         ])->id

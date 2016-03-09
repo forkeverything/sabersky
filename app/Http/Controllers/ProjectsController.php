@@ -68,6 +68,7 @@ class ProjectsController extends Controller
             // Adding existing user
             $user = User::find($existingUserId);
             $project->teamMembers()->save($user);
+            flash()->success('Succesfully added an existing Team Member');
             return redirect(route('singleProject', [$project->id]));
         } else {
             $inviteKey = str_random(13);
@@ -81,6 +82,7 @@ class ProjectsController extends Controller
             $project->teamMembers()->save($user);
             $userMailer->sendNewUserInvitation($user);
             // Flash some success notification
+            flash()->success('Succesfully invited a new Team Member');
             return redirect(route('singleProject', [$project->id]));
         }
     }

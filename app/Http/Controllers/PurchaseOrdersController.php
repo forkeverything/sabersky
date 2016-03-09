@@ -24,6 +24,7 @@ class PurchaseOrdersController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->existingPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first();
     }
 
