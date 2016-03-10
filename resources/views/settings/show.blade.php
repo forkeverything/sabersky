@@ -18,7 +18,7 @@
             <form id="form-settings">
                 <div class="form-group">
                     <label for="field-po-high-max">
-                        <strong>High PO Threshold</strong>
+                        High PO Threshold
                         <br>
                         Purchase orders with totals over this amount will require <em>Director's</em> approval
                     </label>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group">
                     <label for="field-po-med-max">
-                        <strong>Medium PO Threshold</strong>
+                        Medium PO Threshold
                         <br>
                         Purchase orders with totals over this amount will require <em>Manager's</em> approval
                     </label>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label for="field-item-md-max">
-                        <strong>Maximum Item Mean Difference</strong>
+                        Maximum Item Mean Difference
                         <br>
                         Items with a mean difference percentage over this amount will require <em>Manager's</em>
                         approval
@@ -62,7 +62,7 @@
                 <h5>Staff Roles & Permissions</h5>
                 <p>Add new roles, then set or modify permissions for what each role can do. Changes are saved
                     automatically and reflected immediately.</p>
-                <div class="table-responsive wrap-table-roles">
+                <div class="table-responsive wrap-table-roles visible-lg">
                     <!-- Roles Table Table -->
                     <table class="table table-bordered table-roles">
                         <thead>
@@ -82,7 +82,6 @@
                                 @foreach($permissions as $permission)
                                     <td><i class="fa fa-circle"></i></td>
                                 @endforeach
-                            </tr>
                             </tr>
                             <tr class="role-row changeable" v-else>
 
@@ -112,7 +111,45 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="modal-roles modal fade" id="modal-confirm-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="roles-mobile hidden-lg">
+                        <div class="form-group">
+                            <select class="form-control" id="select-settings-role">
+                                <option></option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->position }}">{{ ucwords($role->position) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="permissions" v-show="selectedRole">
+                            <!--  Role Permissions Table -->
+                            <table class="table table-bordered table-hover">
+                                <tbody>
+                                    @foreach($permissions as $permission)
+                                    <tr class="role-row changeable">
+                                        <th>{{ $permission->label }}</th>
+                                        <td v-if="hasPermission({{ $permission }}, selectedRole)"
+                                            class="clickable td-has-permission"
+                                        @click="removePermission({{ $permission }}, selectedRole)"
+                                        >
+                                        <i class="fa fa-circle"></i>
+                                        <i class="fa fa-close"></i>
+                                        </td>
+                                        <td v-else
+                                            class="clickable td-no-permission"
+                                        @click="givePermission({{ $permission }}, selectedRole)"
+                                        >
+                                        <i class="fa fa-circle"></i>
+                                        </td>
+                                    </tr>
+                                        @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="role-remove" v-show="selectedRole && selectedRole.position !== 'admin'">
+                            <button class="btn btn-solid-red" @click="setRemoveRole(selectedRole)" data-toggle="modal" data-target="#modal-confirm-remove">Remove</button>
+                        </div>
+                </div>
+                <div class="modal-roles modal" id="modal-confirm-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="vertical-alignment-helper">
                     <div class="modal-dialog vertical-align-center">
                         <div class="modal-content">

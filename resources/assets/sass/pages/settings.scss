@@ -4,18 +4,53 @@
     margin: 0 0 30px;
   }
 
+  td {
+    .fa-circle {
+      font-size: 0.7em;
+      color: $blue;
+    }
+  }
+
+  .td-has-permission {
+    .fa-close {
+      display: none;
+    }
+
+    &:hover {
+      .fa-circle {
+        display: none;
+      }
+
+      .fa-close {
+        display: block;
+      }
+    }
+  }
+
+  .td-no-permission {
+    .fa-circle {
+      display: none;
+    }
+
+    &:hover {
+      .fa-circle {
+        display: block;
+      }
+    }
+  }
+
+  .role-row.changeable {
+    td:hover {
+      .fa {
+        color: #B2B2B2;
+      }
+    }
+  }
+
   .wrap-table-roles {
 
     .table-roles {
       margin: 0;
-
-      .role-row.changeable {
-        td:hover {
-          .fa {
-            color: #B2B2B2;
-          }
-        }
-      }
 
       td, th {
         vertical-align: middle;
@@ -35,7 +70,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(231, 76, 60, 0.8);
+            background: rgba(231, 76, 60, 0.70);
             color: #fff;
           }
           
@@ -45,41 +80,6 @@
               justify-content: center;
               align-items: center;
             }
-          }
-        }
-      }
-
-      td {
-        .fa-circle {
-          font-size: 0.7em;
-          color: $blue;
-        }
-      }
-
-      .td-has-permission {
-        .fa-close {
-          display: none;
-        }
-
-        &:hover {
-          .fa-circle {
-            display: none;
-          }
-
-          .fa-close {
-            display: block;
-          }
-        }
-      }
-
-      .td-no-permission {
-        .fa-circle {
-          display: none;
-        }
-
-        &:hover {
-          .fa-circle {
-            display: block;
           }
         }
       }
@@ -107,6 +107,23 @@
         }
       }
 
+    }
+  }
+
+  .roles-mobile {
+
+    .permissions {
+      table {
+        th {
+          color: $dark-grey
+        }
+        
+        td {
+          text-align: center;
+          vertical-align: middle;
+          width: 50px;
+        }
+      }
     }
   }
 }

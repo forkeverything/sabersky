@@ -26,12 +26,19 @@ class RolesController extends Controller
         return Auth::user()->company->roles->load('permissions');
     }
 
+    /**
+     * Saves a new role from a POST request
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function postNewRole(Request $request)
     {
+        $newPosition = strtolower($request->input('position'));
+        if(Auth::user()->company->roles->contains('position', $newPosition)) abort(409, 'That role already exists.');
         return Auth::user()->company->roles()->create([
-            'position' => $request->input('position')
+            'position' => $newPosition
         ])->load('permissions');
-
     }
 
     public function postRemovePermission(ModifyRolesRequest $request)
@@ -48,8 +55,8 @@ class RolesController extends Controller
     public function removeRole(ModifyRolesRequest $request)
     {
         $role = Role::findOrFail($request->input('role')['id']);
-        $role->delete();
-
+        if($role->position === 'admin') abort(403, 'Not allowed to delete admin!');
+            $role->delete();
         return response("Succesfully removed role.", 201);
     }
 }

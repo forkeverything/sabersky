@@ -6668,10 +6668,30 @@ button.close {
 #system-settings .triggers {
   margin: 0 0 30px; }
 
+#system-settings td .fa-circle {
+  font-size: 0.7em;
+  color: #3498DB; }
+
+#system-settings .td-has-permission .fa-close {
+  display: none; }
+
+#system-settings .td-has-permission:hover .fa-circle {
+  display: none; }
+
+#system-settings .td-has-permission:hover .fa-close {
+  display: block; }
+
+#system-settings .td-no-permission .fa-circle {
+  display: none; }
+
+#system-settings .td-no-permission:hover .fa-circle {
+  display: block; }
+
+#system-settings .role-row.changeable td:hover .fa {
+  color: #B2B2B2; }
+
 #system-settings .wrap-table-roles .table-roles {
   margin: 0; }
-  #system-settings .wrap-table-roles .table-roles .role-row.changeable td:hover .fa {
-    color: #B2B2B2; }
   #system-settings .wrap-table-roles .table-roles td, #system-settings .wrap-table-roles .table-roles th {
     vertical-align: middle;
     text-align: center; }
@@ -6686,7 +6706,7 @@ button.close {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(231, 76, 60, 0.8);
+        background: rgba(231, 76, 60, 0.7);
         color: #fff; }
       #system-settings .wrap-table-roles .table-roles th.removable:hover .overlay {
         display: -webkit-flex;
@@ -6698,19 +6718,6 @@ button.close {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center; }
-  #system-settings .wrap-table-roles .table-roles td .fa-circle {
-    font-size: 0.7em;
-    color: #3498DB; }
-  #system-settings .wrap-table-roles .table-roles .td-has-permission .fa-close {
-    display: none; }
-  #system-settings .wrap-table-roles .table-roles .td-has-permission:hover .fa-circle {
-    display: none; }
-  #system-settings .wrap-table-roles .table-roles .td-has-permission:hover .fa-close {
-    display: block; }
-  #system-settings .wrap-table-roles .table-roles .td-no-permission .fa-circle {
-    display: none; }
-  #system-settings .wrap-table-roles .table-roles .td-no-permission:hover .fa-circle {
-    display: block; }
   #system-settings .wrap-table-roles .table-roles .role-add-row {
     height: 47px; }
     #system-settings .wrap-table-roles .table-roles .role-add-row #link-add-role {
@@ -6725,6 +6732,14 @@ button.close {
         overflow: hidden;
         word-wrap: break-word;
         white-space: normal; } }
+
+#system-settings .roles-mobile .permissions table th {
+  color: #757575; }
+
+#system-settings .roles-mobile .permissions table td {
+  text-align: center;
+  vertical-align: middle;
+  width: 50px; }
 
 body {
   font-family: 'helvetica';
@@ -6771,7 +6786,7 @@ a {
 h5 {
   font-weight: bold;
   font-size: 16px;
-  margin: 0 0 5px; }
+  margin: 0 0 15px; }
 
 p {
   margin: 0 0 15px; }

@@ -195,6 +195,36 @@ $(document).ready(function () {
 });
 
 
+/**
+ * Selectize Instantiator
+ *
+ * Calls the selectize plugin with an added filter that won't let
+ * you add new values that are duplicates. Ignores the case of
+ * the value and sorts the dropdown selects using the text.
+ */
+
+function uniqueSelectize(el, placeholder) {
+    var unique = $(el).selectize({
+        create: true,
+        sortField: 'text',
+        placeholder: placeholder,
+        createFilter: function(input) {
+            input = input.toLowerCase();
+            var array = $.map(unique.options, function(value) {
+                return [value];
+            });
+            var unmatched = true;
+            _.forEach(array, function (option) {
+                if((option.text).toLowerCase() === input) {
+                    unmatched = false;
+                }
+            });
+            return unmatched;
+        }
+    })[0].selectize;
+
+    return unique;
+}
 Vue.directive('selectize', {
     twoWay: true,
     bind: function () {
@@ -298,7 +328,8 @@ Vue.filter('chunk', function (array, length) {
     return totalChunks;
 });
 
-
-
+Vue.filter('capitalize', function (str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
 
 //# sourceMappingURL=setup.js.map

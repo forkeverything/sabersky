@@ -23,6 +23,7 @@ class SettingsController extends Controller
     {
         if (Gate::allows('settings_change')) {
             $permissions = Permission::all();
+            $roles = Auth::user()->company->roles;
             return view('settings.show', compact('permissions', 'roles'));
         }
         return redirect('/dashboard');

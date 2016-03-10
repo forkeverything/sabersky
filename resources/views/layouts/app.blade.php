@@ -34,7 +34,7 @@
 <!-- Setup & Initz' -->
 <script type="text/javascript" src="{{ asset('/js/setup.js') }}"></script>
 <!-- Global Scripts -->
-{{--<script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>--}}
+<script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
 <!-- Page Specific Scripts -->
 @yield('scripts.footer')
 <!-- Flash Notification -->
