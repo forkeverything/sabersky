@@ -6690,8 +6690,13 @@ button.close {
 #system-settings .role-row.changeable td:hover .fa {
   color: #B2B2B2; }
 
+#system-settings .input-editing-role {
+  text-transform: capitalize; }
+
 #system-settings .wrap-table-roles .table-roles {
   margin: 0; }
+  #system-settings .wrap-table-roles .table-roles tr {
+    height: 43px; }
   #system-settings .wrap-table-roles .table-roles td, #system-settings .wrap-table-roles .table-roles th {
     vertical-align: middle;
     text-align: center; }
@@ -6702,12 +6707,9 @@ button.close {
       #system-settings .wrap-table-roles .table-roles th.removable .overlay {
         display: none;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(231, 76, 60, 0.7);
-        color: #fff; }
+        top: 5px;
+        right: 5px;
+        color: #F59898; }
       #system-settings .wrap-table-roles .table-roles th.removable:hover .overlay {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -6718,13 +6720,21 @@ button.close {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center; }
+      #system-settings .wrap-table-roles .table-roles th.removable .input-editing-role {
+        width: 100%;
+        text-align: center; }
   #system-settings .wrap-table-roles .table-roles .role-add-row {
     height: 47px; }
     #system-settings .wrap-table-roles .table-roles .role-add-row #link-add-role {
-      border-bottom: 0; }
+      border-bottom: 0;
+      color: #757575;
+      font-weight: bold;
+      font-size: 1em; }
       #system-settings .wrap-table-roles .table-roles .role-add-row #link-add-role:before {
         font-family: FontAwesome;
         content: "\f067  "; }
+    #system-settings .wrap-table-roles .table-roles .role-add-row input {
+      font-size: 1em; }
   @media screen and (min-width: 1200px) {
     #system-settings .wrap-table-roles .table-roles {
       table-layout: fixed; }
@@ -6733,13 +6743,32 @@ button.close {
         word-wrap: break-word;
         white-space: normal; } }
 
-#system-settings .roles-mobile .permissions table th {
-  color: #757575; }
+#system-settings .roles-mobile .permissions .top {
+  margin: 0 0 10px;
+  position: relative;
+  height: 26px; }
+  #system-settings .roles-mobile .permissions .top .remove-span {
+    color: #757575;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.8em; }
+  #system-settings .roles-mobile .permissions .top .selected-role {
+    color: #757575;
+    font-weight: bold;
+    font-size: 1.2em; }
+  #system-settings .roles-mobile .permissions .top .input-editing-role {
+    font-size: 1.2em; }
 
 #system-settings .roles-mobile .permissions table td {
   text-align: center;
   vertical-align: middle;
   width: 50px; }
+
+#system-settings .roles-mobile .permissions table .permission {
+  color: #757575;
+  text-align: left;
+  width: initial; }
 
 body {
   font-family: 'helvetica';
@@ -6785,8 +6814,8 @@ a {
 
 h5 {
   font-weight: bold;
-  font-size: 16px;
-  margin: 0 0 15px; }
+  font-size: 1.4em;
+  margin: 0 0 5px; }
 
 p {
   margin: 0 0 15px; }

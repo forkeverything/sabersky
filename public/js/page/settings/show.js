@@ -6,9 +6,16 @@ new Vue({
         saveButtonText: 'Save Settings',
         ajaxReady: true,
         roles: [],
-        roleToRemove: {},
+        roleToRemove: false,
         roleSelect: '',
-        selectedRole: false
+        selectedRole: false,
+        editingRole: false,
+        editRolePosition: false,
+        roleToUpdate: {},
+        updatedRoleVal: '',
+        modalTitle: '',
+        modalBody: '',
+        modalMode: ''
     },
     methods: {
         saveSettings: function () {
@@ -85,6 +92,9 @@ new Vue({
             var newRole = {};
         },
         setRemoveRole: function (role) {
+            this.modalTitle = 'Permanently Remove ' + strCapitalize(role.position);
+            this.modalBody = "Removing a role is irreversible. Any team members that have those roles will lose all their permissions and won't be able to complete any tasks until you assign them a new role.";
+            this.modalMode = 'remove';
             this.roleToRemove = role;
         },
         removeRole: function () {
@@ -110,6 +120,71 @@ new Vue({
                     console.log('Request Error!');
                     console.log(response);
                     self.ajaxReady = true;
+                }
+            });
+        },
+        editRole: function(role){
+            var self = this;
+            self.editingRole = role;
+            self.editRolePosition = role.position;
+            self.$nextTick(function () {
+                var $inputEdit = $('.input-editing-role');
+                $inputEdit.focus();
+                var blurFired = false; // blur fired flag
+                $inputEdit.keypress(function(e) {
+                    if(e.which == 13) {
+                        this.blur();
+                    }
+                });
+                $inputEdit.blur(function () {
+                    var newRoleVal = $inputEdit.val().toLowerCase();
+                    if(blurFired) return;
+                    blurFired = true;
+                    if(newRoleVal !== role.position && newRoleVal.length !== 0) {
+                        self.confirmEdit(role, newRoleVal);
+                    }
+                        self.editingRole = false;
+                        self.editRolePosition = false;
+
+                });
+            });
+
+        },
+        notEditing: function(role) {
+            return role !== this.editingRole;
+        },
+        confirmEdit: function(oldRole, newRoleVal) {
+            this.modalTitle = 'Confirm Edit ' + strCapitalize(this.editingRole.position) + ' to ' + strCapitalize(newRoleVal);
+            this.modalBody = 'Role changes are immediate and will automatically effect all team members that have the role.';
+            this.modalMode = 'update';
+            this.roleToUpdate = oldRole;
+            this.updatedRoleVal = newRoleVal;
+            $('#modal-confirm').modal('show');
+        },
+        updateRole: function() {
+            var self = this;
+            $.ajax({
+                url: '/api/roles/' + self.roleToUpdate.id,
+                method: 'PUT',
+                data: {
+                    role: self.roleToUpdate,
+                    newPosition: self.updatedRoleVal
+                },
+                success: function(role) {
+                    self.roles = _.reject(self.roles, self.roleToUpdate);
+                    self.roles.push(role);
+
+                    self.roleSelect.updateOption(self.roleToUpdate.position, {
+                        value: role.position,
+                        text: strCapitalize(role.position)
+                    });
+
+                    // select new option
+                    if(self.selectedRole.position === self.roleToUpdate.position) self.selectedRole = role;
+                },
+                error: function(response) {
+                    console.log('Request Error!');
+                    console.log(response);
                 }
             });
         }
@@ -138,7 +213,6 @@ new Vue({
                 console.log(err);
             }
         });
-
 
         var $addRoleLink = $('#link-add-role');
 
@@ -187,7 +261,7 @@ new Vue({
         $addRoleLink.on('save', function (e, params) {
             self.roleSelect.addOption({
                 value: params.newValue,
-                text: strCapitalize(params.newValue)
+                text: params.newValue
             });
         });
 
@@ -209,5 +283,8 @@ new Vue({
         self.roleSelect.on("item_add", function (value, $item) {
             self.selectedRole = _.find(self.roles, {position: value});
         });
+
+
+
     }
 });

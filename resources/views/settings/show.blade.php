@@ -85,7 +85,12 @@
                             </tr>
                             <tr class="role-row changeable" v-else>
 
-                                <th class="role-position removable"><span class="overlay clickable" @click="setRemoveRole(role)" data-toggle="modal" data-target="#modal-confirm-remove">Remove</span>@{{ role.position }}</th>
+                                {{--<th class="role-position removable"><span class="overlay clickable" @click="setRemoveRole(role)" data-toggle="modal" data-target="#modal-confirm-remove">Remove</span>@{{ role.position }}</th> --}}
+                                <th class="role-position removable">
+                                    <span @click="editRole(role)" v-show="notEditing(role)">@{{ role.position }}</span>
+                                    <input type="text" v-show="! notEditing(role)" v-model="editRolePosition" :class="{ 'input-editing-role': ! notEditing(role) }">
+                                    <span class="overlay clickable" @click="setRemoveRole(role)" data-toggle="modal" data-target="#modal-confirm" v-show="notEditing(role)"><i class="fa fa-close"></i></span>
+                                </th>
 
                                 @foreach($permissions as $permission)
                                     <td v-if="hasPermission({{ $permission }}, role)"
@@ -121,12 +126,18 @@
                             </select>
                         </div>
                         <div class="permissions" v-show="selectedRole">
+                            <div class="top">
+                                <span class="selected-role" @click="editRole(selectedRole)" v-show="notEditing(selectedRole)">@{{ selectedRole.position | capitalize }}</span>
+                                <input type="text" v-show="! notEditing(selectedRole)" v-model="editRolePosition" :class="{ 'input-editing-role': ! notEditing(selectedRole) }">
+
+                                <span @click="setRemoveRole(selectedRole)" data-toggle="modal" data-target="#modal-confirm" class="remove-span clickable" v-show="selectedRole && selectedRole.position !== 'admin'">remove</span>
+                            </div>
                             <!--  Role Permissions Table -->
                             <table class="table table-bordered table-hover">
                                 <tbody>
                                     @foreach($permissions as $permission)
                                     <tr class="role-row changeable">
-                                        <th>{{ $permission->label }}</th>
+                                        <td class="permission">{{ $permission->label }}</td>
                                         <td v-if="hasPermission({{ $permission }}, selectedRole)"
                                             class="clickable td-has-permission"
                                         @click="removePermission({{ $permission }}, selectedRole)"
@@ -145,23 +156,23 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="role-remove" v-show="selectedRole && selectedRole.position !== 'admin'">
-                            <button class="btn btn-solid-red" @click="setRemoveRole(selectedRole)" data-toggle="modal" data-target="#modal-confirm-remove">Remove</button>
-                        </div>
+
                 </div>
-                <div class="modal-roles modal" id="modal-confirm-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                <div class="modal-roles modal" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="vertical-alignment-helper">
                     <div class="modal-dialog vertical-align-center">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="text-center">Are you sure?</h5>
+                                <h5 class="text-center">@{{ modalTitle }}</h5>
                             </div>
                             <div class="modal-body">
-                                <p><strong>Removing a role is irreversible</strong>. Any team members that have those roles will lose all their permissions and won't be able to complete any tasks until you assign them a new role.</p>
+                                <p>@{{ modalBody }}</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger btn-ok" @click="removeRole" data-dismiss="modal">Remove</a>
+                                <a class="btn btn-danger btn-ok" @click="removeRole" data-dismiss="modal" v-show="modalMode === 'remove'">Remove</a>
+                                <a class="btn btn-primary btn-ok" @click="updateRole" data-dismiss="modal" v-show="modalMode === 'update'">Update</a>
                             </div>
                         </div>
                     </div>

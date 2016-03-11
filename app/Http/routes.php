@@ -115,6 +115,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/api/roles/delete', 'RolesController@removeRole');
     Route::post('/api/roles/remove_permission', 'RolesController@postRemovePermission');
     Route::post('/api/roles/give_permission', 'RolesController@postGivePermission');
+    Route::put('/api/roles/{role}', 'RolesController@update');
 
     /**
      * Vendors

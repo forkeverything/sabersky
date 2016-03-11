@@ -329,7 +329,7 @@ Vue.filter('chunk', function (array, length) {
 });
 
 Vue.filter('capitalize', function (str) {
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
 
 //# sourceMappingURL=setup.js.map

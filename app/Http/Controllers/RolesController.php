@@ -59,4 +59,13 @@ class RolesController extends Controller
             $role->delete();
         return response("Succesfully removed role.", 201);
     }
+
+    public function update(Role $role, ModifyRolesRequest $request)
+    {
+        $newPosition = $request->input('newPosition');
+        if($role->position === 'admin' || Auth::user()->company->roles->contains('position', $newPosition)) abort(403, 'Forbade - is role admin or already existing?');
+        $role->position = $newPosition;
+        $role->save();
+        return $role->load('permissions');
+    }
 }
