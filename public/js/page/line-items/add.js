@@ -17,7 +17,7 @@ new Vue({
         var self = this;
         $.ajax({
             method: 'GET',
-            url: '/purchase_requests/available',
+            url: '/api/purchase_requests/available',
             success: function(data) {
                 self.purchaseRequests = data;
             }

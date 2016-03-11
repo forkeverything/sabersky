@@ -14,21 +14,29 @@ use Illuminate\Support\Facades\Gate;
 
 class PurchaseRequestController extends Controller
 {
+    protected $purchaseRequests;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('company');
+        $this->purchaseRequests = Auth::user()->company->purchaseRequests->load(['project', 'item', 'user']);
     }
 
+    /**
+     * Handle request to view all purchase requests.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function all()
     {
-        $purchaseRequests = PurchaseRequest::with(['project', 'item', 'user'])->get();
-        return view('purchase_requests.all', compact('purchaseRequests'));
+        return view('purchase_requests.all')->with('purchaseRequests', $this->purchaseRequests);
     }
 
     public function apiAll(Request $request)
     {
         if ($request->ajax()) {
-            return PurchaseRequest::with(['project', 'item', 'user'])->get();
+            return $this->purchaseRequests;
         } else {
             abort('501', 'Oops..can\'t get in that way.');
         }
@@ -64,9 +72,12 @@ class PurchaseRequestController extends Controller
     public function available()
     {
         if(($unfinishedPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first()) && Gate::allows('po_submit')) {
-            $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id');
-            return PurchaseRequest::whereProjectId(Auth::user()->purchaseOrders()->whereSubmitted(0)->first()->project_id)->whereState('open')->with(['item', 'item.photos', 'user'])->where('quantity','>',0)->whereNotIn('id', $addedPRIds)->get();
+            $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id')->toArray();
+            return $this->purchaseRequests->where('project_id', $unfinishedPO->project_id)->where('state', 'open')->reject(function($item) use ($addedPRIds) {
+                return in_array($item->id, $addedPRIds) || $item->quantity <= 0;
+            })->load('item.photos');
         }
+        abort(403, 'No unsubmitted purchase order or not allowed to submit purchase order');
     }
 
     public function cancel(Request $request)

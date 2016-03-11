@@ -55,10 +55,6 @@ class PurchaseRequest extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getStateAttribute($property)
-    {
-        return ucfirst($property);
-    }
 
     public function lineItems()
     {
