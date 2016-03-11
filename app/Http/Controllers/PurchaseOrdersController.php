@@ -63,7 +63,7 @@ class PurchaseOrdersController extends Controller
                 'vendor_id' => $vendorId
             ]);
         } else {
-            $vendor = Vendor::create(array_merge($request->all(), ['company_id' => Auth::user()->company_id]));
+            $vendor = Vendor::create($request->all());
             $this->existingPO->update([
                 'vendor_id' => $vendor->id
             ]);

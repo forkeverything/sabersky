@@ -22,10 +22,6 @@ class CreateVendorsTable extends Migration
             $table->string('bank_name');
             $table->string('bank_account_name');
             $table->string('bank_account_number');
-
-            $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-
         });
     }
 

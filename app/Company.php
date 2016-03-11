@@ -74,9 +74,16 @@ class Company extends Model
 
     }
 
-    public function vendors()
+    public function getVendorsAttribute()
     {
-        return $this->hasMany(Vendor::class);
+        $vendorsArray = [];
+        foreach ($this->purchaseOrders as $purchaseOrder) {
+            array_push($vendorsArray, $purchaseOrder->vendor);
+        }
+        $vendorCollection = collect($vendorsArray)->unique('id')->reject(function ($value, $key) {
+            return empty($value);
+        });
+        return $vendorCollection;
     }
 
     public function purchaseOrders()

@@ -11,6 +11,12 @@
 |
 */
 
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return [
+        'position' => $faker->word,
+        'company_id' => 1
+    ];
+});
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
@@ -19,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => bcrypt('password'),
         'remember_token' => str_random(10),
         'company_id' => 1,
-        'role_id' => $faker->numberBetween(1, 6)
+        'role_id' => factory(App\Role::class)->create()->id
     ];
 });
 
@@ -39,8 +45,15 @@ $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
         'address' => $faker->address,
         'bank_name' => $faker->randomElement(['BNI', 'Maybank', 'BCA', 'BRI', 'HSBC']),
         'bank_account_name' => $faker->name,
-        'bank_account_number' => $faker->randomNumber(8),
-        'company_id' => 1
+        'bank_account_number' => $faker->randomNumber(8)
+    ];
+});
+
+$factory->define(App\PurchaseOrder::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => 1,
+        'vendor_id' => factory(App\Vendor::class)->create()->id,
+        'user_id' => factory(App\User::class)->create()->id
     ];
 });
 

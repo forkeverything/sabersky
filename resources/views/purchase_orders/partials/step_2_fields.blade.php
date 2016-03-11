@@ -1,5 +1,7 @@
 <section>
     <h5>Step 2: Vendor Details</h5>
+    @foreach(Auth::user()->company->vendors as $vendor)
+    @endforeach
     <div class="row button-select-vendor-type">
         <div class="col-sm-6">
             <button class="btn-outline-yellow"
