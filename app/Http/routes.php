@@ -121,6 +121,4 @@ Route::group(['middleware' => 'web'], function () {
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@showAll']);
-
-
 });

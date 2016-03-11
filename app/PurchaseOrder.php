@@ -71,9 +71,6 @@ class PurchaseOrder extends Model
      */
     public function processSubmission()
     {
-        // Set properties
-        $this->setProperties();
-
         // update purchase requests
         $this->updatePurchaseRequests();
 
@@ -92,28 +89,6 @@ class PurchaseOrder extends Model
         }
     }
 
-    protected function setProperties()
-    {
-        $settings = DB::table('settings')->first();
-        $this->over_high = $this->total > $settings->po_high_max;
-        $this->over_med = $this->total > $settings->po_med_max;
-        foreach ($this->lineItems as $lineItem) {
-            if ($lineItem->purchaseRequest->item->new) {
-                $this->new_item = true;
-            }elseif($itemMean = $lineItem->purchaseRequest->item->mean){
-                $meanDifference = ($lineItem->price - $itemMean) / $itemMean;
-                if ($meanDifference > $settings->item_md_max) {
-                    $this->item_over_md = true;
-                }
-            }
-        }
-        $this->new_vendor = $this->vendor->purchaseOrders->count() == 1;
-        if (!$this->over_high && !$this->over_med && !$this->item_over_md && !$this->new_item && !$this->new_vendor) {
-            $this->markApproved();
-        }
-        $this->save();
-    }
-
     public function markApproved()
     {
         $this->status = 'approved';
@@ -126,6 +101,11 @@ class PurchaseOrder extends Model
         $this->status = 'rejected';
         $this->save();
         return $this;
+    }
+
+    public function rules()
+    {
+        return $this->belongsToMany(Rule::class);
     }
 
 }

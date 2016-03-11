@@ -71,5 +71,10 @@ class Role extends Model
         $this->attributes['position'] = strtolower($position);
     }
 
+    public function rules()
+    {
+        return $this->belongsToMany(Rule::class);
+    }
+
 
 }

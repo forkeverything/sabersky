@@ -52,6 +52,7 @@ elixir(function(mix) {
 
     mix.scriptsIn('resources/assets/js/setup', 'public/js/setup.js');
     mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
+    mix.scriptsIn('resources/assets/js/components', 'public/js/components.js');
 
     mix.copy('resources/assets/js/page', 'public/js/page');
 

@@ -6665,6 +6665,20 @@ button.close {
 #items-all .table-items .item-row td {
   vertical-align: middle; }
 
+#system-settings #settings-nav {
+  font-size: 1.1em;
+  margin: 0 0 30px;
+  font-weight: bold;
+  border-bottom: 3px solid #D2D2D2;
+  color: #D2D2D2; }
+  #system-settings #settings-nav li {
+    margin: 0 0 -3px 0;
+    padding: 0 30px 10px 30px; }
+    #system-settings #settings-nav li:hover, #system-settings #settings-nav li.active {
+      border-bottom: 3px solid #2ECC71;
+      padding: 0 30px 7px 30px;
+      color: #2ECC71; }
+
 #system-settings .triggers {
   margin: 0 0 30px; }
 
@@ -6956,5 +6970,8 @@ li.active {
 
 .modal h5, .modal p {
   margin: 0; }
+
+.modal .btn-confirm {
+  text-transform: capitalize; }
 
 /*# sourceMappingURL=app.css.map */

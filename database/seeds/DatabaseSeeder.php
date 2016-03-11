@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsTableSeeder::class);
 //        $this->call(RolesTableSeeder::class);
         $this->call(PusakaSetupSeeder::class);
+        $this->call(PropertiesTriggersTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
         Model::reguard();

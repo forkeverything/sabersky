@@ -115,4 +115,9 @@ class Company extends Model
         abort(403, 'Already have an admin');
     }
 
+    public function rules()
+    {
+        return $this->hasMany(Rule::class);
+    }
+
 }

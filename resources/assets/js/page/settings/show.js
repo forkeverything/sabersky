@@ -2,47 +2,30 @@ new Vue({
     name: 'Settings',
     el: '#system-settings',
     data: {
-        settings: [],
-        ajaxReady: true
-    },
-    ready: function() {
-        var self = this;
-        $.ajax({
-            url: '/api/settings',
-            method: 'GET',
-            success: function(data) {
-                self.settings = data;
+        ajaxReady: true,
+        modalTitle: '',
+        modalBody: '',
+        modalMode: '',
+        modalFunction: function(){},
+        settingsView: 'permissions',
+        navLinks: [
+            {
+                label: 'Rules',
+                component: 'rules'
             },
-            error: function(err) {
-                console.log(err);
+            {
+                label: 'Permissions',
+                component: 'permissions'
             }
-        });
+        ]
+    },
+    components: {
+        permissions: permissionsComponent,
+        rules: rulesComponent
     },
     methods: {
-        saveSettings: function() {
-            var self = this;
-            if(self.ajaxReady) {
-                self.ajaxReady = false;
-                $.ajax({
-                    url: '/settings',
-                    method: 'POST',
-                    data: self.settings,
-                    success: function (data) {
-                        console.log('Successfully saved settings');
-                        self.ajaxReady = true;
-                        flashNotify('success', 'Successfully updated settings')
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        self.ajaxReady = true;
-                    }
-                });
-            }
-        }
-    },
-    computed: {
-        saveButtonText: function() {
-            return this.ajaxReady ? 'Save Settings' : 'Saving...';
+        changeView: function(view) {
+            this.settingsView = view;
         }
     }
 });

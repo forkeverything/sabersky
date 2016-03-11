@@ -1,5 +1,23 @@
 #system-settings {
 
+  #settings-nav {
+    font-size: 1.1em;
+    margin: 0 0 30px;
+    font-weight: bold;
+    border-bottom: 3px solid $grey;
+    color: $grey;
+
+      li {
+        margin: 0 0 -3px 0;
+        padding: 0 30px 10px 30px;
+        &:hover, &.active {
+          border-bottom: 3px solid $green;
+          padding: 0 30px 7px 30px;
+          color: $green;
+        }
+      }
+  }
+
   .triggers {
     margin: 0 0 30px;
   }
