@@ -10,12 +10,12 @@ new Vue({
         settingsView: 'permissions',
         navLinks: [
             {
-                label: 'Rules',
-                component: 'rules'
-            },
-            {
                 label: 'Permissions',
                 component: 'permissions'
+            },
+            {
+                label: 'Rules',
+                component: 'rules'
             }
         ]
     },

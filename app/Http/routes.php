@@ -121,4 +121,9 @@ Route::group(['middleware' => 'web'], function () {
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@showAll']);
+
+    /**
+     * Rules
+     */
+    Route::get('/api/rules/properties_triggers', 'RulesController@getPropertiesTriggers');
 });
