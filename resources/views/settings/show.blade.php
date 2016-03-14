@@ -14,22 +14,15 @@
             <ul id="settings-nav" class="list-unstyled list-inline">
                 <li class="clickable"
                     v-for="link in navLinks"
-                    @click="changeView(link.component)"
+                    @click="changeView(link.section)"
                     :class="{
-                    'active': settingsView === link.component
+                    'active': settingsView === link.section
                     }"
                 >
                     @{{ link.label }}
                 </li>
             </ul>
 
-            <component :is="settingsView"
-                       :ajax-ready.sync="ajaxReady"
-                       :modal-title.sync="modalTitle"
-                       :modal-body.sync="modalBody"
-                       :modal-mode.sync="modalMode"
-                       :modal-function.sync="modalFunction"
-            ></component>
 
             @include('settings.partials.permissions')
             @include('settings.partials.rules')

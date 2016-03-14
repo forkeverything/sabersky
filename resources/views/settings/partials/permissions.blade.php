@@ -1,5 +1,4 @@
-<template id="component-permissions">
-    <div class="roles-permissions">
+ <div id="settings-permissions" v-show="settingsView === 'permissions'">
         <h5>Staff Roles & Permissions</h5>
         <p>Add new roles, then set or modify permissions for what each role can do. Changes are saved
             automatically and reflected immediately.</p>
@@ -10,7 +9,7 @@
                 <tr>
                     <th></th>
                     @foreach($permissions as $permission)
-                        <th>{{ $permission->label }}</th>
+                            <th>{{ $permission->label }}</th>
                     @endforeach
                 </tr>
                 </thead>
@@ -26,7 +25,6 @@
                     </tr>
                     <tr class="role-row changeable" v-else>
 
-                        {{--<th class="role-position removable"><span class="overlay clickable" @click="setRemoveRole(role)" data-toggle="modal" data-target="#modal-confirm-remove">Remove</span>@{{ role.position }}</th> --}}
                         <th class="role-position removable">
                             <span @click="editRole(role)" v-show="notEditing(role)">@{{ role.position }}</span>
                             <input type="text" v-show="! notEditing(role)" v-model="editRolePosition"
@@ -107,4 +105,3 @@
 
         </div>
     </div>
-</template>

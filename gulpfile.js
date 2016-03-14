@@ -26,13 +26,14 @@ elixir(function(mix) {
         'dropzone/dist/min/dropzone.min.css',
         'bootstrap-fileinput/css/fileinput.min.css',
         'fancybox/source/jquery.fancybox.css',
-        'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css'
+        'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
+        'bootstrap-select/dist/css/bootstrap-select.min.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
 
     mix.scripts([
-        'jquery/dist/jquery.min.js',
+        'jquery/dist/jquery.js',
         'bootstrap-sass/assets/javascripts/bootstrap.min.js',
         'vue/dist/vue.js',
         'lodash/lodash.js',
@@ -46,13 +47,13 @@ elixir(function(mix) {
         'bootstrap-fileinput/js/fileinput_locale_id.js',
         'fancybox/lib/jquery.mousewheel-3.0.6.pack.js',
         'fancybox/source/jquery.fancybox.pack.js',
-        'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js'
+        'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
+        'bootstrap-select/dist/js/bootstrap-select.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 
     mix.scriptsIn('resources/assets/js/setup', 'public/js/setup.js');
     mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
-    mix.scriptsIn('resources/assets/js/components', 'public/js/components.js');
 
     mix.copy('resources/assets/js/page', 'public/js/page');
 

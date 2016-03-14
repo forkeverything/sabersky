@@ -125,5 +125,4 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Rules
      */
-    Route::get('/api/rules/properties_triggers', 'RulesController@getPropertiesTriggers');
 });

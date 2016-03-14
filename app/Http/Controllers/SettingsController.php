@@ -19,12 +19,21 @@ class SettingsController extends Controller
         $this->middleware('auth');
 
     }
+
     public function show()
     {
         if (Gate::allows('settings_change')) {
             $permissions = Permission::all();
+            $properties = collect(
+                DB::table('properties')
+                    ->select('*')
+                    ->get());
+            $triggers = collect(
+                DB::table('triggers')
+                    ->select('*')
+                    ->get());
             $roles = Auth::user()->company->roles;
-            return view('settings.show', compact('permissions', 'roles'));
+            return view('settings.show', compact('permissions', 'roles', 'properties', 'triggers'));
         }
         return redirect('/dashboard');
     }

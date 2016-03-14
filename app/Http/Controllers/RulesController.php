@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class RulesController extends Controller
 {
-    public function getPropertiesTriggers()
-    {
-        $properties = collect(
-            DB::table('properties')
-                ->select('*')
-                ->get());
-        $triggers = collect(
-            DB::table('triggers')
-                ->select('*')
-                ->get());
-       return [
-            'properties' => $properties,
-            'triggers' => $triggers
-        ];
-    }
+
+    /**
+     * Deprecated - provide static data serverside.
+     */
+//    public function getPropertiesTriggers()
+//    {
+//        $properties = collect(
+//            DB::table('properties')
+//                ->select('*')
+//                ->get());
+//        $triggers = collect(
+//            DB::table('triggers')
+//                ->select('*')
+//                ->get());
+//       return [
+//            'properties' => $properties,
+//            'triggers' => $triggers
+//        ];
+//    }
 }

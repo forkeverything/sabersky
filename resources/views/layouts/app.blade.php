@@ -33,10 +33,8 @@
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
 <!-- Setup & Initz' -->
 <script type="text/javascript" src="{{ asset('/js/setup.js') }}"></script>
-<!-- Global Scripts -->
+<!-- Global (helpers) Scripts -->
 <script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
-<!-- Component Scripts -->
-<script type="text/javascript" src="{{ asset('/js/components.js') }}"></script>
 <!-- Page Specific Scripts -->
 @yield('scripts.footer')
 <!-- Flash Notification -->
