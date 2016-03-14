@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequirementUserTable extends Migration
+class CreateRuleUserTable extends Migration
 {
     /**
      * Run the migrations.

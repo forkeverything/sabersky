@@ -24,18 +24,36 @@ class SettingsController extends Controller
     {
         if (Gate::allows('settings_change')) {
             $permissions = Permission::all();
-            $properties = collect(
-                DB::table('properties')
-                    ->select('*')
-                    ->get());
-            $triggers = collect(
-                DB::table('triggers')
-                    ->select('*')
-                    ->get());
             $roles = Auth::user()->company->roles;
-            return view('settings.show', compact('permissions', 'roles', 'properties', 'triggers'));
+            return view('settings.show', compact('permissions', 'roles'));
         }
         return redirect('/dashboard');
+    }
+
+    public function getPropertiesTriggers()
+    {
+        $properties = collect(
+            DB::table('rule_properties')
+                ->select('*')
+                ->get());
+
+        // Initialize array
+        foreach($properties as $property) {
+            $property->triggers = [];
+        }
+
+        $triggers=  collect(
+            DB::table('rule_triggers')
+                ->select('*')
+                ->get());
+
+
+        foreach($triggers as $trigger) {
+            array_push($properties[($trigger->rule_property_id - 1)]->triggers, $trigger);
+        }
+
+
+        return $properties;
     }
 
 }

@@ -311,3 +311,18 @@
     color: $red;
   }
 }
+
+.btn-outline-yellow,
+.btn-outline-red,
+.btn-outline-green,
+.btn-outline-blue {
+  &:disabled {
+    color: $dark-grey;
+    border-color: $dark-grey;
+    &:hover {
+      -webkit-box-shadow: none!important;
+      -moz-box-shadow: none!important;
+      box-shadow: none!important;
+    }
+  }
+}

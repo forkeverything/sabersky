@@ -1,5 +1,5 @@
  <div id="settings-permissions" v-show="settingsView === 'permissions'">
-        <h5>Staff Roles & Permissions</h5>
+        <h2>Staff Roles & Permissions</h2>
         <p>Add new roles, then set or modify permissions for what each role can do. Changes are saved
             automatically and reflected immediately.</p>
         <div class="table-responsive wrap-table-roles visible-lg">

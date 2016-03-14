@@ -28,7 +28,22 @@ new Vue({
         roleToUpdate: {},
         updatedRoleVal: '',
         // Rules
-        selectedProperty: ''
+        ruleProperties: [],
+        selectedProperty: false,
+        selectedTrigger: false,
+        selectedRuleRoles: [],
+        ruleLimit: ''
+    },
+    computed: {
+        ruleHasLimit: function() {
+            return this.selectedTrigger.has_limit;
+        },
+        canSubmitRule: function() {
+            if(this.ruleHasLimit) {
+                return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
+            }
+            return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
+        }
     },
     methods: {
         changeView: function(view) {
@@ -184,6 +199,9 @@ new Vue({
                     console.log(response);
                 }
             });
+        },
+        setTriggers: function() {
+            this.selectedTrigger = '';
         }
     },
     ready: function() {
@@ -269,5 +287,18 @@ new Vue({
         self.roleSelect.on("item_add", function (value, $item) {
             self.selectedRole = _.find(self.roles, {position: value});
         });
+
+       $.ajax({
+           url: '/api/settings/properties_triggers',
+           method: 'GET',
+           success: function(data) {
+              // success
+               self.ruleProperties = data;
+           },
+           error: function(response) {
+               console.log('Request Error!');
+               console.log(response);
+           }
+       });
     }
 });

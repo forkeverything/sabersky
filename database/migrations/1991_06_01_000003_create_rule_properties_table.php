@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePropertiesTable extends Migration
+class CreateRulePropertiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('rule_properties', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('label');
@@ -26,6 +26,6 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('properties');
+        Schema::drop('rule_properties');
     }
 }

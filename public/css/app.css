@@ -6197,6 +6197,18 @@ button.close {
   .btn-remove:hover {
     color: #E74C3C; }
 
+.btn-outline-yellow:disabled,
+.btn-outline-red:disabled,
+.btn-outline-green:disabled,
+.btn-outline-blue:disabled {
+  color: #757575;
+  border-color: #757575; }
+  .btn-outline-yellow:disabled:hover,
+  .btn-outline-red:disabled:hover,
+  .btn-outline-green:disabled:hover,
+  .btn-outline-blue:disabled:hover {
+    box-shadow: none !important; }
+
 #dashboard-nav .dashboard-link {
   color: #000;
   font-weight: bold;
@@ -6784,6 +6796,11 @@ button.close {
   text-align: left;
   width: initial; }
 
+#settings-rules .rule-generator th {
+  width: 150px;
+  vertical-align: middle;
+  text-align: right; }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }
@@ -6829,10 +6846,10 @@ a {
 h5 {
   font-weight: bold;
   font-size: 1.4em;
-  margin: 0 0 5px; }
+  margin: 0 0 15px; }
 
 p {
-  margin: 0 0 15px; }
+  margin: 0 0 30px; }
 
 label {
   font-size: 14px;

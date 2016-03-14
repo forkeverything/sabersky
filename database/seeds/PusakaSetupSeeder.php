@@ -17,7 +17,6 @@ class PusakaSetupSeeder extends Seeder
     {
         DB::table('companies')->truncate();
         DB::table('users')->truncate();
-        DB::table('settings')->truncate();
         DB::table('items')->truncate();
         DB::table('projects')->truncate();
 

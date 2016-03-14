@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTriggersTable extends Migration
+class CreateRuleTriggersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,16 @@ class CreateTriggersTable extends Migration
      */
     public function up()
     {
-        Schema::create('triggers', function (Blueprint $table) {
+        Schema::create('rule_triggers', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('description');
+            $table->string('name');
+            $table->string('label');
+
             $table->boolean('has_limit')->default(0);
 
-            $table->integer('property_id')->unsigned();
-            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
+            $table->integer('rule_property_id')->unsigned();
+            $table->foreign('rule_property_id')->references('id')->on('rule_properties')->onDelete('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateTriggersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('triggers');
+        Schema::drop('rule_triggers');
     }
 }

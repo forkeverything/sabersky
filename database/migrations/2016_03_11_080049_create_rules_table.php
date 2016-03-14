@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequirementsTable extends Migration
+class CreateRulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,12 +18,12 @@ class CreateRequirementsTable extends Migration
 
             $table->string('limit')->nullable();
 
-            $table->integer('property_id')->unsigned();
-            $table->integer('trigger_id')->unsigned();
+            $table->integer('rule_property_id')->unsigned();
+            $table->integer('rule_trigger_id')->unsigned();
             $table->integer('company_id')->unsigned();
-//
-            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
-            $table->foreign('trigger_id')->references('id')->on('triggers')->onDelete('cascade');
+
+            $table->foreign('rule_property_id')->references('id')->on('rule_properties')->onDelete('cascade');
+            $table->foreign('rule_trigger_id')->references('id')->on('rule_triggers')->onDelete('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
         });

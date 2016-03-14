@@ -104,8 +104,8 @@ Route::group(['middleware' => 'web'], function () {
      * Settings
      */
     Route::get('/settings', 'SettingsController@show');
-    Route::get('/api/settings', 'SettingsController@apiShow');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
+    Route::get('/api/settings/properties_triggers', 'SettingsController@getPropertiesTriggers');
 
     /**
      * Roles
@@ -122,7 +122,4 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@showAll']);
 
-    /**
-     * Rules
-     */
 });

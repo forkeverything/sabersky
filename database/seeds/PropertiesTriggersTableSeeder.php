@@ -5,28 +5,43 @@ use Illuminate\Database\Seeder;
 class PropertiesTriggersTableSeeder extends Seeder
 {
 
-    protected $properties = [
+    protected $ruleProperties = [
          [
-             'name' => 'order_total',
              'label' => 'Order Total',
+             'name' => 'order_total',
              'triggers' => [
-                'exceeds' => 1
+                'exceeds' => [
+                    'label' => 'Exceeds',
+                    'has_limit' => 1
+                ]
             ]
         ],
         [
-            'name' => 'vendor',
             'label' => 'Vendor',
+            'name' => 'vendor',
             'triggers' => [
-                'new' => 0
+                'new' => [
+                    'label' => 'No Previous Orders',
+                    'has_limit' => 0
+                ]
             ]
         ],
         [
-            'name' => 'single_item',
             'label' => 'Any Single Item',
+            'name' => 'single_item',
             'triggers' => [
-                'over' => 1,
-                'new' => 0,
-                'exceeds mean by' => 1
+                'over' => [
+                    'label' => 'Exceeds',
+                    'has_limit' => 1
+                ],
+                'new' => [
+                    'label' => 'First Order',
+                    'has_limit' => 0
+                ],
+                'percentage_over_mean' => [
+                    'label' => 'Over Mean by',
+                    'has_limit' => 1
+                ]
             ]
         ]
     ];
@@ -38,20 +53,21 @@ class PropertiesTriggersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('properties')->truncate();
-        DB::table('triggers')->truncate();
-        foreach($this->properties as $property) {
+        DB::table('rule_properties')->truncate();
+        DB::table('rule_triggers')->truncate();
+        foreach($this->ruleProperties as $property) {
 
-            $id = DB::table('properties')->insertGetId([
+            $propertyId = DB::table('rule_properties')->insertGetId([
                 'name' => $property['name'],
                 'label' => $property['label']
             ]);
 
-            foreach($property['triggers'] as $trigger => $needsLimit ){
-                DB::table('triggers')->insert([
-                    'description' => $trigger,
-                    'has_limit' => $needsLimit,
-                    'property_id' => $id
+            foreach($property['triggers'] as $name => $trigger ){
+                DB::table('rule_triggers')->insert([
+                    'name' => $name,
+                    'label' => $trigger['label'],
+                    'has_limit' => $trigger['has_limit'],
+                    'rule_property_id' => $propertyId
                 ]);
             }
         }
