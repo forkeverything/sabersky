@@ -105,7 +105,6 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/settings', 'SettingsController@show');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
-    Route::get('/api/settings/properties_triggers', 'SettingsController@getPropertiesTriggers');
 
     /**
      * Roles
@@ -116,6 +115,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/api/roles/remove_permission', 'RolesController@postRemovePermission');
     Route::post('/api/roles/give_permission', 'RolesController@postGivePermission');
     Route::put('/api/roles/{role}', 'RolesController@update');
+
+    /**
+     * Rules
+     */
+    Route::get('/api/rules/properties_triggers', 'RulesController@getPropertiesTriggers');
+    Route::post('/api/rules', 'RuleScontroller@postNewRule');
 
     /**
      * Vendors

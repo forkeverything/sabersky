@@ -28,6 +28,7 @@ new Vue({
         roleToUpdate: {},
         updatedRoleVal: '',
         // Rules
+        rules: [],
         ruleProperties: [],
         selectedProperty: false,
         selectedTrigger: false,
@@ -202,6 +203,30 @@ new Vue({
         },
         setTriggers: function() {
             this.selectedTrigger = '';
+        },
+        addRule: function() {
+            var self = this;
+            var postData = {
+                rule_property_id: self.selectedProperty,
+                rule_trigger_id: self.selectedTrigger,
+                limit: self.ruleLimit,
+                roles: self.selectedRuleRoles
+            };
+            $.ajax({
+                url: '/api/rules',
+                method: 'POST',
+                data: postData,
+                success: function(data) {
+                   // success
+                    console.log('Added a new rule!');
+                    self.rules.push(data);
+                    console.log(data);
+                },
+                error: function(response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                }
+            });
         }
     },
     ready: function() {
@@ -289,7 +314,7 @@ new Vue({
         });
 
        $.ajax({
-           url: '/api/settings/properties_triggers',
+           url: '/api/rules/properties_triggers',
            method: 'GET',
            success: function(data) {
               // success

@@ -29,31 +29,4 @@ class SettingsController extends Controller
         }
         return redirect('/dashboard');
     }
-
-    public function getPropertiesTriggers()
-    {
-        $properties = collect(
-            DB::table('rule_properties')
-                ->select('*')
-                ->get());
-
-        // Initialize array
-        foreach($properties as $property) {
-            $property->triggers = [];
-        }
-
-        $triggers=  collect(
-            DB::table('rule_triggers')
-                ->select('*')
-                ->get());
-
-
-        foreach($triggers as $trigger) {
-            array_push($properties[($trigger->rule_property_id - 1)]->triggers, $trigger);
-        }
-
-
-        return $properties;
-    }
-
 }

@@ -73,7 +73,8 @@
         <div class="col-md-4 col-md-offset-8">
             <button class="btn btn-outline-blue"
                     type="button"
-            :disabled="! canSubmitRule"
+                    :disabled="! canSubmitRule"
+                    @click="addRule"
             >
                 Add Rule
             </button>
