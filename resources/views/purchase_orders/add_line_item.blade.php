@@ -10,7 +10,7 @@
         </div>
         <div class="page-body">
             <section>
-                <h5>How to fulfill a Purchase Request</h5>
+                <h2>How to fulfill a Purchase Request</h2>
                 <ol>
                     <li>Select a Purchase Request</li>
                     <li>Set Quantity purchasing from vendor</li>
@@ -28,7 +28,7 @@
             <div class="table-responsive"
                  v-show="! selectedPurchaseRequest"
             >
-                <h5>Select Purchase Request to Order</h5>
+                <h2>Select Purchase Request to Order</h2>
                 <span class="filter-urgent clickable"
                 @click="toggleUrgent"
                 :class="{ 'active': urgent}"
@@ -126,7 +126,7 @@
             <div
                     v-show="selectedPurchaseRequest"
             >
-                <h5>Selected Purchase Request</h5>
+                <h2>Selected Purchase Request</h2>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>@{{ selectedPurchaseRequest.item.name }}</strong>
@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 <div class="tabel-responsive purchase-order-details">
-                    <h5>Order Details</h5>
+                    <h2>Order Details</h2>
                     <!-- Line Item Details Table -->
                     <table class="table table-bordered">
                         <tbody>

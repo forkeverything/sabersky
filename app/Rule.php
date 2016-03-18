@@ -22,6 +22,15 @@ class Rule extends Model
         'company_id'
     ];
 
+    protected $appends = [
+        'property',
+        'trigger'
+    ];
+
+    protected $with = [
+        'roles'
+    ];
+
     /**
      * Rule can belong to many roles (m2m)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -49,4 +58,27 @@ class Rule extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * Fetches the property that the rule
+     * applies to
+     *
+     * @return mixed
+     */
+    public function getPropertyAttribute()
+    {
+        return DB::table('rule_properties')
+            ->select('*')
+            ->where('id', $this->rule_property_id)
+            ->first();
+    }
+
+    public function getTriggerAttribute()
+    {
+        return DB::table('rule_triggers')
+            ->select('*')
+            ->where('id', $this->rule_trigger_id)
+            ->first();
+    }
+
 }

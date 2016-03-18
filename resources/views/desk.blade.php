@@ -9,7 +9,7 @@
     <p class="page-intro">Here is your desk, where you will find items that require your attention, based on your position and the team that you're a part of.</p>
     @can('po_submit')
     <section class="purchase-requests">
-        <h5>Open Purchase Requests</h5>
+        <h2>Open Purchase Requests</h2>
     </section>
     @endcan
 </div>

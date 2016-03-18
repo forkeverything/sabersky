@@ -103,9 +103,30 @@ class PurchaseOrder extends Model
         return $this;
     }
 
+    /**
+     * A purchase order can have many rules which apply.
+     * If any rules are flagged - it must be approved
+     * by a team member who's role is pre-approved.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function rules()
     {
         return $this->belongsToMany(Rule::class);
+    }
+
+    public function tryAutoApprove()
+    {
+        // If PO is 'pending' and DOES NOT have rules that apply
+        if($this->is('pending') && count($this->rules) === 0) {
+            $this->markApproved();
+        }
+        return $this;
+    }
+
+    public function is($status)
+    {
+        return $this->status === $status;
     }
 
 }

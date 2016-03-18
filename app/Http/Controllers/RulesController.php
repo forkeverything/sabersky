@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRuleRequest;
 use App\Http\Requests\SaveRuleRequest;
+use App\Rule;
 use App\Utilities\RuleMaker;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RulesController extends Controller
@@ -21,6 +23,17 @@ class RulesController extends Controller
     }
 
     /**
+     * GET all the rules for the logged-in
+     * User's company.
+     *
+     * @return mixed
+     */
+    public function getRules()
+    {
+        return Auth::user()->company->rules->groupBy('property.label');
+    }
+
+    /**
      * Handles GET request and fetches the list of
      * available rule properties & triggers.
      *
@@ -28,44 +41,41 @@ class RulesController extends Controller
      */
     public function getPropertiesTriggers()
     {
-        $properties = collect(
-            DB::table('rule_properties')
-                ->select('*')
-                ->get());
-
-        // Initialize array
-        foreach($properties as $property) {
-            $property->triggers = [];
-        }
-
-        $triggers=  collect(
-            DB::table('rule_triggers')
-                ->select('*')
-                ->get());
-
-
-        foreach($triggers as $trigger) {
-            array_push($properties[($trigger->rule_property_id - 1)]->triggers, $trigger);
-        }
-
-
-        return $properties;
+        return getRuleProperties();
     }
 
+    /**
+     * Handles POST request to create a new rule
+     * that determines when a Purchase Order
+     * needs approval and who can give it.
+     *
+     * @param Request $request
+     * @return static
+     */
     public function postNewRule(Request $request)
     {
-
-        // Assume all is good:
-        // Pass request to Rule Class
-        // Rule specific validation: (Request object?)
-        // Is property id valid?
-        // Is trigger valid?
-        // Are the roles valid?
-        //  --  Create a new Rule & save it
-        // return Rule back to the client
-
         $rule = (new RuleMaker($request, Auth::user()))->make();
-        return $rule;
+        return $rule->load('roles');
+    }
+
+    /**
+     * Deletes a rule the rule found at
+     * a given Rule ID.
+     *
+     * @param Rule $rule
+     * @return mixed
+     */
+    public function delete(Rule $rule)
+    {
+        if(Auth::user()->company->rules->contains($rule)) {
+            // Grab an array of all the PO the rule affects
+            $affectedPOs = $rule->  purchaseOrders;
+            $rule->delete();
+            // Re-check each PO for rules
+            foreach($affectedPOs as $affectedPO) $affectedPO->tryAutoApprove();
+            return response('Successfully removed Rule');
+        }
+        abort(403, 'Rule does not belong to user');
     }
 
 

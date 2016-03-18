@@ -1,5 +1,5 @@
 @if($existingPO)
-    <h5>Selected Details</h5>
+    <h2>Selected Details</h2>
     <div class="po-selected-info">
         <div class="header">
             @if($existingPO->project_id)

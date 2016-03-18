@@ -6,7 +6,8 @@ new Vue({
         modalTitle: '',
         modalBody: '',
         modalMode: '',
-        modalFunction: function(){},
+        modalFunction: function () {
+        },
         settingsView: 'permissions',
         navLinks: [
             {
@@ -33,21 +34,22 @@ new Vue({
         selectedProperty: false,
         selectedTrigger: false,
         selectedRuleRoles: [],
-        ruleLimit: ''
+        ruleLimit: '',
+        ruleToRemove: false
     },
     computed: {
-        ruleHasLimit: function() {
-            return this.selectedTrigger.has_limit;
+        ruleHasLimit: function () {
+            return (this.selectedTrigger && this.selectedTrigger.has_limit);
         },
-        canSubmitRule: function() {
-            if(this.ruleHasLimit) {
+        canSubmitRule: function () {
+            if (this.ruleHasLimit) {
                 return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
             }
             return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
         }
     },
     methods: {
-        changeView: function(view) {
+        changeView: function (view) {
             this.settingsView = view;
         },
         // Permissions
@@ -111,7 +113,7 @@ new Vue({
         },
         removeRole: function () {
             var self = this;
-            if(! self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/api/roles/delete',
@@ -135,7 +137,7 @@ new Vue({
                 }
             });
         },
-        editRole: function(role){
+        editRole: function (role) {
             var self = this;
             self.editingRole = role;
             self.editRolePosition = role.position;
@@ -143,16 +145,16 @@ new Vue({
                 var $inputEdit = $('.input-editing-role');
                 $inputEdit.focus();
                 var blurFired = false; // blur fired flag
-                $inputEdit.keypress(function(e) {
-                    if(e.which == 13) {
+                $inputEdit.keypress(function (e) {
+                    if (e.which == 13) {
                         this.blur();
                     }
                 });
                 $inputEdit.blur(function () {
                     var newRoleVal = $inputEdit.val().toLowerCase();
-                    if(blurFired) return;
+                    if (blurFired) return;
                     blurFired = true;
-                    if(newRoleVal !== role.position && newRoleVal.length !== 0) {
+                    if (newRoleVal !== role.position && newRoleVal.length !== 0) {
                         self.confirmEdit(role, newRoleVal);
                     }
                     self.editingRole = false;
@@ -162,10 +164,10 @@ new Vue({
             });
 
         },
-        notEditing: function(role) {
+        notEditing: function (role) {
             return role !== this.editingRole;
         },
-        confirmEdit: function(oldRole, newRoleVal) {
+        confirmEdit: function (oldRole, newRoleVal) {
             this.modalTitle = 'Confirm Edit ' + strCapitalize(this.editingRole.position) + ' to ' + strCapitalize(newRoleVal);
             this.modalBody = 'Role changes are immediate and will automatically effect all team members that have the role.';
             this.modalMode = 'update';
@@ -174,7 +176,7 @@ new Vue({
             this.updatedRoleVal = newRoleVal;
             $('#modal-confirm').modal('show');
         },
-        updateRole: function() {
+        updateRole: function () {
             var self = this;
             $.ajax({
                 url: '/api/roles/' + self.roleToUpdate.id,
@@ -183,7 +185,7 @@ new Vue({
                     role: self.roleToUpdate,
                     newPosition: self.updatedRoleVal
                 },
-                success: function(role) {
+                success: function (role) {
                     self.roles = _.reject(self.roles, self.roleToUpdate);
                     self.roles.push(role);
 
@@ -193,22 +195,22 @@ new Vue({
                     });
 
                     // select new option
-                    if(self.selectedRole.position === self.roleToUpdate.position) self.selectedRole = role;
+                    if (self.selectedRole.position === self.roleToUpdate.position) self.selectedRole = role;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log('Request Error!');
                     console.log(response);
                 }
             });
         },
-        setTriggers: function() {
+        setTriggers: function () {
             this.selectedTrigger = '';
         },
-        addRule: function() {
+        addRule: function () {
             var self = this;
             var postData = {
-                rule_property_id: self.selectedProperty,
-                rule_trigger_id: self.selectedTrigger,
+                rule_property_id: self.selectedProperty.id,
+                rule_trigger_id: self.selectedTrigger.id,
                 limit: self.ruleLimit,
                 roles: self.selectedRuleRoles
             };
@@ -216,20 +218,72 @@ new Vue({
                 url: '/api/rules',
                 method: 'POST',
                 data: postData,
+                success: function (data) {
+                    // success
+                    self.fetchRules();
+                    flashNotify('success', 'Successfully added a new Rule');
+                    self.resetRuleValues();
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    self.resetRuleValues();
+                    if(response.status === 409) {
+                        flashNotify('error', 'Rule already exists');
+                    } else {
+                        flashNotify('error', 'Could not add Rule');
+                    }
+
+                }
+            });
+        },
+        resetRuleValues: function() {
+            this.ruleLimit = '';
+            this.selectedRuleRoles = [];
+        },
+        setRemoveRule: function(rule) {
+            this.modalTitle = 'Confirm Remove Rule';
+            this.modalBody = "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.";
+            this.modalMode = 'remove';
+            this.modalFunction = this.removeRule;
+            this.ruleToRemove = rule;
+        },
+        removeRule: function() {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/rules/' + self.ruleToRemove.id + '/remove',
+                method: 'DELETE',
                 success: function(data) {
                    // success
-                    console.log('Added a new rule!');
-                    self.rules.push(data);
-                    console.log(data);
+                    self.fetchRules();
+                    self.ajaxReady = true;
                 },
                 error: function(response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        fetchRules: function() {
+            var self = this;
+            $.ajax({
+                url: '/api/rules',
+                method: 'GET',
+                success: function (data) {
+                    // success
+                    self.rules = data;
+                },
+                error: function (response) {
                     console.log('Request Error!');
                     console.log(response);
                 }
             });
         }
     },
-    ready: function() {
+    ready: function () {
         var self = this;
 
         $.ajax({
@@ -263,7 +317,7 @@ new Vue({
         });
 
         function saveRole(position, successFn, errorFn) {
-            if (! self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/api/roles',
@@ -300,7 +354,7 @@ new Vue({
                 text: strCapitalize(value)
             });
 
-            saveRole(value, function() {
+            saveRole(value, function () {
                 // success
                 self.selectedRole = _.find(self.roles, {position: value});
             }, function () {
@@ -313,17 +367,19 @@ new Vue({
             self.selectedRole = _.find(self.roles, {position: value});
         });
 
-       $.ajax({
-           url: '/api/rules/properties_triggers',
-           method: 'GET',
-           success: function(data) {
-              // success
-               self.ruleProperties = data;
-           },
-           error: function(response) {
-               console.log('Request Error!');
-               console.log(response);
-           }
-       });
+        $.ajax({
+            url: '/api/rules/properties_triggers',
+            method: 'GET',
+            success: function (data) {
+                // success
+                self.ruleProperties = data;
+            },
+            error: function (response) {
+                console.log('Request Error!');
+                console.log(response);
+            }
+        });
+
+        self.fetchRules();
     }
 });

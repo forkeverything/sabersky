@@ -1,5 +1,5 @@
 <section>
-    <h5>Step 3: Add Items</h5>
+    <h2>Step 3: Add Items</h2>
     <div class="row">
         <div class="col-sm-4">
             <a href="{{ route('addLineItem') }}">

@@ -42,14 +42,14 @@
                                 <h3 class="modal-title" id="myModalLabel">{{ $vendor->name }}</h3>
                             </div>
                             <div class="modal-body">
-                                <h5>Contact Details</h5>
+                                <h2>Contact Details</h2>
                                 <p class="contact-details">
                                     <strong>Phone: </strong>{{ $vendor->phone }}
                                     <br>
                                     <strong>Address: </strong>{{ $vendor->address }}
                                 </p>
                                 <div class="vendor_stats">
-                                    <h5>Overview</h5>
+                                    <h2>Overview</h2>
                                     <div class="table-responsive">
                                         <!-- Vendor Stat Table Table -->
                                         <table class="table table-bordered">
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                                 <div class="vendor-past-pos table-responsive">
-                                    <h5>Past Purchase Orders</h5>
+                                    <h2>Past Purchase Orders</h2>
                                     @if($vendor->purchaseOrders()->first())
                                             <!--  Table -->
                                     <table class="table table-bordered table-hover">

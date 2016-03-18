@@ -6796,10 +6796,31 @@ button.close {
   text-align: left;
   width: initial; }
 
-#settings-rules .rule-generator th {
-  width: 150px;
+#settings-rules .new-rule {
+  margin: 0 0 30px; }
+  #settings-rules .new-rule .rule-generator th {
+    width: 150px;
+    vertical-align: middle;
+    text-align: right; }
+
+#settings-rules .table-existing-rules th, #settings-rules .table-existing-rules td {
   vertical-align: middle;
-  text-align: right; }
+  width: 25%; }
+
+#settings-rules .table-existing-rules td {
+  position: relative; }
+  #settings-rules .table-existing-rules td ul {
+    margin: 0; }
+
+#settings-rules .table-existing-rules .property .button-remove {
+  display: none;
+  color: #F59898; }
+
+#settings-rules .table-existing-rules .property:hover .button-remove {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block; }
 
 body {
   font-family: 'helvetica';
@@ -6845,7 +6866,13 @@ a {
 
 h5 {
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.1em;
+  margin: 0 0 15px; }
+
+h1, h2 {
+  margin: 0 0 30px; }
+
+h3, h4, h5 {
   margin: 0 0 15px; }
 
 p {

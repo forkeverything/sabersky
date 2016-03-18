@@ -1,5 +1,5 @@
 <section class="form-section-project">
-    <h5>Step 1: Select Project</h5>
+    <h2>Step 1: Select Project</h2>
     <div class="form-group">
         <label for="field-project-id">Which Project is this Purchase Order for?</label>
         <select name="project_id" id="field-project-id" class="form-control">

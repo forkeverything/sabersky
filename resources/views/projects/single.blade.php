@@ -18,7 +18,7 @@
                 {{ $project->description }}
             </p>
             <section class="team-members">
-                <h5>Team Members</h5>
+                <h3>Team Members</h3>
                 <div class="team-wrap">
                     @foreach($project->teamMembers->chunk(3) as $chunk)
                         <div class="row">

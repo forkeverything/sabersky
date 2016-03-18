@@ -119,8 +119,10 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Rules
      */
+    Route::get('/api/rules', 'RulesController@getRules');
     Route::get('/api/rules/properties_triggers', 'RulesController@getPropertiesTriggers');
     Route::post('/api/rules', 'RuleScontroller@postNewRule');
+    Route::delete('/api/rules/{rule}/remove', 'RulesController@delete');
 
     /**
      * Vendors

@@ -13,7 +13,7 @@
             <form action="{{ route('savePurchaseRequest') }}" id="form-make-purchase-request" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="project-selection">
-                    <h5>1. Select Project</h5>
+                    <h2>1. Select Project</h2>
                     <select v-selectize="" class="form-group" name="project_id">
                         <option></option>
                         @foreach(Auth::user()->projects as $project)
@@ -21,7 +21,7 @@
                         @endforeach
                     </select>
                 </div>
-                <h5>2. Enter Item Details</h5>
+                <h2>2. Enter Item Details</h2>
                 <div class="item-selection">
                     <div class="button-group form-group item_buttons" role="group" aria-label="choose_item_buttons">
                         <button class="btn"
@@ -125,9 +125,9 @@
                     </div>
                 </div>
 
-                <h5>
+                <h2>
                     3. Set Requirements
-                </h5>
+                </h2>
                 <div class="table-responsive request-specifics">
                     <!--  Table -->
                     <table class="table table-bordered">

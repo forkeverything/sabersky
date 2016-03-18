@@ -7,10 +7,10 @@
         <p class="intro">Thank you for choosing to join us. We know you'll meet our high expectations and look forward to working
             together with you.</p>
         <section class="details">
-            <h5>Details</h5>
+            <h2>Details</h2>
             <p>You will be operating as a <span class="role-position"><strong>{{ $user->role->position }}</strong></span> for the <strong>{{ $user->projects()->first()->name }}</strong> project.</p>
         </section>
-            <h5>Set Credentials</h5>
+            <h2>Set Credentials</h2>
             @include('errors.list')
             <form action="{{ route('acceptInvitation', $user->invite_key) }}" id="form-invited-user" method="POST">
                 {{ csrf_field() }}

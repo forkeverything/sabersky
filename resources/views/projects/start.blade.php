@@ -7,7 +7,7 @@
             <h1 class="page-title">List a new project</h1>
         </div>
         <div class="page-body">
-            <h5>Project Details</h5>
+            <h2>Project Details</h2>
             @include('errors.list')
             <form action="{{ route('startProject') }}" id="form-project-start" method="POST">
                 {{ csrf_field() }}

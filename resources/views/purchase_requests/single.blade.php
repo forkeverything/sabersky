@@ -27,7 +27,7 @@
                 @endcan
             </div>
             <div class="request-details">
-                <h5>Request Details</h5>
+                <h2>Request Details</h2>
                 <table class="table table-bordered table-striped">
                     <tbody>
                     <tr>

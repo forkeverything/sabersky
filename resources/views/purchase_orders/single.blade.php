@@ -54,7 +54,7 @@
                     <li>{{ $purchaseOrder->user->name }}</li>
                 </ul>
             </div>
-            <h5>Order Items</h5>
+            <h2>Order Items</h2>
             <!-- Single PO Table -->
             <table class="table table-bordered">
                 <thead>
