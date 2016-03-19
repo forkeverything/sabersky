@@ -11,8 +11,12 @@ Vue.component('settings', {
             modalMode: '',
             modalFunction: function () {
             },
-            settingsView: 'permissions',
+            settingsView: 'company',
             navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
                 {
                     label: 'Permissions',
                     section: 'permissions'
@@ -22,6 +26,8 @@ Vue.component('settings', {
                     section: 'rules'
                 }
             ],
+            // Company
+            company: false,
             // Permissions
             roles: [],
             roleToRemove: false,
@@ -53,6 +59,12 @@ Vue.component('settings', {
         },
         hasRules: function () {
             return !_.isEmpty(this.rules);
+        },
+        canUpdateCompany: function () {
+            if (this.company) {
+                return this.company.name.length > 0 && this.company.description.length > 0 && this.company.currency.length > 0;
+            }
+            return false;
         }
     },
     methods: {
@@ -288,11 +300,52 @@ Vue.component('settings', {
                     console.log(response);
                 }
             });
+        },
+        updateCompany: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/company',
+                method: 'PUT',
+                data: {
+                    name: self.company.name,
+                    description: self.company.description,
+                    currency: self.company.currency
+                },
+                success: function (data) {
+                    // success
+                    flashNotify('success', 'Updated Company information');
+                    self.$dispatch('update-currency', self.company.currency);
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
     ready: function () {
         var self = this;
 
+        // GET user company info
+        $.ajax({
+            url: '/api/company',
+            method: 'GET',
+            success: function (data) {
+                // success
+                self.company = data;
+            },
+            error: function (response) {
+                console.log('Request Error!');
+                console.log(response);
+            }
+        });
+
+        // GET company roles
         $.ajax({
             url: '/api/roles',
             method: 'GET',
@@ -388,5 +441,8 @@ Vue.component('settings', {
         });
 
         self.fetchRules();
+    },
+    components: {
+        formErrors: 'form-errors'
     }
 });

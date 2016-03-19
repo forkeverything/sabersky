@@ -11,6 +11,12 @@
 |
 */
 
+$factory->define(App\Company::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+        'description' => $faker->paragraph(5)
+    ];
+});
 $factory->define(App\Role::class, function (Faker\Generator $faker) {
     return [
         'position' => $faker->word,

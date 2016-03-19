@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
-class SaveCompanyRequest extends Request
+class UpdateCompanyRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,8 @@ class SaveCompanyRequest extends Request
      */
     public function authorize()
     {
-        return ! Auth::user()->company;
+        // User has a company and is allowed to change settings
+        return Auth::user()->company && Gate::allows('settings_change') ;
     }
 
     /**
@@ -25,7 +27,7 @@ class SaveCompanyRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:companies,name',
+            'name' => 'required|unique:companies,name,' . Auth::user()->company->id ,
             'description' => 'required',
             'currency' => 'required'
         ];

@@ -25,6 +25,7 @@
             </ul>
 
 
+            @include('settings.partials.company')
             @include('settings.partials.permissions')
             @include('settings.partials.rules')
 

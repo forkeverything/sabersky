@@ -22,10 +22,29 @@ var entityMap = {
     "/": '&#x2F;'
 };
 
+/**
+ * Escapes a given string that has HTML elements.
+ *
+ * @param string
+ * @returns {string}
+ */
 function escapeHtml(string) {
     return String(string).replace(/[&<>"'\/]/g, function (s) {
         return entityMap[s];
     });
 }
 
+/**
+ * Takes an AJAX response and vue instance
+ * and emits form errors to be caught by
+ * 'form-errors' Vue Component.
+ * 
+ * @param response
+ * @param vue
+ */
+function vueValidation(response, vue) {
+    if(response.status === 422) {
+        vue.$broadcast('new-errors', response.responseJSON);
+    }
+}
 //# sourceMappingURL=global.js.map

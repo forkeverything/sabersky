@@ -48,7 +48,8 @@ elixir(function(mix) {
         'fancybox/lib/jquery.mousewheel-3.0.6.pack.js',
         'fancybox/source/jquery.fancybox.pack.js',
         'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
-        'bootstrap-select/dist/js/bootstrap-select.min.js'
+        'bootstrap-select/dist/js/bootstrap-select.min.js',
+        'autosize/dist/autosize.min.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

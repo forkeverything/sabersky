@@ -22,7 +22,8 @@ class PusakaSetupSeeder extends Seeder
 
         $company = Company::create([
             'name' => 'Pusaka Jaya',
-            'description' => 'EPC Contractor & Independent Power Producer for over 20 years.'
+            'description' => 'EPC Contractor & Independent Power Producer for over 20 years.',
+            'currency' => 'Rp'
         ]);
 
         $user = User::create([

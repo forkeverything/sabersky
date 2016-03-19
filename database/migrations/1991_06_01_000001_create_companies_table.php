@@ -18,6 +18,8 @@ class CreateCompaniesTable extends Migration
 
             $table->string('name');
             $table->text('description');
+
+            $table->string('currency')->default('$');
         });
     }
 

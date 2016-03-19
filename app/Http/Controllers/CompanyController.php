@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Http\Requests\SaveCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Permission;
 use Illuminate\Http\Request;
 
@@ -39,5 +40,35 @@ class CompanyController extends Controller
         $user->setRole($role);
 
         return redirect('/dashboard');
+    }
+
+    /**
+     * Returns the Authenticated User's
+     * company model.
+     *
+     * @return mixed
+     */
+    public function getOwn()
+    {
+        if($company = Auth::user()->company) return $company;
+    }
+
+    /**
+     * Gets the company's set currency
+     *
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        if($company = Auth::user()->company) return $company->currency;
+        return '$';
+    }
+
+    public function putUpdate(UpdateCompanyRequest $request)
+    {
+        if(Auth::user()->company()->update($request->all())){
+            return response('Updated company info');
+        }
+        abort(400, 'Could not update company');
     }
 }

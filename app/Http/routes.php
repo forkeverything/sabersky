@@ -41,6 +41,13 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
     Route::get('/desk', ['as' => 'desk', 'uses' => 'PagesController@showDesk']);
 
+    /*
+     * Company
+     */
+    Route::get('/api/company', 'CompanyController@getOwn');
+    Route::get('/api/company/currency', 'CompanyController@getCurrency');
+    Route::put('/api/company', 'CompanyController@putUpdate');
+
     /**
      * Project - Main
      */
