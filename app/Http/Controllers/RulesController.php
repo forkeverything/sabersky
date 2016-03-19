@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRuleRequest;
+use App\Http\Requests\MakeRuleRequest;
 use App\Http\Requests\SaveRuleRequest;
 use App\Rule;
 use App\Utilities\RuleMaker;
@@ -52,7 +53,7 @@ class RulesController extends Controller
      * @param Request $request
      * @return static
      */
-    public function postNewRule(Request $request)
+    public function postNewRule(MakeRuleRequest $request)
     {
         $rule = (new RuleMaker($request, Auth::user()))->make();
         return $rule->load('roles');

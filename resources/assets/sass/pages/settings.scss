@@ -212,27 +212,28 @@
 
     td {
       position: relative;
-
       ul {
         margin: 0;
       }
     }
 
-    .property {
+    tr {
 
       .button-remove {
         display: none;
         color: $light-red;
+        font-size: 1.3em;
       }
-      
+
       &:hover {
         .button-remove {
           position: absolute;
-          top: 0;
-          left: 0;
+          top: 5px;
+          right: 5px;
           display: block;
         }
       }
     }
+
   }
 }

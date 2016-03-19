@@ -50,13 +50,13 @@
                     <div class="input-group"
                          v-if="selectedTrigger.limit_type === 'percentage'"
                     >
-                        <span class="input-group-addon">%</span>
                         <input type="text"
                                class="form-control input-rule-limit"
                                v-model="ruleLimit | percentage"
                                placeholder="Enter a value"
                                :disabled="! ruleHasLimit"
                         >
+                        <span class="input-group-addon">%</span>
                     </div>
 
                     <div class="input-group"
@@ -77,7 +77,7 @@
                 <th>Approval by (Roles)</th>
                 <td>
                     <select class="form-control"
-                            v-selectpicker
+                            v-selectpicker="selectedRuleRoles"
                             multiple
                             v-model="selectedRuleRoles"
                             title="Select one or more"
@@ -125,8 +125,6 @@
                             <td v-else></td>
                             <td class="property">
                                 @{{ rule.trigger.label }}
-                                <span class="button-remove" @click="setRemoveRule(rule)" data-toggle="modal" data-target
-                                ="#modal-confirm"><i class="fa fa-close"></i></span>
                             </td>
                             <td v-if="rule.limit">
                                 @{{ rule.limit | numberFormat }}
@@ -138,6 +136,8 @@
                                 <ul class="list-unstyled">
                                     <li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>
                                 </ul>
+                                <span class="button-remove" @click="setRemoveRule(rule)" data-toggle="modal" data-target
+                                ="#modal-confirm"><i class="fa fa-close"></i></span>
                             </td>
                         </tr>
                     </template>

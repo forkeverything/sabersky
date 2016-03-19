@@ -3,6 +3,7 @@
 
 namespace App\Utilities;
 
+use App\Http\Requests\MakeRuleRequest;
 use App\Role;
 use App\Rule;
 use App\User;
@@ -51,7 +52,7 @@ class RuleMaker
      * @param Request $request
      * @param User $user
      */
-    public function __construct(Request $request, User $user)
+    public function __construct(MakeRuleRequest $request, User $user)
     {
         $this->request = $request;
         $this->user = $user;
@@ -128,11 +129,11 @@ class RuleMaker
             'rule_trigger_id' => $this->triggerId,
             'company_id' => $this->user->company->id
         ]);
-        
+
         // Attach roles
         $roleIds = collect($this->selectedRoles)->pluck('id')->all();
         $rule->roles()->attach($roleIds);
-        
+
         return $rule;
     }
 

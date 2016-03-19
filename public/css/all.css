@@ -6812,14 +6812,15 @@ button.close {
   #settings-rules .table-existing-rules td ul {
     margin: 0; }
 
-#settings-rules .table-existing-rules .property .button-remove {
+#settings-rules .table-existing-rules tr .button-remove {
   display: none;
-  color: #F59898; }
+  color: #F59898;
+  font-size: 1.3em; }
 
-#settings-rules .table-existing-rules .property:hover .button-remove {
+#settings-rules .table-existing-rules tr:hover .button-remove {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 5px;
+  right: 5px;
   display: block; }
 
 body {
