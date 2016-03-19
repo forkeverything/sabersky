@@ -1,14 +1,15 @@
-/**
- * PR - Make
- */
-new Vue({
+Vue.component('purchase-requests-make', {
     name: 'makePurchaseRequest',
-    el: '#purchase-requests-add',
-    data: {
-        existingItem: true,
-        items: [],
-        existingItemName: '',
-        selectedItem: ''
+    el: function() {
+        return '#purchase-requests-add';
+    },
+    data: function() {
+        return {
+            existingItem: true,
+            items: [],
+            existingItemName: '',
+            selectedItem: ''
+        };
     },
     methods: {
         changeExistingItem: function (state) {

@@ -1,24 +1,25 @@
-/**
- * PR - VIEW ALL
- */
-new Vue({
+Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
-    el: '#purchase-requests-all',
-    data: {
-        purchaseRequests: [],
-        headings: [
-            ['due', 'Due Date'],
-            ['project.name', 'Project'],
-            ['item.name', 'Item'],
-            ['specification', 'Specification'],
-            ['quantity', 'Quantity'],
-            ['user.name', 'Made by'],
-            ['created_at', 'Requested']
-        ],
-        field: '',
-        order: '',
-        urgent: '',
-        filter: ''
+    el: function() {
+        return '#purchase-requests-all';
+    },
+    data: function() {
+        return {
+            purchaseRequests: [],
+            headings: [
+                ['due', 'Due Date'],
+                ['project.name', 'Project'],
+                ['item.name', 'Item'],
+                ['specification', 'Specification'],
+                ['quantity', 'Quantity'],
+                ['user.name', 'Made by'],
+                ['created_at', 'Requested']
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: ''
+        };
     },
     ready: function () {
         var self = this;

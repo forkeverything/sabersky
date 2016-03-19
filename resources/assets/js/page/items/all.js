@@ -1,8 +1,12 @@
-new Vue({
+Vue.component('items-all', {
     name: 'allItems',
-    el: '#items-all',
-    data: {
-        items: []
+    el: function() {
+        return '#items-all';
+    },
+    data: function() {
+        return {
+            items: []
+        };
     },
     computed: {
         itemNames: function() {

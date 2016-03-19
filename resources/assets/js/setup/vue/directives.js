@@ -96,3 +96,4 @@ Vue.directive('rule-trigger-select', {
         $(this.el).off().selectpicker('destroy');
     }
 });
+

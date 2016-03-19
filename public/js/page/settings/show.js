@@ -1,41 +1,45 @@
-new Vue({
+Vue.component('settings', {
     name: 'Settings',
-    el: '#system-settings',
-    data: {
-        ajaxReady: true,
-        modalTitle: '',
-        modalBody: '',
-        modalMode: '',
-        modalFunction: function () {
-        },
-        settingsView: 'permissions',
-        navLinks: [
-            {
-                label: 'Permissions',
-                section: 'permissions'
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            modalTitle: '',
+            modalBody: '',
+            modalMode: '',
+            modalFunction: function () {
             },
-            {
-                label: 'Rules',
-                section: 'rules'
-            }
-        ],
-        // Permissions
-        roles: [],
-        roleToRemove: false,
-        roleSelect: '',
-        selectedRole: false,
-        editingRole: false,
-        editRolePosition: false,
-        roleToUpdate: {},
-        updatedRoleVal: '',
-        // Rules
-        rules: [],
-        ruleProperties: [],
-        selectedProperty: false,
-        selectedTrigger: false,
-        selectedRuleRoles: [],
-        ruleLimit: '',
-        ruleToRemove: false
+            settingsView: 'permissions',
+            navLinks: [
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            // Permissions
+            roles: [],
+            roleToRemove: false,
+            roleSelect: '',
+            selectedRole: false,
+            editingRole: false,
+            editRolePosition: false,
+            roleToUpdate: {},
+            updatedRoleVal: '',
+            // Rules
+            rules: [],
+            ruleProperties: [],
+            selectedProperty: false,
+            selectedTrigger: false,
+            selectedRuleRoles: [],
+            ruleLimit: '',
+            ruleToRemove: false
+        }
     },
     computed: {
         ruleHasLimit: function () {
@@ -46,6 +50,9 @@ new Vue({
                 return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
             }
             return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
+        },
+        hasRules: function () {
+            return !_.isEmpty(this.rules);
         }
     },
     methods: {
@@ -228,7 +235,7 @@ new Vue({
                     console.log('Request Error!');
                     console.log(response);
                     self.resetRuleValues();
-                    if(response.status === 409) {
+                    if (response.status === 409) {
                         flashNotify('error', 'Rule already exists');
                     } else {
                         flashNotify('error', 'Could not add Rule');
@@ -237,37 +244,37 @@ new Vue({
                 }
             });
         },
-        resetRuleValues: function() {
+        resetRuleValues: function () {
             this.ruleLimit = '';
             this.selectedRuleRoles = [];
         },
-        setRemoveRule: function(rule) {
+        setRemoveRule: function (rule) {
             this.modalTitle = 'Confirm Remove Rule';
             this.modalBody = "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.";
             this.modalMode = 'remove';
             this.modalFunction = this.removeRule;
             this.ruleToRemove = rule;
         },
-        removeRule: function() {
+        removeRule: function () {
             var self = this;
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/api/rules/' + self.ruleToRemove.id + '/remove',
                 method: 'DELETE',
-                success: function(data) {
-                   // success
+                success: function (data) {
+                    // success
                     self.fetchRules();
                     self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log('Request Error!');
                     console.log(response);
                     self.ajaxReady = true;
                 }
             });
         },
-        fetchRules: function() {
+        fetchRules: function () {
             var self = this;
             $.ajax({
                 url: '/api/rules',

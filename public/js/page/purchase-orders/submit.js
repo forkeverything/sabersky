@@ -1,18 +1,19 @@
-/**
- * PO - SUBMIT
- */
-new Vue({
-    el: '#purchase-orders-submit',
-    data: {
-        vendorType: '',
-        vendor_id: 'Choose an existing vendor',
-        name: '',
-        phone: '',
-        address: '',
-        bank_account_name: '',
-        bank_account_number: '',
-        bank_name: '',
-        canAjax: true
+Vue.component('purchase-orders-submit', {
+    el: function() {
+        return '#purchase-orders-submit';
+    },
+    data: function() {
+        return {
+            vendorType: '',
+            vendor_id: 'Choose an existing vendor',
+            name: '',
+            phone: '',
+            address: '',
+            bank_account_name: '',
+            bank_account_number: '',
+            bank_name: '',
+            canAjax: true
+        };
     },
     computed: {
         readyStep3: function () {

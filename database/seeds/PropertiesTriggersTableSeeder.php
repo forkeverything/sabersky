@@ -12,7 +12,8 @@ class PropertiesTriggersTableSeeder extends Seeder
              'triggers' => [
                 'exceeds' => [
                     'label' => 'Exceeds',
-                    'has_limit' => 1
+                    'has_limit' => 1,
+                    'limit_type' => 'float'
                 ]
             ]
         ],
@@ -22,7 +23,8 @@ class PropertiesTriggersTableSeeder extends Seeder
             'triggers' => [
                 'new' => [
                     'label' => 'No Previous Orders',
-                    'has_limit' => 0
+                    'has_limit' => 0,
+                    'limit_type' => ''
                 ]
             ]
         ],
@@ -32,15 +34,18 @@ class PropertiesTriggersTableSeeder extends Seeder
             'triggers' => [
                 'over' => [
                     'label' => 'Exceeds',
-                    'has_limit' => 1
+                    'has_limit' => 1,
+                    'limit_type' => 'float'
                 ],
                 'new' => [
                     'label' => 'First Order',
-                    'has_limit' => 0
+                    'has_limit' => 0,
+                    'limit_type' => ''
                 ],
                 'percentage_over_mean' => [
                     'label' => 'Over Mean by',
-                    'has_limit' => 1
+                    'has_limit' => 1,
+                    'limit_type' => 'percentage'
                 ]
             ]
         ]
@@ -67,6 +72,7 @@ class PropertiesTriggersTableSeeder extends Seeder
                     'name' => $name,
                     'label' => $trigger['label'],
                     'has_limit' => $trigger['has_limit'],
+                    'limit_type' => $trigger['limit_type'],
                     'rule_property_id' => $propertyId
                 ]);
             }

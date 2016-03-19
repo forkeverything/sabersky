@@ -47,11 +47,30 @@
             <tr>
                 <th>Limit</th>
                 <td>
-                    <input class="form-control input-rule-limit"
-                           v-model="ruleLimit | numberModel"
-                           placeholder="Enter a value"
-                           :disabled="! ruleHasLimit"
+                    <div class="input-group"
+                         v-if="selectedTrigger.limit_type === 'percentage'"
                     >
+                        <span class="input-group-addon">%</span>
+                        <input type="text"
+                               class="form-control input-rule-limit"
+                               v-model="ruleLimit | percentage"
+                               placeholder="Enter a value"
+                               :disabled="! ruleHasLimit"
+                        >
+                    </div>
+
+                    <div class="input-group"
+                         v-else
+                    >
+                        <span class="input-group-addon">@{{ $root.currencySymbol }}</span>
+                        <input type="text"
+                               class="form-control input-rule-limit"
+                               v-model="ruleLimit | numberModel"
+                               placeholder="Enter a value"
+                               :disabled="! ruleHasLimit"
+                        >
+                    </div>
+
                 </td>
             </tr>
             <tr>
@@ -86,7 +105,7 @@
     <div class="existing-rules">
         <h3>Active Rules</h3>
         <!-- Existing Rules Table -->
-        <div class="table-responsive">
+        <div class="table-responsive" v-if="hasRules">
             <table class="table table-existing-rules table-striped">
                 <thead>
                 <tr>
@@ -98,46 +117,38 @@
                 </thead>
                 <tbody>
                 <template v-for="(property, rules) in rules">
-                        <template v-for="rule in rules">
-                            <tr class="clickable">
-                                <td v-if="$index === 0">
-                                    @{{ property  }}
-                                </td>
-                                <td v-else></td>
-                                <td class="property">
-                                    @{{ rule.trigger.label }}
-                                    <span class="button-remove" @click="setRemoveRule(rule)" data-toggle="modal" data-target
-                                    ="#modal-confirm"><i class="fa fa-close"></i></span>
-                                </td>
-                                <td v-if="rule.limit">
-                                    @{{ rule.limit | numberFormat }}
-                                </td>
-                                <td v-else>
-                                    -
-                                </td>
-                                <td>
-                                    <ul class="list-unstyled">
-                                        <li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </template>
+                    <template v-for="rule in rules">
+                        <tr class="clickable">
+                            <td v-if="$index === 0">
+                                @{{ property  }}
+                            </td>
+                            <td v-else></td>
+                            <td class="property">
+                                @{{ rule.trigger.label }}
+                                <span class="button-remove" @click="setRemoveRule(rule)" data-toggle="modal" data-target
+                                ="#modal-confirm"><i class="fa fa-close"></i></span>
+                            </td>
+                            <td v-if="rule.limit">
+                                @{{ rule.limit | numberFormat }}
+                            </td>
+                            <td v-else>
+                                -
+                            </td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    <li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </template>
                 </template>
-                {{--<template v-for="rule in rules">--}}
-                    {{--<tr>--}}
-                        {{--<td>@{{ rule.property.label }}</td>--}}
-                        {{--<td>@{{ rule.trigger.label }}</td>--}}
-                        {{--<td v-if="rule.limit.length > 0">@{{ rule.limit | numberFormat }}</td>--}}
-                        {{--<td v-else><em>none</em></td>--}}
-                        {{--<td>--}}
-                            {{--<ul class="list-unstyled">--}}
-                                {{--<li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>--}}
-                            {{--</ul>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
-                {{--</template>--}}
                 </tbody>
             </table>
         </div>
+        <p class="text-muted"
+           v-else
+        >
+            You do not have any Rules set up. Go ahead and create a new Rule above and it will show up here, indicating that it is active.
+        </p>
     </div>
 </div>

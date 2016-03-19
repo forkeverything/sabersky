@@ -19,6 +19,7 @@ class CreateRuleTriggersTable extends Migration
             $table->string('label');
 
             $table->boolean('has_limit')->default(0);
+            $table->string('limit_type')->nullable();
 
             $table->integer('rule_property_id')->unsigned();
             $table->foreign('rule_property_id')->references('id')->on('rule_properties')->onDelete('cascade');

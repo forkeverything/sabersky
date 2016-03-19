@@ -1,42 +1,43 @@
-/**
- * PO - VIEW ALL
- */
-new Vue({
+Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
-    el: '#purchase-orders-all',
-    data: {
-        purchaseOrders: [],
-        headings: [
-            ['created_at', 'Date Submitted'],
-            ['project.name', 'Project'],
-            ['', 'Item(s)'],
-            ['total', 'OrderTotal'],
-            ['', 'Status'],
-            ['', 'Paid'],
-            ['', 'Delivered']
-        ],
-        statuses: [
-            {
-                key: 'pending',
-                label: 'Pending'
-            },
-            {
-                key: 'approved',
-                label: 'Approved'
-            },
-            {
-                key: 'rejected',
-                label: 'Rejected'
-            },
-            {
-                key: '',
-                label: 'All'
-            }
-        ],
-        field: '',
-        order: '',
-        urgent: '',
-        filter: 'pending'
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
     },
     ready: function () {
         var self = this;

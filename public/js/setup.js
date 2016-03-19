@@ -324,6 +324,7 @@ Vue.directive('rule-trigger-select', {
     }
 });
 
+
 Vue.filter('date', function (value) {
     if (value !== '0000-00-00 00:00:00') {
         return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
@@ -391,6 +392,7 @@ Vue.filter('percentage', {
         return (val * 100);
     },
     write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
         return val / 100;
     }
 });
