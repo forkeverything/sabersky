@@ -222,7 +222,5 @@
         </div>
     </add-line-item>
 @endsection
-@section('scripts.footer')
-    <script src="{{ asset('/js/page/line-items/add.js') }}"></script>
-@stop
+
 

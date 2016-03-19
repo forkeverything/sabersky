@@ -46,6 +46,3 @@
         </div>
     </purchase-orders-submit>
 @endsection
-@section('scripts.footer')
-<script src="{{ asset('/js/page/purchase-orders/submit.js') }}"></script>
-@endsection

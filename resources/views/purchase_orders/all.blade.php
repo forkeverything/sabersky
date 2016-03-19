@@ -117,6 +117,3 @@
         </div>
     </purchase-orders-all>
 @endsection
-@section('scripts.footer')
-<script src="{{ asset('/js/page/purchase-orders/all.js') }}"></script>
-@endsection

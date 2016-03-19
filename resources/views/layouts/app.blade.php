@@ -33,10 +33,10 @@
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
 <!-- Setup & Initz' -->
 <script type="text/javascript" src="{{ asset('/js/setup.js') }}"></script>
-<!-- Global (helpers) Scripts -->
+<!-- Global (helpers) -->
 <script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
-<!-- Page Specific Scripts -->
-@yield('scripts.footer')
+<!-- Page Specific Components -->
+<script type="text/javascript" src="{{ asset('/js/page.js') }}"></script>
 <!-- Global Vue Instance -->
 <script src="{{ asset('/js/page/root.js') }}"></script>
 <!-- Flash Notification -->

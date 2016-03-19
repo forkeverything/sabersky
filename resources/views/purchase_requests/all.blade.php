@@ -57,6 +57,3 @@
         </div>
     </purchase-requests-all>
 @endsection
-@section('scripts.footer')
-    <script src="{{ asset('/js/page/purchase-requests/all.js') }}"></script>
-@endsection

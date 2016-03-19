@@ -81,7 +81,3 @@
         </div>
     </items-all>
 @endsection
-@section('scripts.footer')
-    <script src="{{ asset('/js/page/items/all.js') }}" type="text/javascript"></script>
-
-@endsection

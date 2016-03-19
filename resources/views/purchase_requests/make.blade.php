@@ -168,32 +168,3 @@
         </div>
     </purchase-requests-make>
 @endsection
-@section('scripts.footer')
-    <script src="{{ asset('/js/page/purchase-requests/make.js') }}"></script>
-    <script>
-        $('.input-item-photos').fileinput({
-            'showUpload': false,
-            'allowedFileExtensions': ['jpg', 'gif', 'png'],
-            'showRemove': false,
-            'showCaption': false,
-            'previewSettings': {
-                image: {width: "120px", height: "120px"}
-            },
-            'browseLabel': 'Photo',
-            'browseIcon': '<i class="fa fa-plus"></i> &nbsp;',
-            'browseClass': 'btn btn-outline-grey',
-            'layoutTemplates': {
-                preview: '<div class="file-preview {class}">\n' +
-                '    <div class="close fileinput-remove">Clear</div>\n' +
-                '    <div class="{dropClass}">\n' +
-                '    <div class="file-preview-thumbnails">\n' +
-                '    </div>\n' +
-                '    <div class="clearfix"></div>' +
-                '    <div class="file-preview-status text-center text-success"></div>\n' +
-                '    <div class="kv-fileinput-error"></div>\n' +
-                '    </div>\n' +
-                '</div>'
-            }
-        });
-    </script>
-@endsection

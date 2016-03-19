@@ -1,3 +1,427 @@
+Vue.component('items-all', {
+    name: 'allItems',
+    el: function() {
+        return '#items-all';
+    },
+    data: function() {
+        return {
+            items: []
+        };
+    },
+    computed: {
+        itemNames: function() {
+            var names = [];
+            _.forEach(this.items, function (item) {
+                names.push(item.name);
+            });
+            return names;
+        }
+    },
+    ready: function() {
+        var self = this;
+        $.ajax({
+            url: '/api/items',
+            method: 'GET',
+            success: function(data) {
+                self.items = data;
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        })
+    }
+});
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
+Vue.component('purchase-orders-all',{
+    name: 'allPurchaseOrders',
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+    methods: {
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    }
+});
+Vue.component('purchase-orders-submit', {
+    el: function() {
+        return '#purchase-orders-submit';
+    },
+    data: function() {
+        return {
+            vendorType: '',
+            vendor_id: 'Choose an existing vendor',
+            name: '',
+            phone: '',
+            address: '',
+            bank_account_name: '',
+            bank_account_number: '',
+            bank_name: '',
+            canAjax: true
+        };
+    },
+    computed: {
+        readyStep3: function () {
+            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
+        }
+    },
+    methods: {
+        selectVendor: function (type) {
+            this.vendor_id = 'Choose an existing vendor';
+            this.name = '';
+            this.phone = '';
+            this.address = '';
+            this.bank_account_name = '';
+            this.bank_account_number = '';
+            this.bank_name = '';
+            this.vendorType = type;
+        },
+        removeLineItem: function (lineItemId) {
+            console.log('hehehe');
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/remove_line_item/' + lineItemId,
+                    method: 'POST',
+                    data: {},
+                    success: function (data) {
+                        console.log('success');
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(error);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        }
+    }
+});
+Vue.component('purchase-requests-all', {
+    name: 'allPurchaseRequests',
+    el: function() {
+        return '#purchase-requests-all';
+    },
+    data: function() {
+        return {
+            purchaseRequests: [],
+            headings: [
+                ['due', 'Due Date'],
+                ['project.name', 'Project'],
+                ['item.name', 'Item'],
+                ['specification', 'Specification'],
+                ['quantity', 'Quantity'],
+                ['user.name', 'Made by'],
+                ['created_at', 'Requested']
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_requests',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseRequests = data;
+            },
+            error: function (res, status, req) {
+                console.log(status);
+            }
+        });
+    },
+    methods: {
+        loadSinglePR: function (id) {
+            window.document.location = '/purchase_requests/single/' + id;
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        checkShow: function (purchaseRequest) {
+            switch (this.filter) {
+                case 'complete':
+                    console.log(purchaseRequest.state);
+                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
+                        return true;
+                    }
+                    break;
+                case 'cancelled':
+                    if (purchaseRequest.state == 'Cancelled') {
+                        return true;
+                    }
+                    break;
+                default:
+                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
+                        return true;
+                    }
+            }
+        }
+    }
+});
+Vue.component('purchase-requests-make', {
+    name: 'makePurchaseRequest',
+    el: function() {
+        return '#purchase-requests-add';
+    },
+    data: function() {
+        return {
+            existingItem: true,
+            items: [],
+            existingItemName: '',
+            selectedItem: ''
+        };
+    },
+    methods: {
+        changeExistingItem: function (state) {
+            this.clearSelectedExisting();
+            this.existingItem = state;
+        },
+        selectItemName: function(name) {
+            this.existingItemName = name;
+        },
+        selectItem: function(item) {
+            this.selectedItem = item;
+        },
+        clearSelectedExisting: function() {
+            this.selectedItem = '';
+            this.existingItemName = '';
+            $('#select-new-item-name')[0].selectize.clear();
+            $('#field-new-item-specification').val('');
+            $('.input-item-photos').fileinput('clear');
+        }
+    },
+    computed: {
+        uniqueItemNames: function () {
+            return _.uniqBy(this.items, 'name');
+        },
+        itemsWithName: function () {
+            return _.filter(this.items, {'name': this.existingItemName});
+        }
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/items',
+            method: 'GET',
+            success: function (data) {
+                self.items = data;
+            }
+        });
+
+        var unique = $('#select-new-item-name').selectize({
+            create: true,
+            sortField: 'text',
+            placeholder: 'Choose an existing name or enter a new one...',
+            createFilter: function(input) {
+                input = input.toLowerCase();
+                var array = $.map(unique.options, function(value) {
+                    return [value];
+                });
+                var unmatched = true;
+                _.forEach(array, function (option) {
+                    if((option.text).toLowerCase() === input) {
+                        unmatched = false;
+                    }
+                });
+                return unmatched;
+            }
+        })[0].selectize;
+    },
+    compiled: function() {
+        $('#purchase-requests-add').show();
+    }
+});
+
+
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -446,3 +870,5 @@ Vue.component('settings', {
         formErrors: 'form-errors'
     }
 });
+
+//# sourceMappingURL=page.js.map

@@ -70,26 +70,4 @@
         </div>
     </div>
 @endsection
-@section('scripts.footer')
-    <script>
-        var uploadUrl = 'http:' + $('#form-item-photo').attr('action');
-        var $input = $('.input-item-photos');
-        $input.fileinput({
-            uploadUrl: uploadUrl,
-            uploadAsync: true,
-            allowedFileExtensions: ['jpg', 'gif', 'png'],
-            showRemove: false,
-            showCaption: false,
-            showPreview: false,
-            showCancel: false,
-            showUpload: false,
-            browseIcon: '<i class="fa fa-plus"></i> &nbsp;',
-            browseClass: 'btn btn-outline-grey',
-            browseLabel: 'Photo'
-        }).on("filebatchselected", function(event, files) {
-            $input.fileinput("upload");
-        }).on('filebatchuploadcomplete', function(event, files, extra) {
-            location.reload();
-        });
-    </script>
-    @endsection
+
