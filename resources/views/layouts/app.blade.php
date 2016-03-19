@@ -38,7 +38,7 @@
 <!-- Page Specific Components -->
 <script type="text/javascript" src="{{ asset('/js/page.js') }}"></script>
 <!-- Global Vue Instance -->
-<script src="{{ asset('/js/page/root.js') }}"></script>
+<script src="{{ asset('/js/vue-root.js') }}"></script>
 <!-- Flash Notification -->
 @include('flash')
 </body>

@@ -29,7 +29,7 @@
             @include('settings.partials.permissions')
             @include('settings.partials.rules')
 
-            @include('layouts.partials.modal')
+            <modal></modal>
 
         </div>
     </div>

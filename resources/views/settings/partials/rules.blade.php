@@ -136,8 +136,7 @@
                                 <ul class="list-unstyled">
                                     <li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>
                                 </ul>
-                                <span class="button-remove" @click="setRemoveRule(rule)" data-toggle="modal" data-target
-                                ="#modal-confirm"><i class="fa fa-close"></i></span>
+                                <span class="button-remove" @click="setRemoveRule(rule)"><i class="fa fa-close"></i></span>
                             </td>
                         </tr>
                     </template>

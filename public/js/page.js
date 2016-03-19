@@ -430,11 +430,6 @@ Vue.component('settings', {
     data: function () {
         return {
             ajaxReady: true,
-            modalTitle: '',
-            modalBody: '',
-            modalMode: '',
-            modalFunction: function () {
-            },
             settingsView: 'company',
             navLinks: [
                 {
@@ -548,10 +543,13 @@ Vue.component('settings', {
             var newRole = {};
         },
         setRemoveRole: function (role) {
-            this.modalTitle = 'Permanently Remove ' + strCapitalize(role.position);
-            this.modalBody = "Removing a role is irreversible. Any team members that have those roles will lose all their permissions and won't be able to complete any tasks until you assign them a new role.";
-            this.modalMode = 'remove';
-            this.modalFunction = this.removeRole;
+            this.$broadcast('new-modal', {
+                title: 'Permanently Remove ' + strCapitalize(role.position),
+                body: "Removing a role is irreversible. Any team members that have those roles will lose all their permissions and won't be able to complete any tasks until you assign them a new role.",
+                buttonClass: 'btn-danger',
+                buttonText: 'remove',
+                callbackEventName: 'remove-role'
+            });
             this.roleToRemove = role;
         },
         removeRole: function () {
@@ -611,13 +609,15 @@ Vue.component('settings', {
             return role !== this.editingRole;
         },
         confirmEdit: function (oldRole, newRoleVal) {
-            this.modalTitle = 'Confirm Edit ' + strCapitalize(this.editingRole.position) + ' to ' + strCapitalize(newRoleVal);
-            this.modalBody = 'Role changes are immediate and will automatically effect all team members that have the role.';
-            this.modalMode = 'update';
-            this.modalFunction = this.updateRole;
             this.roleToUpdate = oldRole;
             this.updatedRoleVal = newRoleVal;
-            $('#modal-confirm').modal('show');
+            this.$broadcast('new-modal', {
+                title: 'Confirm Edit ' + strCapitalize(this.editingRole.position) + ' to ' + strCapitalize(newRoleVal),
+                body: 'Role changes are immediate and will automatically effect all team members that have the role.',
+                buttonClass: 'btn-primary',
+                buttonText: 'update',
+                callbackEventName: 'update-role'
+            });
         },
         updateRole: function () {
             var self = this;
@@ -685,11 +685,14 @@ Vue.component('settings', {
             this.selectedRuleRoles = [];
         },
         setRemoveRule: function (rule) {
-            this.modalTitle = 'Confirm Remove Rule';
-            this.modalBody = "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.";
-            this.modalMode = 'remove';
-            this.modalFunction = this.removeRule;
             this.ruleToRemove = rule;
+            this.$broadcast('new-modal', {
+                title: 'Confirm Remove Rule',
+                body: "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.",
+                buttonClass: 'btn-danger',
+                buttonText: 'remove',
+                callbackEventName: 'remove-rule'
+            });
         },
         removeRule: function () {
             var self = this;
@@ -866,8 +869,16 @@ Vue.component('settings', {
 
         self.fetchRules();
     },
-    components: {
-        formErrors: 'form-errors'
+    events: {
+        'remove-role': function() {
+            this.removeRole();
+        },
+        'remove-rule': function() {
+            this.removeRule();
+        },
+        'update-role': function() {
+            this.updateRole();
+        }
     }
 });
 

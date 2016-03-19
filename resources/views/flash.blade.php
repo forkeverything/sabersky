@@ -10,8 +10,8 @@
                 timeout: '5500',
                 killer: 'true',
                 animation: {
-                    open: 'animated fadeInUp',
-                    close: 'animated fadeOutDown',
+                    open: 'animated slideInUp',
+                    close: 'animated slideOutDown',
                     speed: '350'
                 }
             });
@@ -30,8 +30,8 @@
             timeout: '5500',
             killer: 'true',
             animation: {
-                open: 'animated fadeInUp',
-                close: 'animated fadeOutDown',
+                open: 'animated slideInUp',
+                close: 'animated slideOutDown',
                 speed: '350'
             }
         });

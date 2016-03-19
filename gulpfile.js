@@ -58,7 +58,7 @@ elixir(function(mix) {
 
 
     mix.scriptsIn('resources/assets/js/page/**/*', 'public/js/page.js');
-    mix.copy('resources/assets/js/page/root.js', 'public/js/page');
+    mix.copy('resources/assets/js/page/root.js', 'public/js/vue-root.js');
 
     mix.copy(
         [
