@@ -38,14 +38,7 @@
 <!-- Page Specific Scripts -->
 @yield('scripts.footer')
 <!-- Global Vue Instance -->
-<script>
-    new Vue({
-        el: '#app-layout',
-        data: {
-            currencySymbol: '$'
-        }
-    })
-</script>
+<script src="{{ asset('/js/page/root.js') }}"></script>
 <!-- Flash Notification -->
 @include('flash')
 </body>
