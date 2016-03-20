@@ -74,8 +74,8 @@ $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
     return [
         'quantity' => $faker->randomDigitNotNull,
         'due' => $faker->dateTimeThisYear->format('d/m/Y'),
-        'urgent' => $faker->boolean(20),
         'state' => $faker->randomElement(['open', 'cancelled']),
+        'urgent' => $faker->boolean(20),
         'item_id' => factory(App\Item::class)->create()->id,
         'project_id' => 1,
         'user_id' => factory(App\User::class)->create([

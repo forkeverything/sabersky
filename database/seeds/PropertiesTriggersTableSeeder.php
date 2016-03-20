@@ -32,7 +32,7 @@ class PropertiesTriggersTableSeeder extends Seeder
             'label' => 'Any Single Item',
             'name' => 'single_item',
             'triggers' => [
-                'over' => [
+                'exceeds' => [
                     'label' => 'Exceeds',
                     'has_limit' => 1,
                     'limit_type' => 'float'

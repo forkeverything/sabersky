@@ -70,7 +70,7 @@ class RulesController extends Controller
     {
         if(Auth::user()->company->rules->contains($rule)) {
             // Grab an array of all the PO the rule affects
-            $affectedPOs = $rule->  purchaseOrders;
+            $affectedPOs = $rule->purchaseOrders;
             $rule->delete();
             // Re-check each PO for rules
             foreach($affectedPOs as $affectedPO) $affectedPO->tryAutoApprove();

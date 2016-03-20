@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $vendors
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
+ * @property string $currency
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
  */
 class Company extends Model
 {

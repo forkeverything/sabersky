@@ -22,11 +22,7 @@ use Illuminate\Support\Facades\DB;
  * @property-read \App\User $user
  * @property-read mixed $total
  * @property string $status
- * @property boolean $over_high
- * @property boolean $over_med
- * @property boolean $item_over_md
- * @property boolean $new_vendor
- * @property boolean $new_item
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
  */
 class PurchaseOrder extends Model
 {
@@ -34,21 +30,26 @@ class PurchaseOrder extends Model
         'approved',
         'submitted',
         'total',
-        'over_high',
-        'over_med',
-        'item_over_md',
-        'new_vendor',
-        'new_item',
         'user_id',
         'project_id',
         'vendor_id'
     ];
 
+    /**
+     * A PO is made to a single Vendor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
     }
 
+    /**
+     * A PO can contain many Line Items.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function lineItems()
     {
         return $this->hasMany(LineItem::class);
@@ -76,6 +77,14 @@ class PurchaseOrder extends Model
 
         // Mark Submitted
         $this->submitted = true;
+
+        // Check for Rules
+        $this->attachRules();
+
+        // try to approve if there are not rules in the way
+        $this->tryAutoApprove();
+
+        // Save & return
         $this->save();
         return $this;
     }
@@ -115,18 +124,58 @@ class PurchaseOrder extends Model
         return $this->belongsToMany(Rule::class);
     }
 
+    /**
+     * Quick 'string' checker for PO status
+     * @param $status
+     * @return bool
+     */
+    public function hasStatus($status)
+    {
+        return $this->status === $status;
+    }
+
+    /**
+     * Wrapper function that delegates out rule assignment
+     * to the Rule Model.
+     *
+     * @return $this
+     */
+    protected function attachRules()
+    {
+        // Get a list of all the company's rules
+        $companyRules = $this->getCompanyRules();
+        // For each rule - check each property
+        foreach ($companyRules as $rule) {
+            $rule->processPurchaseOrder($this);
+        }
+        // All done attaching rules...
+        return $this;
+    }
+
+    /**
+     * Approves a PO if it does not have any
+     * active rules that apply.
+     *
+     * @return $this
+     */
     public function tryAutoApprove()
     {
         // If PO is 'pending' and DOES NOT have rules that apply
-        if($this->is('pending') && count($this->rules) === 0) {
+        if($this->hasStatus('pending') && count($this->rules) === 0) {
             $this->markApproved();
         }
         return $this;
     }
 
-    public function is($status)
+    /**
+     * Returns all the rules for the project's
+     * company.
+     *
+     * @return Rule[]|\Illuminate\Database\Eloquent\Collection
+     */
+    protected function getCompanyRules()
     {
-        return $this->status === $status;
+        return $this->project->company->rules;
     }
 
 }

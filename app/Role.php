@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Permission[] $permissions
  * @property integer $company_id
+ * @property-read \App\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
  */
 class Role extends Model
 {
