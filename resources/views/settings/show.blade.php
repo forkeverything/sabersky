@@ -29,8 +29,6 @@
             @include('settings.partials.permissions')
             @include('settings.partials.rules')
 
-            <modal></modal>
-
         </div>
     </div>
     </settings>

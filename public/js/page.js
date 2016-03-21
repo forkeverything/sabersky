@@ -1,3 +1,94 @@
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('items-all', {
     name: 'allItems',
     el: function() {
@@ -181,96 +272,42 @@ Vue.component('purchase-orders-submit', {
         }
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
+Vue.component('settings', {
+    name: 'Settings',
     el: function () {
-        return '#add-line-item';
+        return '#system-settings';
     },
     data: function () {
         return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
     },
     methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
+        changeView: function (view) {
+            this.settingsView = view;
         }
     },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
     }
 });
-
-
 
 Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
@@ -422,63 +459,21 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('settings', {
-    name: 'Settings',
+Vue.component('settings-company', {
+    name: 'settingsCompany',
+    template: '',
     el: function () {
-        return '#system-settings';
+        return '#settings-company';
     },
-    data: function () {
+    data: function() {
         return {
-            ajaxReady: true,
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            // Company
-            company: false,
-            // Permissions
-            roles: [],
-            roleToRemove: false,
-            roleSelect: '',
-            selectedRole: false,
-            editingRole: false,
-            editRolePosition: false,
-            roleToUpdate: {},
-            updatedRoleVal: '',
-            // Rules
-            rules: [],
-            ruleProperties: [],
-            selectedProperty: false,
-            selectedTrigger: false,
-            selectedRuleRoles: [],
-            ruleLimit: '',
-            ruleToRemove: false
+            company: false
         }
     },
+    props: [
+      'settingsView'
+    ],
     computed: {
-        ruleHasLimit: function () {
-            return (this.selectedTrigger && this.selectedTrigger.has_limit);
-        },
-        canSubmitRule: function () {
-            if (this.ruleHasLimit) {
-                return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
-            }
-            return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
-        },
-        hasRules: function () {
-            return !_.isEmpty(this.rules);
-        },
         canUpdateCompany: function () {
             if (this.company) {
                 return this.company.name.length > 0 && this.company.description.length > 0 && this.company.currency.length > 0;
@@ -487,10 +482,74 @@ Vue.component('settings', {
         }
     },
     methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        },
-        // Permissions
+        updateCompany: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/company',
+                method: 'PUT',
+                data: {
+                    name: self.company.name,
+                    description: self.company.description,
+                    currency: self.company.currency
+                },
+                success: function (data) {
+                    // success
+                    flashNotify('success', 'Updated Company information');
+                    self.$dispatch('update-currency', self.company.currency);
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function() {
+        var self = this;
+        // GET user company info
+        $.ajax({
+            url: '/api/company',
+            method: 'GET',
+            success: function (data) {
+                // success
+                self.company = data;
+            },
+            error: function (response) {
+                console.log('Request Error!');
+                console.log(response);
+            }
+        });
+
+    }
+});
+Vue.component('settings-permissions', {
+    name: 'settingsPermissions',
+    el: function () {
+        return '#settings-permissions'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            roleToRemove: false,
+            roleSelect: '',
+            selectedRole: false,
+            editingRole: false,
+            editRolePosition: false,
+            roleToUpdate: {},
+            updatedRoleVal: ''
+        };
+    },
+    props: [
+        'roles',
+        'settingsView'
+    ],
+    computed: {},
+    methods: {
         hasPermission: function (permission, role) {
             return _.some(role.permissions, permission);
         },
@@ -645,132 +704,18 @@ Vue.component('settings', {
                     console.log(response);
                 }
             });
+        }
+    },
+    events: {
+        'remove-role': function () {
+            this.removeRole();
         },
-        setTriggers: function () {
-            this.selectedTrigger = '';
-        },
-        addRule: function () {
-            var self = this;
-            var postData = {
-                rule_property_id: self.selectedProperty.id,
-                rule_trigger_id: self.selectedTrigger.id,
-                limit: self.ruleLimit,
-                roles: self.selectedRuleRoles
-            };
-            $.ajax({
-                url: '/api/rules',
-                method: 'POST',
-                data: postData,
-                success: function (data) {
-                    // success
-                    self.fetchRules();
-                    flashNotify('success', 'Successfully added a new Rule');
-                    self.resetRuleValues();
-                },
-                error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
-                    self.resetRuleValues();
-                    if (response.status === 409) {
-                        flashNotify('error', 'Rule already exists');
-                    } else {
-                        flashNotify('error', 'Could not add Rule');
-                    }
-
-                }
-            });
-        },
-        resetRuleValues: function () {
-            this.ruleLimit = '';
-            this.selectedRuleRoles = [];
-        },
-        setRemoveRule: function (rule) {
-            this.ruleToRemove = rule;
-            this.$broadcast('new-modal', {
-                title: 'Confirm Remove Rule',
-                body: "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.",
-                buttonClass: 'btn-danger',
-                buttonText: 'remove',
-                callbackEventName: 'remove-rule'
-            });
-        },
-        removeRule: function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/rules/' + self.ruleToRemove.id + '/remove',
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.fetchRules();
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        fetchRules: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/rules',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.rules = data;
-                },
-                error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
-                }
-            });
-        },
-        updateCompany: function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/company',
-                method: 'PUT',
-                data: {
-                    name: self.company.name,
-                    description: self.company.description,
-                    currency: self.company.currency
-                },
-                success: function (data) {
-                    // success
-                    flashNotify('success', 'Updated Company information');
-                    self.$dispatch('update-currency', self.company.currency);
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
+        'update-role': function () {
+            this.updateRole();
         }
     },
     ready: function () {
         var self = this;
-
-        // GET user company info
-        $.ajax({
-            url: '/api/company',
-            method: 'GET',
-            success: function (data) {
-                // success
-                self.company = data;
-            },
-            error: function (response) {
-                console.log('Request Error!');
-                console.log(response);
-            }
-        });
 
         // GET company roles
         $.ajax({
@@ -853,6 +798,138 @@ Vue.component('settings', {
         self.roleSelect.on("item_add", function (value, $item) {
             self.selectedRole = _.find(self.roles, {position: value});
         });
+    }
+});
+
+Vue.component('settings-rules', {
+    name: 'settingsRules',
+    el: function () {
+        return '#settings-rules'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            rules: [],
+            ruleProperties: [],
+            selectedProperty: false,
+            selectedTrigger: false,
+            selectedRuleRoles: [],
+            ruleLimit: '',
+            ruleToRemove: false
+        };
+    },
+    props: [
+        'roles',
+        'settingsView'
+    ],
+    computed: {
+        ruleHasLimit: function () {
+            return (this.selectedTrigger && this.selectedTrigger.has_limit);
+        },
+        canSubmitRule: function () {
+            if (this.ruleHasLimit) {
+                if (this.selectedRuleRoles) {
+                    return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
+                }
+                return false;
+            }
+            return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
+        },
+        hasRules: function () {
+            return !_.isEmpty(this.rules);
+        }
+    },
+    methods: {
+        setTriggers: function () {
+            this.selectedTrigger = '';
+        },
+        addRule: function () {
+            var self = this;
+            var postData = {
+                rule_property_id: self.selectedProperty.id,
+                rule_trigger_id: self.selectedTrigger.id,
+                limit: self.ruleLimit,
+                roles: self.selectedRuleRoles
+            };
+            $.ajax({
+                url: '/api/rules',
+                method: 'POST',
+                data: postData,
+                success: function (data) {
+                    // success
+                    self.fetchRules();
+                    flashNotify('success', 'Successfully added a new Rule');
+                    self.resetRuleValues();
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    self.resetRuleValues();
+                    if (response.status === 409) {
+                        flashNotify('error', 'Rule already exists');
+                    } else {
+                        flashNotify('error', 'Could not add Rule');
+                    }
+
+                }
+            });
+        },
+        resetRuleValues: function () {
+            this.ruleLimit = '';
+            this.selectedRuleRoles = [];
+        },
+        setRemoveRule: function (rule) {
+            this.ruleToRemove = rule;
+            this.$broadcast('new-modal', {
+                title: 'Confirm Remove Rule',
+                body: "Removing a rule is irreversible. Any Pending (Unapproved) Purchase Orders that is waiting for the Rule to be approved may automatically be approved for processing.",
+                buttonClass: 'btn-danger',
+                buttonText: 'remove',
+                callbackEventName: 'remove-rule'
+            });
+        },
+        removeRule: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/rules/' + self.ruleToRemove.id + '/remove',
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.fetchRules();
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        fetchRules: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/rules',
+                method: 'GET',
+                success: function (data) {
+                    // success
+                    self.rules = data;
+                },
+                error: function (response) {
+                    console.log('Request Error!');
+                    console.log(response);
+                }
+            });
+        }
+    },
+    events: {
+        'remove-rule': function () {
+            this.removeRule();
+        }
+    },
+    ready: function () {
+        var self = this;
 
         $.ajax({
             url: '/api/rules/properties_triggers',
@@ -868,18 +945,6 @@ Vue.component('settings', {
         });
 
         self.fetchRules();
-    },
-    events: {
-        'remove-role': function() {
-            this.removeRole();
-        },
-        'remove-rule': function() {
-            this.removeRule();
-        },
-        'update-role': function() {
-            this.updateRole();
-        }
     }
 });
-
 //# sourceMappingURL=page.js.map
