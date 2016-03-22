@@ -32,21 +32,45 @@ class Project extends Model
         'company_id'
     ];
 
-    public function teamMembers()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
+    /**
+     * Each project can only belong to a single
+     * company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * a Project can have many Team Members (users)
+     * who are a part of the project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function teamMembers()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * A Project can have multiple Purchase Requests
+     * made during it's lifetime.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function purchaseRequests()
     {
         return $this->hasMany(PurchaseRequest::class);
     }
 
+    /**
+     * Project can have many items ordered for it. Likewise,
+     * an item can be ordered for multiple projects.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function items()
     {
         return $this->belongsToMany(Item::class);

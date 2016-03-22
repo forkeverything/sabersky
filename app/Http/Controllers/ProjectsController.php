@@ -64,9 +64,17 @@ class ProjectsController extends Controller
         return redirect('/projects');
     }
 
-    public function single(Project $project)
+    /**
+     * Gets a single project using route-wildcard
+     * binding and returns it to user.
+     *
+     * @param Project $project
+     * @return mixed
+     */
+    public function getSingle(Project $project)
     {
-        return view('projects.single', compact('project'));
+        if(Gate::allows('view', $project)) return view('projects.single', compact('project'));
+        return redirect('/projects');
     }
 
     public function addTeamMember(Project $project)

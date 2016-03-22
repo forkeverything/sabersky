@@ -6,7 +6,9 @@ use App\Item;
 use App\LineItem;
 use App\Permission;
 use App\Policies\ItemPolicy;
+use App\Policies\ProjectPolicy;
 use App\Policies\PurchaseOrderPolicy;
+use App\Project;
 use App\PurchaseOrder;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -20,9 +22,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
         PurchaseOrder::class => PurchaseOrderPolicy::class,
-        Item::class => ItemPolicy::class
+        Item::class => ItemPolicy::class,
+        Project::class => ProjectPolicy::class
     ];
 
     /**
