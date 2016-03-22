@@ -86,10 +86,4 @@ class Project extends Model
 
         return $item;
     }
-
-    public function getNameAttribute($property)
-    {
-        return ucfirst($property);
-    }
-
 }

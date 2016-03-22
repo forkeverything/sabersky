@@ -50,7 +50,7 @@
 
                 <ul class="meta-details list-unstyled">
                     <li>{{ $purchaseOrder->created_at->format('d M Y') }}</li>
-                    <li>{{ $purchaseOrder->project->name }}</li>
+                    <li class="capitalize">{{ $purchaseOrder->project->name }}</li>
                     <li>{{ $purchaseOrder->user->name }}</li>
                 </ul>
             </div>

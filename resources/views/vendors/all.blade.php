@@ -90,7 +90,7 @@
                                         <tbody>
                                         @foreach($vendor->purchaseOrders as $purchaseOrder)
                                             <tr>
-                                                <td>{{ $purchaseOrder->project->name }}</td>
+                                                <td class="capitalize">{{ $purchaseOrder->project->name }}</td>
                                                 <td>{{ $purchaseOrder->created_at->format ('d M Y') }}</td>
                                                 <td>{{ $purchaseOrder->total }}</td>
                                                 @can('report_view')

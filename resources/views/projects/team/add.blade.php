@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="projects-team-add">
-        <a href="{{ route('singleProject', $project->id) }}" class="back-link no-print"><i
+        <a href="{{ route('singleProject', $project->id) }}" class="back-link no-print capitalize"><i
                     class="fa  fa-arrow-left fa-btn"></i>{{ $project->name }}</a>
         <div class="panel panel-default">
-            <div class="panel-heading text-center"><strong>Add Team Member for {{ $project->name }}</strong></div>
+            <div class="panel-heading text-center capitalize"><strong>Add Team Member for {{ $project->name }}</strong></div>
             <div class="panel-body">
                 @include('errors.list')
                 <form action="{{ route('saveTeamMember', $project->id) }}" id="form-add-user"

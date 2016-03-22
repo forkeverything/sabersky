@@ -3,7 +3,7 @@
     <div class="po-selected-info">
         <div class="header">
             @if($existingPO->project_id)
-                <span class="project-name">{{ $existingPO->project->name }}</span>
+                <span class="project-name capitalize">{{ $existingPO->project->name }}</span>
             @endif
             <a href="{{ route('cancelUnsubmittedPO') }}"><button class="btn btn-danger">Cancel</button></a>
         </div>

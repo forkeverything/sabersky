@@ -7,7 +7,7 @@
        </div>
         <div class="page-body">
             <section class="project-header">
-                <h1 class="project-title">{{ $project->name }}</h1>
+                <h1 class="project-title capitalize">{{ $project->name }}</h1>
                 @if($project->operational)
                     <span class="project-status active label label-success">Currently Developing</span>
                 @else

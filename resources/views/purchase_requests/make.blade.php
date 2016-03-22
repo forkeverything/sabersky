@@ -18,7 +18,7 @@
                         <select v-selectize="" class="form-group" name="project_id">
                             <option></option>
                             @foreach(Auth::user()->projects as $project)
-                                <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                <option value="{{ $project->id }}" class="capitalize">{{ $project->name }}</option>
                             @endforeach
                         </select>
                     </div>

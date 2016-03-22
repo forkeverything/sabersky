@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Requests\StartProjectRequest;
 use App\Role;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -118,9 +119,30 @@ class Company extends Model
         abort(403, 'Already have an admin');
     }
 
+    /**
+     * A company can have many rules for it's
+     * purchase orders
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function rules()
     {
         return $this->hasMany(Rule::class);
+    }
+
+    /**
+     * Creates a new project for the company. The user
+     * is the logged user who created the project.
+     * 
+     * @param StartProjectRequest $request
+     * @param $user
+     * @return $this
+     */
+    public function startProject(StartProjectRequest $request, $user)
+    {
+        $project = $this->projects()->create($request->all());
+        $user->projects()->save($project);  // Add project to user projects
+        return $this;
     }
 
 }

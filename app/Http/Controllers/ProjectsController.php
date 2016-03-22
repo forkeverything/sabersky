@@ -23,31 +23,44 @@ class ProjectsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        if ($user = Auth::user()) {
-            $this->company = $user->company;
-        }
-
+        $this->middleware('company');
+        $this->company = Auth::user()->company->load('projects');
     }
 
+    /**
+     * Shows a list of all of the company's
+     * projects
+     *
+     * @return mixed
+     */
     public function showAll()
     {
-        $company = Auth::user()->company;
         return view('projects.all')->with('company', $this->company);
     }
 
+    /**
+     * Get form to start a project.
+     *
+     * @return mixed
+     */
     public function getProjectForm()
     {
-        if (Gate::denies('project_manage')) {
-            return redirect('/projects');
+        if (Gate::allows('project_manage')) {
+            return view('projects.start');
         }
-
-        return view('projects.start');
+        return redirect('/projects');
     }
 
-    public function startProject(StartProjectRequest $request)
+    /**
+     * Handles POST req. to start
+     * a project
+     * 
+     * @param StartProjectRequest $request
+     * @return mixed
+     */
+    public function postStartProject(StartProjectRequest $request)
     {
-        $project = $this->company->projects()->create($request->all());
-        Auth::user()->projects()->save($project);
+        $this->company->startProject($request, Auth::user());
         return redirect('/projects');
     }
 
@@ -64,7 +77,7 @@ class ProjectsController extends Controller
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
     {
-        if($existingUserId = $request->input('existing_user_id')) {
+        if ($existingUserId = $request->input('existing_user_id')) {
             // Adding existing user
             $user = User::find($existingUserId);
             $project->teamMembers()->save($user);

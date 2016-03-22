@@ -4,7 +4,7 @@ Hello {{ $user->name }},
 <br>
 <br>
 You have been invited to join Pusaka's Procure System as a <span class="capitalize">{{ $user->role->position }}</span> for the
-<strong>{{ $user->projects()->first()->name }}</strong> project.
+<strong><{{ $user->projects()->first()->name }}</strong> project.
 <br>
 If you would like to Accept, please click the link below.
 <br>

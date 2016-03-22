@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <th>Project</th>
-                        <td>{{ $purchaseRequest->project->name }}</td>
+                        <td class="capitalize">{{ $purchaseRequest->project->name }}</td>
                     </tr>
                     <tr>
                         <th>Quantity Outstanding</th>
