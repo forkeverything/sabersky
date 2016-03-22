@@ -5,7 +5,7 @@
         <a href="{{ route('dashboard') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Dashboard</a>
         <div class="page-header">
             <h1 class="page-title">Projects & Teams</h1>
-            <p class="page-intro">List of all projects <span class="capitalize">{{ $company->name }}</span> is currently developing.</p>
+            <p class="page-intro">List of <span class="capitalize">{{ $company->name }}</span> Projects. Select or create a new project and begin sending invitations to team members.</p>
         </div>
         <div class="page-body">
             @can('project_manage')

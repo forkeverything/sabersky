@@ -20,6 +20,13 @@ class CompanyController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * GET request to register a company.
+     * If a user already has one, redirect
+     * him to dashboard.
+     * 
+     * @return mixed
+     */
     public function registerCompany()
     {
         if(Auth::user()->company) {
