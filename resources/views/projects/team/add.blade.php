@@ -4,7 +4,8 @@
         <a href="{{ route('singleProject', $project->id) }}" class="back-link no-print capitalize"><i
                     class="fa  fa-arrow-left fa-btn"></i>{{ $project->name }}</a>
         <div class="panel panel-default">
-            <div class="panel-heading text-center capitalize"><strong>Add Team Member for {{ $project->name }}</strong></div>
+            <div class="panel-heading text-center capitalize"><strong>Add Team Member for {{ $project->name }}</strong>
+            </div>
             <div class="panel-body">
                 @include('errors.list')
                 <form action="{{ route('saveTeamMember', $project->id) }}" id="form-add-user"
@@ -38,15 +39,14 @@
                         <label for="field-new-user-role">Role</label>
                         <select name="role_id" id="field-new-user-role" class="form-control">
                             <option disabled selected value="">Choose a position</option>
-                            @if(Gate::allows('team_manage'))
-                                @foreach($roles as $role)
-                                    @if($role->id !== 1)
-                                    <option value="{{ $role->id }}"><span class="capitalize">{{ $role->position }}</span></option>
-                                    @endif
-                                @endforeach
-                            @elseif(Gate::allows('buyer_manage'))
-                                <option value="4">Buyer</option>
-                            @endif
+                            @can('team_manage')
+                            @foreach($roles as $role)
+                                @if($role->id !== 1)
+                                    <option value="{{ $role->id }}"><span
+                                                class="capitalize">{{ $role->position }}</span></option>
+                                @endif
+                            @endforeach
+                            @endcan
                         </select>
                     </section>
                     <!-- Submit -->

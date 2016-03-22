@@ -77,10 +77,11 @@ class ProjectsController extends Controller
         return redirect('/projects');
     }
 
-    public function addTeamMember(Project $project)
+    public function getAddTeamMember(Project $project)
     {
         $roles = Role::all();
-        return view('projects.team.add', compact('project', 'roles'));
+        if(Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'roles'));
+        return redirect('/projects');
     }
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)

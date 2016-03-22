@@ -26,7 +26,8 @@ class SaveCompanyRequest extends Request
     {
         return [
             'name' => 'required|unique:companies,name',
-            'description' => 'required'
+            'description' => 'required',
+            'currency' => 'required'
         ];
     }
 }

@@ -45,9 +45,9 @@
                         </div>
                     @endforeach
                 </div>
-                @if(Gate::allows('team_manage') || Gate::allows('buyer_manage'))
-                    <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-solid-green"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
-                @endif
+                @can('team_manage')
+                <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-solid-green"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
+                @endcan
             </section>
         </div>
     </div>

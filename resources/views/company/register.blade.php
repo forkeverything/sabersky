@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="field-company-currency">Currency Symbol</label>
                         <input type="text" id="field-company-currency" name="currency" class="form-control"
-                               value="{{ old('currency') }}" placeholder="$">
+                               value="$" placeholder="$">
                     </div>
                     <div class="form-group">
                         <div class="row">

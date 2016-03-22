@@ -15,7 +15,7 @@ class SaveTeamMemberRequest extends Request
      */
     public function authorize()
     {
-       return Gate::allows('team_manage') || Gate::allows('buyer_manage');
+       return Gate::allows('team_manage');
     }
 
     /**

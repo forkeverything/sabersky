@@ -36,7 +36,7 @@ class CompanyController extends Controller
     }
 
     public function saveCompany(SaveCompanyRequest $request)
-    {
+    {;
         $company = Company::create($request->all());
         $company->employees()->save($user = Auth::user());
 

@@ -24,4 +24,5 @@ class ProjectPolicy
     {
         return $user->company_id === $project->company_id;
     }
+    
 }

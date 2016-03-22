@@ -8,8 +8,7 @@ class PermissionsTableSeeder extends Seeder
 
     protected $permissions = [
         'project_manage' => 'Projects',
-        'team_manage' => 'Departments',
-        'buyer_manage' => 'Teams',
+        'team_manage' => 'Manage Team',
         'pr_make' => 'Make Purchase Requests',
         'po_submit' => 'Submit Purchase Orders',
         'po_payments' => 'Mark Paid',
