@@ -6,6 +6,7 @@ Vue.component('settings-company', {
     },
     data: function() {
         return {
+            ajaxReady: true,
             company: false
         }
     },
@@ -36,7 +37,7 @@ Vue.component('settings-company', {
                 success: function (data) {
                     // success
                     flashNotify('success', 'Updated Company information');
-                    self.$dispatch('update-currency', self.company.currency);
+                    self.$dispatch('update-company');
                     self.ajaxReady = true;
                 },
                 error: function (response) {

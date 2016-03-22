@@ -19,14 +19,14 @@
                     <tr class="role-row"
                         v-if="role.position === 'admin' "
                     >
-                        <th class="role-position">@{{ role.position }}</th>
+                        <th class="capitalize">@{{ role.position }}</th>
                         @foreach($permissions as $permission)
                             <td><i class="fa fa-circle"></i></td>
                         @endforeach
                     </tr>
                     <tr class="role-row changeable" v-else>
 
-                        <th class="role-position removable">
+                        <th class="capitalize removable">
                             <span @click="editRole(role)" v-show="notEditing(role)">@{{ role.position }}</span>
                             <input type="text" v-show="! notEditing(role)" v-model="editRolePosition"
                                    :class="{ 'input-editing-role': ! notEditing(role) }">

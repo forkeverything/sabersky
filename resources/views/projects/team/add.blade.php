@@ -41,7 +41,7 @@
                             @if(Gate::allows('team_manage'))
                                 @foreach($roles as $role)
                                     @if($role->id !== 1)
-                                    <option value="{{ $role->id }}"><span class="role-position">{{ $role->position }}</span></option>
+                                    <option value="{{ $role->id }}"><span class="capitalize">{{ $role->position }}</span></option>
                                     @endif
                                 @endforeach
                             @elseif(Gate::allows('buyer_manage'))

@@ -64,6 +64,13 @@ class CompanyController extends Controller
         return '$';
     }
 
+    /**
+     * PUT req. to update a user's company
+     * information.
+     * 
+     * @param UpdateCompanyRequest $request
+     * @return mixed
+     */
     public function putUpdate(UpdateCompanyRequest $request)
     {
         if(Auth::user()->company()->update($request->all())){

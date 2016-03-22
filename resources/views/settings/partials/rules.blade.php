@@ -63,7 +63,7 @@
                         <div class="input-group"
                              v-else
                         >
-                            <span class="input-group-addon">@{{ $root.currencySymbol }}</span>
+                            <span class="input-group-addon">@{{ $root.company.currency }}</span>
                             <input type="text"
                                    class="form-control input-rule-limit"
                                    v-model="ruleLimit | numberModel"
@@ -135,7 +135,7 @@
                                 </td>
                                 <td>
                                     <ul class="list-unstyled">
-                                        <li v-for="role in rule.roles" class="role-position">@{{ role.position }}</li>
+                                        <li v-for="role in rule.roles" class="capitalize">@{{ role.position }}</li>
                                     </ul>
                                     <span class="button-remove" @click="setRemoveRule(rule)"><i class="fa fa-close"></i></span>
                                 </td>

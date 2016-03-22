@@ -8,7 +8,7 @@
             together with you.</p>
         <section class="details">
             <h2>Details</h2>
-            <p>You will be operating as a <span class="role-position"><strong>{{ $user->role->position }}</strong></span> for the <strong>{{ $user->projects()->first()->name }}</strong> project.</p>
+            <p>You will be operating as a <span class="capitalize"><strong>{{ $user->role->position }}</strong></span> for the <strong>{{ $user->projects()->first()->name }}</strong> project.</p>
         </section>
             <h2>Set Credentials</h2>
             @include('errors.list')
