@@ -24,7 +24,9 @@ class ProjectsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
-        $this->company = Auth::user()->company->load('projects');
+        if($user = Auth::user()) {
+            $this->company = Auth::user()->company->load('projects');
+        }
     }
 
     /**
@@ -77,11 +79,24 @@ class ProjectsController extends Controller
         return redirect('/projects');
     }
 
+    /**
+     * Shows the Add Team Member page to
+     * authorized Users.
+     *
+     * @param Project $project
+     * @return mixed
+     */
     public function getAddTeamMember(Project $project)
     {
         $roles = Role::all();
         if(Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'roles'));
         return redirect('/projects');
+
+        /**
+         * TODO :: Fetch roles through API
+         * - We can serve project back-end because we're not
+         * planning on changing it.
+         */
     }
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
