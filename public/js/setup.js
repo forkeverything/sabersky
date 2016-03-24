@@ -432,7 +432,6 @@ Vue.directive('collapse-tabs', {
             $el.off('click', clickHandler);
         }
 
-
         // Function that auto-collapse and uncollapses based on tab nav height
         function autocollapse() {
 
@@ -443,16 +442,13 @@ Vue.directive('collapse-tabs', {
                 popChild();
                 setTimeout(autocollapse, 150);  // Sometimes things happen too quick - let's recalibrate at the end
             } else {
-                // Not stacking - put items back in line?
-
-                // How many to pop out? As many as it would take just before it would make the height over 50
-
+                // Not stacking - Do put items back in line?
                 var collapsedItems = $tabs.children('li:last-child').children('ul').children('li');
                 if (($tabs.children('li').size() > 0) && collapsedItems.size() > 0) {
 
+                    (function dirtyChecker() {
+                        console.log('called dirtyChecker!');
 
-                    (function adjustor() {
-                        console.log('called adjustor!');
                         var containerWidth = $tabs.width();
                         var cumulativeItemWidths = 0;
                         $tabs.children('li').each(function () {
@@ -462,14 +458,14 @@ Vue.directive('collapse-tabs', {
                         if( (containerWidth - cumulativeItemWidths) >  collapsedItemWidths[0]) {
                             var numItemsBeforeInsert = $tabs.children('li').length;
                             $(collapsedItems[0]).insertBefore($tabs.children('li:last-child'));
+
+                            // Wait for el to actually be removed
                             if($tabs.children('li').length == (numItemsBeforeInsert + 1 )) {
-                                // element removed
-                                console.log('unpopped one');
+
                                 unbindClick($(collapsedItems[0]));
                                 collapsedItemWidths.shift();
-                                console.log(collapsedItemWidths);
 
-                                adjustor();
+                                dirtyChecker();
                             } else {
                                 console.log('element not removed');
                             }
@@ -494,7 +490,15 @@ Vue.directive('collapse-tabs', {
 
         // Bind to window resize
         self.eventName = '.autocollapse' + Math.floor((Math.random() * 100000000000) + 1);
-        $(window).on('resize' + self.eventName, autocollapse);
+
+        // $(window).on('resize' + self.eventName, autocollapse);
+
+        var resizeTimer;
+        $(window).on('resize' + self.eventName, function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(autocollapse, 100);
+        });
+
     },
     unbind: function () {
         // unbind to from window resize
