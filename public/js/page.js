@@ -31,48 +31,6 @@ Vue.component('items-all', {
         })
     }
 });
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            roles: []
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/roles',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.roles = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-
-                vueValidation(response, self);
-                self.ajaxReady = true;
-            }
-        });
-    }
-});
 Vue.component('add-line-item', {
     name: 'addLineItem',
     el: function () {
@@ -164,156 +122,48 @@ Vue.component('add-line-item', {
 
 
 
-Vue.component('purchase-requests-all', {
-    name: 'allPurchaseRequests',
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
     el: function() {
-        return '#purchase-requests-all';
+        return '#projects-team-add'
     },
     data: function() {
         return {
-            purchaseRequests: [],
-            headings: [
-                ['due', 'Due Date'],
-                ['project.name', 'Project'],
-                ['item.name', 'Item'],
-                ['specification', 'Specification'],
-                ['quantity', 'Quantity'],
-                ['user.name', 'Made by'],
-                ['created_at', 'Requested']
-            ],
-            field: '',
-            order: '',
-            urgent: '',
-            filter: ''
+            ajaxReady: true,
+            roles: []
         };
     },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_requests',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseRequests = data;
-            },
-            error: function (res, status, req) {
-                console.log(status);
-            }
-        });
-    },
-    methods: {
-        loadSinglePR: function (id) {
-            window.document.location = '/purchase_requests/single/' + id;
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        checkShow: function (purchaseRequest) {
-            switch (this.filter) {
-                case 'complete':
-                    console.log(purchaseRequest.state);
-                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
-                        return true;
-                    }
-                    break;
-                case 'cancelled':
-                    if (purchaseRequest.state == 'Cancelled') {
-                        return true;
-                    }
-                    break;
-                default:
-                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
-                        return true;
-                    }
-            }
-        }
-    }
-});
-Vue.component('purchase-requests-make', {
-    name: 'makePurchaseRequest',
-    el: function() {
-        return '#purchase-requests-add';
-    },
-    data: function() {
-        return {
-            existingItem: true,
-            items: [],
-            existingItemName: '',
-            selectedItem: ''
-        };
-    },
-    methods: {
-        changeExistingItem: function (state) {
-            this.clearSelectedExisting();
-            this.existingItem = state;
-        },
-        selectItemName: function(name) {
-            this.existingItemName = name;
-        },
-        selectItem: function(item) {
-            this.selectedItem = item;
-        },
-        clearSelectedExisting: function() {
-            this.selectedItem = '';
-            this.existingItemName = '';
-            $('#select-new-item-name')[0].selectize.clear();
-            $('#field-new-item-specification').val('');
-            $('.input-item-photos').fileinput('clear');
-        }
-    },
+    props: [],
     computed: {
-        uniqueItemNames: function () {
-            return _.uniqBy(this.items, 'name');
-        },
-        itemsWithName: function () {
-            return _.filter(this.items, {'name': this.existingItemName});
-        }
+
     },
-    ready: function () {
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
         var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
         $.ajax({
-            url: '/api/items',
+            url: '/api/roles',
             method: 'GET',
-            success: function (data) {
-                self.items = data;
+            success: function(data) {
+               // success
+               self.roles = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+
+                vueValidation(response, self);
+                self.ajaxReady = true;
             }
         });
-
-        var unique = $('#select-new-item-name').selectize({
-            create: true,
-            sortField: 'text',
-            placeholder: 'Choose an existing name or enter a new one...',
-            createFilter: function(input) {
-                input = input.toLowerCase();
-                var array = $.map(unique.options, function(value) {
-                    return [value];
-                });
-                var unmatched = true;
-                _.forEach(array, function (option) {
-                    if((option.text).toLowerCase() === input) {
-                        unmatched = false;
-                    }
-                });
-                return unmatched;
-            }
-        })[0].selectize;
-    },
-    compiled: function() {
-        $('#purchase-requests-add').show();
     }
 });
-
-
 Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
     el: function() {
@@ -464,6 +314,156 @@ Vue.component('purchase-orders-submit', {
         }
     }
 });
+Vue.component('purchase-requests-all', {
+    name: 'allPurchaseRequests',
+    el: function() {
+        return '#purchase-requests-all';
+    },
+    data: function() {
+        return {
+            purchaseRequests: [],
+            headings: [
+                ['due', 'Due Date'],
+                ['project.name', 'Project'],
+                ['item.name', 'Item'],
+                ['specification', 'Specification'],
+                ['quantity', 'Quantity'],
+                ['user.name', 'Made by'],
+                ['created_at', 'Requested']
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_requests',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseRequests = data;
+            },
+            error: function (res, status, req) {
+                console.log(status);
+            }
+        });
+    },
+    methods: {
+        loadSinglePR: function (id) {
+            window.document.location = '/purchase_requests/single/' + id;
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        checkShow: function (purchaseRequest) {
+            switch (this.filter) {
+                case 'complete':
+                    console.log(purchaseRequest.state);
+                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
+                        return true;
+                    }
+                    break;
+                case 'cancelled':
+                    if (purchaseRequest.state == 'Cancelled') {
+                        return true;
+                    }
+                    break;
+                default:
+                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
+                        return true;
+                    }
+            }
+        }
+    }
+});
+Vue.component('purchase-requests-make', {
+    name: 'makePurchaseRequest',
+    el: function() {
+        return '#purchase-requests-add';
+    },
+    data: function() {
+        return {
+            existingItem: true,
+            items: [],
+            existingItemName: '',
+            selectedItem: ''
+        };
+    },
+    methods: {
+        changeExistingItem: function (state) {
+            this.clearSelectedExisting();
+            this.existingItem = state;
+        },
+        selectItemName: function(name) {
+            this.existingItemName = name;
+        },
+        selectItem: function(item) {
+            this.selectedItem = item;
+        },
+        clearSelectedExisting: function() {
+            this.selectedItem = '';
+            this.existingItemName = '';
+            $('#select-new-item-name')[0].selectize.clear();
+            $('#field-new-item-specification').val('');
+            $('.input-item-photos').fileinput('clear');
+        }
+    },
+    computed: {
+        uniqueItemNames: function () {
+            return _.uniqBy(this.items, 'name');
+        },
+        itemsWithName: function () {
+            return _.filter(this.items, {'name': this.existingItemName});
+        }
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/items',
+            method: 'GET',
+            success: function (data) {
+                self.items = data;
+            }
+        });
+
+        var unique = $('#select-new-item-name').selectize({
+            create: true,
+            sortField: 'text',
+            placeholder: 'Choose an existing name or enter a new one...',
+            createFilter: function(input) {
+                input = input.toLowerCase();
+                var array = $.map(unique.options, function(value) {
+                    return [value];
+                });
+                var unmatched = true;
+                _.forEach(array, function (option) {
+                    if((option.text).toLowerCase() === input) {
+                        unmatched = false;
+                    }
+                });
+                return unmatched;
+            }
+        })[0].selectize;
+    },
+    compiled: function() {
+        $('#purchase-requests-add').show();
+    }
+});
+
+
 Vue.component('settings', {
     name: 'Settings',
     el: function () {

@@ -268,3 +268,11 @@ li.active {
     text-transform: capitalize;
   }
 }
+
+.nav-tabs {
+  .collapse-box {
+    &.empty {
+      display: none;
+    }
+  }
+}
