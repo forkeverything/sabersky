@@ -378,7 +378,7 @@ Vue.directive('rule-trigger-select', {
     }
 });
 
-Vue.directive('tabs', {
+Vue.directive('collapse-tabs', {
     bind: function () {
         var self = this;
         var $tabs = $(self.el);
@@ -400,19 +400,37 @@ Vue.directive('tabs', {
             var count = children.size();
             // Grab the one before last - because last is the dropdown
             collapsedItemWidths.unshift($(children[count - 1]).width());
-            $(children[count - 1]).prependTo(collapsedBox);
+
+            var pickedChild = $(children[count - 1]);
+            if (pickedChild.hasClass('active')) pickedChild = $(children[count - 2]);   // We don't pick active kids
+            pickedChild.prependTo(collapsedBox);
+
+            bindClick($(children[count - 1]));
             tabsHeight = $tabs.innerHeight();
             if (tabsHeight >= 50) popChild();
-            setTimeout(autocollapse, 100);
         }
 
+        // Click Handler
+        function clickHandler() {
+            popChild();
+            $(this).insertBefore($tabs.children('li:last-child'));
+            unbindClick($(this));
 
-        // UnpopChild
-        function unPopChild(collapsedItems) {
-            $(collapsedItems[0]).insertBefore($tabs.children('li:last-child'));
+            // Remove all active list items (uncollapsed and collapsed)
+            $tabs.children('li').removeClass('active');
+            $tabs.children('li').children('ul').children('li').removeClass('active');
+
+            $(this).children('a').tab('show');
         }
 
-        var ready = true;
+        // Bind click Event
+        function bindClick($el) {
+            $el.on('click', clickHandler);
+        }
+
+        function unbindClick($el) {
+            $el.off('click', clickHandler);
+        }
 
 
         // Function that auto-collapse and uncollapses based on tab nav height
@@ -423,6 +441,7 @@ Vue.directive('tabs', {
             // Stacks on stack?
             if (tabsHeight >= 50) {
                 popChild();
+                setTimeout(autocollapse, 150);  // Sometimes things happen too quick - let's recalibrate at the end
             } else {
                 // Not stacking - put items back in line?
 
@@ -430,6 +449,7 @@ Vue.directive('tabs', {
 
                 var collapsedItems = $tabs.children('li:last-child').children('ul').children('li');
                 if (($tabs.children('li').size() > 0) && collapsedItems.size() > 0) {
+
 
                     (function adjustor() {
                         console.log('called adjustor!');
@@ -445,35 +465,21 @@ Vue.directive('tabs', {
                             if($tabs.children('li').length == (numItemsBeforeInsert + 1 )) {
                                 // element removed
                                 console.log('unpopped one');
+                                unbindClick($(collapsedItems[0]));
                                 collapsedItemWidths.shift();
                                 console.log(collapsedItemWidths);
 
                                 adjustor();
                             } else {
                                 console.log('element not removed');
-                                setTimeout(autocollapse, 100);
                             }
 
+                            setTimeout(autocollapse, 100);
                         }
                     })();
-
                 }
 
-                // // If we are a single line, have tabs, and have tabs that are collapsed
-                // while (tabsHeight < 50 && ($tabs.children('li').size() > 0) && collapsedCount > 0) {
-                //
-                //     // Grab the first and un-collapse it
-                //     $(collapsedItems[0]).insertBefore($tabs.children('li:last-child'));
-                //     // Manually decrease collapse count
-                //     collapsedCount--;
-                //
-                //     // Update height
-                //     tabsHeight = $tabs.innerHeight();
-                // }
-
             }
-
-            // All collapsed / uncollapsed
 
             if (collapsedBox.children('li').size() == 0) {
                 $tabs.children('.collapse-box').addClass('empty');
@@ -488,17 +494,7 @@ Vue.directive('tabs', {
 
         // Bind to window resize
         self.eventName = '.autocollapse' + Math.floor((Math.random() * 100000000000) + 1);
-        // $(window).on('resize' + self.eventName, autocollapse);
-
-        $(window).resize(autocollapse);
-
-        // var resizeTimer;
-
-        // $(window).on('resize', function (e) {
-        //     clearTimeout(resizeTimer);
-        //     resizeTimer = setTimeout(autocollapse, 250);
-        // });
-
+        $(window).on('resize' + self.eventName, autocollapse);
     },
     unbind: function () {
         // unbind to from window resize
