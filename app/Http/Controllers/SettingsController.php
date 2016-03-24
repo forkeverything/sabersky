@@ -20,10 +20,16 @@ class SettingsController extends Controller
 
     }
 
-    public function show()
+    /**
+     * GET req. to show the User's settings
+     * page for the company.
+     *
+     * @return mixed
+     */
+    public function getShow()
     {
         if (Gate::allows('settings_change')) {
-            $permissions = Permission::all();
+            $permissions = Permission::all(); // System-wide defined permissions, shared by all Users
             $roles = Auth::user()->company->roles;
             return view('settings.show', compact('permissions', 'roles'));
         }

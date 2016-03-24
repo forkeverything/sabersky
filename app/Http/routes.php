@@ -110,7 +110,7 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Settings
      */
-    Route::get('/settings', 'SettingsController@show');
+    Route::get('/settings', 'SettingsController@getShow');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
 
     /**
