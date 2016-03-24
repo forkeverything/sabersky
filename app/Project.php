@@ -110,4 +110,16 @@ class Project extends Model
 
         return $item;
     }
+
+    /**
+     * Adds a user to a project's list of users.
+     * 
+     * @param User $user
+     * @return $this
+     */
+    public function addTeamMember(User $user)
+    {
+        $this->teamMembers()->save($user);
+        return $this;
+    }
 }

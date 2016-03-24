@@ -24,7 +24,7 @@ class ProjectsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
-        if($user = Auth::user()) {
+        if ($user = Auth::user()) {
             $this->company = Auth::user()->company->load('projects');
         }
     }
@@ -56,7 +56,7 @@ class ProjectsController extends Controller
     /**
      * Handles POST req. to start
      * a project
-     * 
+     *
      * @param StartProjectRequest $request
      * @return mixed
      */
@@ -75,7 +75,7 @@ class ProjectsController extends Controller
      */
     public function getSingle(Project $project)
     {
-        if(Gate::allows('view', $project)) return view('projects.single', compact('project'));
+        if (Gate::allows('view', $project)) return view('projects.single', compact('project'));
         return redirect('/projects');
     }
 
@@ -88,31 +88,54 @@ class ProjectsController extends Controller
      */
     public function getAddTeamMember(Project $project)
     {
-        if(Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project'));
+        if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project'));
         return redirect('/projects');
     }
 
-    public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
+
+    /**
+     * Handles POST request to either add an
+     * existing user to a project or make
+     * and send invitation to new user
+     * 
+     * @param Project $project
+     * @param SaveTeamMemberRequest $request
+     * @param UserMailer $userMailer
+     * @return mixed
+     */
+    public function postSaveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
     {
+        // Are we selecting a new user?
         if ($existingUserId = $request->input('existing_user_id')) {
             // Adding existing user
-            $user = User::find($existingUserId);
-            $project->teamMembers()->save($user);
-            flash()->success('Succesfully added an existing Team Member');
-            return redirect(route('singleProject', [$project->id]));
+            $user = User::find($existingUserId);     // fetch user
+
+            // Whenever we are changing a User Model - lets make sure the acting user
+            // is authorized to do it.
+
+            if (Gate::allows('edit', $user)) {
+                $project->addTeamMember($user);
+                flash()->success('Added a new Team Member to the project');
+                return redirect(route('singleProject', [$project->id]));
+            }
+
+            abort(403, 'You are unauthorized to change that user');
         } else {
-            $inviteKey = str_random(13);
+            // Inviting new user
+            $inviteKey = str_random(13);    // create random key
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'role_id' => $request->input('role_id'),
                 'invite_key' => $inviteKey
             ]);
-            $this->company->employees()->save($user);
-            $project->teamMembers()->save($user);
+
+            $this->company->addEmployee($user);
+            $project->addTeamMember($user);
             $userMailer->sendNewUserInvitation($user);
+
             // Flash some success notification
-            flash()->success('Succesfully invited a new Team Member');
+            flash()->success('Sent sign-up invitation to new member');
             return redirect(route('singleProject', [$project->id]));
         }
     }

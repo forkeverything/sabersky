@@ -145,4 +145,17 @@ class Company extends Model
         return $this;
     }
 
+    /**
+     * Adds an Employee (User) to a
+     * company.
+     * 
+     * @param \App\User $user
+     * @return $this
+     */
+    public function addEmployee(User $user)
+    {
+        $this->employees()->save($user);
+        return $this;
+    }
+
 }

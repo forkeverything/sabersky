@@ -23,7 +23,7 @@ class UserMailer extends Mailer
 
     public function sendNewUserInvitation($recipientUser)
     {
-        $subject = 'Pusaka Jaya - Team Member Invitation';
+        $subject = 'SaberSky - Team Member Invitation';
         $view = 'emails.user.invitation';
         $data = [
             'user' => $recipientUser

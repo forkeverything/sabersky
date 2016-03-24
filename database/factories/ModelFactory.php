@@ -11,6 +11,8 @@
 |
 */
 
+use App\Company;
+
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
@@ -40,7 +42,7 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'name' => $faker->word . ' ' . $faker->numberBetween(0, 200) . ' MW',
         'location' => $faker->city,
         'description' => $faker->paragraph(5),
-        'company_id' => 1
+        'company_id' => factory(Company::class)->create()->id
     ];
 });
 

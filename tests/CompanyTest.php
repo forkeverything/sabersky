@@ -63,4 +63,18 @@ class CompanyTest extends TestCase
         }
     }
 
+    /** @test */
+    public function it_adds_a_user_as_an_employee()
+    {
+        $company = factory(Company::class)->create();
+        $user = factory(User::class)->create();
+
+        $this->assertEmpty(Company::find($company->id)->employees->all());
+
+        $company->addEmployee($user);
+
+        $this->assertNotEmpty(Company::find($company->id)->employees->all());
+        $this->assertEquals($user->id, Company::find($company->id)->employees()->first()->id);
+    }
+
 }
