@@ -88,15 +88,8 @@ class ProjectsController extends Controller
      */
     public function getAddTeamMember(Project $project)
     {
-        $roles = Role::all();
-        if(Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'roles'));
+        if(Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project'));
         return redirect('/projects');
-
-        /**
-         * TODO :: Fetch roles through API
-         * - We can serve project back-end because we're not
-         * planning on changing it.
-         */
     }
 
     public function saveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
