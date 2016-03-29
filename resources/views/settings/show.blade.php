@@ -15,7 +15,7 @@
 
 
 
-                <div>
+                <div class="custom-tabs">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist" v-collapse-tabs>
                         <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab"
