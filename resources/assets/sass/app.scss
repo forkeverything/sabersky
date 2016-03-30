@@ -15,6 +15,8 @@
 @import "partials/photogallery";
 @import "pages/items";
 @import "pages/settings";
+@import "partials/animations";
+@import "partials/tabs";
 
 body {
   font-family: 'helvetica';
@@ -128,7 +130,7 @@ textarea {
 
   &.active {
     font-weight: bold;
-    color: $dark-yellow!important;
+    color: $dark-yellow !important;
   }
 }
 
@@ -160,17 +162,18 @@ table {
 
   tbody {
     td.icon {
-      text-align:  center;
+      text-align: center;
     }
   }
 }
+
 .table-sort {
   border-top: 2px solid #ddd;
 
   thead {
     th {
       &.active {
-        background-color: #fff!important;
+        background-color: #fff !important;
       }
 
       &.active.asc:before {
@@ -201,16 +204,14 @@ li.active {
   font-weight: bold;
 }
 
-@media print
-{
-  .no-print, .no-print *
-  {
+@media print {
+  .no-print, .no-print * {
     display: none !important;
   }
 }
 
 .display-block {
-  display:block;
+  display: block;
 }
 
 .page-error {
@@ -240,21 +241,21 @@ li.active {
 
 .modal {
   .vertical-alignment-helper {
-    display:table;
+    display: table;
     height: 100%;
     width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+    pointer-events: none; /* This makes sure that we can still click outside of the modal to close it */
   }
   .vertical-align-center {
     /* To center vertically */
     display: table-cell;
     vertical-align: middle;
-    pointer-events:none;
+    pointer-events: none;
   }
   .modal-content {
     /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
+    width: inherit;
+    height: inherit;
     /* To center horizontally */
     margin: 0 auto;
     pointer-events: all;
@@ -269,70 +270,5 @@ li.active {
   }
 }
 
-.custom-tabs {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin: 0 0 30px;
 
-  .nav-tabs {
-    border: 0;
-    background-color: #f5f6f7;
-
-    display: flex;
-
-    li {
-      border-right: 1px solid #ebeef0;
-      border-bottom: 1px solid #ebeef0;
-      border-radius: 0;
-      text-align: center;
-      &:not(:last-child) {
-        flex: 1;
-      }
-
-      a {
-        border: 0;
-        display: inline-block;
-        padding: 10px 20px;
-        margin: 0;
-        background: transparent;
-      }
-
-      &.active {
-        border: 0;
-        border-top: 1px solid #ebeef0;
-        background: #FFFFFF;
-
-        a, a:hover, a:focus {
-          border:0;
-        }
-      }
-    }
-    .collapse-box {
-      width: 60px;
-      height: 41px;
-
-      a {
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        i {
-          font-size: 2em;
-        }
-      }
-
-      &.empty {
-        display: none;
-      }
-    }
-  }
-
-  .tab-content {
-    background: #fff;
-    border-top: 1px solid #ebeef0;
-    padding: 20px 15px;
-  }
-}
 

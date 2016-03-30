@@ -8,7 +8,7 @@ Vue.directive('autofit-tabs', {
             '<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' +
             '<i class="fa fa-angle-down"></i>' +
             '</a>' +
-            '<ul class="dropdown-menu"></ul>' +
+            '<ul class="dropdown-menu animated fadeInDownSmall"></ul>' +
             '</li>');
 
         // Initialize instance vars
