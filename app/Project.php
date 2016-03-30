@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\BuildPhoto;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Project
@@ -77,41 +78,6 @@ class Project extends Model
     }
 
     /**
-     * Processes a request to save an item to a project.
-     *
-     * @param MakePurchaseRequestRequest $request
-     * @return Model
-     */
-    public function saveItem(MakePurchaseRequestRequest $request)
-    {
-        // New Item
-        if (! $item = Item::find($request->input('item_id'))) {
-            $item = Item::create([
-                'name' => $request->input('name'),
-                'specification' => $request->input('specification')
-            ]);
-        }
-
-        // Project doesn't contain existing item...
-        if (! $this->items->contains($item->id)) {
-            $this->items()->save($item);
-        }
-
-        // Adding photos to items
-            $files = $request->file('item_photos');
-            // if photos attached to request
-            if (!! $files[0]) {
-                foreach ($files as $file) {
-                    if ($file) {
-                        $item->attachPhoto($file);
-                    }
-                }
-            }
-
-        return $item;
-    }
-
-    /**
      * Adds a user to a project's list of users.
      * 
      * @param User $user
@@ -122,4 +88,21 @@ class Project extends Model
         $this->teamMembers()->save($user);
         return $this;
     }
+
+    /**
+     * Saves an item to a Project if it
+     * IS NOT already attached.
+     * 
+     * @param Item $item
+     * @return Item
+     */
+    public function saveItem(Item $item)
+    {
+        if (! $this->items->contains($item->id)) {
+            $this->items()->save($item);
+        }
+        
+        return $this;
+    }
+
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <purchase-requests-make inline-template>
-        <div class="container" id="purchase-requests-add">
+        <div class="container" id="purchase-requests-add" v-show="pageReady">
             <a href="{{ route('showAllPurchaseRequests') }}" class="back-link no-print"><i
                         class="fa  fa-arrow-left fa-btn"></i>Back
                 to

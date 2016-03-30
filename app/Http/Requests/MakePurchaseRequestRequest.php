@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Project;
 use Illuminate\Support\Facades\Gate;
 
 class MakePurchaseRequestRequest extends Request
@@ -14,7 +15,9 @@ class MakePurchaseRequestRequest extends Request
      */
     public function authorize()
     {
-        return Gate::allows('pr_make');
+        $project = Project::findOrFail($this->input('project_id'));
+        // User must have permission to make PR's & Project must belong to user's company
+        return Gate::allows('pr_make') && Gate::allows('view', $project);
     }
 
     /**

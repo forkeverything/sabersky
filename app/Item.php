@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Project;
 use App\Utilities\BuildPhoto;
 use Illuminate\Database\Eloquent\Model;
@@ -25,28 +26,60 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Item extends Model
 {
+    /**
+     * Fillable DB fields for an item
+     * record.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'specification',
         'project_id'
     ];
 
+    /**
+     * Appended Properties. Dynamic properties are
+     * automatically inserted using an Accessor
+     *
+     * @var array
+     */
     protected $appends = [
         'new',
         'mean'
     ];
 
+    /**
+     * Creates a new Item instance
+     * from Make PR Request.
+     * 
+     * @param MakePurchaseRequestRequest $request
+     * @return \Illuminate\Support\Collection|static
+     */
+    public static function newFromPurchaseRequestRequest(MakePurchaseRequestRequest $request)
+    {
+        return static::findOrNew($request->input('item_id'))->create([
+            'name' => $request->input('name'),
+            'specification' => $request->input('specification')
+        ]);
+    }
+
+    /**
+     * An item can belong to many Projects.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function projects()
     {
         return $this->belongsToMany(Project::class);
     }
 
+    /**
+     * An item is saved to a single Company.
+     *
+     * @return mixed
+     */
     public function company()
-    {
-        return $this->projects()->first()->company;
-    }
-
-    public function getCompanyAttribute()
     {
         return $this->projects()->first()->company;
     }
@@ -71,16 +104,50 @@ class Item extends Model
         return $this->hasMany(PurchaseRequest::class);
     }
 
+    /**
+     * An item can have many LineItems through all the
+     * Purchase Requests that requested this item.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function lineItems()
     {
         return $this->hasManyThrough(LineItem::class, PurchaseRequest::class);
     }
 
+    /**
+     * Determine if this item is new. If
+     * there are no previous approved
+     * Line Items then it's new.
+     *
+     * @return bool
+     */
     public function getNewAttribute()
     {
         return $this->approvedLineItems()->count() < 1;
     }
 
+
+    /**
+     * Returns all the Line Items for this
+     * item where the Purchase Order has
+     * already been approved.
+     * @return mixed
+     */
+    protected function approvedLineItems()
+    {
+        return $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
+                    ->where('purchase_orders.submitted', 1)
+                    ->where('purchase_orders.status', 'approved')
+                    ->get(['line_items.*']);
+    }
+
+    /**
+     * Calculated the Mean Price for the
+     * item.
+     *
+     * @return float|null
+     */
     public function getMeanAttribute()
     {
         $numOrdered = array_sum($this->approvedLineItems()->pluck('quantity')->toArray());
@@ -95,14 +162,33 @@ class Item extends Model
         return null;
     }
 
-    protected function approvedLineItems()
+    /**
+     * Handles an array of files from
+     * a form.
+     *
+     * @param array $uploadedFiles
+     * @return $this
+     */
+    public function handleFiles(array $uploadedFiles)
     {
-        return $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
-            ->where('purchase_orders.submitted', 1)
-            ->where('purchase_orders.status', 'approved')
-            ->get(['line_items.*']);
+        // if we have at least one uploadedFile
+        if (!! $uploadedFiles[0]) {
+            foreach ($uploadedFiles as $file) {
+                if ($file && $file instanceof UploadedFile) {
+                    $this->attachPhoto($file);
+                }
+            }
+        }
+        return $this;
     }
 
+    /**
+     * Makes a photo and attaches it
+     * to this item.
+     *
+     * @param UploadedFile $file
+     * @return Model
+     */
     public function attachPhoto(UploadedFile $file)
     {
         // Build up the photo

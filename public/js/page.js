@@ -396,6 +396,7 @@ Vue.component('purchase-requests-make', {
     },
     data: function() {
         return {
+            pageReady: false,
             existingItem: true,
             items: [],
             existingItemName: '',
@@ -457,9 +458,8 @@ Vue.component('purchase-requests-make', {
                 return unmatched;
             }
         })[0].selectize;
-    },
-    compiled: function() {
-        $('#purchase-requests-add').show();
+        
+        self.pageReady = true;
     }
 });
 
