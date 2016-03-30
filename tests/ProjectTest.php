@@ -1,5 +1,6 @@
 <?php
 
+use App\Item;
 use App\Project;
 use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -25,5 +26,18 @@ class ProjectTest extends TestCase
 
         $this->assertNotEmpty(Project::find($project->id)->teamMembers->all());
         $this->assertEquals($user->id, Project::find($project->id)->teamMembers()->first()->id);
+    }
+
+    /** @test */
+    public function it_attaches_an_item_to_the_project()
+    {
+        $project = factory(Project::class)->create();
+        $item = factory(Item::class)->create();
+
+        $this->assertEmpty(Project::find($project->id)->items->all());
+
+        $project->saveItem($item);
+
+        $this->assertEquals($item->id, Project::find($project->id)->items->first()->id);
     }
 }

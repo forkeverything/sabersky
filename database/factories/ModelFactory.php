@@ -85,3 +85,12 @@ $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
         ])->id
     ];
 });
+
+$factory->define(App\Photo::class, function (Faker\Generator $faker) {
+    $name = $faker->word;
+    return [
+        'name' => $name . '.jpg',
+        'path' => 'uploads/test/' . $name . '.jpg',
+        'thumbnail_path' =>  'uploads/test/tn_' . $name . '.jpg'
+    ];
+});

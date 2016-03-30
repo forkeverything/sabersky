@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CancelPurchaseRequestRequest;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\Project;
@@ -74,7 +75,10 @@ class PurchaseRequestController extends Controller
     public function postSave(MakePurchaseRequestRequest $request)
     {
         // Find / Make an Item
-        $item = Item::newFromPurchaseRequestRequest($request);
+        $item = Item::findOrCreate($request->input('item_id'), [
+            'name' => $request->input('name'),
+            'specification' => $request->input('specification')
+        ]);
         // Handle files attached to Form
         $item->handleFiles($request->file('item_photos'));
         // Find Project
@@ -87,13 +91,26 @@ class PurchaseRequestController extends Controller
         return redirect(route('showAllPurchaseRequests'));
     }
 
-    public function single(PurchaseRequest $purchaseRequest)
+    /**
+     * Fetches PR by id and loads view
+     * for a Single Purchase Request
+     *
+     * @param PurchaseRequest $purchaseRequest
+     * @return mixed
+     */
+    public function getSingle(PurchaseRequest $purchaseRequest)
     {
         $purchaseRequest = $purchaseRequest->load('item', 'project');
         return view('purchase_requests.single', compact('purchaseRequest'));
     }
 
-    public function available()
+    /**
+     * Handles GET request from API for
+     * all available PRs
+     *
+     * @return mixed
+     */
+    public function apiGetAvailable()
     {
         if (($unfinishedPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first()) && Gate::allows('po_submit')) {
             $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id')->toArray();
@@ -101,18 +118,25 @@ class PurchaseRequestController extends Controller
                 return in_array($item->id, $addedPRIds) || $item->quantity <= 0;
             })->load('item.photos');
         }
-        abort(403, 'No unsubmitted purchase order or not allowed to submit purchase order');
+        abort(403, 'No created but unsubmitted purchase order or not allowed to submit purchase order');
+
+        /*
+         * TODO :: Find a better way to create PO / Line items.
+         * Then, refactor finding available PR to add to Line Item.
+         * The current way of caching using DB is not very clean.
+         */
     }
 
-    public function cancel(Request $request)
+    /**
+     * POST request to cancel a PR
+     *
+     * @param CancelPurchaseRequestRequest $request
+     * @return mixed
+     */
+    public function postCancel(CancelPurchaseRequestRequest $request)
     {
-        if (Gate::allows('pr_make')) {
-            $purchaseRequest = PurchaseRequest::find($request->input('purchase_request_id'));
-            if (Auth::user()->company_id == $purchaseRequest->project->company_id) {
-                $purchaseRequest->state = 'cancelled';
-                $purchaseRequest->save();
-            }
-        }
+        PurchaseRequest::find($request->input('purchase_request_id'))
+                       ->cancel();
         return redirect(route('showAllPurchaseRequests'));
     }
 

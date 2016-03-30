@@ -127,5 +127,18 @@ class PurchaseRequest extends Model
         );
     }
 
+    /**
+     * Change PR state to 'cancelled'
+     * and persist in DB.
+     *
+     * @return $this
+     */
+    public function cancel()
+    {
+        $this->state = 'cancelled';
+        $this->save();
+        return $this;
+    }
+
 
 }

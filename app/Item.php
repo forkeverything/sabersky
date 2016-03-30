@@ -50,19 +50,24 @@ class Item extends Model
     ];
 
     /**
-     * Creates a new Item instance
-     * from Make PR Request.
-     * 
-     * @param MakePurchaseRequestRequest $request
-     * @return \Illuminate\Support\Collection|static
+     * Finds an Item Instance from it's primary key
+     * or creates one from the given attributes.
+     *
+     * @param $id
+     * @param null $attributes
+     * @return static
      */
-    public static function newFromPurchaseRequestRequest(MakePurchaseRequestRequest $request)
+    public static function findOrCreate($id, $attributes = null)
     {
-        return static::findOrNew($request->input('item_id'))->create([
-            'name' => $request->input('name'),
-            'specification' => $request->input('specification')
-        ]);
+        if($existingPR = static::find($id)) return $existingPR;
+
+        if ($attributes) {
+            return static::create($attributes);
+        }
+
+        return new static;
     }
+
 
     /**
      * An item can belong to many Projects.
@@ -189,10 +194,12 @@ class Item extends Model
      * @param UploadedFile $file
      * @return Model
      */
-    public function attachPhoto(UploadedFile $file)
+    public function attachPhoto(UploadedFile $file, BuildPhoto $photoBuilder = null)
     {
+        $photoBuilder = $photoBuilder ?: (new BuildPhoto($file)); // For testing - if we get a mocked class, use it
+
         // Build up the photo
-        $photo = (new BuildPhoto($file))->item($this);
+        $photo = $photoBuilder->item($this);
         // attach it to model
         return $this->photos()->save($photo);
     }
