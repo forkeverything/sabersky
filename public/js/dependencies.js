@@ -279,106 +279,7 @@ function uniqueSelectize(el, placeholder) {
 
     return unique;
 }
-Vue.directive('selectize', {
-    twoWay: true,
-    bind: function () {
-        $(this.el).selectize({
-                sortField: 'text',
-                placeholder: 'Type to select...'
-            })
-            .on("change", function (e) {
-                this.set($(this.el).val());
-            }.bind(this));
-    },
-    update: function (newValue, oldValue) {
-//            $(this.el).trigger("change");
-        $(this.el)[0].selectize.clear();
-    },
-    unbind: function () {
-        $(this.el)[0].selectize.destroy(); // remove bindings
-    }
-});
-
-Vue.directive('selectpicker', {
-    twoWay: true,
-    bind: function () {
-        $(this.el).addClass('bootstrap-select-el');
-
-        $(this.el).selectpicker({
-            iconBase: 'fa',
-            tickIcon: 'fa-check'
-        }).on("change", function (e) {
-            this.set($(this.el).val());
-        }.bind(this));
-
-        $(this.el).on('option:loaded', function () {
-            $(this.el).selectpicker('refresh')
-        }.bind(this));
-    },
-    update: function (newVal, oldVal) {
-        $(this.el).selectpicker('refresh').trigger("change");
-    },
-    unbind: function () {
-        $(this.el).off().selectpicker('destroy');
-    }
-});
-
-Vue.directive('selectoption', {
-    twoWay: true,
-    bind: function () {
-        Vue.nextTick(function () {
-            $('.bootstrap-select-el').trigger("option:loaded");
-        });
-    }
-});
-
-
-Vue.directive('rule-property-select', {
-    twoWay: true,
-    bind: function () {
-        $(this.el).addClass('bootstrap-select-el');
-
-        $(this.el).selectpicker().on("change", function (e) {
-            this.set($(this.el).val());
-            $('.rule-trigger-selector').trigger('property:selected');
-        }.bind(this));
-
-        $(this.el).on('option:loaded', function () {
-            $(this.el).selectpicker('refresh')
-        }.bind(this));
-    },
-    update: function (newVal, oldVal) {
-        $(this.el).selectpicker('refresh').trigger("change");
-    },
-    unbind: function () {
-        $(this.el).off().selectpicker('destroy');
-    }
-});
-
-Vue.directive('rule-trigger-select', {
-    twoWay: true,
-    bind: function () {
-        var self = this;
-        $(self.el).addClass('rule-trigger-selector');
-
-        $(self.el).on('property:selected', function () {
-            Vue.nextTick(function () {
-                $(self.el).selectpicker('refresh').selectpicker('deselectAll');
-            });
-        });
-
-        $(self.el).selectpicker().on("change", function (e) {
-            self.set($(this.el).val());
-            self.vm.ruleLimit = ''
-        });
-
-    },
-    unbind: function () {
-        $(this.el).off().selectpicker('destroy');
-    }
-});
-
-Vue.directive('collapse-tabs', {
+Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
         var $tabs = $(self.el);
@@ -451,7 +352,7 @@ Vue.directive('collapse-tabs', {
             var children = $tabs.children('li:not(:last-child)');
             var count = children.size();
             var pickedChild = $(children[count - 1]);
-            if (pickedChild.hasClass('active')) pickedChild = $(children[count - 2]);   // We don't pick (hide) active kids
+            if (pickedChild.hasClass('active')) pickedChild = $(children[count - 2]);   // Repick - We don't pick (hide) active kids
             var childIndex = (pickedChild.hasClass('active')) ? count - 2 : count - 1;  // store child index to change widths later
             bindClick(pickedChild);
             pickedChild.prependTo(self._$hiddenContainer);
@@ -531,29 +432,146 @@ Vue.directive('collapse-tabs', {
 
     }
 });
+Vue.directive('rule-property-select', {
+    twoWay: true,
+    bind: function () {
+        $(this.el).addClass('bootstrap-select-el');
 
+        $(this.el).selectpicker().on("change", function (e) {
+            this.set($(this.el).val());
+            $('.rule-trigger-selector').trigger('property:selected');
+        }.bind(this));
 
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+        $(this.el).on('option:loaded', function () {
+            $(this.el).selectpicker('refresh')
+        }.bind(this));
+    },
+    update: function (newVal, oldVal) {
+        $(this.el).selectpicker('refresh').trigger("change");
+    },
+    unbind: function () {
+        $(this.el).off().selectpicker('destroy');
     }
-    return value;
 });
 
-Vue.filter('easyDate', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMMM YYYY');
+Vue.directive('rule-trigger-select', {
+    twoWay: true,
+    bind: function () {
+        var self = this;
+        $(self.el).addClass('rule-trigger-selector');
+
+        $(self.el).on('property:selected', function () {
+            Vue.nextTick(function () {
+                $(self.el).selectpicker('refresh').selectpicker('deselectAll');
+            });
+        });
+
+        $(self.el).selectpicker().on("change", function (e) {
+            self.set($(this.el).val());
+            self.vm.ruleLimit = ''
+        });
+
+    },
+    unbind: function () {
+        $(this.el).off().selectpicker('destroy');
     }
-    return value;
+});
+Vue.directive('selectize', {
+    twoWay: true,
+    bind: function () {
+        $(this.el).selectize({
+                sortField: 'text',
+                placeholder: 'Type to select...'
+            })
+            .on("change", function (e) {
+                this.set($(this.el).val());
+            }.bind(this));
+    },
+    update: function (newValue, oldValue) {
+//            $(this.el).trigger("change");
+        $(this.el)[0].selectize.clear();
+    },
+    unbind: function () {
+        $(this.el)[0].selectize.destroy(); // remove bindings
+    }
+});
+Vue.directive('selectpicker', {
+    twoWay: true,
+    bind: function () {
+        $(this.el).addClass('bootstrap-select-el');
+
+        $(this.el).selectpicker({
+            iconBase: 'fa',
+            tickIcon: 'fa-check'
+        }).on("change", function (e) {
+            this.set($(this.el).val());
+        }.bind(this));
+
+        $(this.el).on('option:loaded', function () {
+            $(this.el).selectpicker('refresh')
+        }.bind(this));
+    },
+    update: function (newVal, oldVal) {
+        $(this.el).selectpicker('refresh').trigger("change");
+    },
+    unbind: function () {
+        $(this.el).off().selectpicker('destroy');
+    }
 });
 
+Vue.directive('selectoption', {
+    twoWay: true,
+    bind: function () {
+        Vue.nextTick(function () {
+            $('.bootstrap-select-el').trigger("option:loaded");
+        });
+    }
+});
+Vue.filter('capitalize', function (str) {
+    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
 Vue.filter('diffHuman', function (value) {
     if (value !== '0000-00-00 00:00:00') {
         return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
     }
     return value;
 });
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMMM YYYY');
+    }
+    return value;
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
+        return trimmedString
+    }
 
+    return val;
+});
 Vue.filter('numberFormat', function (val) {
     //Seperates the components of the number
     var n = val.toString().split(".");
@@ -562,7 +580,6 @@ Vue.filter('numberFormat', function (val) {
     //Combines the two sections
     return n.join(".");
 });
-
 Vue.filter('numberModel', {
     read: function (val) {
         if(val) {
@@ -584,17 +601,6 @@ Vue.filter('numberModel', {
         return parseInt(val.replace(/[^0-9.]/g, ""))
     }
 });
-
-Vue.filter('limitString', function (val, limit) {
-    if (val) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
-        return trimmedString
-    }
-
-    return val;
-});
-
 Vue.filter('percentage', {
     read: function(val) {
         return (val * 100);
@@ -604,27 +610,6 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-
-Vue.filter('chunk', function (array, length) {
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-
-Vue.filter('capitalize', function (str) {
-    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-
 Vue.component('form-errors', {
     data: function () {
         return {
@@ -703,4 +688,4 @@ Vue.component('modal', {
         }
     }
 });
-//# sourceMappingURL=setup.js.map
+//# sourceMappingURL=dependencies.js.map

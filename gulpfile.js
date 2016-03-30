@@ -53,7 +53,7 @@ elixir(function(mix) {
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 
-    mix.scriptsIn('resources/assets/js/setup', 'public/js/setup.js');
+    mix.scriptsIn('resources/assets/js/dependencies', 'public/js/dependencies.js');
     mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
 
 

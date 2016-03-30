@@ -32,7 +32,7 @@
 <!-- Plugins / Frameworks -->
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
 <!-- Setup & Initz' -->
-<script type="text/javascript" src="{{ asset('/js/setup.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
 <!-- Global (helpers) -->
 <script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
 <!-- Page Specific Components -->

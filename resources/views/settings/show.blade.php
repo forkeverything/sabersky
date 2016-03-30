@@ -13,11 +13,9 @@
             </div>
             <div class="page-body">
 
-
-
                 <div class="custom-tabs">
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist" v-collapse-tabs>
+                    <ul class="nav nav-tabs" role="tablist" v-autofit-tabs>
                         <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab"
                                                                   data-toggle="tab">tab1</a></li>
                         <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab"
