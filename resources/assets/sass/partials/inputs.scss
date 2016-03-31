@@ -1,0 +1,51 @@
+.shift-label-input {
+  margin: 0 0 15px 0;
+  position: relative;
+  
+  input {
+    width: 100%;
+    height: -webkit-calc(3.5em);
+    height: calc(3.5em);
+    padding: 2em 1em 1em 1em;
+    background: #FFFFFF;
+    resize: none;
+    outline: none;
+    border: 1px solid #E0E0E0;
+    color: $black;
+  }
+
+  label, label[placeholder] {
+    position: absolute;
+    top: 1.2em;
+    left: 1em;
+    display: block;
+    pointer-events: none;
+    line-height: 1em;
+  }
+
+  label:before {
+    content: attr(placeholder);
+    display: inline-block;
+    white-space: nowrap;
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+  }
+
+  input[type="text"].not-required:focus + label[placeholder]:before,
+  input[type="text"].not-required:valid + label[placeholder]:before,
+  input[type="text"][required]:focus + label[placeholder]:before,
+  input[type="text"][required]:valid + label[placeholder]:before,
+  input[type="email"][required]:focus + label[placeholder]:before,
+  input[type="email"][required]:valid + label[placeholder]:before,
+  input[type="password"][required]:focus + label[placeholder]:before,
+  input[type="password"][required]:valid + label[placeholder]:before {
+
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    -webkit-transform: translate(0, -0.8em);
+    -ms-transform: translate(0, -0.8em);
+    transform: translate(0, -0.8em);
+    font-size: 0.75em;
+  }
+
+}

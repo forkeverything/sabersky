@@ -1,0 +1,87 @@
+#registration-popup-overlay {
+  top: 0;
+  left: 0;
+  background-color: $dark-blue;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 8000;
+  flex-wrap: wrap;
+  color: #fff;
+  -webkit-animation-duration: 0.15s;
+  animation-duration: 0.15s;
+
+  .popup-content {
+    width: 490px;
+    position: relative;
+
+    .button-remove {
+      position: absolute;
+      right: 0;
+      top: -1.5em;
+      font-size: 1.5em;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px 0;
+
+      .popup-title {
+        font-size: 36px;
+        margin: 0;
+      }
+
+      .popup-subheading {
+        display: block;
+        font-size: 16px;
+        margin: 10px 0 0 0;
+        text-align: right;
+      }
+    }
+
+    #form-registration {
+
+      .shift-label-input {
+        margin: 0 0 20px;
+      }
+
+      .button-register-company {
+        width: initial;
+        height: 4em;
+        padding: 0 45px;
+        font-size: 1.2em;
+        float: right;
+        margin: 15px 0 0 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 490px) {
+
+    .popup-content {
+      width: 300px;
+
+      .popup-header {
+        margin: 0 0 15px 0;
+
+        .popup-title {
+          font-size: 22px;
+        }
+      }
+
+      #form-registration {
+
+        .button-register-company {
+          font-size: 1em;
+          height: 3em;
+          margin: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

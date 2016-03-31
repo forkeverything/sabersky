@@ -1,0 +1,21 @@
+.navbar-nav {
+
+  > li {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      color: $dark-grey!important;
+
+      &:hover {
+        color: $black!important;
+      }
+    }
+  }
+
+  .button-nav-signup {
+    padding: 10px 30px;
+  }
+}

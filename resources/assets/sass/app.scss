@@ -3,6 +3,9 @@
 @import "partials/bootstrap-ms";
 @import "partials/layout";
 @import "partials/buttons";
+@import "partials/navbar";
+@import "partials/inputs";
+@import "partials/registration-popup";
 @import "pages/dashboard";
 @import "pages/projects";
 @import "pages/invitation";
@@ -270,5 +273,8 @@ li.active {
   }
 }
 
-
+// Hide FOUC
+[v-cloak] {
+  display: none!important;
+}
 

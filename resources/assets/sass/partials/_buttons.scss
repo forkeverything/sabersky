@@ -319,10 +319,18 @@
   &:disabled {
     color: $dark-grey;
     border-color: $dark-grey;
-    &:hover {
+    &:hover, &:active, &:focus {
       -webkit-box-shadow: none!important;
       -moz-box-shadow: none!important;
       box-shadow: none!important;
     }
+  }
+}
+
+.no-outline {
+  &:hover, &:active, &:focus {
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
   }
 }
