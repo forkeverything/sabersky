@@ -26,13 +26,31 @@ class PurchaseOrdersController extends Controller
     {
         $this->middleware('auth');
         $this->existingPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first();
+        /**
+         * TODO :: Find a better way to persist PO when adding Line Items
+         * to Purchase Orders - maybe through front-end data instead
+         * of DB
+         */
     }
 
-    public function all()
+    /**
+     * Shows Purchase Order view for
+     * all POs.
+     *
+     * @return mixed
+     */
+    public function getAll()
     {
         return view('purchase_orders.all');
     }
 
+    /**
+     * API Endpoint that retrieves all POs which
+     * belong to User's company.
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function apiAll(Request $request)
     {
         if ($request->ajax()) {
@@ -41,7 +59,13 @@ class PurchaseOrdersController extends Controller
         return redirect('/');
     }
 
-    public function submit()
+    /**
+     * Fetches the view that lets Users
+     * submit POs.
+     *
+     * @return mixed
+     */
+    public function getSubmitForm()
     {
         if (Gate::allows('po_submit')) {
             return view('purchase_orders.submit', ['existingPO' => $this->existingPO]);
