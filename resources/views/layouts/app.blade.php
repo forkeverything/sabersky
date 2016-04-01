@@ -24,9 +24,11 @@
 ========== Content ===========
  -->
 <div id="main-stage" v-cloak>
+    @if(Auth::user())
     @include('layouts.partials.side-menu')
+    @endif
     <div id="body-content"
-         @click="hideSideMenu"
+         @click="hideOverlays"
         :class="{
             'with-menu': showingMenu
         }"

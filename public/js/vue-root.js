@@ -2,7 +2,8 @@ new Vue({
     el: '#app-layout',
     data: {
         company: {},
-        showingMenu: false
+        showingMenu: false,
+        showNavDropdown: false
     },
     events: {
         'update-company': function () {
@@ -27,9 +28,13 @@ new Vue({
             this.$broadcast('toggle-side-menu');
             this.showingMenu = !this.showingMenu;
         },
-        hideSideMenu: function() {
+        hideOverlays: function() {
             this.$broadcast('hide-side-menu');
             this.showingMenu = false;
+            this.showNavDropdown = false;
+        },
+        toggleNavDropdown: function() {
+            this.showNavDropdown = !this.showNavDropdown;
         }
     },
     ready: function () {
