@@ -1,27 +1,36 @@
 new Vue({
     el: '#app-layout',
     data: {
-        company: {}
+        company: {},
+        showingMenu: false
     },
     events: {
-        'update-company': function() {
+        'update-company': function () {
             this.getCompanyInfo();
         }
     },
     methods: {
-      getCompanyInfo: function() {
-          var self = this;
-          $.ajax({
-              url: '/api/company',
-              method: 'GET',
-              success: function(data) {
-                  self.company = data;
-              },
-              error: function(response) {
-                  console.log('Could not fetch user company');
-              }
-          });
-      }
+        getCompanyInfo: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/company',
+                method: 'GET',
+                success: function (data) {
+                    self.company = data;
+                },
+                error: function (response) {
+                    console.log('Could not fetch user company');
+                }
+            });
+        },
+        toggleSideMenu: function () {
+            this.$broadcast('toggle-side-menu');
+            this.showingMenu = !this.showingMenu;
+        },
+        hideSideMenu: function() {
+            this.$broadcast('hide-side-menu');
+            this.showingMenu = false;
+        }
     },
     ready: function () {
         this.getCompanyInfo();

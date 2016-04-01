@@ -6218,24 +6218,8 @@ button.close {
 .no-outline:hover, .no-outline:active, .no-outline:focus {
   box-shadow: none !important; }
 
-.navbar-nav > li {
-  height: 60px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center; }
-  .navbar-nav > li a {
-    color: #757575 !important; }
-    .navbar-nav > li a:hover {
-      color: #353535 !important; }
-
-.navbar-nav .button-nav-signup {
-  padding: 10px 30px; }
+#top-nav {
+  border-radius: 0; }
 
 .shift-label-input {
   margin: 0 0 15px 0;
@@ -7141,6 +7125,41 @@ button.close {
     border-top: 0;
     padding: 20px 15px; }
 
+@media screen and (min-width: 768px) {
+  .button-show-side-menu {
+    display: none; } }
+
+#side-menu {
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #505455;
+  color: #fff;
+  overflow-y: scroll;
+  -webkit-animation-duration: 0.1s;
+  animation-duration: 0.1s; }
+  #side-menu .side-menu-top {
+    display: inline-block;
+    width: 100%;
+    background: #353535; }
+    #side-menu .side-menu-top a {
+      color: #fff; }
+  #side-menu .side-menu-links {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    #side-menu .side-menu-links .single-list-item {
+      margin: 0; }
+      #side-menu .side-menu-links .single-list-item a {
+        padding: 10px 15px;
+        display: block;
+        color: #D2D2D2; }
+        #side-menu .side-menu-links .single-list-item a:hover {
+          color: #fff; }
+  @media screen and (min-width: 768px) {
+    #side-menu {
+      display: block !important; } }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }
@@ -7336,6 +7355,39 @@ li.active {
 
 .modal .btn-confirm {
   text-transform: capitalize; }
+
+#main-stage {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+  overflow-x: hidden; }
+  #main-stage #side-menu {
+    -webkit-flex: 0 0 230px;
+    -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+    overflow-y: scroll; }
+  #main-stage #body-content {
+    -webkit-flex: 1 0 300px;
+    -ms-flex: 1 0 300px;
+    flex: 1 0 300px;
+    overflow-y: scroll; }
+
+@media screen and (min-width: 768px) {
+  .container {
+    width: 520px; } }
+
+@media screen and (min-width: 992px) {
+  .container {
+    width: 740px; } }
+
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 940px; } }
+
+@media screen and (min-width: 1430px) {
+  .container {
+    width: 1170px; } }
 
 [v-cloak] {
   display: none !important; }

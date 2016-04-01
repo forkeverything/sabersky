@@ -10,12 +10,12 @@
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-<!--
-========== Stylez ===========
- -->
-<link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-<!-- Fonts -->
-{{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
+    <!--
+    ========== Stylez ===========
+     -->
+    <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+    <!-- Fonts -->
+    {{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
 </head>
 
 <body id="app-layout">
@@ -23,10 +23,21 @@
 <!--
 ========== Content ===========
  -->
-@include('layouts.partials.nav')
-@yield('content')
+<div id="main-stage" v-cloak>
+    @include('layouts.partials.side-menu')
+    <div id="body-content"
+         @click="hideSideMenu"
+        :class="{
+            'with-menu': showingMenu
+        }"
+    >
+        @include('layouts.partials.nav')
+        @yield('content')
+    </div>
+</div>
 
-<!--
+
+        <!--
 ========== Scripts ===========
  -->
 <!-- Plugins / Frameworks -->
