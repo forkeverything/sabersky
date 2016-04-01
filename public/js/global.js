@@ -67,7 +67,7 @@ function validateEmail(string) {
  * @param string
  */
 function alphaNumeric(string) {
-    var re = /^[a-z0-9]+$/i;
+    var re = /^[A-Za-z\d\s]+$/;
     return re.test(string);
 }
 //# sourceMappingURL=global.js.map
