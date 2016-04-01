@@ -56,6 +56,11 @@
         font-size: 1.2em;
         float: right;
         margin: 15px 0 0 0;
+
+        &:disabled {
+          background: $body-background;
+          color: $black;
+        }
       }
     }
   }

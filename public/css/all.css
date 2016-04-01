@@ -6274,6 +6274,36 @@ button.close {
     transform: translate(0, -0.8em);
     font-size: 0.75em; }
 
+.validated-input::before {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  opacity: 0;
+  content: '';
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 1.5em;
+  transition: opacity 0.4s; }
+
+.validated-input.is-filled::before {
+  opacity: 1; }
+
+.validated-input.is-filled.is-success::before {
+  content: '\f00c';
+  color: #2ECC71; }
+
+.validated-input.is-filled.is-error::before {
+  content: '\f071';
+  color: #E74C3C; }
+
+.validated-input.is-filled.is-loading::before {
+  content: '\f1ce';
+  -webkit-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+  color: #D2D2D2; }
+
 #registration-popup-overlay {
   top: 0;
   left: 0;
@@ -6330,6 +6360,9 @@ button.close {
       font-size: 1.2em;
       float: right;
       margin: 15px 0 0 0; }
+      #registration-popup-overlay .popup-content #form-registration .button-register-company:disabled {
+        background: #ebeef0;
+        color: #353535; }
   @media screen and (max-width: 490px) {
     #registration-popup-overlay .popup-content {
       width: 300px; }
@@ -6982,6 +7015,22 @@ button.close {
 .fadeInDownSmall {
   -webkit-animation-name: fadeInDownSmall;
   animation-name: fadeInDownSmall; }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
 
 .custom-tabs {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

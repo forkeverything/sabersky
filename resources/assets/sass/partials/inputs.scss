@@ -49,3 +49,50 @@
   }
 
 }
+
+
+.validated-input {
+
+  &::before {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    opacity: 0;
+    content: '';
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    font-size: 1.5em;
+
+    -webkit-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+  }
+
+  &.is-filled {
+
+    &::before {
+      opacity: 1;
+    }
+
+    &.is-success::before {
+      content: '\f00c';
+      color: $green;
+    }
+
+    &.is-error::before {
+      content: '\f071';
+      color: $red;
+    }
+
+    &.is-loading::before {
+      content: '\f1ce';
+      -webkit-animation: spin 1s infinite linear;
+      animation: spin 1s infinite linear;
+      color: $grey;
+    }
+  }
+
+
+
+}

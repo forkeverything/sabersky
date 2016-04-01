@@ -133,7 +133,7 @@ class Company extends Model
     /**
      * Creates a new project for the company. The user
      * is the logged user who created the project.
-     * 
+     *
      * @param StartProjectRequest $request
      * @param $user
      * @return $this
@@ -148,7 +148,7 @@ class Company extends Model
     /**
      * Adds an Employee (User) to a
      * company.
-     * 
+     *
      * @param \App\User $user
      * @return $this
      */
@@ -156,6 +156,25 @@ class Company extends Model
     {
         $this->employees()->save($user);
         return $this;
+    }
+
+    /**
+     * Retrieves Public Profile for a company.
+     * Can be called using id or name.
+     * @return mixed
+     */
+    public static function fetchPublicProfile()
+    {
+        $parameter = func_get_args()[0];
+
+        // public attributes
+        $attributes = [
+            'name',
+            'description'
+        ];
+
+        $company = is_numeric($parameter) ? static::select($attributes)->find($parameter) : static::whereName($parameter)->first($attributes);
+        return $company;
     }
 
 }

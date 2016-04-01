@@ -283,6 +283,89 @@ Vue.transition('fade', {
     enterClass: 'fadeIn',
     leaveClass: 'fadeOut'
 });
+Vue.filter('capitalize', function (str) {
+    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
+Vue.filter('diffHuman', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMMM YYYY');
+    }
+    return value;
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        return parseInt(val.replace(/[^0-9.]/g, ""))
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
+    }
+});
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -531,89 +614,6 @@ Vue.directive('selectoption', {
         });
     }
 });
-Vue.filter('capitalize', function (str) {
-    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMMM YYYY');
-    }
-    return value;
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
-        }
-    },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        return parseInt(val.replace(/[^0-9.]/g, ""))
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
-    },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
-    }
-});
 Vue.component('form-errors', {
     data: function () {
         return {
@@ -694,7 +694,7 @@ Vue.component('modal', {
 });
 Vue.component('registration-popup', {
     name: 'registration-popup',
-    el: function() {
+    el: function () {
         return '#registration-popup'
     },
     data: function () {
@@ -702,19 +702,63 @@ Vue.component('registration-popup', {
             showRegisterPopup: false,
             email: '',
             password: '',
-            companyName: ''
+            companyName: '',
+            validCompanyName: 'unfilled',
+            validEmail: 'unfilled',
+            validPassword: 'unfilled',
+            ajaxReady: true
         };
     },
     props: [],
     computed: {},
     methods: {
-        toggleShowRegistrationPopup: function() {
+        toggleShowRegistrationPopup: function () {
             this.showRegisterPopup = !this.showRegisterPopup;
+        },
+        checkCompanyName: function() {
+            var self = this;
+            self.validCompanyName = 'unfilled';
+            if(self.companyName.length > 0) {
+                // No symbols in name
+                if(! alphaNumeric(self.companyName)) {
+                    self.validCompanyName = false;
+                    return;
+                }
+                self.validCompanyName = 'loading';
+                if(!self.ajaxReady) return;
+                self.ajaxReady = false;
+                $.ajax({
+                    url: '/api/company/profile/' + encodeURI(self.companyName),
+                    method: '',
+                    success: function(data) {
+                       // success
+                        self.validCompanyName = _.isEmpty(data);
+                       self.ajaxReady = true;
+                    },
+                    error: function(response) {
+                        console.log(response);
+
+                        vueValidation(response, self);
+                        self.ajaxReady = true;
+                    }
+                });
+            }
+        },
+        checkEmail: function() {
+            this.validEmail = 'unfilled';
+            if(this.email.length > 0) {
+                this.validEmail =  validateEmail(this.email);
+            }
+        },
+        checkPassword: function() {
+            this.validPassword = 'unfilled';
+            if(this.password.length > 0) {
+                this.validPassword = (this.password.length >= 6);
+            }
         }
     },
     events: {},
     ready: function () {
-
     }
 });
 //# sourceMappingURL=dependencies.js.map

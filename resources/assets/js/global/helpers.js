@@ -47,3 +47,26 @@ function vueValidation(response, vue) {
         vue.$broadcast('new-errors', response.responseJSON);
     }
 }
+
+/**
+ * Takes an string and tells you if it's a valid email!
+ *
+ * @returns {boolean}
+ * @param string
+ */
+function validateEmail(string) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(string);
+}
+
+/**
+ * Returns whether given string is all
+ * alphanumeric (no symbols).
+ *
+ * @returns {boolean}
+ * @param string
+ */
+function alphaNumeric(string) {
+    var re = /^[a-z0-9]+$/i;
+    return re.test(string);
+}

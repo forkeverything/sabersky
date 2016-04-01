@@ -8,41 +8,81 @@
          class="animated"
          transition="fade"
          v-cloak
-        @click="toggleShowRegistrationPopup"
+         @click="toggleShowRegistrationPopup"
     >
-    <div class="popup-content"
-         @click.stop=""
-    >
-        <span class="button-remove clickable"
-        @click="toggleShowRegistrationPopup"
+        <div class="popup-content"
+             @click.stop=""
         >
-        <i class="fa fa-close"></i></span>
-        <div class="popup-header">
-            <h1 class="popup-title">
-                Super-charge your operations.
-                <span class="popup-subheading">Free for up to 5 Team Members</span>
-            </h1>
+            <span class="button-remove clickable"
+            @click="toggleShowRegistrationPopup"
+            >
+            <i class="fa fa-close"></i></span>
+            <div class="popup-header">
+                <h1 class="popup-title">
+                    Super-charge your operation.
+                    <span class="popup-subheading">Free for up to 5 Team Members</span>
+                </h1>
+            </div>
+            <form id="form-registration">
+
+                <div class="shift-label-input validated-input"
+                     :class="{
+                    'is-filled': validCompanyName !== 'unfilled',
+                    'is-loading': validCompanyName === 'loading',
+                    'is-success': validCompanyName,
+                    'is-error': validCompanyName === false
+                 }"
+                >
+                    <input id="register-popup-company-name"
+                           type="text"
+                           name="company_name"
+                           required
+                           @blur="checkCompanyName"
+                           v-model="companyName"
+                    >
+                    <label for="register_name" placeholder="Company Name" class="label_auth"></label>
+                </div>
+
+                <div class="shift-label-input validated-input"
+                     :class="{
+                    'is-filled': validEmail !== 'unfilled',
+                    'is-success': validEmail,
+                    'is-error': !validEmail
+                 }"
+                >
+                    <input id="register-popup-email"
+                           type="text"
+                           name="email"
+                           required
+                           @blur="checkEmail"
+                           v-model="email"
+                    >
+                    <label for="register_email" placeholder="Email" class="label_auth"></label>
+                </div>
+
+                <div class="shift-label-input validated-input"
+                     :class="{
+                    'is-filled': validPassword !== 'unfilled',
+                    'is-success': validPassword,
+                    'is-error': ! validPassword
+                }"
+                >
+                    <input id="register_password"
+                           type="password"
+                           name="password"
+                           required
+                           @blur="checkPassword"
+                           v-model="password"
+                    >
+                    <label alt="register_password" placeholder="Password" class="label_auth"></label>
+                </div>
+
+                <button type="button"
+                        class="btn btn-solid-green no-outline button-register-company"
+                        :disabled="validCompanyName !== true || validEmail !== true || validPassword !== true"
+                >Register your company
+                </button>
+            </form>
         </div>
-        <form id="form-registration">
-
-            <div class="shift-label-input">
-                <input id="register_name" type="text" name="name" value="{{ old('name') }}" required>
-                <label for="register_name" placeholder="Name" class="label_auth"></label>
-            </div>
-
-            <div class="shift-label-input">
-                <input id="register_email" type="text" name="email" value="{{ old('email') }}" required>
-                <label for="register_email" placeholder="Email" class="label_auth"></label>
-            </div>
-
-            <div class="shift-label-input">
-                <input id="register_password" type="password" name="password" required>
-                <label alt="register_password" placeholder="Password" class="label_auth"></label>
-            </div>
-
-            <button type="button" class="btn btn-solid-green no-outline button-register-company">Register your company
-            </button>
-        </form>
-    </div>
     </div>
 </registration-popup>

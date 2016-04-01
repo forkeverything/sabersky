@@ -77,4 +77,15 @@ class CompanyTest extends TestCase
         $this->assertEquals($user->id, Company::find($company->id)->employees()->first()->id);
     }
 
+    /** @test */
+    public function it_finds_a_company_profile_using_name_or_id()
+    {
+        $company = factory(Company::class)->create();
+        $companyId = $company->id;
+        $companyName = $company->name;
+
+        $this->assertEquals($companyName, Company::fetchPublicProfile($companyId)->name);
+        $this->assertEquals($companyName, Company::fetchPublicProfile($companyName)->name);
+    }
+
 }

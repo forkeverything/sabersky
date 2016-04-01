@@ -17,7 +17,9 @@ class CompanyController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', [
+            'except' => ['getPublicProfile']
+        ]);
     }
 
     /**
@@ -84,5 +86,17 @@ class CompanyController extends Controller
             return response('Updated company info');
         }
         abort(400, 'Could not update company');
+    }
+
+    /**
+     * Fetches a Company's Public info available for
+     * anyone to access.
+     *
+     * @param $term
+     * @return mixed
+     */
+    public function getPublicProfile($term)
+    {
+        return Company::fetchPublicProfile($term);
     }
 }
