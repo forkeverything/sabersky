@@ -282,38 +282,48 @@ li.active {
   #side-menu {
     flex: 0 0 230px;
     overflow-y: scroll;
+    min-height: 500px;
   }
 
   #body-content {
     flex: 1 0 300px;
     overflow-y: scroll;
+    min-height: 500px;
   }
 }
 
 @media screen and (min-width: 768px) {
 
-  .container {
-    width: 520px;
+  .with-menu {
+    .container {
+      width: 520px;
+    }
   }
 }
 
 @media screen and (min-width: 992px) {
 
-  .container {
-    width: 740px;
+  .with-menu {
+    .container {
+      width: 740px;
+    }
   }
 
 }
 
 @media screen and (min-width: 1200px) {
-  .container {
-    width: 940px;
+  .with-menu {
+    .container {
+      width: 940px;
+    }
   }
 }
 
 @media screen and (min-width: 1430px) {
-  .container {
-    width: 1170px;
+  .with-menu {
+    .container {
+      width: 1170px;
+    }
   }
 }
 

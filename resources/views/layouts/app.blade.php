@@ -25,23 +25,28 @@
  -->
 <div id="main-stage" v-cloak>
     @if(Auth::user())
-    @include('layouts.partials.side-menu')
-    @endif
-    <div id="body-content"
-         @click="hideOverlays"
-        :class="{
-            'with-menu': showingMenu
-        }"
-    >
+        @include('layouts.partials.side-menu')
+        <div id="body-content"
+             class="with-menu"
+            @click="hideOverlays"
+        >
         @include('layouts.partials.nav')
         @yield('content')
-    </div>
+        </div>
+    @else
+        <div id="body-content"
+        @click="hideOverlays"
+        >
+        @include('layouts.partials.nav')
+        @yield('content')
+        </div>
+    @endif
 </div>
 
 
-        <!--
+<!--
 ========== Scripts ===========
- -->
+-->
 <!-- Plugins / Frameworks -->
 <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
 <!-- Setup & Initz' -->

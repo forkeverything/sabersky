@@ -9,18 +9,18 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: #505455;
-  color: #fff;
+  background: $midnight;
+  color: $midnight-light;
   overflow-y: scroll;
   -webkit-animation-duration: 0.1s;
   -moz-animation-duration: 0.1s;
   -o-animation-duration: 0.1s;
   animation-duration: 0.1s;
+  position: relative;
 
   .side-menu-top {
     display: inline-block;
     width: 100%;
-    background: #353535;
     a {
       color: #fff;
     }
@@ -29,20 +29,100 @@
   .side-menu-links {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 15px 0;
 
     .single-list-item {
       margin: 0;
 
       a {
-        padding: 10px 15px;
+        padding: 5px 10px;
         display: block;
-        color: $grey;
+        color: $midnight-light;
+
+        i {
+          width: 20px;
+          text-align: center;
+          margin: 0 3px 0 0;
+        }
+
+        &:hover {
+          color: #fff;
+          background: $blue;
+        }
+      }
+    }
+  }
+
+  .side-menu-bottom {
+    padding: 0 10px;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+
+    .user {
+      position: relative;
+
+      .company, .name {
+        display: block;
+      }
+
+      .company {
+        font-size: 0.9em;
+      }
+
+      .button-user-popup {
+        color: $midnight-light;
 
         &:hover {
           color: #fff;
         }
       }
+
+      .user-popup {
+        background: #fff;
+        color: $black;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+        padding: 10px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        position: absolute;
+        top: -60px;
+        width: 100%;
+
+        ul {
+          margin: 0;
+        }
+
+        a {
+          color: $blue;
+          display: block;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .caret-down {
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-left: 9px solid transparent;
+          border-right: 9px solid transparent;
+          border-top: 9px solid #fff;
+          bottom: -8px;
+          left: calc(50% - 9px);
+        }
+      }
+    }
+  }
+
+  .meta-links {
+    color: $midnight-light;
+    border-bottom: 1px dotted $midnight-light;
+    &:hover {
+      color: #fff;
+      border-bottom: 1px solid #fff;
     }
   }
 
