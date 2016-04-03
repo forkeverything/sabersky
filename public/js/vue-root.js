@@ -2,7 +2,6 @@ new Vue({
     el: '#app-layout',
     data: {
         user: {},
-        company: {},
         showingMenu: false,
         showNavDropdown: false
     },

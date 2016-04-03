@@ -6,18 +6,14 @@ Vue.component('side-menu', {
     data: function () {
         return {
             show: false,
-            userPopup: false
+            userPopup: false,
+            userInitials: '',
+            companyName: '',
+            finishedCompiling: false
         };
     },
-    props: [],
-    computed: {
-        userInitials: function() {
-            var names = this.$root.user.name.split(' ');
-            return names.map(function (name, index) {
-                if(index === 0 || index === names.length - 1) return name.charAt(0);
-            }).join('');
-        }
-    },
+    props: ['user'],
+    computed: {},
     methods: {
         toggleUserPopup: function() {
             this.userPopup = !this.userPopup;
@@ -38,11 +34,23 @@ Vue.component('side-menu', {
         }, 50));
 
         // To hide popup
-        $(document).click(function(event) {
-            if(!$(event.target).closest('.user-popup').length &&
-                !$(event.target).is('.user-popup')) {
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.user-popup').length && !$(event.target).is('.user-popup')) {
                 self.userPopup = false;
             }
-        })
+        });
+
+        // When user prop is loaded
+        self.$watch('user', function (user) {
+            // set initials
+            var names = user.name.split(' ');
+            self.userInitials = names.map(function (name, index) {
+                if(index === 0 || index === names.length - 1) return name.charAt(0);
+            }).join('');
+            // set name
+            self.companyName = user.company.name;
+            // set flag
+            self.finishedCompiling = true;
+        });
     }
 });

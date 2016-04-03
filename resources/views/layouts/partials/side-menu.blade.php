@@ -1,4 +1,4 @@
-<side-menu inline-template>
+<side-menu inline-template :user="user">
     <nav id="side-menu"
          class="showing-menu-overlay animated"
          v-show="show"
@@ -61,13 +61,14 @@
                 <a href="#"
                    class="button-user-popup"
                    @click.stop="toggleUserPopup"
+                   v-show="finishedCompiling"
                 >
                 <span class="user-avatar">
                     @{{ userInitials }}
                 </span>
                 <div class="name-company">
                     <span class="name">{{ Auth::user()->name }}</span>
-                    <span class="company">@{{ $root.user.company.name }}</span>
+                    <span class="company">@{{ companyName }}</span>
                 </div>
                 </a>
                 <div class="user-popup"
