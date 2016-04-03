@@ -59,4 +59,17 @@ class UsersController extends Controller
         return $user;
     }
 
+    /**
+     * Accepts an email (string) and checks to see
+     * if it is available.
+     * 
+     * @param $email
+     * @return mixed
+     */
+    public function getCheckEmailAvailability($email)
+    {
+        if(User::where('email', $email)->first()) return response("Email already taken", 409);
+        return response("OK! Email available", 200);
+    }
+
 }

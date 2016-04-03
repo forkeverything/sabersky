@@ -69,6 +69,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
     Route::get('/api/me', 'UsersController@apiGetLoggedUser');
+    Route::get('/api/user/email/{email}/check', 'UsersController@getCheckEmailAvailability');
 
     /**
      * Purchase Requests

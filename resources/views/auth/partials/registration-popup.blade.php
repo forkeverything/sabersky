@@ -41,6 +41,9 @@
                            v-model="companyName"
                     >
                     <label for="register_name" placeholder="Company Name" class="label_auth"></label>
+                    <span class="error-msg"
+                          v-show="companyNameError"
+                    >@{{ companyNameError }}</span>
                 </div>
 
                 <div class="shift-label-input validated-input"
@@ -58,6 +61,9 @@
                            v-model="email"
                     >
                     <label for="register_email" placeholder="Email" class="label_auth"></label>
+                                        <span class="error-msg"
+                                              v-show="emailError"
+                                        >@{{ emailError }}</span>
                 </div>
 
                 <div class="shift-label-input validated-input"
@@ -80,6 +86,7 @@
                 <button type="button"
                         class="btn btn-solid-green no-outline button-register-company"
                         :disabled="validCompanyName !== true || validEmail !== true || validPassword !== true"
+                        @click="registerNewCompany"
                 >Register your company
                 </button>
             </form>

@@ -6429,7 +6429,21 @@ button.close {
         margin: 10px 0 0 0;
         text-align: right; }
     #registration-popup-overlay .popup-content #form-registration .shift-label-input {
-      margin: 0 0 20px; }
+      margin: 0 0 20px;
+      border: 1px solid #CDCFD2; }
+      #registration-popup-overlay .popup-content #form-registration .shift-label-input input {
+        border: 0; }
+      #registration-popup-overlay .popup-content #form-registration .shift-label-input.is-error {
+        border-color: #E74C3C; }
+        #registration-popup-overlay .popup-content #form-registration .shift-label-input.is-error label {
+          color: #E74C3C; }
+      #registration-popup-overlay .popup-content #form-registration .shift-label-input .error-msg {
+        background: #FAD2D1;
+        padding: 0.5em 1em 0.5em 1em;
+        display: block;
+        width: 100%;
+        font-size: 0.9em;
+        color: #E74C3C; }
     #registration-popup-overlay .popup-content #form-registration .button-register-company {
       width: initial;
       height: 4em;
@@ -7281,7 +7295,8 @@ button.close {
           padding: 7px;
           color: #fff;
           font-size: 1.5em;
-          transition: 0.15s box-shadow; }
+          transition: 0.15s box-shadow;
+          text-align: center; }
         #side-menu .side-menu-bottom .user .button-user-popup:hover {
           color: #fff; }
           #side-menu .side-menu-bottom .user .button-user-popup:hover .user-avatar {
