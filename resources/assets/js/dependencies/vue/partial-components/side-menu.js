@@ -12,8 +12,9 @@ Vue.component('side-menu', {
     props: [],
     computed: {
         userInitials: function() {
-            return this.$root.user.name.split(' ').map(function (name) {
-                return name.charAt(0);
+            var names = this.$root.user.name.split(' ');
+            return names.map(function (name, index) {
+                if(index === 0 || index === names.length - 1) return name.charAt(0);
             }).join('');
         }
     },

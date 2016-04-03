@@ -76,6 +76,7 @@
         align-items: center;
 
         .user-avatar {
+          width: 44px;
           margin: 0 10px 0 0;
           background: $blue;
           border-radius: 50%;
@@ -87,6 +88,7 @@
           -ms-transition: 0.15s box-shadow;
           -o-transition: 0.15s box-shadow;
           transition: 0.15s box-shadow;
+          text-align: center;
         }
 
         &:hover {
