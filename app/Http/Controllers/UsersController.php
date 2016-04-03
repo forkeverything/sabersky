@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'only' => 'api'
+        ]);
+    }
     public function showInvitation($inviteKey)
     {
         Auth::logout();
@@ -38,6 +44,19 @@ class UsersController extends Controller
         }
         flash()->error('Oops! please resent invitation');
         return redirect('/');
+    }
+
+    /**
+     * Returns the currently authenticated
+     * user.
+     *
+     * @return mixed
+     */
+    public function apiGetLoggedUser()
+    {
+        $user = Auth::user()->load('company', 'role');
+
+        return $user;
     }
 
 }

@@ -40,7 +40,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/company', 'CompanyController@registerCompany');
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
     Route::get('/desk', ['as' => 'desk', 'uses' => 'PagesController@showDesk']);
-
+    
     /*
      * Company
      */
@@ -64,10 +64,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/projects/{project}/team/add', ['as' => 'saveTeamMember', 'uses' => 'ProjectsController@postSaveTeamMember']);
 
     /**
-     * User Invitation
+     * User
      */
     Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
+    Route::get('/api/me', 'UsersController@apiGetLoggedUser');
 
     /**
      * Purchase Requests

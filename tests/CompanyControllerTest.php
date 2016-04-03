@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+    
     /** @test */
     public function it_redirects_to_correct_page_for_company_registration()
     {

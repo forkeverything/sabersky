@@ -10,7 +10,13 @@ Vue.component('side-menu', {
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        userInitials: function() {
+            return this.$root.user.name.split(' ').map(function (name) {
+                return name.charAt(0);
+            }).join('');
+        }
+    },
     methods: {
         toggleUserPopup: function() {
             this.userPopup = !this.userPopup;

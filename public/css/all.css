@@ -7266,9 +7266,25 @@ button.close {
       #side-menu .side-menu-bottom .user .company {
         font-size: 0.9em; }
       #side-menu .side-menu-bottom .user .button-user-popup {
-        color: #AEBAC7; }
+        color: #AEBAC7;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
+        #side-menu .side-menu-bottom .user .button-user-popup .user-avatar {
+          margin: 0 10px 0 0;
+          background: #3498DB;
+          border-radius: 50%;
+          padding: 7px;
+          color: #fff;
+          font-size: 1.5em;
+          transition: 0.15s box-shadow; }
         #side-menu .side-menu-bottom .user .button-user-popup:hover {
           color: #fff; }
+          #side-menu .side-menu-bottom .user .button-user-popup:hover .user-avatar {
+            box-shadow: 0 0 0 3px #67BAFF; }
       #side-menu .side-menu-bottom .user .user-popup {
         background: #fff;
         color: #353535;
