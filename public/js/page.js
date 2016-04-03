@@ -489,6 +489,7 @@ Vue.component('settings', {
             roles: []   // shared with Permissions, Rules
         }
     },
+    props: ['user'],
     methods: {
         changeView: function (view) {
             this.settingsView = view;
@@ -863,6 +864,7 @@ Vue.component('settings-rules', {
         };
     },
     props: [
+        'user',
         'roles',
         'settingsView'
     ],

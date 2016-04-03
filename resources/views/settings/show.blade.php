@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <settings inline-template>
+    <settings inline-template :user.sync="user">
         <div class="container" id="system-settings">
             <a href="{{ route('dashboard') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Dashboard</a>
             <div class="page-header">

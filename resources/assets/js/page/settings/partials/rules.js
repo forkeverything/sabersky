@@ -16,6 +16,7 @@ Vue.component('settings-rules', {
         };
     },
     props: [
+        'user',
         'roles',
         'settingsView'
     ],

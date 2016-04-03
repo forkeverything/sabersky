@@ -23,6 +23,7 @@ Vue.component('settings', {
             roles: []   // shared with Permissions, Rules
         }
     },
+    props: ['user'],
     methods: {
         changeView: function (view) {
             this.settingsView = view;

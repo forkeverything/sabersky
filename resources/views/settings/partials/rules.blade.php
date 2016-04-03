@@ -1,4 +1,4 @@
-<settings-rules inline-template :roles.sync="roles" :settings-view.sync="settingsView">
+<settings-rules inline-template :roles.sync="roles" :settings-view.sync="settingsView" :user.sync="user">
     <div id="settings-rules" v-show="settingsView === 'rules'">
         <h2>Purchase Order Rules</h2>
         <p>
@@ -63,7 +63,7 @@
                         <div class="input-group"
                              v-else
                         >
-                            <span class="input-group-addon">@{{ $root.user.company.currency }}</span>
+                            <span class="input-group-addon" v-cloak>@{{ user.company.currency }}</span>
                             <input type="text"
                                    class="form-control input-rule-limit"
                                    v-model="ruleLimit | numberModel"
