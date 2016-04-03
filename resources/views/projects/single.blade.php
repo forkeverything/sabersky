@@ -1,49 +1,36 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container" id="project-single-view">
-        <div class="page-body">
-            <section class="project-header">
-                @if($project->operational)
-                    <span class="project-status active label label-success">Currently Developing</span>
-                @else
-                    <span class="project-status inactive label label-default">Inactive</span>
-                @endif
-            </section>
-            <p>
-                {{ $project->description }}
-            </p>
-            <section class="team-members">
-                <h3>Team Members</h3>
-                <div class="team-wrap">
-                    @foreach($project->teamMembers->chunk(3) as $chunk)
-                        <div class="row">
-                            @foreach($chunk as $member)
-                                <div class="team-single-member col-md-4">
-                                    @if($member->invite_key)
-                                        <i class="fa fa-user pending"></i>
-                                    @else
-                                        <i class="fa fa-user"></i>
-                                    @endif
-                                    <span>
-                            <strong>{{ $member->name }}</strong>
-                                <br>
-                                        <span class="capitalize">{{ $member->role->position }}</span>
-                                        @if($member->id == Auth::user()->id)
-                                            <em>(You)</em>
-                                        @elseif($member->invite_key)
-                                            <em>(Pending)</em>
-                                        @endif
-
-                            </span>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
-                @can('team_manage')
-                <a href="{{ route('addTeamMember', $project->id) }}"><button class="btn btn-solid-green"><i class="fa fa-user-plus fa-btn"></i>Add Team Member</button></a>
-                @endcan
-            </section>
+    <project-single inline-template>
+        <div class="container" id="project-single-view">
+            <input id="hidden-project-id" type="hidden" value="{{ $project->id }}">
+            <div class="page-body">
+                <section class="project-header">
+                    <h5>Status</h5>
+                    @if($project->operational)
+                        <span class="project-status active label label-success">Currently Developing</span>
+                    @else
+                        <span class="project-status inactive label label-default">Inactive</span>
+                    @endif
+                </section>
+                <section class="project-description">
+                    <h5>Description</h5>
+                    <p>
+                        {{ $project->description }}
+                    </p>
+                </section>
+                <section class="team-members">
+                    <div class="team-header">
+                        <h5>Team</h5>
+                        @can('team_manage')
+                        <a href="{{ route('addTeamMember', $project->id) }}">
+                            <button class="btn btn-outline-blue"><i class="fa fa-user-plus fa-btn"></i>Add Team Member
+                            </button>
+                        </a>
+                        @endcan
+                    </div>
+                    <power-table :headers="tableHeaders" :data="teamMembers"></power-table>
+                </section>
+            </div>
         </div>
-    </div>
+    </project-single>
 @endsection

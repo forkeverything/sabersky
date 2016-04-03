@@ -92,6 +92,19 @@ class ProjectsController extends Controller
     }
 
     /**
+     * returns all Team Members (users) that belong
+     * to a Project
+     *
+     * @param Project $project
+     * @return \App\User[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function apiGetTeamMembers(Project $project)
+    {
+        if (Gate::allows('view', $project)) return $project->teamMembers->load('role');
+        return response("You are not allowed to view this Project", 403);
+    }
+
+    /**
      * Shows the Add Team Member page to
      * authorized Users.
      *
@@ -100,7 +113,12 @@ class ProjectsController extends Controller
      */
     public function getAddTeamMember(Project $project)
     {
-        if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project'));
+        $breadcrumbs = [
+            ['<i class="fa fa-flash"></i> Project', '/projects'],
+            [$project->name, '/projects/' . $project->id],
+            ['Add Team Member', '#'],
+        ];
+        if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'breadcrumbs'));
         return redirect('/projects');
     }
 

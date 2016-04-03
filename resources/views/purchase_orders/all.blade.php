@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 @section('content')
     <purchase-orders-all inline-template>
         <div id="purchase-orders-all" class="container">

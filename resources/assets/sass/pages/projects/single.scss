@@ -1,0 +1,36 @@
+#project-single-view {
+
+  .project-header {
+
+
+    .project-status {
+      padding: 5px 10px;
+    }
+  }
+
+  section {
+    margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .team-wrap {
+    margin-bottom: 30px;
+  }
+
+  .team-members {
+
+    .team-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 15px 0;
+
+      h5 {
+        margin: 0;
+      }
+    }
+
+  }
+}

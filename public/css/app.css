@@ -6564,18 +6564,8 @@ button.close {
   #projects-all .project-list .project-single-link .project-single:last-child {
     margin: 0; }
 
-#project-single-view .project-header {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center; }
-  #project-single-view .project-header .project-title {
-    margin: 0 15px 0 0;
-    display: inline-block; }
-  #project-single-view .project-header .project-status {
-    padding: 5px 10px; }
+#project-single-view .project-header .project-status {
+  padding: 5px 10px; }
 
 #project-single-view section {
   margin-bottom: 30px; }
@@ -6585,41 +6575,19 @@ button.close {
 #project-single-view .team-wrap {
   margin-bottom: 30px; }
 
-#project-single-view .team-members h5 {
-  display: inline-block;
-  margin-right: 10px; }
-
-#project-single-view .team-members .team-wrap {
-  padding: 30px; }
-  #project-single-view .team-members .team-wrap .team-single-member {
-    height: 175px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    margin: 0 0 15px; }
-    #project-single-view .team-members .team-wrap .team-single-member .fa-user {
-      -webkit-flex: 100%;
-      -ms-flex: 100%;
-      flex: 100%;
-      text-align: center;
-      font-size: 125px;
-      color: #3498DB; }
-      #project-single-view .team-members .team-wrap .team-single-member .fa-user.pending {
-        color: #D2D2D2; }
-    #project-single-view .team-members .team-wrap .team-single-member span {
-      -webkit-flex: 100%;
-      -ms-flex: 100%;
-      flex: 100%;
-      text-align: center; }
+#project-single-view .team-members .team-header {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 0 15px 0; }
+  #project-single-view .team-members .team-header h5 {
+    margin: 0; }
 
 #projects-team-add .panel {
   margin: 20px 0 0 0; }
