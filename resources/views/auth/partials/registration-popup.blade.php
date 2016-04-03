@@ -48,8 +48,26 @@
 
                 <div class="shift-label-input validated-input"
                      :class="{
+                    'is-filled': validName !== 'unfilled',
+                    'is-success': validName,
+                    'is-error': ! validName
+                }"
+                >
+                    <input id="register_name"
+                           type="text"
+                           name="name"
+                           required
+                           @blur="checkName"
+                           v-model="name"
+                    >
+                    <label alt="register_name" placeholder="Full Name" class="label_auth"></label>
+                </div>
+
+                <div class="shift-label-input validated-input"
+                     :class="{
                     'is-filled': validEmail !== 'unfilled',
                     'is-success': validEmail,
+                    'is-loading': validEmail === 'loading',
                     'is-error': !validEmail
                  }"
                 >
@@ -85,7 +103,7 @@
 
                 <button type="button"
                         class="btn btn-solid-green no-outline button-register-company"
-                        :disabled="validCompanyName !== true || validEmail !== true || validPassword !== true"
+                        :disabled="validCompanyName !== true || validName !== true || validEmail !== true || validPassword !== true"
                         @click="registerNewCompany"
                 >Register your company
                 </button>

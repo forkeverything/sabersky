@@ -27,7 +27,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     /**
-     * The attributes that are mass assignable.
+     * Mass-assignable fields for
+     * a User
      *
      * @var array
      */
@@ -39,6 +40,24 @@ class User extends Authenticatable
         'invite_key',
         'company_id'
     ];
+
+    /**
+     * Makes a new User from name(string),
+     * email(string) & password(string)
+     *
+     * @param $name
+     * @param $email
+     * @param $password
+     * @return static
+     */
+    public static function make($name, $email, $password)
+    {
+        return static::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => bcrypt($password)
+        ]);
+    }
 
     /**
      * The attributes excluded from the model's JSON form.

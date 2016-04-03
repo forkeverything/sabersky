@@ -6,14 +6,16 @@ Vue.component('registration-popup', {
     data: function () {
         return {
             showRegisterPopup: false,
-            password: '',
             companyName: '',
             validCompanyName: 'unfilled',
             companyNameError: '',
             email: '',
             validEmail: 'unfilled',
             emailError: '',
+            password: '',
             validPassword: 'unfilled',
+            name: '',
+            validName: 'unfilled',
             ajaxReady: true
         };
     },
@@ -62,20 +64,21 @@ Vue.component('registration-popup', {
             self.validEmail = 'unfilled';
             if (self.email.length > 0) {
                 if (validateEmail(self.email)) {
-                    if(!self.ajaxReady) return;
+                    self.validEmail = 'loading';
+                    if (!self.ajaxReady) return;
                     self.ajaxReady = false;
                     $.ajax({
                         url: '/api/user/email/' + self.email + '/check',
                         method: 'GET',
-                        success: function(data) {
-                           // success
-                           if(data) {
-                               self.validEmail = true;
-                               self.emailError = '';
-                           }
-                           self.ajaxReady = true;
+                        success: function (data) {
+                            // success
+                            if (data) {
+                                self.validEmail = true;
+                                self.emailError = '';
+                            }
+                            self.ajaxReady = true;
                         },
-                        error: function(response) {
+                        error: function (response) {
                             console.log(response);
                             self.ajaxReady = true;
                             self.validEmail = false;
@@ -94,8 +97,34 @@ Vue.component('registration-popup', {
                 this.validPassword = (this.password.length >= 6);
             }
         },
-        registerNewCompany: function() {
-            // Ajax request to register company
+        checkName: function () {
+            this.validName = this.name.length > 0 ? true : 'unfilled';
+        },
+        registerNewCompany: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/company',
+                method: 'POST',
+                data: {
+                    company_name: self.companyName,
+                    name: self.name,
+                    email: self.email,
+                    password: self.password
+                },
+                success: function (data) {
+                    // success
+                    window.location.href = "/dashboard";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
     events: {},

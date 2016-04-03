@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->timestamps();
 
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('currency')->default('$');
 
         });

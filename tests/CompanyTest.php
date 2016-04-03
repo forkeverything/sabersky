@@ -11,14 +11,13 @@ class CompanyTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test */
+    public function it_registers_a_new_company()
     {
-        $this->assertTrue(true);
+        $name = 'foo';
+        $this->assertEmpty(Company::whereName('foo')->first());
+        Company::register($name);
+        $this->assertEquals('foo', Company::whereName('foo')->first()->name);
     }
 
     /** @test */

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Role;
 use App\User;
@@ -24,11 +25,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
+
+    /**
+     * Mass-Fillable fields for a company
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'description',
         'currency'
     ];
+
+
+    /**
+     * Takes a name ('string') and creates
+     * a new Company in DB
+     *
+     * @param $name
+     * @return static
+     */
+    public static function register($name)
+    {
+        return static::create([
+            'name' => $name
+        ]);
+    }
 
     /**
      * Company has many Employees (Users).
@@ -39,6 +61,20 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Adds an Employee (User) to a
+     * company.
+     *
+     * @param \App\User $user
+     * @return $this
+     */
+    public function addEmployee(User $user)
+    {
+        $this->employees()->save($user);
+        return $this;
+    }
+
 
     /**
      * A company can have many Projects.
@@ -142,19 +178,6 @@ class Company extends Model
     {
         $project = $this->projects()->create($request->all());
         $user->projects()->save($project);  // Add project to user projects
-        return $this;
-    }
-
-    /**
-     * Adds an Employee (User) to a
-     * company.
-     *
-     * @param \App\User $user
-     * @return $this
-     */
-    public function addEmployee(User $user)
-    {
-        $this->employees()->save($user);
         return $this;
     }
 

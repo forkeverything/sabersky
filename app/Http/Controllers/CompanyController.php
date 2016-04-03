@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\SaveCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Permission;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,7 +20,7 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['getPublicProfile']
+            'except' => ['postRegisterCompany','getPublicProfile']
         ]);
     }
 
@@ -38,7 +40,7 @@ class CompanyController extends Controller
     }
 
     public function saveCompany(SaveCompanyRequest $request)
-    {;
+    {
         $company = Company::create($request->all());
         $company->employees()->save($user = Auth::user());
 
@@ -49,6 +51,33 @@ class CompanyController extends Controller
         $user->setRole($role);
 
         return redirect('/dashboard');
+    }
+
+    /**
+     * POST request to register a new Company.
+     * Will create a company as well as a
+     * user for the new company.
+     * 
+     * @param RegisterCompanyRequest $request
+     * @return mixed
+     */
+    public function postRegisterCompany(RegisterCompanyRequest $request)
+    {
+        $company = Company::register($request->input('company_name'));
+        $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));
+        $company->addEmployee($user);
+
+        $adminRole = $company->createAdmin();
+        $adminRole->giveAdminPermissions();
+
+        $user->setRole($adminRole);
+
+        Auth::logout();
+        Auth::login($user);
+
+        if(Auth::user())return response("Registered new Company", 200);
+
+        return response("Could not register Company or User", 500);
     }
 
     /**

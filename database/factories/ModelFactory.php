@@ -12,6 +12,8 @@
 */
 
 use App\Company;
+use App\Item;
+use App\Project;
 
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [
@@ -73,15 +75,16 @@ $factory->define(App\Item::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
+    $project = factory(Project::class)->create();
     return [
         'quantity' => $faker->randomDigitNotNull,
         'due' => $faker->dateTimeThisYear->format('d/m/Y'),
         'state' => $faker->randomElement(['open', 'cancelled']),
         'urgent' => $faker->boolean(20),
-        'item_id' => factory(App\Item::class)->create()->id,
-        'project_id' => 1,
+        'item_id' => factory(Item::class)->create()->id,
+        'project_id' => $project->id,
         'user_id' => factory(App\User::class)->create([
-            'role_id' => 2
+            'company_id' => $project->company->id
         ])->id
     ];
 });

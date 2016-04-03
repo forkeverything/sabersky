@@ -18,14 +18,15 @@ class UsersController extends Controller
             'only' => 'api'
         ]);
     }
+    
+
     public function showInvitation($inviteKey)
     {
         Auth::logout();
         if($user = User::fetchFromInviteKey($inviteKey)){
             return view('auth.accept', compact('user'));
         };
-        // TODO:::Flash error key not valid, please re-send
-        flash()->error('Error: Could not accept invitation');
+        flash()->error('Could not accept invitation');
         return redirect('/');
     }
 
@@ -62,7 +63,7 @@ class UsersController extends Controller
     /**
      * Accepts an email (string) and checks to see
      * if it is available.
-     * 
+     *
      * @param $email
      * @return mixed
      */
