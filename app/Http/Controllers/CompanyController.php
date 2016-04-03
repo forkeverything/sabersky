@@ -25,39 +25,10 @@ class CompanyController extends Controller
     }
 
     /**
-     * GET request to register a company.
-     * If a user already has one, redirect
-     * him to dashboard.
-     * 
-     * @return mixed
-     */
-    public function registerCompany()
-    {
-        if(Auth::user()->company) {
-            return redirect('/dashboard');
-        }
-        return view('company.register');
-    }
-
-    public function saveCompany(SaveCompanyRequest $request)
-    {
-        $company = Company::create($request->all());
-        $company->employees()->save($user = Auth::user());
-
-        $role = $company->createAdmin();
-
-        $role->giveAdminPermissions();
-
-        $user->setRole($role);
-
-        return redirect('/dashboard');
-    }
-
-    /**
      * POST request to register a new Company.
      * Will create a company as well as a
      * user for the new company.
-     * 
+     *
      * @param RegisterCompanyRequest $request
      * @return mixed
      */
