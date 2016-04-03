@@ -28,8 +28,14 @@ class UpdateCompanyRequest extends Request
     {
         return [
             'name' => 'required|unique:companies,name,' . Auth::user()->company->id ,
-            'description' => 'required',
             'currency' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Company name already taken'
         ];
     }
 }

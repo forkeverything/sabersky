@@ -1,15 +1,26 @@
 Vue.component('form-errors', {
+    template: '<div class="validation-errors">' +
+    '<h5 class="errors-heading">{{ errorHeading }}</h5>' +
+    '<ul class="errors-list list-unstyled"' +
+    'v-show="errors.length > 0"' +
+    '>' +
+    '<li v-for="error in errors">{{ error }}</li>' +
+    '</ul>' +
+    '</div>',
     data: function () {
         return {
             errors: []
         }
     },
-    template: '<ul ' +
-    'class="alert alert-danger list-unstyled"' +
-    'v-show="errors.length > 0"' +
-    '>' +
-    '<li v-for="error in errors">{{ error }}</li>' +
-    '</ul>',
+    computed: {
+        errorHeading: function() {
+            if(this.errors.length > 1) {
+                return 'Please fix '  + errors.length + ' errors'
+            } else if (this.errors.length == 1){
+                return 'Please fix the following error'
+            }
+        }
+    },
     events: {
         'new-errors': function(errors) {
             var self = this;
@@ -18,9 +29,9 @@ Vue.component('form-errors', {
                 newErrors.push(error);
             });
             self.errors = newErrors;
-            setTimeout(function () {
-                self.errors = [];
-            }, 3500);
+        },
+        'clear-errors': function() {
+            this.errors = [];
         }
     }
 });

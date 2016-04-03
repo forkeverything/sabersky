@@ -519,7 +519,7 @@ Vue.component('settings-company', {
     computed: {
         canUpdateCompany: function () {
             if (this.company) {
-                return this.company.name.length > 0 && this.company.description.length > 0 && this.company.currency.length > 0;
+                return this.company.name.length > 0 && this.company.currency.length > 0;
             }
             return false;
         }
@@ -527,6 +527,7 @@ Vue.component('settings-company', {
     methods: {
         updateCompany: function () {
             var self = this;
+            vueClearValidationErrors(self);
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({

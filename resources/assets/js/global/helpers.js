@@ -49,6 +49,15 @@ function vueValidation(response, vue) {
 }
 
 /**
+ * Broadcasts clear errors event.
+ *
+ * @param vue
+ */
+function vueClearValidationErrors(vue) {
+    vue.$broadcast('clear-errors');
+}
+
+/**
  * Takes an string and tells you if it's a valid email!
  *
  * @returns {boolean}
