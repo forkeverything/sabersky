@@ -2,15 +2,15 @@
 
 @section('content')
     <div class="container" id="projects-all">
-        <a href="{{ route('dashboard') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Dashboard</a>
-        <div class="page-header">
-            <h1 class="page-title">Projects & Teams</h1>
-            <p class="page-intro">List of <span class="capitalize">{{ $company->name }}</span> Projects. Select or create a new project and begin sending invitations to team members.</p>
+        @can('project_manage')
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-8">
+                <a href="/projects/start"><button class="btn btn-solid-green button-start-project">New Project</button></a>
+            </div>
         </div>
+        @endcan
         <div class="page-body">
-            @can('project_manage')
-            <a href="/projects/start"><button class="btn btn-solid-blue button-start-project">Start New Project</button></a>
-            @endcan
+            @if($company->projects()->first())
             <div class="project-list">
                 @foreach($company->projects as $project)
                     <a href="{{ route('singleProject', $project->id) }}" class="project-single-link">
@@ -28,8 +28,7 @@
                     </a>
                 @endforeach
             </div>
-
-            @if(! $company->projects()->first())
+            @else
                 <span class="page-error">There are currently no projects.</span>
             @endif
         </div>

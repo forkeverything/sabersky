@@ -53,8 +53,8 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Project - Main
      */
-    Route::get('/projects', ['as' => 'allProjects', 'uses' => 'ProjectsController@showAll']);
-    Route::get('/projects/start', 'ProjectsController@getProjectForm');
+    Route::get('/projects', ['as' => 'allProjects', 'uses' => 'ProjectsController@getAll']);
+    Route::get('/projects/start', 'ProjectsController@getNewProjectForm');
     Route::post('/projects/start', ['as' => 'startProject', 'uses' => 'ProjectsController@postStartProject']);
     Route::get('/projects/{project}', ['as' => 'singleProject', 'uses' => 'ProjectsController@getSingle']);
 

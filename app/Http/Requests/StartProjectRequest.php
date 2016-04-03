@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class StartProjectRequest extends Request
@@ -25,9 +26,18 @@ class StartProjectRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:projects,name,NULL,id,company_id,' . Auth::user()->company_id,
             'location' => 'required',
             'description' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Project already exists',
+            'location.required' => 'Address cannot be empty',
+            'description' => 'Description cannot be empty'
         ];
     }
 }

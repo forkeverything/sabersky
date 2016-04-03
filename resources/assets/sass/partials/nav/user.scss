@@ -1,0 +1,52 @@
+.user-nav {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+
+  .button-show-side-menu {
+    flex: 0 0 40px;
+    background: transparent;
+    border: 0;
+    color: $midnight-light;
+    font-size: 2em;
+    margin: 0 10px 0 0;
+    padding: 0;
+
+
+    &:active, &:focus, &:hover {
+      color: $midnight;
+      outline: 0;
+    }
+  }
+
+  .breadcrumbs {
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+
+    .breadcrumb-link {
+      color: $midnight-light;
+      line-height: 0;
+
+      &:hover, &:focus, &:active {
+        color: $midnight;
+        text-decoration: underline;
+      }
+
+      &.current {
+        color: $midnight;
+        text-decoration: none;
+      }
+    }
+
+    .breadcrumb-separator {
+      margin: 0 5px;
+      font-size: 1.5em;
+      color: $midnight-light;
+    }
+  }
+
+  @media screen and (min-width: 768px){
+    padding: 0 15px;
+  }
+}

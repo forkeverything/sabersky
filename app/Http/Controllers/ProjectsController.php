@@ -35,20 +35,28 @@ class ProjectsController extends Controller
      *
      * @return mixed
      */
-    public function showAll()
+    public function getAll()
     {
-        return view('projects.all')->with('company', $this->company);
+        $breadcrumbs = [
+            ['<i class="fa fa-flash"></i> Project', '#']
+        ];
+        return view('projects.all', compact('breadcrumbs'))->with('company', $this->company);
     }
 
     /**
-     * Get form to start a project.
+     * GET form to start a
+     * new Project
      *
      * @return mixed
      */
-    public function getProjectForm()
+    public function getNewProjectForm()
     {
         if (Gate::allows('project_manage')) {
-            return view('projects.start');
+            $breadcrumbs = [
+                ['<i class="fa fa-flash"></i> Project', '/projects'],
+                ['Start New', '#']
+            ];
+            return view('projects.start', compact('breadcrumbs'));
         }
         return redirect('/projects');
     }
@@ -75,7 +83,11 @@ class ProjectsController extends Controller
      */
     public function getSingle(Project $project)
     {
-        if (Gate::allows('view', $project)) return view('projects.single', compact('project'));
+        $breadcrumbs = [
+            ['<i class="fa fa-flash"></i> Project', '/projects'],
+            [$project->name, '#']
+        ];
+        if (Gate::allows('view', $project)) return view('projects.single', compact('project', 'breadcrumbs'));
         return redirect('/projects');
     }
 
