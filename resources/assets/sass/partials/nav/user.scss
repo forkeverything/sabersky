@@ -23,10 +23,12 @@
     font-size: 1.4em;
     display: flex;
     align-items: center;
+    overflow: hidden;
 
     .breadcrumb-link {
       color: $midnight-light;
       line-height: 0;
+      white-space: nowrap;
 
       &:hover, &:focus, &:active {
         color: $midnight;

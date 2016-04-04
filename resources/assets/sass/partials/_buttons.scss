@@ -6,13 +6,11 @@
 
 .btn-outline-yellow {
   color: $dark-yellow;
+  background: transparent;
   border: 1px solid $dark-yellow;
-  background-color: #FFFFFF;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -38,12 +36,9 @@
 .btn-outline-grey {
   color: $dark-grey;
   border: 1px solid $dark-grey;
-  background-color: #FFFFFF;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -67,14 +62,12 @@
 }
 
 .btn-outline-red {
+  background: transparent;
   color: $dark-red;
   border: 1px solid $dark-red;
-  background-color: #FFFFFF;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -98,14 +91,12 @@
 }
 
 .btn-outline-green {
+  background: transparent;
   color: $dark-green;
   border: 1px solid $dark-green;
-  background-color: #FFFFFF;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -129,14 +120,12 @@
 }
 
 .btn-outline-blue {
+  background: transparent;
   color: $dark-blue;
   border: 1px solid $dark-blue;
-  background-color: #FFFFFF;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
@@ -170,10 +159,8 @@
   -o-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -205,10 +192,8 @@
   -o-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -240,10 +225,8 @@
   -o-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -275,10 +258,8 @@
   -o-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
   height: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5em 1em;
+  display: inline-block;
 
   &:hover, &:focus, &:active {
     outline: 0;
@@ -316,21 +297,22 @@
 .btn-outline-red,
 .btn-outline-green,
 .btn-outline-blue {
+
   &:disabled {
     color: $dark-grey;
     border-color: $dark-grey;
     &:hover, &:active, &:focus {
-      -webkit-box-shadow: none!important;
-      -moz-box-shadow: none!important;
-      box-shadow: none!important;
+      -webkit-box-shadow: none !important;
+      -moz-box-shadow: none !important;
+      box-shadow: none !important;
     }
   }
 }
 
 .no-outline {
   &:hover, &:active, &:focus {
-    -webkit-box-shadow: none!important;
-    -moz-box-shadow: none!important;
-    box-shadow: none!important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
   }
 }

@@ -3,12 +3,10 @@
 @section('content')
     <div class="container" id="projects-all">
         @can('project_manage')
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-8">
-                <a href="/projects/start">
-                    <button class="btn btn-solid-green button-start-project">New Project</button>
-                </a>
-            </div>
+        <div class="top">
+            <a class="link-new-project" href="/projects/start">
+                <button class="btn btn-outline-green button-start-project">New Project</button>
+            </a>
         </div>
         @endcan
         <div class="page-body">

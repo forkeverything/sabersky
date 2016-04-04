@@ -4,8 +4,8 @@
         <div class="container" id="projects-team-add">
             <form action="{{ route('saveTeamMember', $project->id) }}" id="form-add-user"
                   method="POST">
-            <div class="page-body">
-                @include('errors.list')
+                <div class="page-body">
+                    @include('errors.list')
                     {{ csrf_field() }}
                     <section class="add-existing-user">
                         <h5>Existing User</h5>
@@ -40,16 +40,11 @@
                             @endforeach
                         </select>
                     </section>
-            </div>
-            <!-- Submit -->
-            <div class="row">
-                <div class="col-md-3 col-md-offset-9">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-solid-green form-control">Add Team Member
-                        </button>
-                    </div>
                 </div>
-            </div>
+                <div class="bottom">
+                    <button type="submit" class="btn btn-solid-blue">Add Team Member
+                    </button>
+                </div>
             </form>
         </div>
     </projects-add-team>
