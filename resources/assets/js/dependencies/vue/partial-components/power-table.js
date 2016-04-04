@@ -13,8 +13,8 @@ Vue.component('power-table', {
     '    @click="changeSort(header.sort)"' +
     '    :class="{' +
     "       'active': sortField === header.sort," +
-    "       'asc'   : sortAsc === true," +
-    "       'desc'  : sortAsc === false," +
+    "       'asc'   : sortAsc === 1," +
+    "       'desc'  : sortAsc === -1," +
     "       'clickable'  : sort" +
     '    }"' +
     '>' +
@@ -31,7 +31,12 @@ Vue.component('power-table', {
     '   v-for="item in data | orderBy sortField sortAsc"' +
     '>' +
     '<tr>' +
-    '<td v-for="header in headers"> {{ parseItemValue(header, item) }}</td>' +
+    '<td v-for="header in headers" ' +
+    '    @click="clickEvent(item, field, parseItemValue(header, item))"' +
+    '    :class="{' +
+    "       'clickable': header.click === true" +
+    '    }"' +
+    '> {{ parseItemValue(header, item) }}</td>' +
     '</tr>' +
     '' +
     '</template>' +
@@ -42,7 +47,7 @@ Vue.component('power-table', {
     data: function() {
         return {
             sortField: '',
-            sortAsc: true
+            sortAsc: 1
         };
     },
     props: [
@@ -67,11 +72,18 @@ Vue.component('power-table', {
             if(! this.sort) return;
 
             if(this.sortField === field) {
-                this.sortAsc = !this.sortAsc;
+                this.sortAsc = (this.sortAsc === 1) ? -1 : 1;
             } else {
                 this.sortField = field;
-                this.sortAsc = true;
+                this.sortAsc = 1;
             }
+        },
+        clickEvent: function(item, field, value) {
+            this.$dispatch('click-table-cell', {
+                item: item,
+                field: field,
+                value: value
+            });
         }
     },
     events: {

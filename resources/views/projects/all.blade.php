@@ -5,29 +5,52 @@
         @can('project_manage')
         <div class="row">
             <div class="col-sm-4 col-sm-offset-8">
-                <a href="/projects/start"><button class="btn btn-solid-green button-start-project">New Project</button></a>
+                <a href="/projects/start">
+                    <button class="btn btn-solid-green button-start-project">New Project</button>
+                </a>
             </div>
         </div>
         @endcan
         <div class="page-body">
             @if($company->projects()->first())
-            <div class="project-list">
-                @foreach($company->projects as $project)
-                    <a href="{{ route('singleProject', $project->id) }}" class="project-single-link">
+                <div class="project-list">
+                    @foreach($company->projects as $project)
                         <div class="project-single">
-                            <h3>
-                                {{ $project->name }}
-                            </h3>
-                            <p class="text-muted">
-                                {{ $project->location }}
-                            </p>
-                            <p>
-                                {{ str_limit($project->description, 300, '...') }}
-                            </p>
+                            <div class="left">
+                                <div class="project-thumbnail">
+                                    @if($project->thumbnail)
+                                        <img src="#">
+                                    @else
+                                        <i class="project-placeholder fa fa-building"></i>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="right">
+                                <a href="{{ route('singleProject', $project->id) }}" class="project-single-link">
+                                    <h5 class="project-name">
+                                        {{ $project->name }}
+                                    </h5>
+                                </a>
+                                <table class="project-details">
+                                    <tbody>
+                                    <tr>
+                                        <th>Created</th>
+                                        <td>{{ $project->created_at->format('M d, Y') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Location</th>
+                                        <td>{{ $project->location }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Team Members</th>
+                                        <td>{{ count($project->teamMembers) }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </a>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
             @else
                 <span class="page-error">There are currently no projects.</span>
             @endif

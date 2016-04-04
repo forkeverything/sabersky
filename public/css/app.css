@@ -6477,7 +6477,7 @@ button.close {
         text-align: right; }
     #registration-popup-overlay .popup-content #form-registration .shift-label-input {
       margin: 0 0 20px;
-      border: 1px solid #CDCFD2; }
+      border: 1px solid #E6E9EB; }
       #registration-popup-overlay .popup-content #form-registration .shift-label-input input {
         border: 0; }
       #registration-popup-overlay .popup-content #form-registration .shift-label-input.is-error {
@@ -6554,15 +6554,58 @@ button.close {
 #projects-all .button-start-project {
   margin-bottom: 30px; }
 
-#projects-all .project-list .project-single-link .project-single {
-  border: 2px solid #c7c7c7;
-  border-radius: 4px;
-  padding: 0 15px;
-  margin: 0 0 15px; }
-  #projects-all .project-list .project-single-link .project-single:hover {
-    background: #f2f2f2; }
-  #projects-all .project-list .project-single-link .project-single:last-child {
-    margin: 0; }
+#projects-all .page-body {
+  padding: 0; }
+  #projects-all .page-body .project-list .project-single {
+    border-bottom: 1px solid #c7c7c7;
+    padding: 15px 10px;
+    margin: 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    #projects-all .page-body .project-list .project-single:last-child {
+      border-bottom: none; }
+    #projects-all .page-body .project-list .project-single .left {
+      -webkit-flex: 1 0 70px;
+      -ms-flex: 1 0 70px;
+      flex: 1 0 70px;
+      max-width: 200px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      margin: 0 10px 0 0; }
+      #projects-all .page-body .project-list .project-single .left .project-thumbnail {
+        width: 70px;
+        text-align: center; }
+        #projects-all .page-body .project-list .project-single .left .project-thumbnail .project-placeholder {
+          font-size: 5em;
+          color: #ebeef0; }
+    #projects-all .page-body .project-list .project-single .right {
+      -webkit-flex: 1 0 200px;
+      -ms-flex: 1 0 200px;
+      flex: 1 0 200px; }
+      #projects-all .page-body .project-list .project-single .right .project-single-link .project-name {
+        font-size: 1em;
+        margin: 0 0 10px 0;
+        border-bottom: 1px solid #E6E9EB;
+        padding: 0 0 5px 0;
+        text-transform: capitalize; }
+      #projects-all .page-body .project-list .project-single .right .project-single-link:hover {
+        color: #3498DB; }
+      #projects-all .page-body .project-list .project-single .right .project-details {
+        font-size: 0.8em; }
+        #projects-all .page-body .project-list .project-single .right .project-details tr th {
+          color: #777777;
+          font-weight: normal;
+          padding: 0 10px 0 0; }
+        #projects-all .page-body .project-list .project-single .right .project-details tr td {
+          padding: 0 0 0 10px; }
 
 #project-single-view .project-header .project-status {
   padding: 5px 10px; }
@@ -6619,7 +6662,7 @@ button.close {
   color: #C0392B; }
 
 #purchase-requests-add .urgent-button {
-  border: 2px solid #CDCFD2;
+  border: 2px solid #E6E9EB;
   background: #D2D2D2;
   color: #777777;
   box-shadow: none; }
@@ -7376,6 +7419,31 @@ button.close {
       margin: 0 3px 0 0;
       font-size: 0.8em; }
 
+.power-table thead tr th {
+  font-weight: normal;
+  padding: 1.25em 0.5em;
+  border-bottom: 1px solid #E6E9EB; }
+  .power-table thead tr th.active {
+    background-color: #fff !important; }
+  .power-table thead tr th.active.asc:after, .power-table thead tr th.active.desc:after {
+    font-family: FontAwesome; }
+  .power-table thead tr th.active.asc:after {
+    content: "\f0d8";
+    margin-left: 5px; }
+  .power-table thead tr th.active.desc:after {
+    content: "\f0d7";
+    margin-left: 5px; }
+  .power-table thead tr th:hover {
+    color: #3498DB;
+    background: #EFF9FD !important; }
+
+.power-table tbody tr td {
+  border-bottom: 1px solid #E6E9EB;
+  padding: 0.75em 0.5em; }
+
+.power-table tbody tr:hover {
+  background: #EFF9FD; }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }
@@ -7408,6 +7476,9 @@ body {
 .page-intro {
   margin: 10px 0 0 0;
   color: #757575; }
+
+section {
+  margin: 0 0 30px 0; }
 
 a {
   color: initial; }
@@ -7442,7 +7513,7 @@ textarea {
   resize: none; }
 
 .datepicker {
-  border: 1px dashed #CDCFD2;
+  border: 1px dashed #E6E9EB;
   cursor: pointer;
   letter-spacing: 1px; }
   .datepicker:focus {

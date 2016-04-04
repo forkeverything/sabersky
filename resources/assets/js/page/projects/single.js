@@ -28,22 +28,11 @@ Vue.component('project-single', {
     },
     props: [],
     computed: {
-        tableData: function() {
-            var data = [];
-            _.forEach(this.teamMembers, function(member) {
-                var item;
-                var role =  _.pick(member.role, 'position');
-                var user = _.pick(member, ['name', 'email']);
-                console.log(_.merge(role, user));
-            });
-            return data;
-        }
     },
     methods: {
 
     },
     events: {
-
     },
     ready: function() {
         var self = this;

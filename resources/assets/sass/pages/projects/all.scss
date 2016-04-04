@@ -3,21 +3,71 @@
     margin-bottom: 30px;
   }
 
-  .project-list {
-    .project-single-link {
+  .page-body {
+    padding: 0;
 
+    .project-list {
       .project-single {
-        border: 2px solid #c7c7c7;
-        border-radius: 4px;
-        padding: 0 15px;
-        margin: 0 0 15px;
-
-        &:hover {
-          background: #f2f2f2;
-        }
+        border-bottom: 1px solid #c7c7c7;
+        padding: 15px 10px;
+        margin: 0;
+        display: flex;
 
         &:last-child {
-          margin: 0;
+          border-bottom: none;
+        }
+
+        .left {
+          flex: 1 0 70px;
+          max-width: 200px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 10px 0 0;
+
+          .project-thumbnail {
+            width: 70px;
+            text-align: center;
+
+            .project-placeholder {
+              font-size: 5em;
+              color: $body-background;
+            }
+          }
+        }
+
+        .right {
+          flex: 1 0 200px;
+
+          .project-single-link {
+            .project-name {
+              font-size: 1em;
+              margin: 0 0 10px 0;
+              border-bottom: 1px solid $border-light;
+              padding: 0 0 5px 0;
+              text-transform: capitalize;
+            }
+
+            &:hover {
+              color: $blue;
+            }
+          }
+
+          .project-details {
+            font-size: 0.8em;
+
+            tr {
+
+              th {
+                color: $text-muted;
+                font-weight: normal;
+                padding: 0 10px 0 0;
+              }
+              td {
+                padding: 0 0 0 10px;
+              }
+            }
+          }
         }
       }
     }

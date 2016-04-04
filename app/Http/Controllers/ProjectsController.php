@@ -38,7 +38,7 @@ class ProjectsController extends Controller
     public function getAll()
     {
         $breadcrumbs = [
-            ['<i class="fa fa-flash"></i> Project', '#']
+            ['<i class="fa fa-flash"></i> Projects', '#']
         ];
         return view('projects.all', compact('breadcrumbs'))->with('company', $this->company);
     }
@@ -53,7 +53,7 @@ class ProjectsController extends Controller
     {
         if (Gate::allows('project_manage')) {
             $breadcrumbs = [
-                ['<i class="fa fa-flash"></i> Project', '/projects'],
+                ['<i class="fa fa-flash"></i> Projects', '/projects'],
                 ['Start New', '#']
             ];
             return view('projects.start', compact('breadcrumbs'));
@@ -84,7 +84,7 @@ class ProjectsController extends Controller
     public function getSingle(Project $project)
     {
         $breadcrumbs = [
-            ['<i class="fa fa-flash"></i> Project', '/projects'],
+            ['<i class="fa fa-flash"></i> Projects', '/projects'],
             [$project->name, '#']
         ];
         if (Gate::allows('view', $project)) return view('projects.single', compact('project', 'breadcrumbs'));
@@ -114,11 +114,13 @@ class ProjectsController extends Controller
     public function getAddTeamMember(Project $project)
     {
         $breadcrumbs = [
-            ['<i class="fa fa-flash"></i> Project', '/projects'],
+            ['<i class="fa fa-flash"></i> Projects', '/projects'],
             [$project->name, '/projects/' . $project->id],
             ['Add Team Member', '#'],
         ];
-        if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'breadcrumbs'));
+
+        $roles = $this->company->roles;
+        if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'roles', 'breadcrumbs'));
         return redirect('/projects');
     }
 

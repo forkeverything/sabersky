@@ -29,7 +29,7 @@
                         @endcan
                     </div>
                     <div class="table-team">
-                        <power-table :headers="tableHeaders" :data="teamMembers" :sort="true"></power-table>
+                        <power-table :headers="tableHeaders" :data="teamMembers" :sort="true" :hover="true"></power-table>
                     </div>
                 </section>
             </div>

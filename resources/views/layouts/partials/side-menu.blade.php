@@ -12,7 +12,7 @@
         <ul class="side-menu-links">
             <li class="single-list-item">
                 <a class="dashboard-link" href="/projects">
-                    <i class="fa fa-flash icon-dashboard"></i>Projects & Teams
+                    <i class="fa fa-flash icon-dashboard"></i>Projects
                 </a>
             </li>
             <li class="single-list-item">
