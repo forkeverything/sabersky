@@ -28,7 +28,9 @@
                         </a>
                         @endcan
                     </div>
-                    <power-table :headers="tableHeaders" :data="teamMembers"></power-table>
+                    <div class="table-team">
+                        <power-table :headers="tableHeaders" :data="teamMembers" :sort="true"></power-table>
+                    </div>
                 </section>
             </div>
         </div>

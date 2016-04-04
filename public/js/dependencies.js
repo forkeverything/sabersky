@@ -716,17 +716,21 @@ Vue.component('modal', {
 Vue.component('power-table', {
     name: 'powerTable',
     template: '<div class="table-responsive">' +
-    '<table class="table table-hover table-sort power-table">' +
+    '<table class="table power-table"' +
+    '       :class="{' +
+    "           'table-hover': hover" +
+    '       }"' +
+    '>' +
     '<thead>' +
     '<tr>' +
     '<template v-for="header in headers">' +
     '<th v-if="header.sort"' +
     '    @click="changeSort(header.sort)"' +
-    '    class="clickable"' +
     '    :class="{' +
     "       'active': sortField === header.sort," +
-    "       'asc'   : sortOrder === 1," +
-    "       'desc'  : sortOrder === -1" +
+    "       'asc'   : sortAsc === true," +
+    "       'desc'  : sortAsc === false," +
+    "       'clickable'  : sort" +
     '    }"' +
     '>' +
     '{{ header.label }}' +
@@ -739,7 +743,7 @@ Vue.component('power-table', {
     '</thead>' +
     '<tbody>' +
     '<template' +
-    '   v-for="item in data | orderBy sortField sortOrder"' +
+    '   v-for="item in data | orderBy sortField sortAsc"' +
     '>' +
     '<tr>' +
     '<td v-for="header in headers"> {{ parseItemValue(header, item) }}</td>' +
@@ -753,13 +757,15 @@ Vue.component('power-table', {
     data: function() {
         return {
             sortField: '',
-            sortOrder: 1
+            sortAsc: true
         };
     },
     props: [
         'headers',
         'data',
-        'filter'    // TO DO ::: Hook up way to filter data
+        'filter',    // TO DO ::: Hook up way to filter data
+        'sort',
+        'hover'     // Set table-hover class
     ],
     computed: {
 
@@ -771,6 +777,16 @@ Vue.component('power-table', {
                 value = (key === 0) ? item[path] : value[path];
             });
             return value;
+        },
+        changeSort: function(field) {
+            if(! this.sort) return;
+
+            if(this.sortField === field) {
+                this.sortAsc = !this.sortAsc;
+            } else {
+                this.sortField = field;
+                this.sortAsc = true;
+            }
         }
     },
     events: {

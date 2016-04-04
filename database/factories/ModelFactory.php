@@ -34,7 +34,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
         'password' => bcrypt('password'),
         'remember_token' => str_random(10),
-        'company_id' => 1,
+        'company_id' => factory(Company::class)->create()->id,
         'role_id' => factory(App\Role::class)->create()->id
     ];
 });

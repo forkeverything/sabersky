@@ -6589,6 +6589,12 @@ button.close {
   #project-single-view .team-members .team-header h5 {
     margin: 0; }
 
+#project-single-view .team-members .table-team .table tbody tr td:nth-child(2) {
+  text-transform: capitalize; }
+
+#project-single-view .team-members .table-team .table tbody tr td:nth-child(3) {
+  text-transform: lowercase; }
+
 #projects-team-add .panel {
   margin: 20px 0 0 0; }
   #projects-team-add .panel section {

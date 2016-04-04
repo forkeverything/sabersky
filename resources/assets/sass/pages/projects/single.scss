@@ -32,5 +32,28 @@
       }
     }
 
+    .table-team {
+
+      .table {
+
+        tbody {
+
+          tr {
+
+            td {
+
+              &:nth-child(2) {
+                text-transform: capitalize;
+              }
+
+              &:nth-child(3) {
+                text-transform: lowercase;
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 }
