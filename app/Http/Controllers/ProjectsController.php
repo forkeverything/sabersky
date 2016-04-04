@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveTeamMemberRequest;
 use App\Http\Requests\StartProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Mailers\UserMailer;
 use App\Project;
 use App\Role;
@@ -41,6 +42,18 @@ class ProjectsController extends Controller
             ['<i class="fa fa-flash"></i> Projects', '#']
         ];
         return view('projects.all', compact('breadcrumbs'))->with('company', $this->company);
+    }
+
+
+    /**
+     * Returns all the Projects that the
+     * Users's company is performing.
+     *
+     * @return mixed
+     */
+    public function apiGetAll()
+    {
+        return $this->company->projects->load('teamMembers');
     }
 
     /**
@@ -100,8 +113,9 @@ class ProjectsController extends Controller
      */
     public function apiGetTeamMembers(Project $project)
     {
-        if (Gate::allows('view', $project)) return $project->teamMembers->load('role');
-        return response("You are not allowed to view this Project", 403);
+        $this->checkProjectAuthorization($project);
+//        if (! Gate::allows('view', $project))  return response("You are not authorized to edit that project", 403);
+        return $project->teamMembers->load('role');
     }
 
     /**
@@ -129,7 +143,7 @@ class ProjectsController extends Controller
      * Handles POST request to either add an
      * existing user to a project or make
      * and send invitation to new user
-     * 
+     *
      * @param Project $project
      * @param SaveTeamMemberRequest $request
      * @param UserMailer $userMailer
@@ -171,5 +185,66 @@ class ProjectsController extends Controller
             return redirect(route('singleProject', [$project->id]));
         }
     }
+
+    /**
+     * Show client the form to edit
+     * a Project
+     *
+     * @param Project $project
+     * @return mixed
+     */
+    public function getEditForm(Project $project)
+    {
+        if (!Gate::allows('view', $project)) return response("You are not authorized to edit that project", 403);
+        $breadcrumbs = [
+            ['<i class="fa fa-flash"></i> Projects', '/projects'],
+            [$project->name, '/projects/' . $project->id],
+            ['Edit', '#'],
+        ];
+        return view('projects.edit', compact('project', 'breadcrumbs'));
+    }
+
+    /**
+     * POST request to update a Project
+     *
+     * @param UpdateProjectRequest $request
+     * @param $projectId
+     * @return mixed
+     */
+    public function postUpdateProject(UpdateProjectRequest $request, $projectId)
+    {
+        Project::find($projectId)->update($request->all());
+        flash()->success('Updated Project details');
+        return redirect()->back();
+    }
+
+    /**
+     * Delete request to remove Project
+     *
+     * @param Project $project
+     * @return string
+     * @throws \Exception
+     */
+    public function apiDelete(Project $project)
+    {
+        $this->checkProjectAuthorization($project);
+        if($project->delete()) return 'Successfully deleted Project';
+        return response("Error: Could not delete Project", 500);
+    }
+
+    /**
+     * Check is user is authorized to view a Project.
+     *
+     * @param $project
+     * @return bool
+     */
+    protected function checkProjectAuthorization($project)
+    {
+        if (! Gate::allows('view', $project))  abort(403, "You are not authorized to edit that project");
+        return true;
+    }
+    
+    
+    
 
 }

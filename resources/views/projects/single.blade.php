@@ -28,9 +28,10 @@
                         </a>
                         @endcan
                     </div>
-                    <div class="table-team">
+                    <div class="table-team" v-if="teamMembers.length > 0">
                         <power-table :headers="tableHeaders" :data="teamMembers" :sort="true" :hover="true"></power-table>
                     </div>
+                    <p class="text-muted text-center" v-else><em>No team members currently working on this Project</em></p>
                 </section>
             </div>
         </div>

@@ -46,17 +46,135 @@
         .right {
           flex: 1 0 200px;
 
-          .project-single-link {
-            .project-name {
-              font-size: 1em;
-              margin: 0 0 10px 0;
-              border-bottom: 1px solid $border-light;
-              padding: 0 0 5px 0;
-              text-transform: capitalize;
+          .header {
+            margin: 0 0 10px 0;
+            border-bottom: 1px solid $border-light;
+            padding: 0 0 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .project-single-link {
+              display: inline-block;
+
+              .project-name {
+                font-size: 1em;
+                text-transform: capitalize;
+                margin: 0;
+              }
+
+              &:hover {
+                color: $blue;
+              }
             }
 
-            &:hover {
-              color: $blue;
+            .project-actions {
+              position: relative;
+
+              .button-project-dropdown {
+                background: transparent;
+                border: 0;
+                color: $border-dark;
+                margin: 0 10px 0 0;
+
+                &.active {
+
+                  i {
+                    -webkit-transform: rotate(90deg);
+                    -moz-transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                    -o-transform: rotate(90deg);
+                    transform: rotate(90deg);
+                  }
+                }
+
+                i {
+                  -webkit-transition: transform 0.1s;
+                  -moz-transition: transform 0.1s;
+                  -ms-transition: transform 0.1s;
+                  -o-transition: transform 0.1s;
+                  transition: transform 0.1s;
+                }
+              }
+            }
+          }
+
+          .project-popup {
+            display: none;
+            position: absolute;
+            background: #fff;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            padding: 0.5em;
+            top: calc(100% + 10px);
+            right: 0;
+            border: 1px solid $border-light;
+
+            .caret-up {
+              clip: rect(-7px 20px 7px -3px);
+              right: 0;
+              top: 0;
+              opacity: 1;
+              position: absolute;
+              -webkit-transform: translateX(-50%) translateY(-50%);
+              -moz-transform: translateX(-50%) translateY(-50%);
+              -ms-transform: translateX(-50%) translateY(-50%);
+              -o-transform: translateX(-50%) translateY(-50%);
+              transform: translateX(-50%) translateY(-50%);
+              -webkit-transition: opacity 250ms;
+              -moz-transition: opacity 250ms;
+              transition: opacity 250ms;
+
+              &:before {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                background: #fff;
+                border: 1px solid $border-light;
+                content: "";
+                display: block;
+                height: 14px;
+                -webkit-transform: rotate(45deg);
+                -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                transform: rotate(45deg);
+                width: 14px;
+              }
+            }
+
+            ul {
+              margin: 0;
+
+              li {
+                color: $midnight-light;
+                cursor: pointer;
+                padding: 0 1em;
+                margin: 0 0 0.5em 0;
+
+                &:last-child  {
+                  margin: 0;
+                }
+
+                i {
+                  margin: 0 3px 0 0;
+                }
+
+                a {
+                  &:hover {
+                    color: $black;
+                    text-decoration: underline;
+
+                    &.danger {
+                      color: $red;
+                    }
+                  }
+                }
+              }
             }
           }
 

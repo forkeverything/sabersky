@@ -54,13 +54,17 @@ Route::group(['middleware' => 'web'], function () {
      * Project - Main
      */
     Route::get('/projects', ['as' => 'allProjects', 'uses' => 'ProjectsController@getAll']);
+    Route::get('/api/projects', 'ProjectsController@apiGetAll');
     Route::get('/projects/start', 'ProjectsController@getNewProjectForm');
     Route::post('/projects/start', ['as' => 'startProject', 'uses' => 'ProjectsController@postStartProject']);
     Route::get('/projects/{project}', ['as' => 'singleProject', 'uses' => 'ProjectsController@getSingle']);
+    Route::get('/projects/{project}/edit', 'ProjectsController@getEditForm');
+    Route::post('/projects/{project}/edit', ['as' => 'updateProject', 'uses' => 'ProjectsController@postUpdateProject']);
 
     /**
      * Project - Team Management
      */
+    Route::delete('/api/projects/{project}', 'ProjectsController@apiDelete');
     Route::get('/api/projects/{project}/team', 'ProjectsController@apiGetTeamMembers');
     Route::get('/projects/{project}/team/add', ['as' => 'addTeamMember', 'uses' => 'ProjectsController@getAddTeamMember']);
     Route::post('/projects/{project}/team/add', ['as' => 'saveTeamMember', 'uses' => 'ProjectsController@postSaveTeamMember']);
