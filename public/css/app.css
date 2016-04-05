@@ -7358,7 +7358,7 @@ button.close {
     border-top: 0;
     padding: 20px 15px; }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .button-show-side-menu {
     display: none; } }
 
@@ -7458,7 +7458,7 @@ button.close {
     #side-menu .meta-links:hover {
       color: #fff;
       border-bottom: 1px solid #fff; }
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 992px) {
     #side-menu {
       display: block !important; } }
 
@@ -7751,15 +7751,15 @@ li.active {
     width: 520px; } }
 
 @media screen and (min-width: 992px) {
-  .with-menu .container {
+  .container {
     width: 740px; } }
 
 @media screen and (min-width: 1200px) {
-  .with-menu .container {
+  .container {
     width: 940px; } }
 
 @media screen and (min-width: 1430px) {
-  .with-menu .container {
+  .container {
     width: 1170px; } }
 
 [v-cloak] {

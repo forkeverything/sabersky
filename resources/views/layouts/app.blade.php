@@ -27,7 +27,9 @@
     @if(Auth::user())
         @include('layouts.partials.side-menu')
         <div id="body-content"
-             class="with-menu"
+             :class="{
+             'with-menu': showingMenu
+             }"
             @click="hideOverlays"
         >
         @include('layouts.partials.nav')
