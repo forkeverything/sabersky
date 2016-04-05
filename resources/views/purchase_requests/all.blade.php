@@ -2,19 +2,14 @@
 @section('content')
     <purchase-requests-all inline-template>
         <div class="container" id="purchase-requests-all">
-            <a href="{{ route('dashboard') }}" class="back-link no-print"><i class="fa  fa-arrow-left fa-btn"></i>Back
-                to
-                Dashboard</a>
-            <div class="page-header">
-                <h1 class="page-title">Purchase Requests</h1>
-                <p class="page-intro">This is where you can find purchase requests made by Engineers / Planners.</p>
-            </div>
-            <div class="page-body">
-                @can('pr_make')
+            @can('pr_make')
+            <section class="page-top children-right">
                 <a href="{{ route('makePurchaseRequest') }}">
                     <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
                 </a>
-                @endcan
+            </section>
+            @endcan
+            <div class="page-body">
                 <div class="purchase-request-filters table-filters">
                     <ul class="list-unstyled list-inline">
                         <li class="clickable"

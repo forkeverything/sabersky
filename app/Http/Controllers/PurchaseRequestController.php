@@ -33,16 +33,20 @@ class PurchaseRequestController extends Controller
      */
     public function getAll()
     {
-        return view('purchase_requests.all')->with('purchaseRequests', $this->purchaseRequests);
+        $breadcrumbs = [
+            ['<i class="fa fa-shopping-basket"></i> Purchase Requests', '#']
+        ];
+        return view('purchase_requests.all', compact('breadcrumbs'))->with('purchaseRequests', $this->purchaseRequests);
     }
 
     /**
-     * GET Purchase Requests in
-     * JSON
+     * GET All PRs that belongs to the Users
+     * Company
+     *
      * @param Request $request
      * @return mixed
      */
-    public function apiAll(Request $request)
+    public function apiGetAll(Request $request)
     {
         if ($request->ajax()) {
             return $this->purchaseRequests;
