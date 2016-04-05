@@ -136,8 +136,27 @@ class Company extends Model
         return $this->projects()->first()->company;
     }
 
+    /**
+     * A Company has many Roles that it's
+     * staff can take
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function roles() {
         return $this->hasMany(Role::class);
+    }
+
+    /**
+     * Returns all Company's roles, removing
+     * Admin
+     * 
+     * @return static
+     */
+    public function getRolesNotAdmin()
+    {
+        return $this->roles->reject(function($role) {
+            return $role->position === 'admin';
+        });
     }
 
     /**

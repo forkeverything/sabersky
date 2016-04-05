@@ -9,39 +9,44 @@
                 <span class="navbar-name">SaberSky</span>
             </a>
         </div>
-        <ul class="side-menu-links">
+        <ul class="nav-links">
             <li class="single-list-item">
-                <a class="dashboard-link" href="/projects">
+                <a href="/projects">
                     <i class="fa fa-flash icon-dashboard"></i>Projects
                 </a>
             </li>
             <li class="single-list-item">
-                <a class="dashboard-link" href="/purchase_requests">
+                <a href="/team">
+                    <i class="fa fa-users"></i>Team
+                </a>
+            </li>
+            <li class="single-list-item">
+                <a href="/purchase_requests">
                     <i class="fa fa-shopping-basket icon-dashboard"></i>
                     Purchase Requests
                 </a>
             </li>
             <li class="single-list-item">
-                <a class="dashboard-link" href="/vendors">
+                <a href="/vendors">
                     <i class="fa fa-truck icon-dashboard"></i>
                     Vendors
                 </a>
             </li>
             <li class="single-list-item">
-                <a class="dashboard-link" href="/items">
+                <a href="/items">
                     <i class="fa fa-legal icon-dashboard"></i>
                     Items
                 </a>
             </li>
             <li class="single-list-item">
-                <a class="dashboard-link" href="/purchase_orders">
+                <a href="/purchase_orders">
                     <i class="fa fa-clipboard icon-dashboard"></i>
                     Purchase Orders
                 </a>
             </li>
             @can('report_view')
             <li class="single-list-item">
-                <a class="dashboard-link" href="/reports">
+                <a href="/reports">
                     <i class="fa fa-bar-chart icon-dashboard"></i>
                     Reports
                 </a>
@@ -49,7 +54,7 @@
             @endcan
             @can('settings_change')
             <li class="single-list-item">
-                <a class="dashboard-link" href="/settings">
+                <a href="/settings">
                     <i class="fa fa-gears icon-dashboard"></i>
                     Settings
                 </a>

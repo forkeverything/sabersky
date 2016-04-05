@@ -139,6 +139,7 @@
           overflow: hidden;
           word-wrap: break-word;
           white-space: normal;
+          width: 100%;
         }
       }
 
@@ -179,6 +180,15 @@
           text-align: center;
           vertical-align: middle;
           width: 50px;
+
+          &.admin-permission {
+            &:hover {
+              i {
+                color: $blue;
+                display: inline-block;
+              }
+            }
+          }
         }
 
         .permission {

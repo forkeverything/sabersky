@@ -751,7 +751,7 @@ Vue.component('power-table', {
     '    :class="{' +
     "       'clickable': header.click === true" +
     '    }"' +
-    '> {{ parseItemValue(header, item) }}</td>' +
+    '> {{{ parseItemValue(header, item) }}}</td>' +
     '</tr>' +
     '' +
     '</template>' +

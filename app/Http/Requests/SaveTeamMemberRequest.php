@@ -36,11 +36,11 @@ class SaveTeamMemberRequest extends Request
     public function messages()
     {
         return [
-            'existing_user_id.required_without_all' => 'Please select an existing user or add a new one.',
-            'name.required_with' => 'Name is required.',
-            'email.required_with' => 'Email is required.',
-            'email.unique' => 'That user has already joined.',
-            'role_id.required_with' => 'New team members need a role.'
+            'existing_user_id.required_without_all' => 'Please select an existing user or add a new one',
+            'name.required_with' => 'Name is required',
+            'email.required_with' => 'Email is required',
+            'email.unique' => 'That user has already joined',
+            'role_id.required_with' => 'New team members need a role'
         ];
     }
 }

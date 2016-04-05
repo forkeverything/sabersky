@@ -6,7 +6,7 @@
             @can('project_manage')
             <div class="top">
                 <a class="link-new-project" href="/projects/start">
-                    <button class="btn btn-outline-green button-start-project">New Project</button>
+                    <button class="btn btn-solid-green button-start-project">New Project</button>
                 </a>
             </div>
             @endcan

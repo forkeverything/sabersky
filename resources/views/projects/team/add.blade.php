@@ -22,23 +22,7 @@
                     </section>
                     <section class="add-new-user">
                         <h5>New User</h5>
-                        <div class="form-group">
-                            <label for="field-new-user-name">Name</label>
-                            <input type="text" id="field-new-user-name" name="name" value="{{ old('name') }}"
-                                   class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="field-new-user-email">Email</label>
-                            <input type="text" id="field-new-user-email" name="email" value="{{ old('email') }}"
-                                   class="form-control">
-                        </div>
-                        <label for="field-new-user-role">Role</label>
-                        <select name="role_id" id="field-new-user-role" class="form-control" v-selectize>
-                            <option disabled selected value="">Choose a position</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ ucwords($role->position) }}</option>
-                            @endforeach
-                        </select>
+                        @include('team.partials.new-user-fields')
                     </section>
                 </div>
                 <div class="bottom">

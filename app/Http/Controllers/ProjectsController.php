@@ -133,7 +133,7 @@ class ProjectsController extends Controller
             ['Add Team Member', '#'],
         ];
 
-        $roles = $this->company->roles;
+        $roles = $this->company->getRolesNotAdmin();
         if (Gate::allows('team_manage') && Gate::allows('view', $project)) return view('projects.team.add', compact('project', 'roles', 'breadcrumbs'));
         return redirect('/projects');
     }
@@ -161,27 +161,26 @@ class ProjectsController extends Controller
 
             if (Gate::allows('edit', $user)) {
                 $project->addTeamMember($user);
-                flash()->success('Added a new Team Member to the project');
+                flash()->success('Added Team Member to the Project');
                 return redirect(route('singleProject', [$project->id]));
             }
 
             abort(403, 'You are unauthorized to change that user');
         } else {
-            // Inviting new user
-            $inviteKey = str_random(13);    // create random key
-            $user = User::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'role_id' => $request->input('role_id'),
-                'invite_key' => $inviteKey
-            ]);
 
+            $role = Role::Find($request->input('role_id'));
+            if(! Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
+
+            // Make a new User
+            $user = User::make($request->input('name'), $request->input('email'), null, $request->input('role_id'), true);
+            // Add to company
             $this->company->addEmployee($user);
+            // Add to Project
             $project->addTeamMember($user);
+            // Send Invite
             $userMailer->sendNewUserInvitation($user);
 
-            // Flash some success notification
-            flash()->success('Sent sign-up invitation to new member');
+            flash()->success('Sent invitation to join Project');
             return redirect(route('singleProject', [$project->id]));
         }
     }
@@ -243,8 +242,8 @@ class ProjectsController extends Controller
         if (! Gate::allows('view', $project))  abort(403, "You are not authorized to edit that project");
         return true;
     }
-    
-    
-    
+
+
+
 
 }

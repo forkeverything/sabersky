@@ -50,12 +50,16 @@ class User extends Authenticatable
      * @param $password
      * @return static
      */
-    public static function make($name, $email, $password)
+    public static function make($name, $email, $password = null, $roleId = null, $makeInviteKey = false)
     {
+        $inviteKey = ($makeInviteKey) ? str_random(13) : null;
+        $password = $password ? bcrypt($password) : null;
         return static::create([
             'name' => $name,
             'email' => $email,
-            'password' => bcrypt($password)
+            'password' => $password,
+            'role_id' => $roleId,
+            'invite_key' => $inviteKey
         ]);
     }
 
@@ -89,17 +93,6 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
-    /**
-     * Assign a role to a user.
-     *
-     * @param $role
-     */
-    public function assignRole($role)
-    {
-        $this->role()->save(
-            Role::wherePosition($role)->firstOrFail()
-        );
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -121,15 +114,55 @@ class User extends Authenticatable
         return self::whereInviteKey($inviteKey)->first();
     }
 
+    /**
+     * A User can create many POs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function purchaseOrders()
     {
         return $this->hasMany(PurchaseOrder::class);
     }
 
-    public function setRole($role) {
+    /**
+     * Wrapper that sets a User's
+     * Role to the one given.
+     *
+     * @param $role
+     * @return $this
+     */
+    public function setRole(Role $role) {
         $this->role_id = $role->id;
         $this->save();
         return $this;
     }
+
+    /**
+     * Takes a string and sets it
+     * as the new Password
+     *
+     * @param $newPassword
+     * @return $this
+     */
+    public function setPassword($newPassword)
+    {
+        if(! is_string($newPassword)) abort(500, "Password must be string");
+        $this->password = bcrypt($newPassword);
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * Clears the invite-key field.
+     * 
+     * @return $this
+     */
+    public function clearInviteKey()
+    {
+        $this->invite_key = null;
+        $this->save();
+        return $this;
+    }
+
 
 }

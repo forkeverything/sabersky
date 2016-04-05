@@ -89,18 +89,23 @@
                     @foreach($permissions as $permission)
                         <tr class="role-row changeable">
                             <td class="permission">{{ $permission->label }}</td>
-                            <td v-if="hasPermission({{ $permission }}, selectedRole)"
-                                class="clickable td-has-permission"
-                            @click="removePermission({{ $permission }}, selectedRole)"
-                            >
-                            <i class="fa fa-circle"></i>
-                            <i class="fa fa-close"></i>
-                            </td>
-                            <td v-else
-                                class="clickable td-no-permission"
-                            @click="givePermission({{ $permission }}, selectedRole)"
-                            >
-                            <i class="fa fa-circle"></i>
+                            <template v-if="selectedRole.position !== 'admin'">
+                                <td v-if="hasPermission({{ $permission }}, selectedRole)"
+                                    class="clickable td-has-permission"
+                                @click="removePermission({{ $permission }}, selectedRole)"
+                                >
+                                <i class="fa fa-circle"></i>
+                                <i class="fa fa-close"></i>
+                                </td>
+                                <td v-else
+                                    class="clickable td-no-permission"
+                                @click="givePermission({{ $permission }}, selectedRole)"
+                                >
+                                <i class="fa fa-circle"></i>
+                                </td>
+                            </template>
+                            <td class="td-has-permission admin-permission" v-else>
+                                <i class="fa fa-circle"></i>
                             </td>
                         </tr>
                     @endforeach

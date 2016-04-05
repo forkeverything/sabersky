@@ -13,6 +13,7 @@
 @import "pages/purchase-orders";
 @import "pages/line-items";
 @import "pages/vendors";
+@import "pages/teams";
 @import "partials/notifications";
 @import "partials/fileinput";
 @import "partials/photogallery";
@@ -23,6 +24,7 @@
 @import "partials/side-menu";
 @import "partials/forms/validation";
 @import "partials/tables";
+@import "partials/badges";
 
 body {
   font-family: 'helvetica';
@@ -70,6 +72,12 @@ body {
 
 section {
   margin: 0 0 30px 0;
+}
+
+.children-right {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
 }
 
 a {

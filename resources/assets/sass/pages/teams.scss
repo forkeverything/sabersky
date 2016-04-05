@@ -1,0 +1,23 @@
+#team-all {
+
+  .table-employees {
+
+    tbody {
+      td:nth-child(2) {
+        text-transform: capitalize;
+      }
+      td:nth-child(3) {
+        text-transform: lowercase;
+      }
+      
+      td {
+        vertical-align: middle;
+
+        .badge {
+          width: 100px;
+          padding: 10px 10px;
+        }
+      }
+    }
+  }
+}

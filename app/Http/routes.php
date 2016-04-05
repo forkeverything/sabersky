@@ -72,10 +72,14 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * User
      */
-    Route::get('/accept_invitation/{invite_key}', 'UsersController@showInvitation');
-    Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@acceptInvitation']);
+    Route::get('/accept_invitation/{invite_key}', 'UsersController@getAcceptView');
+    Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@postAcceptInvitation']);
     Route::get('/api/me', 'UsersController@apiGetLoggedUser');
     Route::get('/api/user/email/{email}/check', 'UsersController@getCheckEmailAvailability');
+    Route::get('/team', 'UsersController@getTeam');
+    Route::get('/api/team', 'UsersController@apiGetTeam');
+    Route::get('/team/add', 'UsersController@getAddStaffForm');
+    Route::post('/team/add', 'UsersController@postSaveStaff');
 
     /**
      * Purchase Requests
@@ -125,12 +129,12 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Roles
      */
-    Route::get('/api/roles', 'RolesController@getRoles');
+    Route::get('/api/roles', 'RolesController@apiGetRoles');
     Route::post('/api/roles', 'RolesController@postNewRole');
-    Route::post('/api/roles/delete', 'RolesController@removeRole');
+    Route::post('/api/roles/delete', 'RolesController@postRemoveRole');
     Route::post('/api/roles/remove_permission', 'RolesController@postRemovePermission');
     Route::post('/api/roles/give_permission', 'RolesController@postGivePermission');
-    Route::put('/api/roles/{role}', 'RolesController@update');
+    Route::put('/api/roles/{role}', 'RolesController@putUpdatePosition');
 
     /**
      * Rules
