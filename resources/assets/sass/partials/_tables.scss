@@ -40,6 +40,15 @@
       td {
         border-bottom: 1px solid $border-light;
         padding: 0.75em 0.5em;
+
+        a {
+          border-bottom: 1px dotted $black;
+
+          &:hover {
+            color: $blue;
+            border-bottom: 1px solid $blue;
+          }
+        }
       }
 
       &:hover {

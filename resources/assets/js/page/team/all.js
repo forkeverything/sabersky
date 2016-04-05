@@ -48,6 +48,7 @@ Vue.component('team-all', {
             success: function(data) {
                // success
                self.employees = _.map(data, function(staff) {
+                   staff.name = '<a href="/team/user/' + staff.id + '">' + staff.name + '</a>';
                    staff.status = staff.invite_key ? '<span class="badge badge-warning">Pending</span>' : '<span class="badge badge-success">Confirmed</span>';
                    return staff;
                });

@@ -6146,6 +6146,12 @@ button.close {
 .no-outline:hover, .no-outline:active, .no-outline:focus {
   box-shadow: none !important; }
 
+.button-dotted {
+  border-bottom: 1px dotted #353535; }
+  .button-dotted:hover, .button-dotted:active, .button-dotted:focus {
+    color: #3498DB;
+    border-bottom: 1px solid #3498DB; }
+
 #top-nav {
   border-radius: 0; }
 
@@ -6972,6 +6978,38 @@ button.close {
     width: 100px;
     padding: 10px 10px; }
 
+#team-single-user .button-delete-user i {
+  font-size: 1.2em;
+  margin: 0 5px 0 0; }
+
+#team-single-user .table-user-details {
+  min-height: 250px; }
+  #team-single-user .table-user-details th, #team-single-user .table-user-details td {
+    vertical-align: middle; }
+  #team-single-user .table-user-details th {
+    width: 75px;
+    font-weight: normal; }
+  #team-single-user .table-user-details ul {
+    margin: 0; }
+  #team-single-user .table-user-details .form-change-role {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    #team-single-user .table-user-details .form-change-role .bootstrap-select {
+      margin: 0 10px 0 0;
+      -webkit-flex: 0 1 220px;
+      -ms-flex: 0 1 220px;
+      flex: 0 1 220px;
+      width: initial; }
+      #team-single-user .table-user-details .form-change-role .bootstrap-select .filter-option {
+        text-transform: capitalize; }
+      #team-single-user .table-user-details .form-change-role .bootstrap-select .dropdown-menu {
+        max-height: 150px !important; }
+        #team-single-user .table-user-details .form-change-role .bootstrap-select .dropdown-menu li {
+          text-transform: capitalize; }
+    #team-single-user .table-user-details .form-change-role .button-change-role {
+      height: 34px; }
+
 #noty_bottomCenter_layout_container {
   width: 100% !important;
   left: 0 !important;
@@ -7502,6 +7540,11 @@ button.close {
 .power-table tbody tr td {
   border-bottom: 1px solid #E6E9EB;
   padding: 0.75em 0.5em; }
+  .power-table tbody tr td a {
+    border-bottom: 1px dotted #353535; }
+    .power-table tbody tr td a:hover {
+      color: #3498DB;
+      border-bottom: 1px solid #3498DB; }
 
 .power-table tbody tr:hover {
   background: #EFF9FD; }
@@ -7752,15 +7795,15 @@ li.active {
 
 @media screen and (min-width: 992px) {
   .container {
-    width: 740px; } }
+    width: 740px !important; } }
 
 @media screen and (min-width: 1200px) {
   .container {
-    width: 940px; } }
+    width: 940px !important; } }
 
 @media screen and (min-width: 1430px) {
   .container {
-    width: 1170px; } }
+    width: 1170px !important; } }
 
 [v-cloak] {
   display: none !important; }

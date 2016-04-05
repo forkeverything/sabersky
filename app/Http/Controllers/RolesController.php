@@ -57,6 +57,7 @@ class RolesController extends Controller
     {
         $role = Role::findOrFail($request->input('role')['id']);
         if($role->position === 'admin') abort(403, 'Not allowed to delete admin!');
+        if(count($role->users)) abort(406, "Cannot remove Role that still has active Users");
         $role->delete();
         return response("Succesfully removed role.", 201);
     }
@@ -90,7 +91,7 @@ class RolesController extends Controller
     /**
      * PUT Request to update a Role's
      * position
-     * 
+     *
      * @param Role $role
      * @param ModifyRolesRequest $request
      * @return $this

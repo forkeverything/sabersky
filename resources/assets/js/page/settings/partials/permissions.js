@@ -102,8 +102,8 @@ Vue.component('settings-permissions', {
                     self.ajaxReady = true;
                 },
                 error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
+                    console.log('Error removing Role');
+                    if(response.status === 406) flashNotify('error', 'Can not remove Role with assigned Staff');
                     self.ajaxReady = true;
                 }
             });

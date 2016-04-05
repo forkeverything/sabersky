@@ -80,6 +80,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/team', 'UsersController@apiGetTeam');
     Route::get('/team/add', 'UsersController@getAddStaffForm');
     Route::post('/team/add', 'UsersController@postSaveStaff');
+    Route::get('/team/user/{user}', 'UsersController@getSingleUser');
+    Route::put('/team/user/{user}/role', 'UsersController@putChangeRole');
+    Route::delete('/team/user/{user}', 'UsersController@deleteUser');
 
     /**
      * Purchase Requests

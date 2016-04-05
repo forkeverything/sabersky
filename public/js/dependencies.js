@@ -537,7 +537,7 @@ Vue.directive('selectoption', {
     twoWay: true,
     bind: function () {
         Vue.nextTick(function () {
-            $('.bootstrap-select-el').trigger("option:loaded");
+            $('.    bootstrap-select-el').trigger("option:loaded");
         });
     }
 });

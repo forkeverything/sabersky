@@ -42,6 +42,18 @@ class User extends Authenticatable
     ];
 
     /**
+     * If User has an invite_key we assume
+     * that they have NOT accepted the
+     * invitation and is 'pending'
+     * @return string
+     */
+    public function isPending()
+    {
+        return $this->invite_key;
+    }
+
+
+    /**
      * Makes a new User from name(string),
      * email(string) & password(string)
      *
@@ -154,7 +166,7 @@ class User extends Authenticatable
 
     /**
      * Clears the invite-key field.
-     * 
+     *
      * @return $this
      */
     public function clearInviteKey()

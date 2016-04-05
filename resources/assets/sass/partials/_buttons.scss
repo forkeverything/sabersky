@@ -316,3 +316,12 @@
     box-shadow: none !important;
   }
 }
+
+.button-dotted {
+  border-bottom: 1px dotted $black;
+
+  &:hover, &:active, &:focus {
+    color: $blue;
+    border-bottom: 1px solid $blue;
+  }
+}

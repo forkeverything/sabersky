@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AcceptInvitationRequest;
 use App\Http\Requests\AddStaffRequest;
+use App\Http\Requests\ChangeUserRoleRequest;
 use App\Mailers\UserMailer;
 use App\Role;
 use App\User;
@@ -120,10 +121,22 @@ class UsersController extends Controller
     public function getAddStaffForm()
     {
         if(! Gate::allows('team_manage')) abort(403, "Not authorized to add Staff");
+        $breadcrumbs = [
+            ['<i class="fa fa-users"></i> Team', '/team'],
+            ['Add', '#']
+        ];
         $roles = Auth::user()->company->getRolesNotAdmin();
-        return view('team.add', compact('roles'));
+        return view('team.add', compact('roles', 'breadcrumbs'));
     }
 
+    /**
+     * Handle Form POST req. to add a new
+     * Staff (User) to the Company
+     *
+     * @param AddStaffRequest $request
+     * @param UserMailer $userMailer
+     * @return mixed
+     */
     public function postSaveStaff(AddStaffRequest $request, UserMailer $userMailer)
     {
         $role = Role::find($request->input('role_id'));
@@ -134,5 +147,43 @@ class UsersController extends Controller
         flash()->success('Sent invitation to join ' . ucwords(Auth::user()->company->name));
         return redirect('/team');
     }
+
+    /**
+     * Shows View for a single User that
+     * is from the same Company
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function getSingleUser(User $user)
+    {
+        if(! Gate::allows('edit', $user)) abort(403, "Not authorized to view that User");
+        $breadcrumbs = [
+            ['<i class="fa fa-users"></i> Team', '/team'],
+            [$user->name, '#']
+        ];
+        $roles = Auth::user()->company->getRolesNotAdmin()->sortBy('position');
+        return view('team.single_user', compact('user', 'breadcrumbs', 'roles'));
+    }
+
+    public function putChangeRole(ChangeUserRoleRequest $request, $userId)
+    {
+        User::find($userId)->setRole($role = Role::find($request->input('role_id')));
+        flash()->success('Changed User Role to ' . ucwords($role->position));
+        return redirect()->back();
+    }
+
+    public function deleteUser(User $user)
+    {
+        if (! Gate::allows('edit', $user) && ! Gate::allows('team_manage') && $user->role->position !== 'admin') abort(403, "Can not delete that User");
+        if( $user->delete()) {
+            flash()->success('Permanently deleted user');
+            return response("Deleted User", 200);
+        }
+        abort(500, "Something went sideways. Could not delete User");
+    }
+    
+
+
 
 }
