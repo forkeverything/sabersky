@@ -1,11 +1,11 @@
 Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
-    el: function() {
+    el: function () {
         return '#purchase-requests-all';
     },
-    data: function() {
+    data: function () {
         return {
-            purchaseRequests: [],
+            response: {},
             headings: [
                 ['due', 'Due Date'],
                 ['project.name', 'Project'],
@@ -18,21 +18,64 @@ Vue.component('purchase-requests-all', {
             field: '',
             order: '',
             urgent: '',
-            filter: ''
+            filter: {},
+            filters: [
+                {
+                    name: 'open',   // What gets sent to server
+                    label: 'Open'   // Displayed to client
+                },
+                {
+                    name: 'complete',
+                    label: 'Fulfilled'
+                },
+                {
+                    name: 'cancelled',
+                    label: 'Cancelled'
+                },
+                {
+                    name: 'all',
+                    label: 'All Statuses'
+                }
+            ],
+            tableHeaders: [
+                {
+                    label: 'Date Required',
+                    path: ['due'],
+                    sort: 'due'
+                },
+                {
+                    label: 'Project',
+                    path: ['project', 'name'],
+                    sort: 'project.name'
+                },
+                {
+                    label: 'Item',
+                    path: ['item', 'name'],
+                    sort: 'item.name'
+                },
+                {
+                    label: 'Specification',
+                    path: ['item', 'specification']
+                },
+                {
+                    label: 'Quantity',
+                    path: ['quantity'],
+                    sort: 'quantity'
+                },
+                {
+                    label: 'Made by',
+                    path: ['user', 'name'],
+                    sort: 'user.name'
+                },
+                {
+                    label: 'Requested',
+                    path: ['created_at'],
+                    sort: 'created_at'
+                }
+            ],
+            showFilterDropdown: false,
+            lastPage: ''
         };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_requests',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseRequests = data;
-            },
-            error: function (res, status, req) {
-                console.log(status);
-            }
-        });
     },
     methods: {
         loadSinglePR: function (id) {
@@ -48,9 +91,6 @@ Vue.component('purchase-requests-all', {
         },
         toggleUrgent: function () {
             this.urgent = (this.urgent) ? '' : 1;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
         },
         checkShow: function (purchaseRequest) {
             switch (this.filter) {
@@ -70,6 +110,75 @@ Vue.component('purchase-requests-all', {
                         return true;
                     }
             }
+        },
+        fetchPurchaseRequests: function(query) {
+            var url = query ? '/api/purchase_requests?' + query : '/api/purchase_requests';
+            var self = this;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    // push state (if query is different from url)
+                    if(query !== window.location.href.split('?')[1]) {
+                        window.history.pushState({},"", '?' + query);
+                    }
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                }
+            });
+        },
+        updateQuery: function(name, value) {
+            var fullQuery = window.location.href.split('?')[1];
+            var queryArray = fullQuery ? fullQuery.split('&') : [];
+            var queryObj = {};
+
+            // Build up object
+            queryArray.forEach(function (item) {
+                var x = item.split('=');
+                queryObj[x[0]] = x[1];
+            });
+
+            queryObj[name] = value; // Set the new name and value
+
+            var newQuery = '';
+
+            _.forEach(queryObj, function (value, name) {
+                newQuery += name + '=' + value + '&';
+            });
+
+            return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'
+        },
+        goToPage: function(page) {
+            this.fetchPurchaseRequests(this.updateQuery('page', page));
+        },
+        changeFilter: function(filter) {
+            this.filter = filter;
+            this.showFilterDropdown = false;
+            this.fetchPurchaseRequests(this.updateQuery('filter', filter.name));
+        },
+        setLoadQuery: function() {
+            var currentQuery = window.location.href.split('?')[1];
+            currentQuery = getParameterByName('filter') ? currentQuery : this.updateQuery('filter', 'open');
+            return currentQuery;
         }
+    },
+    ready: function () {
+            // If exists
+        this.fetchPurchaseRequests(this.setLoadQuery());
+
+        window.onpopstate = function(e){
+            if(e.state){
+                this.fetchPurchaseRequests(window.location.href.split('?')[1]);
+            }
+        }.bind(this);
+
+
+        this.updateQuery('rina', 'boo');
+
+
     }
 });

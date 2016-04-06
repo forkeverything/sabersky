@@ -7,11 +7,13 @@ use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\Project;
 use App\PurchaseRequest;
+use App\Utilities\CompanyPurchaseRequests;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class PurchaseRequestController extends Controller
@@ -22,7 +24,9 @@ class PurchaseRequestController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
-        $this->purchaseRequests = Auth::user()->company->purchaseRequests->load(['project', 'item', 'user']);
+        if ($user = Auth::user()) {
+            $this->purchaseRequests = $user->company->purchaseRequests->load(['project', 'item', 'user']);
+        }
     }
 
     /**
@@ -36,7 +40,8 @@ class PurchaseRequestController extends Controller
         $breadcrumbs = [
             ['<i class="fa fa-shopping-basket"></i> Purchase Requests', '#']
         ];
-        return view('purchase_requests.all', compact('breadcrumbs'))->with('purchaseRequests', $this->purchaseRequests);
+        $purchaseRequests = Auth::user()->company->purchaseRequests()->paginate(15);
+        return view('purchase_requests.all', compact('breadcrumbs', 'purchaseRequests'));
     }
 
     /**
@@ -49,7 +54,16 @@ class PurchaseRequestController extends Controller
     public function apiGetAll(Request $request)
     {
         if ($request->ajax()) {
-            return $this->purchaseRequests;
+            $filter = $request->query('filter');
+            $sort = $request->query('sort');
+            $order = $request->query('order');
+            $urgent = $request->query('urgent');
+
+            return CompanyPurchaseRequests::forCompany(Auth::user()->company)
+                                          ->filterBy($filter)
+                                          ->sortOn($sort, $order)
+                                          ->onlyUrgent($urgent)
+                                          ->paginate(15);
         } else {
             abort('501', 'Oops..can\'t get in that way.');
         }
@@ -91,7 +105,7 @@ class PurchaseRequestController extends Controller
         $project->saveItem($item);
         // Create the Purchase Request
         PurchaseRequest::make($request, $item, Auth::user());
-        
+
         return redirect(route('showAllPurchaseRequests'));
     }
 

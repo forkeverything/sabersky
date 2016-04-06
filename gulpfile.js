@@ -72,4 +72,6 @@ elixir(function(mix) {
         'public/css');
 
     mix.browserSync({proxy: 'pusakagroup.app'});
+
+    // mix.phpUnit();
 });

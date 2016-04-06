@@ -10,44 +10,58 @@
             </section>
             @endcan
             <div class="page-body">
-                <div class="purchase-request-filters table-filters">
-                    <ul class="list-unstyled list-inline">
-                        <li class="clickable"
-                        @click="changeFilter('')"
-                        :class="{
-                        'active': filter !== 'complete' && filter !== 'cancelled'
-                    }"
+                <div class="pr-controls">
+                    <div class="pr-paginate">
+                        <ul class="list-unstyled list-inline">
+                            <li class="paginate-link"
+                                v-for="n in response.last_page"
+                                :class="{
+                                        'active': n + 1 === response.current_page
+                                    }"
+                            @click="goToPage(n + 1)"
+                            >
+                            @{{ n + 1 }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
+                        <button type="button"
+                                class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
+                        >Filter: @{{ filter.label | capitalize }} <i class="fa fa-chevron-down"></i></button>
+                        <div class="dropdown-filters dropdown-container"
+                             v-show="showFilterDropdown"
                         >
-                        Open
-                        </li>
-                        <li class="clickable"
-                            :class="{
-                        'active': filter == 'complete'
-                    }"
-                        @click="changeFilter('complete')"
-                        >
-                        Complete
-                        </li>
-                        <li class="clickable"
-                            :class="{
-                        'active': filter == 'cancelled'
-                    }"
-                        @click="changeFilter('cancelled')"
-                        >
-                        Cancelled
-                        </li>
-                    </ul>
-                    <span class="filter-urgent clickable"
-                    @click="toggleUrgent"
-                    :class="{ 'active': urgent}"
-                    >
-                    Urgent Only</span>
+                            <span class="dropdown-title">View only</span>
+                            <ul class="list-unstyled">
+                                <li class="pr-dropdown-item"
+                                    v-for="filter in filters"
+                                    @click="changeFilter(filter)"
+                                >
+                                    @{{ filter.label }}
+                                </li>
+                                <li class="pr-dropdown-item" id="pr-filter-urgent">Show Urgent Requests only</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                @if($purchaseRequests->first())
-                    @include('purchase_requests.partials.table_all')
-                @else
-                    <h4 class="text-center">No Purchase Requests could be found.</h4>
-                @endif
+                <div class="container-purchase-requests">
+                        <template v-for="purchaseRequest in response.data">
+                            <div class="single-purchase-request">
+                                <div class="thumbnail">
+                                    <i class="fa fa-shopping-basket"></i>
+                                </div>
+                                <div class="details">
+                                    <h5 class="item-name">@{{ purchaseRequest.item.name }}</h5>
+                                    <span class="date-due">@{{ purchaseRequest.due }}</span>
+                                    <span class="date-requested">@{{ purchaseRequest.created_at }}</span>
+                                    <span class="project">@{{ purchaseRequest.project.name }}</span>
+                                    <div class="specification">@{{ purchaseRequest.item.specification }}</div>
+                                    <span class="quantity">@{{ purchaseRequest.quantity }}</span>
+                                    <div class="requestor">@{{ purchaseRequest.user.name }}</div>
+                                </div>
+                            </div>
+                        </template>
+                </div>
             </div>
         </div>
     </purchase-requests-all>
