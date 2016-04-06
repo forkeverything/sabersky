@@ -7,6 +7,8 @@ namespace App\Utilities;
 use App\Company;
 use App\PurchaseRequest;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -26,7 +28,7 @@ class CompanyPurchaseRequests
      *
      * @var
      */
-    protected $relation;
+    private $relation;
 
     /**
      * Current active filter
@@ -49,6 +51,12 @@ class CompanyPurchaseRequests
      * @var
      */
     protected $order;
+
+    /**
+     * Whether we are requesting urgent only
+     * @var
+     */
+    protected $urgent;
 
     /**
      * To hold the paginated results
@@ -110,6 +118,7 @@ class CompanyPurchaseRequests
                                 purchase_requests.created_at,
                                 purchase_requests.quantity,
                                 items.name as item_name,
+                                items.specification as item_specification,
                                 items.id as item_id,
                                 projects.name as project_name,
                                 projects.id as project_id,
@@ -180,8 +189,8 @@ class CompanyPurchaseRequests
      */
     public function onlyUrgent($urgent = 0)
     {
-        $urgent = ($urgent == 1) ?: 0;
-        if($urgent) $this->relation->where('urgent', $urgent);
+        $this->urgent = ($urgent == 1) ?: 0;
+        if($this->urgent) $this->relation->where('urgent', 1);
         return $this;
     }
 
@@ -194,8 +203,11 @@ class CompanyPurchaseRequests
     public function paginate($itemsPerPage = 15)
     {
         // Set paginated property to hold our paginated results
-        $this->paginated = $this->relation->paginate($itemsPerPage);
-        return $this;
+        $paginatedObject = $this->paginated = $this->relation->paginate($itemsPerPage);
+        // add our custom properties
+        $this->addProperties($paginatedObject);
+
+        return $this->paginated;
     }
 
     /**
@@ -207,8 +219,28 @@ class CompanyPurchaseRequests
      */
     public function get()
     {
-        return $this->relation->get();
+        $data = $this->relation->get();
+        $this->addProperties($data);
+        return $data;
     }
+
+    /**
+     * Attaches this object's properties
+     * to the object of results we're
+     * returning
+     *
+     * @param $object
+     */
+    protected function addProperties($object)
+    {
+        if($object instanceof LengthAwarePaginator || $object instanceof  Collection) {
+            $object['filter'] = $this->filter;
+            $object['sort'] = $this->sort;
+            $object['order'] = $this->order;
+            $object['urgent'] = $this->urgent;
+        }
+    }
+
 
 
 

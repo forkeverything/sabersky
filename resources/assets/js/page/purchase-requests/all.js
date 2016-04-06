@@ -15,10 +15,12 @@ Vue.component('purchase-requests-all', {
                 ['user.name', 'Made by'],
                 ['created_at', 'Requested']
             ],
-            field: '',
             order: '',
             urgent: '',
-            filter: {},
+            filter: '',
+            sort:'',
+            lastPage: '',
+            currentPage: '',
             filters: [
                 {
                     name: 'open',   // What gets sent to server
@@ -37,44 +39,7 @@ Vue.component('purchase-requests-all', {
                     label: 'All Statuses'
                 }
             ],
-            tableHeaders: [
-                {
-                    label: 'Date Required',
-                    path: ['due'],
-                    sort: 'due'
-                },
-                {
-                    label: 'Project',
-                    path: ['project', 'name'],
-                    sort: 'project.name'
-                },
-                {
-                    label: 'Item',
-                    path: ['item', 'name'],
-                    sort: 'item.name'
-                },
-                {
-                    label: 'Specification',
-                    path: ['item', 'specification']
-                },
-                {
-                    label: 'Quantity',
-                    path: ['quantity'],
-                    sort: 'quantity'
-                },
-                {
-                    label: 'Made by',
-                    path: ['user', 'name'],
-                    sort: 'user.name'
-                },
-                {
-                    label: 'Requested',
-                    path: ['created_at'],
-                    sort: 'created_at'
-                }
-            ],
             showFilterDropdown: false,
-            lastPage: ''
         };
     },
     methods: {
@@ -120,6 +85,14 @@ Vue.component('purchase-requests-all', {
                 success: function (response) {
                     // Update data
                     self.response = response;
+
+                    // set flags
+                    self.filter = response.data.filter;
+                    self.sort = response.data.sort;
+                    self.order = response.data.order;
+                    self.urgent = response.data.urgent;
+                    self.lastPage = response.last_page;
+                    self.currentPage = response.current_page;
 
                     // push state (if query is different from url)
                     if(query !== window.location.href.split('?')[1]) {

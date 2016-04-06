@@ -1,3 +1,36 @@
+Vue.component('items-all', {
+    name: 'allItems',
+    el: function() {
+        return '#items-all';
+    },
+    data: function() {
+        return {
+            items: []
+        };
+    },
+    computed: {
+        itemNames: function() {
+            var names = [];
+            _.forEach(this.items, function (item) {
+                names.push(item.name);
+            });
+            return names;
+        }
+    },
+    ready: function() {
+        var self = this;
+        $.ajax({
+            url: '/api/items',
+            method: 'GET',
+            success: function(data) {
+                self.items = data;
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        })
+    }
+});
 Vue.component('add-line-item', {
     name: 'addLineItem',
     el: function () {
@@ -420,10 +453,12 @@ Vue.component('purchase-requests-all', {
                 ['user.name', 'Made by'],
                 ['created_at', 'Requested']
             ],
-            field: '',
             order: '',
             urgent: '',
-            filter: {},
+            filter: '',
+            sort:'',
+            lastPage: '',
+            currentPage: '',
             filters: [
                 {
                     name: 'open',   // What gets sent to server
@@ -442,44 +477,7 @@ Vue.component('purchase-requests-all', {
                     label: 'All Statuses'
                 }
             ],
-            tableHeaders: [
-                {
-                    label: 'Date Required',
-                    path: ['due'],
-                    sort: 'due'
-                },
-                {
-                    label: 'Project',
-                    path: ['project', 'name'],
-                    sort: 'project.name'
-                },
-                {
-                    label: 'Item',
-                    path: ['item', 'name'],
-                    sort: 'item.name'
-                },
-                {
-                    label: 'Specification',
-                    path: ['item', 'specification']
-                },
-                {
-                    label: 'Quantity',
-                    path: ['quantity'],
-                    sort: 'quantity'
-                },
-                {
-                    label: 'Made by',
-                    path: ['user', 'name'],
-                    sort: 'user.name'
-                },
-                {
-                    label: 'Requested',
-                    path: ['created_at'],
-                    sort: 'created_at'
-                }
-            ],
             showFilterDropdown: false,
-            lastPage: ''
         };
     },
     methods: {
@@ -525,6 +523,14 @@ Vue.component('purchase-requests-all', {
                 success: function (response) {
                     // Update data
                     self.response = response;
+
+                    // set flags
+                    self.filter = response.data.filter;
+                    self.sort = response.data.sort;
+                    self.order = response.data.order;
+                    self.urgent = response.data.urgent;
+                    self.lastPage = response.last_page;
+                    self.currentPage = response.current_page;
 
                     // push state (if query is different from url)
                     if(query !== window.location.href.split('?')[1]) {
@@ -662,39 +668,44 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('items-all', {
-    name: 'allItems',
-    el: function() {
-        return '#items-all';
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
     },
-    data: function() {
+    data: function () {
         return {
-            items: []
-        };
-    },
-    computed: {
-        itemNames: function() {
-            var names = [];
-            _.forEach(this.items, function (item) {
-                names.push(item.name);
-            });
-            return names;
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
         }
     },
-    ready: function() {
-        var self = this;
-        $.ajax({
-            url: '/api/items',
-            method: 'GET',
-            success: function(data) {
-                self.items = data;
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        })
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
     }
 });
+
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -811,44 +822,6 @@ Vue.component('team-single-user', {
         var self = this;
     }
 });
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('settings-company', {
     name: 'settingsCompany',
     template: '',

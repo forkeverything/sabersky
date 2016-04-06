@@ -14,9 +14,9 @@
                     <div class="pr-paginate">
                         <ul class="list-unstyled list-inline">
                             <li class="paginate-link"
-                                v-for="n in response.last_page"
+                                v-for="n in lastPage"
                                 :class="{
-                                        'active': n + 1 === response.current_page
+                                        'active': n + 1 === currentPage
                                     }"
                             @click="goToPage(n + 1)"
                             >
@@ -46,18 +46,18 @@
                 </div>
                 <div class="container-purchase-requests">
                         <template v-for="purchaseRequest in response.data">
-                            <div class="single-purchase-request">
+                            <div class="single-purchase-request" v-if="purchaseRequest.id">
                                 <div class="thumbnail">
                                     <i class="fa fa-shopping-basket"></i>
                                 </div>
                                 <div class="details">
-                                    <h5 class="item-name">@{{ purchaseRequest.item.name }}</h5>
+                                    <h5 class="item-name">@{{ purchaseRequest.item_name }}</h5>
                                     <span class="date-due">@{{ purchaseRequest.due }}</span>
                                     <span class="date-requested">@{{ purchaseRequest.created_at }}</span>
-                                    <span class="project">@{{ purchaseRequest.project.name }}</span>
-                                    <div class="specification">@{{ purchaseRequest.item.specification }}</div>
+                                    <span class="project">@{{ purchaseRequest.project_name }}</span>
+                                    <div class="specification">@{{ purchaseRequest.item_specification }}</div>
                                     <span class="quantity">@{{ purchaseRequest.quantity }}</span>
-                                    <div class="requestor">@{{ purchaseRequest.user.name }}</div>
+                                    <div class="requestor">@{{ purchaseRequest.requester_name }}</div>
                                 </div>
                             </div>
                         </template>

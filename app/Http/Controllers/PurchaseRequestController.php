@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -53,17 +54,20 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
+
         if ($request->ajax()) {
             $filter = $request->query('filter');
             $sort = $request->query('sort');
             $order = $request->query('order');
             $urgent = $request->query('urgent');
 
-            return CompanyPurchaseRequests::forCompany(Auth::user()->company)
-                                          ->filterBy($filter)
-                                          ->sortOn($sort, $order)
-                                          ->onlyUrgent($urgent)
-                                          ->paginate(15);
+            $data = CompanyPurchaseRequests::forCompany(Auth::user()->company)
+                                           ->filterBy($filter)
+                                           ->sortOn($sort, $order)
+                                           ->onlyUrgent($urgent)
+                                           ->paginate(15);
+            
+            return $data;
         } else {
             abort('501', 'Oops..can\'t get in that way.');
         }
