@@ -553,7 +553,20 @@ Vue.component('purchase-requests-all', {
                 queryObj[x[0]] = x[1];
             });
 
-            queryObj[name] = value; // Set the new name and value
+            /**
+             * TO DO CHECK HERE
+             */
+            if (typeof arguments[0] === 'string') {
+                queryObj[arguments[0]] = arguments[1]; // Set the new name and value
+            } else {
+                // Received an object with key-value pairs of query names
+                _.forEach(arguments[0], function (value, key) {
+                    queryObj[key] = value;
+                });
+            }
+
+
+            // _.forEach()
 
             var newQuery = '';
 
@@ -569,7 +582,10 @@ Vue.component('purchase-requests-all', {
         changeFilter: function(filter) {
             this.filter = filter;
             this.showFilterDropdown = false;
-            this.fetchPurchaseRequests(this.updateQuery('filter', filter.name));
+            this.fetchPurchaseRequests(this.updateQuery({
+                filter: filter.name,
+                page: 1
+            }));
         },
         setLoadQuery: function() {
             var currentQuery = window.location.href.split('?')[1];

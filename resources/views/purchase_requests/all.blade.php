@@ -27,7 +27,7 @@
                     <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
                         <button type="button"
                                 class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                        >Filter: @{{ filter.label | capitalize }} <i class="fa fa-chevron-down"></i></button>
+                        >Filter: @{{ response.data.filter | capitalize }} <i class="fa fa-chevron-down"></i></button>
                         <div class="dropdown-filters dropdown-container"
                              v-show="showFilterDropdown"
                         >
