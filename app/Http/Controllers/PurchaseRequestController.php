@@ -65,7 +65,7 @@ class PurchaseRequestController extends Controller
                                            ->filterBy($filter)
                                            ->sortOn($sort, $order)
                                            ->onlyUrgent($urgent)
-                                           ->paginate(15);
+                                           ->paginate(8);
             
             return $data;
         } else {

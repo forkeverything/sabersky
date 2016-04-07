@@ -6,21 +6,13 @@ Vue.component('purchase-requests-all', {
     data: function () {
         return {
             response: {},
-            headings: [
-                ['due', 'Due Date'],
-                ['project.name', 'Project'],
-                ['item.name', 'Item'],
-                ['specification', 'Specification'],
-                ['quantity', 'Quantity'],
-                ['user.name', 'Made by'],
-                ['created_at', 'Requested']
-            ],
             order: '',
             urgent: '',
             filter: '',
-            sort:'',
+            sort: '',
             lastPage: '',
             currentPage: '',
+            showFilterDropdown: false,
             filters: [
                 {
                     name: 'open',   // What gets sent to server
@@ -39,10 +31,39 @@ Vue.component('purchase-requests-all', {
                     label: 'All Statuses'
                 }
             ],
-            showFilterDropdown: false,
+            ajaxReady: true,
+            finishLoading: false
         };
     },
+    computed: {
+        paginatedPages: function () {
+            switch (this.currentPage) {
+                case 1:
+                case 2:
+                    var endPage = (this.lastPage < 5) ? this.lastPage : 5;
+                    return this.makePagesArray(1, endPage);
+                    break;
+                case this.lastPage:
+                case this.lastPage - 1:
+                    var startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
+                    var endPage = this.lastPage;
+                    return this.makePagesArray(startPage, endPage);
+                    break;
+                default:
+                    var startPage = this.currentPage - 2;
+                    var endPage = this.currentPage + 2;
+                    return this.makePagesArray(startPage, endPage);
+            }
+        }
+    },
     methods: {
+        makePagesArray: function (startPage, endPage) {
+            var pagesArray = [];
+            for (var i = startPage; i <= endPage; i++) {
+                pagesArray.push(i);
+            }
+            return pagesArray;
+        },
         loadSinglePR: function (id) {
             window.document.location = '/purchase_requests/single/' + id;
         },
@@ -73,9 +94,14 @@ Vue.component('purchase-requests-all', {
                     }
             }
         },
-        fetchPurchaseRequests: function(query) {
+        fetchPurchaseRequests: function (query) {
             var url = query ? '/api/purchase_requests?' + query : '/api/purchase_requests';
             var self = this;
+
+            // self.finishLoading = false;
+
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -92,16 +118,25 @@ Vue.component('purchase-requests-all', {
                     self.currentPage = response.current_page;
 
                     // push state (if query is different from url)
-                    if(query !== window.location.href.split('?')[1]) {
-                        window.history.pushState({},"", '?' + query);
+                    if (query !== window.location.href.split('?')[1]) {
+                        window.history.pushState({}, "", '?' + query);
                     }
+                    self.ajaxReady = true;
+
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
                 },
                 error: function (res, status, req) {
                     console.log(status);
+                    self.ajaxReady = true;
                 }
             });
         },
-        updateQuery: function(name, value) {
+        updateQuery: function (name, value) {
             var fullQuery = window.location.href.split('?')[1];
             var queryArray = fullQuery ? fullQuery.split('&') : [];
             var queryObj = {};
@@ -135,10 +170,10 @@ Vue.component('purchase-requests-all', {
 
             return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'
         },
-        goToPage: function(page) {
-            this.fetchPurchaseRequests(this.updateQuery('page', page));
+        goToPage: function (page) {
+            if (0 < page && page <= this.lastPage) this.fetchPurchaseRequests(this.updateQuery('page', page));
         },
-        changeFilter: function(filter) {
+        changeFilter: function (filter) {
             this.filter = filter;
             this.showFilterDropdown = false;
             this.fetchPurchaseRequests(this.updateQuery({
@@ -146,7 +181,7 @@ Vue.component('purchase-requests-all', {
                 page: 1
             }));
         },
-        toggleUrgentOnly: function() {
+        toggleUrgentOnly: function () {
             var urgent = this.urgent ? 0 : 1;
             this.fetchPurchaseRequests(this.updateQuery({
                 filter: this.filter, // use same filter
@@ -154,25 +189,35 @@ Vue.component('purchase-requests-all', {
                 urgent: urgent
             }));
         },
-        setLoadQuery: function() {
+        setLoadQuery: function () {
             var currentQuery = window.location.href.split('?')[1];
             currentQuery = getParameterByName('filter') ? currentQuery : this.updateQuery('filter', 'open');
             return currentQuery;
+        },
+        changeSort: function(sort) {
+            if(this.sort === sort) {
+                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests(this.updateQuery('order', newOrder));
+            } else {
+                this.fetchPurchaseRequests(this.updateQuery({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
         }
     },
     ready: function () {
-            // If exists
+        // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
 
-        window.onpopstate = function(e){
-            if(e.state){
+        window.onpopstate = function (e) {
+            if (e.state) {
                 this.fetchPurchaseRequests(window.location.href.split('?')[1]);
             }
         }.bind(this);
 
 
         this.updateQuery('rina', 'boo');
-
-
     }
 });

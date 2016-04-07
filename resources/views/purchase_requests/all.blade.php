@@ -2,84 +2,131 @@
 @section('content')
     <purchase-requests-all inline-template>
         <div class="container" id="purchase-requests-all">
+            @can('pr_make')
+            <div class="top children-right">
+                <a href="{{ route('makePurchaseRequest') }}" class="link-make-pr">
+                    <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
+                </a>
+            </div>
+            @endcan
             <div class="pr-controls">
-                <div class="left">
-                    <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
-                        <button type="button"
-                                class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                        >Filter by status: @{{ response.data.filter | capitalize }} <i class="fa fa-chevron-down"></i></button>
-                        <div class="dropdown-filters dropdown-container"
-                             v-show="showFilterDropdown"
-                        >
-                            <span class="dropdown-title">View only</span>
-                            <ul class="list-unstyled">
-                                <li class="pr-dropdown-item"
-                                    v-for="filter in filters"
-                                @click="changeFilter(filter)"
-                                >
-                                @{{ filter.label }}
-                                </li>
-                                <li id="pr-filter-urgent"
-                                    class="pr-dropdown-item"
-                                @click="toggleUrgentOnly"
-                                >Show Urgent Requests only</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="control-urgent">
-                        <input type="checkbox"
-                               id="checkbox-pr-urgent"
-                               v-model="urgent"
-                        @click="toggleUrgentOnly"
-                        >
-                        <label for="checkbox-pr-urgent"
-                               :class="{
+                <div class="control-urgent">
+                    <input type="checkbox"
+                           id="checkbox-pr-urgent"
+                           v-model="urgent"
+                    @click="toggleUrgentOnly"
+                    >
+                    <label for="checkbox-pr-urgent"
+                           :class="{
                                 'urgent-only': urgent
                                }"
-                        ><i class="fa fa-warning"></i> Urgent only</label>
-                    </div>
+                    ><i class="fa fa-warning"></i> Urgent only</label>
                 </div>
-                <div class="right">
-                    <div class="pr-paginate">
-                        <ul class="list-unstyled list-inline">
-                            <li class="paginate-link"
-                                v-for="n in lastPage"
-                                :class="{
-                                        'active': n + 1 === currentPage
-                                    }"
-                            @click="goToPage(n + 1)"
+                <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
+                    <button type="button"
+                            class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
+                    >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-filters dropdown-container"
+                         v-show="showFilterDropdown"
+                    >
+                        <span class="dropdown-title">View only</span>
+                        <ul class="list-unstyled">
+                            <li class="pr-dropdown-item"
+                                v-for="filter in filters"
+                            @click="changeFilter(filter)"
                             >
-                            @{{ n + 1 }}
+                            @{{ filter.label }}
                             </li>
                         </ul>
                     </div>
-                    @can('pr_make')
-                    <a href="{{ route('makePurchaseRequest') }}">
-                        <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
-                        <button class="btn  btn-outline-green" id="button-make-purchase-request">Make Purchase Request</button>
-                    </a>
-                    @endcan
                 </div>
             </div>
             <div class="page-body">
-                <div class="container-purchase-requests">
+                @include('purchase_requests.partials.paginator')
+                <div class="pr-bag table-responsive">
+                    <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
+                        <thead>
+                        <tr>
+                            <th class="clickable"
+                            @click="changeSort('project_name')"
+                            :class="{
+                                            'current_asc': sort === 'project_name' && order === 'asc',
+                                            'current_desc': sort === 'project_name' && order === 'desc'
+                                        }"
+                            >
+                            Project
+                            </th>
+                            <th class="clickable"
+                            @click="changeSort('quantity')"
+                            :class="{
+                                            'current_asc': sort === 'quantity' && order === 'asc',
+                                            'current_desc': sort === 'quantity' && order === 'desc'
+                                        }"
+                            >
+                            Qty
+                            </th>
+                            <th class="clickable"
+                            @click="changeSort('item_name')"
+                            :class="{
+                                            'current_asc': sort === 'item_name' && order === 'asc',
+                                            'current_desc': sort === 'item_name' && order === 'desc'
+                                        }"
+                            >
+                            Item
+                            </th>
+                            <th class="clickable"
+                            @click="changeSort('due')"
+                            :class="{
+                                            'current_asc': sort === 'due' && order === 'asc',
+                                            'current_desc': sort === 'due' && order === 'desc'
+                                        }"
+                            >
+                            Due</th>
+                            <th class="clickable"
+                            @click="changeSort('created_at')"
+                            :class="{
+                                            'current_asc': sort === 'created_at' && order === 'asc',
+                                            'current_desc': sort === 'created_at' && order === 'desc'
+                                        }"
+                            >
+                            Requested
+                            </th>
+                            <th class="clickable"
+                            @click="changeSort('requester_name')"
+                            :class="{
+                                            'current_asc': sort === 'requester_name' && order === 'asc',
+                                            'current_desc': sort === 'requester_name' && order === 'desc'
+                                        }"
+                            >
+                            By
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         <template v-for="purchaseRequest in response.data">
-                            <div class="single-purchase-request" v-if="purchaseRequest.id">
-                                <div class="thumbnail">
-                                    <i class="fa fa-shopping-basket"></i>
-                                </div>
-                                <div class="details">
-                                    <h5 class="item-name">@{{ purchaseRequest.item_name }}</h5>
-                                    <span class="date-due">@{{ purchaseRequest.due }}</span>
-                                    <span class="date-requested">@{{ purchaseRequest.created_at }}</span>
-                                    <span class="project">@{{ purchaseRequest.project_name }}</span>
-                                    <div class="specification">@{{ purchaseRequest.item_specification }}</div>
-                                    <span class="quantity">@{{ purchaseRequest.quantity }}</span>
-                                    <div class="requestor">@{{ purchaseRequest.requester_name }}</div>
-                                </div>
-                            </div>
+                            <tr class="row-single-pr" v-if="purchaseRequest.id">
+                                <td class="col-project">@{{ purchaseRequest.project_name }}</td>
+                                <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
+                                <td class="col-item">
+                                    <span class="item-name">@{{ purchaseRequest.item_name }}</span>
+                                    <span class="item-specifications">@{{ purchaseRequest.item_specification }}</span>
+                                </td>
+                                <td>
+                                    <span class="pr-due">@{{ purchaseRequest.due | easyDate }}</span>
+                                </td>
+                                <td>
+                                    <span class="pr-requested">@{{ purchaseRequest.created_at | diffHuman }}</span>
+                                </td>
+                                <td>
+                                    <span class="pr-requester">@{{ purchaseRequest.requester_name | capitalize }}</span>
+                                </td>
+                            </tr>
                         </template>
+                        </tbody>
+                    </table>
                 </div>
+                @include('purchase_requests.partials.paginator')
             </div>
         </div>
     </purchase-requests-all>

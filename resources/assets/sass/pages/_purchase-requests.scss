@@ -1,77 +1,185 @@
 #purchase-requests-all {
 
+  .top {
+    margin: 0 0 15px 0;
+
+    .link-make-pr {
+      width: 100%;
+
+      #button-make-purchase-request {
+        width: 100%;
+      }
+
+      @media screen and (min-width: 998px) {
+        width: initial;
+      }
+    }
+  }
+
   .pr-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 0 15px 0;
 
-    .left {
+    .control-urgent {
+      input {
+        margin: 0 5px 0 0;
+      }
+
+      label {
+        margin: 0;
+
+        &.urgent-only {
+          color: $orange;
+        }
+      }
+    }
+    .pr-filters {
       display: flex;
-      align-items: center;
+      justify-content: flex-end;
+      position: relative;
 
-      .control-urgent {
-        label {
-          margin: 0;
+      .button-show-filter-dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .current-filter {
+          margin: 0 0 0 3px;
+          font-weight: bold;
+        }
+        i {
+          font-size: 0.8em;
+          margin: 0 0 0 3px;
         }
       }
 
-      .pr-filters {
-        margin: 0 15px 0 0;
-        display: flex;
-        justify-content: flex-end;
-        position: relative;
+      .dropdown-filters {
+        position: absolute;
+        right: 0;
+        background: #fff;
+        padding: 0;
+        top: calc(100% + 10px);
+        border: 1px solid $border-light;
+        -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        min-width: 150px;
+        z-index: $z-pr-all-dropdown-filters;
 
-        .button-show-filter-dropdown {
+        .dropdown-title {
+          font-size: 0.8em;
+          text-transform: uppercase;
+          padding: 0 1em;
+          height: 30px;
           display: flex;
           align-items: center;
-          justify-content: flex-end;
-          i {
-            font-size: 0.5em;
-            margin: 0 0 0 3px;
-          }
+          color: $text-muted;
         }
 
-        .dropdown-filters {
-          position: absolute;
-          right: 0;
-          background: #fff;
-          padding: 0;
-          top: calc(100% + 10px);
-          border: 1px solid $border-light;
-          -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-          -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        ul {
+          margin: 0;
 
-          .dropdown-title {
-            font-size: 0.8em;
-            text-transform: uppercase;
-            padding: 0 1em;
+          .pr-dropdown-item {
             height: 30px;
+            padding: 0 1em 0 1.5em;
+            text-align: left;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            color: $text-muted;
-          }
-
-          ul {
-            margin: 0;
-
-            .pr-dropdown-item {
-              height: 30px;
-              padding: 0 1em 0 1.5em;
-              text-align: left;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              &:hover {
-                background: $blue;
-                color: #fff;
-              }
-            }
-
-            #pr-filter-urgent {
-              border-top: 1px solid $border-light;
+            &:hover {
+              background: $blue;
+              color: #fff;
             }
           }
+        }
+      }
+    }
+  }
+
+  .pr-paginate {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ul {
+      display: flex;
+      margin: 0;
+
+      li {
+        cursor: pointer;
+
+        width: 25px;
+        height: 25px;
+        font-size: 1em;
+
+        display: flex;
+        border: 1px solid $grey;
+        border-right: none;
+        color: $midnight-mid;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+
+        @media screen and (min-width: 998px) {
+          width: 45px;
+          height: 25px;
+          font-size: 1em;
+        }
+
+        &:first-child {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+          border-right: 1px solid $grey;
+        }
+
+        &.current_page {
+          background: $body-background;
+        }
+
+        &.paginate-nav {
+
+          &.disabled {
+            color: $grey;
+            cursor: not-allowed;
+          }
+
+          i {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+  .pr-bag {
+    margin: 15px 0;
+
+    @media screen and (min-width: 998px) {
+      margin: 30px 0;
+    }
+
+    .table-purchase-requests-all {
+      margin: 0;
+
+      .col-quantity {
+        text-align: center;
+      }
+
+      .col-item {
+        max-width: 475px;
+
+        .item-name {
+          font-weight: bold;
+          display: block;
+          text-transform: capitalize;
         }
       }
     }

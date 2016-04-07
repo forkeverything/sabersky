@@ -142,10 +142,10 @@ class CompanyPurchaseRequests
         // Filter our results
         switch ($filter) {
             case 'open':
-                $this->relation->where('state', 'open');
+                $this->relation->where('state', 'open')->where('quantity', '>', 0);
                 break;
             case 'cancelled':
-                $this->relation->where('state', 'cancelled');
+                $this->relation->where('state', 'cancelled')->where('quantity', '>', 0);
                 break;
             case 'complete':
                 $this->relation->where('quantity', 0);
@@ -153,7 +153,7 @@ class CompanyPurchaseRequests
             case 'all':
                 break;
             default:
-                $this->relation->where('state', 'open');
+                $this->relation->where('state', 'open')->where('quantity', '>', 0);
         }
 
 

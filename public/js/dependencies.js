@@ -78,7 +78,7 @@ $(document).ready(function() {
 
 $(document).ready(function () {
     // Moment JS
-    moment.locale('id'); // 'en';
+    moment.locale('en'); // 'en';
 });
 $(document).ready(function () {
     $.noty.themes.customTheme = {
@@ -561,7 +561,7 @@ Vue.directive('selectoption', {
     twoWay: true,
     bind: function () {
         Vue.nextTick(function () {
-            $('.    bootstrap-select-el').trigger("option:loaded");
+            $('.bootstrap-select-el').trigger("option:loaded");
         });
     }
 });

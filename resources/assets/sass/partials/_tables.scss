@@ -28,7 +28,7 @@
 
         &:hover {
           color: $blue;
-          background: $extra-light-blue!important;
+          background: $extra-light-blue !important;
         }
       }
     }
@@ -53,6 +53,51 @@
 
       &:hover {
         background: $extra-light-blue;
+      }
+    }
+  }
+}
+
+.table-standard {
+  thead {
+    tr {
+      background: $body-background;
+      th {
+        height: 45px;
+        border: 0;
+        padding: 10px 26px 10px 10px;
+        color: $midnight-mid;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        vertical-align: middle;
+        position: relative;
+
+        &.current_asc, &.current_desc {
+          padding: 10px 10px 10px 10px;
+
+          &:after {
+            margin: 0 0 0 3px;
+            font-family: FontAwesome;
+            font-size: 1.3em;
+          }
+        }
+
+        &.current_asc:after {
+          content: '\f0d8';
+        }
+
+        &.current_desc:after {
+          content: '\f0d7';
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        padding: 15px;
+        vertical-align: middle;
       }
     }
   }

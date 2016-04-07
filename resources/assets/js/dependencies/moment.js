@@ -1,4 +1,4 @@
 $(document).ready(function () {
     // Moment JS
-    moment.locale('id'); // 'en';
+    moment.locale('en'); // 'en';
 });
