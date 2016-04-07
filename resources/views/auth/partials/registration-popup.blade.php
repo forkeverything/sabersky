@@ -1,5 +1,5 @@
 <registration-popup inline-template>
-    <button class="btn btn-solid-green button-nav-signup no-outline"
+    <button class="btn btn-solid-green button-nav-signup "
     @click="toggleShowRegistrationPopup"
     >
     Get started</button>
@@ -102,7 +102,7 @@
                 </div>
 
                 <button type="button"
-                        class="btn btn-solid-green no-outline button-register-company"
+                        class="btn btn-solid-green  button-register-company"
                         :disabled="validCompanyName !== true || validName !== true || validEmail !== true || validPassword !== true"
                         @click="registerNewCompany"
                 >Register your company

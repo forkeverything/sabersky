@@ -1,284 +1,15 @@
+
+// Our parent btn class
 .btn {
   &:focus, :active, :hover {
     outline: 0 !important;
   }
+  @include border-radius(0);
 }
 
-.btn-outline-yellow {
-  color: $dark-yellow;
-  background: transparent;
-  border: 1px solid $dark-yellow;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
+@import "buttons/outline";
+@import "buttons/solid";
 
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    color: $yellow;
-    border-color: transparent;
-    box-shadow: 0 0 0 3px $yellow !important;
-    -moz-box-shadow: 0 0 0 3px $yellow !important;
-    -webkit-box-shadow: 0 0 0 3px $yellow !important;
-    fill: $yellow;
-    outline: 0;
-  }
-
-  &:focus {
-    color: $dark-yellow;
-  }
-}
-
-.btn-outline-grey {
-  color: $dark-grey;
-  border: 1px solid $dark-grey;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    color: $dark-grey;
-    border-color: transparent;
-    box-shadow: 0 0 0 3px $dark-grey !important;
-    -moz-box-shadow: 0 0 0 3px $dark-grey !important;
-    -webkit-box-shadow: 0 0 0 3px $dark-grey !important;
-    fill: $dark-grey;
-    outline: 0;
-  }
-
-  &:focus {
-    color: $dark-grey;
-  }
-}
-
-.btn-outline-red {
-  background: transparent;
-  color: $dark-red;
-  border: 1px solid $dark-red;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    color: $red;
-    border-color: transparent;
-    box-shadow: 0 0 0 3px $red !important;
-    -moz-box-shadow: 0 0 0 3px $red !important;
-    -webkit-box-shadow: 0 0 0 3px $red !important;
-    fill: $red;
-    outline: 0;
-  }
-
-  &:focus {
-    color: $dark-red;
-  }
-}
-
-.btn-outline-green {
-  background: transparent;
-  color: $dark-green;
-  border: 1px solid $dark-green;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    color: $green;
-    border-color: transparent;
-    box-shadow: 0 0 0 3px $green !important;
-    -moz-box-shadow: 0 0 0 3px $green !important;
-    -webkit-box-shadow: 0 0 0 3px $green !important;
-    fill: $green;
-    outline: 0;
-  }
-
-  &:focus {
-    color: $dark-green;
-  }
-}
-
-.btn-outline-blue {
-  background: transparent;
-  color: $dark-blue;
-  border: 1px solid $dark-blue;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    color: $blue;
-    border-color: transparent;
-    box-shadow: 0 0 0 3px $blue !important;
-    -moz-box-shadow: 0 0 0 3px $blue !important;
-    -webkit-box-shadow: 0 0 0 3px $blue !important;
-    fill: $blue;
-    outline: 0;
-  }
-
-  &:focus {
-    color: $dark-blue;
-  }
-}
-
-.btn-solid-yellow {
-  color: #FFFFFF;
-  border-color: $dark-yellow;
-  background-color: $dark-yellow;
-  border: 0 !important;
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  &:hover, &:focus, &:active {
-    outline: 0;
-    color: #FFFFFF;
-    background-color: $yellow;
-    border-color: $yellow;
-    box-shadow: 0 0 0 3px $light-yellow;
-    -moz-box-shadow: 0 0 0 3px $light-yellow;
-    -webkit-box-shadow: 0 0 0 3px $light-yellow;
-    fill: $light-yellow;
-  }
-
-  &:disabled {
-    background: $dark-grey;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-}
-
-.btn-solid-green {
-  color: #FFFFFF;
-  border-color: $dark-green;
-  background-color: $dark-green;
-  border: 0 !important;
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  &:hover, &:focus, &:active {
-    outline: 0;
-    color: #FFFFFF;
-    background-color: $green;
-    border-color: $green;
-    box-shadow: 0 0 0 3px $light-green;
-    -moz-box-shadow: 0 0 0 3px $light-green;
-    -webkit-box-shadow: 0 0 0 3px $light-green;
-    fill: $light-green;
-  }
-
-  &:disabled {
-    background: $dark-grey;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-}
-
-.btn-solid-blue {
-  color: #FFFFFF;
-  border-color: $dark-blue;
-  background-color: $dark-blue;
-  border: 0 !important;
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  &:hover, &:focus, &:active {
-    outline: 0;
-    color: #FFFFFF;
-    background-color: $blue;
-    border-color: $blue;
-    box-shadow: 0 0 0 3px $light-blue;
-    -moz-box-shadow: 0 0 0 3px $light-blue;
-    -webkit-box-shadow: 0 0 0 3px $light-blue;
-    fill: $light-blue;
-  }
-
-  &:disabled {
-    background: $dark-grey;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-}
-
-.btn-solid-red {
-  color: #FFFFFF;
-  border-color: $dark-red;
-  background-color: $dark-red;
-  border: 0 !important;
-  -webkit-transition: all 0.15s ease-out;
-  -moz-transition: all 0.15s ease-out;
-  -ms-transition: all 0.15s ease-out;
-  -o-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out;
-  height: 3em;
-  padding: 0.5em 1em;
-  display: inline-block;
-
-  &:hover, &:focus, &:active {
-    outline: 0;
-    color: #FFFFFF;
-    background-color: $red;
-    border-color: $red;
-    box-shadow: 0 0 0 3px $light-red;
-    -moz-box-shadow: 0 0 0 3px $light-red;
-    -webkit-box-shadow: 0 0 0 3px $light-red;
-    fill: $light-red;
-  }
-
-  &:disabled {
-    background: $dark-grey;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-}
 
 .btn-remove {
   font-size: 18px;
@@ -293,48 +24,21 @@
   }
 }
 
-.btn-outline-yellow,
-.btn-outline-red,
-.btn-outline-green,
-.btn-outline-blue {
-
-  &:disabled {
-    color: $dark-grey;
-    border-color: $dark-grey;
-    &:hover, &:active, &:focus {
-      -webkit-box-shadow: none !important;
-      -moz-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  }
-}
-
-.no-outline {
-  &:hover, &:active, &:focus {
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-  }
-}
 
 .button-dotted {
   color: $text-muted;
   border-bottom: 1px dotted $text-muted;
 
-  &:hover, &:active, &:focus {
+  &:hover {
     color: $blue;
     border-bottom: 1px solid $blue;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    @include box-shadow(none);
   }
 
   &.btn {
     background: transparent;
     padding: 0;
     line-height: 1;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
+    @include border-radius(0);
   }
 }

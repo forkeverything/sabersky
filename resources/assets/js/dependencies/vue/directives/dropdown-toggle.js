@@ -6,9 +6,10 @@ Vue.directive('dropdown-toggle', {
 
         var selector = '.' + this.className + ' button';
 
-        $(document).on('click.' + this.className , selector, function (e) {
+        $(document).on('click.' + this.className, selector, function (e) {
+            e.stopPropagation();
             this.set(true);
-            $(document).on('click.checkHideDropdown', function(event) {
+            $(document).on('click.checkHideDropdown', function (event) {
                 if (!$(event.target).closest('.dropdown-container').length && !$(event.target).is('.dropdown-container')) {
                     this.set(false);
                     $(document).off('click.checkHideDropdown');

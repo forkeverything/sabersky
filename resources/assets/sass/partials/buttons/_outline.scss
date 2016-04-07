@@ -1,0 +1,107 @@
+.btn-outline {
+  background: transparent;
+  height: 3em;
+  padding: 0.5em 1em;
+  display: inline-block;
+
+  @include transition(all 0.15s ease-out);
+
+  &:hover {
+    border-color: transparent;
+    outline: 0;
+  }
+}
+
+.btn-outline-yellow,
+.btn-outline-red,
+.btn-outline-green,
+.btn-outline-blue {
+
+  &:disabled {
+    color: $dark-grey;
+    border-color: $dark-grey;
+    &:hover, &:active, &:focus {
+      @include box-shadow(none !important);
+    }
+  }
+}
+
+.btn-outline-green {
+  @extend .btn-outline;
+  color: $dark-green;
+  border: 1px solid $dark-green;
+
+  &:hover {
+    color: $green;
+    fill: $green;
+    @include box-shadow(0 0 0 3px $green !important);
+  }
+  &:focus {
+    color: $dark-green;
+  }
+}
+
+.btn-outline-yellow {
+  @extend .btn-outline;
+  color: $dark-yellow;
+  border: 1px solid $dark-yellow;
+
+  &:hover {
+    color: $yellow;
+    @include box-shadow(0 0 0 3px $yellow !important);
+    fill: $yellow;
+  }
+
+  &:focus {
+    color: $dark-yellow;
+  }
+}
+
+.btn-outline-red {
+  @extend .btn-outline;
+  color: $dark-red;
+  border: 1px solid $dark-red;
+
+  &:hover {
+    color: $red;
+    @include box-shadow(0 0 0 3px $red !important);
+    fill: $red;
+  }
+
+  &:focus {
+    color: $dark-red;
+  }
+}
+
+.btn-outline-blue {
+  @extend .btn-outline;
+  color: $dark-blue;
+  border: 1px solid $dark-blue;
+
+  &:hover {
+    color: $blue;
+    border-color: transparent;
+    @include box-shadow(0 0 0 3px $blue !important);
+    fill: $blue;
+  }
+
+  &:focus {
+    color: $dark-blue;
+  }
+}
+
+.btn-outline-grey {
+  @extend .btn-outline;
+  color: $dark-grey;
+  border: 1px solid $dark-grey;
+
+  &:hover {
+    color: $dark-grey;
+    @include box-shadow(0 0 0 3px $dark-grey !important);
+    fill: $dark-grey;
+  }
+
+  &:focus {
+    color: $dark-grey;
+  }
+}

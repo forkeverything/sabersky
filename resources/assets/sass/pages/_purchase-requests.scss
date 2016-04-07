@@ -1,60 +1,77 @@
 #purchase-requests-all {
 
-  .pr-filters {
+  .pr-controls {
     display: flex;
-    justify-content: flex-end;
-    margin: 0 0 15px 0;
-    position: relative;
+    justify-content: space-between;
+    align-items: center;
 
-    .button-show-filter-dropdown {
+    .left {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      i {
-        font-size: 0.5em;
-        margin: 0 0 0 3px;
+
+      .control-urgent {
+        label {
+          margin: 0;
+        }
       }
-    }
 
-    .dropdown-filters {
-      position: absolute;
-      right: 0;
-      background: #fff;
-      padding: 0;
-      top: calc(100% + 10px);
-      border: 1px solid $border-light;
-      -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-
-      .dropdown-title {
-        font-size: 0.8em;
-        text-transform: uppercase;
-        padding: 0 1em;
-        height: 30px;
+      .pr-filters {
+        margin: 0 15px 0 0;
         display: flex;
-        align-items: center;
-        color: $text-muted;
-      }
+        justify-content: flex-end;
+        position: relative;
 
-      ul {
-        margin: 0;
-
-        .pr-dropdown-item {
-          height: 30px;
-          padding: 0 1em 0 1.5em;
-          text-align: left;
-          cursor: pointer;
+        .button-show-filter-dropdown {
           display: flex;
           align-items: center;
-          &:hover {
-            background: $blue;
-            color: #fff;
+          justify-content: flex-end;
+          i {
+            font-size: 0.5em;
+            margin: 0 0 0 3px;
           }
         }
 
-        #pr-filter-urgent {
-          border-top: 1px solid $border-light;
+        .dropdown-filters {
+          position: absolute;
+          right: 0;
+          background: #fff;
+          padding: 0;
+          top: calc(100% + 10px);
+          border: 1px solid $border-light;
+          -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+          -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+          .dropdown-title {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            padding: 0 1em;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            color: $text-muted;
+          }
+
+          ul {
+            margin: 0;
+
+            .pr-dropdown-item {
+              height: 30px;
+              padding: 0 1em 0 1.5em;
+              text-align: left;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              &:hover {
+                background: $blue;
+                color: #fff;
+              }
+            }
+
+            #pr-filter-urgent {
+              border-top: 1px solid $border-light;
+            }
+          }
         }
       }
     }

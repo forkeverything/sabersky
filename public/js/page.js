@@ -492,9 +492,6 @@ Vue.component('purchase-requests-all', {
                 this.order = ''
             }
         },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
         checkShow: function (purchaseRequest) {
             switch (this.filter) {
                 case 'complete':
@@ -585,6 +582,14 @@ Vue.component('purchase-requests-all', {
             this.fetchPurchaseRequests(this.updateQuery({
                 filter: filter.name,
                 page: 1
+            }));
+        },
+        toggleUrgentOnly: function() {
+            var urgent = this.urgent ? 0 : 1;
+            this.fetchPurchaseRequests(this.updateQuery({
+                filter: this.filter, // use same filter
+                page: 1, // Reset to page 1
+                urgent: urgent
             }));
         },
         setLoadQuery: function() {

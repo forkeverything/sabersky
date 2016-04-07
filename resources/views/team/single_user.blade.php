@@ -4,7 +4,7 @@
     <team-single-user inline-template>
         <div class="container" id="team-single-user">
             <section class="top children-right">
-                <button class="btn btn-solid-red no-outline button-delete-user"
+                <button class="btn btn-solid-red  button-delete-user"
                         type="button"
                 @click="confirmDelete({{ $user }})"
                 ><i class="fa fa-trash"></i>Permanently Delete User</button>

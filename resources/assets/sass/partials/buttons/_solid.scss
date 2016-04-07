@@ -1,0 +1,63 @@
+
+.btn-solid {
+  color: #FFFFFF;
+  border: 0 !important;
+  @include transition(all 0.15s ease-out);
+  height: 3em;
+  padding: 0.5em 1em;
+  display: inline-block;
+
+  &:hover, &:focus, &:active {
+    outline: 0;
+    color: #FFFFFF;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    @include box-shadow(none !important);
+  }
+}
+
+.btn-solid-green {
+  @extend .btn-solid;
+  border-color: $green;
+  background-color: $green;
+
+  &:hover, &:focus, &:active {
+    background-color: $dark-green;
+    border-color: $dark-green;
+  }
+}
+
+.btn-solid-yellow {
+  @extend .btn-solid;
+  border-color: $yellow;
+  background-color: $yellow;
+
+  &:hover, &:focus, &:active {
+    background-color: $dark-yellow;
+    border-color: $dark-yellow;
+  }
+}
+
+.btn-solid-blue {
+  @extend .btn-solid;
+  border-color: $blue;
+  background-color: $blue;
+
+  &:hover, &:focus, &:active {
+    background-color: $dark-blue;
+    border-color: $dark-blue;
+  }
+}
+
+.btn-solid-red {
+  @extend .btn-solid;
+  border-color: $red;
+  background-color: $red;
+
+  &:hover, &:focus, &:active {
+    background-color: $dark-red;
+    border-color: $dark-red;
+  }
+}
