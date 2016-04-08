@@ -99,20 +99,18 @@
   }
 
   .pr-paginate {
-    text-align: center;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 0 0 15px 0 ;
 
     ul {
       display: flex;
       margin: 0;
+      width: 100%;
 
       li {
         cursor: pointer;
-
-        width: 25px;
-        height: 25px;
+        flex: 1;
+        height: 34px;
         font-size: 1em;
 
         display: flex;
@@ -123,10 +121,8 @@
         align-items: center;
         justify-content: center;
 
-        @media screen and (min-width: 998px) {
-          width: 45px;
-          height: 25px;
-          font-size: 1em;
+        &:not(.current_page):hover {
+          color: $blue;
         }
 
         &:first-child {
@@ -159,6 +155,28 @@
     }
   }
 
+  .page-controls-top {
+    margin: 0 0 -15px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .pr-items-per-page-selecter {
+      flex: 0 1 240px;
+      margin: 0 0 15px 0 ;
+
+      .themed-select {
+        width: 100%;
+      }
+    }
+
+    .pr-paginate {
+      flex: 0 1 420px;
+    }
+  }
+
+
+
   .pr-bag {
     margin: 15px 0;
 
@@ -182,6 +200,12 @@
           text-transform: capitalize;
         }
       }
+    }
+  }
+
+  .page-controls-bottom {
+    .pr-paginate {
+      margin: 0;
     }
   }
 }

@@ -43,7 +43,12 @@
                 </div>
             </div>
             <div class="page-body">
-                @include('purchase_requests.partials.paginator')
+                <div class="page-controls-top">
+                    <div class="pr-items-per-page-selecter">
+                        <select-picker :name.sync="itemsPerPage" :options.sync="itemsPerPageOptions" :function="changeItemsPerPage"></select-picker>
+                    </div>
+                    @include('purchase_requests.partials.paginator')
+                </div>
                 <div class="pr-bag table-responsive">
                     <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
                         <thead>
@@ -126,7 +131,9 @@
                         </tbody>
                     </table>
                 </div>
-                @include('purchase_requests.partials.paginator')
+                <div class="page-controls-bottom">
+                    @include('purchase_requests.partials.paginator')
+                </div>
             </div>
         </div>
     </purchase-requests-all>

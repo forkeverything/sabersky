@@ -32,7 +32,21 @@ Vue.component('purchase-requests-all', {
                 }
             ],
             ajaxReady: true,
-            finishLoading: false
+            finishLoading: false,
+            itemsPerPage: 8,
+            itemsPerPageOptions: [
+                {
+                    value: 8,
+                    label: '8 Requests / Page'
+                }, {
+                    value: 16,
+                    label: '16 Requests / Page'
+                },
+                {
+                    value: 32,
+                    label: '32 Requests / Page'
+                }
+            ]
         };
     },
     computed: {
@@ -100,7 +114,7 @@ Vue.component('purchase-requests-all', {
 
             // self.finishLoading = false;
 
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: url,
@@ -116,6 +130,7 @@ Vue.component('purchase-requests-all', {
                     self.urgent = response.data.urgent;
                     self.lastPage = response.last_page;
                     self.currentPage = response.current_page;
+                    self.itemsPerPage = response.per_page;
 
                     // push state (if query is different from url)
                     if (query !== window.location.href.split('?')[1]) {
@@ -194,8 +209,8 @@ Vue.component('purchase-requests-all', {
             currentQuery = getParameterByName('filter') ? currentQuery : this.updateQuery('filter', 'open');
             return currentQuery;
         },
-        changeSort: function(sort) {
-            if(this.sort === sort) {
+        changeSort: function (sort) {
+            if (this.sort === sort) {
                 var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
                 this.fetchPurchaseRequests(this.updateQuery('order', newOrder));
             } else {
@@ -205,6 +220,14 @@ Vue.component('purchase-requests-all', {
                     page: 1
                 }));
             }
+        },
+        changeItemsPerPage: function() {
+            this.fetchPurchaseRequests(this.updateQuery({
+                filter: this.filter, // use same filter
+                page: 1, // Reset to page 1
+                urgent: (this.urgent) ? 1 : 0, // Keep urgent flag
+                per_page: this.itemsPerPage
+            }));
         }
     },
     ready: function () {

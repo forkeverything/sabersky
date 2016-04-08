@@ -137,10 +137,10 @@ class CompanyPurchaseRequests
     public function filterBy($filter = null)
     {
         // Set filter property
-        $this->filter = $filter ?: 'open';
+        $this->filter = ($filter === 'open' || $filter === 'cancelled' || $filter === 'complete' || $filter === 'all' ) ? $filter: 'open';
 
         // Filter our results
-        switch ($filter) {
+        switch ($this->filter) {
             case 'open':
                 $this->relation->where('state', 'open')->where('quantity', '>', 0);
                 break;
@@ -200,8 +200,9 @@ class CompanyPurchaseRequests
      * @param $itemsPerPage
      * @return $this
      */
-    public function paginate($itemsPerPage = 15)
+    public function paginate($itemsPerPage = 8)
     {
+        $itemsPerPage = ($itemsPerPage == 8 || $itemsPerPage == 16 || $itemsPerPage == 32) ? $itemsPerPage : 8;
         // Set paginated property to hold our paginated results
         $paginatedObject = $this->paginated = $this->relation->paginate($itemsPerPage);
         // add our custom properties

@@ -60,12 +60,13 @@ class PurchaseRequestController extends Controller
             $sort = $request->query('sort');
             $order = $request->query('order');
             $urgent = $request->query('urgent');
+            $perPage = $request->query('per_page');
 
             $data = CompanyPurchaseRequests::forCompany(Auth::user()->company)
                                            ->filterBy($filter)
                                            ->sortOn($sort, $order)
                                            ->onlyUrgent($urgent)
-                                           ->paginate(8);
+                                           ->paginate($perPage);
             
             return $data;
         } else {

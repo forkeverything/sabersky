@@ -6304,6 +6304,49 @@ button.close {
   animation: spin 1s infinite linear;
   color: #D2D2D2; }
 
+.bootstrap-select.themed-select button {
+  border-radius: 3px;
+  font-weight: bold;
+  background: transparent;
+  color: #7F94A1;
+  border: 1px solid #D2D2D2; }
+
+.bootstrap-select.themed-select.open button {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.bootstrap-select.themed-select button:hover, .bootstrap-select.themed-select button:active, .bootstrap-select.themed-select button:focus, .bootstrap-select.themed-select .btn-group.open .dropdown-toggle, .bootstrap-select.themed-select.open > .btn-default.dropdown-toggle, .bootstrap-select.themed-select .dropdown-toggle:focus {
+  background-color: transparent;
+  border-color: #3498DB !important;
+  color: #3498DB !important;
+  box-shadow: none !important;
+  outline: 0 !important; }
+
+.bootstrap-select.themed-select .dropdown-menu.open {
+  margin: 0;
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-color: #3498DB;
+  padding: 0; }
+
+.bootstrap-select.themed-select .dropdown-menu li a {
+  height: 30px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%; }
+  .bootstrap-select.themed-select .dropdown-menu li a:active, .bootstrap-select.themed-select .dropdown-menu li a:focus {
+    outline: 0;
+    color: #3498DB;
+    background: #fff; }
+  .bootstrap-select.themed-select .dropdown-menu li a:hover {
+    background: #3498DB;
+    color: #ffffff; }
+
 #registration-popup-overlay {
   top: 0;
   left: 0;
@@ -6724,25 +6767,22 @@ button.close {
             color: #fff; }
 
 #purchase-requests-all .pr-paginate {
-  text-align: center;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center; }
+  margin: 0 0 15px 0; }
   #purchase-requests-all .pr-paginate ul {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin: 0; }
+    margin: 0;
+    width: 100%; }
     #purchase-requests-all .pr-paginate ul li {
       cursor: pointer;
-      width: 25px;
-      height: 25px;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      height: 34px;
       font-size: 1em;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -6757,11 +6797,8 @@ button.close {
       -webkit-justify-content: center;
       -ms-flex-pack: center;
       justify-content: center; }
-      @media screen and (min-width: 998px) {
-        #purchase-requests-all .pr-paginate ul li {
-          width: 45px;
-          height: 25px;
-          font-size: 1em; } }
+      #purchase-requests-all .pr-paginate ul li:not(.current_page):hover {
+        color: #3498DB; }
       #purchase-requests-all .pr-paginate ul li:first-child {
         border-top-left-radius: 3px;
         border-bottom-left-radius: 3px; }
@@ -6776,6 +6813,29 @@ button.close {
         cursor: not-allowed; }
       #purchase-requests-all .pr-paginate ul li.paginate-nav i {
         font-weight: bold; }
+
+#purchase-requests-all .page-controls-top {
+  margin: 0 0 -15px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  #purchase-requests-all .page-controls-top .pr-items-per-page-selecter {
+    -webkit-flex: 0 1 240px;
+    -ms-flex: 0 1 240px;
+    flex: 0 1 240px;
+    margin: 0 0 15px 0; }
+    #purchase-requests-all .page-controls-top .pr-items-per-page-selecter .themed-select {
+      width: 100%; }
+  #purchase-requests-all .page-controls-top .pr-paginate {
+    -webkit-flex: 0 1 420px;
+    -ms-flex: 0 1 420px;
+    flex: 0 1 420px; }
 
 #purchase-requests-all .pr-bag {
   margin: 15px 0; }
@@ -6792,6 +6852,9 @@ button.close {
         font-weight: bold;
         display: block;
         text-transform: capitalize; }
+
+#purchase-requests-all .page-controls-bottom .pr-paginate {
+  margin: 0; }
 
 #purchase-requests-add .urgent-button {
   border: 2px solid #E6E9EB;

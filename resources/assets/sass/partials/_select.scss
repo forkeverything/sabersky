@@ -1,0 +1,58 @@
+.bootstrap-select.themed-select {
+
+  button {
+    border-radius: 3px;
+    font-weight: bold;
+    background: transparent;
+    color: $midnight-mid;
+    border: 1px solid $grey;
+  }
+
+  &.open {
+    button {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  button:hover,button:active, button:focus, .btn-group.open .dropdown-toggle, &.open > .btn-default.dropdown-toggle, .dropdown-toggle:focus {
+    background-color: transparent;
+    border-color: $blue!important;
+    color: $blue!important;
+    @include box-shadow(none!important);
+    outline: 0 !important;
+  }
+
+  .dropdown-menu {
+
+    &.open {
+      margin: 0;
+      border-top: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-color: $blue;
+      padding: 0;
+    }
+
+    li {
+
+      a {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        &:active, &:focus {
+          outline: 0;
+          color :$blue;
+          background: #fff;
+        }
+
+        &:hover {
+          background: $blue;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
