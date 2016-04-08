@@ -98,64 +98,7 @@
     }
   }
 
-  .pr-paginate {
-    display: flex;
-    margin: 0 0 15px 0 ;
-
-    ul {
-      display: flex;
-      margin: 0;
-      width: 100%;
-
-      li {
-        cursor: pointer;
-        flex: 1;
-        height: 34px;
-        font-size: 1em;
-
-        display: flex;
-        border: 1px solid $grey;
-        border-right: none;
-        color: $midnight-mid;
-        font-weight: bold;
-        align-items: center;
-        justify-content: center;
-
-        &:not(.current_page):hover {
-          color: $blue;
-        }
-
-        &:first-child {
-          border-top-left-radius: 3px;
-          border-bottom-left-radius: 3px;
-        }
-
-        &:last-child {
-          border-top-right-radius: 3px;
-          border-bottom-right-radius: 3px;
-          border-right: 1px solid $grey;
-        }
-
-        &.current_page {
-          background: $body-background;
-        }
-
-        &.paginate-nav {
-
-          &.disabled {
-            color: $grey;
-            cursor: not-allowed;
-          }
-
-          i {
-            font-weight: bold;
-          }
-        }
-      }
-    }
-  }
-
-  .page-controls-top {
+  .page-controls {
     margin: 0 0 -15px;
     display: flex;
     justify-content: space-between;
@@ -163,7 +106,7 @@
 
     .pr-items-per-page-selecter {
       flex: 0 1 240px;
-      margin: 0 0 15px 0 ;
+      margin: 0 0 15px 0;
 
       .themed-select {
         width: 100%;
@@ -172,10 +115,62 @@
 
     .pr-paginate {
       flex: 0 1 420px;
+      display: flex;
+      margin: 0 0 15px 0;
+
+      ul {
+        display: flex;
+        margin: 0;
+        width: 100%;
+
+        li {
+          cursor: pointer;
+          flex: 1;
+          height: 34px;
+          font-size: 1em;
+
+          display: flex;
+          border: 1px solid $grey;
+          border-right: none;
+          color: $midnight-mid;
+          align-items: center;
+          justify-content: center;
+
+          &:not(.current_page):hover {
+            color: $blue;
+          }
+
+          &:first-child {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+          }
+
+          &:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border-right: 1px solid $grey;
+          }
+
+          &.current_page {
+            background: $body-background;
+          }
+
+          &.paginate-nav {
+
+            &.disabled {
+              color: $grey;
+              cursor: not-allowed;
+            }
+
+            i {
+              font-weight: bold;
+            }
+          }
+        }
+      }
     }
+
   }
-
-
 
   .pr-bag {
     margin: 15px 0;
