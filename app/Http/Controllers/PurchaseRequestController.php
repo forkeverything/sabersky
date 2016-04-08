@@ -83,7 +83,11 @@ class PurchaseRequestController extends Controller
     public function getMakePRForm()
     {
         if (Gate::allows('pr_make')) {
-            return view('purchase_requests.make');
+            $breadcrumbs = [
+                ['<i class="fa fa-shopping-basket"></i> Purchase Requests', '/purchase_requests'],
+                ['Make', '#']
+            ];
+            return view('purchase_requests.make', compact('breadcrumbs'));
         }
         return redirect(route('showAllPurchaseRequests'));
     }
@@ -95,7 +99,7 @@ class PurchaseRequestController extends Controller
      * @param MakePurchaseRequestRequest $request
      * @return mixed
      */
-    public function postSave(MakePurchaseRequestRequest $request)
+    public function postMakePR(MakePurchaseRequestRequest $request)
     {
         // Find / Make an Item
         $item = Item::findOrCreate($request->input('item_id'), [

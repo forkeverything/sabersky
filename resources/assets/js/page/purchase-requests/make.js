@@ -52,7 +52,7 @@ Vue.component('purchase-requests-make', {
         var unique = $('#select-new-item-name').selectize({
             create: true,
             sortField: 'text',
-            placeholder: 'Choose an existing name or enter a new one...',
+            placeholder: 'Select or enter a new Item',
             createFilter: function(input) {
                 input = input.toLowerCase();
                 var array = $.map(unique.options, function(value) {
@@ -67,8 +67,10 @@ Vue.component('purchase-requests-make', {
                 return unmatched;
             }
         })[0].selectize;
-        
-        self.pageReady = true;
+
+        self.$nextTick(function () {
+            self.pageReady = true;
+        });
     }
 });
 

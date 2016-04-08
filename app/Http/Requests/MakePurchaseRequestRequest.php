@@ -15,7 +15,7 @@ class MakePurchaseRequestRequest extends Request
      */
     public function authorize()
     {
-        $project = Project::findOrFail($this->input('project_id'));
+        if(! $project = Project::find($this->input('project_id'))) return redirect()->back();
         // User must have permission to make PR's & Project must belong to user's company
         return Gate::allows('pr_make') && Gate::allows('view', $project);
     }
@@ -40,12 +40,12 @@ class MakePurchaseRequestRequest extends Request
     public function messages()
     {
         return [
-            'project_id.required' => 'Project is required',
-            'item_id.required_without_all' => 'Please select an item or enter New Item details',
+            'project_id.required' => 'No Project selected',
+            'item_id.required_without_all' => 'No Item selected',
             'name.required_with' => 'New Item: Name is needed',
             'specification.required_with' => 'New Item: Detailed Specification is needed',
-            'quantity.required' => 'Please enter how much of the item is required',
-            'due.required' => 'Enter an approximate date the Item is needed on site'
+            'quantity.required' => 'Quantity to purchase not set',
+            'due.required' => 'Due Date was not set'
         ];
     }
 }
