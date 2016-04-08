@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/partials/page_controls.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_select.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_select.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,14 +33,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="_select.scss" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_select.scss">
+      <file leaf-file-name="_buttons.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1134">
-              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
-              <folding>
-                <element signature="e#573#653#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="810">
+              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -93,7 +89,6 @@
         <option value="$PROJECT_DIR$/resources/views/team/single_user.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/buttons/_outline.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/buttons/_solid.scss" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_layout.scss" />
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/moment.js" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_tables.scss" />
@@ -109,6 +104,7 @@
         <option value="$PROJECT_DIR$/resources/views/purchase_requests/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/_purchase-requests.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_select.scss" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
       </list>
     </option>
   </component>
@@ -289,12 +285,12 @@
       <workItem from="1459846709045" duration="7382000" />
       <workItem from="1459908803260" duration="35944000" />
       <workItem from="1459992687894" duration="1125000" />
-      <workItem from="1460013268110" duration="27068000" />
+      <workItem from="1460013268110" duration="27319000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="328311000" />
+    <option name="totallyTimeSpent" value="328562000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="1361" extended-state="0" />
@@ -839,14 +835,6 @@
             <marker date="1460018173000" expanded="true" signature="935:1106" placeholder="{...}" />
             <marker date="1460018173000" expanded="true" signature="1037:1104" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1974,11 +1962,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_select.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+        <state relative-caret-position="621">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
-            <element signature="e#573#653#0" expanded="false" />
+            <marker date="1460090334000" expanded="true" signature="32:1810" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="67:180" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="348:522" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="559:1807" placeholder="{...}" />
+            <marker date="1460090334000" expanded="false" signature="573:653" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="674:1354" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="883:1348" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="896:1225" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1055:1124" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1145:1215" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1246:1340" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1260:1330" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1369:1802" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1385:1546" placeholder="{...}" />
+            <marker date="1460090334000" expanded="true" signature="1572:1796" placeholder="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -29,7 +29,7 @@
   color: $text-muted;
   border-bottom: 1px dotted $text-muted;
 
-  &:hover {
+  &:hover, &:active, &:focus {
     color: $blue;
     border-bottom: 1px solid $blue;
     @include box-shadow(none);

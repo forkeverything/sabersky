@@ -35,8 +35,13 @@
       @include box-shadow(none!important);
 
       li {
+
         a {
           outline: 0;
+          height: 34px;
+          padding: 0 20px;
+          display: flex;
+          align-items: center;
 
           &:hover, &:focus {
             background: $blue;

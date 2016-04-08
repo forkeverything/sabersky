@@ -6072,7 +6072,7 @@ button.close {
 .button-dotted {
   color: #93989F;
   border-bottom: 1px dotted #93989F; }
-  .button-dotted:hover {
+  .button-dotted:hover, .button-dotted:active, .button-dotted:focus {
     color: #3498DB;
     border-bottom: 1px solid #3498DB;
     box-shadow: none; }
@@ -6330,7 +6330,15 @@ button.close {
   border-top-right-radius: 0;
   box-shadow: none !important; }
   .bootstrap-select.themed-select.open .dropdown-menu li a {
-    outline: 0; }
+    outline: 0;
+    height: 34px;
+    padding: 0 20px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
     .bootstrap-select.themed-select.open .dropdown-menu li a:hover, .bootstrap-select.themed-select.open .dropdown-menu li a:focus {
       background: #3498DB;
       color: #fff; }
