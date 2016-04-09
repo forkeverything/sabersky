@@ -21,6 +21,7 @@
     color: $dark-grey;
     border-color: $dark-grey;
     &:hover, &:active, &:focus {
+      color: $dark-grey;
       @include box-shadow(none !important);
     }
   }

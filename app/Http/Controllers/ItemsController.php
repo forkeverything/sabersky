@@ -17,17 +17,24 @@ class ItemsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('company');
         if ($user = Auth::user()) {
             $this->items = $user->company->items();
         }
     }
 
-    public function all()
+    /**
+     * Show Item Catalog Page
+     * @return mixed
+     */
+    public function getAll()
     {
-//        $itemNames = Auth::user()->company->items()->unique('name')->pluck('name');
-//        $items = $this->items;
-        return view('items.all', compact('itemNames', 'items'));
+        $breadcrumbs = [
+            ['<i class="fa fa-legal"></i> Items', '#']
+        ];
+        return view('items.all', compact('breadcrumbs'));
     }
+
 
     public function apiAll()
     {
@@ -37,7 +44,7 @@ class ItemsController extends Controller
     public function addPhoto(Request $request, Item $item)
     {
         if ($request->ajax()) {
-            if(Gate::allows('edit', $item)) {
+            if (Gate::allows('edit', $item)) {
                 $file = $request->file('item_photos')[0];
                 $item->attachPhoto($file);
                 return response()->json([

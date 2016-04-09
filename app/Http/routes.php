@@ -98,7 +98,7 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Items
      */
-    Route::get('/items', ['as' => 'showAllItems', 'uses' => 'ItemsController@all']);
+    Route::get('/items', ['as' => 'showAllItems', 'uses' => 'ItemsController@getAll']);
     Route::get('/api/items', 'ItemsController@apiAll');
     Route::post('/api/items/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'ItemsController@addPhoto']);
     Route::get('/items/{item}', ['as' => 'getSingleItem', 'uses' => 'ItemsController@single']);

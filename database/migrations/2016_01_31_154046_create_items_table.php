@@ -23,6 +23,9 @@ class CreateItemsTable extends Migration
 
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            $table->unique(['brand', 'name', 'company_id']);    // Brand-Name Combination has to be unique per. Company
+            $table->unique(['sku', 'company_id']);              // SKU has to be unique per. Company
         });
     }
 

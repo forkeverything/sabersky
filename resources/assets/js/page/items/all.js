@@ -5,7 +5,8 @@ Vue.component('items-all', {
     },
     data: function() {
         return {
-            items: []
+            items: [],
+            visibleAddItemModal: false
         };
     },
     computed: {
@@ -15,6 +16,11 @@ Vue.component('items-all', {
                 names.push(item.name);
             });
             return names;
+        }
+    },
+    methods: {
+        showAddItemModal: function() {
+            this.visibleAddItemModal = true;
         }
     },
     ready: function() {

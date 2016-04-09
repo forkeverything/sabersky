@@ -33,9 +33,11 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
+        'sku',
+        'brand',
         'name',
         'specification',
-        'project_id'
+        'company_id'
     ];
 
     /**
@@ -86,7 +88,7 @@ class Item extends Model
      */
     public function company()
     {
-        return $this->projects()->first()->company;
+        return $this->belongsTo(Company::class);
     }
 
     /**

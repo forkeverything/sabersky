@@ -25,4 +25,4 @@ Vue.component('select-picker', {
             this.name = $(this.$el).selectpicker('val');
         }.bind(this))
     }
-});
+})
