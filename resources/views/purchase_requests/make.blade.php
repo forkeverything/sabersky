@@ -2,13 +2,13 @@
 @section('content')
     <purchase-requests-make inline-template>
         <div class="container" id="purchase-requests-make" v-show="pageReady">
-            @include('errors.list')
-            <form action="{{ route('savePurchaseRequest') }}" id="form-make-purchase-request" method="POST" enctype="multipart/form-data">
+            <form-errors></form-errors>
+            <form id="form-make-purchase-request">
             <div class="page-body">
                 {{ csrf_field() }}
                 <div class="project-selection">
                     <h5>Project</h5>
-                    <select v-selectize="" class="form-group" name="project_id">
+                    <select v-selectize="projectID" class="form-group" name="project_id">
                         <option></option>
                         @foreach(Auth::user()->projects as $project)
                             <option value="{{ $project->id }}" class="capitalize">{{ $project->name }}</option>
@@ -93,7 +93,7 @@
                                     @{{ selectedItem.specification }}
                                 </p>
                             </div>
-                            @include('layouts.partials.input_item_photos')
+                            {{--@include('layouts.partials.input_item_photos')--}}
                         </div>
                     </div>
                     <div class="pr-new-item"
@@ -110,10 +110,13 @@
                         </div>
                         <div class="form-group">
                             <label for="field-new-item-specification">Item Specifications</label>
-                        <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control">{{ old('specification') }}
+                        <textarea name="specification" id="field-new-item-specification" rows="10" class="form-control" v-model="newItemSpecification">{{ old('specification') }}
                         </textarea>
                         </div>
-                        @include('layouts.partials.input_item_photos')
+
+                        <input id="item-photos-upload" type="file" name="item_photos[]" multiple="multiple">
+
+{{--                        @include('layouts.partials.input_item_photos')--}}
                     </div>
                 </div>
 
@@ -131,13 +134,14 @@
                                        value="{{ old('quantity') }}"
                                        placeholder="eg. 8"
                                        min="0"
+                                       v-model="quantity"
                                 >
                             </td>
                         </tr>
                         <tr>
                             <th>Date Needed By</th>
                             <td>
-                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)">
+                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)" v-model="due | easyDateModel">
                             </td>
                         </tr>
                         <tr>
@@ -145,7 +149,15 @@
                                 Require Immediately
                             </th>
                             <td>
-                                <label><input type="checkbox" name="urgent" value="1" id="checkbox-urgent">Urgent</label>
+                                <label>
+                                    <input type="checkbox"
+                                              name="urgent"
+                                              value="1"
+                                              id="checkbox-urgent"
+                                              v-model="urgent"
+                                    >
+                                    Urgent
+                                </label>
                             </td>
                         </tr>
                         </tbody>
@@ -153,7 +165,7 @@
                 </div>
             </div>
             <section class="bottom children-right">
-                <button type="submit" class="btn btn-solid-green">Make Request</button>
+                <button type="button" class="btn btn-solid-green" @click="submitMakePRForm">Make Request</button>
             </section>
             </form>
         </div>

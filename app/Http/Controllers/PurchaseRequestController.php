@@ -106,16 +106,16 @@ class PurchaseRequestController extends Controller
             'name' => $request->input('name'),
             'specification' => $request->input('specification')
         ]);
-        // Handle files attached to Form
-        $item->handleFiles($request->file('item_photos'));
         // Find Project
         $project = Project::findOrFail($request->input('project_id'));
         // Attach Item to Project
         $project->saveItem($item);
+        // Handle files attached to Form
+        if ($files = $request->file('item_photos')) $item->handleFiles($files);
         // Create the Purchase Request
         PurchaseRequest::make($request, $item, Auth::user());
 
-        return redirect(route('showAllPurchaseRequests'));
+        return response("Made a new Purchase Request", 200);
     }
 
     /**

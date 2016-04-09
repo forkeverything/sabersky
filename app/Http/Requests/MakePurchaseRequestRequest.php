@@ -29,7 +29,7 @@ class MakePurchaseRequestRequest extends Request
     {
         return [
             'project_id' => 'required|integer',
-            'item_id' => 'integer|required_without_all:name, specification',
+            'item_id' => 'required_without_all:name, specification|integer',
             'name' => 'required_with:specification',
             'specification' => 'required_with:name',
             'quantity' => 'required|integer',

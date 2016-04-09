@@ -27,7 +27,8 @@ elixir(function(mix) {
         'bootstrap-fileinput/css/fileinput.min.css',
         'fancybox/source/jquery.fancybox.css',
         'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
-        'bootstrap-select/dist/css/bootstrap-select.min.css'
+        'bootstrap-select/dist/css/bootstrap-select.min.css',
+        'blueimp-file-upload/css/jquery.fileupload.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
@@ -50,6 +51,8 @@ elixir(function(mix) {
         'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js',
         'bootstrap-select/dist/js/bootstrap-select.min.js',
         'autosize/dist/autosize.min.js',
+        'blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+        'blueimp-file-upload/js/jquery.fileupload.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 
