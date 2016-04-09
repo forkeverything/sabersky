@@ -151,8 +151,21 @@
             border-right: 1px solid $grey;
           }
 
+          &.disabled {
+            color: $grey;
+            cursor: not-allowed;
+            &:hover {
+              color: $grey;
+            }
+          }
+
           &.current_page {
             background: $body-background;
+            color: $midnight-mid;
+            cursor: pointer;
+            &:hover {
+              color: $midnight-mid;
+            }
           }
 
           &.paginate-nav {

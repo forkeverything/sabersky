@@ -6888,8 +6888,17 @@ button.close {
           border-top-right-radius: 3px;
           border-bottom-right-radius: 3px;
           border-right: 1px solid #D2D2D2; }
+        #purchase-requests-all .page-controls .pr-paginate ul li.disabled {
+          color: #D2D2D2;
+          cursor: not-allowed; }
+          #purchase-requests-all .page-controls .pr-paginate ul li.disabled:hover {
+            color: #D2D2D2; }
         #purchase-requests-all .page-controls .pr-paginate ul li.current_page {
-          background: #ebeef0; }
+          background: #ebeef0;
+          color: #7F94A1;
+          cursor: pointer; }
+          #purchase-requests-all .page-controls .pr-paginate ul li.current_page:hover {
+            color: #7F94A1; }
         #purchase-requests-all .page-controls .pr-paginate ul li.paginate-nav.disabled {
           color: #D2D2D2;
           cursor: not-allowed; }

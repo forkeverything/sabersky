@@ -69,8 +69,11 @@ $factory->define(App\PurchaseOrder::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
+        'sku' => str_random(10),
+        'brand' => $faker->name,
         'name' => $faker->word,
-        'specification' => $faker->paragraph(2)
+        'specification' => $faker->paragraph(2),
+        'company_id' => factory(Company::class)->create()->id
     ];
 });
 

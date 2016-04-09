@@ -54,8 +54,12 @@ Vue.component('purchase-requests-all', {
             switch (this.currentPage) {
                 case 1:
                 case 2:
-                    var endPage = (this.lastPage < 5) ? this.lastPage : 5;
-                    return this.makePagesArray(1, endPage);
+                    if(this.lastPage > 0) {
+                        var endPage = (this.lastPage < 5) ? this.lastPage : 5;
+                        return this.makePagesArray(1, endPage);
+                    } else {
+                        return this.makePagesArray(1, 5);
+                    }
                     break;
                 case this.lastPage:
                 case this.lastPage - 1:
@@ -163,7 +167,7 @@ Vue.component('purchase-requests-all', {
             });
 
             /**
-             * TO DO CHECK HERE
+             * TO DO ::: CHECK HERE
              */
             if (typeof arguments[0] === 'string') {
                 queryObj[arguments[0]] = arguments[1]; // Set the new name and value

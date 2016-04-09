@@ -16,8 +16,13 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
+            $table->string('sku')->nullable();
+            $table->string('brand')->nullable();
             $table->string('name');
             $table->text('specification');
+
+            $table->integer('company_id')->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
