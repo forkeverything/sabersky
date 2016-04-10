@@ -47,27 +47,9 @@
 
       .shift-label-input {
         margin: 0 0 20px;
-        border: 1px solid $border-light;
 
         input {
           border: 0;
-        }
-
-        &.is-error {
-          border-color: $red;
-
-          label {
-            color: $red;
-          }
-        }
-
-        .error-msg {
-          background: $extra-light-red;
-          padding: 0.5em 1em 0.5em 1em;
-          display: block;
-          width: 100%;
-          font-size: 0.9em;
-          color: $red;
         }
       }
 

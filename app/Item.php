@@ -52,6 +52,32 @@ class Item extends Model
     ];
 
     /**
+     * Sets SKU as NULL when empty (avoid unique collision)
+     * @param $value
+     */
+    public function setSkuAttribute($value) {
+        if ( empty($value) ) {
+            $this->attributes['sku'] = NULL;
+        } else {
+            $this->attributes['sku'] = $value;
+        }
+    }
+
+    /**
+     * Set Brand attribute as NULL, same as
+     * Sku
+     * 
+     * @param $value
+     */
+    public function setBrandAttribute($value) {
+        if ( empty($value) ) {
+            $this->attributes['brand'] = NULL;
+        } else {
+            $this->attributes['brand'] = $value;
+        }
+    }
+
+    /**
      * Finds an Item Instance from it's primary key
      * or creates one from the given attributes.
      *

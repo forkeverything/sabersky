@@ -72,7 +72,7 @@ class BuildPhoto
      */
     public function item(Item $item)
     {
-        $directory = $this->baseDir . '/company/' . encode($item->company()->id) . '/items/' . encode($item->id);
+        $directory = $this->baseDir . '/company/' . encode($item->company->id) . '/items/' . encode($item->id);
         $name = $this->makeFileName();
         $path = $directory . '/' . $name;
         $thumbnail_path = $directory . '/tn_' . $name;

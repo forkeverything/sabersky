@@ -22,6 +22,6 @@ class ItemPolicy
 
     public function edit(User $user, Item $item)
     {
-        return $user->company->id == $item->company()->id;
+        return $user->company->id == $item->company->id;
     }
 }

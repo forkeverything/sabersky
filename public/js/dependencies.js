@@ -16,16 +16,19 @@ $(document).ready(function () {
         language: 'en'      // TODO ::: Change according to client Lang
     });
 });
-  
-$(document).ready(function() {
+Dropzone.autoDiscover = false;
 
-    // Dropzone
-    Dropzone.options.addPhotosForm = {
-        paramName: 'photo',                             // name of the input, in controller: $request->file('photo')
-        maxFileSize: 3,                                 // File size in Mb
-        acceptedFiles: '.jpg, .jpeg, .png, .bmp',       // file formats accepted
-    };
-});
+
+//
+// $(document).ready(function() {
+//
+//     // Dropzone
+//     Dropzone.options.addPhotosForm = {
+//         paramName: 'photo',                             // name of the input, in controller: $request->file('photo')
+//         maxFileSize: 3,                                 // File size in Mb
+//         acceptedFiles: '.jpg, .jpeg, .png, .bmp',       // file formats accepted
+//     };
+// });
 $(document).ready(function() {
     $(".fancybox").fancybox();
 });
@@ -670,70 +673,180 @@ Vue.filter('percentage', {
 });
 Vue.component('add-item-modal', {
     name: 'addItemModal',
-    template: '<div class="modal-item-add" v-show="visible">' +
-    '<form class="form-item-add">' +
+    template: '<div class="modal-item-add" v-show="visible" @click="hideModal">' +
+    '<form class="form-item-add" v-show="loaded" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-add-item-modal"><i class="fa fa-close"></i></button>' +
+    '<form-errors></form-errors>' +
+    '<h3>Add New Item</h3>' +
     '   <div class="form-group">' +
-    '       <label for="">SKU</label>' +
-    '       <input class="form-control" type="text" placeholder="SKU" v-model="sku">' +
+    '       <label>SKU</label>' +
+    '       <input class="form-control" type="text" v-model="sku">' +
     '   </div>' +
+    '<div class="form-group brand-name-wrap">' +
+    '<div class="brand-selection"><label>Brand</label><select-type :options="existingBrands" :name.sync="brand" placeholder="Select or Add New"></select-type></div>' +
+    '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
+    '</div>' +
     '   <div class="form-group">' +
-    '       <label for="">Brand</label>' +
-    '       <input class="form-control" type="text" placeholder="Brand" v-model="brand">' +
+    '       <label  class="required">Specification</label>' +
+    '       <textarea class="form-control" v-model="specification" rows="5"></textarea>' +
     '   </div>' +
-    '   <div class="form-group">' +
-    '       <label for="" class="required">Name</label>' +
-    '       <input class="form-control" type="text" placeholder="Name" v-model="name">' +
-    '   </div>' +
-    '   <div class="form-group">' +
-    '       <label for="" class="required">Specification</label>' +
-    '       <textarea class="autosize form-control" v-model="specification"></textarea>' +
-    '   </div>' +
-        '<input class="item-photos-upload" type="file" name="item_photos[]" multiple="multiple">' +
+    '<div class="form-group">' +
+    '<div class="item-photo-uploader">' +
+    '<label>Photos</label>' +
+    '<div class="dropzone-errors" v-show="fileErrors.length > 0">' +
+    '<span class="error-heading">Could not add the following files</span>' +
+    '<span class="button-clear" @click="clearErrors">clear</span>' +
+    '<ul class="file-upload-errors">' +
+    '<li v-for="error in fileErrors" track-by="$index">{{ error }}</li>' +
+    '</ul>' +
+    '</div>' +
+    '<div class="item-photo-dropzone dropzone">' +
+    '<div class="dz-message"><i class="fa fa-image"></i>' +
+    'Click or drop images to upload' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="bottom children-right">' +
     '   <button type="button"' +
-    '           class="btn btn-outline-green"' +
+    '           class="btn btn-solid-green"' +
     '           @click.prevent="submitAddItemForm"' +
     '           :disabled="! canSubmitForm"' +
     '   >' +
     '       Save Item' +
     '   </button>' +
+    '</div>' +
     '</form>' +
     '</div>',
-    data: function() {
+    data: function () {
         return {
-            existingBrands: [],
-            existingNames: [],
+            ajaxReady: true,
+            loaded: false,
+            existingBrands: null,
             sku: '',
             brand: '',
             name: '',
             specification: '',
-            uploadedfiles: []
+            uploadedFiles: [],
+            fileErrors: [],
+            dropzone: {}
         };
     },
     props: ['visible'],
     computed: {
-        canSubmitForm: function() {
-            return this.name && this.specification
+        canSubmitForm: function () {
+            return this.name.length > 0 && this.specification.length > 0;
         }
     },
     methods: {
-        submitAddItemForm: function() {
+        hideModal: function() {
+            this.visible = false;
+        },
+        clearErrors: function () {
+            this.fileErrors = []
+        },
+        submitAddItemForm: function () {
+            var self = this;
 
+            // Create new FormData Instance
+            var fd = new FormData();
+
+            // Attach our previously uploaded files to data
+            _.forEach(self.uploadedFiles, function (file) {
+                fd.append('item_photos[]', file);
+            });
+
+            // Append our other data
+            fd.append('sku', self.sku);
+            fd.append('brand', self.brand);
+            fd.append('name', self.name);
+            fd.append('specification', self.specification);
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items',
+                method: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // success
+                    console.log('success!');
+                    console.log(data);
+                    self.ajaxReady = true;
+                    self.clearFields(); // Clear selected fields
+                    self.$dispatch('new-item', data);   // Send out event for parent component
+                    self.visible = false;
+                    flashNotify('success', 'Added new Item');
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearFields: function () {
+            this.sku = '';
+            this.brand = '';
+            this.name = '';
+            this.specification = '';
+            this.uploadedFiles = '';
+            this.fileErrors = [];
+            this.dropzone.removeAllFiles();
         }
     },
     events: {
-
+        'select-loaded': function () {
+            this.loaded = true;
+        }
     },
-    ready: function() {
+    ready: function () {
+        var self = this;
 
-        
+        // Fetch Existing Items
+        $.ajax({
+            url: '/api/items/brands',
+            method: 'GET',
+            success: function (data) {
+                // success
+                self.existingBrands = _.map(data, 'brand');
+            },
+            error: function (response) {
+                console.log(response);
+                console.log('Could not fetch existing items');
+            }
+        });
 
         // File Upload
-        $('.item-photos-upload').fileupload({
-            autoUpload: false
-        }).on('fileuploadadd', function (e, data) {
-            _.forEach(data.files, function(file) {
-                self.uploadedFiles.push(file);
-            });
+        var dzMaxFileSize = 5 * (1000000);
+        self.dropzone = new Dropzone("div.item-photo-dropzone", {
+            autoProcessQueue: false,
+            url: "#",
+            accept: function (file, done) {
+                if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
+                    this.removeFile(file);
+                } else if (file.size > dzMaxFileSize) {
+                    self.fileErrors.push('"' + file.name + '" file size over 5MB');
+                    this.removeFile(file);
+                } else {
+                    done();
+                }
+            },
+            previewTemplate: '<div class="dz-image-row"><div class="dz-image"><img data-dz-thumbnail></div><div class="dz-file-details"><span data-dz-name class="file-name"></span><span class="file-size" data-dz-size></span></div><div class="link-remove"><i class="fa fa-close" data-dz-remove></i></div></div>',
+            init: function () {
+                this.on("addedfile", function (file) {
+                    self.uploadedFiles.push(file);
+                });
+                this.on("removedfile", function (file) {
+                    self.uploadedFiles = _.reject(self.uploadedFiles, file);
+                })
+            }
         });
     }
 });
@@ -1084,12 +1197,14 @@ Vue.component('select-picker', {
 })
 Vue.component('select-type', {
     name: 'selectType',
-    template: '<select class="select-type" v-model="name">' +
-    '               <option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +'' +
+    template: '<select class="select-type" v-show="receivedOptions">' +
+    '<option></option>' +
+    '               <option value="{{ option }}" v-for="option in options">{{ option }}</option>' + '' +
     '          </select>',
-    data: function() {
+    data: function () {
         return {
-            'selectize': {}
+            receivedOptions: false,
+            selectize: {}
         };
     },
     props: [
@@ -1099,37 +1214,56 @@ Vue.component('select-type', {
         'unique',
         'placeholder'
     ],
-    ready: function() {
+    ready: function () {
+
+
+        var self = this;
 
         var unique = this.unique || true,
             create = this.create || true,
-            placeholder = this.placeholder | 'Type to select...';
+            placeholder = this.placeholder || 'Type to select...';
 
-        this.selectize = $(this.$el).selectize({
-            create: create,
-            sortField: 'text',
-            placeholder: placeholder,
-            createFilter: function(input) {
-                input = input.toLowerCase();
-                var optionsArray = $.map(unique.options, function(value) {
-                    return [value];
-                });
-                var unmatched = true;
-                _.forEach(optionsArray, function (option) {
-                    if((option.text).toLowerCase() === input) {
-                        unmatched = false;
-                    }
-                });
-                return unmatched;   // true if unmatched (ie. new) value
-            }
-        })[0].selectize;
+        this.$watch('name', function (value) {
+            if(! value)this.selectize.clear();
+        });
+
+        this.$watch('options', function () {
+            this.receivedOptions = true;
+            if (!_.isEmpty(this.selectize)) this.selectize.destroy();
+            this.selectize = $(this.$el).selectize({
+                create: create,
+                sortField: 'text',
+                placeholder: placeholder,
+                createFilter: function (input) {
+                    input = input.toLowerCase();
+                    var optionsArray = $.map(unique.options, function (value) {
+                        return [value];
+                    });
+                    var unmatched = true;
+                    _.forEach(optionsArray, function (option) {
+                        if ((option.text).toLowerCase() === input) {
+                            unmatched = false;
+                        }
+                    });
+                    return unmatched;   // true if unmatched (ie. new) value
+                },
+                onChange: function (value) {
+                    // When we select / enter a new value - enter it into our data
+                    self.name = value;
+                }
+            })[0].selectize;
+            // Let parent component know select is loaded
+            this.$dispatch('select-loaded');
+        });
+
 
         // TODO :: Add ability to re-render when options changes
         //      - Maybe define options on selectize and render options / item through plugin (instead of Vue)
         //      - Call clearOption()?
         //      - Clear Cache? Some bug, unknown if fixed
+
     },
-    beforeDestroy: function() {
+    beforeDestroy: function () {
         this.selectize.destroy();   // TODO :: Check if valid & necessary
     }
 });

@@ -15,6 +15,9 @@
   &:disabled {
     background: $dark-grey;
     @include box-shadow(none !important);
+    &:hover {
+      background: $dark-grey;
+    }
   }
 }
 

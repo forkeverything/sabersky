@@ -99,7 +99,10 @@ Route::group(['middleware' => 'web'], function () {
      * Items
      */
     Route::get('/items', ['as' => 'showAllItems', 'uses' => 'ItemsController@getAll']);
-    Route::get('/api/items', 'ItemsController@apiAll');
+    Route::get('/api/items', 'ItemsController@apiGetAll');
+    Route::get('/api/items/brands', 'ItemsController@apiGetAllBrands');
+    Route::get('/api/items/find', 'ItemsController@apiGetSingleBy');
+    Route::post('/api/items', 'ItemsController@postAddNew');
     Route::post('/api/items/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'ItemsController@addPhoto']);
     Route::get('/items/{item}', ['as' => 'getSingleItem', 'uses' => 'ItemsController@single']);
     Route::get('/api/items/name/{name}', 'ItemsController@getName');

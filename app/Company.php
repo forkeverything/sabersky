@@ -104,13 +104,16 @@ class Company extends Model
      */
     public function items()
     {
-        $itemsArray = [];
-        foreach ($this->projects as $project) {
-            array_push($itemsArray, $project->items->load('projects', 'photos')->all());
-        }
-        $itemsCollection = collect(array_flatten($itemsArray));
-
-        return $itemsCollection;
+//        $itemsArray = [];
+//        foreach ($this->projects as $project) {
+//            array_push($itemsArray, $project->items->load('projects', 'photos')->all());
+//        }
+//        $itemsCollection = collect(array_flatten($itemsArray));
+//
+//        return $itemsCollection;
+        
+        // Established Relationship (allows us to create Items w/o PR)
+        return $this->hasMany(Item::class);
 
     }
 

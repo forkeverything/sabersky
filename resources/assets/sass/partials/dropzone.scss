@@ -1,0 +1,119 @@
+.dropzone-errors {
+  border: 1px solid $red;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  position: relative;
+
+  .error-heading {
+    font-weight: bold;
+    color: $dark-red;
+    margin: 0 0 10px 0;
+    display: block;
+  }
+
+  .button-clear {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: $dark-red;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0 0 0 30px;
+
+    li {
+      color: $dark-red;
+    }
+  }
+
+
+}
+
+.dropzone {
+  border-radius: 4px;
+  border: 1px solid $grey !important;
+  @include box-shadow(none);
+
+  &.dz-started {
+    padding: 0;
+  }
+
+  .dz-message {
+    display: flex;
+    flex-direction: column;
+    color: $grey;
+
+    i {
+      font-size: 2em;
+      margin: 0 0 5px 0;
+    }
+  }
+
+  .dz-image-row {
+    display: flex;
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid $grey;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    .dz-image {
+      flex: 0 0 45px;
+      margin: 0 15px 0 0;
+      img {
+        max-width: 100%;
+      }
+    }
+
+    .dz-file-details {
+      flex: 1;
+
+      .file-name {
+        flex: 100%;
+        font-weight: bold;
+        display: block;
+      }
+
+      .file-size {
+        font-size: 0.8em;
+        strong {
+          font-weight: normal;
+        }
+      }
+    }
+
+    .link-remove {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+
+      i {
+        color: $grey;
+        font-size: 1.4em;
+        cursor: pointer;
+      }
+
+      &:hover {
+        i {
+          color: $red;
+        }
+      }
+    }
+
+    &:hover {
+      .link-remove {
+        display: block;
+      }
+    }
+  }
+}
