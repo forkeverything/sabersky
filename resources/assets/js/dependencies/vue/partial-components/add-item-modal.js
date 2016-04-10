@@ -105,7 +105,7 @@ Vue.component('add-item-modal', {
                     console.log(data);
                     self.ajaxReady = true;
                     self.clearFields(); // Clear selected fields
-                    self.$dispatch('new-item', data);   // Send out event for parent component
+                    self.$dispatch('added-new-item', data);   // Send out event for parent component
                     self.visible = false;
                     flashNotify('success', 'Added new Item');
                 },

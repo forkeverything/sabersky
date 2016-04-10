@@ -11,19 +11,20 @@
             <div class="page-body">
                 <div class="table-responsive table-items">
                     <!-- Items Table -->
-                    <table class="table table-hover">
+                    <table class="table table-hover table-standard">
                         <thead>
                         <tr>
                             <th></th>
+                            <th>SKU</th>
+                            <th>Brand</th>
                             <th>Name</th>
-                            <th>Variants</th>
                             <th>Projects</th>
                         <tr>
                         </thead>
                         <tbody>
-                        <template v-for="item in uniqueItems">
+                        <template v-for="item in items">
                             <tr class="clickable item-row">
-                                <td class="td-thumbnail">
+                                <td class="col-thumbnail">
                                     <div class="item-thumbnail">
                                         <img :src="item.photos[0].thumbnail_path"
                                              alt="Item Thumbnail"
@@ -36,11 +37,22 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @{{ item.name }}
+                                    <span class="sku" v-if="item.sku">@{{ item.sku }}</span>
+                                    <span v-else>-</span>
                                 </td>
-                                <td>@{{ getVariants(item).length }}</td>
                                 <td>
-                                    @{{ getProjects(item) }}
+                                    <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
+                                    <span v-else>universal</span>
+                                </td>
+                                <td class="col-name">
+                                    <span class="item-name">@{{ item.name }}</span>
+                                    <span class="item-specification">@{{ item.specification }}</span>
+                                </td>
+                                <td>
+                                    <ul class="list-unstyled" v-if="item.projects.length > 0">
+                                        <li v-for="project in item.projects">@{{ project.name }}</li>
+                                    </ul>
+                                    <em v-else>None</em>
                                 </td>
                             </tr>
                         </template>

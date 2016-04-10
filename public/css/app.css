@@ -7282,15 +7282,27 @@ input[type="text"].not-required:focus + label[placeholder]:before,
         -ms-flex: 0 1 125px;
         flex: 0 1 125px; } }
 
+#items-all .table-items th, #items-all .table-items td {
+  padding: 10px 15px; }
+
 #items-all .table-items .item-row .item-thumbnail {
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   border: 1px solid #D2D2D2; }
   #items-all .table-items .item-row .item-thumbnail img {
     width: 100%; }
 
 #items-all .table-items .item-row td {
   vertical-align: middle; }
+  #items-all .table-items .item-row td.col-thumbnail {
+    width: 100px;
+    text-align: center; }
+    #items-all .table-items .item-row td.col-thumbnail .item-thumbnail {
+      display: inline-block; }
+  #items-all .table-items .item-row td.col-name .item-name {
+    font-weight: bold;
+    display: block;
+    margin: 0 0 5px 0; }
 
 #system-settings #settings-nav {
   font-size: 1.1em;

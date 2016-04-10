@@ -19,9 +19,6 @@ class ItemsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
-        if ($user = Auth::user()) {
-            $this->items = $user->company->items;
-        }
     }
 
     /**
@@ -45,7 +42,7 @@ class ItemsController extends Controller
      */
     public function apiGetAll()
     {
-        return $this->items;
+        return Auth::user()->company->items->load(['photos', 'projects']);
     }
 
 
@@ -83,7 +80,7 @@ class ItemsController extends Controller
     /**
      * Handle Form request to add a new Item
      * including photos
-     * 
+     *
      * @param AddItemRequest $request
      * @return static
      */
@@ -97,7 +94,7 @@ class ItemsController extends Controller
             'company_id' => Auth::user()->company->id
         ]);
         if ($files = $request->file('item_photos')) $item->handleFiles($files);
-        if ($item) return $item;
+        if ($item) return $item->load(['photos']);
         return response("Could not create item", 500);
     }
 
@@ -127,9 +124,5 @@ class ItemsController extends Controller
 
     }
 
-    public function getName($name)
-    {
-        return $this->items->where('name', $name);
-    }
 
 }

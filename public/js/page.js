@@ -23,6 +23,11 @@ Vue.component('items-all', {
             this.visibleAddItemModal = true;
         }
     },
+    events: {
+        'added-new-item': function (item) {
+            this.items.push(item);
+        }
+    },
     ready: function() {
         var self = this;
         $.ajax({

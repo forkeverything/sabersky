@@ -2,20 +2,43 @@
 
   .table-items {
 
+    th, td {
+      padding: 10px 15px;
+    }
+
+
     .item-row {
 
       .item-thumbnail {
-        width: 50px;
-        height: 50px;
+        width: 75px;
+        height: 75px;
         border: 1px solid $grey;
 
         img {
           width: 100%;
         }
       }
-      
+
       td {
         vertical-align: middle;
+
+        &.col-thumbnail {
+          width: 100px;
+          text-align: center;
+
+          .item-thumbnail {
+            display: inline-block;
+          }
+        }
+
+        &.col-name {
+
+          .item-name {
+            font-weight:bold;
+            display: block;
+            margin: 0 0 5px 0;
+          }
+        }
       }
     }
   }
