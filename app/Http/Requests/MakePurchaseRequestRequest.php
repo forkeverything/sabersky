@@ -29,9 +29,7 @@ class MakePurchaseRequestRequest extends Request
     {
         return [
             'project_id' => 'required|integer',
-            'item_id' => 'required_without_all:name, specification|integer',
-            'name' => 'required_with:specification',
-            'specification' => 'required_with:name',
+            'item_id' => 'required|integer',
             'quantity' => 'required|integer',
             'due' => 'required'
         ];
@@ -41,10 +39,8 @@ class MakePurchaseRequestRequest extends Request
     {
         return [
             'project_id.required' => 'No Project selected',
-            'item_id.required_without_all' => 'No Item selected',
-            'name.required_with' => 'New Item: Name is needed',
-            'specification.required_with' => 'New Item: Detailed Specification is needed',
-            'quantity.required' => 'Quantity to purchase not set',
+            'item_id.required' => 'No Item selected',
+            'quantity.required' => 'Quantity required not given',
             'due.required' => 'Due Date was not set'
         ];
     }

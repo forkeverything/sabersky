@@ -705,56 +705,18 @@ Vue.component('purchase-requests-make', {
     data: function () {
         return {
             pageReady: false,
-            existingItem: true,
-            items: [],
-            existingItemName: '',
-            selectedItem: '',
-            uploadedFiles: [],
             ajaxReady: true,
             projectID: '',
-            newItemName: '',
-            newItemSpecification: '',
+            itemID: '',
             quantity: '',
             due: '',
             urgent: ''
         };
     },
     methods: {
-        changeExistingItem: function (state) {
-            this.clearSelectedExisting();
-            this.existingItem = state;
-        },
-        selectItemName: function (name) {
-            this.existingItemName = name;
-        },
-        selectItem: function (item) {
-            this.selectedItem = item;
-        },
-        clearSelectedExisting: function () {
-            this.selectedItem = '';
-            this.existingItemName = '';
-            $('#select-new-item-name')[0].selectize.clear();
-            $('#field-new-item-specification').val('');
-            $('.input-item-photos').fileinput('clear');
-        },
         submitMakePRForm: function () {
             var self = this;
 
-            // Create new FormData Instance
-            var fd = new FormData();
-
-            // Attach our previously uploaded files to data
-            _.forEach(self.uploadedFiles, function (file) {
-                fd.append('item_photos[]', file);
-            });
-
-            // Append our other data
-            fd.append('project_id', self.projectID);
-            if (self.selectedItem) fd.append('item_id', self.selectedItem.id);
-            fd.append('name', self.newItemName);
-            fd.append('specification', self.newItemSpecification);
-            fd.append('quantity', self.quantity);
-            fd.append('due', self.due);
 
             // Send Req. via Ajax
             vueClearValidationErrors(self);
@@ -763,14 +725,19 @@ Vue.component('purchase-requests-make', {
             $.ajax({
                 url: '/purchase_requests/make',
                 method: 'POST',
-                data: fd,
-                contentType: false,
-                processData: false,
+                data: {
+                    'project_id': self.projectID,
+                    'item_id': self.itemID,
+                    'quantity': self.quantity,
+                    'due': self.due,
+                    'urgent': (self.urgent) ? 1 : 0
+                },
                 success: function (data) {
                     // success
-                    console.log('success!');
                     console.log(data);
-                    self.ajaxReady = true;
+                    console.log('success!');
+                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
+                    window.location.href = "/purchase_requests";
                 },
                 error: function (response) {
                     console.log(response);
@@ -782,23 +749,10 @@ Vue.component('purchase-requests-make', {
         }
     },
     computed: {
-        uniqueItemNames: function () {
-            return _.uniqBy(this.items, 'name');
-        },
-        itemsWithName: function () {
-            return _.filter(this.items, {'name': this.existingItemName});
-        }
+
     },
     ready: function () {
         var self = this;
-        $.ajax({
-            url: '/api/items',
-            method: 'GET',
-            success: function (data) {
-                self.items = data;
-            }
-        });
-
 
         $('#pr-item-selection').selectize({
             valueField: 'id',
@@ -824,10 +778,30 @@ Vue.component('purchase-requests-make', {
                         '</div>';
                 },
                 item: function (item, escape) {
-                    return '<div>' +
-                        '<span class="brand">' + escape(item.brand) + '</span>' +
-                        '-' +
-                        '<span class="name">' + escape(item.name) + '</span>' +
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+                    var imageGallery =  '';
+                    if(item.photos.length > 0) {
+                        imageGallery += '<ul class="item-images list-unstyled">';
+                        for(var i = 0 ; i < item.photos.length; i++) {
+                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
+                        }
+                        imageGallery += '</ul>';
+                    }
+
+                    return '<div class="item-selected">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="brand">' + brand + '</span>' +
+                        '           <span class="name">' + escape(item.name) + '</span>' +
+                        '           <span class="sku">' + sku + '</span>' +
+                        '           <span class="specification">' + escape(item.specification) + '</span>' +
+                        '       </div>' +
+                                imageGallery +
                         '</div>'
                 }
             },
@@ -846,9 +820,9 @@ Vue.component('purchase-requests-make', {
                 });
             },
             onChange: function (value) {
-                console.log(value);     // Item ID
+                self.itemID = value;
             }
-        });
+    });
 
         self.$nextTick(function () {
             self.pageReady = true;

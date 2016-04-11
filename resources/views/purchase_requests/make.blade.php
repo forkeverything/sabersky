@@ -34,7 +34,7 @@
                             <td>
                                 <input type="number" id="field-quantity" name="quantity"
                                        value="{{ old('quantity') }}"
-                                       placeholder="eg. 8"
+                                       placeholder="Quantity"
                                        min="0"
                                        v-model="quantity"
                                 >

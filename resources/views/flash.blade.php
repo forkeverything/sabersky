@@ -20,6 +20,7 @@
 @endif
 
 <script>
+    // Global Helper Function to show msg
     function flashNotify(type, msg) {
         noty({
             text: msg,
@@ -36,4 +37,24 @@
             }
         });
     }
+
+
+    function readLocalFlash() {
+        if (Cookies.get('ss_flash_type') && Cookies.get('ss_flash_message')) {
+            flashNotify(Cookies.get('ss_flash_type'), Cookies.get('ss_flash_message'));
+        }
+        Cookies.remove('ss_flash_type');
+        Cookies.remove('ss_flash_message');
+    }
+
+    $(document).ready(readLocalFlash);
+
+    // Global func to set Flash msgs to Cookie
+    function flashNotifyNextRequest(type, msg) {
+        Cookies.set('ss_flash_type', type);
+        Cookies.set('ss_flash_message', msg);
+    }
+
+
+
 </script>

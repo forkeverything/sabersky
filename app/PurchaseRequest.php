@@ -117,11 +117,10 @@ class PurchaseRequest extends Model
      * @param User $user
      * @return static
      */
-    public static function make(MakePurchaseRequestRequest $request, Item $item, User $user)
+    public static function make(MakePurchaseRequestRequest $request, User $user)
     {
         return static::create(
             array_merge($request->all(), [
-                'item_id' => $item->id,
                 'user_id' => $user->id
             ])
         );

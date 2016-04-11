@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="page-body">
-                <div class="has-purchase-requests" v-if="response.data.length > 0">
+                <div class="has-purchase-requests" v-if="response.total > 0">
                     @include('purchase_requests.partials.page_controls')
                     <div class="pr-bag table-responsive">
                         <table class="table table-bordered table-hover table-standard table-purchase-requests-all">

@@ -52,7 +52,8 @@ elixir(function(mix) {
         'bootstrap-select/dist/js/bootstrap-select.min.js',
         'autosize/dist/autosize.min.js',
         'blueimp-file-upload/js/vendor/jquery.ui.widget.js',
-        'blueimp-file-upload/js/jquery.fileupload.js'
+        'blueimp-file-upload/js/jquery.fileupload.js',
+        'js-cookie/src/js.cookie.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

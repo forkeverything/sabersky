@@ -67,7 +67,7 @@ class PurchaseRequestController extends Controller
                                            ->sortOn($sort, $order)
                                            ->onlyUrgent($urgent)
                                            ->paginate($perPage);
-            
+
             return $data;
         } else {
             abort('501', 'Oops..can\'t get in that way.');
@@ -101,21 +101,17 @@ class PurchaseRequestController extends Controller
      */
     public function postMakePR(MakePurchaseRequestRequest $request)
     {
-        // Find / Make an Item
-        $item = Item::findOrCreate($request->input('item_id'), [
-            'name' => $request->input('name'),
-            'specification' => $request->input('specification')
-        ]);
         // Find Project
         $project = Project::findOrFail($request->input('project_id'));
+        // Find Item
+        $item = Item::findOrFail($request->input('item_id'));
         // Attach Item to Project
         $project->saveItem($item);
-        // Handle files attached to Form
-        if ($files = $request->file('item_photos')) $item->handleFiles($files);
-        // Create the Purchase Request
-        PurchaseRequest::make($request, $item, Auth::user());
 
-        return response("Made a new Purchase Request", 200);
+        // Create the Purchase Request
+        if (PurchaseRequest::make($request, Auth::user())) return response("Made a new Purchase Request", 200);
+        return response("Could not make Purchase Request", 500);
+
     }
 
     /**

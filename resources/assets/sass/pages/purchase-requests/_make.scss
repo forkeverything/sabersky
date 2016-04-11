@@ -21,51 +21,92 @@
 
   .item-selection {
     margin: 0 0 30px;
-    .select-item {
 
-      .item-single-option {
+    .selectize-control {
+      .item-thumbnail {
+        width: 50px;
+        height: 50px;
+        margin: 0 5px 0 0;
         display: flex;
-        padding: 10px 15px!important;
+        justify-content: center;
+        align-items: center;
 
-        .item-thumbnail {
-          width: 50px;
-          height: 50px;
-          margin: 0 5px 0 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          img {
-            max-width: 100%;
-          }
-
-          i {
-            font-size: 3em;
-            color: $midnight-light;
-          }
+        img {
+          max-width: 100%;
         }
 
-        .details {
-          flex: 1;
-
-          .brand {
-            font-weight: bold;
-          }
-
-          .name {
-
-          }
-
-          .sku {
-            color: $text-muted;
-            display: block;
-          }
+        i {
+          font-size: 3em;
+          color: $midnight-light;
         }
       }
 
+      .details {
+        flex: 1;
 
+        .brand {
+          font-weight: bold;
+        }
+
+        .name {
+
+        }
+
+        .sku {
+          color: $text-muted;
+          display: block;
+        }
+      }
+
+      .select-item {
+
+        .item-single-option {
+          display: flex;
+          padding: 10px 15px !important;
+        }
+      }
+
+      .item-selected {
+        display: flex;
+        padding: 5px 0;
+        flex-wrap: wrap;
+
+        .item-thumbnail {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 75px;
+          height: 75px;
+          margin: 0 10px 0 0;
+        }
+
+        .details {
+          margin: 0 0 10px 0;
+
+          .brand, .name {
+            font-size: 1.5em;
+          }
+
+          .specification {
+            margin: 5px 0 0 0;
+            display: block;
+          }
+        }
+
+        .item-images {
+          flex: 100%;
+          margin: 0 0 0 85px;
+
+          li {
+            display: inline-block;
+            width: 35px;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
     }
-
   }
 
   .new-pr-add-photo {

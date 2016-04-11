@@ -852,7 +852,7 @@ Vue.component('add-item-modal', {
 });
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
-    '<h5 class="errors-heading">{{ errorHeading }}</h5>' +
+    '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
     '<ul class="errors-list list-unstyled"' +
     'v-show="errors.length > 0"' +
     '>' +
@@ -862,15 +862,6 @@ Vue.component('form-errors', {
     data: function () {
         return {
             errors: []
-        }
-    },
-    computed: {
-        errorHeading: function() {
-            if(this.errors.length > 1) {
-                return 'There were '  + errors.length + ' errors'
-            } else if (this.errors.length == 1){
-                return 'There was 1 error'
-            }
         }
     },
     events: {
