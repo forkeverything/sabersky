@@ -43,90 +43,98 @@
                 </div>
             </div>
             <div class="page-body">
-                @include('purchase_requests.partials.page_controls')
-                <div class="pr-bag table-responsive">
-                    <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
-                        <thead>
-                        <tr>
-                            <th class="clickable"
-                            @click="changeSort('project_name')"
-                            :class="{
+                <div class="has-purchase-requests" v-if="response.data.length > 0">
+                    @include('purchase_requests.partials.page_controls')
+                    <div class="pr-bag table-responsive">
+                        <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
+                            <thead>
+                            <tr>
+                                <th class="clickable"
+                                @click="changeSort('project_name')"
+                                :class="{
                                             'current_asc': sort === 'project_name' && order === 'asc',
                                             'current_desc': sort === 'project_name' && order === 'desc'
                                         }"
-                            >
-                            Project
-                            </th>
-                            <th class="clickable"
-                            @click="changeSort('quantity')"
-                            :class="{
+                                >
+                                Project
+                                </th>
+                                <th class="clickable"
+                                @click="changeSort('quantity')"
+                                :class="{
                                             'current_asc': sort === 'quantity' && order === 'asc',
                                             'current_desc': sort === 'quantity' && order === 'desc'
                                         }"
-                            >
-                            Qty
-                            </th>
-                            <th class="clickable"
-                            @click="changeSort('item_name')"
-                            :class="{
+                                >
+                                Qty
+                                </th>
+                                <th class="clickable"
+                                @click="changeSort('item_name')"
+                                :class="{
                                             'current_asc': sort === 'item_name' && order === 'asc',
                                             'current_desc': sort === 'item_name' && order === 'desc'
                                         }"
-                            >
-                            Item
-                            </th>
-                            <th class="clickable"
-                            @click="changeSort('due')"
-                            :class="{
+                                >
+                                Item
+                                </th>
+                                <th class="clickable"
+                                @click="changeSort('due')"
+                                :class="{
                                             'current_asc': sort === 'due' && order === 'asc',
                                             'current_desc': sort === 'due' && order === 'desc'
                                         }"
-                            >
-                            Due</th>
-                            <th class="clickable"
-                            @click="changeSort('created_at')"
-                            :class="{
+                                >
+                                Due</th>
+                                <th class="clickable"
+                                @click="changeSort('created_at')"
+                                :class="{
                                             'current_asc': sort === 'created_at' && order === 'asc',
                                             'current_desc': sort === 'created_at' && order === 'desc'
                                         }"
-                            >
-                            Requested
-                            </th>
-                            <th class="clickable"
-                            @click="changeSort('requester_name')"
-                            :class="{
+                                >
+                                Requested
+                                </th>
+                                <th class="clickable"
+                                @click="changeSort('requester_name')"
+                                :class="{
                                             'current_asc': sort === 'requester_name' && order === 'asc',
                                             'current_desc': sort === 'requester_name' && order === 'desc'
                                         }"
-                            >
-                            By
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <template v-for="purchaseRequest in response.data">
-                            <tr class="row-single-pr" v-if="purchaseRequest.id">
-                                <td class="col-project">@{{ purchaseRequest.project_name }}</td>
-                                <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
-                                <td class="col-item">
-                                    <span class="item-name">@{{ purchaseRequest.item_name }}</span>
-                                    <span class="item-specifications">@{{ purchaseRequest.item_specification }}</span>
-                                </td>
-                                <td>
-                                    <span class="pr-due">@{{ purchaseRequest.due | easyDate }}</span>
-                                </td>
-                                <td>
-                                    <span class="pr-requested">@{{ purchaseRequest.created_at | diffHuman }}</span>
-                                </td>
-                                <td>
-                                    <span class="pr-requester">@{{ purchaseRequest.requester_name | capitalize }}</span>
-                                </td>
+                                >
+                                By
+                                </th>
                             </tr>
-                        </template>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <template v-for="purchaseRequest in response.data">
+                                <tr class="row-single-pr" v-if="purchaseRequest.id">
+                                    <td class="col-project">@{{ purchaseRequest.project_name }}</td>
+                                    <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
+                                    <td class="col-item">
+                                        <span class="item-name">@{{ purchaseRequest.item_name }}</span>
+                                        <span class="item-specifications">@{{ purchaseRequest.item_specification }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="pr-due">@{{ purchaseRequest.due | easyDate }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="pr-requested">@{{ purchaseRequest.created_at | diffHuman }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="pr-requester">@{{ purchaseRequest.requester_name | capitalize }}</span>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    @include('purchase_requests.partials.page_controls')
                 </div>
-                @include('purchase_requests.partials.page_controls')
+                <div class="no-purchase-requests empty-stage" v-else>
+                    <i class="fa fa-shopping-basket"></i>
+                    <h3>Could not find any Purchase Requests</h3>
+                    <p>Try changing filters or create a new request</p>
+                </div>
+
             </div>
         </div>
     </purchase-requests-all>

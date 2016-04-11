@@ -15,9 +15,8 @@
                         <thead>
                         <tr>
                             <th></th>
+                            <th>Details</th>
                             <th>SKU</th>
-                            <th>Brand</th>
-                            <th>Name</th>
                             <th>Projects</th>
                         <tr>
                         </thead>
@@ -36,17 +35,15 @@
                                         >
                                     </div>
                                 </td>
-                                <td>
-                                    <span class="sku" v-if="item.sku">@{{ item.sku }}</span>
-                                    <span v-else>-</span>
-                                </td>
-                                <td>
-                                    <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
-                                    <span v-else>universal</span>
-                                </td>
-                                <td class="col-name">
-                                    <span class="item-name">@{{ item.name }}</span>
+                                <td class="col-details">
+                                    <div class="item-brand-name">
+                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span><span class="name">@{{ item.name }}</span>
+                                    </div>
                                     <span class="item-specification">@{{ item.specification }}</span>
+                                </td>
+                                <td class="col-sku">
+                                    <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>
+                                    <span v-else>-</span>
                                 </td>
                                 <td>
                                     <ul class="list-unstyled" v-if="item.projects.length > 0">

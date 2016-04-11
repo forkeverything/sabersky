@@ -59,6 +59,7 @@
 }
 
 .table-standard {
+
   thead {
     tr {
       background: $body-background;
@@ -95,6 +96,13 @@
 
   tbody {
     tr {
+
+      &:first-child {
+        td {
+          border-top: 0;
+        }
+      }
+
       td {
         padding: 15px;
         vertical-align: middle;

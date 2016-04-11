@@ -31,12 +31,27 @@
           }
         }
 
-        &.col-name {
+        &.col-details {
 
-          .item-name {
-            font-weight:bold;
-            display: block;
+          .item-sku {
             margin: 0 0 5px 0;
+          }
+
+          .item-brand-name {
+            margin: 0 0 5px 0;
+            font-size: 1.2em;
+            .brand {
+              font-weight: bold;
+              margin: 0 5px 0 0 ;
+              &:after {
+                content: "-";
+                margin: 0 0 0 5px;
+              }
+            }
+
+            .name {
+
+            }
           }
         }
       }
