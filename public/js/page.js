@@ -737,7 +737,7 @@ Vue.component('purchase-requests-make', {
             $('#field-new-item-specification').val('');
             $('.input-item-photos').fileinput('clear');
         },
-        submitMakePRForm: function() {
+        submitMakePRForm: function () {
             var self = this;
 
             // Create new FormData Instance
@@ -750,15 +750,15 @@ Vue.component('purchase-requests-make', {
 
             // Append our other data
             fd.append('project_id', self.projectID);
-            if(self.selectedItem) fd.append('item_id', self.selectedItem.id);
+            if (self.selectedItem) fd.append('item_id', self.selectedItem.id);
             fd.append('name', self.newItemName);
             fd.append('specification', self.newItemSpecification);
             fd.append('quantity', self.quantity);
             fd.append('due', self.due);
-            
+
             // Send Req. via Ajax
             vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/purchase_requests/make',
@@ -766,13 +766,13 @@ Vue.component('purchase-requests-make', {
                 data: fd,
                 contentType: false,
                 processData: false,
-                success: function(data) {
-                   // success
+                success: function (data) {
+                    // success
                     console.log('success!');
                     console.log(data);
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
 
                     vueValidation(response, self);
@@ -799,52 +799,56 @@ Vue.component('purchase-requests-make', {
             }
         });
 
-        // Initialize using selectize.js
-        var newItemNameSelecter = $('#select-new-item-name').selectize({
-            create: true,
-            sortField: 'text',
-            placeholder: 'Select or enter a new Item',
-            createFilter: function (input) {
-                // Filter that makes sure value names added are unique
-                input = input.toLowerCase();
-                var array = $.map(newItemNameSelecter.options, function (value) {
-                    return [value];
-                });
-                var unmatched = true;
-                _.forEach(array, function (option) {
-                    if ((option.text).toLowerCase() === input) {
-                        unmatched = false;
+
+        $('#pr-item-selection').selectize({
+            valueField: 'id',
+            searchField: ['sku', 'brand', 'name'],
+            create: false,
+            placeholder: 'Search by SKU, Brand or Name',
+            render: {
+                option: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+
+                    return '<div class="item-single-option">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="brand">' + brand + '</span>' +
+                        '           <span class="name">' + escape(item.name) + '</span>' +
+                        '           <span class="sku">' + sku + '</span>' +
+                        '       </div>' +
+                        '</div>';
+                },
+                item: function (item, escape) {
+                    return '<div>' +
+                        '<span class="brand">' + escape(item.brand) + '</span>' +
+                        '-' +
+                        '<span class="name">' + escape(item.name) + '</span>' +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        callback(res);
                     }
                 });
-                return unmatched;
             },
-            onChange: function(value) {
-                // When we select / enter a new value - enter it into our data
-                self.newItemName = value;
+            onChange: function (value) {
+                console.log(value);     // Item ID
             }
-        })[0].selectize;
-
-            // Initialize File Uploads
-            $('#item-photos-upload').fileupload({
-                autoUpload: false
-            }).on('fileuploadadd', function (e, data) {
-                _.forEach(data.files, function(file) {
-                    self.uploadedFiles.push(file);
-                });
-            });
-
-        // $("#form-make-purchase-request").submit(function(e) {
-        //     if (uploadedFiles.length > 0) {
-        //         e.preventDefault();
-        //         $('#item-photos-upload').fileupload('send', {files: uploadedFiles})
-        //             .complete(function (result, textStatus, jqXHR) {
-        //                 // window.location='back to view-page after submit?'
-        //             });
-        //     } else {
-        //         // plain default submit
-        //     }
-        // });
-        // });
+        });
 
         self.$nextTick(function () {
             self.pageReady = true;

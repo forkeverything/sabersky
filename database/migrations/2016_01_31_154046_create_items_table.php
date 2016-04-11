@@ -26,6 +26,8 @@ class CreateItemsTable extends Migration
 
             $table->unique(['brand', 'name', 'company_id']);    // Brand-Name Combination has to be unique per. Company
             $table->unique(['sku', 'company_id']);              // SKU has to be unique per. Company
+
+            $table->index(['sku', 'brand', 'name']);
         });
     }
 

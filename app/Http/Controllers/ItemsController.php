@@ -37,7 +37,7 @@ class ItemsController extends Controller
     /**
      * Returns all of the User's Company's
      * Items
-     * 
+     *
      * @return mixed
      */
     public function apiGetAll()
@@ -72,9 +72,30 @@ class ItemsController extends Controller
         }
 
         // If we have an item and it belongs to the same Company as User requesting it - return it
-        if($item && Gate::allows('edit', $item)) return $item;
+        if ($item && Gate::allows('edit', $item)) return $item;
 
         return [];
+    }
+
+
+    /**
+     * Receives a Query and performs a DB search on:
+     * sku, brand, and name - returns JSON
+     * @param $query
+     * @return mixed
+     */
+    public function getSearchItems($query)
+    {
+        if ($query) {
+            $items = Item::where('company_id', Auth::user()->company->id);
+            $items->where('sku', 'LIKE', '%' . $query . '%')
+                  ->orWhere('brand', 'LIKE', '%' . $query . '%')
+                  ->orWhere('name', 'LIKE', '%' . $query . '%')
+                  ->with(['photos']);
+            return $items->take(10)->get();
+        }
+
+        return response("No search term given", 500);
     }
 
     /**
@@ -86,7 +107,7 @@ class ItemsController extends Controller
      */
     public function postAddNew(AddItemRequest $request)
     {
-       $item = Item::create([
+        $item = Item::create([
             'sku' => $request->input('sku'),
             'brand' => $request->input('brand'),
             'name' => $request->input('name'),

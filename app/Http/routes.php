@@ -102,6 +102,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/items', 'ItemsController@apiGetAll');
     Route::get('/api/items/brands', 'ItemsController@apiGetAllBrands');
     Route::get('/api/items/find', 'ItemsController@apiGetSingleBy');
+    Route::get('/api/items/search/{query}', 'ItemsController@getSearchItems');
     Route::post('/api/items', 'ItemsController@postAddNew');
     Route::post('/api/items/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'ItemsController@addPhoto']);
     Route::get('/items/{item}', ['as' => 'getSingleItem', 'uses' => 'ItemsController@single']);
