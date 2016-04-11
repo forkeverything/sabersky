@@ -12,3 +12,8 @@ Vue.transition('fade-slide', {
     enterClass: 'fadeInDown',
     leaveClass: 'fadeOutUp'
 });
+
+Vue.transition('slide-down', {
+    enterClass: 'slideInDown',
+    leaveClass: 'slideOutUp'
+});

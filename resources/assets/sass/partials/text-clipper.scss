@@ -1,0 +1,37 @@
+.text-clipper {
+  @include transition(all 2s);
+
+  @media screen and (min-width: 768px) and (max-width: 997px) {
+    max-height: 120px;
+  }
+
+  @media screen and (min-width: 998px) {
+    max-height: 140px;
+  }
+
+  @media screen and (min-width:  1222px) {
+    max-height: 100px;
+  }
+
+  @media screen and (min-width:  1430px) {
+    max-height: 800px;
+  }
+
+  &.expanded {
+    max-height: 5000px!important;
+  }
+
+  .btn-show-more-text {
+    display: block;
+    color: $text-muted;
+    font-size: 1.75em;
+    line-height: 1;
+    text-align: center;
+    margin: -10px 0 0 0;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+
+}

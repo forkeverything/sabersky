@@ -29,6 +29,7 @@
 @import "partials/badges";
 @import "partials/items/add-modal";
 @import "partials/dropzone";
+@import "partials/text-clipper";
 
 body {
   font-family: 'helvetica';
@@ -320,7 +321,7 @@ li.active {
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 998px) {
   .container {
     width: 740px !important;
   }
@@ -362,4 +363,8 @@ li.active {
   p {
     color: $text-muted;
   }
+}
+
+.no-wrap {
+  white-space: nowrap;
 }

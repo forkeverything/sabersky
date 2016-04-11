@@ -25,6 +25,7 @@
         &.col-thumbnail {
           width: 100px;
           text-align: center;
+          padding: 39px 0;
 
           .item-thumbnail {
             display: inline-block;
@@ -48,10 +49,11 @@
                 margin: 0 0 0 5px;
               }
             }
+          }
 
-            .name {
-
-            }
+          .item-specification {
+            display: inline-block;
+           overflow: hidden;
           }
         }
       }

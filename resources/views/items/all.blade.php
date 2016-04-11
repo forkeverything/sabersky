@@ -39,13 +39,13 @@
                                     <div class="item-brand-name">
                                         <span class="brand" v-if="item.brand">@{{ item.brand }}</span><span class="name">@{{ item.name }}</span>
                                     </div>
-                                    <span class="item-specification">@{{ item.specification }}</span>
+                                    <span class="item-specification"><text-clipper :text="item.specification"></text-clipper></span>
                                 </td>
-                                <td class="col-sku">
+                                <td class="col-sku no-wrap">
                                     <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>
                                     <span v-else>-</span>
                                 </td>
-                                <td>
+                                <td class="no-wrap">
                                     <ul class="list-unstyled" v-if="item.projects.length > 0">
                                         <li v-for="project in item.projects">@{{ project.name }}</li>
                                     </ul>

@@ -300,6 +300,11 @@ Vue.transition('fade-slide', {
     enterClass: 'fadeInDown',
     leaveClass: 'fadeOutUp'
 });
+
+Vue.transition('slide-down', {
+    enterClass: 'slideInDown',
+    leaveClass: 'slideOutUp'
+});
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -625,9 +630,9 @@ Vue.filter('easyDateModel', {
     }
 });
 Vue.filter('limitString', function (val, limit) {
-    if (val) {
+    if (val && val.length > limit) {
         var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))) + '...';
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
         return trimmedString
     }
 
@@ -1312,6 +1317,38 @@ Vue.component('side-menu', {
             // set flag
             self.finishedCompiling = true;
         });
+    }
+});
+Vue.component('text-clipper', {
+    name: 'textClipper',
+    template: '<div class="text-clipper"' +
+    '               :class="{' +
+    "                   'expanded': !clip" +
+    '}">' +
+    '<div v-if="clipped" class="clipped">' +
+    '{{ text | limitString limit }}' +
+    '<a class="btn-show-more-text" @click.prevent="unclip">' +
+    '<span>...</span>' +
+    '</a>' +
+    '</div>' +
+    '<div v-else class="unclipped">{{ text }}</div>' +
+    '</div>',
+    data: function() {
+        return {
+            limit: 150,
+            clip: true
+        };
+    },
+    props: ['text'],
+    computed: {
+        clipped: function() {
+            return this.text.length > this.limit && this.clip;
+        }
+    },
+    methods: {
+        unclip: function() {
+            this.clip = false;
+        }
     }
 });
 //# sourceMappingURL=dependencies.js.map
