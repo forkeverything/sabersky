@@ -1,0 +1,28 @@
+.items-control {
+  display: flex;
+  margin: 0 0 15px 0;
+
+  .filter {
+
+    button {
+      color: $text-muted;
+      border: 1px solid $grey;
+      border-right: none;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+
+      &:hover, &:focus, &:active {
+        color: $blue;
+      }
+    }
+  }
+
+  .form-item-search {
+    flex: 1;
+
+    input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

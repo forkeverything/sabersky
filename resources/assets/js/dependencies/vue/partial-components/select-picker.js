@@ -1,9 +1,17 @@
 Vue.component('select-picker', {
-    template:'<select v-model="name" class="themed-select" @change="function">' +
-    '<option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
+    template:'<select v-model="name" class="themed-select" @change="callChangeFunction">' +
+    ' <option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
+    '<option v-if="option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
     '</select>',
     name: 'selectpicker',
-    props: ['options', 'name', 'function'],
+    props: ['options', 'name', 'function', 'placeholder'],
+    methods: {
+        callChangeFunction: function(){
+            if (this.function && typeof this.function === 'function') {
+                this.function();
+            }
+        }
+    },
     ready: function() {
 
         // Init our picker

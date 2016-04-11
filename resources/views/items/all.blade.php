@@ -9,6 +9,24 @@
                     >Add New Item</button>
             </section>
             <div class="page-body">
+                <div class="items-control">
+                        <div class="filter dropdown"  v-dropdown-toggle="itemsFilterDropdown">
+                            <button type="button" class="btn">Filter items <i class="fa fa-caret-down"></i></button>
+                            <div class="filter-dropdown dropdown-container left"
+                                 v-show="itemsFilterDropdown"
+                                >
+                                    <p>Show items where</p>
+                                    <select-picker :options="filterOptions" :name.sync="filter" :placeholder="'Select one...'"></select-picker>
+                                    <div class="brands-list" v-show="filter === 'brand'">
+                                        <p>is</p>
+                                        <select-picker :options="brands" :name.sync="filterBrand" :placeholder="'Select a brand...'"></select-picker>
+                                    </div>
+                            </div>
+                        </div>
+                        <form class="form-item-search">
+                            <input type="text" placeholder="Search by SKU, Brand or Name" class="form-control">
+                        </form>
+                </div>
                 <div class="table-responsive table-items">
                     <!-- Items Table -->
                     <table class="table table-hover table-standard">

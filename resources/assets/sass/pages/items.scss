@@ -1,11 +1,12 @@
 #items-all {
 
+  @import "items/control";
+
   .table-items {
 
     th, td {
       padding: 10px 15px;
     }
-
 
     .item-row {
 
@@ -43,7 +44,7 @@
             font-size: 1.2em;
             .brand {
               font-weight: bold;
-              margin: 0 5px 0 0 ;
+              margin: 0 5px 0 0;
               &:after {
                 content: "-";
                 margin: 0 0 0 5px;
@@ -53,7 +54,7 @@
 
           .item-specification {
             display: inline-block;
-           overflow: hidden;
+            overflow: hidden;
           }
         }
       }

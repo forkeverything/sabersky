@@ -5,8 +5,22 @@ Vue.component('items-all', {
     },
     data: function() {
         return {
+            brands: [],
             items: [],
-            visibleAddItemModal: false
+            visibleAddItemModal: false,
+            itemsFilterDropdown: false,
+            filterOptions: [
+                {
+                    value: 'brand',
+                    label: 'Brand'
+                },
+                {
+                    value: 'projects',
+                    label: 'Projects'
+                }
+            ],
+            filter: '',
+            filterBrand: ''
         };
     },
     computed: {
@@ -39,6 +53,24 @@ Vue.component('items-all', {
             error: function(err) {
                 console.log(err);
             }
-        })
+        });
+
+        $.ajax({
+            url: '/api/items/brands',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.brands = _.map(data, function(brand) {
+                   if(brand.brand) {
+                       brand.value = brand.brand;
+                       brand.label = strCapitalize(brand.brand);
+                       return brand;
+                   }
+               });
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     }
 });

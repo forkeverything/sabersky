@@ -1,8 +1,11 @@
 
 // Our parent btn class
 .btn {
+  background: transparent;
+
   &:focus, :active, :hover {
     outline: 0 !important;
+    @include box-shadow(none);
   }
   @include border-radius(0);
 }

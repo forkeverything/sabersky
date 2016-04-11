@@ -27,7 +27,7 @@
                             class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
                     >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i class="fa fa-chevron-down"></i>
                     </button>
-                    <div class="dropdown-filters dropdown-container"
+                    <div class="dropdown-filters dropdown-container right"
                          v-show="showFilterDropdown"
                     >
                         <span class="dropdown-title">View only</span>
