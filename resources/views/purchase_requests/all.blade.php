@@ -44,7 +44,6 @@
             </div>
             <div class="page-body">
                 <div class="has-purchase-requests" v-if="response.total > 0">
-                    @include('purchase_requests.partials.page_controls')
                     <div class="pr-bag table-responsive">
                         <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
                             <thead>
@@ -127,7 +126,10 @@
                             </tbody>
                         </table>
                     </div>
-                    @include('purchase_requests.partials.page_controls')
+                    <div class="page-controls">
+                        <per-page-picker :response="response"  :req-function="fetchPurchaseRequests"></per-page-picker>
+                        <paginator :response="response" :req-function="fetchPurchaseRequests"></paginator>
+                    </div>
                 </div>
                 <div class="no-purchase-requests empty-stage" v-else>
                     <i class="fa fa-shopping-basket"></i>

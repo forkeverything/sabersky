@@ -162,4 +162,17 @@ function onPopQuery(callback)
         }
     }
 }
+
+/**
+ * Takes a query string and if it is  different to
+ * the current query string, it will update the
+ * browsers state, so we can use nav buttons
+ * 
+ * @param query
+ */
+function pushStateIfDiffQuery(query) {
+    if (query !== window.location.href.split('?')[1]) {
+        window.history.pushState({}, "", '?' + query);
+    }
+}
 //# sourceMappingURL=global.js.map

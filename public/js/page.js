@@ -55,7 +55,6 @@ Vue.component('items-all', {
                 url: url,
                 method: 'GET',
                 success: function (response) {
-                    console.log(response);
                     self.response = response;
                     self.items = response.data;
 
@@ -64,14 +63,9 @@ Vue.component('items-all', {
                     self.searchTerm = response.data.search;
                     self.sort = response.data.sort;
                     self.order = response.data.order;
-                    self.lastPage = response.last_page;
-                    self.currentPage = response.current_page;
-                    self.itemsPerPage = response.per_page;
 
                     // push state (if query is different from url)
-                    if (query !== window.location.href.split('?')[1]) {
-                        window.history.pushState({}, "", '?' + query);
-                    }
+                    pushStateIfDiffQuery(query);
 
                     // Scrolltop
                     document.getElementById('body-content').scrollTop = 0;
@@ -622,8 +616,6 @@ Vue.component('purchase-requests-all', {
             urgent: '',
             filter: '',
             sort: '',
-            lastPage: '',
-            currentPage: '',
             showFilterDropdown: false,
             filters: [
                 {
@@ -644,56 +636,11 @@ Vue.component('purchase-requests-all', {
                 }
             ],
             ajaxReady: true,
-            finishLoading: false,
-            itemsPerPage: 8,
-            itemsPerPageOptions: [
-                {
-                    value: 8,
-                    label: '8 Requests / Page'
-                }, {
-                    value: 16,
-                    label: '16 Requests / Page'
-                },
-                {
-                    value: 32,
-                    label: '32 Requests / Page'
-                }
-            ]
+            finishLoading: false
         };
     },
-    computed: {
-        paginatedPages: function () {
-            switch (this.currentPage) {
-                case 1:
-                case 2:
-                    if(this.lastPage > 0) {
-                        var endPage = (this.lastPage < 5) ? this.lastPage : 5;
-                        return this.makePagesArray(1, endPage);
-                    } else {
-                        return this.makePagesArray(1, 5);
-                    }
-                    break;
-                case this.lastPage:
-                case this.lastPage - 1:
-                    var startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
-                    var endPage = this.lastPage;
-                    return this.makePagesArray(startPage, endPage);
-                    break;
-                default:
-                    var startPage = this.currentPage - 2;
-                    var endPage = this.currentPage + 2;
-                    return this.makePagesArray(startPage, endPage);
-            }
-        }
-    },
+    computed: {},
     methods: {
-        makePagesArray: function (startPage, endPage) {
-            var pagesArray = [];
-            for (var i = startPage; i <= endPage; i++) {
-                pagesArray.push(i);
-            }
-            return pagesArray;
-        },
         loadSinglePR: function (id) {
             window.document.location = '/purchase_requests/single/' + id;
         },
@@ -708,7 +655,6 @@ Vue.component('purchase-requests-all', {
         checkShow: function (purchaseRequest) {
             switch (this.filter) {
                 case 'complete':
-                    console.log(purchaseRequest.state);
                     if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
                         return true;
                     }
@@ -725,7 +671,9 @@ Vue.component('purchase-requests-all', {
             }
         },
         setLoadQuery: function () {
+            // The currenty query
             var currentQuery = window.location.href.split('?')[1];
+            // If filter set - use query. Else - set a default for the filter
             currentQuery = getParameterByName('filter') ? currentQuery : updateQueryString('filter', 'open');
             return currentQuery;
         },
@@ -744,21 +692,16 @@ Vue.component('purchase-requests-all', {
                     // Update data
                     self.response = response;
 
-                    // set flags
+                    // Pull flags from response (better than parsing url)
                     self.filter = response.data.filter;
                     self.sort = response.data.sort;
                     self.order = response.data.order;
                     self.urgent = response.data.urgent;
-                    self.lastPage = response.last_page;
-                    self.currentPage = response.current_page;
-                    self.itemsPerPage = response.per_page;
 
                     // push state (if query is different from url)
-                    if (query !== window.location.href.split('?')[1]) {
-                        window.history.pushState({}, "", '?' + query);
-                    }
+                    pushStateIfDiffQuery(query);
+                    
                     self.ajaxReady = true;
-
 
                     // self.$nextTick(function() {
                     //     self.finishLoading = true;
@@ -771,9 +714,6 @@ Vue.component('purchase-requests-all', {
                     self.ajaxReady = true;
                 }
             });
-        },
-        goToPage: function (page) {
-            if (0 < page && page <= this.lastPage) this.fetchPurchaseRequests(updateQueryString('page', page));
         },
         changeFilter: function (filter) {
             this.filter = filter;
@@ -802,25 +742,11 @@ Vue.component('purchase-requests-all', {
                     page: 1
                 }));
             }
-        },
-        changeItemsPerPage: function() {
-            this.fetchPurchaseRequests(updateQueryString({
-                filter: this.filter, // use same filter
-                page: 1, // Reset to page 1
-                urgent: (this.urgent) ? 1 : 0, // Keep urgent flag
-                per_page: this.itemsPerPage
-            }));
         }
     },
     ready: function () {
         // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
-
-        // window.onpopstate = function (e) {
-        //     if (e.state) {
-        //         this.fetchPurchaseRequests(window.location.href.split('?')[1]);
-        //     }
-        // }.bind(this);
 
         onPopQuery(this.fetchPurchaseRequests);
     }

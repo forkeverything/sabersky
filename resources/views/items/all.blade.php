@@ -118,9 +118,7 @@
                     </table>
                 </div>
                 <div class="item-page-controls">
-                    <div class="per-page-selecter">
-                        <select-picker :name.sync="itemsPerPage" :options.sync="itemsPerPageOptions" :function="changeItemsPerPage"></select-picker>
-                    </div>
+                    <per-page-picker :response="response" :req-function="getCompanyItems"></per-page-picker>
                     <paginator :response="response" :req-function="getCompanyItems"></paginator>
                 </div>
             </div>

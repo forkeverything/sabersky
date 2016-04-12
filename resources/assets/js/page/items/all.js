@@ -55,7 +55,6 @@ Vue.component('items-all', {
                 url: url,
                 method: 'GET',
                 success: function (response) {
-                    console.log(response);
                     self.response = response;
                     self.items = response.data;
 
@@ -64,14 +63,9 @@ Vue.component('items-all', {
                     self.searchTerm = response.data.search;
                     self.sort = response.data.sort;
                     self.order = response.data.order;
-                    self.lastPage = response.last_page;
-                    self.currentPage = response.current_page;
-                    self.itemsPerPage = response.per_page;
 
                     // push state (if query is different from url)
-                    if (query !== window.location.href.split('?')[1]) {
-                        window.history.pushState({}, "", '?' + query);
-                    }
+                    pushStateIfDiffQuery(query);
 
                     // Scrolltop
                     document.getElementById('body-content').scrollTop = 0;
