@@ -1,5 +1,6 @@
 <?php
 
+use App\Company;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\Utilities\BuildPhoto;
@@ -26,8 +27,11 @@ class ItemTest extends TestCase
     public function it_creates_an_existing_item()
     {
         $item = Item::findOrCreate(null, [
+            'sku' => 'abcd1234',
+            'brand' => 'bazzo',
             'name' => 'foo',
-            'specification' => 'bar'
+            'specification' => 'bar',
+            'company_id' => factory(Company::class)->create()->id
         ]);
 
         $this->assertEquals('foo', $item->name);

@@ -6,6 +6,7 @@ Vue.component('items-all', {
     data: function() {
         return {
             brands: [],
+            projects: [],
             items: [],
             visibleAddItemModal: false,
             itemsFilterDropdown: false,
@@ -15,12 +16,14 @@ Vue.component('items-all', {
                     label: 'Brand'
                 },
                 {
-                    value: 'projects',
-                    label: 'Projects'
+                    value: 'project',
+                    label: 'Project'
                 }
             ],
             filter: '',
-            filterBrand: ''
+            filterBrand: '',
+            filterProject: '',
+            response: {}
         };
     },
     computed: {
@@ -35,6 +38,68 @@ Vue.component('items-all', {
     methods: {
         showAddItemModal: function() {
             this.visibleAddItemModal = true;
+        },
+        setLoadQuery: function() {
+            var currentQuery = window.location.href.split('?')[1];
+
+            return currentQuery
+        },
+        getCompanyItems: function(query) {
+            var self = this;
+            var url = query ? '/api/items?' + query : '/api/items';
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(response) {
+                    self.response = response;
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        },
+        getBrands: function() {
+            var self = this;
+            $.ajax({
+                url: '/api/items/brands',
+                method: 'GET',
+                success: function(data) {
+                    // success
+                    self.brands = _.map(data, function(brand) {
+                        if(brand.brand) {
+                            brand.value = brand.brand;
+                            brand.label = strCapitalize(brand.brand);
+                            return brand;
+                        }
+                    });
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        },
+        getProjects: function() {
+            var self = this;
+            $.ajax({
+                url: '/api/projects',
+                method: 'GET',
+                success: function(data) {
+                   // success
+                    self.projects = _.map(data, function(project) {
+                        if(project.name) {
+                            project.value = project.name;
+                            project.label = strCapitalize(project.name);
+                            return project;
+                        }
+                    });
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        },
+        addItemsFilter: function() {
+
         }
     },
     events: {
@@ -43,34 +108,10 @@ Vue.component('items-all', {
         }
     },
     ready: function() {
-        var self = this;
-        $.ajax({
-            url: '/api/items',
-            method: 'GET',
-            success: function(data) {
-                self.items = data;
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        });
 
-        $.ajax({
-            url: '/api/items/brands',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.brands = _.map(data, function(brand) {
-                   if(brand.brand) {
-                       brand.value = brand.brand;
-                       brand.label = strCapitalize(brand.brand);
-                       return brand;
-                   }
-               });
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
+        this.getCompanyItems(this.setLoadQuery);
+        this.getBrands();
+        this.getProjects();
+
     }
 });

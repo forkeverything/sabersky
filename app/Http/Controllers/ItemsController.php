@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddItemRequest;
 use App\Item;
+use App\Repositories\CompanyItemsRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -40,9 +41,24 @@ class ItemsController extends Controller
      *
      * @return mixed
      */
-    public function apiGetAll()
+    public function apiGetAll(Request $request)
     {
-        return Auth::user()->company->items->load(['photos', 'projects']);
+        $brand = $request->query('brand');
+        $project = $request->query('project');
+        $sort = $request->query('sort');
+        $order = $request->query('order');
+        $perPage = $request->query('per_page');
+        $search = $request->query('search');
+
+        $items = CompanyItemsRepository::forCompany(Auth::user()->company)
+                                       ->withBrand($brand)
+                                       ->forProject($project)
+                                       ->sortOn($sort, $order)
+                                       ->searchSkuBrandName($search)
+                                       ->with(['photos', 'projects'])
+                                       ->paginate($perPage);
+
+        return $items;
     }
 
 

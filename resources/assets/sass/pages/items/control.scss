@@ -4,7 +4,7 @@
 
   .filter {
 
-    button {
+    .button-show-filter-dropdown {
       color: $text-muted;
       border: 1px solid $grey;
       border-right: none;
@@ -13,6 +13,18 @@
 
       &:hover, &:focus, &:active {
         color: $blue;
+      }
+    }
+
+    .filter-dropdown {
+      padding: 15px;
+
+      p, .themed-select {
+        margin: 0 0 10px 0;
+      }
+
+      .button-add-filter {
+        width: 100%;
       }
     }
   }

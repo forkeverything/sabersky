@@ -97,4 +97,47 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+/**
+ * Takes a 2 Strings (name, value) pair or an Object containing
+ * several name-value pairs and updates the current query
+ * and returns it.
+ * 
+ * @returns {string}
+ */
+function updateQueryString() {
+    // Get and prep existing query so we can make changes to it
+    var fullQuery = window.location.href.split('?')[1];         // into pairs
+    var queryArray = fullQuery ? fullQuery.split('&') : [];     // into key-values
+    var queryObj = {};                                          // empty object
+
+    // Build up object
+    queryArray.forEach(function (item) {
+        var x = item.split('=');
+        queryObj[x[0]] = x[1];
+    });
+
+    /**
+     * Make Updates to query
+     * TO DO ::: CHECK HERE
+     */
+    if (typeof arguments[0] === 'string') {
+        // Only update single query name - set the new name and value
+        queryObj[arguments[0]] = arguments[1];
+    } else {
+        // Received an object with key-value pairs of query names and value to update
+        _.forEach(arguments[0], function (value, key) {
+            queryObj[key] = value;
+        });
+    }
+
+    // Make new query to return
+    var newQuery = '';
+    // Go through object and add everything back as a string
+    _.forEach(queryObj, function (value, name) {
+        newQuery += name + '=' + value + '&';
+    });
+    // Finally - return our new string!
+    return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'
+}
 //# sourceMappingURL=global.js.map

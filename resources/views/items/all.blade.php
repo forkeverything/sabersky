@@ -11,7 +11,7 @@
             <div class="page-body">
                 <div class="items-control">
                         <div class="filter dropdown"  v-dropdown-toggle="itemsFilterDropdown">
-                            <button type="button" class="btn">Filter items <i class="fa fa-caret-down"></i></button>
+                            <button type="button" class="btn button-show-filter-dropdown">Filter items <i class="fa fa-caret-down"></i></button>
                             <div class="filter-dropdown dropdown-container left"
                                  v-show="itemsFilterDropdown"
                                 >
@@ -19,8 +19,13 @@
                                     <select-picker :options="filterOptions" :name.sync="filter" :placeholder="'Select one...'"></select-picker>
                                     <div class="brands-list" v-show="filter === 'brand'">
                                         <p>is</p>
-                                        <select-picker :options="brands" :name.sync="filterBrand" :placeholder="'Select a brand...'"></select-picker>
+                                        <select-picker :options="brands" :name.sync="filterBrand" :placeholder="'Pick a Brand...'"></select-picker>
                                     </div>
+                                <div class="projects-list" v-show="filter === 'project'">
+                                    <p>is</p>
+                                    <select-picker :options="projects" :name.sync="filterProject" :placeholder="'Pick a Project...'"></select-picker>
+                                </div>
+                                <button class="button-add-filter btn btn-outline-blue" v-show="filter && (filterBrand || filterProject)">Add Filter</button>
                             </div>
                         </div>
                         <form class="form-item-search">

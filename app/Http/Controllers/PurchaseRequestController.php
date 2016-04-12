@@ -7,6 +7,7 @@ use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\Project;
 use App\PurchaseRequest;
+use App\Repositories\CompanyPurchaseRequestsRepository;
 use App\Utilities\CompanyPurchaseRequests;
 use Illuminate\Http\Request;
 
@@ -62,11 +63,13 @@ class PurchaseRequestController extends Controller
             $urgent = $request->query('urgent');
             $perPage = $request->query('per_page');
 
-            $data = CompanyPurchaseRequests::forCompany(Auth::user()->company)
-                                           ->filterBy($filter)
-                                           ->sortOn($sort, $order)
-                                           ->onlyUrgent($urgent)
-                                           ->paginate($perPage);
+
+
+            $data = CompanyPurchaseRequestsRepository::forCompany(Auth::user()->company)
+                                                     ->filterBy($filter)
+                                                     ->sortOn($sort, $order)
+                                                     ->onlyUrgent($urgent)
+                                                     ->paginate($perPage);
 
             return $data;
         } else {

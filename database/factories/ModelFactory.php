@@ -80,7 +80,7 @@ $factory->define(App\Item::class, function (Faker\Generator $faker) {
 $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
     $project = factory(Project::class)->create();
     return [
-        'quantity' => $faker->randomDigit,
+        'quantity' => $faker->numberBetween(0, 50),
         'due' => $faker->dateTimeThisYear->format('d/m/Y'),
         'state' => $faker->randomElement(['open', 'cancelled']),
         'urgent' => $faker->boolean(20),
