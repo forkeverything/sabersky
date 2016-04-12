@@ -47,23 +47,5 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         ]);
 
         $user->projects()->save($project);
-
-//
-//        // Test items
-//
-//        // Unique item names
-//        for ($x = 0; $x < 5; $x++) {
-//            $item = factory(Item::class)->create();
-//            $project->items()->save($item);
-//        }
-//
-//        // Existing item names
-//        for ($x = 0; $x < 20; $x++) {
-//            $itemName = Item::all()->random(1)->name;
-//            $item = factory(Item::class)->create([
-//                'name' => $itemName
-//            ]);
-//            $project->items()->save($item);
-//        }
     }
 }

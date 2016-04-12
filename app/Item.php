@@ -98,13 +98,18 @@ class Item extends Model
 
 
     /**
-     * An item can belong to many Projects.
+     * Item has many project
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return \DB::table('projects')->whereExists(function ($query) {
+            $query->select(\DB::raw(1))
+                  ->from('purchase_requests')
+                  ->where('item_id', '=', $this->id)
+                  ->whereRaw('projects.id = purchase_requests.project_id');
+        })->get();
     }
 
     /**

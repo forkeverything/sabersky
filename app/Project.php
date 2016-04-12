@@ -4,6 +4,7 @@ namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\BuildPhoto;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,7 +75,12 @@ class Project extends Model
      */
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return DB::table('items')->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                  ->from('purchase_requests')
+                  ->where('project_id', '=', $this->id)
+                  ->whereRaw('items.id = purchase_requests.item_id');
+        })->get();
     }
 
     /**
@@ -86,22 +92,6 @@ class Project extends Model
     public function addTeamMember(User $user)
     {
         $this->teamMembers()->save($user);
-        return $this;
-    }
-
-    /**
-     * Saves an item to a Project if it
-     * IS NOT already attached.
-     * 
-     * @param Item $item
-     * @return Item
-     */
-    public function saveItem(Item $item)
-    {
-        if (! $this->items->contains($item->id)) {
-            $this->items()->save($item);
-        }
-        
         return $this;
     }
 

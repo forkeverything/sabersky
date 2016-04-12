@@ -108,8 +108,6 @@ class PurchaseRequestController extends Controller
         $project = Project::findOrFail($request->input('project_id'));
         // Find Item
         $item = Item::findOrFail($request->input('item_id'));
-        // Attach Item to Project
-        $project->saveItem($item);
 
         // Create the Purchase Request
         if (PurchaseRequest::make($request, Auth::user())) return response("Made a new Purchase Request", 200);
