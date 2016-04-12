@@ -1,10 +1,11 @@
 Vue.component('items-all', {
     name: 'allItems',
-    el: function() {
+    el: function () {
         return '#items-all';
     },
-    data: function() {
+    data: function () {
         return {
+            ajaxReady: true,
             brands: [],
             projects: [],
             items: [],
@@ -23,95 +24,184 @@ Vue.component('items-all', {
             filter: '',
             filterBrand: '',
             filterProject: '',
-            response: {}
+            response: {},
+            activeBrandFilter: '',
+            activeProjectFilter: '',
+            searchTerm: '',
+            sort: '',
+            order: '',
+            lastPage: '',
+            currentPage: '',
+            itemsPerPage: '',
+            ajaxObject: {}
         };
     },
-    computed: {
-        itemNames: function() {
-            var names = [];
-            _.forEach(this.items, function (item) {
-                names.push(item.name);
-            });
-            return names;
-        }
-    },
+    computed: {},
     methods: {
-        showAddItemModal: function() {
+        showAddItemModal: function () {
             this.visibleAddItemModal = true;
         },
-        setLoadQuery: function() {
+        setLoadQuery: function () {
             var currentQuery = window.location.href.split('?')[1];
 
             return currentQuery
         },
-        getCompanyItems: function(query) {
+        getCompanyItems: function (query) {
             var self = this;
             var url = query ? '/api/items?' + query : '/api/items';
-            $.ajax({
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
                 url: url,
                 method: 'GET',
-                success: function(response) {
+                success: function (response) {
+                    console.log(response);
                     self.response = response;
+                    self.items = response.data;
+
+                    self.activeBrandFilter = response.data.brand;
+                    self.activeProjectFilter = _.find(self.projects, {id: parseInt(response.data.projectID)});
+                    self.searchTerm = response.data.search;
+                    self.sort = response.data.sort;
+                    self.order = response.data.order;
+                    self.lastPage = response.last_page;
+                    self.currentPage = response.current_page;
+                    self.itemsPerPage = response.per_page;
+
+                    // push state (if query is different from url)
+                    if (query !== window.location.href.split('?')[1]) {
+                        window.history.pushState({}, "", '?' + query);
+                    }
+
+                    // Scrolltop
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
                 },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
+                    self.ajaxReady = true;
                 }
             });
         },
-        getBrands: function() {
+        getBrands: function () {
             var self = this;
             $.ajax({
                 url: '/api/items/brands',
                 method: 'GET',
-                success: function(data) {
+                success: function (data) {
                     // success
-                    self.brands = _.map(data, function(brand) {
-                        if(brand.brand) {
+                    self.brands = _.map(data, function (brand) {
+                        if (brand.brand) {
                             brand.value = brand.brand;
                             brand.label = strCapitalize(brand.brand);
                             return brand;
                         }
                     });
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                 }
             });
         },
-        getProjects: function() {
+        getProjects: function () {
             var self = this;
             $.ajax({
                 url: '/api/projects',
                 method: 'GET',
-                success: function(data) {
-                   // success
-                    self.projects = _.map(data, function(project) {
-                        if(project.name) {
-                            project.value = project.name;
+                success: function (data) {
+                    // success
+                    self.projects = _.map(data, function (project) {
+                        if (project.name) {
+                            project.value = project.id;
                             project.label = strCapitalize(project.name);
                             return project;
                         }
                     });
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                 }
             });
         },
-        addItemsFilter: function() {
+        addItemsFilter: function () {
+            var filterQuery;
+            if (this.filter === 'brand' && this.filterBrand) {
+                this.getCompanyItems(updateQueryString({
+                    brand: this.filterBrand,
+                    page: 1
+                }));
+                this.resetFilter();
+            } else if (this.filter === 'project' && this.filterProject) {
+                this.getCompanyItems(updateQueryString({
+                    project: this.filterProject,
+                    page: 1
+                }));
+                this.resetFilter();
+            }
+        },
+        resetFilter: function () {
+            this.filter = '';
+            this.filterBrand = '';
+            this.filterProject = '';
+            this.itemsFilterDropdown = false;
+        },
+        removeFilter: function (type) {
+            if (type === 'brand') {
+                this.getCompanyItems(updateQueryString({
+                    brand: null,
+                    page: 1
+                }));
+            } else if (type === 'project') {
+                this.getCompanyItems(updateQueryString({
+                    project: null,
+                    page: 1
+                }));
+            }
+        },
+        searchItemQuery: function () {
+            var self = this;
 
-        }
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+
+            if (self.searchTerm) {
+                self.getCompanyItems(updateQueryString({
+                    search:  self.searchTerm,
+                    page: 1
+                }));
+            } else {
+                self.getCompanyItems(updateQueryString({
+                    search: null,
+                    page: 1
+                }));
+            }
+
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+                this.getCompanyItems(updateQueryString('order', newOrder));
+            } else {
+                this.getCompanyItems(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        },
     },
     events: {
         'added-new-item': function (item) {
             this.items.push(item);
         }
     },
-    ready: function() {
+    ready: function () {
 
-        this.getCompanyItems(this.setLoadQuery);
+        this.getCompanyItems(this.setLoadQuery());
         this.getBrands();
         this.getProjects();
+
+        onPopQuery(this.getCompanyItems);
 
     }
 });

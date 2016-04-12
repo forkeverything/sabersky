@@ -104,72 +104,7 @@
 
     .pr-paginate {
       flex: 0 1 420px;
-      display: flex;
       margin: 0 0 15px 0;
-
-      ul {
-        display: flex;
-        margin: 0;
-        width: 100%;
-
-        li {
-          cursor: pointer;
-          flex: 1;
-          height: 34px;
-          font-size: 1em;
-
-          display: flex;
-          border: 1px solid $grey;
-          border-right: none;
-          color: $midnight-mid;
-          align-items: center;
-          justify-content: center;
-
-          &:not(.current_page):hover {
-            color: $blue;
-          }
-
-          &:first-child {
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
-          }
-
-          &:last-child {
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
-            border-right: 1px solid $grey;
-          }
-
-          &.disabled {
-            color: $grey;
-            cursor: not-allowed;
-            &:hover {
-              color: $grey;
-            }
-          }
-
-          &.current_page {
-            background: $body-background;
-            color: $midnight-mid;
-            cursor: pointer;
-            &:hover {
-              color: $midnight-mid;
-            }
-          }
-
-          &.paginate-nav {
-
-            &.disabled {
-              color: $grey;
-              cursor: not-allowed;
-            }
-
-            i {
-              font-weight: bold;
-            }
-          }
-        }
-      }
     }
 
   }

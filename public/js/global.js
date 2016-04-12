@@ -121,23 +121,45 @@ function updateQueryString() {
      * Make Updates to query
      * TO DO ::: CHECK HERE
      */
-    if (typeof arguments[0] === 'string') {
+    if (typeof arguments[0] === 'string' && arguments.length > 1) {
         // Only update single query name - set the new name and value
         queryObj[arguments[0]] = arguments[1];
-    } else {
+    } else if(typeof arguments[0] === 'object'){
         // Received an object with key-value pairs of query names and value to update
         _.forEach(arguments[0], function (value, key) {
-            queryObj[key] = value;
+            if(value) {
+                queryObj[key] = value;
+            } else {
+                delete queryObj[key];
+            }
         });
+    } else {
+        // only received a key - delete from query
+        delete queryObj[arguments[0]];
     }
 
     // Make new query to return
     var newQuery = '';
     // Go through object and add everything back as a string
     _.forEach(queryObj, function (value, name) {
-        newQuery += name + '=' + value + '&';
+        newQuery += name + '=' + encodeURIComponent(value) + '&';
     });
     // Finally - return our new string!
     return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'
+}
+
+/**
+ * When browser has pop-state (ie back / forward)
+ * run this function to re-retrieve the data
+ *
+ * @param callback
+ */
+function onPopQuery(callback)
+{
+    window.onpopstate = function (e) {
+        if (e.state) {
+            callback(window.location.href.split('?')[1]);
+        }
+    }
 }
 //# sourceMappingURL=global.js.map

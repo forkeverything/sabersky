@@ -204,10 +204,12 @@ Vue.component('purchase-requests-all', {
         // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
 
-        window.onpopstate = function (e) {
-            if (e.state) {
-                this.fetchPurchaseRequests(window.location.href.split('?')[1]);
-            }
-        }.bind(this);
+        // window.onpopstate = function (e) {
+        //     if (e.state) {
+        //         this.fetchPurchaseRequests(window.location.href.split('?')[1]);
+        //     }
+        // }.bind(this);
+
+        onPopQuery(this.fetchPurchaseRequests);
     }
 });

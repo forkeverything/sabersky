@@ -33,7 +33,7 @@ class CompanyItemsRepository extends apiRepository
      */
     protected $search;
 
-    
+
     /**
      * The sortable Item fields
      *
@@ -78,7 +78,7 @@ class CompanyItemsRepository extends apiRepository
      */
     public function forProject($projectID = null)
     {
-        $this->projectID = is_int($projectID) ? $projectID : null;
+        $this->projectID = is_int((int)$projectID) ? $projectID : null;
 
         if ($this->projectID) $this->query->whereExists(function ($query) use ($projectID) {
             $query->select(DB::raw(1))

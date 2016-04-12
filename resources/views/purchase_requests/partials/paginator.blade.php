@@ -1,4 +1,4 @@
-<div class="pr-paginate">
+<div class="pr-paginate api-paginator">
     <ul class="list-unstyled list-inline">
         <li class="paginate-nav to-first"
             :class="{

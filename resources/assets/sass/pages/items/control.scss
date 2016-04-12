@@ -1,6 +1,11 @@
 .items-control {
   display: flex;
-  margin: 0 0 15px 0;
+  margin: 0 0 25px 0;
+  flex-wrap: wrap;
+
+  .filter, .form-item-search {
+    margin: 0 0 10px 0;
+  }
 
   .filter {
 
@@ -32,9 +37,46 @@
   .form-item-search {
     flex: 1;
 
-    input {
+    .input-item-search {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+
+      &.active {
+        border-color: $blue;
+      }
+    }
+  }
+
+  .active-filters {
+    flex: 100%;
+
+    .button-remove-filter {
+      border: 1px solid $border-dark;
+      background: $body-background;
+      color: $border-dark;
+      @include border-radius(6px);
+      position: relative;
+      padding: 0.5em 1.75em 0.5em 1.75em;
+      margin: 5px 10px 5px 0;
+
+      &:after {
+        content: "\f00d";
+        font-family: FontAwesome;
+        position: absolute;
+        top: 3px;
+        right: 10px;
+        font-size: 0.75em;
+      }
+
+      &:hover {
+        border: 1px solid $blue;
+        background: $extra-light-blue;
+        color: $blue;
+      }
+
+      .field {
+        font-weight: bold;
+      }
     }
   }
 }
