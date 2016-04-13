@@ -53,6 +53,7 @@ class CompanyItemsRepository extends apiRepository
      */
     protected function setQuery(Company $company)
     {
+
         return Item::where('company_id', $company->id);
     }
 

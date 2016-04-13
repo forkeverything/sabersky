@@ -1503,7 +1503,10 @@ Vue.component('text-clipper', {
     },
     methods: {
         unclip: function() {
-            this.clip = false;
+            $(this.$el).css('max-height', $(this.$el).height());
+            setTimeout(function() {
+                this.clip = false;
+            }.bind(this), 150);
         }
     }
 });

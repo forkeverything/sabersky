@@ -73,7 +73,6 @@ Vue.component('items-all', {
                     self.ajaxReady = true;
                 },
                 error: function (err) {
-                    console.log(err);
                     self.ajaxReady = true;
                 }
             });
@@ -183,6 +182,14 @@ Vue.component('items-all', {
                 }));
             }
         },
+        getItemProjectNames: function(item){
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project.name);
+            });
+            return projects;
+        }
     },
     events: {
         'added-new-item': function (item) {

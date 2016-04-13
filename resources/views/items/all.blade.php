@@ -107,8 +107,8 @@
                                     <span v-else>-</span>
                                 </td>
                                 <td class="no-wrap">
-                                    <ul class="list-unstyled" v-if="item.projects.length > 0">
-                                        <li v-for="project in item.projects">@{{ project.name }}</li>
+                                    <ul class="list-unstyled" v-if="getItemProjectNames(item).length > 0">
+                                        <li v-for="project in getItemProjectNames(item)">@{{ project }}</li>
                                     </ul>
                                     <em v-else>None</em>
                                 </td>
@@ -117,7 +117,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="item-page-controls">
+                <div class="page-controls">
                     <per-page-picker :response="response" :req-function="getCompanyItems"></per-page-picker>
                     <paginator :response="response" :req-function="getCompanyItems"></paginator>
                 </div>

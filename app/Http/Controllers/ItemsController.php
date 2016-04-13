@@ -55,7 +55,7 @@ class ItemsController extends Controller
                                        ->forProject($project)
                                        ->sortOn($sort, $order)
                                        ->searchSkuBrandName($search)
-                                       ->with(['photos'])
+                                       ->with(['photos', 'purchaseRequests.project'])
                                        ->paginate($perPage);
 
         return $items;

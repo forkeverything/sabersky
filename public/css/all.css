@@ -7331,32 +7331,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     display: inline-block;
     overflow: hidden; }
 
-#items-all .item-page-controls {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
-  #items-all .item-page-controls .per-page-picker {
-    -webkit-flex: 0 1 240px;
-    -ms-flex: 0 1 240px;
-    flex: 0 1 240px;
-    margin: 0 0 15px 0; }
-    #items-all .item-page-controls .per-page-picker .themed-select {
-      width: 100%; }
-  #items-all .item-page-controls .api-paginator {
-    -webkit-flex: 0 1 420px;
-    -ms-flex: 0 1 420px;
-    flex: 0 1 420px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 0 0 15px 0; }
-
 #system-settings #settings-nav {
   font-size: 1.1em;
   margin: 0 0 30px;
@@ -8005,18 +7979,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
 
 .text-clipper {
   transition: all 2s; }
-  @media screen and (min-width: 768px) and (max-width: 997px) {
-    .text-clipper {
-      max-height: 120px; } }
-  @media screen and (min-width: 998px) {
-    .text-clipper {
-      max-height: 140px; } }
-  @media screen and (min-width: 1222px) {
-    .text-clipper {
-      max-height: 100px; } }
-  @media screen and (min-width: 1430px) {
-    .text-clipper {
-      max-height: 80px; } }
   .text-clipper.expanded {
     max-height: 5000px !important; }
   .text-clipper .btn-show-more-text {
