@@ -6,7 +6,6 @@ Vue.component('items-all', {
     data: function () {
         return {
             ajaxReady: true,
-            brands: [],
             projects: [],
             items: [],
             itemsFilterDropdown: false,
@@ -70,26 +69,6 @@ Vue.component('items-all', {
                 },
                 error: function (err) {
                     self.ajaxReady = true;
-                }
-            });
-        },
-        getBrands: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/items/brands',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.brands = _.map(data, function (brand) {
-                        if (brand.brand) {
-                            brand.value = brand.brand;
-                            brand.label = strCapitalize(brand.brand);
-                            return brand;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
                 }
             });
         },
@@ -191,8 +170,40 @@ Vue.component('items-all', {
     ready: function () {
 
         this.getCompanyItems(this.setLoadQuery());
-        this.getBrands();
         this.getProjects();
+
+        var self = this;
+
+        $('#items-filter-brand-select').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: false,
+            placeholder: 'Search for a brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.filterBrand = value;
+            }
+        });
 
         onPopQuery(this.getCompanyItems);
 
@@ -287,6 +298,289 @@ Vue.component('add-line-item', {
     }
 });
 
+
+
+Vue.component('purchase-requests-all', {
+    name: 'allPurchaseRequests',
+    el: function () {
+        return '#purchase-requests-all';
+    },
+    data: function () {
+        return {
+            response: {},
+            order: '',
+            urgent: '',
+            filter: '',
+            sort: '',
+            showFilterDropdown: false,
+            filters: [
+                {
+                    name: 'open',   // What gets sent to server
+                    label: 'Open'   // Displayed to client
+                },
+                {
+                    name: 'complete',
+                    label: 'Completed'
+                },
+                {
+                    name: 'cancelled',
+                    label: 'Cancelled'
+                },
+                {
+                    name: 'all',
+                    label: 'All Statuses'
+                }
+            ],
+            ajaxReady: true,
+            finishLoading: false
+        };
+    },
+    computed: {},
+    methods: {
+        loadSinglePR: function (id) {
+            window.document.location = '/purchase_requests/single/' + id;
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkShow: function (purchaseRequest) {
+            switch (this.filter) {
+                case 'complete':
+                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
+                        return true;
+                    }
+                    break;
+                case 'cancelled':
+                    if (purchaseRequest.state == 'Cancelled') {
+                        return true;
+                    }
+                    break;
+                default:
+                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
+                        return true;
+                    }
+            }
+        },
+        setLoadQuery: function () {
+            // The currenty query
+            var currentQuery = window.location.href.split('?')[1];
+            // If filter set - use query. Else - set a default for the filter
+            currentQuery = getParameterByName('filter') ? currentQuery : updateQueryString('filter', 'open');
+            return currentQuery;
+        },
+        fetchPurchaseRequests: function (query) {
+            var url = query ? '/api/purchase_requests?' + query : '/api/purchase_requests';
+            var self = this;
+
+            // self.finishLoading = false;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    // Pull flags from response (better than parsing url)
+                    self.filter = response.data.filter;
+                    self.sort = response.data.sort;
+                    self.order = response.data.order;
+                    self.urgent = response.data.urgent;
+
+                    // push state (if query is different from url)
+                    pushStateIfDiffQuery(query);
+
+                    document.getElementById('body-content').scrollTop = 0;
+                    
+                    self.ajaxReady = true;
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+            this.showFilterDropdown = false;
+            this.fetchPurchaseRequests(updateQueryString({
+                filter: filter.name,
+                page: 1
+            }));
+        },
+        toggleUrgentOnly: function () {
+            var urgent = this.urgent ? 0 : 1;
+            this.fetchPurchaseRequests(updateQueryString({
+                filter: this.filter, // use same filter
+                page: 1, // Reset to page 1
+                urgent: urgent
+            }));
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests(updateQueryString('order', newOrder));
+            } else {
+                this.fetchPurchaseRequests(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        }
+    },
+    ready: function () {
+        // If exists
+        this.fetchPurchaseRequests(this.setLoadQuery());
+
+        onPopQuery(this.fetchPurchaseRequests);
+    }
+});
+Vue.component('purchase-requests-make', {
+    name: 'makePurchaseRequest',
+    el: function () {
+        return '#purchase-requests-add';
+    },
+    data: function () {
+        return {
+            pageReady: false,
+            ajaxReady: true,
+            projectID: '',
+            itemID: '',
+            quantity: '',
+            due: '',
+            urgent: ''
+        };
+    },
+    methods: {
+        submitMakePRForm: function () {
+            var self = this;
+
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/purchase_requests/make',
+                method: 'POST',
+                data: {
+                    'project_id': self.projectID,
+                    'item_id': self.itemID,
+                    'quantity': self.quantity,
+                    'due': self.due,
+                    'urgent': (self.urgent) ? 1 : 0
+                },
+                success: function (data) {
+                    // success
+                    console.log(data);
+                    console.log('success!');
+                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
+                    window.location.href = "/purchase_requests";
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    computed: {
+
+    },
+    ready: function () {
+        var self = this;
+
+        $('#pr-item-selection').selectize({
+            valueField: 'id',
+            searchField: ['sku', 'brand', 'name'],
+            create: false,
+            placeholder: 'Search by SKU, Brand or Name',
+            render: {
+                option: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+
+                    return '<div class="item-single-option">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="brand">' + brand + '</span>' +
+                        '           <span class="name">' + escape(item.name) + '</span>' +
+                        '           <span class="sku">' + sku + '</span>' +
+                        '       </div>' +
+                        '</div>';
+                },
+                item: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+                    var imageGallery =  '';
+                    if(item.photos.length > 0) {
+                        imageGallery += '<ul class="item-images list-unstyled">';
+                        for(var i = 0 ; i < item.photos.length; i++) {
+                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
+                        }
+                        imageGallery += '</ul>';
+                    }
+
+                    return '<div class="item-selected">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="brand">' + brand + '</span>' +
+                        '           <span class="name">' + escape(item.name) + '</span>' +
+                        '           <span class="sku">' + sku + '</span>' +
+                        '           <span class="specification">' + escape(item.specification) + '</span>' +
+                        '       </div>' +
+                                imageGallery +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                self.itemID = value;
+            }
+    });
+
+        self.$nextTick(function () {
+            self.pageReady = true;
+        });
+    }
+});
 
 
 Vue.component('projects-add-team', {
@@ -603,289 +897,6 @@ Vue.component('purchase-orders-submit', {
         }
     }
 });
-Vue.component('purchase-requests-all', {
-    name: 'allPurchaseRequests',
-    el: function () {
-        return '#purchase-requests-all';
-    },
-    data: function () {
-        return {
-            response: {},
-            order: '',
-            urgent: '',
-            filter: '',
-            sort: '',
-            showFilterDropdown: false,
-            filters: [
-                {
-                    name: 'open',   // What gets sent to server
-                    label: 'Open'   // Displayed to client
-                },
-                {
-                    name: 'complete',
-                    label: 'Completed'
-                },
-                {
-                    name: 'cancelled',
-                    label: 'Cancelled'
-                },
-                {
-                    name: 'all',
-                    label: 'All Statuses'
-                }
-            ],
-            ajaxReady: true,
-            finishLoading: false
-        };
-    },
-    computed: {},
-    methods: {
-        loadSinglePR: function (id) {
-            window.document.location = '/purchase_requests/single/' + id;
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        checkShow: function (purchaseRequest) {
-            switch (this.filter) {
-                case 'complete':
-                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
-                        return true;
-                    }
-                    break;
-                case 'cancelled':
-                    if (purchaseRequest.state == 'Cancelled') {
-                        return true;
-                    }
-                    break;
-                default:
-                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
-                        return true;
-                    }
-            }
-        },
-        setLoadQuery: function () {
-            // The currenty query
-            var currentQuery = window.location.href.split('?')[1];
-            // If filter set - use query. Else - set a default for the filter
-            currentQuery = getParameterByName('filter') ? currentQuery : updateQueryString('filter', 'open');
-            return currentQuery;
-        },
-        fetchPurchaseRequests: function (query) {
-            var url = query ? '/api/purchase_requests?' + query : '/api/purchase_requests';
-            var self = this;
-
-            // self.finishLoading = false;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    // Pull flags from response (better than parsing url)
-                    self.filter = response.data.filter;
-                    self.sort = response.data.sort;
-                    self.order = response.data.order;
-                    self.urgent = response.data.urgent;
-
-                    // push state (if query is different from url)
-                    pushStateIfDiffQuery(query);
-
-                    document.getElementById('body-content').scrollTop = 0;
-                    
-                    self.ajaxReady = true;
-
-                    // self.$nextTick(function() {
-                    //     self.finishLoading = true;
-                    // })
-                    // TODO ::: Add a loader for each request
-
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-            this.showFilterDropdown = false;
-            this.fetchPurchaseRequests(updateQueryString({
-                filter: filter.name,
-                page: 1
-            }));
-        },
-        toggleUrgentOnly: function () {
-            var urgent = this.urgent ? 0 : 1;
-            this.fetchPurchaseRequests(updateQueryString({
-                filter: this.filter, // use same filter
-                page: 1, // Reset to page 1
-                urgent: urgent
-            }));
-        },
-        changeSort: function (sort) {
-            if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests(updateQueryString('order', newOrder));
-            } else {
-                this.fetchPurchaseRequests(updateQueryString({
-                    sort: sort,
-                    order: 'asc',
-                    page: 1
-                }));
-            }
-        }
-    },
-    ready: function () {
-        // If exists
-        this.fetchPurchaseRequests(this.setLoadQuery());
-
-        onPopQuery(this.fetchPurchaseRequests);
-    }
-});
-Vue.component('purchase-requests-make', {
-    name: 'makePurchaseRequest',
-    el: function () {
-        return '#purchase-requests-add';
-    },
-    data: function () {
-        return {
-            pageReady: false,
-            ajaxReady: true,
-            projectID: '',
-            itemID: '',
-            quantity: '',
-            due: '',
-            urgent: ''
-        };
-    },
-    methods: {
-        submitMakePRForm: function () {
-            var self = this;
-
-
-            // Send Req. via Ajax
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/purchase_requests/make',
-                method: 'POST',
-                data: {
-                    'project_id': self.projectID,
-                    'item_id': self.itemID,
-                    'quantity': self.quantity,
-                    'due': self.due,
-                    'urgent': (self.urgent) ? 1 : 0
-                },
-                success: function (data) {
-                    // success
-                    console.log(data);
-                    console.log('success!');
-                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
-                    window.location.href = "/purchase_requests";
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    computed: {
-
-    },
-    ready: function () {
-        var self = this;
-
-        $('#pr-item-selection').selectize({
-            valueField: 'id',
-            searchField: ['sku', 'brand', 'name'],
-            create: false,
-            placeholder: 'Search by SKU, Brand or Name',
-            render: {
-                option: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-
-                    return '<div class="item-single-option">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="brand">' + brand + '</span>' +
-                        '           <span class="name">' + escape(item.name) + '</span>' +
-                        '           <span class="sku">' + sku + '</span>' +
-                        '       </div>' +
-                        '</div>';
-                },
-                item: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-                    var imageGallery =  '';
-                    if(item.photos.length > 0) {
-                        imageGallery += '<ul class="item-images list-unstyled">';
-                        for(var i = 0 ; i < item.photos.length; i++) {
-                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
-                        }
-                        imageGallery += '</ul>';
-                    }
-
-                    return '<div class="item-selected">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="brand">' + brand + '</span>' +
-                        '           <span class="name">' + escape(item.name) + '</span>' +
-                        '           <span class="sku">' + sku + '</span>' +
-                        '           <span class="specification">' + escape(item.specification) + '</span>' +
-                        '       </div>' +
-                                imageGallery +
-                        '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        console.log(res);
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                self.itemID = value;
-            }
-    });
-
-        self.$nextTick(function () {
-            self.pageReady = true;
-        });
-    }
-});
-
-
 Vue.component('settings', {
     name: 'Settings',
     el: function () {

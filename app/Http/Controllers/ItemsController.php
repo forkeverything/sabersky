@@ -72,6 +72,25 @@ class ItemsController extends Controller
     }
 
     /**
+     * Performs a search for all the brands that
+     * match the given query
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchBrands($query)
+    {
+        if ($query) {
+            $items = Item::where('company_id', Auth::user()->company->id);
+            $items->where('brand', 'LIKE', '%' . $query . '%')
+                  ->select(['brand']);
+            return $items->distinct()->get();
+        }
+
+        return response("No search term given", 500);
+    }
+
+    /**
      * Tries to find a Single Item by either:
      * 1. SKU
      * 2. Brand & Name
@@ -113,6 +132,7 @@ class ItemsController extends Controller
 
         return response("No search term given", 500);
     }
+
 
     /**
      * Handle Form request to add a new Item
@@ -156,9 +176,9 @@ class ItemsController extends Controller
         }
     }
 
-    public function single(Item $item)
+    public function getSingle(Item $item)
     {
-
+        
     }
 
 

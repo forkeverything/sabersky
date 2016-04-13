@@ -6335,8 +6335,17 @@ input[type="text"].not-required:focus + label[placeholder]:before,
 .bootstrap-select.themed-select button {
   border-radius: 3px;
   background: transparent;
-  color: #7F94A1;
+  color: #93989F;
   border: 1px solid #D2D2D2; }
+  .bootstrap-select.themed-select button .filter-option {
+    color: #000; }
+  .bootstrap-select.themed-select button .bs-caret {
+    color: #D2D2D2; }
+    .bootstrap-select.themed-select button .bs-caret .caret {
+      right: 17px;
+      border-top: 5px dashed;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent; }
 
 .bootstrap-select.themed-select button:hover, .bootstrap-select.themed-select button:active, .bootstrap-select.themed-select button:focus, .bootstrap-select.themed-select .btn-group.open .dropdown-toggle, .bootstrap-select.themed-select.open > .btn-default.dropdown-toggle, .bootstrap-select.themed-select .dropdown-toggle:focus {
   background-color: transparent;
@@ -6457,6 +6466,11 @@ input[type="text"].not-required:focus + label[placeholder]:before,
 .selectize-control .create {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px; }
+
+.selectize-control .selectize-input {
+  border-radius: 3px; }
+  .selectize-control .selectize-input.focus {
+    border-color: #3498DB !important; }
 
 #registration-popup-overlay {
   top: 0;

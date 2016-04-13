@@ -20,7 +20,7 @@ Vue.component('add-item-modal', {
     '       <input class="form-control" type="text" v-model="sku">' +
     '   </div>' +
     '<div class="form-group brand-name-wrap">' +
-    '<div class="brand-selection"><label>Brand</label><select-type :options="existingBrands" :name.sync="brand" placeholder="Select or Add New"></select-type></div>' +
+    '<div class="brand-selection"><label>Brand</label><select class="item-add-brand-select"><option></option></select></div>' +
     '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
     '</div>' +
     '   <div class="form-group">' +
@@ -141,25 +141,39 @@ Vue.component('add-item-modal', {
             this.dropzone.removeAllFiles();
         }
     },
-    events: {
-        'select-loaded': function () {
-            this.loaded = true;
-        }
-    },
+    events: {},
     ready: function () {
         var self = this;
 
-        // Fetch Existing Items
-        $.ajax({
-            url: '/api/items/brands',
-            method: 'GET',
-            success: function (data) {
-                // success
-                self.existingBrands = _.map(data, 'brand');
+        // Brand selectize init
+        $('.item-add-brand-select').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: true,
+            placeholder: 'Find or enter a new brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
             },
-            error: function (response) {
-                console.log(response);
-                console.log('Could not fetch existing items');
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.brand = value;
             }
         });
 
@@ -189,5 +203,7 @@ Vue.component('add-item-modal', {
                 })
             }
         });
+
+        self.loaded = true;
     }
 });

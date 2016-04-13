@@ -6,7 +6,6 @@ Vue.component('items-all', {
     data: function () {
         return {
             ajaxReady: true,
-            brands: [],
             projects: [],
             items: [],
             itemsFilterDropdown: false,
@@ -70,26 +69,6 @@ Vue.component('items-all', {
                 },
                 error: function (err) {
                     self.ajaxReady = true;
-                }
-            });
-        },
-        getBrands: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/items/brands',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.brands = _.map(data, function (brand) {
-                        if (brand.brand) {
-                            brand.value = brand.brand;
-                            brand.label = strCapitalize(brand.brand);
-                            return brand;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
                 }
             });
         },
@@ -191,8 +170,40 @@ Vue.component('items-all', {
     ready: function () {
 
         this.getCompanyItems(this.setLoadQuery());
-        this.getBrands();
         this.getProjects();
+
+        var self = this;
+
+        $('#items-filter-brand-select').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: false,
+            placeholder: 'Search for a brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.filterBrand = value;
+            }
+        });
 
         onPopQuery(this.getCompanyItems);
 

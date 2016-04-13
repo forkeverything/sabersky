@@ -18,8 +18,7 @@
                                            :placeholder="'Select one...'"></select-picker>
                             <div class="brands-list" v-show="filter === 'brand'">
                                 <p>is</p>
-                                <select-picker :options="brands" :name.sync="filterBrand"
-                                               :placeholder="'Pick a Brand...'"></select-picker>
+                                <select id="items-filter-brand-select"><option></option></select>
                             </div>
                             <div class="projects-list" v-show="filter === 'project'">
                                 <p>is</p>
