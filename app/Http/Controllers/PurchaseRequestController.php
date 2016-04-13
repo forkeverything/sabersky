@@ -69,6 +69,7 @@ class PurchaseRequestController extends Controller
                                                      ->filterBy($filter)
                                                      ->sortOn($sort, $order)
                                                      ->onlyUrgent($urgent)
+                                                    ->with(['item.photos', 'project', 'user'])
                                                      ->paginate($perPage);
 
             return $data;

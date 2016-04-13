@@ -11,22 +11,11 @@
             @endcan
             <div class="page-body">
                 <div class="pr-controls">
-                    <div class="control-urgent">
-                        <input type="checkbox"
-                               id="checkbox-pr-urgent"
-                               v-model="urgent"
-                        @click="toggleUrgentOnly"
-                        >
-                        <label for="checkbox-pr-urgent"
-                               :class="{
-                                'urgent-only': urgent
-                               }"
-                        ><i class="fa fa-warning"></i> Urgent only</label>
-                    </div>
                     <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
                         <button type="button"
                                 class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                        >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i class="fa fa-chevron-down"></i>
+                        >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i
+                                    class="fa fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-filters dropdown-container right"
                              v-show="showFilterDropdown"
@@ -41,6 +30,18 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="control-urgent">
+                        <input type="checkbox"
+                               id="checkbox-pr-urgent"
+                               v-model="urgent"
+                        @click="toggleUrgentOnly"
+                        >
+                        <label for="checkbox-pr-urgent"
+                               :class="{
+                                'urgent-only': urgent
+                               }"
+                        ><i class="fa fa-warning"></i> Urgent only</label>
                     </div>
                 </div>
                 <div class="has-purchase-requests" v-if="response.total > 0">
@@ -106,11 +107,19 @@
                             <tbody>
                             <template v-for="purchaseRequest in response.data">
                                 <tr class="row-single-pr" v-if="purchaseRequest.id">
-                                    <td class="col-project">@{{ purchaseRequest.project_name }}</td>
+                                    <td class="col-project">@{{ purchaseRequest.project.name }}</td>
                                     <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
                                     <td class="col-item">
-                                        <span class="item-name">@{{ purchaseRequest.item_name }}</span>
-                                        <span class="item-specifications">@{{ purchaseRequest.item_specification }}</span>
+                                        <div class="item-sku" v-if="purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
+                                        <span class="item-brand" v-if="purchaseRequest.item.brand.length > 0">@{{ purchaseRequest.item.brand }}</span>
+                                        <span class="item-name">@{{ purchaseRequest.item.name }}</span>
+                                        <ul class="item-image-gallery list-unstyled list-inline" v-if="purchaseRequest.item.photos.length > 0">
+                                            <li v-for="photo in purchaseRequest.item.photos">
+                                                <a :href="photo.path" rel="group" class="fancybox"><img :src="photo.thumbnail_path" alt="Purchase Request Item Photo"></a>
+                                            </li>
+                                        </ul>
+                                        <span class="item-specification">
+                                        <text-clipper :text="purchaseRequest.item.specification"></text-clipper></span>
                                     </td>
                                     <td>
                                         <span class="pr-due">@{{ purchaseRequest.due | easyDate }}</span>
@@ -119,7 +128,7 @@
                                         <span class="pr-requested">@{{ purchaseRequest.created_at | diffHuman }}</span>
                                     </td>
                                     <td>
-                                        <span class="pr-requester">@{{ purchaseRequest.requester_name | capitalize }}</span>
+                                        <span class="pr-requester">@{{ purchaseRequest.user.name | capitalize }}</span>
                                     </td>
                                 </tr>
                             </template>
@@ -127,7 +136,7 @@
                         </table>
                     </div>
                     <div class="page-controls">
-                        <per-page-picker :response="response"  :req-function="fetchPurchaseRequests"></per-page-picker>
+                        <per-page-picker :response="response" :req-function="fetchPurchaseRequests"></per-page-picker>
                         <paginator :response="response" :req-function="fetchPurchaseRequests"></paginator>
                     </div>
                 </div>

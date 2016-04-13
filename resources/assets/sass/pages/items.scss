@@ -39,17 +39,16 @@
             margin: 0 0 5px 0;
           }
 
-          .item-brand-name {
-            margin: 0 0 5px 0;
+          .brand, .name {
+            display: block;
             font-size: 1.2em;
-            .brand {
-              font-weight: bold;
-              margin: 0 5px 0 0;
-              &:after {
-                content: "-";
-                margin: 0 0 0 5px;
-              }
-            }
+            text-transform: capitalize;
+          }
+
+          .name {
+            font-weight: bold;
+            white-space: nowrap;
+            margin: 0 0 5px 0;
           }
 
           .item-specification {

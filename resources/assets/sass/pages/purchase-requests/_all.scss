@@ -102,13 +102,34 @@
       }
 
       .col-item {
-        max-width: 475px;
 
-        .item-name {
-          font-weight: bold;
+        .item-sku {
+          font-style: italic;
+          margin: 0 0 5px 0;
+          color: $text-muted;
+        }
+
+        .item-brand, .item-name {
           display: block;
           text-transform: capitalize;
         }
+
+        .item-name {
+          font-weight: bold;
+          margin: 0 0 5px 0;
+        }
+
+        .item-image-gallery {
+          margin-bottom: 5px;
+
+          li {
+            width: 45px;
+            img {
+              width: 100%;
+            }
+          }
+        }
+
       }
     }
   }

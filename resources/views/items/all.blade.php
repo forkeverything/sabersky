@@ -35,7 +35,7 @@
                             </button>
                         </div>
                     </div>
-                    <form class="form-item-search">
+                    <form class="form-item-search" @submit.prevent="searchItemQuery">
                         <input class="form-control input-item-search"
                                type="text"
                                placeholder="Search by SKU, Brand or Name"
@@ -95,12 +95,10 @@
                                     </div>
                                 </td>
                                 <td class="col-details">
-                                    <div class="item-brand-name">
-                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span><span
-                                                class="name">@{{ item.name }}</span>
-                                    </div>
-                                    <span class="item-specification"><text-clipper
-                                                :text="item.specification"></text-clipper></span>
+                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
+                                        <span class="name">@{{ item.name }}</span>
+                                    <span class="item-specification">
+                                        <text-clipper :text="item.specification"></text-clipper></span>
                                 </td>
                                 <td class="col-sku no-wrap">
                                     <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>

@@ -50,12 +50,10 @@ class CompanyPurchaseRequestsRepository extends apiRepository
     ];
     
     /**
-     * Takes a Company and finds it's Purchase Requests
-     * as well as relevant fields:
-     * - PR (id, due, created_at, quantity)
-     * - Item (name, id)
-     * - Project (name, id)
-     * - User as Requester (name, id)
+     * Takes a Company and finds it's Purchase Requests through it's
+     * Projects. We also join with relevant tables and select the
+     * necessary columns for info, matching(id), sorting(name)
+     *
      * @param Company $company
      * @return mixed
      */
@@ -71,13 +69,8 @@ class CompanyPurchaseRequestsRepository extends apiRepository
                               ->join('items', 'purchase_requests.item_id', '=', 'items.id')
                               ->join('users', 'purchase_requests.user_id', '=', 'users.id')
                               ->select(DB::raw('
-                                purchase_requests.id,
-                                purchase_requests.due,
-                                purchase_requests.state,
-                                purchase_requests.created_at,
-                                purchase_requests.quantity,
+                                purchase_requests.*,
                                 items.name as item_name,
-                                items.specification as item_specification,
                                 items.id as item_id,
                                 projects.name as project_name,
                                 projects.id as project_id,

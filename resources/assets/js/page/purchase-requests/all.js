@@ -18,7 +18,7 @@ Vue.component('purchase-requests-all', {
                 },
                 {
                     name: 'complete',
-                    label: 'Fulfilled'
+                    label: 'Completed'
                 },
                 {
                     name: 'cancelled',

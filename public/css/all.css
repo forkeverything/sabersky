@@ -6860,12 +6860,22 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     margin: 0; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-quantity {
       text-align: center; }
-    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item {
-      max-width: 475px; }
-      #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-name {
-        font-weight: bold;
-        display: block;
-        text-transform: capitalize; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-sku {
+      font-style: italic;
+      margin: 0 0 5px 0;
+      color: #93989F; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-brand, #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-name {
+      display: block;
+      text-transform: capitalize; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-name {
+      font-weight: bold;
+      margin: 0 0 5px 0; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery {
+      margin-bottom: 5px; }
+      #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li {
+        width: 45px; }
+        #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li img {
+          width: 100%; }
 
 #purchase-requests-all .page-controls-bottom .pr-paginate {
   margin: 0; }
@@ -7318,15 +7328,14 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       display: inline-block; }
   #items-all .table-items .item-row td.col-details .item-sku {
     margin: 0 0 5px 0; }
-  #items-all .table-items .item-row td.col-details .item-brand-name {
-    margin: 0 0 5px 0;
-    font-size: 1.2em; }
-    #items-all .table-items .item-row td.col-details .item-brand-name .brand {
-      font-weight: bold;
-      margin: 0 5px 0 0; }
-      #items-all .table-items .item-row td.col-details .item-brand-name .brand:after {
-        content: "-";
-        margin: 0 0 0 5px; }
+  #items-all .table-items .item-row td.col-details .brand, #items-all .table-items .item-row td.col-details .name {
+    display: block;
+    font-size: 1.2em;
+    text-transform: capitalize; }
+  #items-all .table-items .item-row td.col-details .name {
+    font-weight: bold;
+    white-space: nowrap;
+    margin: 0 0 5px 0; }
   #items-all .table-items .item-row td.col-details .item-specification {
     display: inline-block;
     overflow: hidden; }
