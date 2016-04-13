@@ -1,6 +1,16 @@
 Vue.component('add-item-modal', {
     name: 'addItemModal',
-    template: '<div class="modal-item-add" v-show="visible" @click="hideModal">' +
+    template: '<button type="button"' +
+    '               class="btn button-add-item"' +
+    '               :class="{' +
+    "                   'btn-outline-blue': this.buttonType === 'blue'," +
+    "                   'btn-solid-green': ! this.buttonType"+
+    '}"' +
+    '               @click="showModal"' +
+    '               >' +
+    '               Add New Item' +
+    '</button>'+
+    '<div class="modal-item-add" v-show="visible" @click="hideModal">' +
     '<form class="form-item-add" v-show="loaded" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-add-item-modal"><i class="fa fa-close"></i></button>' +
     '<form-errors></form-errors>' +
@@ -34,7 +44,7 @@ Vue.component('add-item-modal', {
     '</div>' +
     '</div>' +
     '</div>' +
-    '<div class="bottom children-right">' +
+    '<div class="bottom align-end">' +
     '   <button type="button"' +
     '           class="btn btn-solid-green"' +
     '           @click.prevent="submitAddItemForm"' +
@@ -47,6 +57,7 @@ Vue.component('add-item-modal', {
     '</div>',
     data: function () {
         return {
+            visible: false,
             ajaxReady: true,
             loaded: false,
             existingBrands: null,
@@ -59,13 +70,16 @@ Vue.component('add-item-modal', {
             dropzone: {}
         };
     },
-    props: ['visible'],
+    props: ['buttonType'],
     computed: {
         canSubmitForm: function () {
             return this.name.length > 0 && this.specification.length > 0;
         }
     },
     methods: {
+        showModal: function() {
+            this.visible = true;
+        },
         hideModal: function() {
             this.visible = false;
         },

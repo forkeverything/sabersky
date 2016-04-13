@@ -3,7 +3,7 @@
     <purchase-requests-all inline-template>
         <div class="container" id="purchase-requests-all">
             @can('pr_make')
-            <div class="top children-right">
+            <div class="top align-end">
                 <a href="{{ route('makePurchaseRequest') }}" class="link-make-pr">
                     <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
                 </a>

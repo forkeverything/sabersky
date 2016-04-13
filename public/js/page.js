@@ -9,7 +9,6 @@ Vue.component('items-all', {
             brands: [],
             projects: [],
             items: [],
-            visibleAddItemModal: false,
             itemsFilterDropdown: false,
             filterOptions: [
                 {
@@ -38,9 +37,6 @@ Vue.component('items-all', {
     },
     computed: {},
     methods: {
-        showAddItemModal: function () {
-            this.visibleAddItemModal = true;
-        },
         setLoadQuery: function () {
             var currentQuery = window.location.href.split('?')[1];
 
@@ -191,11 +187,7 @@ Vue.component('items-all', {
             return projects;
         }
     },
-    events: {
-        'added-new-item': function (item) {
-            this.items.push(item);
-        }
-    },
+    events: {},
     ready: function () {
 
         this.getCompanyItems(this.setLoadQuery());

@@ -2,11 +2,8 @@
 @section('content')
     <items-all inline-template>
         <div id="items-all" class="container">
-            <section class="top children-right">
-                <button id="button-make-purchase-request"
-                        class="btn btn-solid-green"
-                @click="showAddItemModal"
-                >Add New Item</button>
+            <section class="top align-end">
+                <add-item-modal></add-item-modal>
             </section>
             <div class="page-body">
                 <div class="items-control">
@@ -120,7 +117,6 @@
                     <paginator :response="response" :req-function="getCompanyItems"></paginator>
                 </div>
             </div>
-            <add-item-modal :visible.sync="visibleAddItemModal"></add-item-modal>
         </div>
     </items-all>
 @endsection

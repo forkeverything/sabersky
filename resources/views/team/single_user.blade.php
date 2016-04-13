@@ -3,7 +3,7 @@
 @section('content')
     <team-single-user inline-template>
         <div class="container" id="team-single-user">
-            <section class="top children-right">
+            <section class="top align-end">
                 <button class="btn btn-solid-red  button-delete-user"
                         type="button"
                 @click="confirmDelete({{ $user }})"

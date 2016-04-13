@@ -3,7 +3,9 @@
     <purchase-requests-make inline-template>
         <div class="container" id="purchase-requests-make" v-show="pageReady">
             <form-errors></form-errors>
-            <form id="form-make-purchase-request">
+            <form id="form-make-purchase-request"
+                @submit.prevent="submitMakePRForm"
+            >
             <div class="page-body">
                 {{ csrf_field() }}
                 <div class="project-selection">
@@ -17,6 +19,7 @@
                 </div>
                 <h5>Item</h5>
                 <div class="item-selection">
+                    <add-item-modal :button-type="'blue'"></add-item-modal>
                     <select id="pr-item-selection" class="select-item">
                         <option></option>
                     </select>
@@ -66,7 +69,7 @@
                     </table>
                 </div>
             </div>
-            <section class="bottom children-right">
+            <section class="bottom align-end">
                 <button type="button" class="btn btn-solid-green" @click="submitMakePRForm">Make Request</button>
             </section>
             </form>
