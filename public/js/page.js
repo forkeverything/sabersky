@@ -699,6 +699,8 @@ Vue.component('purchase-requests-all', {
 
                     // push state (if query is different from url)
                     pushStateIfDiffQuery(query);
+
+                    document.getElementById('body-content').scrollTop = 0;
                     
                     self.ajaxReady = true;
 

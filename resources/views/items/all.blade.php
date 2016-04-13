@@ -39,7 +39,7 @@
                                @keyup="searchItemQuery"
                                v-model="searchTerm"
                                :class="{
-                                    'active': searchTerm.length > 0
+                                    'active': searchTerm && searchTerm.length > 0
                                }"
                         >
                     </form>
@@ -78,7 +78,7 @@
                         </thead>
                         <tbody>
                         <template v-for="item in items">
-                            <tr class="clickable item-row" v-if="item.id">
+                            <tr class="clickable item-row" v-if="item && item.id">
                                 <td class="col-thumbnail">
                                     <div class="item-thumbnail">
                                         <img :src="item.photos[0].thumbnail_path"

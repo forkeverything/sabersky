@@ -14,10 +14,10 @@
                     <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
                         <button type="button"
                                 class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                        >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i
+                        >Filter:<span v-if="response.data" class="current-filter">@{{ response.data.filter | capitalize }}</span><i
                                     class="fa fa-chevron-down"></i>
                         </button>
-                        <div class="dropdown-filters dropdown-container right"
+                        <div class="dropdown-filters dropdown-container left"
                              v-show="showFilterDropdown"
                         >
                             <span class="dropdown-title">View only</span>
@@ -110,7 +110,7 @@
                                     <td class="col-project">@{{ purchaseRequest.project.name }}</td>
                                     <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
                                     <td class="col-item">
-                                        <div class="item-sku" v-if="purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
+                                        <div class="item-sku" v-if="purchaseRequest.item.sku && purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
                                         <span class="item-brand" v-if="purchaseRequest.item.brand.length > 0">@{{ purchaseRequest.item.brand }}</span>
                                         <span class="item-name">@{{ purchaseRequest.item.name }}</span>
                                         <ul class="item-image-gallery list-unstyled list-inline" v-if="purchaseRequest.item.photos.length > 0">
