@@ -1,64 +1,91 @@
-.api-paginator {
-  ul {
-    display: flex;
-    margin: 0;
-    width: 100%;
-    li {
-      cursor: pointer;
-      flex: 1;
-      height: 34px;
-      font-size: 1em;
 
+.page-controls {
+  margin: 0 0 -15px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .per-page-picker {
+    flex: 0 1 220px;
+    margin: 0 15px 15px 0;
+
+    .themed-select {
+      width: 100%!important;
+    }
+  }
+
+  .api-paginator {
+    flex: 0 1 405px;
+    margin: 0 0 15px 0;
+
+    ul {
+      justify-content: flex-start;
       display: flex;
-      border: 1px solid $grey;
-      border-right: none;
-      color: $midnight-mid;
-      align-items: center;
-      justify-content: center;
+      margin: 0;
+      width: 100%;
 
-      &:not(.current_page):hover {
-        color: $blue;
+      @media screen and (min-width: 998px) {
+        justify-content: flex-end;
       }
 
-      &:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-right: 1px solid $grey;
-      }
-
-      &.disabled {
-        color: $grey;
-        cursor: not-allowed;
-        &:hover {
-          color: $grey;
-        }
-      }
-
-      &.current_page {
-        background: $body-background;
-        color: $midnight-mid;
+      li {
         cursor: pointer;
-        &:hover {
-          color: $midnight-mid;
-        }
-      }
+        flex: 0 1 45px;
+        height: 34px;
+        font-size: 1em;
 
-      &.paginate-nav {
+        display: flex;
+        border: 1px solid $grey;
+        border-right: none;
+        color: $midnight-mid;
+        align-items: center;
+        justify-content: center;
+
+        &:not(.current_page):hover {
+          color: $blue;
+        }
+
+        &:first-child {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+          border-right: 1px solid $grey;
+        }
 
         &.disabled {
           color: $grey;
           cursor: not-allowed;
+          &:hover {
+            color: $grey;
+          }
         }
 
-        i {
-          font-weight: bold;
+        &.current_page {
+          background: $body-background;
+          color: $midnight-mid;
+          cursor: pointer;
+          &:hover {
+            color: $midnight-mid;
+          }
+        }
+
+        &.paginate-nav {
+
+          &.disabled {
+            color: $grey;
+            cursor: not-allowed;
+          }
+
+          i {
+            font-weight: bold;
+          }
         }
       }
     }
   }
+
 }

@@ -101,7 +101,7 @@ class CompanyItemsRepository extends apiRepository
         $this->search = $search;
         if ($search) $this->query->where('sku', 'LIKE', '%' . $search . '%')
                                  ->orWhere('brand', 'LIKE', '%' . $search . '%')
-                                 ->orWhere('name', 'LIKE', '%' . $search . '%');
+                                 ->orWhere('items.name', 'LIKE', '%' . $search . '%');
         return $this;
     }
 

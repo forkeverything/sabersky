@@ -9,40 +9,40 @@
                 </a>
             </div>
             @endcan
-            <div class="pr-controls">
-                <div class="control-urgent">
-                    <input type="checkbox"
-                           id="checkbox-pr-urgent"
-                           v-model="urgent"
-                    @click="toggleUrgentOnly"
-                    >
-                    <label for="checkbox-pr-urgent"
-                           :class="{
+            <div class="page-body">
+                <div class="pr-controls">
+                    <div class="control-urgent">
+                        <input type="checkbox"
+                               id="checkbox-pr-urgent"
+                               v-model="urgent"
+                        @click="toggleUrgentOnly"
+                        >
+                        <label for="checkbox-pr-urgent"
+                               :class="{
                                 'urgent-only': urgent
                                }"
-                    ><i class="fa fa-warning"></i> Urgent only</label>
-                </div>
-                <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
-                    <button type="button"
-                            class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                    >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i class="fa fa-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-filters dropdown-container right"
-                         v-show="showFilterDropdown"
-                    >
-                        <span class="dropdown-title">View only</span>
-                        <ul class="list-unstyled">
-                            <li class="pr-dropdown-item"
-                                v-for="filter in filters"
-                            @click="changeFilter(filter)"
-                            >
-                            @{{ filter.label }}
-                            </li>
-                        </ul>
+                        ><i class="fa fa-warning"></i> Urgent only</label>
+                    </div>
+                    <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
+                        <button type="button"
+                                class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
+                        >Filter:<span class="current-filter">@{{ response.data.filter | capitalize }}</span><i class="fa fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-filters dropdown-container right"
+                             v-show="showFilterDropdown"
+                        >
+                            <span class="dropdown-title">View only</span>
+                            <ul class="list-unstyled">
+                                <li class="pr-dropdown-item"
+                                    v-for="filter in filters"
+                                @click="changeFilter(filter)"
+                                >
+                                @{{ filter.label }}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="page-body">
                 <div class="has-purchase-requests" v-if="response.total > 0">
                     <div class="pr-bag table-responsive">
                         <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
