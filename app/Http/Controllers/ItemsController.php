@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemsController extends Controller
 {
@@ -156,16 +157,14 @@ class ItemsController extends Controller
     }
 
 
-    public function addPhoto(Request $request, Item $item)
+    public function postAddPhoto(Request $request, Item $item)
     {
         if ($request->ajax()) {
             if (Gate::allows('edit', $item)) {
-                $file = $request->file('item_photos')[0];
-                $item->attachPhoto($file);
-                return response()->json([
-                    'status' => 'success',
-                    'msg' => 'Added new photos to items.',
-                ], 200);
+                $file = $request->file;
+                if( $file && $file instanceof UploadedFile) {
+                    return $item->attachPhoto($file);
+                };
             }
             return response()->json([
                 'status' => 'error',

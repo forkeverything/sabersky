@@ -66,7 +66,7 @@
     }
 
     .dz-image {
-      flex: 0 0 45px;
+      flex: 0 0 60px;
       margin: 0 15px 0 0;
       img {
         max-width: 100%;
@@ -76,11 +76,29 @@
     .dz-file-details {
       flex: 1;
 
-      .file-name {
-        flex: 100%;
-        font-weight: bold;
+      .name-status {
         display: block;
+        .file-name {
+          font-weight: bold;
+          display: inline-block;
+        }
+
+        .status-marker {
+          display: inline-block;
+          margin: 0 0 0 3px;
+
+          &.dz-success-mark {
+            display: none;
+            color: $green;
+          }
+
+          &.dz-error-mark {
+            display: none;
+            color: $red;
+          }
+        }
       }
+
 
       .file-size {
         font-size: 0.8em;
@@ -88,7 +106,34 @@
           font-weight: normal;
         }
       }
+
+      .progress {
+        margin: 5px 0 0 0;
+        height: 10px;
+      }
+
+
     }
+
+    &.dz-complete {
+
+      .progress {
+        display: none;
+      }
+
+      &.dz-success {
+        .dz-success-mark {
+          display: inline-block!important;
+        }
+      }
+
+      &.dz-error {
+        .dz-error-mark {
+          display: inline-block!important;
+        }
+      }
+    }
+
 
     .link-remove {
       display: none;

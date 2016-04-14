@@ -221,8 +221,9 @@ class Item extends Model
     }
 
     /**
-     * Makes a photo and attaches it
-     * to this item.
+     * Makes a photo and attaches it to this
+     * item. After all is done, it returns
+     * the Photo instance.
      *
      * @param UploadedFile $file
      * @return Model

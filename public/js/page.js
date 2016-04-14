@@ -209,6 +209,73 @@ Vue.component('items-all', {
 
     }
 });
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {};
+    },
+    props: [],
+    computed: {},
+    methods: {},
+    events: {},
+    ready: function () {
+        var itemPhotoDropzone = new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                // this.on("addedfile", function (file) {
+                //     self.uploadedFiles.push(file);
+                // });
+                // this.on("removedfile", function (file) {
+                //     self.uploadedFiles = _.reject(self.uploadedFiles, file);
+                // })
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    $imgGallery = $('.image-gallery');
+                    if (!$imgGallery.length) {
+                        $('.main-image').after('<ul class="image-gallery list-unstyled">' +
+                            '<li>' +
+                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
+                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
+                            '</a>' +
+                            '</li>' +
+                            '</ul>')
+                    } else {
+                        $imgGallery.append('<li>' +
+                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
+                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
+                            '</a>' +
+                            '</li>');
+                    }
+
+                });
+            }
+        });
+    }
+});
 Vue.component('add-line-item', {
     name: 'addLineItem',
     el: function () {
@@ -300,6 +367,320 @@ Vue.component('add-line-item', {
 
 
 
+Vue.component('purchase-orders-all',{
+    name: 'allPurchaseOrders',
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+    methods: {
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    }
+});
+Vue.component('purchase-orders-submit', {
+    el: function() {
+        return '#purchase-orders-submit';
+    },
+    data: function() {
+        return {
+            vendorType: '',
+            vendor_id: 'Choose an existing vendor',
+            name: '',
+            phone: '',
+            address: '',
+            bank_account_name: '',
+            bank_account_number: '',
+            bank_name: '',
+            canAjax: true
+        };
+    },
+    computed: {
+        readyStep3: function () {
+            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
+        }
+    },
+    methods: {
+        selectVendor: function (type) {
+            this.vendor_id = 'Choose an existing vendor';
+            this.name = '';
+            this.phone = '';
+            this.address = '';
+            this.bank_account_name = '';
+            this.bank_account_number = '';
+            this.bank_name = '';
+            this.vendorType = type;
+        },
+        removeLineItem: function (lineItemId) {
+            console.log('hehehe');
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/remove_line_item/' + lineItemId,
+                    method: 'POST',
+                    data: {},
+                    success: function (data) {
+                        console.log('success');
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(error);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        }
+    }
+});
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
+    }
+});
 Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
     el: function () {
@@ -583,320 +964,6 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: [],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
-            }
-        });
-    }
-});
-Vue.component('purchase-orders-all',{
-    name: 'allPurchaseOrders',
-    el: function() {
-        return '#purchase-orders-all';
-    },
-    data: function() {
-        return {
-            purchaseOrders: [],
-            headings: [
-                ['created_at', 'Date Submitted'],
-                ['project.name', 'Project'],
-                ['', 'Item(s)'],
-                ['total', 'OrderTotal'],
-                ['', 'Status'],
-                ['', 'Paid'],
-                ['', 'Delivered']
-            ],
-            statuses: [
-                {
-                    key: 'pending',
-                    label: 'Pending'
-                },
-                {
-                    key: 'approved',
-                    label: 'Approved'
-                },
-                {
-                    key: 'rejected',
-                    label: 'Rejected'
-                },
-                {
-                    key: '',
-                    label: 'All'
-                }
-            ],
-            field: '',
-            order: '',
-            urgent: '',
-            filter: 'pending'
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
-    methods: {
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
-        }
-    }
-});
-Vue.component('purchase-orders-submit', {
-    el: function() {
-        return '#purchase-orders-submit';
-    },
-    data: function() {
-        return {
-            vendorType: '',
-            vendor_id: 'Choose an existing vendor',
-            name: '',
-            phone: '',
-            address: '',
-            bank_account_name: '',
-            bank_account_number: '',
-            bank_name: '',
-            canAjax: true
-        };
-    },
-    computed: {
-        readyStep3: function () {
-            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
-        }
-    },
-    methods: {
-        selectVendor: function (type) {
-            this.vendor_id = 'Choose an existing vendor';
-            this.name = '';
-            this.phone = '';
-            this.address = '';
-            this.bank_account_name = '';
-            this.bank_account_number = '';
-            this.bank_name = '';
-            this.vendorType = type;
-        },
-        removeLineItem: function (lineItemId) {
-            console.log('hehehe');
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/remove_line_item/' + lineItemId,
-                    method: 'POST',
-                    data: {},
-                    success: function (data) {
-                        console.log('success');
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(error);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        }
-    }
-});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
