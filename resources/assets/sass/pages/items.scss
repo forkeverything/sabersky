@@ -1,6 +1,5 @@
 #items-all {
 
-
   @import "items/control";
 
   .table-items {
@@ -61,4 +60,100 @@
     }
   }
 
+}
+
+#item-single {
+
+  .photos {
+    margin: 0 0 15px 0;
+
+    .main-image {
+      display: flex;
+      justify-content: flex-start;
+      overflow: hidden;
+      height: 340px;
+      margin: 0 0 10px 0;
+
+      @media screen and (min-width: 998px) {
+        height: 140px;
+      }
+
+      @media screen and (min-width: 1222px) {
+        height: 190px;
+      }
+
+      @media screen and (min-width: 1430px) {
+        height: 250px;
+      }
+
+
+      img {
+        height: 100%;
+      }
+
+      .placeholder {
+        text-align: center;
+        font-size: 12em;
+        color: $grey;
+
+        @media screen and (min-width: 998px) {
+          font-size: 8em;
+        }
+
+        @media screen and (min-width: 1222px) {
+          font-size: 12em;
+        }
+      }
+    }
+
+    .image-gallery {
+      margin: 0 -10px -10px 0;
+
+      li {
+        width: 63px;
+        display: inline-block;
+        height: 63px;
+        margin: 0 10px 10px 0;
+
+        @media screen and (min-width: 1222px) {
+        width: 54px;
+        height: 54px;
+      }
+
+        @media screen and (min-width: 1430px) {
+          width: 73px;
+          height: 73px;
+        }
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .details {
+
+    .table {
+
+      th {
+        font-weight: normal;
+        border-right: 1px solid $grey;
+      }
+
+      tr:first-child {
+        th, td {
+          border-top: none;
+        }
+      }
+
+      th, td {
+        padding: 10px;
+      }
+
+      .projects-list {
+
+      }
+    }
+  }
 }

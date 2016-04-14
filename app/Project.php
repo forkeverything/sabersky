@@ -75,12 +75,12 @@ class Project extends Model
      */
     public function items()
     {
-        return DB::table('items')->whereExists(function ($query) {
+        return collect(DB::table('items')->whereExists(function ($query) {
             $query->select(DB::raw(1))
                   ->from('purchase_requests')
                   ->where('project_id', '=', $this->id)
                   ->whereRaw('items.id = purchase_requests.item_id');
-        })->get();
+        })->get());
     }
 
     /**

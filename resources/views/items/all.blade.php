@@ -18,7 +18,9 @@
                                            :placeholder="'Select one...'"></select-picker>
                             <div class="brands-list" v-show="filter === 'brand'">
                                 <p>is</p>
-                                <select id="items-filter-brand-select"><option></option></select>
+                                <select id="items-filter-brand-select">
+                                    <option></option>
+                                </select>
                             </div>
                             <div class="projects-list" v-show="filter === 'project'">
                                 <p>is</p>
@@ -35,16 +37,17 @@
                         <input class="form-control input-item-search"
                                type="text"
                                placeholder="Search by SKU, Brand or Name"
-                               @keyup="searchItemQuery"
-                               v-model="searchTerm"
-                               :class="{
+                        @keyup="searchItemQuery"
+                        v-model="searchTerm"
+                        :class="{
                                     'active': searchTerm && searchTerm.length > 0
                                }"
                         >
                     </form>
                     <div class="active-filters">
                         <button type="button" v-if="activeBrandFilter" class="btn button-remove-filter" @click="
-                        removeFilter('brand')"><span class="field">Brand: </span>@{{ decodeURIComponent(activeBrandFilter) }}</button>
+                        removeFilter('brand')"><span
+                                class="field">Brand: </span>@{{ decodeURIComponent(activeBrandFilter) }}</button>
                         <button type="button" v-if="activeProjectFilter" class="btn button-remove-filter" @click="
                         removeFilter('project')"><span
                                 class="field">Project: </span>@{{ activeProjectFilter.name }}</button>
@@ -71,7 +74,7 @@
                                             'current_desc': sort === 'sku' && order === 'desc'
                                         }"
                             >
-                                SKU</th>
+                            SKU</th>
                             <th>Projects</th>
                         <tr>
                         </thead>
@@ -91,8 +94,10 @@
                                     </div>
                                 </td>
                                 <td class="col-details">
-                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
+                                    <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
+                                    <a :href="'/items/' + item.id" alt="single item link">
                                         <span class="name">@{{ item.name }}</span>
+                                    </a>
                                     <span class="item-specification">
                                         <text-clipper :text="item.specification"></text-clipper></span>
                                 </td>

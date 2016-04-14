@@ -178,7 +178,16 @@ class ItemsController extends Controller
 
     public function getSingle(Item $item)
     {
-        
+        $breadcrumbs = [
+            ['<i class="fa fa-legal"></i> Items', '/items'],
+            [$item->brand . ' - ' . $item->name, '#']
+        ];
+        if (Gate::allows('edit', $item)) {
+            return view('items.single', compact('item', 'breadcrumbs'));
+        }
+
+        // Item does not belong to user - why don't we just redirect them back
+        return redirect('/items');
     }
 
 
