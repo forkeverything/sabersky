@@ -118,6 +118,7 @@
         display: inline-block;
         height: 63px;
         margin: 0 10px 10px 0;
+        position: relative;
 
         @media screen and (min-width: 1222px) {
         width: 54px;
@@ -132,7 +133,28 @@
         img {
           width: 100%;
         }
+
+        .button-delete-photo {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: 0;
+          color: #fff;
+          padding: 5px 8px;
+          background: rgba(245, 152, 152, 0.8);
+          font-size: 0.7em;
+        }
+
+        &:hover {
+          .button-delete-photo {
+            display: block;
+          }
+        }
       }
+    }
+
+    .dropzone-errors {
+      margin: 10px 0 0 0;
     }
 
     #item-photo-uploader {

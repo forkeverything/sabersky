@@ -4,16 +4,59 @@ Vue.component('item-single', {
         return '#item-single'
     },
     data: function () {
-        return {};
+        return {
+            ajaxReady: true,
+            photos: [],
+            fileErrors: []
+        };
     },
-    props: [],
+    props: ['itemId'],
     computed: {},
-    methods: {},
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.photos = _.reject(self.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
     events: {},
     ready: function () {
-        var itemPhotoDropzone = new Dropzone("#item-photo-uploader", {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.itemId,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
             autoProcessQueue: true,
             maxFilesize: 5,
+            acceptedFiles: 'image/*',
             previewTemplate: '<div class="dz-image-row">' +
             '                       <div class="dz-image">' +
             '                           <img data-dz-thumbnail>' +
@@ -31,35 +74,24 @@ Vue.component('item-single', {
             '                       </div>' +
             '                </div>',
             init: function () {
-                // this.on("addedfile", function (file) {
-                //     self.uploadedFiles.push(file);
-                // });
-                // this.on("removedfile", function (file) {
-                //     self.uploadedFiles = _.reject(self.uploadedFiles, file);
-                // })
                 this.on("complete", function (file) {
                     setTimeout(function () {
                         this.removeFile(file);
                     }.bind(this), 5000);
                 });
                 this.on("success", function (files, response) {
-                    $imgGallery = $('.image-gallery');
-                    if (!$imgGallery.length) {
-                        $('.main-image').after('<ul class="image-gallery list-unstyled">' +
-                            '<li>' +
-                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
-                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
-                            '</a>' +
-                            '</li>' +
-                            '</ul>')
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
                     } else {
-                        $imgGallery.append('<li>' +
-                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
-                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
-                            '</a>' +
-                            '</li>');
+                        self.fileErrors.push(file.name + ': ' + err);
                     }
-
                 });
             }
         });

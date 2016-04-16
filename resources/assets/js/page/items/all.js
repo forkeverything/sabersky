@@ -157,11 +157,11 @@ Vue.component('items-all', {
                 }));
             }
         },
-        getItemProjectNames: function(item){
+        getItemProjects: function(item){
             // Parses out project names from an Item's Purchase Requests
             var projects = [];
             _.forEach(item.purchase_requests, function (pr) {
-                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project.name);
+                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project);
             });
             return projects;
         }

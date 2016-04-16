@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddItemPhotoRequest;
 use App\Http\Requests\AddItemRequest;
 use App\Item;
+use App\Photo;
 use App\Repositories\CompanyItemsRepository;
 use Illuminate\Http\Request;
 
@@ -40,6 +42,7 @@ class ItemsController extends Controller
      * Returns all of the User's Company's
      * Items
      *
+     * @param Request $request
      * @return mixed
      */
     public function apiGetAll(Request $request)
@@ -157,24 +160,27 @@ class ItemsController extends Controller
     }
 
 
-    public function postAddPhoto(Request $request, Item $item)
+    /**
+     * Handles POST request to store a single
+     * image as an Item photo.
+     *
+     * @param AddItemPhotoRequest $request
+     * @param Item $item
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function postAddPhoto(AddItemPhotoRequest $request, Item $item)
     {
-        if ($request->ajax()) {
-            if (Gate::allows('edit', $item)) {
-                $file = $request->file;
-                if( $file && $file instanceof UploadedFile) {
-                    return $item->attachPhoto($file);
-                };
-            }
-            return response()->json([
-                'status' => 'error',
-                'msg' => 'Item doesn\'t belong to you.',
-            ], 402);
-        } else {
-            abort(403, 'Wrong way, go back!');
-        }
+        return $item->attachPhoto($request->file);
     }
 
+
+    /**
+     * Find an Item by it's ID and returns the
+     * single Item view to the client view.
+     *
+     * @param Item $item
+     * @return mixed
+     */
     public function getSingle(Item $item)
     {
         $breadcrumbs = [
@@ -187,6 +193,40 @@ class ItemsController extends Controller
 
         // Item does not belong to user - why don't we just redirect them back
         return redirect('/items');
+    }
+
+    /**
+     * Retrieves Item details (including Photos)
+     * and returns as JSON
+     *
+     * @param Request $request
+     * @param Item $item
+     * @return $this
+     */
+    public function apiGetSingle(Request $request, Item $item)
+    {
+        if (!$request->ajax()) abort(400, "Sorry, wrong door");
+        if (Gate::allows('edit', $item)) {
+            return $item->load('photos');
+        }
+    }
+
+    /**
+     * DELETE request to remove an specific Item's
+     * photo
+     *
+     * @param Request $request
+     * @param Item $item
+     * @param Photo $photo
+     * @return mixed
+     * @throws \Exception
+     */
+    public function apiDeleteItemPhoto(Request $request, Item $item, Photo $photo)
+    {
+        if (!$request->ajax()) abort(400, "Sorry, wrong door");
+        if (Gate::allows('edit', $item) && $item->photos->contains($photo)) {
+            return $photo->deletePhysicalFiles()->delete() ? response("Deleted Item Photo", 200) : abort(400, "Could not delete Photo");
+        }
     }
 
 

@@ -860,14 +860,19 @@ Vue.component('add-item-modal', {
         self.dropzone = new Dropzone("div.item-photo-dropzone", {
             autoProcessQueue: false,
             url: "#",
+            acceptedFiles: 'image/*',
             accept: function (file, done) {
-                if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                if (self.uploadedFiles.length > 12) {
+                    self.fileErrors.push("Maximum of 12 Photos reached");
+                    this.removeFile(file);
+                } else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
                     self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
                     this.removeFile(file);
                 } else if (file.size > dzMaxFileSize) {
                     self.fileErrors.push('"' + file.name + '" file size over 5MB');
                     this.removeFile(file);
-                } else {
+                }
+                else {
                     done();
                 }
             },

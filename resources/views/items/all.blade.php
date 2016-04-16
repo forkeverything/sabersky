@@ -94,20 +94,26 @@
                                     </div>
                                 </td>
                                 <td class="col-details">
-                                    <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
                                     <a :href="'/items/' + item.id" alt="single item link">
+                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
                                         <span class="name">@{{ item.name }}</span>
                                     </a>
                                     <span class="item-specification">
                                         <text-clipper :text="item.specification"></text-clipper></span>
                                 </td>
                                 <td class="col-sku no-wrap">
-                                    <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>
+                                    <a :href="'/items/' + item.id" alt="single item link">
+                                        <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>
+                                    </a>
                                     <span v-else>-</span>
                                 </td>
                                 <td class="no-wrap">
-                                    <ul class="list-unstyled" v-if="getItemProjectNames(item).length > 0">
-                                        <li v-for="project in getItemProjectNames(item)">@{{ project }}</li>
+                                    <ul class="list-unstyled" v-if="getItemProjects(item).length > 0">
+                                        <li v-for="project in getItemProjects(item)">
+                                            <a :href="'/projects/' + project.id" alt="Link to project">
+                                                @{{ project.name }}
+                                            </a>
+                                        </li>
                                     </ul>
                                     <em v-else>None</em>
                                 </td>

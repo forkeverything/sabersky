@@ -107,6 +107,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/api/items', 'ItemsController@postAddNew');
     Route::post('/api/items/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'ItemsController@postAddPhoto']);
     Route::get('/items/{item}', ['as' => 'getSingleItem', 'uses' => 'ItemsController@getSingle']);
+    Route::get('/api/items/{item}', 'ItemsController@apiGetSingle');
+    Route::delete('/api/items/{item}/photo/{photo}', 'ItemsController@apiDeleteItemPhoto');
 
     /**
      * Purchase Orders & Line Items

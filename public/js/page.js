@@ -157,11 +157,11 @@ Vue.component('items-all', {
                 }));
             }
         },
-        getItemProjectNames: function(item){
+        getItemProjects: function(item){
             // Parses out project names from an Item's Purchase Requests
             var projects = [];
             _.forEach(item.purchase_requests, function (pr) {
-                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project.name);
+                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project);
             });
             return projects;
         }
@@ -215,16 +215,59 @@ Vue.component('item-single', {
         return '#item-single'
     },
     data: function () {
-        return {};
+        return {
+            ajaxReady: true,
+            photos: [],
+            fileErrors: []
+        };
     },
-    props: [],
+    props: ['itemId'],
     computed: {},
-    methods: {},
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.photos = _.reject(self.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
     events: {},
     ready: function () {
-        var itemPhotoDropzone = new Dropzone("#item-photo-uploader", {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.itemId,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
             autoProcessQueue: true,
             maxFilesize: 5,
+            acceptedFiles: 'image/*',
             previewTemplate: '<div class="dz-image-row">' +
             '                       <div class="dz-image">' +
             '                           <img data-dz-thumbnail>' +
@@ -242,35 +285,24 @@ Vue.component('item-single', {
             '                       </div>' +
             '                </div>',
             init: function () {
-                // this.on("addedfile", function (file) {
-                //     self.uploadedFiles.push(file);
-                // });
-                // this.on("removedfile", function (file) {
-                //     self.uploadedFiles = _.reject(self.uploadedFiles, file);
-                // })
                 this.on("complete", function (file) {
                     setTimeout(function () {
                         this.removeFile(file);
                     }.bind(this), 5000);
                 });
                 this.on("success", function (files, response) {
-                    $imgGallery = $('.image-gallery');
-                    if (!$imgGallery.length) {
-                        $('.main-image').after('<ul class="image-gallery list-unstyled">' +
-                            '<li>' +
-                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
-                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
-                            '</a>' +
-                            '</li>' +
-                            '</ul>')
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
                     } else {
-                        $imgGallery.append('<li>' +
-                            '<a href="' + response.path + '" rel="group" class="fancybox">' +
-                            '   <img src="' + response.thumbnail_path + '" alt="Item photo">' +
-                            '</a>' +
-                            '</li>');
+                        self.fileErrors.push(file.name + ': ' + err);
                     }
-
                 });
             }
         });
@@ -367,156 +399,6 @@ Vue.component('add-line-item', {
 
 
 
-Vue.component('purchase-orders-all',{
-    name: 'allPurchaseOrders',
-    el: function() {
-        return '#purchase-orders-all';
-    },
-    data: function() {
-        return {
-            purchaseOrders: [],
-            headings: [
-                ['created_at', 'Date Submitted'],
-                ['project.name', 'Project'],
-                ['', 'Item(s)'],
-                ['total', 'OrderTotal'],
-                ['', 'Status'],
-                ['', 'Paid'],
-                ['', 'Delivered']
-            ],
-            statuses: [
-                {
-                    key: 'pending',
-                    label: 'Pending'
-                },
-                {
-                    key: 'approved',
-                    label: 'Approved'
-                },
-                {
-                    key: 'rejected',
-                    label: 'Rejected'
-                },
-                {
-                    key: '',
-                    label: 'All'
-                }
-            ],
-            field: '',
-            order: '',
-            urgent: '',
-            filter: 'pending'
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
-    methods: {
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
-        }
-    }
-});
-Vue.component('purchase-orders-submit', {
-    el: function() {
-        return '#purchase-orders-submit';
-    },
-    data: function() {
-        return {
-            vendorType: '',
-            vendor_id: 'Choose an existing vendor',
-            name: '',
-            phone: '',
-            address: '',
-            bank_account_name: '',
-            bank_account_number: '',
-            bank_name: '',
-            canAjax: true
-        };
-    },
-    computed: {
-        readyStep3: function () {
-            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
-        }
-    },
-    methods: {
-        selectVendor: function (type) {
-            this.vendor_id = 'Choose an existing vendor';
-            this.name = '';
-            this.phone = '';
-            this.address = '';
-            this.bank_account_name = '';
-            this.bank_account_number = '';
-            this.bank_name = '';
-            this.vendorType = type;
-        },
-        removeLineItem: function (lineItemId) {
-            console.log('hehehe');
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/remove_line_item/' + lineItemId,
-                    method: 'POST',
-                    data: {},
-                    success: function (data) {
-                        console.log('success');
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(error);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        }
-    }
-});
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -679,6 +561,156 @@ Vue.component('project-single', {
                 self.ajaxReady = true;
             }
         });
+    }
+});
+Vue.component('purchase-orders-all',{
+    name: 'allPurchaseOrders',
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+    methods: {
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    }
+});
+Vue.component('purchase-orders-submit', {
+    el: function() {
+        return '#purchase-orders-submit';
+    },
+    data: function() {
+        return {
+            vendorType: '',
+            vendor_id: 'Choose an existing vendor',
+            name: '',
+            phone: '',
+            address: '',
+            bank_account_name: '',
+            bank_account_number: '',
+            bank_name: '',
+            canAjax: true
+        };
+    },
+    computed: {
+        readyStep3: function () {
+            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
+        }
+    },
+    methods: {
+        selectVendor: function (type) {
+            this.vendor_id = 'Choose an existing vendor';
+            this.name = '';
+            this.phone = '';
+            this.address = '';
+            this.bank_account_name = '';
+            this.bank_account_number = '';
+            this.bank_name = '';
+            this.vendorType = type;
+        },
+        removeLineItem: function (lineItemId) {
+            console.log('hehehe');
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/remove_line_item/' + lineItemId,
+                    method: 'POST',
+                    data: {},
+                    success: function (data) {
+                        console.log('success');
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(error);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        }
     }
 });
 Vue.component('purchase-requests-all', {

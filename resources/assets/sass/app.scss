@@ -97,6 +97,19 @@ a {
     color: initial;
     text-decoration: none;
   }
+
+  &:hover {
+    color: $blue;
+  }
+
+  &.dotted {
+    border-bottom: 1px dotted $black;
+
+    &:hover {
+      color: $blue;
+      border-bottom: 1px solid $blue;
+    }
+  }
 }
 
 h5 {

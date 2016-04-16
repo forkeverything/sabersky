@@ -24,11 +24,21 @@ class AddItemRequest extends Request
      */
     public function rules()
     {
-        return [
+        // Static fields
+        $rules = [
             'sku' => 'unique:items,sku,NULL,id,company_id,' . Auth::user()->company->id,
             'name' => 'required|unique:items,name,NULL,id,company_id,' . Auth::user()->company->id . ',brand,' . $this->input('brand'),
             'specification' => 'required'
         ];
+
+        // To handle item_photos array of files
+        $nbr = count($this->input('item_photos')) - 1;  // How many files
+        foreach(range(0, $nbr) as $index) {
+            // Create rule  for each file dynamically
+            $rules['item_photos.' . $index] = 'image|max:5000';
+        }
+
+        return $rules;
     }
 
     public function message()

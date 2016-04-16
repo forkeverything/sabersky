@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 /**
  * App\Photo
@@ -41,5 +42,20 @@ class Photo extends Model
     public function getThumbnailPathAttribute($property)
     {
         return '/' . $property;
+    }
+
+
+    /**
+     * Leverages Laravel's File System to physically
+     * remove the image files. Need to remove the
+     * leading '/' appended to path.
+     * 
+     * @return $this
+     */
+    public function deletePhysicalFiles()
+    {
+        \File::delete(ltrim($this->path, '/'));
+        \File::delete(ltrim($this->thumbnail_path, '/'));
+        return $this;
     }
 }

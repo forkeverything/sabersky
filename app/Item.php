@@ -26,6 +26,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Item extends Model
 {
+    protected $maxNumberOfPhotos = 12;
+
     /**
      * Fillable DB fields for an item
      * record.
@@ -230,11 +232,14 @@ class Item extends Model
      */
     public function attachPhoto(UploadedFile $file, BuildPhoto $photoBuilder = null)
     {
-        $photoBuilder = $photoBuilder ?: (new BuildPhoto($file)); // For testing - if we get a mocked class, use it
+        if($this->photos()->count() > $this->maxNumberOfPhotos) return response("Reached Max. number of photos per Item: " . $this->maxNumberOfPhotos, 409);
+        // For testing - if we get a mocked class, use it. Otherwise
+        // lets choose to 'new' up an instance of the real class.
+        $photoBuilder = $photoBuilder ?: (new BuildPhoto($file));
 
-        // Build up the photo
+        // Call the specific method for Item photos
         $photo = $photoBuilder->item($this);
-        // attach it to model
+        // Attach it the current model instance
         return $this->photos()->save($photo);
     }
 }
