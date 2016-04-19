@@ -33,6 +33,7 @@ class PurchaseRequest extends Model
      * @var array
      */
     protected $fillable = [
+        'number',
         'quantity',
         'due',
         'state',
@@ -106,6 +107,21 @@ class PurchaseRequest extends Model
     {
         $this->attributes['due'] = Carbon::createFromFormat('d/m/Y', $value);
     }
+
+    public function getNumberAttribute($value)
+    {
+        switch (strlen($value)) {
+            case 1:
+                return '00' . $value;
+                break;
+            case 2:
+                return '0' . $value;
+                break;
+            default:
+                return $value;
+        }
+    }
+
 
     /**
      * Creates a new PR Instance from the Form request,

@@ -2,14 +2,12 @@
     <label for="field-new-user-name">Name</label>
     <input type="text" id="field-new-user-name" name="name" value="{{ old('name') }}"
            class="form-control"
-           required
     >
 </div>
 <div class="form-group">
     <label for="field-new-user-email">Email</label>
     <input type="email" id="field-new-user-email" name="email" value="{{ old('email') }}"
            class="form-control"
-           required
     >
 </div>
 <div class="form-group">

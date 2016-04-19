@@ -16,6 +16,7 @@ class CreatePurchaseRequestsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
+            $table->integer('number');  // Sequential numbering per. project
             $table->integer('quantity');
             $table->dateTime('due');
             $table->string('state')->default('open'); // State can be 'open', 'cancelled'

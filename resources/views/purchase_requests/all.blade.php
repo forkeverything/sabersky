@@ -50,6 +50,15 @@
                             <thead>
                             <tr>
                                 <th class="clickable"
+                                @click="changeSort('number')"
+                                :class="{
+                                            'current_asc': sort === 'number' && order === 'asc',
+                                            'current_desc': sort === 'number' && order === 'desc'
+                                        }"
+                                >
+                                PR
+                                </th>
+                                <th class="clickable"
                                 @click="changeSort('project_name')"
                                 :class="{
                                             'current_asc': sort === 'project_name' && order === 'asc',
@@ -107,6 +116,7 @@
                             <tbody>
                             <template v-for="purchaseRequest in response.data">
                                 <tr class="row-single-pr clickable" v-if="purchaseRequest.id" @click="loadSingle(purchaseRequest)" >
+                                    <td>#@{{ purchaseRequest.number }}</td>
                                     <td class="col-project">@{{ purchaseRequest.project.name }}</td>
                                     <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
                                     <td class="col-item">

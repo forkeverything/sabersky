@@ -84,10 +84,10 @@ $factory->define(App\PurchaseRequest::class, function (Faker\Generator $faker) {
         'due' => $faker->dateTimeThisYear->format('d/m/Y'),
         'state' => $faker->randomElement(['open', 'cancelled']),
         'urgent' => $faker->boolean(20),
+        'project_id' => $project->id,
         'item_id' => factory(Item::class)->create([
             'company_id' => $project->company->id
         ])->id,
-        'project_id' => $project->id,
         'user_id' => factory(App\User::class)->create([
             'company_id' => $project->company->id
         ])->id

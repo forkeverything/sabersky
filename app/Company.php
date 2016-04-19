@@ -53,6 +53,17 @@ class Company extends Model
     }
 
     /**
+     * Company has one record from the statistics
+     * table which hold many different stats
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function statistics()
+    {
+        return $this->hasOne(CompanyStatistics::class);
+    }
+
+    /**
      * Company has many Employees (Users).
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

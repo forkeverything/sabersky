@@ -157,11 +157,18 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         * Custom Providers...
+         * Plugin Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Vinkla\Hashids\HashidsServiceProvider::class
+        Vinkla\Hashids\HashidsServiceProvider::class,
+
+        /*
+         * Custom Providers
+         */
+        \App\Providers\CompanyServiceProvider::class,
+        App\Providers\PurchasingServiceProvider::class,
+
 
     ],
 

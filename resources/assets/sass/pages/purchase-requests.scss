@@ -1,48 +1,5 @@
 @import "purchase-requests/all";
 @import "purchase-requests/make";
-
-#purchase-request-single {
-
-  .page-body {
-
-    .badge-warning {
-      color: #fff;
-      background: $dark-yellow;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 14px;
-      text-transform: uppercase;
-      margin: 0 0 0 15px;
-
-      i {
-        margin: 0 5px 0 0;
-      }
-    }
-
-    .item-details {
-      margin: 0 0 30px;
-
-      h2 {
-        margin: 0 0 15px;
-        display: flex;
-        align-items: center;
-      }
-
-      .btn-file {
-        width: 140px;
-      }
-    }
-  }
-
-  #form-pr-cancel {
-    text-align: right;
-
-    .button-cancel {
-      width: auto !important;
-      display: inline-block;
-    }
-  }
-
-}
+@import "purchase-requests/single";
 
 
