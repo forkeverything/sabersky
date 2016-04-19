@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
  * Class CompanyPurchaseRequests
  * @package App\Utilities
  */
-class CompanyPurchaseRequestsRepository extends apiRepository
+class UserPurchaseRequestsRepository extends apiRepository
 {
 
     /**
@@ -48,23 +48,18 @@ class CompanyPurchaseRequestsRepository extends apiRepository
         'project_name',
         'requester_name'
     ];
-    
+
     /**
-     * Takes a Company and finds it's Purchase Requests through it's
-     * Projects. We also join with relevant tables and select the
-     * necessary columns for info, matching(id), sorting(name)
+     * Finds relevant Purchase Requests for the projects that the
+     * User is a part of. We join with relevant tables and then
+     * select the columns for info, matching & sorting(name)
      *
-     * @param Company $company
+     * @param User $user
      * @return mixed
      */
-    protected function setQuery(Company $company)
+    protected function setQuery(User $user)
     {
-        return PurchaseRequest::whereExists(function ($query) use ($company){
-            $query->select(DB::raw(1))
-                  ->from('projects')
-                  ->where('company_id', '=', $company->id)
-                  ->whereRaw('purchase_requests.project_id = projects.id');
-        })
+        return PurchaseRequest::whereIn('project_id', $user->projects->pluck('id'))
                               ->join('projects', 'purchase_requests.project_id', '=', 'projects.id')
                               ->join('items', 'purchase_requests.item_id', '=', 'items.id')
                               ->join('users', 'purchase_requests.user_id', '=', 'users.id')
@@ -77,6 +72,16 @@ class CompanyPurchaseRequestsRepository extends apiRepository
                                 users.name as requester_name,
                                 users.id as requester_id
                                '));
+
+        /*
+        Old Query - fetches all PR for a given Company
+        return PurchaseRequest::whereExists(function ($query) use ($company){
+            $query->select(DB::raw(1))
+                  ->from('projects')
+                  ->where('company_id', '=', $company->id)
+                  ->whereRaw('purchase_requests.project_id = projects.id');
+        })
+         */
     }
 
     /**

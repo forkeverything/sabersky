@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Company;
+use App\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -68,14 +69,25 @@ abstract class apiRepository
     }
 
     /**
-     * Company Items constructor
+     * Similar to forCompany except in this case, we will be
+     * retrieving data for the given User. Usually for User
+     * specific data ie. projects based etc.
      *
-     * @param Company $company
+     * @param User $user
+     * @return static
      */
-    public function __construct(Company $company)
+    public static function forUser(User $user)
+    {
+        return new static($user);
+    }
+
+    /**
+     * Company Items constructor
+     */
+    public function __construct()
     {
         // Run initial query
-        $this->query = $this->setQuery($company);
+        $this->query = $this->setQuery(func_get_arg(0));
     }
 
     /**

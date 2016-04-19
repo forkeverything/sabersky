@@ -7,8 +7,7 @@ use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\Project;
 use App\PurchaseRequest;
-use App\Repositories\CompanyPurchaseRequestsRepository;
-use App\Utilities\CompanyPurchaseRequests;
+use App\Repositories\UserPurchaseRequestsRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -65,7 +64,7 @@ class PurchaseRequestController extends Controller
 
 
 
-            $data = CompanyPurchaseRequestsRepository::forCompany(Auth::user()->company)
+            $data = UserPurchaseRequestsRepository::forUser(Auth::user())
                                                      ->filterBy($filter)
                                                      ->sortOn($sort, $order)
                                                      ->onlyUrgent($urgent)
