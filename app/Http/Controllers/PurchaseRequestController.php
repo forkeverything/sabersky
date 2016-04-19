@@ -129,7 +129,7 @@ class PurchaseRequestController extends Controller
                 ['<i class="fa fa-shopping-basket"></i> Purchase Requests', '/purchase_requests'],
                 ['#' . $purchaseRequest->number, '#']
             ];
-            $purchaseRequest = $purchaseRequest->load('item.photos', 'project');
+            $purchaseRequest = $purchaseRequest->load('project', 'item.photos', 'item.lineItems');
             return view('purchase_requests.single', compact('purchaseRequest', 'breadcrumbs'));
         }
         abort(403, "That Purchase Request does not belong to you.");

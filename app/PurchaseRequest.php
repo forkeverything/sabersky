@@ -108,6 +108,14 @@ class PurchaseRequest extends Model
         $this->attributes['due'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
+    /**
+     * Some easy formatting so that the sequential
+     * Purchase Request Number of a Company has
+     * at least 3 digits.
+     *
+     * @param $value
+     * @return string
+     */
     public function getNumberAttribute($value)
     {
         switch (strlen($value)) {
@@ -120,6 +128,32 @@ class PurchaseRequest extends Model
             default:
                 return $value;
         }
+    }
+
+    /**
+     * This allows us to attach a pseudo-state of 'complete'
+     * to Purchase Requests that have an outstanding
+     * quantity of 0
+     *
+     * @param $value
+     * @return string
+     */
+    public function getStateAttribute($value)
+    {
+        if($this->quantity === 0) return 'complete';
+        return $value;
+    }
+
+    /**
+     * Quick checker to see if a PR
+     * has the given state (string)
+     *
+     * @param $state
+     * @return bool
+     */
+    public function hasState($state)
+    {
+        return $state === $this->state;
     }
 
 
@@ -153,6 +187,23 @@ class PurchaseRequest extends Model
         $this->state = 'cancelled';
         $this->save();
         return $this;
+    }
+
+    public function getFulfilledQuantityAttribute()
+    {
+        $fulfilledQuantities = 0;
+        $lineItems = $this->lineItems;
+        foreach ($lineItems as $lineItem) {
+            if ($lineItem->purchaseOrder->status !== 'rejected') {
+                $fulfilledQuantities += $lineItem->quantity;
+            }
+        }
+        return $fulfilledQuantities;
+    }
+
+    public function getInitialQuantityAttribute()
+    {
+        return $this->quantity + $this->fulfilledQuantity;
     }
 
 

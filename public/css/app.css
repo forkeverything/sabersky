@@ -6893,9 +6893,10 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       font-weight: bold;
       margin: 0 0 5px 0; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery {
-      margin-bottom: 5px; }
+      margin-bottom: -5px; }
       #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li {
-        width: 45px; }
+        width: 45px;
+        margin: 0 0 10px; }
         #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li img {
           width: 100%; }
 
@@ -7016,19 +7017,167 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       #purchase-requests-make .request-specifics table tr td label {
         margin: 0; }
 
-#purchase-request-single .card-item .thumbnail-item .placeholder {
-  width: 100%;
-  color: #D2D2D2;
+#purchase-request-single .card-subheading {
+  color: #93989F;
+  display: block;
+  margin: 0 0 10px; }
+
+#purchase-request-single .card-item .top {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  margin: 0 0 10px; }
+  #purchase-request-single .card-item .top .main-photo {
+    -webkit-flex: 0 0 75px;
+    -ms-flex: 0 0 75px;
+    flex: 0 0 75px;
+    margin: 0 15px 0 0; }
+    #purchase-request-single .card-item .top .main-photo .image-item-main img {
+      width: 100%; }
+    #purchase-request-single .card-item .top .main-photo .placeholder {
+      width: 100%;
+      color: #D2D2D2;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      font-size: 3em; }
+  #purchase-request-single .card-item .top .details-item {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+    #purchase-request-single .card-item .top .details-item .sku {
+      color: #93989F;
+      display: block;
+      margin: 0 0 10px; }
+    #purchase-request-single .card-item .top .details-item .item-link .brand, #purchase-request-single .card-item .top .details-item .item-link .name {
+      text-transform: capitalize;
+      display: block; }
+      #purchase-request-single .card-item .top .details-item .item-link .brand span, #purchase-request-single .card-item .top .details-item .item-link .name span {
+        border-bottom: 1px dotted #353535; }
+    #purchase-request-single .card-item .top .details-item .item-link:hover span {
+      border-bottom: 1px solid #3498DB;
+      color: #3498DB; }
+    #purchase-request-single .card-item .top .details-item .item-link .brand {
+      font-weight: bold; }
+    #purchase-request-single .card-item .top .details-item .item-link .name {
+      margin: 0 0 10px; }
+
+#purchase-request-single .card-item .specification {
+  margin: 0 0 15px; }
+
+#purchase-request-single .card-item .item-images .image-gallery {
+  margin: 0 0 -10px; }
+  #purchase-request-single .card-item .item-images .image-gallery .single-item-image {
+    width: 45px;
+    margin: 0 0 10px 0; }
+    #purchase-request-single .card-item .item-images .image-gallery .single-item-image img {
+      width: 100%; }
+
+#purchase-request-single .card-request .card-title {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  font-size: 3em; }
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 0 5px; }
+  #purchase-request-single .card-request .card-title .badge-state {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 25px;
+    font-size: 0.8em;
+    width: 100px;
+    border-radius: 6px;
+    margin: 0 0 0 15px; }
+    #purchase-request-single .card-request .card-title .badge-state.open {
+      color: #1C6F3D;
+      background: #9CFFA8;
+      border: 1px solid #2ECC71; }
+    #purchase-request-single .card-request .card-title .badge-state.complete {
+      color: #93989F;
+      background: #ebeef0;
+      border: 1px solid #A1A4AA; }
+    #purchase-request-single .card-request .card-title .badge-state.cancelled {
+      color: #C0392B;
+      background: #FAE5E5;
+      border: 1px solid #C0392B; }
+
+#purchase-request-single .card-request .requested-info {
+  color: #93989F;
+  padding: 0 0 10px;
+  border-bottom: 1px solid #E6E9EB;
+  margin: 0 0 15px; }
+
+#purchase-request-single .card-request .required {
+  margin: 0 0 15px; }
+  #purchase-request-single .card-request .required .due {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 5px 0; }
+    #purchase-request-single .card-request .required .due .badge-urgent {
+      color: #FFB400; }
+
+#purchase-request-single .card-request .quantities .table-quantities tr td, #purchase-request-single .card-request .quantities .table-quantities tr th {
+  border: 0;
+  padding: 5px 0; }
+
+#purchase-request-single .card-request .quantities .table-quantities tr th {
+  font-weight: normal;
+  padding-left: 10px; }
+
+#purchase-request-single .card-request .quantities .table-quantities tr td {
+  text-align: right;
+  padding-right: 10px; }
+
+#purchase-request-single .card-request .quantities .table-quantities tr:last-child td, #purchase-request-single .card-request .quantities .table-quantities tr:last-child th {
+  border-top: 1px solid #E6E9EB;
+  border-bottom: 1px solid #E6E9EB; }
+
+#purchase-request-single .card-project .name {
+  font-weight: bold;
+  display: block;
+  margin: 0 0 5px;
+  text-transform: capitalize; }
+
+#purchase-request-single .card-project .location {
+  display: block;
+  margin: 0 0 15px;
+  font-style: italic; }
+
+#purchase-request-single .card-project .started {
+  margin: 0 0 15px; }
+
+#purchase-request-single .card-project .team {
+  margin: 0 0 15px; }
+
+#purchase-request-single .card-project .purchase-requests table tr:first-child td {
+  border-top: 0; }
+
+#purchase-request-single .card-project .purchase-requests table tr.open {
+  color: #27AE60; }
+
+#purchase-request-single .card-project .purchase-requests table tr.cancelled {
+  color: #C0392B; }
+
+#purchase-request-single .card-project .purchase-requests table tr td {
+  padding: 5px 0; }
 
 #purchase-orders-submit section {
   margin: 0 0 30px; }

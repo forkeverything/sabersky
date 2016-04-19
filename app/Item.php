@@ -232,7 +232,7 @@ class Item extends Model
      */
     public function attachPhoto(UploadedFile $file, BuildPhoto $photoBuilder = null)
     {
-        if($this->photos()->count() > $this->maxNumberOfPhotos) return response("Reached Max. number of photos per Item: " . $this->maxNumberOfPhotos, 409);
+        if($this->photos()->count() >= $this->maxNumberOfPhotos) return response("Reached Max. number of photos per Item: " . $this->maxNumberOfPhotos, 409);
         // For testing - if we get a mocked class, use it. Otherwise
         // lets choose to 'new' up an instance of the real class.
         $photoBuilder = $photoBuilder ?: (new BuildPhoto($file));

@@ -1,18 +1,245 @@
 #purchase-request-single {
 
+  .card-subheading {
+    color: $text-muted;
+    display: block;
+    margin: 0 0 10px;
+  }
+
   .card-item {
 
-    .thumbnail-item {
-      .placeholder {
 
-        width: 100%;
-        color: $grey;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 3em;
+    .top {
+      display: flex;
+      margin: 0 0 10px;
+
+      .main-photo {
+        flex: 0 0 75px;
+        margin: 0 15px 0 0;
+
+        .image-item-main {
+
+          img {
+            width: 100%;
+          }
+        }
+        .placeholder {
+
+          width: 100%;
+          color: $grey;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 3em;
+        }
+      }
+
+      .details-item {
+        flex: 1;
+
+        .sku {
+          color: $text-muted;
+          display: block;
+          margin: 0 0 10px;
+        }
+
+        .item-link {
+
+          .brand, .name {
+            text-transform: capitalize;
+            display: block;
+
+            span {
+              border-bottom: 1px dotted $black;
+            }
+          }
+
+          &:hover {
+            span {
+              border-bottom: 1px solid $blue;
+              color: $blue;
+            }
+          }
+          .brand {
+            font-weight: bold;
+          }
+
+          .name {
+            margin: 0 0 10px;
+          }
+        }
+      }
+    }
+
+    .specification {
+      margin: 0 0 15px;
+    }
+
+    .item-images {
+
+
+      .image-gallery {
+        margin: 0 0 -10px;
+
+        .single-item-image {
+          width: 45px;
+          margin: 0 0 10px 0;
+
+          img {
+            width: 100%;
+          }
+        }
       }
     }
   }
 
+  .card-request {
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 5px;
+
+      .badge-state {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 25px;
+        font-size: 0.8em;
+        width: 100px;
+        border-radius: 6px;
+        margin: 0 0 0 15px;
+
+        &.open {
+          color: $extra-dark-green;
+          background: $light-green;
+          border: 1px solid $green;
+        }
+
+        &.complete {
+          color: $text-muted;
+          background: $body-background;
+          border: 1px solid $border-dark;
+        }
+
+        &.cancelled {
+          color: $dark-red;
+          background: $extra-light-red;
+          border: 1px solid $dark-red;
+        }
+      }
+    }
+
+
+    .requested-info {
+      color: $text-muted;
+      padding: 0 0 10px;
+      border-bottom: 1px solid $border-light;
+      margin: 0 0 15px;
+    }
+
+    .required {
+      margin: 0 0 15px;
+      .due {
+        display: block;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin: 5px 0;
+
+        .badge-urgent {
+          color: $dark-yellow;
+        }
+      }
+    }
+
+    .quantities {
+
+      .table-quantities {
+
+        tr {
+
+          td,th  {
+            border: 0;
+            padding: 5px 0;
+          }
+
+          th {
+            font-weight: normal;
+            padding-left: 10px;
+          }
+
+          td {
+            text-align: right;
+            padding-right: 10px;
+          }
+
+          &:last-child {
+            td, th {
+              border-top: 1px solid $border-light;
+              border-bottom: 1px solid $border-light;
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+
+  .card-project {
+
+    .name {
+      font-weight: bold;
+      display: block;
+      margin: 0 0 5px;
+      text-transform: capitalize;
+    }
+
+    .location {
+      display: block;
+      margin: 0 0 15px;
+      font-style: italic;
+    }
+
+    .started {
+      margin: 0 0 15px;
+    }
+
+    .team {
+      margin: 0 0 15px;
+    }
+
+    .purchase-requests {
+
+      table {
+        tr {
+
+          &:first-child {
+            td {
+              border-top: 0;
+            }
+          }
+
+          &.open {
+            color: $dark-green;
+          }
+
+          &.cancelled {
+            color: $dark-red;
+          }
+
+          td {
+            padding: 5px 0;
+          }
+        }
+      }
+    }
+
+    
+
+
+
+
+  }
 }
