@@ -125,8 +125,11 @@ class PurchaseRequestController extends Controller
      */
     public function getSingle(PurchaseRequest $purchaseRequest)
     {
-        $purchaseRequest = $purchaseRequest->load('item', 'project');
-        return view('purchase_requests.single', compact('purchaseRequest'));
+        if (Gate::allows('view', $purchaseRequest)) {
+            $purchaseRequest = $purchaseRequest->load('item', 'project');
+            return view('purchase_requests.single', compact('purchaseRequest'));
+        }
+        abort(403, "That Purchase Request does not belong to you.");
     }
 
     /**

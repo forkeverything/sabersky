@@ -750,35 +750,6 @@ Vue.component('purchase-requests-all', {
     },
     computed: {},
     methods: {
-        loadSinglePR: function (id) {
-            window.document.location = '/purchase_requests/single/' + id;
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        checkShow: function (purchaseRequest) {
-            switch (this.filter) {
-                case 'complete':
-                    if (purchaseRequest.state == 'Open' && purchaseRequest.quantity == '0') {
-                        return true;
-                    }
-                    break;
-                case 'cancelled':
-                    if (purchaseRequest.state == 'Cancelled') {
-                        return true;
-                    }
-                    break;
-                default:
-                    if (purchaseRequest.quantity > 0 && purchaseRequest.state !== 'Cancelled') {
-                        return true;
-                    }
-            }
-        },
         setLoadQuery: function () {
             // The currenty query
             var currentQuery = window.location.href.split('?')[1];
@@ -853,6 +824,9 @@ Vue.component('purchase-requests-all', {
                     page: 1
                 }));
             }
+        },
+        loadSingle: function(purchaseRequest) {
+            window.location.href = "/purchase_requests/" + purchaseRequest.id;
         }
     },
     ready: function () {

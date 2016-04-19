@@ -7,7 +7,7 @@ Vue.component('text-clipper', {
     '           >' +
     '               <div v-if="isClipped" class="clipped">' +
     '                   {{ text | limitString limit }}' +
-    '                   <a class="btn-show-more-text" @click.prevent="unclip">' +
+    '                   <a class="btn-show-more-text" @click.prevent.stop="unclip">' +
     '                       <span class="clickable">...</span>' +
     '                   </a>' +
     '               </div>' +

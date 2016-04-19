@@ -106,7 +106,7 @@
                             </thead>
                             <tbody>
                             <template v-for="purchaseRequest in response.data">
-                                <tr class="row-single-pr" v-if="purchaseRequest.id">
+                                <tr class="row-single-pr clickable" v-if="purchaseRequest.id" @click="loadSingle(purchaseRequest)" >
                                     <td class="col-project">@{{ purchaseRequest.project.name }}</td>
                                     <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
                                     <td class="col-item">

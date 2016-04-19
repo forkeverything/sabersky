@@ -6876,6 +6876,8 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       margin: 30px 0; } }
   #purchase-requests-all .pr-bag .table-purchase-requests-all {
     margin: 0; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-project {
+      text-transform: capitalize; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-quantity {
       text-align: center; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-sku {

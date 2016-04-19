@@ -22,10 +22,6 @@ class PurchaseOrderPolicy
 
     public function approve(User $user, PurchaseOrder $purchaseOrder)
     {
-        if ($user->role->position == 'director') {
-            return true;
-        } elseif ($user->role->position == 'manager' && ! $purchaseOrder->over_high) {
-            return true;
-        }
+        return (($user->role->position == 'director') || ($user->role->position == 'manager' && !$purchaseOrder->over_high));
     }
 }

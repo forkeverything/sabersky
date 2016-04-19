@@ -8,10 +8,12 @@ use App\Permission;
 use App\Policies\ItemPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\PurchaseOrderPolicy;
+use App\Policies\PurchaseRequestPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use App\Project;
 use App\PurchaseOrder;
+use App\PurchaseRequest;
 use App\Role;
 use App\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -30,7 +32,8 @@ class AuthServiceProvider extends ServiceProvider
         Item::class => ItemPolicy::class,
         Project::class => ProjectPolicy::class,
         User::class => UserPolicy::class,
-        Role::class => RolePolicy::class
+        Role::class => RolePolicy::class,
+        PurchaseRequest::class => PurchaseRequestPolicy::class
     ];
 
     /**
