@@ -39,17 +39,34 @@
             margin: 0 0 5px 0;
           }
 
-          .brand, .name {
-            display: block;
-            font-size: 1.2em;
-            text-transform: capitalize;
+          .link-item-single {
+
+            &:hover {
+
+              .brand, .name {
+                span {
+                  color: $blue;
+                  border-bottom: 1px solid $blue;
+                }
+              }
+            }
+
+            .brand, .name {
+              display: block;
+              font-size: 1.2em;
+              text-transform: capitalize;
+              span {
+                border-bottom: 1px dotted $black;
+              }
+            }
+
+            .name {
+              font-weight: bold;
+              white-space: nowrap;
+              margin: 0 0 5px 0;
+            }
           }
 
-          .name {
-            font-weight: bold;
-            white-space: nowrap;
-            margin: 0 0 5px 0;
-          }
 
           .item-specification {
             display: inline-block;

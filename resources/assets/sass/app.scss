@@ -110,6 +110,15 @@ a {
       border-bottom: 1px solid $blue;
     }
   }
+
+  &.underline {
+    border-bottom: 1px solid $black;
+
+    &:hover {
+      color: $blue;
+      border-bottom: 1px solid $blue;
+    }
+  }
 }
 
 h5 {

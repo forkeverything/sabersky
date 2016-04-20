@@ -10,16 +10,16 @@
   .filter {
 
     .button-show-filter-dropdown {
-      color: $text-muted;
-      border: 1px solid $grey;
-      border-right: none;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
+       color: $text-muted;
+       border: 1px solid $grey;
+       border-right: none;
+       border-top-left-radius: 4px;
+       border-bottom-left-radius: 4px;
 
-      &:hover, &:focus, &:active {
-        color: $blue;
-      }
-    }
+       &:hover, &:focus, &:active {
+         color: $blue;
+       }
+     }
 
     .filter-dropdown {
       padding: 15px;

@@ -29,10 +29,6 @@
 
       label {
         margin: 0;
-
-        &.urgent-only {
-          color: $orange;
-        }
       }
     }
     .pr-filters {
@@ -41,17 +37,17 @@
       position: relative;
 
       .button-show-filter-dropdown {
+        width: 115px;
+        color: $text-muted;
+        border: 1px solid $grey;
+        border-radius: 4px;
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-content: center;
+        line-height: 1;
 
-        .current-filter {
-          margin: 0 0 0 3px;
-          font-weight: bold;
-        }
-        i {
-          font-size: 0.8em;
-          margin: 0 0 0 3px;
+        &:hover, &:focus, &:active {
+          color: $blue;
         }
       }
 
@@ -81,6 +77,10 @@
               background: $blue;
               color: #fff;
             }
+
+            &.all {
+              border-top: 1px solid $border-light;
+            }
           }
         }
       }
@@ -103,6 +103,7 @@
 
       .col-quantity {
         text-align: center;
+        font-weight: bold;
       }
 
       .col-item {
@@ -125,14 +126,21 @@
 
         .item-image-gallery {
           margin-bottom: -5px;
+          display: flex;
+          overflow: scroll;
 
           li {
-            width: 45px;
+            flex: 0 0 45px;
             margin: 0 0 10px;
             img {
               width: 100%;
             }
           }
+        }
+
+        .item-specification {
+          display: inline-block;
+          min-width: 350px;
         }
 
       }

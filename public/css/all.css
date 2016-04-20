@@ -6816,8 +6816,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     margin: 0 5px 0 0; }
   #purchase-requests-all .pr-controls .control-urgent label {
     margin: 0; }
-    #purchase-requests-all .pr-controls .control-urgent label.urgent-only {
-      color: #FFA339; }
   #purchase-requests-all .pr-controls .pr-filters {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -6827,21 +6825,22 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     justify-content: flex-end;
     position: relative; }
     #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown {
+      width: 115px;
+      color: #93989F;
+      border: 1px solid #D2D2D2;
+      border-radius: 4px;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-      justify-content: flex-end; }
-      #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown .current-filter {
-        margin: 0 0 0 3px;
-        font-weight: bold; }
-      #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown i {
-        font-size: 0.8em;
-        margin: 0 0 0 3px; }
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+      align-content: center;
+      line-height: 1; }
+      #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:hover, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:focus, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:active {
+        color: #3498DB; }
     #purchase-requests-all .pr-controls .pr-filters .dropdown-filters .dropdown-title {
       font-size: 0.8em;
       text-transform: uppercase;
@@ -6870,6 +6869,8 @@ input[type="text"].not-required:focus + label[placeholder]:before,
         #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul .pr-dropdown-item:hover {
           background: #3498DB;
           color: #fff; }
+        #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul .pr-dropdown-item.all {
+          border-top: 1px solid #E6E9EB; }
 
 #purchase-requests-all .pr-bag {
   margin: 15px 0; }
@@ -6881,7 +6882,8 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-project {
       text-transform: capitalize; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-quantity {
-      text-align: center; }
+      text-align: center;
+      font-weight: bold; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-sku {
       font-style: italic;
       margin: 0 0 5px 0;
@@ -6893,12 +6895,21 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       font-weight: bold;
       margin: 0 0 5px 0; }
     #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery {
-      margin-bottom: -5px; }
+      margin-bottom: -5px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      overflow: scroll; }
       #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li {
-        width: 45px;
+        -webkit-flex: 0 0 45px;
+        -ms-flex: 0 0 45px;
+        flex: 0 0 45px;
         margin: 0 0 10px; }
         #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-image-gallery li img {
           width: 100%; }
+    #purchase-requests-all .pr-bag .table-purchase-requests-all .col-item .item-specification {
+      display: inline-block;
+      min-width: 350px; }
 
 #purchase-requests-all .page-controls-bottom .pr-paginate {
   margin: 0; }
@@ -7131,8 +7142,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     font-weight: bold;
     font-size: 1.2em;
     margin: 5px 0; }
-    #purchase-request-single .card-request .required .due .badge-urgent {
-      color: #FFB400; }
 
 #purchase-request-single .card-request .quantities .table-quantities tr td, #purchase-request-single .card-request .quantities .table-quantities tr th {
   border: 0;
@@ -7178,6 +7187,9 @@ input[type="text"].not-required:focus + label[placeholder]:before,
 
 #purchase-request-single .card-project .purchase-requests table tr td {
   padding: 5px 0; }
+
+.badge-urgent {
+  color: #FFB400; }
 
 #purchase-orders-submit section {
   margin: 0 0 30px; }
@@ -7485,11 +7497,16 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       display: inline-block; }
   #items-all .table-items .item-row td.col-details .item-sku {
     margin: 0 0 5px 0; }
-  #items-all .table-items .item-row td.col-details .brand, #items-all .table-items .item-row td.col-details .name {
+  #items-all .table-items .item-row td.col-details .link-item-single:hover .brand span, #items-all .table-items .item-row td.col-details .link-item-single:hover .name span {
+    color: #3498DB;
+    border-bottom: 1px solid #3498DB; }
+  #items-all .table-items .item-row td.col-details .link-item-single .brand, #items-all .table-items .item-row td.col-details .link-item-single .name {
     display: block;
     font-size: 1.2em;
     text-transform: capitalize; }
-  #items-all .table-items .item-row td.col-details .name {
+    #items-all .table-items .item-row td.col-details .link-item-single .brand span, #items-all .table-items .item-row td.col-details .link-item-single .name span {
+      border-bottom: 1px dotted #353535; }
+  #items-all .table-items .item-row td.col-details .link-item-single .name {
     font-weight: bold;
     white-space: nowrap;
     margin: 0 0 5px 0; }
@@ -8055,6 +8072,9 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       content: '\f0d8'; }
     .table-standard thead tr th.current_desc:after {
       content: '\f0d7'; }
+    .table-standard thead tr th.heading-center {
+      padding: 10px;
+      text-align: center; }
 
 .table-standard tbody tr:first-child td {
   border-top: 0; }
@@ -8418,6 +8438,11 @@ a {
   a.dotted {
     border-bottom: 1px dotted #353535; }
     a.dotted:hover {
+      color: #3498DB;
+      border-bottom: 1px solid #3498DB; }
+  a.underline {
+    border-bottom: 1px solid #353535; }
+    a.underline:hover {
       color: #3498DB;
       border-bottom: 1px solid #3498DB; }
 

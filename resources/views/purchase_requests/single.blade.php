@@ -25,7 +25,6 @@
                             @if($purchaseRequest->urgent)
                                 <span class="badge-urgent"><i class="fa fa-warning"></i></span>
                             @endif
-                            <span class="badge-urgent"><i class="fa fa-warning"></i></span>
                             {{ $purchaseRequest->due->format('d M Y') }}</div>
                     </div>
                     <!-- PR details Table -->

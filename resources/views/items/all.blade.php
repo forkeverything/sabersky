@@ -80,7 +80,7 @@
                         </thead>
                         <tbody>
                         <template v-for="item in items">
-                            <tr class="clickable item-row" v-if="item && item.id">
+                            <tr class="item-row" v-if="item && item.id">
                                 <td class="col-thumbnail">
                                     <div class="item-thumbnail">
                                         <img :src="item.photos[0].thumbnail_path"
@@ -94,23 +94,23 @@
                                     </div>
                                 </td>
                                 <td class="col-details">
-                                    <a :href="'/items/' + item.id" alt="single item link">
-                                        <span class="brand" v-if="item.brand">@{{ item.brand }}</span>
-                                        <span class="name">@{{ item.name }}</span>
+                                    <a class="link-item-single" :href="'/items/' + item.id" alt="single item link">
+                                        <div class="brand" v-if="item.brand"><span>@{{ item.brand }}</span></div>
+                                        <div class="name"><span>@{{ item.name }}</span></div>
                                     </a>
                                     <span class="item-specification">
                                         <text-clipper :text="item.specification"></text-clipper></span>
                                 </td>
                                 <td class="col-sku no-wrap">
-                                    <a :href="'/items/' + item.id" alt="single item link">
-                                        <span class="has-sku" v-if="item.sku">@{{ item.sku }}</span>
+                                    <a :href="'/items/' + item.id" alt="single item link" v-if="item.sku">
+                                        <span class="has-sku">@{{ item.sku }}</span>
                                     </a>
                                     <span v-else>-</span>
                                 </td>
                                 <td class="no-wrap">
                                     <ul class="list-unstyled" v-if="getItemProjects(item).length > 0">
                                         <li v-for="project in getItemProjects(item)">
-                                            <a :href="'/projects/' + project.id" alt="Link to project">
+                                            <a :href="'/projects/' + project.id" alt="Link to project" class="capitalize">
                                                 @{{ project.name }}
                                             </a>
                                         </li>

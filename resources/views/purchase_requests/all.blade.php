@@ -13,18 +13,22 @@
                 <div class="pr-controls">
                     <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
                         <button type="button"
-                                class="btn button-dotted button-show-filter-dropdown button-toggle-dropdown"
-                        >Filter:<span v-if="response.data" class="current-filter">@{{ response.data.filter | capitalize }}</span><i
-                                    class="fa fa-chevron-down"></i>
+                                class="btn button-show-filter-dropdown button-toggle-dropdown"
+                                v-if="response.data"
+                        >@{{ response.data.filter | capitalize }} <i
+                                    class="fa fa-caret-down"></i>
                         </button>
                         <div class="dropdown-filters dropdown-container left"
                              v-show="showFilterDropdown"
                         >
-                            <span class="dropdown-title">View only</span>
+                            <span class="dropdown-title">View Status</span>
                             <ul class="list-unstyled">
                                 <li class="pr-dropdown-item"
                                     v-for="filter in filters"
-                                @click="changeFilter(filter)"
+                                    @click="changeFilter(filter)"
+                                    :class="{
+                                        'all': filter.name === 'all'
+                                    }"
                                 >
                                 @{{ filter.label }}
                                 </li>
@@ -37,11 +41,9 @@
                                v-model="urgent"
                         @click="toggleUrgentOnly"
                         >
-                        <label for="checkbox-pr-urgent"
-                               :class="{
-                                'urgent-only': urgent
-                               }"
-                        ><i class="fa fa-warning"></i> Urgent only</label>
+                        <label class="clickable"
+                               for="checkbox-pr-urgent"
+                        ><i class="fa fa-warning badge-urgent"></i> Urgent only</label>
                     </div>
                 </div>
                 <div class="has-purchase-requests" v-if="response.total > 0">
@@ -67,7 +69,7 @@
                                 >
                                 Project
                                 </th>
-                                <th class="clickable"
+                                <th class="clickable heading-center"
                                 @click="changeSort('quantity')"
                                 :class="{
                                             'current_asc': sort === 'quantity' && order === 'asc',
@@ -115,23 +117,36 @@
                             </thead>
                             <tbody>
                             <template v-for="purchaseRequest in response.data">
-                                <tr class="row-single-pr clickable" v-if="purchaseRequest.id" @click="loadSingle(purchaseRequest)" >
-                                    <td>#@{{ purchaseRequest.number }}</td>
-                                    <td class="col-project">@{{ purchaseRequest.project.name }}</td>
+                                <tr class="row-single-pr" v-if="purchaseRequest.id">
+                                    <td class="no-wrap col-number"><a :href="'/purchase_requests/' + purchaseRequest.id"
+                                                                      alt="Link to single PR"
+                                                                      class="underline">#@{{ purchaseRequest.number }}</a><span
+                                                v-if="purchaseRequest.urgent" class="badge-urgent"> <i
+                                                    class="fa fa-warning"></i></span></td>
+                                    <td class="col-project"><a :href="'/projects/' + purchaseRequest.project.id"
+                                                               alt="project link">@{{ purchaseRequest.project.name }}</a>
+                                    </td>
                                     <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
                                     <td class="col-item">
-                                        <div class="item-sku" v-if="purchaseRequest.item.sku && purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
-                                        <span class="item-brand" v-if="purchaseRequest.item.brand.length > 0">@{{ purchaseRequest.item.brand }}</span>
-                                        <span class="item-name">@{{ purchaseRequest.item.name }}</span>
-                                        <ul class="item-image-gallery list-unstyled list-inline" v-if="purchaseRequest.item.photos.length > 0">
+                                        <div class="item-sku"
+                                             v-if="purchaseRequest.item.sku && purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
+                                        <a :href="'/items/' + purchaseRequest.item.id" alt="item link">
+                                            <span class="item-brand"
+                                                  v-if="purchaseRequest.item.brand.length > 0">@{{ purchaseRequest.item.brand }}</span>
+                                            <span class="item-name">@{{ purchaseRequest.item.name }}</span>
+                                        </a>
+                                        <ul class="item-image-gallery list-unstyled list-inline"
+                                            v-if="purchaseRequest.item.photos.length > 0">
                                             <li v-for="photo in purchaseRequest.item.photos">
-                                                <a :href="photo.path" rel="group" class="fancybox"><img :src="photo.thumbnail_path" alt="Purchase Request Item Photo"></a>
+                                                <a :href="photo.path" rel="group" class="fancybox"><img
+                                                            :src="photo.thumbnail_path"
+                                                            alt="Purchase Request Item Photo"></a>
                                             </li>
                                         </ul>
                                         <span class="item-specification">
                                         <text-clipper :text="purchaseRequest.item.specification"></text-clipper></span>
                                     </td>
-                                    <td>
+                                    <td class="no-wrap">
                                         <span class="pr-due">@{{ purchaseRequest.due | easyDate }}</span>
                                     </td>
                                     <td>

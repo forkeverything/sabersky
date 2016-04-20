@@ -109,9 +109,6 @@ Vue.component('purchase-requests-all', {
                     page: 1
                 }));
             }
-        },
-        loadSingle: function(purchaseRequest) {
-            window.location.href = "/purchase_requests/" + purchaseRequest.id;
         }
     },
     ready: function () {
