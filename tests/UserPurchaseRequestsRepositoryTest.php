@@ -102,7 +102,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function it_applies_correct_filters()
+    public function it_finds_correct_PR_state()
     {
 
         $project = $this->makeProject();
@@ -116,20 +116,20 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         $completePRs = $this->makePurchaseRequests(3, $project, ['quantity' => 0]);
 
 
-        // Control - No Applying filter method (w/o default of 'open'), should get all
+        // Control - No specified State method (w/o default of 'open'), should get all
         $this->assertCount(18 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
 
-        // Give no value ie. $filter = null (should default to open states)
-        $this->assertEquals(5 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy()->get()->count());
+        // Give no value ie. $state = null (should default to open states)
+        $this->assertEquals(5 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState()->get()->count());
 
-        // Given filter - does it apply?
-        $this->assertEquals(count($openPRs) + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy('open')->get()->count());
-        $this->assertEquals(count($cancelledPRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy('cancelled')->get()));
-        $this->assertEquals(count($completePRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy('complete')->get()));
-        $this->assertEquals((count($openPRs) + count($cancelledPRs) + count($completePRs)) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy('all')->get()));
+        // Given State - does it identify correctly?
+        $this->assertEquals(count($openPRs) + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('open')->get()->count());
+        $this->assertEquals(count($cancelledPRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('cancelled')->get()));
+        $this->assertEquals(count($completePRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('complete')->get()));
+        $this->assertEquals((count($openPRs) + count($cancelledPRs) + count($completePRs)) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('all')->get()));
 
-        // Give wrong value - default to 'open
-        $this->assertEquals(11, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterBy('foobar')->get()));
+        // Give wrong value - default to 'open' States
+        $this->assertEquals(11, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('foobar')->get()));
     }
 
     /** @test */

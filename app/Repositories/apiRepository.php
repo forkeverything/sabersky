@@ -9,19 +9,11 @@ use App\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use ReflectionClass;
+use ReflectionProperty;
 
 abstract class apiRepository
 {
-
-    /**
-     * Paginated Object that holds
-     * paginated details as well
-     * as the paginated data
-     *
-     * @var
-     */
-    protected $paginated;
-
     /**
      * Relationship Instance to run our queries
      * against
@@ -53,6 +45,15 @@ abstract class apiRepository
      * @var
      */
     protected $sortableFields = [];
+
+    /**
+     * Paginated Object that holds
+     * paginated details as well
+     * as the paginated data
+     *
+     * @var
+     */
+    protected $paginated;
     
 
     /**
@@ -170,6 +171,38 @@ abstract class apiRepository
         $data = $this->query->get();
         $this->addPropertiesToResults($data);
         return $data;
+    }
+
+
+    /**
+     * A filter function for a column who's type is Integer. The
+     * limits are all inclusive (ie. ... or equal to). We also
+     * set the property by combining column name & '_filter'
+     *
+     * @param $column
+     * @param $range
+     * @return $this
+     */
+    public function filterIntegerField($column, $range = null)
+    {
+        // Create property dynamically with {} !
+        $this->{$column.'_integer_filter'} = $rangeArray = $range ? explode(' ', $range) : null;
+        $min = count($rangeArray) > 0 ? $rangeArray[0] : null;
+        $max =  count($rangeArray) > 1 ? $rangeArray[1] : null;
+
+        if($min && $max) {
+            // Yes Min - No Max
+            $this->query->whereBetween($column, $rangeArray);
+        } else if($min && ! $max) {
+            // Yes Min - Yes Max
+            $this->query->where($column, '>=', $min);
+        } else if(! $min && $max) {
+            // No Min - Yes Max
+            $this->query->where($column, '<=', $max);
+        }
+
+        // No Min, No max, no nothing
+        return $this;
     }
 
 

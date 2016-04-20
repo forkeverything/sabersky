@@ -8,10 +8,10 @@ Vue.component('purchase-requests-all', {
             response: {},
             order: '',
             urgent: '',
-            filter: '',
+            state: '',
             sort: '',
-            showFilterDropdown: false,
-            filters: [
+            showStatesDropdown: false,
+            states: [
                 {
                     name: 'open',   // What gets sent to server
                     label: 'Open'   // Displayed to client
@@ -38,8 +38,8 @@ Vue.component('purchase-requests-all', {
         setLoadQuery: function () {
             // The currenty query
             var currentQuery = window.location.href.split('?')[1];
-            // If filter set - use query. Else - set a default for the filter
-            currentQuery = getParameterByName('filter') ? currentQuery : updateQueryString('filter', 'open');
+            // If state set - use query. Else - set a default for the state
+            currentQuery = getParameterByName('state') ? currentQuery : updateQueryString('state', 'open');
             return currentQuery;
         },
         fetchPurchaseRequests: function (query) {
@@ -58,7 +58,7 @@ Vue.component('purchase-requests-all', {
                     self.response = response;
 
                     // Pull flags from response (better than parsing url)
-                    self.filter = response.data.filter;
+                    self.state = response.data.state;
                     self.sort = response.data.sort;
                     self.order = response.data.order;
                     self.urgent = response.data.urgent;
@@ -82,18 +82,18 @@ Vue.component('purchase-requests-all', {
                 }
             });
         },
-        changeFilter: function (filter) {
-            this.filter = filter;
-            this.showFilterDropdown = false;
+        changeState: function (state) {
+            this.state = state;
+            this.showStatesDropdown = false;
             this.fetchPurchaseRequests(updateQueryString({
-                filter: filter.name,
+                state: state.name,
                 page: 1
             }));
         },
         toggleUrgentOnly: function () {
             var urgent = this.urgent ? 0 : 1;
             this.fetchPurchaseRequests(updateQueryString({
-                filter: this.filter, // use same filter
+                state: this.state, // use same state
                 page: 1, // Reset to page 1
                 urgent: urgent
             }));

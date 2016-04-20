@@ -6841,7 +6841,7 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       line-height: 1; }
       #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:hover, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:focus, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:active {
         color: #3498DB; }
-    #purchase-requests-all .pr-controls .pr-filters .dropdown-filters .dropdown-title {
+    #purchase-requests-all .pr-controls .pr-filters .dropdown-states .dropdown-title {
       font-size: 0.8em;
       text-transform: uppercase;
       padding: 0 1em;
@@ -6853,9 +6853,9 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       -ms-flex-align: center;
       align-items: center;
       color: #93989F; }
-    #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul {
+    #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul {
       margin: 0; }
-      #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul .pr-dropdown-item {
+      #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item {
         height: 30px;
         padding: 0 1em 0 1.5em;
         text-align: left;
@@ -6866,10 +6866,10 @@ input[type="text"].not-required:focus + label[placeholder]:before,
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center; }
-        #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul .pr-dropdown-item:hover {
+        #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item:hover {
           background: #3498DB;
           color: #fff; }
-        #purchase-requests-all .pr-controls .pr-filters .dropdown-filters ul .pr-dropdown-item.all {
+        #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item.all {
           border-top: 1px solid #E6E9EB; }
 
 #purchase-requests-all .pr-bag {

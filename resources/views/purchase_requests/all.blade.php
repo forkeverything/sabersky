@@ -11,26 +11,26 @@
             @endcan
             <div class="page-body">
                 <div class="pr-controls">
-                    <div class="pr-filters dropdown" v-dropdown-toggle="showFilterDropdown">
+                    <div class="pr-filters dropdown" v-dropdown-toggle="showStatesDropdown">
                         <button type="button"
                                 class="btn button-show-filter-dropdown button-toggle-dropdown"
                                 v-if="response.data"
                         >@{{ response.data.filter | capitalize }} <i
                                     class="fa fa-caret-down"></i>
                         </button>
-                        <div class="dropdown-filters dropdown-container left"
-                             v-show="showFilterDropdown"
+                        <div class="dropdown-states dropdown-container left"
+                             v-show="showStatesDropdown"
                         >
-                            <span class="dropdown-title">View Status</span>
+                            <span class="dropdown-title">View State</span>
                             <ul class="list-unstyled">
                                 <li class="pr-dropdown-item"
-                                    v-for="filter in filters"
-                                    @click="changeFilter(filter)"
+                                    v-for="state in states"
+                                    @click="changeState(state)"
                                     :class="{
-                                        'all': filter.name === 'all'
+                                        'all': state.name === 'all'
                                     }"
                                 >
-                                @{{ filter.label }}
+                                @{{ state.label }}
                                 </li>
                             </ul>
                         </div>

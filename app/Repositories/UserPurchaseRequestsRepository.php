@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Company;
+use App\Project;
 use App\PurchaseRequest;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,7 +28,16 @@ class UserPurchaseRequestsRepository extends apiRepository
      *
      * @var
      */
-    protected $filter;
+    protected $state;
+
+    /**
+     * If we are only retrieving PRs for a given
+     * Project, we should find the Project and
+     * return it back within the response
+     *
+     * @var
+     */
+    protected $project;
 
     /**
      * Whether we are requesting urgent only
@@ -85,19 +95,19 @@ class UserPurchaseRequestsRepository extends apiRepository
     }
 
     /**
-     * Filter Purchase Requests by
-     * given Filter (string)
+     * Fetch Purchase Requests that
+     * have the given State (string)
      *
-     * @param null $filter
+     * @param null $state
      * @return $this
      */
-    public function filterBy($filter = null)
+    public function whereState($state = null)
     {
         // Set filter property
-        $this->filter = ($filter === 'open' || $filter === 'cancelled' || $filter === 'complete' || $filter === 'all' ) ? $filter: 'open';
+        $this->state = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all' ) ? $state: 'open';
 
         // Filter our results
-        switch ($this->filter) {
+        switch ($this->state) {
             case 'open':
                 $this->query->where('state', 'open')->where('quantity', '>', 0);
                 break;
@@ -112,8 +122,57 @@ class UserPurchaseRequestsRepository extends apiRepository
             default:
                 $this->query->where('state', 'open')->where('quantity', '>', 0);
         }
+        
+        return $this;
+    }
 
+    /**
+     * Retrieving PRs for only a single given Project
+     *
+     * @param null $projectID
+     * @return $this
+     */
+    public function forProject($projectID = null)
+    {
+        $this->project = Project::find($projectID);
+        if($projectID) $this->query->where('project_id', $projectID);
+        return $this;
+    }
 
+    /**
+     * Single function that can perform a filter for a PR's Item using
+     * either Item Name, Brand or Both (makes a unique combination)
+     *
+     * @param null $itemBrand
+     * @param null $itemName
+     * @return $this
+     */
+    public function filterByItem($itemBrand = null, $itemName = null)
+    {
+        foreach (func_get_args() as $index => $term) {
+
+            switch ($index) {
+                case 0:
+                    $this->{'item_brand'} = $term;
+                    $column = 'brand';
+                    break;
+                case 1:
+                    $this->{'item_name'} = $term;
+                    $column = 'brand';
+                    break;
+                default:
+                    break;
+            }
+
+            if ($term) {
+                $this->query->whereExists(function ($query) use ($term, $column) {
+                    $query->select(DB::raw(1))
+                          ->from('items')
+                          ->where($column, $term)
+                          ->whereRaw('purchase_requests.item_id = items.id');
+                });
+            }
+        }
         return $this;
     }
 
@@ -129,6 +188,5 @@ class UserPurchaseRequestsRepository extends apiRepository
         if($this->urgent) $this->query->where('urgent', 1);
         return $this;
     }
-
     
 }
