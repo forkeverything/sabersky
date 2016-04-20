@@ -55,7 +55,7 @@ class PurchaseRequestController extends Controller
     public function apiGetAll(Request $request)
     {
 
-        if (!$request->ajax()) {
+        if ($request->ajax()) {
             $state = $request->query('state');
             $number = $request->query('number');
             $projectID = $request->query('project_id');
@@ -66,6 +66,9 @@ class PurchaseRequestController extends Controller
             $perPage = $request->query('per_page');
             $itemName = $request->query('item_name');
             $itemBrand = $request->query('item_brand');
+            $due = $request->query('due');
+            $requested = $request->query('requested');
+            $userID = $request->query('user_id');
 
 
             $data = UserPurchaseRequestsRepository::forUser(Auth::user())
@@ -74,11 +77,13 @@ class PurchaseRequestController extends Controller
                                                   ->forProject($projectID)
                                                   ->filterIntegerField('quantity', $quantity)
                                                   ->filterByItem($itemBrand, $itemName)
+                                                  ->filterDateField('due', $due)
+                                                  ->filterDateField('purchase_requests.created_at', $requested)
+                                                  ->byUser($userID)
                                                   ->onlyUrgent($urgent)
                                                   ->sortOn($sort, $order)
                                                   ->with(['item.photos', 'project', 'user'])
-                                                  ->get();
-//                                                  ->paginate($perPage);
+                                                  ->paginate($perPage);
 
             return $data;
         } else {

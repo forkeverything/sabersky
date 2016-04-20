@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Company;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,7 +42,7 @@ abstract class apiRepository
      * Model fields that are sortable. The
      * first given field will be the
      * default sort
-     * 
+     *
      * @var
      */
     protected $sortableFields = [];
@@ -183,26 +184,52 @@ abstract class apiRepository
      * @param $range
      * @return $this
      */
-    public function filterIntegerField($column, $range = null)
+    public function filterIntegerField($column, $range)
     {
         // Create property dynamically with {} !
-        $this->{$column.'_integer_filter'} = $rangeArray = $range ? explode(' ', $range) : null;
-        $min = count($rangeArray) > 0 ? $rangeArray[0] : null;
-        $max =  count($rangeArray) > 1 ? $rangeArray[1] : null;
+        $rangeArray = $range ? $this->{$column.'_filter_integer'} = explode(' ', $range) : null ;
+        $this->queryColumnRange($column, $rangeArray);
+        return $this;
+    }
 
-        if($min && $max) {
-            // Yes Min - No Max
-            $this->query->whereBetween($column, $rangeArray);
-        } else if($min && ! $max) {
-            // Yes Min - Yes Max
-            $this->query->where($column, '>=', $min);
-        } else if(! $min && $max) {
-            // No Min - Yes Max
-            $this->query->where($column, '<=', $max);
+    /**
+     * Filter a column: date
+     * @param $column
+     * @param $range
+     * @return $this
+     */
+    public function filterDateField($column, $range)
+    {
+        $rangeArray = $range ? $this->{$column . '_filter_date'} = explode(' ', $range) : null ;
+        $this->queryColumnRange($column, $rangeArray);
+        return $this;
+    }
+
+    /**
+     * Actual function that performs a query for a column field
+     * which accepts an array of 2 values (min & max). Each
+     * value is optional
+     *
+     * @param $column
+     * @param $rangeArray
+     */
+    protected function queryColumnRange($column, $rangeArray)
+    {
+        if($rangeArray && count($rangeArray) > 1) {
+            $min = $rangeArray[0] ?: null;
+            $max = $rangeArray[1] ?: null;
+            // If max value is a DATE - let's add another day so it counts the FULL day
+            if(isDate($rangeArray[1])) $rangeArray[1] = Carbon::createFromFormat('Y-m-d', $rangeArray[1])->addDay(1);
+
+            if($min && $max) {
+                $this->query->whereBetween($column, [$min, $max]);
+            } else if ($min && ! $max) {
+                $this->query->where($column, '>=', $min);
+            } else if (!$min && $max) {
+                $this->query->where($column, '<=', $max);
+            }
         }
 
-        // No Min, No max, no nothing
-        return $this;
     }
 
 

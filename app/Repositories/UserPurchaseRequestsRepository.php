@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * A Repo that helps us retrieve the
@@ -22,28 +23,6 @@ use Illuminate\Support\Facades\DB;
  */
 class UserPurchaseRequestsRepository extends apiRepository
 {
-
-    /**
-     * Current active filter
-     *
-     * @var
-     */
-    protected $state;
-
-    /**
-     * If we are only retrieving PRs for a given
-     * Project, we should find the Project and
-     * return it back within the response
-     *
-     * @var
-     */
-    protected $project;
-
-    /**
-     * Whether we are requesting urgent only
-     * @var
-     */
-    protected $urgent;
 
     /**
      * The sortable PR fields
@@ -101,10 +80,10 @@ class UserPurchaseRequestsRepository extends apiRepository
      * @param null $state
      * @return $this
      */
-    public function whereState($state = null)
+    public function whereState($state)
     {
         // Set filter property
-        $this->state = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all' ) ? $state: 'open';
+        $this->{'state'} = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all' ) ? $state : 'open';
 
         // Filter our results
         switch ($this->state) {
@@ -132,17 +111,20 @@ class UserPurchaseRequestsRepository extends apiRepository
      * @param null $projectID
      * @return $this
      */
-    public function forProject($projectID = null)
+    public function forProject($projectID)
     {
-        $this->project = Project::find($projectID);
-        if($projectID) $this->query->where('project_id', $projectID);
+        $project = Project::find($projectID);
+        if (Gate::allows('view', $project)) {
+            $this->{'project'} = $project;
+            $this->query->where('project_id', $projectID);
+        }
         return $this;
     }
 
     /**
      * Single function that can perform a filter for a PR's Item using
      * either Item Name, Brand or Both (makes a unique combination)
-     *
+     * 
      * @param null $itemBrand
      * @param null $itemName
      * @return $this
@@ -153,11 +135,11 @@ class UserPurchaseRequestsRepository extends apiRepository
 
             switch ($index) {
                 case 0:
-                    $this->{'item_brand'} = $term;
+                     if($term) $this->{'item_brand'} = $term;
                     $column = 'brand';
                     break;
                 case 1:
-                    $this->{'item_name'} = $term;
+                    if($term) $this->{'item_name'} = $term;
                     $column = 'brand';
                     break;
                 default:
@@ -176,6 +158,16 @@ class UserPurchaseRequestsRepository extends apiRepository
         return $this;
     }
 
+    public function byUser($userID)
+    {
+        $user =  User::find($userID);
+        if (Gate::allows('edit', $user)) {
+            $this->{'user'} = User::find($userID);
+            $this->query->where('user_id', $userID);
+        }
+        return $this;
+    }
+
     /**
      * Whether we only want 'urgent' PR's
      *
@@ -184,7 +176,7 @@ class UserPurchaseRequestsRepository extends apiRepository
      */
     public function onlyUrgent($urgent = 0)
     {
-        $this->urgent = ($urgent == 1) ?: 0;
+        $this->{'urgent'} = ($urgent == 1) ?: 0;
         if($this->urgent) $this->query->where('urgent', 1);
         return $this;
     }

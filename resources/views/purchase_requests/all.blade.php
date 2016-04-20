@@ -15,7 +15,7 @@
                         <button type="button"
                                 class="btn button-show-filter-dropdown button-toggle-dropdown"
                                 v-if="response.data"
-                        >@{{ response.data.filter | capitalize }} <i
+                        >@{{ response.data.state | capitalize }} <i
                                     class="fa fa-caret-down"></i>
                         </button>
                         <div class="dropdown-states dropdown-container left"
