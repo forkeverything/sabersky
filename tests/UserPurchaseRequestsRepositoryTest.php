@@ -6,6 +6,7 @@ use App\Project;
 use App\PurchaseRequest;
 use App\Repositories\UserPurchaseRequestsRepository;
 use App\User;
+use Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -66,11 +67,11 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
      * @param null $project
      * @return mixed
      */
-    protected function makePurchaseRequests($num = 1, $project = null, $attributes = [])
+    protected function makePurchaseRequests($num = 1, $project = null, $attributes = [], $item = null)
     {
         $project = $project ?: $this->makeProject();
         $testSpecificAttributes = array_merge($attributes, [
-            'item_id' => factory(Item::class)->create([
+            'item_id' => $item ? $item->id : factory(Item::class)->create([
                 'company_id' => static::$company->id
             ])->id,
             'user_id' => static::$user->id,
@@ -80,7 +81,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function it_finds_the_right_purchase_requests()
+    public function it_finds_relevant_PRs_for_user()
     {
 
         // Start with 0
@@ -98,11 +99,11 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         // Got something ...
         $this->assertNotNull(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get()->first());
         // Got 5 as expected? (6 properties + 5 actual requests = 11)
-        $this->assertCount(5 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
     }
 
     /** @test */
-    public function it_finds_correct_PR_state()
+    public function it_filters_correct_PR_state()
     {
 
         $project = $this->makeProject();
@@ -117,19 +118,19 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
 
         // Control - No specified State method (w/o default of 'open'), should get all
-        $this->assertCount(18 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
+        $this->assertCount(18, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
 
         // Give no value ie. $state = null (should default to open states)
-        $this->assertEquals(5 + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState()->get()->count());
+        $this->assertEquals(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState(null)->getWithoutQueryProperties()->count());
 
         // Given State - does it identify correctly?
-        $this->assertEquals(count($openPRs) + static::$numQueryProperties, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('open')->get()->count());
-        $this->assertEquals(count($cancelledPRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('cancelled')->get()));
-        $this->assertEquals(count($completePRs) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('complete')->get()));
-        $this->assertEquals((count($openPRs) + count($cancelledPRs) + count($completePRs)) + static::$numQueryProperties, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('all')->get()));
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('open')->getWithoutQueryProperties());
+        $this->assertCount(10, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('cancelled')->getWithoutQueryProperties());
+        $this->assertCount(3, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('complete')->getWithoutQueryProperties());
+        $this->assertCount(18, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('all')->getWithoutQueryProperties());
 
         // Give wrong value - default to 'open' States
-        $this->assertEquals(11, count(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('foobar')->get()));
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('foobar')->getWithoutQueryProperties());
     }
 
     /** @test */
@@ -159,35 +160,35 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
 
         // No sort No Order - default to name + asc
-        $this->assertEquals($sortItemNameAsc->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn()->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn()->getWithoutQueryProperties()->pluck('item_name'));
 
         // With Order
         // asc
-        $this->assertEquals($sortItemNameAsc->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'asc')->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'asc')->getWithoutQueryProperties()->pluck('item_name'));
         // desc
-        $this->assertEquals($sortItemNameDesc->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'desc')->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($sortItemNameDesc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'desc')->getWithoutQueryProperties()->pluck('item_name'));
         // Invalid string
-        $this->assertEquals($sortItemNameAsc->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'awdwadawdwadawdawd')->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'awdwadawdwadawdawd')->getWithoutQueryProperties()->pluck('item_name'));
 
         // With sort
         // due
-        $this->assertEquals($generatedPRs->sortBy('due')->pluck('due')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('due', 'asc')->get()->pluck('due')->toArray()));
+        $this->assertEquals($generatedPRs->sortBy('due')->pluck('due'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('due', 'asc')->getWithoutQueryProperties()->pluck('due'));
         // quantity
-        $this->assertEquals($generatedPRs->sortBy('quantity')->pluck('quantity')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('quantity', 'asc')->get()->pluck('quantity')->toArray()));
+        $this->assertEquals($generatedPRs->sortBy('quantity')->pluck('quantity'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('quantity', 'asc')->getWithoutQueryProperties()->pluck('quantity'));
         // item name
-        $this->assertEquals($generatedPRs->sortBy('item.name')->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('item_name', 'asc')->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($generatedPRs->sortBy('item.name')->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('item_name', 'asc')->getWithoutQueryProperties()->pluck('item_name'));
         // project name
-        $this->assertEquals($generatedPRs->sortBy('project.name')->pluck('project.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('project_name', 'asc')->get()->pluck('project_name')->toArray()));
+        $this->assertEquals($generatedPRs->sortBy('project.name')->pluck('project.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('project_name', 'asc')->getWithoutQueryProperties()->pluck('project_name'));
         // user name
-        $this->assertEquals($generatedPRs->sortBy('user.name')->pluck('user.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('requester_name', 'asc')->get()->pluck('requester_name')->toArray()));
+        $this->assertEquals($generatedPRs->sortBy('user.name')->pluck('user.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('requester_name', 'asc')->getWithoutQueryProperties()->pluck('requester_name'));
 
 
         // Wrong sort - default to name
-        $this->assertEquals($sortItemNameAsc->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('foobar', 'bazooka')->get()->pluck('item_name')->toArray()));
+        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('foobar', 'bazooka')->getWithoutQueryProperties()->pluck('item_name'));
     }
 
     /** @test */
-    public function it_only_retrieves_urgent_requests()
+    public function it_filters_on_urgent()
     {
         $project = $this->makeProject();
         $project->addTeamMember(static::$user);
@@ -200,12 +201,171 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
         // Ugent Flag
         // Yes
-        $this->assertEquals($urgentPRs->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent(1)->get()->pluck('item_name')->toArray()));
+        $this->assertCount(count($urgentPRs), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent(1)->getWithoutQueryProperties());
         // Not
-        $this->assertEquals($generatedPRs->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent(0)->get()->pluck('item_name')->toArray()));
-        // Invalid
-        $this->assertEquals($generatedPRs->pluck('item.name')->toArray(), array_filter(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent('oiauwdbouawbdouawbed')->get()->pluck('item_name')->toArray()));
+        $this->assertCount(20, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent(0)->getWithoutQueryProperties());
+        // Invalid - fetches all
+        $this->assertCount(20, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->onlyUrgent('oiauwdbouawbdouawbed')->getWithoutQueryProperties());
     }
+
+    /** @test */
+    public function it_filters_on_project()
+    {
+        // Make 5 for 1 project
+        $project_1 = $this->makeProject();
+        $project_1->addTeamMember(static::$user);
+        $this->makePurchaseRequests(5, $project_1);
+
+        // Make 10 for another project
+        $project_2 = $this->makeProject();
+        $project_2->addTeamMember(static::$user);
+        $this->makePurchaseRequests(10, $project_2);
+
+        // We should see all 15
+        $this->assertCount(15, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->getWithoutQueryProperties());
+
+        // Apply filter for project
+        // We should see 5 only
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->forProject($project_1->id)->getWithoutQueryProperties());
+    }
+
+    /** @test */
+    public function it_filters_on_integer_field()
+    {
+        $project = $this->makeProject();
+        $project->addTeamMember(static::$user);
+
+        // Make 3
+        $this->makePurchaseRequests(1, $project, ['quantity' => 5]);
+        $this->makePurchaseRequests(1, $project, ['quantity' => 8]);
+        $this->makePurchaseRequests(1, $project, ['quantity' => 12]);
+
+        // get all 3
+        $this->assertCount(3, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->getWithoutQueryProperties());
+
+        // Conditions (array): ["min max", expected]
+        $conditions = [
+            [" 4", 0],
+            [" 5", 1],
+            ["5 7", 1],
+            ["5 8", 2],
+            ["5 10", 2],
+            ["5 12", 3],
+            ["10 ", 1],
+            ["13 ", 0]
+        ];
+
+        foreach ($conditions as $condition) {
+            $this->assertCount($condition[1], UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterIntegerField('quantity', $condition[0])->getWithoutQueryProperties());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_filters_on_item_brand_and_or_name()
+    {
+        $project = $this->makeProject();
+        $project->addTeamMember(static::$user);
+
+        // 4 Items: Control (no match), Brand match, Name match, Both Match
+        $itemsAttributes = [
+            // Control
+            [
+                'company_id' => static::$company->id
+            ],
+            // Brand
+            [
+                'brand' => 'nike',
+                'company_id' => static::$company->id
+            ],
+            // Name
+            [
+                'name' => 'Air Ball',
+                'company_id' => static::$company->id
+            ],
+            // Both
+            [
+                'brand' => 'nike',
+                'name' => 'Air Ball',
+                'company_id' => static::$company->id
+            ]
+        ];
+
+        // Create Items
+        foreach ($itemsAttributes as $itemsAttribute) {
+            $item = factory(Item::class)->create($itemsAttribute);
+            $this->makePurchaseRequests(1, $project, [], $item);
+        }
+
+        // Conditions array = ['brand', 'name', expected count (int)]
+        $conditions = [
+            // No Filter - Get all 4 items
+            [null, null, 4],
+            // Match Brand - find 2 items
+            ['nike', null, 2],
+            // Match Name - find 2 items
+             [null, 'air ball', 2],
+            // Match Both - find 1 item
+            ['nike', 'AIR BALL', 1],
+            // No match - find 0 item
+            ['foo', 'bar', 0]
+        ];
+
+        // Actually make assertions
+        foreach ($conditions as $condition) {
+            $this->assertCount($condition[2], UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterByItem($condition[0], $condition[1])->getWithoutQueryProperties());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_filters_on_a_date_field()
+    {
+        $project = $this->makeProject();
+        $project->addTeamMember(static::$user);
+
+        // Make 3
+        $dates = [
+            // A
+            '2016-06-01 10:32:09',
+            // B
+            '2016-09-12 10:32:09',
+            // C
+            '2016-12-31 10:32:09'
+        ];
+
+        // Make 3 requests for each date
+        foreach ($dates as $date) {
+            $pr = $this->makePurchaseRequests(1, $project);
+            $pr->created_at = $date;
+            $pr->save();
+        }
+
+        // Conditions (array): ["min max", expected]
+        $dateConditions = [
+            // Unset
+            ["  ", 3],
+            // Before A
+            [" 2016-05-30", 0],
+//            // Before and including A
+            [" 2016-06-02", 1],
+//            // After and including B
+            ["2016-09-12 ", 2],
+//            // From A to C
+            ["2016-06-01, 2017-01-01", 3],
+//            // From After C
+            ["2017-01-01 ", 0],
+        ];
+
+        foreach ($dateConditions as $condition) {
+            if($condition[0] == " 2016-06-01") dd(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterDateField('purchase_requests.created_at', $condition[0])->getWithoutQueryProperties()->pluck('created_at'));
+            $this->assertCount($condition[1], UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterDateField('purchase_requests.created_at', $condition[0])->getWithoutQueryProperties());
+        }
+    }
+
+
 
 
 }

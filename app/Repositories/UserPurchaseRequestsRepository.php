@@ -11,7 +11,6 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * A Repo that helps us retrieve the
@@ -114,10 +113,8 @@ class UserPurchaseRequestsRepository extends apiRepository
     public function forProject($projectID)
     {
         $project = Project::find($projectID);
-        if (Gate::allows('view', $project)) {
             $this->{'project'} = $project;
             $this->query->where('project_id', $projectID);
-        }
         return $this;
     }
 
@@ -140,7 +137,7 @@ class UserPurchaseRequestsRepository extends apiRepository
                     break;
                 case 1:
                     if($term) $this->{'item_name'} = $term;
-                    $column = 'brand';
+                    $column = 'name';
                     break;
                 default:
                     break;
@@ -161,10 +158,8 @@ class UserPurchaseRequestsRepository extends apiRepository
     public function byUser($userID)
     {
         $user =  User::find($userID);
-        if (Gate::allows('edit', $user)) {
             $this->{'user'} = User::find($userID);
             $this->query->where('user_id', $userID);
-        }
         return $this;
     }
 

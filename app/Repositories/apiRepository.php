@@ -24,21 +24,6 @@ abstract class apiRepository
     protected $query;
 
     /**
-     * Field we're sorting on
-     *
-     * @var
-     */
-    protected $sort;
-
-    /**
-     * The order we're sorting by
-     * 'asc' or 'desc'
-     *
-     * @var
-     */
-    protected $order;
-
-    /**
      * Model fields that are sortable. The
      * first given field will be the
      * default sort
@@ -47,15 +32,6 @@ abstract class apiRepository
      */
     protected $sortableFields = [];
 
-    /**
-     * Paginated Object that holds
-     * paginated details as well
-     * as the paginated data
-     *
-     * @var
-     */
-    protected $paginated;
-    
 
     /**
      * Static wrapper so we dont have to 'new' it.
@@ -101,15 +77,15 @@ abstract class apiRepository
      */
     public function sortOn($sort = null, $order = null)
     {
-        $this->order = ($order === 'desc') ? 'desc' : 'asc';
-        $this->sort =  in_array($sort, $this->sortableFields) ? $sort : $this->sortableFields[0];
-        $this->query->orderBy($this->sort, $this->order);
+            $this->{'order'} = ($order === 'desc') ? 'desc' : 'asc';
+            $this->{'sort'} =  in_array($sort, $this->sortableFields) ? $sort : $this->sortableFields[0];
+            $this->query->orderBy($this->sort, $this->order);
         return $this;
     }
 
     /**
-     * Wrapper that lets us eager-load our
-     * DB results
+     * Wrapper for method on Query Builder that lets
+     * us eager load our database relationships.
      *
      * @return $this
      */
@@ -130,12 +106,12 @@ abstract class apiRepository
      */
     protected function addPropertiesToResults($object)
     {
-        // Wheether our results are paginated or just a collection (ie. using get)
+        // Whether our results are paginated or just a collection (ie. using get())
         if($object instanceof LengthAwarePaginator || $object instanceof  Collection) {
             // Transfer object properties onto it
             foreach (get_object_vars($this) as $key => $value) {
                 if (!($value instanceof LengthAwarePaginator) && ! ($value instanceof Builder)) {
-                    $object[$key] = $value;
+                    if($key !== 'sortableFields') $object[$key] = $value;
                 }
             }
         }
@@ -153,7 +129,7 @@ abstract class apiRepository
     {
         $itemsPerPage = ($itemsPerPage == 8 || $itemsPerPage == 16 || $itemsPerPage == 32) ? $itemsPerPage : 8;
         // Set paginated property to hold our paginated results
-        $paginatedObject = $this->paginated = $this->query->paginate($itemsPerPage);
+        $paginatedObject = $this->{'paginated'} = $this->query->paginate($itemsPerPage);
         // add our custom properties
         $this->addPropertiesToResults($paginatedObject);
         return $this->paginated;
@@ -172,6 +148,18 @@ abstract class apiRepository
         $data = $this->query->get();
         $this->addPropertiesToResults($data);
         return $data;
+    }
+
+    /**
+     * Just a get() wrapper for the Query Builder. This is
+     * used for testing because we don't need to know the
+     * Query Properties used (for client).
+     *
+     * @return mixed
+     */
+    public function getWithoutQueryProperties()
+    {
+        return $this->query->get();
     }
 
 
