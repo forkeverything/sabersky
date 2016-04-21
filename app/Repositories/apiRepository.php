@@ -99,8 +99,8 @@ abstract class apiRepository
 
     /**
      * Attaches this object's properties
-     * to the object of results we're
-     * returning
+     * to the results object that is
+     * returned to Client
      *
      * @param $object
      */

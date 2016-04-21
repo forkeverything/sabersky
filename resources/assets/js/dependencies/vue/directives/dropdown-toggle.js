@@ -2,22 +2,31 @@ Vue.directive('dropdown-toggle', {
     twoWay: true,
     bind: function () {
 
-        this.className = $(this.el).attr('class').replace(' ', '.');
+        var self = this;
 
-        var selector = '.' + this.className + ' button';
+        self.className = $(self.el).attr('class').replace(' ', '.');
 
-        $(document).on('click.' + this.className, selector, function (e) {
+        var selector = '.' + self.className + ' button';
+
+        $(document).on('click.' + self.className, selector, function (e) {
             e.stopPropagation();
-            this.set(true);
+            $(document).trigger('hideAllDropdowns');
+
+            self.set(true);
             $(document).on('click.checkHideDropdown', function (event) {
                 if (!$(event.target).closest('.dropdown-container').length && !$(event.target).is('.dropdown-container')) {
-                    this.set(false);
+                    self.set(false);
                     $(document).off('click.checkHideDropdown');
                 }
-            }.bind(this))
-        }.bind(this));
+            })
+        });
+
+        $(document).on('hideAllDropdowns', function () {
+            self.set(false);
+        });
     },
     unbind: function () {
-        $(document).off('click.' + this.className)
+        $(document).off('click.' + this.className);
+        $(document).off('hideAllDropdowns');
     }
 });

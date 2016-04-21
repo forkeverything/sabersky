@@ -112,9 +112,11 @@ class UserPurchaseRequestsRepository extends apiRepository
      */
     public function forProject($projectID)
     {
-        $project = Project::find($projectID);
+        if($projectID) {
+            $project = Project::find($projectID);
             $this->{'project'} = $project;
             $this->query->where('project_id', $projectID);
+        }
         return $this;
     }
 
@@ -155,11 +157,19 @@ class UserPurchaseRequestsRepository extends apiRepository
         return $this;
     }
 
+    /**
+     * Filters by the user_id field for Purchase Requests
+     * 
+     * @param $userID
+     * @return $this
+     */
     public function byUser($userID)
     {
-        $user =  User::find($userID);
+        if ($userID) {
+            $user =  User::find($userID);
             $this->{'user'} = User::find($userID);
             $this->query->where('user_id', $userID);
+        }
         return $this;
     }
 

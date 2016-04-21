@@ -9,8 +9,50 @@ Vue.component('purchase-requests-all', {
             order: '',
             urgent: '',
             state: '',
+            filter: '',
             sort: '',
             showStatesDropdown: false,
+            showFiltersDropdown: false,
+            numberFilterMin: ' ',
+            numberFilterMax: ' ',
+            activeNumberFilter: '',
+            projects: [],
+            filterProject: ' ',
+            activeProjectFilter: '',
+            filterOptions: [
+                {
+                    value: 'number',
+                    label: '# Number'
+                },
+                {
+                    value: 'project',
+                    label: 'Project'
+                },
+                {
+                    value: 'quantity',
+                    label: 'Quantity'
+                },
+                {
+                    value: 'item_brand',
+                    label: 'Item - Brand'
+                },
+                {
+                    value: 'item_name',
+                    label: 'Item - Name'
+                },
+                {
+                    value: 'due',
+                    label: 'Due Date'
+                },
+                {
+                    value: 'requested',
+                    label: 'Requested Date'
+                },
+                {
+                    value: 'user',
+                    label: 'Requester'
+                }
+            ],
             states: [
                 {
                     name: 'open',   // What gets sent to server
@@ -62,6 +104,10 @@ Vue.component('purchase-requests-all', {
                     self.sort = response.data.sort;
                     self.order = response.data.order;
                     self.urgent = response.data.urgent;
+                        // Attach filters
+                        self.activeNumberFilter = response.data.number_filter_integer;
+                        self.activeProjectFilter = response.data.project;
+
 
                     // push state (if query is different from url)
                     pushStateIfDiffQuery(query);
@@ -109,9 +155,56 @@ Vue.component('purchase-requests-all', {
                     page: 1
                 }));
             }
+        },
+        getProjects: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/user/projects',
+                method: 'GET',
+                success: function (data) {
+                    // success
+                    self.projects = _.map(data, function (project) {
+                        if (project.name) {
+                            project.value = project.id;
+                            project.label = strCapitalize(project.name);
+                            return project;
+                        }
+                    });
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        },
+        resetFilter: function() {
+            this.filter = '';
+            this.numberFilterMin = ' ';
+            this.numberFilterMax = ' ';
+            this.showFiltersDropdown = false;
+        },
+        removeFilter: function (type) {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[type] = null;
+            this.fetchPurchaseRequests(updateQueryString(queryObj))
+        },
+        addPRsFilter: function() {
+            var self = this;
+            switch (self.filter) {
+                case 'number':
+                    self.fetchPurchaseRequests(updateQueryString('number', [self.numberFilterMin, self.numberFilterMax]));
+                    break;
+                case 'project':
+                    self.fetchPurchaseRequests(updateQueryString('project_id', self.filterProject));
+                    break;
+            }
+            self.resetFilter();
         }
     },
     ready: function () {
+        this.getProjects();
+
         // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
 

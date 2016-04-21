@@ -142,7 +142,12 @@ function updateQueryString() {
     var newQuery = '';
     // Go through object and add everything back as a string
     _.forEach(queryObj, function (value, name) {
-        newQuery += name + '=' + encodeURIComponent(value) + '&';
+        if(value.constructor === Array)  {
+            value = _.map(value, function (i) { if(i) return encodeURIComponent(i); return i; }).join('+');
+        } else {
+            value = encodeURIComponent(value)
+        }
+        newQuery += name + '=' + value + '&';
     });
     // Finally - return our new string!
     return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'

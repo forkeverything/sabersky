@@ -182,6 +182,17 @@ class UsersController extends Controller
         }
         abort(500, "Something went sideways. Could not delete User");
     }
+
+    /**
+     * Returns all the Projects that the currently
+     * Authenticated user is a part of
+     *
+     * @return mixed
+     */
+    public function apiGetAllProjects()
+    {
+        return Auth::user()->projects;
+    }
     
 
 

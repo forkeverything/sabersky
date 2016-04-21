@@ -11,40 +11,46 @@
             @endcan
             <div class="page-body">
                 <div class="pr-controls">
-                    <div class="pr-filters dropdown" v-dropdown-toggle="showStatesDropdown">
-                        <button type="button"
-                                class="btn button-show-filter-dropdown button-toggle-dropdown"
-                                v-if="response.data"
-                        >@{{ response.data.state | capitalize }} <i
-                                    class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-states dropdown-container left"
-                             v-show="showStatesDropdown"
-                        >
-                            <span class="dropdown-title">View State</span>
-                            <ul class="list-unstyled">
-                                <li class="pr-dropdown-item"
-                                    v-for="state in states"
+                    <div class="controls-left">
+                        @include('purchase_requests.partials.all.filters')
+                    </div>
+                    <div class="controls-right">
+                        <div class="pr-states dropdown" v-dropdown-toggle="showStatesDropdown">
+                            <button type="button"
+                                    class="btn button-show-states-dropdown button-toggle-dropdown"
+                                    v-if="response.data"
+                            >@{{ response.data.state | capitalize }} <i
+                                        class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-states dropdown-container right"
+                                 v-show="showStatesDropdown"
+                            >
+                                <span class="dropdown-title">View State</span>
+                                <ul class="list-unstyled">
+                                    <li class="pr-dropdown-item"
+                                        v-for="state in states"
                                     @click="changeState(state)"
                                     :class="{
                                         'all': state.name === 'all'
                                     }"
-                                >
-                                @{{ state.label }}
-                                </li>
-                            </ul>
+                                    >
+                                    @{{ state.label }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="control-urgent">
+                            <input type="checkbox"
+                                   id="checkbox-pr-urgent"
+                                   v-model="urgent"
+                            @click="toggleUrgentOnly"
+                            >
+                            <label class="clickable"
+                                   for="checkbox-pr-urgent"
+                            ><i class="fa fa-warning badge-urgent"></i> Urgent only</label>
                         </div>
                     </div>
-                    <div class="control-urgent">
-                        <input type="checkbox"
-                               id="checkbox-pr-urgent"
-                               v-model="urgent"
-                        @click="toggleUrgentOnly"
-                        >
-                        <label class="clickable"
-                               for="checkbox-pr-urgent"
-                        ><i class="fa fa-warning badge-urgent"></i> Urgent only</label>
-                    </div>
+                    @include('purchase_requests.partials.all.filters_active')
                 </div>
                 <div class="has-purchase-requests" v-if="response.total > 0">
                     <div class="pr-bag table-responsive">

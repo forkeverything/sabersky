@@ -6346,6 +6346,7 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     .bootstrap-select.themed-select button .bs-caret .caret {
       right: 17px;
       border-top: 5px dashed;
+      border-bottom: none;
       border-right: 5px solid transparent;
       border-left: 5px solid transparent; }
 
@@ -6393,6 +6394,9 @@ input[type="text"].not-required:focus + label[placeholder]:before,
   border-bottom-right-radius: 3px;
   border-top-left-radius: 0;
   border-top-right-radius: 0; }
+  .bootstrap-select.themed-select.open.dropup button .caret {
+    border-top: none;
+    border-bottom: 5px dashed; }
 
 .bootstrap-select.themed-select.open.dropup div.dropdown-menu {
   border-bottom: 0;
@@ -6811,66 +6815,108 @@ input[type="text"].not-required:focus + label[placeholder]:before,
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  margin: 0 0 15px 0; }
-  #purchase-requests-all .pr-controls .control-urgent input {
-    margin: 0 5px 0 0; }
-  #purchase-requests-all .pr-controls .control-urgent label {
-    margin: 0; }
-  #purchase-requests-all .pr-controls .pr-filters {
+  margin: 0 0 15px 0;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  #purchase-requests-all .pr-controls .button-toggle-dropdown {
+    color: #93989F;
+    border: 1px solid #D2D2D2;
+    border-radius: 4px;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-justify-content: flex-end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-    position: relative; }
-    #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown {
-      width: 115px;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    line-height: 1; }
+    #purchase-requests-all .pr-controls .button-toggle-dropdown:hover, #purchase-requests-all .pr-controls .button-toggle-dropdown:focus, #purchase-requests-all .pr-controls .button-toggle-dropdown:active {
+      color: #3498DB; }
+  #purchase-requests-all .pr-controls .controls-left .pr-filters .button-show-filters-dropdown {
+    width: 80px; }
+  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 10px; }
+    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field input {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      text-align: center; }
+    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field .dash {
+      font-size: 1.5em;
       color: #93989F;
-      border: 1px solid #D2D2D2;
-      border-radius: 4px;
+      margin: 0 10px; }
+  #purchase-requests-all .pr-controls .controls-right {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #purchase-requests-all .pr-controls .controls-right .pr-states {
+      margin: 0 15px 0 0;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-      align-content: center;
-      line-height: 1; }
-      #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:hover, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:focus, #purchase-requests-all .pr-controls .pr-filters .button-show-filter-dropdown:active {
-        color: #3498DB; }
-    #purchase-requests-all .pr-controls .pr-filters .dropdown-states .dropdown-title {
-      font-size: 0.8em;
-      text-transform: uppercase;
-      padding: 0 1em;
-      height: 30px;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center;
-      color: #93989F; }
-    #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul {
-      margin: 0; }
-      #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item {
+      -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+      position: relative; }
+      #purchase-requests-all .pr-controls .controls-right .pr-states .button-show-states-dropdown {
+        width: 115px; }
+      #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states .dropdown-title {
+        font-size: 0.8em;
+        text-transform: uppercase;
+        padding: 0 1em;
         height: 30px;
-        padding: 0 1em 0 1.5em;
-        text-align: left;
-        cursor: pointer;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         -webkit-align-items: center;
         -ms-flex-align: center;
-        align-items: center; }
-        #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item:hover {
-          background: #3498DB;
-          color: #fff; }
-        #purchase-requests-all .pr-controls .pr-filters .dropdown-states ul .pr-dropdown-item.all {
-          border-top: 1px solid #E6E9EB; }
+        align-items: center;
+        color: #93989F; }
+      #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul {
+        margin: 0; }
+        #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item {
+          height: 30px;
+          padding: 0 1em 0 1.5em;
+          text-align: left;
+          cursor: pointer;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-align-items: center;
+          -ms-flex-align: center;
+          align-items: center; }
+          #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item:hover {
+            background: #3498DB;
+            color: #fff; }
+          #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item.all {
+            border-top: 1px solid #E6E9EB; }
+    #purchase-requests-all .pr-controls .controls-right .control-urgent input {
+      margin: 0 5px 0 0; }
+    #purchase-requests-all .pr-controls .controls-right .control-urgent label {
+      margin: 0; }
+  #purchase-requests-all .pr-controls .active-filters {
+    margin-top: 10px;
+    -webkit-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%; }
 
 #purchase-requests-all .pr-bag {
   margin: 15px 0; }
@@ -7436,12 +7482,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     border-bottom-left-radius: 4px; }
     #items-all .items-control .filter .button-show-filter-dropdown:hover, #items-all .items-control .filter .button-show-filter-dropdown:focus, #items-all .items-control .filter .button-show-filter-dropdown:active {
       color: #3498DB; }
-  #items-all .items-control .filter .filter-dropdown {
-    padding: 15px; }
-    #items-all .items-control .filter .filter-dropdown p, #items-all .items-control .filter .filter-dropdown .themed-select {
-      margin: 0 0 10px 0; }
-    #items-all .items-control .filter .filter-dropdown .button-add-filter {
-      width: 100%; }
   #items-all .items-control .form-item-search {
     -webkit-flex: 1;
     -ms-flex: 1;
@@ -7451,31 +7491,6 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       border-bottom-left-radius: 0; }
       #items-all .items-control .form-item-search .input-item-search.active {
         border-color: #3498DB; }
-  #items-all .items-control .active-filters {
-    -webkit-flex: 100%;
-    -ms-flex: 100%;
-    flex: 100%; }
-    #items-all .items-control .active-filters .button-remove-filter {
-      border: 1px solid #A1A4AA;
-      background: #ebeef0;
-      color: #A1A4AA;
-      border-radius: 6px;
-      position: relative;
-      padding: 0.5em 1.75em 0.5em 1.75em;
-      margin: 5px 10px 5px 0; }
-      #items-all .items-control .active-filters .button-remove-filter:after {
-        content: "\f00d";
-        font-family: FontAwesome;
-        position: absolute;
-        top: 3px;
-        right: 10px;
-        font-size: 0.75em; }
-      #items-all .items-control .active-filters .button-remove-filter:hover {
-        border: 1px solid #3498DB;
-        background: #EFF9FD;
-        color: #3498DB; }
-      #items-all .items-control .active-filters .button-remove-filter .field {
-        font-weight: bold; }
 
 #items-all .table-items th, #items-all .table-items td {
   padding: 10px 15px; }
@@ -8294,6 +8309,12 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
     min-width: 150px;
     z-index: 8; }
+    .dropdown .dropdown-container p, .dropdown .dropdown-container .themed-select {
+      margin: 0 0 10px 0 !important; }
+    .dropdown .dropdown-container.filter-dropdown {
+      padding: 15px; }
+      .dropdown .dropdown-container.filter-dropdown .button-add-filter {
+        width: 100%; }
     .dropdown .dropdown-container.left {
       left: 0; }
     .dropdown .dropdown-container.right {
@@ -8380,6 +8401,32 @@ input[type="text"].not-required:focus + label[placeholder]:before,
           cursor: not-allowed; }
         .page-controls .api-paginator ul li.paginate-nav i {
           font-weight: bold; }
+
+.active-filters {
+  -webkit-flex: 100%;
+  -ms-flex: 100%;
+  flex: 100%; }
+  .active-filters .button-remove-filter {
+    border: 1px solid #A1A4AA;
+    background: #ebeef0;
+    color: #A1A4AA;
+    border-radius: 6px;
+    position: relative;
+    padding: 0.5em 1.75em 0.5em 1.75em;
+    margin: 5px 10px 5px 0; }
+    .active-filters .button-remove-filter:after {
+      content: "\f00d";
+      font-family: FontAwesome;
+      position: absolute;
+      top: 3px;
+      right: 10px;
+      font-size: 0.75em; }
+    .active-filters .button-remove-filter:hover {
+      border: 1px solid #3498DB;
+      background: #EFF9FD;
+      color: #3498DB; }
+    .active-filters .button-remove-filter .field {
+      font-weight: bold; }
 
 body {
   font-family: 'helvetica';

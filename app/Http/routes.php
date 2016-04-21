@@ -83,6 +83,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/team/user/{user}', 'UsersController@getSingleUser');
     Route::put('/team/user/{user}/role', 'UsersController@putChangeRole');
     Route::delete('/team/user/{user}', 'UsersController@deleteUser');
+    Route::get('/api/user/projects', 'UsersController@apiGetAllProjects');
 
     /**
      * Purchase Requests
