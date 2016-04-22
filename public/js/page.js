@@ -15,15 +15,24 @@ Vue.component('items-all', {
                     label: 'Brand'
                 },
                 {
+                    value: 'name',
+                    label: 'Name'
+                },
+                {
                     value: 'project',
                     label: 'Project'
                 }
             ],
             filter: '',
-            filterBrand: '',
-            filterProject: '',
+            filterValue: '',
             response: {},
+            queryParams: {
+                brand: '',
+                name: '',
+                project: ''
+            },
             activeBrandFilter: '',
+            activeNameFilter: '',
             activeProjectFilter: '',
             searchTerm: '',
             sort: '',
@@ -51,13 +60,16 @@ Vue.component('items-all', {
                 method: 'GET',
                 success: function (response) {
                     self.response = response;
-                    self.items = response.data;
+                    self.items = _.omit(response.data, 'query_parameters');
 
-                    self.activeBrandFilter = response.data.brand;
-                    self.activeProjectFilter = _.find(self.projects, {id: parseInt(response.data.projectID)});
-                    self.searchTerm = response.data.search;
-                    self.sort = response.data.sort;
-                    self.order = response.data.order;
+                    self.queryParams = {};
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.queryParams[key] = value;
+                    });
+
+                    self.searchTerm = response.data.query_parameters.search;
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
 
                     // push state (if query is different from url)
                     pushStateIfDiffQuery(query);
@@ -93,39 +105,26 @@ Vue.component('items-all', {
             });
         },
         addItemsFilter: function () {
-            var filterQuery;
-            if (this.filter === 'brand' && this.filterBrand) {
-                this.getCompanyItems(updateQueryString({
-                    brand: this.filterBrand,
-                    page: 1
-                }));
-                this.resetFilter();
-            } else if (this.filter === 'project' && this.filterProject) {
-                this.getCompanyItems(updateQueryString({
-                    project: this.filterProject,
-                    page: 1
-                }));
-                this.resetFilter();
-            }
-        },
-        resetFilter: function () {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[this.filter] = this.filterValue;
+            this.getCompanyItems(updateQueryString(queryObj));
+
+            // reset filter values
             this.filter = '';
-            this.filterBrand = '';
-            this.filterProject = '';
+            this.filterValue = '';
+
+            // hide dropdown
             this.itemsFilterDropdown = false;
+
         },
         removeFilter: function (type) {
-            if (type === 'brand') {
-                this.getCompanyItems(updateQueryString({
-                    brand: null,
-                    page: 1
-                }));
-            } else if (type === 'project') {
-                this.getCompanyItems(updateQueryString({
-                    project: null,
-                    page: 1
-                }));
-            }
+            var queryObj = {
+                page: 1
+            };
+            queryObj[type] = null;
+            this.getCompanyItems(updateQueryString(queryObj));
         },
         searchItemQuery: function () {
             var self = this;
@@ -134,7 +133,7 @@ Vue.component('items-all', {
 
             if (self.searchTerm) {
                 self.getCompanyItems(updateQueryString({
-                    search:  self.searchTerm,
+                    search: self.searchTerm,
                     page: 1
                 }));
             } else {
@@ -157,11 +156,11 @@ Vue.component('items-all', {
                 }));
             }
         },
-        getItemProjects: function(item){
+        getItemProjects: function (item) {
             // Parses out project names from an Item's Purchase Requests
             var projects = [];
             _.forEach(item.purchase_requests, function (pr) {
-                if(projects.indexOf(pr.project.name) === -1 )projects.push(pr.project);
+                if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
             });
             return projects;
         }
@@ -171,39 +170,6 @@ Vue.component('items-all', {
 
         this.getCompanyItems(this.setLoadQuery());
         this.getProjects();
-
-        var self = this;
-
-        $('#items-filter-brand-select').selectize({
-            valueField: 'brand',
-            searchField: 'brand',
-            create: false,
-            placeholder: 'Search for a brand',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/brands/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.filterBrand = value;
-            }
-        });
 
         onPopQuery(this.getCompanyItems);
 
@@ -721,6 +687,8 @@ Vue.component('purchase-requests-all', {
     data: function () {
         return {
             response: {},
+            purchaseRequests: [],
+            projects: [],
             order: '',
             urgent: '',
             state: '',
@@ -728,19 +696,26 @@ Vue.component('purchase-requests-all', {
             sort: '',
             showStatesDropdown: false,
             showFiltersDropdown: false,
-            numberFilterMin: ' ',
-            numberFilterMax: ' ',
-            activeNumberFilter: '',
-            projects: [],
-            filterProject: ' ',
-            activeProjectFilter: '',
+
+            filterValue: '',
+            minFilterValue: ' ',
+            maxFilterValue: ' ',
+
+            activeFilters: {
+               number_filter_integer: '',
+                project: '',
+                quantity_filter_integer: '',
+                item_brand: '',
+                item_name: ''
+            },
+
             filterOptions: [
                 {
                     value: 'number',
                     label: '# Number'
                 },
                 {
-                    value: 'project',
+                    value: 'project_id',
                     label: 'Project'
                 },
                 {
@@ -764,7 +739,7 @@ Vue.component('purchase-requests-all', {
                     label: 'Requested Date'
                 },
                 {
-                    value: 'user',
+                    value: 'user_id',
                     label: 'Requester'
                 }
             ],
@@ -813,15 +788,21 @@ Vue.component('purchase-requests-all', {
                 success: function (response) {
                     // Update data
                     self.response = response;
+                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
 
                     // Pull flags from response (better than parsing url)
-                    self.state = response.data.state;
-                    self.sort = response.data.sort;
-                    self.order = response.data.order;
-                    self.urgent = response.data.urgent;
-                        // Attach filters
-                        self.activeNumberFilter = response.data.number_filter_integer;
-                        self.activeProjectFilter = response.data.project;
+                    self.state = response.data.query_parameters.state;
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+                    self.urgent = response.data.query_parameters.urgent;
+
+                    // Attach filters
+                        // Reset obj
+                        self.activeFilters = {};
+                        // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
+                        _.forEach(response.data.query_parameters, function (value, key) {
+                            self.activeFilters[key] = value;
+                        });
 
 
                     // push state (if query is different from url)
@@ -891,12 +872,6 @@ Vue.component('purchase-requests-all', {
                 }
             });
         },
-        resetFilter: function() {
-            this.filter = '';
-            this.numberFilterMin = ' ';
-            this.numberFilterMax = ' ';
-            this.showFiltersDropdown = false;
-        },
         removeFilter: function (type) {
             var queryObj = {
                 page: 1
@@ -906,15 +881,18 @@ Vue.component('purchase-requests-all', {
         },
         addPRsFilter: function() {
             var self = this;
-            switch (self.filter) {
-                case 'number':
-                    self.fetchPurchaseRequests(updateQueryString('number', [self.numberFilterMin, self.numberFilterMax]));
-                    break;
-                case 'project':
-                    self.fetchPurchaseRequests(updateQueryString('project_id', self.filterProject));
-                    break;
-            }
-            self.resetFilter();
+            var value = self.filterValue || [self.minFilterValue, self.maxFilterValue];
+
+            self.fetchPurchaseRequests(updateQueryString(self.filter, value));
+
+            // Reset values
+            this.filter = '';
+            this.filterValue = '';
+            this.minFilterValue = ' ';
+            this.maxFilterValue = ' ';
+
+            // Hide dropdown
+            this.showFiltersDropdown = false;
         }
     },
     ready: function () {

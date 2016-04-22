@@ -48,6 +48,7 @@ class ItemsController extends Controller
     public function apiGetAll(Request $request)
     {
         $brand = $request->query('brand');
+        $name = $request->query('name');
         $project = $request->query('project');
         $sort = $request->query('sort');
         $order = $request->query('order');
@@ -56,6 +57,7 @@ class ItemsController extends Controller
 
         $items = CompanyItemsRepository::forCompany(Auth::user()->company)
                                        ->withBrand($brand)
+                                        ->withName($name)
                                        ->forProject($project)
                                        ->sortOn($sort, $order)
                                        ->searchSkuBrandName($search)
@@ -93,6 +95,27 @@ class ItemsController extends Controller
 
         return response("No search term given", 500);
     }
+
+
+    /**
+     * Search similar to Brands but for Names
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchNames($query)
+    {
+        if ($query) {
+            $items = Item::where('company_id', Auth::user()->company->id);
+            $items->where('name', 'LIKE', '%' . $query . '%')
+                  ->select(['name']);
+            return $items->distinct()->get();
+        }
+
+        return response("No search term given", 500);
+    }
+
+
 
     /**
      * Tries to find a Single Item by either:

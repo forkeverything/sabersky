@@ -15,6 +15,11 @@ $(document).ready(function () {
         startDate: 'today',
         language: 'en'      // TODO ::: Change according to client Lang
     });
+
+    $('.filter-datepicker').datepicker({
+        format: "dd/mm/yyyy",
+        language: 'en'      // TODO ::: Change according to client Lang
+    });
 });
 Dropzone.autoDiscover = false;
 
@@ -587,7 +592,7 @@ Vue.directive('selectoption', {
     }
 });
 Vue.filter('capitalize', function (str) {
-    if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    if(str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
 Vue.filter('chunk', function (array, length) {
     var totalChunks = [];
@@ -609,6 +614,24 @@ Vue.filter('diffHuman', function (value) {
         return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
     }
     return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
+    }
 });
 Vue.filter('date', function (value) {
     if (value !== '0000-00-00 00:00:00') {
@@ -925,6 +948,86 @@ Vue.component('form-errors', {
         'clear-errors': function() {
             this.errors = [];
         }
+    }
+});
+Vue.component('item-brand-selecter', {
+    name: 'itemBrandSelecter',
+    template: '<select class="item-brand-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-brand-search-selecter').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: false,
+            placeholder: 'Search for a brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('item-name-selecter', {
+    name: 'itemNameSelecter',
+    template: '<select class="item-name-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-name-search-selecter').selectize({
+            valueField: 'name',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Search for a name',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/names/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
     }
 });
 Vue.component('modal', {
@@ -1519,6 +1622,46 @@ Vue.component('side-menu', {
         });
     }
 });
+Vue.component('team-member-selecter', {
+    name: 'teamMemberSelecter',
+    template: '<select class="team-member-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.team-member-search-selecter').selectize({
+            valueField: 'id',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Search for Team Member',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/team/members/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
 Vue.component('text-clipper', {
     name: 'textClipper',
     template: '<div class="text-clipper"' +
@@ -1565,5 +1708,23 @@ Vue.component('text-clipper', {
             this.clip = true;
         });
     }
+});
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
 });
 //# sourceMappingURL=dependencies.js.map

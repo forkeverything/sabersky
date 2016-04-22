@@ -123,12 +123,12 @@ function updateQueryString() {
      */
     if (typeof arguments[0] === 'string' && arguments.length > 1) {
         // Only update single query name - set the new name and value
-        queryObj[arguments[0]] = arguments[1];
+        queryObj[arguments[0]] = URIEncoder(arguments[1]);
     } else if(typeof arguments[0] === 'object'){
         // Received an object with key-value pairs of query names and value to update
         _.forEach(arguments[0], function (value, key) {
             if(value) {
-                queryObj[key] = value;
+                queryObj[key] = URIEncoder(value);
             } else {
                 delete queryObj[key];
             }
@@ -142,15 +142,28 @@ function updateQueryString() {
     var newQuery = '';
     // Go through object and add everything back as a string
     _.forEach(queryObj, function (value, name) {
-        if(value.constructor === Array)  {
-            value = _.map(value, function (i) { if(i) return encodeURIComponent(i); return i; }).join('+');
-        } else {
-            value = encodeURIComponent(value)
-        }
         newQuery += name + '=' + value + '&';
     });
     // Finally - return our new string!
     return newQuery.substring(0, newQuery.length - 1);  // Trim last '&'
+}
+
+/**
+ * Wrapper function for encodeURI that also accepts
+ * an array and encodes each part before joining
+ * them together with a '+'
+ *
+ * @param value
+ * @returns {*}
+ * @constructor
+ */
+function URIEncoder(value) {
+    if(value.constructor === Array)  {
+        value = _.map(value, function (i) { if(i && i.replace(/\s/g, "").length > 0) return encodeURI(i); }).join('+');
+    } else {
+        value = encodeURI(value)
+    }
+    return value;
 }
 
 /**

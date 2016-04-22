@@ -29,6 +29,7 @@ class UserPurchaseRequestsRepository extends apiRepository
      * @var array
      */
     protected $sortableFields = [
+        'number',
         'item_name',
         'due',
         'created_at',

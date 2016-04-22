@@ -19,7 +19,7 @@
                             <button type="button"
                                     class="btn button-show-states-dropdown button-toggle-dropdown"
                                     v-if="response.data"
-                            >@{{ response.data.state | capitalize }} <i
+                            >@{{ response.data.query_parameters.state | capitalize }} <i
                                         class="fa fa-caret-down"></i>
                             </button>
                             <div class="dropdown-states dropdown-container right"
@@ -122,8 +122,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <template v-for="purchaseRequest in response.data">
-                                <tr class="row-single-pr" v-if="purchaseRequest.id">
+                            <template v-for="purchaseRequest in purchaseRequests">
+                                <tr class="row-single-pr">
                                     <td class="no-wrap col-number"><a :href="'/purchase_requests/' + purchaseRequest.id"
                                                                       alt="Link to single PR"
                                                                       class="underline">#@{{ purchaseRequest.number }}</a><span

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
@@ -51,7 +52,7 @@ class UsersController extends Controller
         if ($user = User::fetchFromInviteKey($inviteKey)) {
 
             $user->setPassword($request->input('password'))
-                ->clearInviteKey();
+                 ->clearInviteKey();
 
             flash()->success('Accepted invitation, welcome aboard!');
             Auth::login($user);
@@ -113,6 +114,32 @@ class UsersController extends Controller
     }
 
     /**
+     * Search for Team Members (Users from same Project)
+     * by their name.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchTeamMembers($query)
+    {
+        if ($query) {
+            $projectIDs = Auth::user()->projects->pluck('id');
+            $users = User::where('company_id', Auth::user()->company->id)
+                         ->whereExists(function ($query) use ($projectIDs) {
+                             $query->select(DB::raw(1))
+                                   ->from('project_user')
+                                   ->whereIn('project_id', $projectIDs)
+                                   ->whereRaw('users.id = user_id');
+                         })
+                         ->where('name', 'LIKE', '%' . $query . '%')
+                         ->select(['id', 'name'])->get();
+            return $users;
+        }
+        return response("No search term given", 500);
+    }
+
+
+    /**
      * Show Form to add a new User to
      * Company.
      *
@@ -120,7 +147,7 @@ class UsersController extends Controller
      */
     public function getAddStaffForm()
     {
-        if(! Gate::allows('team_manage')) abort(403, "Not authorized to add Staff");
+        if (!Gate::allows('team_manage')) abort(403, "Not authorized to add Staff");
         $breadcrumbs = [
             ['<i class="fa fa-users"></i> Team', '/team'],
             ['Add', '#']
@@ -140,7 +167,7 @@ class UsersController extends Controller
     public function postSaveStaff(AddStaffRequest $request, UserMailer $userMailer)
     {
         $role = Role::find($request->input('role_id'));
-        if(! Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
+        if (!Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
         $user = User::make($request->input('name'), $request->input('email'), null, $request->input('role_id'), true);
         Auth::user()->company->addEmployee($user);
         $userMailer->sendNewUserInvitation($user);
@@ -157,7 +184,7 @@ class UsersController extends Controller
      */
     public function getSingleUser(User $user)
     {
-        if(! Gate::allows('edit', $user)) abort(403, "Not authorized to view that User");
+        if (!Gate::allows('edit', $user)) abort(403, "Not authorized to view that User");
         $breadcrumbs = [
             ['<i class="fa fa-users"></i> Team', '/team'],
             [$user->name, '#']
@@ -175,8 +202,8 @@ class UsersController extends Controller
 
     public function deleteUser(User $user)
     {
-        if (! Gate::allows('edit', $user) && ! Gate::allows('team_manage') && $user->role->position !== 'admin') abort(403, "Can not delete that User");
-        if( $user->delete()) {
+        if (!Gate::allows('edit', $user) && !Gate::allows('team_manage') && $user->role->position !== 'admin') abort(403, "Can not delete that User");
+        if ($user->delete()) {
             flash()->success('Permanently deleted user');
             return response("Deleted User", 200);
         }
@@ -193,8 +220,6 @@ class UsersController extends Controller
     {
         return Auth::user()->projects;
     }
-    
-
 
 
 }

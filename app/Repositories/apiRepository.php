@@ -32,6 +32,8 @@ abstract class apiRepository
      */
     protected $sortableFields = [];
 
+    protected $queryParameters;
+
 
     /**
      * Static wrapper so we dont have to 'new' it.
@@ -111,9 +113,10 @@ abstract class apiRepository
             // Transfer object properties onto it
             foreach (get_object_vars($this) as $key => $value) {
                 if (!($value instanceof LengthAwarePaginator) && ! ($value instanceof Builder)) {
-                    if($key !== 'sortableFields') $object[$key] = $value;
+                    if($key !== 'sortableFields' && $key !== 'queryParameters') $this->queryParameters[$key] = $value;
                 }
             }
+            $object['query_parameters'] = $this->queryParameters;
         }
     }
 
@@ -189,7 +192,12 @@ abstract class apiRepository
     public function filterDateField($column, $range)
     {
         $rangeArray = $range ? $this->{$column . '_filter_date'} = explode(' ', $range) : null ;
+
+        // If max value is a DATE - let's add another day so it counts the FULL day
+        if($rangeArray[1]) $rangeArray[1] = Carbon::createFromFormat('Y-m-d', $rangeArray[1])->addDay(1);
+
         $this->queryColumnRange($column, $rangeArray);
+
         return $this;
     }
 
@@ -206,9 +214,6 @@ abstract class apiRepository
         if($rangeArray && count($rangeArray) > 1) {
             $min = $rangeArray[0] ?: null;
             $max = $rangeArray[1] ?: null;
-            // If max value is a DATE - let's add another day so it counts the FULL day
-            if(isDate($rangeArray[1])) $rangeArray[1] = Carbon::createFromFormat('Y-m-d', $rangeArray[1])->addDay(1);
-
             if($min && $max) {
                 $this->query->whereBetween($column, [$min, $max]);
             } else if ($min && ! $max) {

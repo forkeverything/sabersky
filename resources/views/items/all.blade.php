@@ -16,19 +16,29 @@
                             <p>Show items where</p>
                             <select-picker :options="filterOptions" :name.sync="filter"
                                            :placeholder="'Select one...'"></select-picker>
+
+                            <!-- Brands Filter -->
                             <div class="brands-list" v-show="filter === 'brand'">
                                 <p>is</p>
-                                <select id="items-filter-brand-select">
-                                    <option></option>
-                                </select>
+                                <item-brand-selecter :name.sync="filterValue"></item-brand-selecter>
                             </div>
+
+                            <!-- Names Filter -->
+                            <div class="names-list" v-show="filter === 'name'">
+                                <p>is</p>
+                                <item-name-selecter :name.sync="filterValue"></item-name-selecter>
+                            </div>
+
+                            <!-- Projects Filter -->
                             <div class="projects-list" v-show="filter === 'project'">
                                 <p>is</p>
-                                <select-picker :options="projects" :name.sync="filterProject"
+                                <select-picker :options="projects" :name.sync="filterValue"
                                                :placeholder="'Pick a Project...'"></select-picker>
                             </div>
+
+                            <!-- Add Filter Button -->
                             <button class="button-add-filter btn btn-outline-blue"
-                                    v-show="filter && (filterBrand || filterProject)"
+                                    v-show="filter && filterValue"
                                     @click.stop.prevent="addItemsFilter">Add Filter
                             </button>
                         </div>
@@ -45,12 +55,17 @@
                         >
                     </form>
                     <div class="active-filters">
-                        <button type="button" v-if="activeBrandFilter" class="btn button-remove-filter" @click="
+                        <button type="button" v-show="queryParams.brand" class="btn button-remove-filter" @click="
                         removeFilter('brand')"><span
-                                class="field">Brand: </span>@{{ decodeURIComponent(activeBrandFilter) }}</button>
-                        <button type="button" v-if="activeProjectFilter" class="btn button-remove-filter" @click="
+                                class="field">Brand: </span>@{{ queryParams.brand }}</button>
+
+                        <button type="button" v-show="queryParams.name" class="btn button-remove-filter" @click="
+                        removeFilter('name')"><span
+                                class="field">Name: </span>@{{ queryParams.name }}</button>
+
+                        <button type="button" v-show="queryParams.project" class="btn button-remove-filter" @click="
                         removeFilter('project')"><span
-                                class="field">Project: </span>@{{ activeProjectFilter.name }}</button>
+                                class="field">Project: </span>@{{ queryParams.project.name }}</button>
                     </div>
                 </div>
                 <div class="table-responsive table-items">

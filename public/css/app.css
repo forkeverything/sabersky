@@ -6837,7 +6837,7 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       color: #3498DB; }
   #purchase-requests-all .pr-controls .controls-left .pr-filters .button-show-filters-dropdown {
     width: 80px; }
-  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field {
+  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -6848,15 +6848,24 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     -ms-flex-align: center;
     align-items: center;
     margin: 0 0 10px; }
-    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field input {
+    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field input, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input {
       -webkit-flex: 1;
       -ms-flex: 1;
       flex: 1;
       text-align: center; }
-    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field .dash {
+    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field .dash, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field .dash {
       font-size: 1.5em;
       color: #93989F;
       margin: 0 10px; }
+  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input {
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #E6E9EB;
+    border-radius: 4px;
+    width: 100%; }
+    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input:focus {
+      border: 1px solid #3498DB;
+      outline: 0; }
   #purchase-requests-all .pr-controls .controls-right {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -7482,6 +7491,8 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     border-bottom-left-radius: 4px; }
     #items-all .items-control .filter .button-show-filter-dropdown:hover, #items-all .items-control .filter .button-show-filter-dropdown:focus, #items-all .items-control .filter .button-show-filter-dropdown:active {
       color: #3498DB; }
+  #items-all .items-control .filter .brands-list, #items-all .items-control .filter .names-list {
+    margin: 0 0 10px 0; }
   #items-all .items-control .form-item-search {
     -webkit-flex: 1;
     -ms-flex: 1;

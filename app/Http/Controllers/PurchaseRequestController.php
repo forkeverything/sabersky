@@ -54,21 +54,20 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-
         if ($request->ajax()) {
             $state = $request->query('state');
             $number = $request->query('number');
             $projectID = $request->query('project_id');
             $quantity = $request->query('quantity');
+            $itemBrand = $request->query('item_brand');
+            $itemName = $request->query('item_name');
+            $due = $request->query('due');
+            $requested = $request->query('requested');
+            $userID = $request->query('user_id');
             $sort = $request->query('sort');
             $order = $request->query('order');
             $urgent = $request->query('urgent');
             $perPage = $request->query('per_page');
-            $itemName = $request->query('item_name');
-            $itemBrand = $request->query('item_brand');
-            $due = $request->query('due');
-            $requested = $request->query('requested');
-            $userID = $request->query('user_id');
 
 
             $data = UserPurchaseRequestsRepository::forUser(Auth::user())

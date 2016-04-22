@@ -78,6 +78,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/user/email/{email}/check', 'UsersController@getCheckEmailAvailability');
     Route::get('/team', 'UsersController@getTeam');
     Route::get('/api/team', 'UsersController@apiGetTeam');
+    Route::get('/api/team/members/search/{query}', 'UsersController@apiGetSearchTeamMembers');
     Route::get('/team/add', 'UsersController@getAddStaffForm');
     Route::post('/team/add', 'UsersController@postSaveStaff');
     Route::get('/team/user/{user}', 'UsersController@getSingleUser');
@@ -103,6 +104,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/items', 'ItemsController@apiGetAll');
     Route::get('/api/items/brands', 'ItemsController@apiGetAllBrands');
     Route::get('/api/items/brands/search/{query}', 'ItemsController@apiGetSearchBrands');
+    Route::get('/api/items/names/search/{query}', 'ItemsController@apiGetSearchNames');
     Route::get('/api/items/find', 'ItemsController@apiGetSingleBy');
     Route::get('/api/items/search/{query}', 'ItemsController@getSearchItems');
     Route::post('/api/items', 'ItemsController@postAddNew');

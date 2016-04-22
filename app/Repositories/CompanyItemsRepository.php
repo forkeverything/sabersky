@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Project;
 use App\Repositories\apiRepository;
 use App\Company;
 use App\Item;
@@ -12,26 +13,6 @@ use Illuminate\Support\Facades\DB;
 class CompanyItemsRepository extends apiRepository
 {
 
-    /**
-     * Brand filter - showing only
-     * items with this brand
-     * @var
-     */
-    protected $brand;
-
-    /**
-     * Project Filter- showing only
-     * items that have this project
-     * @var
-     */
-    protected $projectID;
-
-    /**
-     * The search term to be compared
-     * to find Item SKU, Brand or Name
-     * @var
-     */
-    protected $search;
 
 
     /**
@@ -65,8 +46,25 @@ class CompanyItemsRepository extends apiRepository
      */
     public function withBrand($brand = null)
     {
-        $this->brand = $brand;
-        if ($brand) $this->query->where('brand', $brand);
+        if ($brand) {
+            $this->{'brand'} = $brand;
+            $this->query->where('brand', $brand);
+        }
+        return $this;
+    }
+
+
+    /**
+     * Filters Item by it's Name value
+     * @param null $name
+     * @return $this
+     */
+    public function withName($name = null)
+    {
+        if ($name) {
+            $this->{'name'} = $name;
+            $this->query->where('name', $name);
+        }
         return $this;
     }
 
@@ -79,14 +77,17 @@ class CompanyItemsRepository extends apiRepository
      */
     public function forProject($projectID = null)
     {
-        $this->projectID = is_int((int)$projectID) ? $projectID : null;
-
-        if ($this->projectID) $this->query->whereExists(function ($query) use ($projectID) {
-            $query->select(DB::raw(1))
-                  ->from('purchase_requests')
-                  ->where('project_id', '=', $projectID)
-                  ->whereRaw('items.id = purchase_requests.item_id');
-        });
+        // If we have a Project ID and it is an Integer
+        if ($projectID && is_int((int)$projectID)) {
+            $project = Project::find($projectID);
+            $this->{'project'} = $project;
+            $this->query->whereExists(function ($query) use ($projectID) {
+                $query->select(DB::raw(1))
+                      ->from('purchase_requests')
+                      ->where('project_id', '=', $projectID)
+                      ->whereRaw('items.id = purchase_requests.item_id');
+            });
+        }
 
         return $this;
     }
@@ -99,10 +100,12 @@ class CompanyItemsRepository extends apiRepository
      */
     public function searchSkuBrandName($search = null)
     {
-        $this->search = $search;
-        if ($search) $this->query->where('sku', 'LIKE', '%' . $search . '%')
-                                 ->orWhere('brand', 'LIKE', '%' . $search . '%')
-                                 ->orWhere('items.name', 'LIKE', '%' . $search . '%');
+        if ($search) {
+            $this->{'search'} = $search;
+            $this->query->where('sku', 'LIKE', '%' . $search . '%')
+                        ->orWhere('brand', 'LIKE', '%' . $search . '%')
+                        ->orWhere('items.name', 'LIKE', '%' . $search . '%');
+        }
         return $this;
     }
 
