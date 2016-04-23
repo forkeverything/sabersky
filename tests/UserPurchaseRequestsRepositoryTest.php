@@ -6,7 +6,6 @@ use App\Project;
 use App\PurchaseRequest;
 use App\Repositories\UserPurchaseRequestsRepository;
 use App\User;
-use Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -99,7 +98,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         // Got something ...
         $this->assertNotNull(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get()->first());
         // Got 5 as expected? (6 properties + 5 actual requests = 11)
-        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->getWithoutQueryProperties());
     }
 
     /** @test */
@@ -118,7 +117,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
 
         // Control - No specified State method (w/o default of 'open'), should get all
-        $this->assertCount(18, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->get());
+        $this->assertCount(18, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->getWithoutQueryProperties());
 
         // Give no value ie. $state = null (should default to open states)
         $this->assertEquals(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState(null)->getWithoutQueryProperties()->count());
@@ -155,20 +154,20 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         $generatedPRs = PurchaseRequest::where('project_id', $project->id)->with(['project', 'user', 'item'])->get();
 
 
-        $sortItemNameAsc = $generatedPRs->sortBy('item.name');
-        $sortItemNameDesc = $generatedPRs->sortByDesc('item.name');
+        $sortPRNumberAsc = $generatedPRs->sortBy('number');
+        $sortPRNumberDesc = $generatedPRs->sortByDesc('number');
 
 
-        // No sort No Order - default to name + asc
-        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn()->getWithoutQueryProperties()->pluck('item_name'));
+        // No sort No Order - default to  number
+        $this->assertEquals($sortPRNumberAsc->pluck('number'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn()->getWithoutQueryProperties()->pluck('number'));
 
         // With Order
         // asc
-        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'asc')->getWithoutQueryProperties()->pluck('item_name'));
+        $this->assertEquals($sortPRNumberAsc->pluck('number'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'asc')->getWithoutQueryProperties()->pluck('number'));
         // desc
-        $this->assertEquals($sortItemNameDesc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'desc')->getWithoutQueryProperties()->pluck('item_name'));
+        $this->assertEquals($sortPRNumberDesc->pluck('number'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'desc')->getWithoutQueryProperties()->pluck('number'));
         // Invalid string
-        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'awdwadawdwadawdawd')->getWithoutQueryProperties()->pluck('item_name'));
+        $this->assertEquals($sortPRNumberAsc->pluck('number'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn(null, 'awdwadawdwadawdawd')->getWithoutQueryProperties()->pluck('number'));
 
         // With sort
         // due
@@ -184,7 +183,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
 
         // Wrong sort - default to name
-        $this->assertEquals($sortItemNameAsc->pluck('item.name'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('foobar', 'bazooka')->getWithoutQueryProperties()->pluck('item_name'));
+        $this->assertEquals($sortPRNumberAsc->pluck('number'), UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->sortOn('foobar', 'bazooka')->getWithoutQueryProperties()->pluck('number'));
     }
 
     /** @test */

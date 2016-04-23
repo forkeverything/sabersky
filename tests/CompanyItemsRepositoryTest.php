@@ -49,7 +49,7 @@ class CompanyItemsRepositoryTest extends TestCase
         $this->assertCount(11, array_filter(CompanyItemsRepository::forCompany(static::$company)->get()->pluck('brand')->toArray()));
 
         // Only retrieve 1 - where brand is foobar
-        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->withBrand('foobar')->get()->pluck('brand')->toArray()));
+        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->withBrand('foobar')->getWithoutQueryProperties()->pluck('brand')->toArray()));
         $this->assertEquals('foobar', array_filter(CompanyItemsRepository::forCompany(static::$company)->withBrand('foobar')->get()->pluck('brand')->toArray())[0]);
     }
 

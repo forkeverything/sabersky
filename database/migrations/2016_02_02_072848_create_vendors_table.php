@@ -16,27 +16,17 @@ class CreateVendorsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('company_name');
+            $table->string('name');
+            $table->string('description');
 
-            // Bank Info
-            $table->string('bank_name');
-            $table->string('bank_account_name');
-            $table->string('bank_account_number');
-            $table->string('bank_address')->nullable();
-            $table->string('swift')->nullable();
+            // The Company that this Vendor record belongs to
+            $table->integer('buyer_company_id')->unsigned();
+            $table->foreign('buyer_company_id')->references('id')->on('companies');
 
-            // Company Contact info
-            $table->string('address_1');
-            $table->string('address_2')->nullable();
-            $table->string('state');
-            $table->string('country');
-            $table->string('zip');
-            $table->string('phone');
-
-
-
-            $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
+            // If this Vendor profile points to a registered Company
+            $table->boolean('verified')->default(0);
+            $table->integer('seller_company_id')->unsigned()->nullable();
+            $table->foreign('seller_company_id')->references('id')->on('companies');
         });
     }
 

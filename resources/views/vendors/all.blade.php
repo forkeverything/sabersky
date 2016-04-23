@@ -1,11 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="vendors-all">
-        <div class="page-header">
-            <h1 class="page-title">Vendors</h1>
-            <p class="page-intro">Overview of all vendors, past purchases from the vendors and other relevant
-                statistics.</p>
-        </div>
         @if($vendors->first())
             <div class="page-body">
                 <div class="table-responsive">

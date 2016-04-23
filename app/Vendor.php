@@ -4,34 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\Vendor
- *
- * @property integer $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $name
- * @property string $phone
- * @property string $address
- * @property string $bank_name
- * @property string $bank_account_name
- * @property string $bank_account_number
- * @property integer $company_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
- * @property-read mixed $number_p_o
- * @property-read mixed $average_p_o
- * @property-read mixed $contacted_by
- */
+
 class Vendor extends Model
 {
     protected $fillable = [
         'name',
-        'phone',
-        'address',
-        'bank_account_name',
-        'bank_account_number',
-        'bank_name',
-        'company_id'
+        'description',
+        'buyer_company_id',
+        'verified',
+        'seller_company_id'
     ];
 
     protected $appends = [
@@ -39,6 +20,80 @@ class Vendor extends Model
         'averagePO',
         'contactedBy'
     ];
+
+
+    /**
+     * A Vendor is always owned as a record of a buying
+     * Company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function buyer()
+    {
+        return $this->belongsTo(Company::class, 'buyer_company_id');
+    }
+
+    /**
+     * A Vendor can also be optionally linked to another Company
+     * in the system, making the Company the seller.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function seller()
+    {
+        return $this->belongsTo(Company::class, 'seller_company_id');
+    }
+
+    /**
+     * Accessor to return registered Company Name if
+     * one exists
+     * 
+     * @param $val
+     * @return mixed
+     */
+    public function getNameAttribute($val)
+    {
+        if ($this->seller) {
+            return $this->seller->name;
+        }
+        return $val;
+    }
+
+    /**
+     * Makes it easier to link a Company as a seller. ie. Link
+     * a Company that also has a registered profile here in
+     * our records.
+     *
+     * @param Company $company
+     * @return bool
+     */
+    public function linkSeller(Company $company)
+    {
+        $this->seller_company_id = $company->id;
+        return $this->save();
+    }
+
+    /**
+     * Vendor can have many Bank Accounts
+     * on record
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bankAccounts()
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
+
+    /**
+     * Vendor can have many addresses on record
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 
     /**
      * A vendor / Supplier can service many

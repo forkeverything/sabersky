@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $employees
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $vendors
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  * @property string $currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
@@ -120,16 +119,10 @@ class Company extends Model
 
     }
 
-    public function getVendorsAttribute()
+
+    public function vendors()
     {
-        $vendorsArray = [];
-        foreach ($this->purchaseOrders as $purchaseOrder) {
-            array_push($vendorsArray, $purchaseOrder->vendor);
-        }
-        $vendorCollection = collect($vendorsArray)->unique('id')->reject(function ($value, $key) {
-            return empty($value);
-        });
-        return $vendorCollection;
+        return $this->hasMany(Vendor::class, 'buyer_company_id');
     }
 
     public function purchaseOrders()
@@ -224,5 +217,118 @@ class Company extends Model
         $company = is_numeric($parameter) ? static::select($attributes)->find($parameter) : static::whereName($parameter)->first($attributes);
         return $company;
     }
+
+    // For company connections
+
+    /**
+     * Relationship if this Company made the connection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function initializedConnects()
+    {
+        return $this->belongsToMany(Company::class, 'connects', 'company_id', 'connect_id');
+    }
+
+    /**
+     * Relationship if target Company made the connection
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function invitedConnects()
+    {
+        return $this->belongsToMany(Company::class, 'connects', 'connect_id', 'company_id');
+    }
+
+    /**
+     * Accessor to see if the relationship has been loaded and loads
+     * it if it hasn't. Usually this would be a Eloquent relation
+     * but instead we are including our inverted relationship.
+     *
+     * @return mixed
+     */
+    public function getConnectsAttribute()
+    {
+        // If we haven't loaded our connects - load it up
+        if( ! array_key_exists('connects', $this->relations)) $this->loadConnects();
+        // And return it
+        return $this->getRelation("connects");
+    }
+
+    /**
+     * Sets a dynamic relation 'connects' to the Company model
+     */
+    protected function loadConnects()
+    {
+        // only if we have NOT loaded it yet...
+        if (!array_key_exists('connects', $this->relations)) {
+
+            // Call the function that merges two way many-to-many relations
+            $connects = $this->mergeConnects();
+
+            // Set the relation to be retrieved by getRelation()
+            $this->setRelation('connects', $connects);
+        }
+    }
+
+
+    /**
+     * This function just merges the 2 collections together using the
+     * merge() method on the collections. We merge because we need
+     * to retrieve all connects regardless of who initiated it.
+     *
+     * @return mixed
+     */
+    protected function mergeConnects()
+    {
+        return $this->initializedConnects->merge($this->invitedConnects);
+    }
+
+    /**
+     * Adds a Company as a connection
+     *
+     * @param Company $company
+     * @return bool
+     */
+    public function addConnect(Company $company)
+    {
+        $this->initializedConnects()->attach($company);
+        return $this->save();
+    }
+
+    /**
+     * Vendor can have many Bank Accounts
+     * on record
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bankAccounts()
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
+
+    /**
+     * Vendor can have many addresses on record
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    protected function linkedVendors()
+    {
+        return $this->hasMany(Vendor::class, 'seller_company_id');
+    }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Company::class, 'vendors', 'seller_company_id', 'buyer_company_id');
+    }
+
+
+
 
 }

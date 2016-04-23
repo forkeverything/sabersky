@@ -46,16 +46,13 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'description' => $faker->paragraph(5),
         'company_id' => factory(Company::class)->create()->id
     ];
-});
+});1
 
 $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
     return [
         'name' => 'PT.' . $faker->company,
-        'phone' => $faker->phoneNumber,
-        'address' => $faker->address,
-        'bank_name' => $faker->randomElement(['BNI', 'Maybank', 'BCA', 'BRI', 'HSBC']),
-        'bank_account_name' => $faker->name,
-        'bank_account_number' => $faker->randomNumber(8)
+        'description' => $faker->paragraph(3),
+        'buyer_company_id' => factory(Company::class)->create()->id
     ];
 });
 
