@@ -20,8 +20,7 @@
         <!-- Project Filter -->
         <div class="project filter" v-show="filter === 'project_id'">
             <p>is</p>
-            <select-picker :options="projects" :name.sync="filterValue"
-                           :placeholder="'Pick a Project...'"></select-picker>
+            <user-projects-selecter :name.sync="filterValue"></user-projects-selecter>
         </div>
 
         <!-- Quantity Filter -->

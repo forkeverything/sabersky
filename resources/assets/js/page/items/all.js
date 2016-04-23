@@ -6,7 +6,6 @@ Vue.component('items-all', {
     data: function () {
         return {
             ajaxReady: true,
-            projects: [],
             items: [],
             itemsFilterDropdown: false,
             filterOptions: [
@@ -31,9 +30,6 @@ Vue.component('items-all', {
                 name: '',
                 project: ''
             },
-            activeBrandFilter: '',
-            activeNameFilter: '',
-            activeProjectFilter: '',
             searchTerm: '',
             sort: '',
             order: '',
@@ -43,7 +39,11 @@ Vue.component('items-all', {
             ajaxObject: {}
         };
     },
-    computed: {},
+    computed: {
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
     methods: {
         setLoadQuery: function () {
             var currentQuery = window.location.href.split('?')[1];
@@ -81,26 +81,6 @@ Vue.component('items-all', {
                 },
                 error: function (err) {
                     self.ajaxReady = true;
-                }
-            });
-        },
-        getProjects: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/projects',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.projects = _.map(data, function (project) {
-                        if (project.name) {
-                            project.value = project.id;
-                            project.label = strCapitalize(project.name);
-                            return project;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
                 }
             });
         },
@@ -163,14 +143,25 @@ Vue.component('items-all', {
                 if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
             });
             return projects;
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.getCompanyItems(updateQueryString(queryObj));
+
+        },
+        clearSearch: function() {
+            this.searchTerm = '';
+            this.searchItemQuery();
         }
     },
     events: {},
     ready: function () {
 
         this.getCompanyItems(this.setLoadQuery());
-        this.getProjects();
-
         onPopQuery(this.getCompanyItems);
 
     }

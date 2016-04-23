@@ -1,0 +1,51 @@
+.table-purchase-requests-all, .table-purchase-requests-po-submit {
+  margin: 0;
+
+  .col-project {
+    text-transform: capitalize;
+  }
+
+  .col-quantity {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .col-item {
+
+    .item-sku {
+      font-style: italic;
+      margin: 0 0 5px 0;
+      color: $text-muted;
+    }
+
+    .item-brand, .item-name {
+      display: block;
+      text-transform: capitalize;
+    }
+
+    .item-name {
+      font-weight: bold;
+      margin: 0 0 5px 0;
+    }
+
+    .item-image-gallery {
+      margin-bottom: -5px;
+      display: flex;
+      overflow: scroll;
+
+      li {
+        flex: 0 0 45px;
+        margin: 0 0 10px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .item-specification {
+      display: inline-block;
+      min-width: 350px;
+    }
+
+  }
+}

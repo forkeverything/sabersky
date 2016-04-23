@@ -6,7 +6,6 @@ Vue.component('items-all', {
     data: function () {
         return {
             ajaxReady: true,
-            projects: [],
             items: [],
             itemsFilterDropdown: false,
             filterOptions: [
@@ -31,9 +30,6 @@ Vue.component('items-all', {
                 name: '',
                 project: ''
             },
-            activeBrandFilter: '',
-            activeNameFilter: '',
-            activeProjectFilter: '',
             searchTerm: '',
             sort: '',
             order: '',
@@ -43,7 +39,11 @@ Vue.component('items-all', {
             ajaxObject: {}
         };
     },
-    computed: {},
+    computed: {
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
     methods: {
         setLoadQuery: function () {
             var currentQuery = window.location.href.split('?')[1];
@@ -81,26 +81,6 @@ Vue.component('items-all', {
                 },
                 error: function (err) {
                     self.ajaxReady = true;
-                }
-            });
-        },
-        getProjects: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/projects',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.projects = _.map(data, function (project) {
-                        if (project.name) {
-                            project.value = project.id;
-                            project.label = strCapitalize(project.name);
-                            return project;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
                 }
             });
         },
@@ -163,14 +143,25 @@ Vue.component('items-all', {
                 if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
             });
             return projects;
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.getCompanyItems(updateQueryString(queryObj));
+
+        },
+        clearSearch: function() {
+            this.searchTerm = '';
+            this.searchItemQuery();
         }
     },
     events: {},
     ready: function () {
 
         this.getCompanyItems(this.setLoadQuery());
-        this.getProjects();
-
         onPopQuery(this.getCompanyItems);
 
     }
@@ -274,6 +265,97 @@ Vue.component('item-single', {
         });
     }
 });
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -438,97 +520,6 @@ Vue.component('project-single', {
         });
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
-    el: function () {
-        return '#add-line-item';
-    },
-    data: function () {
-        return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
-    }
-});
-
-
-
 Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
     el: function() {
@@ -625,58 +616,115 @@ Vue.component('purchase-orders-all',{
     }
 });
 Vue.component('purchase-orders-submit', {
-    el: function() {
+    el: function () {
         return '#purchase-orders-submit';
     },
-    data: function() {
+    data: function () {
         return {
-            vendorType: '',
-            vendor_id: 'Choose an existing vendor',
-            name: '',
-            phone: '',
-            address: '',
-            bank_account_name: '',
-            bank_account_number: '',
-            bank_name: '',
-            canAjax: true
+            ajaxReady: true,
+            ajaxObject: {},
+            response: {},
+            projects: [],
+            projectID: '',
+            purchaseRequests: [],
+            sort: '',
+            order: '',
+            urgent: '',
+            searchTerm: '',
+            selectedPRs: []
         };
     },
     computed: {
-        readyStep3: function () {
-            return (this.vendor_id !== 'Choose an existing vendor' || this.name.length > 0 && this.phone.length > 0 && this.address.length > 0 && this.bank_account_name.length > 0 && this.bank_account_number.length > 0 && this.bank_name.length > 0);
+        hasPurchaseRequests: function() {
+            return ! _.isEmpty(this.purchaseRequests);
         }
     },
     methods: {
-        selectVendor: function (type) {
-            this.vendor_id = 'Choose an existing vendor';
-            this.name = '';
-            this.phone = '';
-            this.address = '';
-            this.bank_account_name = '';
-            this.bank_account_number = '';
-            this.bank_name = '';
-            this.vendorType = type;
-        },
-        removeLineItem: function (lineItemId) {
-            console.log('hehehe');
+        fetchPurchaseRequests: function (projectID, sort, order, page, search) {
             var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/remove_line_item/' + lineItemId,
-                    method: 'POST',
-                    data: {},
-                    success: function (data) {
-                        console.log('success');
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(error);
-                        self.canAjax = true;
-                    }
-                });
+
+            sort = sort || 'number';
+            order = order || 'asc';
+            search = search || '';
+
+            var url = '/api/purchase_requests?' +
+                'state=open' +
+                '&quantity=1+' +
+                '&project_id=' + projectID +
+                '&sort=' + sort +
+                '&order=' + order +
+                '&per_page=3' +
+                '&search=' + search;
+
+            if(page) url += '&page=' + page;
+            
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
+
+                    // Pull flags from response (better than parsing url)
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+                    self.urgent = response.data.query_parameters.urgent;
+
+                    self.ajaxReady = true;
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests(this.projectID, this.sort, newOrder);
+            } else {
+                this.fetchPurchaseRequests(this.projectID, sort, 'asc');
             }
+        },
+        searchPurchaseRequests: function() {
+            var self = this;
+
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+
+            self.fetchPurchaseRequests(self.projectID, self.sort, self.order, 1, self.searchTerm);
+        },
+        clearSearch: function() {
+            this.searchTerm = '';
+            this.searchPurchaseRequests();
+        },
+        selectPR: function(purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.selectedPRs = _.reject(this.selectedPRs, purchaseRequest) : this.selectedPRs.push(purchaseRequest) ;
+        },
+        alreadySelectedPR: function(purchaseRequest) {
+            return _.find(this.selectedPRs, function(pr) {
+                return pr.id === purchaseRequest.id;
+            });
         }
+    },
+    events: {
+        'go-to-page': function (page) {
+            this.fetchPurchaseRequests(this.projectID, this.sort, 'asc', page);
+        }
+    },
+    ready: function () {
+        this.$watch('projectID', function (val) {
+            if (val)this.fetchPurchaseRequests(val);
+        });
     }
 });
 Vue.component('purchase-requests-all', {
@@ -688,7 +736,6 @@ Vue.component('purchase-requests-all', {
         return {
             response: {},
             purchaseRequests: [],
-            projects: [],
             order: '',
             urgent: '',
             state: '',
@@ -852,26 +899,6 @@ Vue.component('purchase-requests-all', {
                 }));
             }
         },
-        getProjects: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/user/projects',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.projects = _.map(data, function (project) {
-                        if (project.name) {
-                            project.value = project.id;
-                            project.label = strCapitalize(project.name);
-                            return project;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        },
         removeFilter: function (type) {
             var queryObj = {
                 page: 1
@@ -893,11 +920,17 @@ Vue.component('purchase-requests-all', {
 
             // Hide dropdown
             this.showFiltersDropdown = false;
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.fetchPurchaseRequests(updateQueryString(queryObj));
         }
     },
     ready: function () {
-        this.getProjects();
-
         // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
 
@@ -1038,44 +1071,6 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -1192,6 +1187,44 @@ Vue.component('team-single-user', {
         var self = this;
     }
 });
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
 Vue.component('settings-company', {
     name: 'settingsCompany',
     template: '',

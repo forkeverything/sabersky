@@ -55,72 +55,7 @@
                 <div class="has-purchase-requests" v-if="response.total > 0">
                     <div class="pr-bag table-responsive">
                         <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
-                            <thead>
-                            <tr>
-                                <th class="clickable"
-                                @click="changeSort('number')"
-                                :class="{
-                                            'current_asc': sort === 'number' && order === 'asc',
-                                            'current_desc': sort === 'number' && order === 'desc'
-                                        }"
-                                >
-                                PR
-                                </th>
-                                <th class="clickable"
-                                @click="changeSort('project_name')"
-                                :class="{
-                                            'current_asc': sort === 'project_name' && order === 'asc',
-                                            'current_desc': sort === 'project_name' && order === 'desc'
-                                        }"
-                                >
-                                Project
-                                </th>
-                                <th class="clickable heading-center"
-                                @click="changeSort('quantity')"
-                                :class="{
-                                            'current_asc': sort === 'quantity' && order === 'asc',
-                                            'current_desc': sort === 'quantity' && order === 'desc'
-                                        }"
-                                >
-                                Qty
-                                </th>
-                                <th class="clickable"
-                                @click="changeSort('item_name')"
-                                :class="{
-                                            'current_asc': sort === 'item_name' && order === 'asc',
-                                            'current_desc': sort === 'item_name' && order === 'desc'
-                                        }"
-                                >
-                                Item
-                                </th>
-                                <th class="clickable"
-                                @click="changeSort('due')"
-                                :class="{
-                                            'current_asc': sort === 'due' && order === 'asc',
-                                            'current_desc': sort === 'due' && order === 'desc'
-                                        }"
-                                >
-                                Due</th>
-                                <th class="clickable"
-                                @click="changeSort('created_at')"
-                                :class="{
-                                            'current_asc': sort === 'created_at' && order === 'asc',
-                                            'current_desc': sort === 'created_at' && order === 'desc'
-                                        }"
-                                >
-                                Requested
-                                </th>
-                                <th class="clickable"
-                                @click="changeSort('requester_name')"
-                                :class="{
-                                            'current_asc': sort === 'requester_name' && order === 'asc',
-                                            'current_desc': sort === 'requester_name' && order === 'desc'
-                                        }"
-                                >
-                                By
-                                </th>
-                            </tr>
-                            </thead>
+                            @include('purchase_requests.partials.all.table-head')
                             <tbody>
                             <template v-for="purchaseRequest in purchaseRequests">
                                 <tr class="row-single-pr">
@@ -174,7 +109,7 @@
                 <div class="no-purchase-requests empty-stage" v-else>
                     <i class="fa fa-shopping-basket"></i>
                     <h3>Could not find any Purchase Requests</h3>
-                    <p>Try changing filters or create a new request</p>
+                    <p>Try changing filters or <a class="dotted clickable" @click="removeAllFilters">removing all</a> filters to see more requests.</p>
                 </div>
 
             </div>

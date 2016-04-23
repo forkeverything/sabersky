@@ -3,7 +3,7 @@
   border-color: $grey;
   @include box-shadow(none);
 
-  &:focus {
+  &:focus, &.active {
     border-color: $blue;
     outline: 0;
     @include box-shadow(none);

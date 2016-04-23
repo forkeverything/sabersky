@@ -64,6 +64,7 @@ class PurchaseRequestController extends Controller
             $due = $request->query('due');
             $requested = $request->query('requested');
             $userID = $request->query('user_id');
+            $search = $request->query('search');
             $sort = $request->query('sort');
             $order = $request->query('order');
             $urgent = $request->query('urgent');
@@ -79,6 +80,7 @@ class PurchaseRequestController extends Controller
                                                   ->filterDateField('due', $due)
                                                   ->filterDateField('purchase_requests.created_at', $requested)
                                                   ->byUser($userID)
+                                                  ->searchFor($search)
                                                   ->onlyUrgent($urgent)
                                                   ->sortOn($sort, $order)
                                                   ->with(['item.photos', 'project', 'user'])

@@ -92,7 +92,8 @@ Vue.component('paginator', {
             return pagesArray;
         },
         goToPage: function (page) {
-            if (0 < page && page <= this.lastPage) this.reqFunction(updateQueryString('page', page));
+            this.$dispatch('go-to-page', page);
+            if (0 < page && page <= this.lastPage && typeof(this.reqFunction) == 'function') this.reqFunction(updateQueryString('page', page));
         }
     },
     events: {

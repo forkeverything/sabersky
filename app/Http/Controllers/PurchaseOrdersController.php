@@ -25,7 +25,6 @@ class PurchaseOrdersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->existingPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first();
         /**
          * TODO :: Find a better way to persist PO when adding Line Items
          * to Purchase Orders - maybe through front-end data instead
@@ -41,6 +40,9 @@ class PurchaseOrdersController extends Controller
      */
     public function getAll()
     {
+        $breadcrumbs = [
+            ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '#'],
+        ];
         return view('purchase_orders.all');
     }
 
@@ -68,7 +70,11 @@ class PurchaseOrdersController extends Controller
     public function getSubmitForm()
     {
         if (Gate::allows('po_submit')) {
-            return view('purchase_orders.submit', ['existingPO' => $this->existingPO]);
+            $breadcrumbs = [
+                ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
+                ['Submit', '#']
+            ];
+            return view('purchase_orders.submit', ['existingPO' => $this->existingPO, 'breadcrumbs' => $breadcrumbs]);
         }
         return redirect(route('showAllPurchaseOrders'));
     }

@@ -1,74 +1,35 @@
 #purchase-orders-submit {
-  section {
+  .step {
     margin: 0 0 30px;
 
     h5 {
-      font-size: 18px;
-      margin: 0 0 30px;
+      margin: 0 0 15px;
     }
-  }
 
-  .button-select-vendor-type {
-    margin-bottom: 30px;
+    &.purchase_requests {
+      .pr-controls{
+        display: flex;
+        margin: 0 -10px 0 0;
+        flex-wrap: wrap;
 
-    button {
-      &.active {
-        background: $dark-yellow;
-        color: #fff;
+        .form-pr-search {
+          flex: 1 1 400px;
+          margin: 0 10px 10px 0;
+        }
+
+        .api-paginator {
+          margin: 0 10px 10px 0;
+          ul {
+            li {
+              min-width: 35px;
+            }
+          }
+        }
       }
 
-      &:hover, &:active, &:focus {
-        outline: 0;
+      .table-purchase-requests-po-submit {
+        margin: 0 0 15px 0;
       }
-    }
-  }
-
-  .button-add-line-item {
-    margin: 0 0 15px;
-  }
-
-  .po-selected-info {
-    background: #F2F2F2;
-    padding: 15px;
-    margin: 0 0 30px;
-
-    hr {
-      border-color: $border-dark;
-      margin: 15px 0;
-    }
-
-    .header {
-      display:  flex;
-      justify-content: space-between;
-      align-items: center;
-      .project-name {
-        font-weight: bold;
-        font-size: 26px;
-      }
-    }
-  }
-
-  .po-order-total {
-    font-weight: bold;
-    font-size: 16px;
-    display: inline-block;
-    text-align: right;
-    border-bottom: 1px solid #000;
-    margin: 0 0 30px;
-    float: right;
-
-    .border {
-      border-bottom: 1px solid #000;
-      margin: 0 0 10px;
-    }
-  }
-
-  .line-item-remove {
-    background: initial;
-    font-size: 24px;
-
-    &:hover {
-      color: $red;
     }
   }
 }

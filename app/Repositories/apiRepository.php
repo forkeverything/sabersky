@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -31,6 +32,14 @@ abstract class apiRepository
      * @var
      */
     protected $sortableFields = [];
+
+    /**
+     * Model fields that we can perform searches on, Accepts
+     *  a string to search relationship table fields:
+     * 'parent_table_name.child_table_name.child_table_column'
+     * @var array
+     */
+    protected $searchableFields = [];
 
     protected $queryParameters;
 
@@ -79,9 +88,9 @@ abstract class apiRepository
      */
     public function sortOn($sort = null, $order = null)
     {
-            $this->{'order'} = ($order === 'desc') ? 'desc' : 'asc';
-            $this->{'sort'} =  in_array($sort, $this->sortableFields) ? $sort : $this->sortableFields[0];
-            $this->query->orderBy($this->sort, $this->order);
+        $this->{'order'} = ($order === 'desc') ? 'desc' : 'asc';
+        $this->{'sort'} = in_array($sort, $this->sortableFields) ? $sort : $this->sortableFields[0];
+        $this->query->orderBy($this->sort, $this->order);
         return $this;
     }
 
@@ -94,7 +103,7 @@ abstract class apiRepository
     public function with()
     {
         $arg = func_get_args()[0];
-        if(is_string($arg) || is_array($arg)) $this->query->with($arg);
+        if (is_string($arg) || is_array($arg)) $this->query->with($arg);
         return $this;
     }
 
@@ -109,11 +118,11 @@ abstract class apiRepository
     protected function addPropertiesToResults($object)
     {
         // Whether our results are paginated or just a collection (ie. using get())
-        if($object instanceof LengthAwarePaginator || $object instanceof  Collection) {
+        if ($object instanceof LengthAwarePaginator || $object instanceof Collection) {
             // Transfer object properties onto it
             foreach (get_object_vars($this) as $key => $value) {
-                if (!($value instanceof LengthAwarePaginator) && ! ($value instanceof Builder)) {
-                    if($key !== 'sortableFields' && $key !== 'queryParameters') $this->queryParameters[$key] = $value;
+                if (!($value instanceof LengthAwarePaginator) && !($value instanceof Builder)) {
+                    if ($key !== 'sortableFields' && $key !== 'searchableFields' && $key !== 'queryParameters') $this->queryParameters[$key] = $value;
                 }
             }
             $object['query_parameters'] = $this->queryParameters;
@@ -130,7 +139,6 @@ abstract class apiRepository
      */
     public function paginate($itemsPerPage = 8)
     {
-        $itemsPerPage = ($itemsPerPage == 8 || $itemsPerPage == 16 || $itemsPerPage == 32) ? $itemsPerPage : 8;
         // Set paginated property to hold our paginated results
         $paginatedObject = $this->{'paginated'} = $this->query->paginate($itemsPerPage);
         // add our custom properties
@@ -178,7 +186,7 @@ abstract class apiRepository
     public function filterIntegerField($column, $range)
     {
         // Create property dynamically with {} !
-        $rangeArray = $range ? $this->{$column.'_filter_integer'} = explode(' ', $range) : null ;
+        $rangeArray = $range ? $this->{$column . '_filter_integer'} = explode(' ', $range) : null;
         $this->queryColumnRange($column, $rangeArray);
         return $this;
     }
@@ -191,10 +199,10 @@ abstract class apiRepository
      */
     public function filterDateField($column, $range)
     {
-        $rangeArray = $range ? $this->{$column . '_filter_date'} = explode(' ', $range) : null ;
+        $rangeArray = $range ? $this->{$column . '_filter_date'} = explode(' ', $range) : null;
 
         // If max value is a DATE - let's add another day so it counts the FULL day
-        if($rangeArray[1]) $rangeArray[1] = Carbon::createFromFormat('Y-m-d', $rangeArray[1])->addDay(1);
+        if ($rangeArray[1]) $rangeArray[1] = Carbon::createFromFormat('Y-m-d', $rangeArray[1])->addDay(1);
 
         $this->queryColumnRange($column, $rangeArray);
 
@@ -211,18 +219,71 @@ abstract class apiRepository
      */
     protected function queryColumnRange($column, $rangeArray)
     {
-        if($rangeArray && count($rangeArray) > 1) {
+        if ($rangeArray && count($rangeArray) > 1) {
             $min = $rangeArray[0] ?: null;
             $max = $rangeArray[1] ?: null;
-            if($min && $max) {
+            if ($min && $max) {
                 $this->query->whereBetween($column, [$min, $max]);
-            } else if ($min && ! $max) {
+            } else if ($min && !$max) {
                 $this->query->where($column, '>=', $min);
             } else if (!$min && $max) {
                 $this->query->where($column, '<=', $max);
             }
         }
+    }
 
+
+    /**
+     * Search function that searches a target table's fields
+     * as well as any directly related tables
+     *
+     * @param $term
+     * @return $this
+     */
+    public function searchFor($term)
+    {
+        if ($term) {
+            $this->{'search'} = $term;
+            foreach ($this->searchableFields as $key => $field) {
+                // Break up the field
+                $fieldsArray = explode('.', $field);
+                // are we dealing with a search on a relationship table?
+                if (count($fieldsArray) > 1) {
+                    // Yes - check if it's the first the first field
+                    if ($key === 0) {
+                        // Use where
+                        $this->query->whereExists(function ($q) use ($fieldsArray, $term) {
+                            $q->select(DB::raw(1))
+                              ->from(($fieldsArray[1]))
+                              ->whereRaw($fieldsArray[0] . '.' . str_singular($fieldsArray[1]) . '_id = ' . $fieldsArray[1] . '.id')
+                              ->where($fieldsArray[2], 'LIKE', '%' . $term . '%');
+                        });
+                    } else {
+                        // If on the relationship table
+                        $this->query->orWhereExists(function ($q) use ($fieldsArray, $term) {
+                            // We find at least 1 entry
+                            $q->select(DB::raw(1))
+                                // from relationship table
+                              ->from(($fieldsArray[1]))
+                                // Only interested in related rows
+                              ->whereRaw($fieldsArray[0] . '.' . str_singular($fieldsArray[1]) . '_id = ' . $fieldsArray[1] . '.id')
+                                // Our search term
+                              ->where($fieldsArray[2], 'LIKE', '%' . $term . '%');
+                        });
+                    }
+                } else {
+                    // We're searching our direct table
+                    if ($key === 0) {
+                        // Use where
+                        $this->query->where($fieldsArray[0], 'LIKE', '%' . $term . '%');
+                    } else {
+                        $this->query->orWhere($fieldsArray[0], 'LIKE', '%' . $term . '%');
+                    }
+
+                }
+            }
+        }
+        return $this;
     }
 
 

@@ -7,7 +7,6 @@ Vue.component('purchase-requests-all', {
         return {
             response: {},
             purchaseRequests: [],
-            projects: [],
             order: '',
             urgent: '',
             state: '',
@@ -171,26 +170,6 @@ Vue.component('purchase-requests-all', {
                 }));
             }
         },
-        getProjects: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/user/projects',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.projects = _.map(data, function (project) {
-                        if (project.name) {
-                            project.value = project.id;
-                            project.label = strCapitalize(project.name);
-                            return project;
-                        }
-                    });
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        },
         removeFilter: function (type) {
             var queryObj = {
                 page: 1
@@ -212,11 +191,17 @@ Vue.component('purchase-requests-all', {
 
             // Hide dropdown
             this.showFiltersDropdown = false;
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.fetchPurchaseRequests(updateQueryString(queryObj));
         }
     },
     ready: function () {
-        this.getProjects();
-
         // If exists
         this.fetchPurchaseRequests(this.setLoadQuery());
 

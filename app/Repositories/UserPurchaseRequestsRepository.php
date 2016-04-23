@@ -39,6 +39,17 @@ class UserPurchaseRequestsRepository extends apiRepository
     ];
 
     /**
+     * Searchable fields for a PR
+     * @var array
+     */
+    protected $searchableFields = [
+        'number',
+        'purchase_requests.items.brand',
+        'purchase_requests.items.name',
+        'purchase_requests.users.name'
+    ];
+
+    /**
      * Finds relevant Purchase Requests for the projects that the
      * User is a part of. We join with relevant tables and then
      * select the columns for info, matching & sorting(name)
