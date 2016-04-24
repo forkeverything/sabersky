@@ -7,6 +7,8 @@ use App\Http\Requests\StartProjectRequest;
 use App\Role;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Company
@@ -35,6 +37,46 @@ class Company extends Model
         'description',
         'currency'
     ];
+
+    protected $appends = [
+        'connection'
+    ];
+
+    public function getConnectionAttribute()
+    {
+        if (Auth::check()) {
+            $userCompany = Auth::user()->company;
+
+            $verified = DB::table('vendors')->select(DB::raw(1))
+                ->where('base_company_id', $userCompany->id)
+                ->where('linked_company_id', $this->id)
+                ->where('verified', 1)
+                ->get();
+
+            if($verified) return 'verified';
+
+            $pending = DB::table('vendors')->select(DB::raw(1))
+                         ->where('base_company_id', $userCompany->id)
+                         ->where('linked_company_id', $this->id)
+                         ->where('verified', 0)
+                         ->get();
+
+            if($pending) return 'pending';
+
+        }
+        return 'Can\'t determine connection without logged User Company';
+    }
+
+
+    /**
+     * A Company can have many records of addresses
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'owner');
+    }
 
 
     /**
@@ -117,12 +159,6 @@ class Company extends Model
         // Established Relationship (allows us to create Items w/o PR)
         return $this->hasMany(Item::class);
 
-    }
-
-
-    public function vendors()
-    {
-        return $this->hasMany(Vendor::class, 'buyer_company_id');
     }
 
     public function purchaseOrders()
@@ -218,37 +254,59 @@ class Company extends Model
         return $company;
     }
 
-    // For company connections
+    /**
+     * A Company can have many Vendor models.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class, 'base_company_id');
+    }
+
 
     /**
-     * Relationship if this Company made the connection
+     * Companies that have linked their Vendor model to this
+     * Company. We will also only retrieve the requests
+     * that have been verified.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return $this
      */
-    public function initializedConnects()
+    public function customers()
     {
-        return $this->belongsToMany(Company::class, 'connects', 'company_id', 'connect_id');
+        return $this->belongsToMany(Company::class, 'vendors', 'linked_company_id', 'base_company_id')
+            ->wherePivot('verified' , '=', 1)
+            ->withPivot('verified');
     }
 
     /**
-     * Relationship if target Company made the connection
+     * Returns the Companies that this Company's Vendor models
+     * are linked to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return $this
      */
-    public function invitedConnects()
+    public function linkedAsVendorCompanies()
     {
-        return $this->belongsToMany(Company::class, 'connects', 'connect_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'vendors', 'base_company_id', 'linked_company_id')
+                    ->wherePivot('verified' , '=', 1)
+                    ->withPivot('verified');
     }
 
     /**
-     * Accessor to see if the relationship has been loaded and loads
-     * it if it hasn't. Usually this would be a Eloquent relation
-     * but instead we are including our inverted relationship.
+     * Connects are both: Companies that our Vendors are linked
+     * to, as well as the Companies that have us linked to a
+     * Vendor model.
      *
      * @return mixed
      */
     public function getConnectsAttribute()
     {
+        /*
+        Accessor to see if the relationship has been loaded and loads
+        it if it hasn't. Usually this would be a Eloquent relation
+        but instead we are including our inverted relationship.
+         */
+
         // If we haven't loaded our connects - load it up
         if( ! array_key_exists('connects', $this->relations)) $this->loadConnects();
         // And return it
@@ -271,7 +329,6 @@ class Company extends Model
         }
     }
 
-
     /**
      * This function just merges the 2 collections together using the
      * merge() method on the collections. We merge because we need
@@ -281,51 +338,7 @@ class Company extends Model
      */
     protected function mergeConnects()
     {
-        return $this->initializedConnects->merge($this->invitedConnects);
-    }
-
-    /**
-     * Adds a Company as a connection
-     *
-     * @param Company $company
-     * @return bool
-     */
-    public function addConnect(Company $company)
-    {
-        $this->initializedConnects()->attach($company);
-        return $this->save();
-    }
-
-    /**
-     * Vendor can have many Bank Accounts
-     * on record
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function bankAccounts()
-    {
-        return $this->hasMany(BankAccount::class);
-    }
-
-
-    /**
-     * Vendor can have many addresses on record
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function addresses()
-    {
-        return $this->hasMany(Address::class);
-    }
-
-    protected function linkedVendors()
-    {
-        return $this->hasMany(Vendor::class, 'seller_company_id');
-    }
-
-    public function customers()
-    {
-        return $this->belongsToMany(Company::class, 'vendors', 'seller_company_id', 'buyer_company_id');
+        return $this->customers->merge($this->linkedAsVendorCompanies);
     }
 
 

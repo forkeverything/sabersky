@@ -166,8 +166,9 @@ return [
         /*
          * Custom Providers
          */
-        \App\Providers\CompanyServiceProvider::class,
+        App\Providers\CompanyServiceProvider::class,
         App\Providers\PurchasingServiceProvider::class,
+        App\Providers\AddressServiceProvider::class
 
 
     ],

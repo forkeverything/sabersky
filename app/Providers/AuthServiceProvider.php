@@ -11,11 +11,13 @@ use App\Policies\PurchaseOrderPolicy;
 use App\Policies\PurchaseRequestPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
+use App\Policies\VendorPolicy;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
 use App\Role;
 use App\User;
+use App\Vendor;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Project::class => ProjectPolicy::class,
         User::class => UserPolicy::class,
         Role::class => RolePolicy::class,
-        PurchaseRequest::class => PurchaseRequestPolicy::class
+        PurchaseRequest::class => PurchaseRequestPolicy::class,
+        Vendor::class => VendorPolicy::class
     ];
 
     /**

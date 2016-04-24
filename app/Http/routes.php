@@ -49,6 +49,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/company/currency', 'CompanyController@getCurrency');
     Route::put('/api/company', 'CompanyController@putUpdate');
     Route::get('/api/company/profile/{term}', 'CompanyController@getPublicProfile');
+    Route::get('/api/company/search/{query}', 'CompanyController@apiGetSearchCompany');
 
     /**
      * Project - Main
@@ -160,5 +161,12 @@ Route::group(['middleware' => 'web'], function () {
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@getAll']);
+    Route::get('/vendors/add', ['as' => 'addVendor', 'uses' => 'VendorsController@getAddForm']);
+    Route::post('/vendors/link', 'VendorsController@postLinkCompanyToVendor');
+    Route::post('/vendors/add', 'VendorsController@postAddCustomVendor');
+    Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
+    Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
+
+    
     
 });

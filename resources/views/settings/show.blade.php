@@ -11,6 +11,7 @@
                     have
                     been automatically set for you.</p>
             </div>
+
             <div class="custom-tabs">
 
                 <ul class="nav nav-tabs" role="tablist" v-autofit-tabs>

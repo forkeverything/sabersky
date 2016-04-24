@@ -6250,6 +6250,24 @@ button.close {
     border-color: #3498DB;
     outline: 0;
     box-shadow: none; }
+  .form-control.live-editor {
+    padding: 0;
+    border-radius: 0; }
+
+label.required {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 0 6px 0; }
+  label.required:after {
+    content: "*";
+    text-transform: lowercase;
+    font-size: 1.5em;
+    margin: 0 0 0 2px;
+    color: #E74C3C; }
 
 .shift-label-input {
   margin: 0 0 15px 0;
@@ -6406,6 +6424,32 @@ input[type="text"].not-required:focus + label[placeholder]:before,
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; }
 
+.selectize-control:before {
+  top: 7px;
+  right: 35px;
+  z-indeX: 2;
+  opacity: 0;
+  position: absolute;
+  display: block;
+  color: #93989F;
+  content: "\f1ce";
+  font-family: FontAwesome;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  transition: opacity 0.2s; }
+
+.selectize-control.loading:before {
+  opacity: 0.6; }
+
+.selectize-control .create {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px; }
+
+.selectize-control .selectize-input {
+  border-radius: 3px; }
+  .selectize-control .selectize-input.focus {
+    border-color: #3498DB !important; }
+
 .selectize-control .selectize-input {
   border: 1px solid #D2D2D2 !important;
   box-shadow: none !important; }
@@ -6446,37 +6490,11 @@ input[type="text"].not-required:focus + label[placeholder]:before,
         background: #fff;
         color: #3498DB; }
       .selectize-control .selectize-dropdown .selectize-dropdown-content .option:last-child {
-        border-bottom-right-radius: 4px;
-        border-bottom-left-radius: 4px; }
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px; }
     .selectize-control .selectize-dropdown .selectize-dropdown-content .create.active {
       background: #fff;
       color: #3498DB !important; }
-
-.selectize-control:before {
-  top: 7px;
-  right: 35px;
-  z-indeX: 2;
-  opacity: 0;
-  position: absolute;
-  display: block;
-  color: #93989F;
-  content: "\f1ce";
-  font-family: FontAwesome;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-  transition: opacity 0.2s; }
-
-.selectize-control.loading:before {
-  opacity: 0.6; }
-
-.selectize-control .create {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px; }
-
-.selectize-control .selectize-input {
-  border-radius: 3px; }
-  .selectize-control .selectize-input.focus {
-    border-color: #3498DB !important; }
 
 #registration-popup-overlay {
   top: 0;
@@ -6726,6 +6744,9 @@ input[type="text"].not-required:focus + label[placeholder]:before,
           padding: 0 10px 0 0; }
         #projects-all .page-body .project-list .project-single .right .project-details tr td {
           padding: 0 0 0 10px; }
+
+#project-start .page-body {
+  margin: 0 0 15px; }
 
 #project-start .bottom {
   text-align: right;
@@ -7356,6 +7377,43 @@ input[type="text"].not-required:focus + label[placeholder]:before,
 #add-line-item section {
   margin: 0 0 30px; }
 
+#vendor-add-search .vendor-connection {
+  margin: 0 0 0 10px; }
+
+#vendor-add-search .company-single-option.disabled {
+  color: #93989F !important;
+  background: #fff !important;
+  cursor: not-allowed; }
+
+#vendor-add-search .company-selected label {
+  margin: 0 0 5px; }
+
+#vendor-add-search .company-selected .name {
+  font-weight: bold;
+  display: block;
+  margin: 0 0 10px 0; }
+
+#vendor-add-search .company-selected.disabled {
+  color: #93989F; }
+
+#vendor-single-custom .description .no-description {
+  font-style: italic; }
+
+#vendor-single-custom .addresses .btn-add-address {
+  display: block;
+  margin: 0 0 15px 0; }
+
+.vendor-connection {
+  font-style: italic; }
+  .vendor-connection.verified {
+    color: #27AE60; }
+    .vendor-connection.verified:before {
+      font-family: FontAwesome;
+      content: "\f00c";
+      margin: 0 5px 0 0; }
+  .vendor-connection.pending {
+    color: #FFA339; }
+
 #team-all .table-employees tbody td:nth-child(2) {
   text-transform: capitalize; }
 
@@ -7892,7 +7950,7 @@ input[type="text"].not-required:focus + label[placeholder]:before,
     background: #fff;
     border: 1px solid #ebeef0;
     border-top: 0;
-    padding: 20px 15px; }
+    padding: 30px; }
 
 @media screen and (min-width: 998px) {
   .button-show-side-menu {
@@ -8089,7 +8147,22 @@ input[type="text"].not-required:focus + label[placeholder]:before,
   background: #9CFFA8;
   color: #1C6F3D; }
 
-.modal-item-add {
+.modal-item-add .form-item-add .brand-name-wrap {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .modal-item-add .form-item-add .brand-name-wrap .brand-selection {
+    margin: 0 15px 0 0;
+    min-width: 150px;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+  .modal-item-add .form-item-add .brand-name-wrap .enter-name {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+
+.modal-form {
   position: fixed;
   top: 0;
   left: 0;
@@ -8106,58 +8179,30 @@ input[type="text"].not-required:focus + label[placeholder]:before,
   -ms-flex-align: center;
   align-items: center;
   z-index: 10; }
-  .modal-item-add .form-item-add {
+  .modal-form .main-form {
     background: #fff;
     padding: 30px 45px;
     max-height: 100%;
     overflow: scroll;
     position: relative; }
     @media screen and (min-width: 768px) {
-      .modal-item-add .form-item-add {
+      .modal-form .main-form {
         width: 500px; } }
     @media screen and (min-width: 998px) {
-      .modal-item-add .form-item-add {
+      .modal-form .main-form {
         width: 750px; } }
     @media screen and (min-width: 1200px) {
-      .modal-item-add .form-item-add {
+      .modal-form .main-form {
         width: 850px; } }
-    .modal-item-add .form-item-add .button-hide-add-item-modal {
+    .modal-form .main-form .button-hide-modal {
       position: absolute;
       top: 5px;
       right: 5px;
       background: transparent;
       font-size: 2em;
       color: #D2D2D2; }
-      .modal-item-add .form-item-add .button-hide-add-item-modal:focus, .modal-item-add .form-item-add .button-hide-add-item-modal:hover, .modal-item-add .form-item-add .button-hide-add-item-modal:active {
+      .modal-form .main-form .button-hide-modal:focus, .modal-form .main-form .button-hide-modal:hover, .modal-form .main-form .button-hide-modal:active {
         box-shadow: none; }
-    .modal-item-add .form-item-add label.required {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center;
-      margin: 0 0 6px 0; }
-      .modal-item-add .form-item-add label.required:after {
-        content: "*";
-        text-transform: lowercase;
-        font-size: 1.5em;
-        margin: 0 0 0 2px;
-        color: #E74C3C; }
-    .modal-item-add .form-item-add .brand-name-wrap {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex; }
-      .modal-item-add .form-item-add .brand-name-wrap .brand-selection {
-        margin: 0 15px 0 0;
-        min-width: 150px;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1; }
-      .modal-item-add .form-item-add .brand-name-wrap .enter-name {
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1; }
 
 .dropzone-errors {
   border: 1px solid #E74C3C;
@@ -8406,6 +8451,28 @@ input[type="text"].not-required:focus + label[placeholder]:before,
       color: #3498DB; }
     .active-filters .button-remove-filter .field {
       font-weight: bold; }
+
+.loading-header:after {
+  margin: 0 0 0 10px;
+  opacity: 1;
+  position: absolute;
+  font-family: FontAwesome; }
+
+.loading-header.loading:after {
+  color: #93989F;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  transition: opacity 0.2s;
+  content: "\f1ce";
+  opacity: 0.6; }
+
+.loading-header.success:after {
+  content: "\f00c";
+  color: #27AE60; }
+
+.loading-header.error:after {
+  content: "\f00d";
+  color: #C0392B; }
 
 body {
   font-family: 'helvetica';

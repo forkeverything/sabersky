@@ -10,9 +10,9 @@ Vue.component('add-item-modal', {
     '               >' +
     '               Add New Item' +
     '</button>'+
-    '<div class="modal-item-add" v-show="visible" @click="hideModal">' +
-    '<form class="form-item-add" v-show="loaded" @click.stop="">' +
-    '<button type="button" @click="hideModal" class="btn button-hide-add-item-modal"><i class="fa fa-close"></i></button>' +
+    '<div class="modal-item-add modal-form" v-show="visible" @click="hideModal">' +
+    '<form class="form-item-add main-form" v-show="loaded" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '<form-errors></form-errors>' +
     '<h3>Add New Item</h3>' +
     '   <div class="form-group">' +

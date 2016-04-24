@@ -2,6 +2,14 @@
 
 use Vinkla\Hashids\Facades\Hashids;
 
+/**
+ * Helper function that returns an instance of the
+ * Flash class used to store flash messages in
+ * the session for the client's next req.
+ * 
+ * @param null $message
+ * @return \Illuminate\Foundation\Application|mixed
+ */
 function flash($message = null)
 {
     $flash = app(App\Utilities\Flash::class);

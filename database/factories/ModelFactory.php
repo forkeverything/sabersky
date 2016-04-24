@@ -46,13 +46,13 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'description' => $faker->paragraph(5),
         'company_id' => factory(Company::class)->create()->id
     ];
-});1
+});
 
 $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
     return [
         'name' => 'PT.' . $faker->company,
         'description' => $faker->paragraph(3),
-        'buyer_company_id' => factory(Company::class)->create()->id
+        'base_company_id' => factory(Company::class)->create()->id
     ];
 });
 

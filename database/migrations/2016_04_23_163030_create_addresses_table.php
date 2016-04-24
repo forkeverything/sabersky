@@ -23,10 +23,13 @@ class CreateAddressesTable extends Migration
             $table->string('zip');
             $table->string('phone');
 
-            $table->integer('vendor_id')->unsigned()->nullable();
-            $table->foreign('vendor_id')->references('id')->on('vendors');
-            $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->boolean('primary')->default(0);
+
+            // Each can only have 1 primary address
+            $table->unique(['owner_id', 'owner_type', 'primary']);
+
+            $table->integer('owner_id')->unsigned();
+            $table->string('owner_type');
         });
     }
 

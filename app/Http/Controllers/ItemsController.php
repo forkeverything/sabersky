@@ -143,6 +143,7 @@ class ItemsController extends Controller
     /**
      * Receives a Query and performs a DB search on:
      * sku, brand, and name - returns JSON
+     * 
      * @param $query
      * @return mixed
      */

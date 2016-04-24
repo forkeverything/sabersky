@@ -99,4 +99,26 @@ class CompanyController extends Controller
     {
         return Company::fetchPublicProfile($term);
     }
+
+
+    /**
+     * Performs a DB look-up for a Company
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchCompany($query)
+    {
+        if ($query) {
+            $companies = Company::where('id', '!=', Auth::user()->company->id)
+            ->where('name', 'LIKE', '%' . $query . '%')
+            ->with('registeredAddresses');
+            /*
+             * TODO ::: Add ability for more search parameters: address, industry etc.
+             */
+            return $companies->take(10)->get();
+        }
+        return response("No search term given", 500);
+    }
+
 }

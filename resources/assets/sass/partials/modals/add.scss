@@ -1,4 +1,6 @@
-.modal-item-add {
+@import "add/item";
+
+.modal-form {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +12,7 @@
   align-items: center;
   z-index: $z-item-add-modal;
 
-  .form-item-add {
+  .main-form {
     background: #fff;
     padding: 30px 45px;
     max-height: 100%;
@@ -29,7 +31,7 @@
       width: 850px;
     }
 
-    .button-hide-add-item-modal {
+    .button-hide-modal {
       position: absolute;
       top: 5px;
       right: 5px;
@@ -41,34 +43,6 @@
         @include box-shadow(none);
       }
     }
-
-    label.required {
-      display: flex;
-      align-items: center;
-      margin: 0 0 6px 0;
-
-      &:after {
-        content: "*";
-        text-transform: lowercase;
-        font-size: 1.5em;
-        margin: 0 0 0 2px;
-        color: $red;
-      }
-    }
-
-    .brand-name-wrap {
-      display: flex;
-
-      .brand-selection {
-        margin: 0 15px 0 0;
-        min-width: 150px;
-        flex: 1;
-      }
-
-      .enter-name {
-        flex: 1;
-      }
-
-    }
   }
 }
+

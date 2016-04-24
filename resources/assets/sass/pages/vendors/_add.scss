@@ -1,0 +1,33 @@
+#vendor-add-search {
+
+  .vendor-connection {
+    margin: 0 0 0 10px;
+  }
+
+  .company-single-option {
+
+    &.disabled {
+      color: $text-muted!important;
+      background: #fff!important;
+      cursor: not-allowed;
+    }
+  }
+
+  .company-selected {
+
+    label {
+      margin: 0 0 5px;
+    }
+
+    .name {
+      font-weight: bold;
+      display: block;
+      margin: 0 0 10px 0;
+    }
+
+    &.disabled {
+      color: $text-muted;
+    }
+
+  }
+}

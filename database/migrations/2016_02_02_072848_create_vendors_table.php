@@ -17,16 +17,16 @@ class CreateVendorsTable extends Migration
             $table->timestamps();
 
             $table->string('name');
-            $table->string('description');
+            $table->text('description')->nullable();
 
             // The Company that this Vendor record belongs to
-            $table->integer('buyer_company_id')->unsigned();
-            $table->foreign('buyer_company_id')->references('id')->on('companies');
+            $table->integer('base_company_id')->unsigned();
+            $table->foreign('base_company_id')->references('id')->on('companies');
 
             // If this Vendor profile points to a registered Company
             $table->boolean('verified')->default(0);
-            $table->integer('seller_company_id')->unsigned()->nullable();
-            $table->foreign('seller_company_id')->references('id')->on('companies');
+            $table->integer('linked_company_id')->unsigned()->nullable();
+            $table->foreign('linked_company_id')->references('id')->on('companies');
         });
     }
 

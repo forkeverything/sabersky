@@ -23,10 +23,8 @@ class CreateBankAccountsTable extends Migration
             $table->string('swift')->nullable();
 
 
-            $table->integer('vendor_id')->unsigned()->nullable();
+            $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('vendors');
-            $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

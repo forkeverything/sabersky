@@ -1,0 +1,33 @@
+.loading-header {
+
+  &:after {
+    margin: 0 0 0 10px;
+    opacity: 1;
+    position: absolute;
+    font-family: FontAwesome;
+  }
+
+  &.loading {
+    &:after {
+      color: $text-muted;
+      @include animation(spin 2s linear infinite);
+      @include transition(opacity 0.2s);
+      content: "\f1ce";
+      opacity: 0.6;
+    }
+  }
+
+  &.success {
+    &:after {
+      content: "\f00c";
+      color: $dark-green;
+    }
+  }
+
+  &.error {
+    &:after {
+      content: "\f00d";
+      color: $dark-red;
+    }
+  }
+}

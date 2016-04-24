@@ -8,6 +8,26 @@
     outline: 0;
     @include box-shadow(none);
   }
+
+  // Form Controls that edit w/o Form
+  &.live-editor {
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+label.required {
+  display: flex;
+  align-items: center;
+  margin: 0 0 6px 0;
+
+  &:after {
+    content: "*";
+    text-transform: lowercase;
+    font-size: 1.5em;
+    margin: 0 0 0 2px;
+    color: $red;
+  }
 }
 
 .shift-label-input {

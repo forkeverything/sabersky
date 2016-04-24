@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class AddNewVendorRequest extends Request
+class LinkCompanyToVendorRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,6 @@ class AddNewVendorRequest extends Request
      */
     public function authorize()
     {
-        // Only Clients that are allowed to manage Vendors can add new Vendors
         return Gate::allows('vendor_manage');
     }
 
@@ -26,14 +26,15 @@ class AddNewVendorRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required'
+            'linked_company_id' => 'required|unique:vendors,linked_company_id,NULL,id,base_company_id,' . Auth::user()->company->id
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Vendor name cannot be blank'
+            'linked_company_id.required' => 'No Company was selected to be linked',
+            'linked_company_id.unique' => 'Company already linked as a Vendor'
         ];
     }
 }

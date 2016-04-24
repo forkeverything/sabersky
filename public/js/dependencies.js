@@ -591,121 +591,88 @@ Vue.directive('selectoption', {
         });
     }
 });
-Vue.filter('capitalize', function (str) {
-    if(str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('properDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value.replace(/\s/g, "").length > 0) {
-            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
-        }
-        return value;
+Vue.component('add-address-modal', {
+    name: 'addAddressModal',
+    template: '<button type="button"' +
+    '                  class="btn btn-add-address btn-outline-green"' +
+    '                  @click="showModal"' +
+    '                  >' +
+    '                  <i class="fa fa-plus"></i> Address' +
+    '          </button>' +
+    '          <div class="modal-address-add modal-form" v-show="visible" @click="hideModal">' +
+    '               <form class="form-item-add main-form" v-show="loaded" @click.stop="">' +
+    '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '                   <form-errors></form-errors>' +
+    '                   <h3>Add Address</h3>' +
+    '                   <div class="form-group">' +
+    '                       <label class="required">Address</label>' +
+    '                       <input class="form-control" type="text" v-model="address1">' +
+    '                   </div>' +
+    '                   <div class="form-group">' +
+    '                       <label>Address 2</label>' +
+    '                       <input class="form-control" type="text" v-model="address2">' +
+    '                   </div>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '                   <div class="form-group">' +
+    '                       <label class="required">Country</label>' +
+    '                       <input class="form-control" type="text" v-model="country">' +
+    '                   </div>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '                   <div class="form-group">' +
+    '                       <label class="required">State</label>' +
+    '                       <input class="form-control" type="text" v-model="state">' +
+    '                   </div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '                   <div class="form-group">' +
+    '                       <label class="required">Zip</label>' +
+    '                       <input class="form-control" type="text" v-model="zip">' +
+    '                   </div>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '                   <div class="form-group">' +
+    '                       <label class="required">Phone</label>' +
+    '                       <input class="form-control" type="text" v-model="phone">' +
+    '                   </div>' +
+    '</div>' +
+    '</div>' +
+    '               </form>' +
+    '          </div>',
+    data: function() {
+        return {
+            visible: false,
+            loaded: false,
+            address1: '',
+            address2: '',
+            state: '',
+            country: '',
+            zip: '',
+            phone: ''
+        };
     },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        if(val.replace(/\s/g, "").length > 0) {
-            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
-        }
-        return val;
-    }
-});
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
-    }
-    return value;
-});
+    props: ['model-id', 'model-type'],
+    computed: {
 
-Vue.filter('easyDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value) {
-            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
-        }
-        return value;
     },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        return val;
-    }
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val && val.length > limit) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
+    methods: {
+        showModal: function() {
+            this.visible = true;
+        },
+        hideModal: function() {
+            this.visible = false;
         }
     },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        return parseInt(val.replace(/[^0-9.]/g, ""))
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
+    events: {
+
     },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
+    ready: function() {
+        var self = this;
+
+        self.loaded = true;
     }
 });
 Vue.component('add-item-modal', {
@@ -720,9 +687,9 @@ Vue.component('add-item-modal', {
     '               >' +
     '               Add New Item' +
     '</button>'+
-    '<div class="modal-item-add" v-show="visible" @click="hideModal">' +
-    '<form class="form-item-add" v-show="loaded" @click.stop="">' +
-    '<button type="button" @click="hideModal" class="btn button-hide-add-item-modal"><i class="fa fa-close"></i></button>' +
+    '<div class="modal-item-add modal-form" v-show="visible" @click="hideModal">' +
+    '<form class="form-item-add main-form" v-show="loaded" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '<form-errors></form-errors>' +
     '<h3>Add New Item</h3>' +
     '   <div class="form-group">' +
@@ -1741,6 +1708,123 @@ Vue.component('user-projects-selecter', {
                 console.log(response);
             }
         });
+    }
+});
+Vue.filter('capitalize', function (str) {
+    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
+Vue.filter('diffHuman', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
+    }
+});
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+    }
+    return value;
+});
+
+Vue.filter('easyDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value) {
+            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        return val;
+    }
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val && val.length > limit) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        return parseInt(val.replace(/[^0-9.]/g, ""))
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
     }
 });
 Vue.component('date-range-field', {
