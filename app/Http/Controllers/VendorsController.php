@@ -110,6 +110,19 @@ class VendorsController extends Controller
     }
 
     /**
+     * Returns a Vendor model at the given ID
+     * @param Vendor $vendor
+     * @return $this
+     */
+    public function apiGetSingle(Vendor $vendor)
+    {
+        if(Gate::allows('view', $vendor)) {
+            return $vendor->load('addresses');
+        }
+        return response("Not authorized to view that Vendor");
+    }
+
+    /**
      * POST request to update a Vendor's description
      * 
      * @param Vendor $vendor

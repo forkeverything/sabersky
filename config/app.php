@@ -162,6 +162,8 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        Webpatser\Countries\CountriesServiceProvider::class,
+        DougSisk\CountryState\CountryStateServiceProvider::class,
 
         /*
          * Custom Providers
@@ -217,7 +219,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Hashids' => Vinkla\Hashids\Facades\Hashids::class
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
+        'Countries' => Webpatser\Countries\CountriesFacade::class
 
     ],
 

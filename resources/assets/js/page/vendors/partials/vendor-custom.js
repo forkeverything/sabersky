@@ -19,6 +19,6 @@ Vue.component('vendor-add-custom', {
         
     },
     ready: function() {
-        
+
     }
 });

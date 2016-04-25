@@ -7,6 +7,7 @@ Vue.component('vendor-custom', {
         return {
             ajaxReady: true,
             vendorID: '',
+            vendor: {},
             description: '',
             editDescription: false,
             savedDescription: ''
@@ -39,6 +40,7 @@ Vue.component('vendor-custom', {
                 success: function (data) {
                     // success
                     self.savedDescription = 'success';
+                    self.vendor.description = self.description;
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -48,9 +50,22 @@ Vue.component('vendor-custom', {
             });
         }
     },
-    events: {},
+    events: {
+        'address-added': function(address) {
+            this.vendor.addresses.push(address);
+        }
+    },
     ready: function () {
-
-
+        var self = this;
+        $.ajax({
+            url: '/api/vendors/' + self.vendorID,
+            method: 'GET',
+            success: function(data) {
+                self.vendor = data;
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     }
 });

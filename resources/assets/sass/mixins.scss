@@ -26,3 +26,25 @@
   -o-animation: $animation;
   animation: $animation;
 }
+
+@mixin flex-wrap-fix($flex-basis, $max-viewport-width: 2000px, $margin-left: 0, $margin-right: 0) {
+  flex-grow: 1;
+  flex-basis: $flex-basis;
+  max-width: 100%;
+  margin-left: $margin-left;
+  margin-right: $margin-right;
+
+  $multiplier: 1;
+  $current-width: 0px;
+
+  @while $current-width < $max-viewport-width {
+    $current-width: $current-width + $flex-basis;
+    $multiplier: $multiplier + 1;
+    $width-percent: percentage(1/$multiplier);
+    $minus-pixels: $margin-left + $margin-right;
+
+    @media(min-width: $flex-basis * $multiplier) {
+      max-width: calc(#{$width-percent} - #{$minus-pixels});
+    }
+  }
+}

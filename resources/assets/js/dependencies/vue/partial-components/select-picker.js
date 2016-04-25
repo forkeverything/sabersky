@@ -1,18 +1,18 @@
 Vue.component('select-picker', {
-    template:'<select v-model="name" class="themed-select" @change="callChangeFunction">' +
+    template: '<select v-model="name" class="themed-select" @change="callChangeFunction">' +
     ' <option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
     '<option v-if="option && option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
     '</select>',
     name: 'selectpicker',
     props: ['options', 'name', 'function', 'placeholder'],
     methods: {
-        callChangeFunction: function(){
+        callChangeFunction: function () {
             if (this.function && typeof this.function === 'function') {
                 this.function();
             }
         }
     },
-    ready: function() {
+    ready: function () {
 
         // Init our picker
         $(this.$el).selectpicker({
@@ -33,4 +33,4 @@ Vue.component('select-picker', {
             this.name = $(this.$el).selectpicker('val');
         }.bind(this))
     }
-})
+});

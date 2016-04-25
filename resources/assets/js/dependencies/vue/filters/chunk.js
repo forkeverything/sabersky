@@ -1,4 +1,5 @@
 Vue.filter('chunk', function (array, length) {
+    if(! array) return;
     var totalChunks = [];
     var chunkLength = parseInt(length, 10);
 

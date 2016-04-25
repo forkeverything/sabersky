@@ -40,6 +40,19 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/company', 'CompanyController@registerCompany');
     Route::post('/company', ['as' => 'saveCompany', 'uses' => 'CompanyController@saveCompany']);
     Route::get('/desk', ['as' => 'desk', 'uses' => 'PagesController@showDesk']);
+
+    /*
+     * Countries
+     */
+    Route::get('/countries', 'CountriesController@getAll');
+    Route::get('/countries/search/{term}', 'CountriesController@getSearchCountry');
+    Route::get('/countries/{country}/states', 'CountriesController@getStates');
+
+    /*
+     * Address
+     */
+    Route::post('/api/address', 'AddressesController@postAddNew');
+
     
     /*
      * Company
@@ -165,6 +178,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/vendors/link', 'VendorsController@postLinkCompanyToVendor');
     Route::post('/vendors/add', 'VendorsController@postAddCustomVendor');
     Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
+    Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
     Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
 
     

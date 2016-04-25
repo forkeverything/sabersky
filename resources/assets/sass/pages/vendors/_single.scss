@@ -1,6 +1,6 @@
 #vendor-single-custom {
   .description {
-    
+
     .no-description {
       font-style: italic;
     }
@@ -13,5 +13,39 @@
       margin: 0 0 15px 0;
     }
 
+    .addresses-collection {
+
+      .address-row {
+        margin: 0 -10px -20px -10px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .single-address {
+          @include flex-wrap-fix(300px, 2000px, 10px, 10px);
+          margin-bottom: 20px;
+          border: 1px solid $border-light;
+          border-radius: 3px;
+          padding: 10px;
+
+          label, span.block {
+            display: block;
+          }
+
+          label {
+            margin: 0 0 5px 0;
+          }
+
+          .phone {
+            margin: 0 0 10px 0;
+          }
+
+          .address {
+            .address_1 {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
   }
 }

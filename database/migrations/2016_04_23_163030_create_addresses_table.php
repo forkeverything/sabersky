@@ -18,18 +18,18 @@ class CreateAddressesTable extends Migration
 
             $table->string('address_1');
             $table->string('address_2')->nullable();
+            $table->string('city');
             $table->string('state');
-            $table->string('country');
             $table->string('zip');
             $table->string('phone');
 
             $table->boolean('primary')->default(0);
 
-            // Each can only have 1 primary address
-            $table->unique(['owner_id', 'owner_type', 'primary']);
-
             $table->integer('owner_id')->unsigned();
             $table->string('owner_type');
+
+            $table->integer('country_id')->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 

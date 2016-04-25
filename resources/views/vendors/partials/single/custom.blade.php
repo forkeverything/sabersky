@@ -14,35 +14,49 @@
                 >Description</h5>
                 <div class="form-group">
                     <p v-if="description.length > 0" @click="startEditDescription" v-show="! editDescription"
-                    >@{{ description }}</p>
+                    >@{{ vendor.description }}</p>
                     <span v-else class="no-description" @click="startEditDescription" v-show="! editDescription">None -
                     click to write a description</span>
                     <textarea class="autosize description-editor form-control live-editor" v-model="description"
-                              v-show="editDescription" @blur="saveDescription">{{ $vendor->description }}</textarea>
+                              v-show="editDescription" @blur="saveDescription">@{{ vendor.description }}</textarea>
                 </div>
                 @else
                     <h5>Description</h5>
-                    @if($vendor->description)
-                        <p>{{ $vendor->description }}</p>
-                    @else
-                        <span class="no-description">None</span>
-                    @endif
-                    @endcan
+                    <p v-if="vendor.description.length > 0">
+                        @{{ vendor.description }}
+                    </p>
+                    <span v-else class="no-description">None</span>
+                @endcan
             </section>
             <section class="addresses">
                 <h5>Addresses</h5>
                 @can('edit', $vendor)
-                    <add-address-modal :model-id="{{ $vendor->id }}" :model-type="'vendor'"></add-address-modal>
+                <add-address-modal :owner-id="{{ $vendor->id }}" :owner-type="'vendor'"></add-address-modal>
                 @endcan
-                @if($vendor->addresses->first())
-                    <ul class="list-unstyled list-inline">
-                        @foreach($vendor->addresses as $address)
-                            {{ $address }}
-                        @endforeach
-                    </ul>
-                @else
-                    <em>None</em>
-                @endif
+
+
+                <div class="addresses-collection" v-if="vendor.addresses && vendor.addresses.length > 0">
+                        <div class="address-row">
+                            <div class="single-address" v-for="address in vendor.addresses">
+                                <div class="content">
+                                    <div class="phone">
+                                        <label>Phone</label>
+                                        <span class="phone">@{{ address.phone }}</span>
+                                    </div>
+                                    <div class="address">
+                                        <label>Address</label>
+                                        <span class="address_1 block">@{{ address.address_1 }}</span>
+                                        <span class="address_2 block" v-if="address.address_2">@{{ address.address_2 }}</span>
+                                        <span class="city">@{{ address.city }}</span>,
+                                        <span class="state">@{{ address.state }}</span>
+                                        <span class="country block">@{{ address.country }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <em v-else>None</em>
             </section>
         </div>
     </div>

@@ -9,13 +9,18 @@ class Address extends Model
     protected $fillable = [
         'address_1',
         'address_2',
+        'city',
         'state',
-        'country',
+        'country_id',
         'zip',
         'phone',
         'primary',
         'owner_id',
         'owner_type'
+    ];
+
+    protected $appends = [
+        'country'
     ];
 
     /**
@@ -27,6 +32,15 @@ class Address extends Model
     public function owner()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Append the Address's country's name
+     * @return mixed
+     */
+    public function getCountryAttribute()
+    {
+        return Country::find($this->country_id)->name;
     }
     
 }
