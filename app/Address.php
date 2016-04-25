@@ -42,5 +42,31 @@ class Address extends Model
     {
         return Country::find($this->country_id)->name;
     }
-    
+
+    /**
+     * Sets this Address as the primary address for a owner Model
+     * @return bool
+     */
+    public function setAsPrimary()
+    {
+        // Grab all the addresses that belong to the same model
+        $allAddresses = $this->owner->addresses;
+        // unset them
+        foreach ($allAddresses as $address) {
+            $address->unsetPrimary();
+        }
+        // set this one
+        $this->primary = 1;
+        return $this->save();
+    }
+
+    /**
+     * Unsets this address as Primary
+     * @return bool
+     */
+    public function unsetPrimary()
+    {
+        $this->primary = 0;
+        return $this->save();
+    }
 }

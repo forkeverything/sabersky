@@ -27,6 +27,34 @@
           border-radius: 3px;
           padding: 10px;
 
+          &.primary {
+            border-color: $green;
+          }
+
+          .controls {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 10px 0;
+            height: 21px;
+
+            .label-primary {
+              color: $dark-green;
+              background: #fff;
+              font-style: italic;
+              i {
+                margin: 0 5px 0 0;
+              }
+            }
+
+            .remove {
+              color: $text-muted;
+
+              &:hover {
+                color: $red;
+              }
+            }
+          }
+
           label, span.block {
             display: block;
           }

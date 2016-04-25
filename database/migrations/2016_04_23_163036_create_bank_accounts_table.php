@@ -19,6 +19,7 @@ class CreateBankAccountsTable extends Migration
             $table->string('bank_name');
             $table->string('bank_account_name');
             $table->string('bank_account_number');
+            $table->string('bank_phone')->nullable();
             $table->string('bank_address')->nullable();
             $table->string('swift')->nullable();
 

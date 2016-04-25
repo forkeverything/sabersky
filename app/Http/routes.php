@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function () {
      * Address
      */
     Route::post('/api/address', 'AddressesController@postAddNew');
+    Route::put('/api/address/{address}/set_primary', 'AddressesController@putSetPrimary');
+    Route::delete('/api/address/{address}', 'AddressesController@deleteAddress');
 
     
     /*

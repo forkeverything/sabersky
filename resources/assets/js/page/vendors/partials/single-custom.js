@@ -48,6 +48,53 @@ Vue.component('vendor-custom', {
                     self.ajaxReady = true;
                 }
             });
+        },
+        setPrimary: function(address) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address/' + address.id + '/set_primary',
+                method: 'PUT',
+                success: function(data) {
+                   // success
+                    self.vendor.addresses = _.map(self.vendor.addresses, function (vendorAddress) {
+                        if (vendorAddress.id === address.id) {
+                            vendorAddress.primary = 1;
+                        } else {
+                            vendorAddress.primary = 0;
+                        }
+                        return vendorAddress;
+                    });
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        removeAddress: function(address){
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address/' + address.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    flashNotify('success', 'Removed address');
+                    self.vendor.addresses = _.reject(self.vendor.addresses, address);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        addBankAccount: function() {
+
         }
     },
     events: {

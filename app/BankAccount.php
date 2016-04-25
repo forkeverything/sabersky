@@ -16,6 +16,7 @@ class BankAccount extends Model
         'bank_name',
         'bank_account_name',
         'bank_account_number',
+        'bank_phone',
         'bank_address',
         'swift',
         'vendor_id'

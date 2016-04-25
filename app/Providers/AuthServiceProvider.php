@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Address;
 use App\Item;
 use App\LineItem;
 use App\Permission;
+use App\Policies\AddressPolicy;
 use App\Policies\ItemPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\PurchaseOrderPolicy;
@@ -36,7 +38,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Role::class => RolePolicy::class,
         PurchaseRequest::class => PurchaseRequestPolicy::class,
-        Vendor::class => VendorPolicy::class
+        Vendor::class => VendorPolicy::class,
+        Address::class => AddressPolicy::class
     ];
 
     /**

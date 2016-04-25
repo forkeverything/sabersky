@@ -26,7 +26,7 @@
                         @{{ vendor.description }}
                     </p>
                     <span v-else class="no-description">None</span>
-                @endcan
+                    @endcan
             </section>
             <section class="addresses">
                 <h5>Addresses</h5>
@@ -36,27 +36,92 @@
 
 
                 <div class="addresses-collection" v-if="vendor.addresses && vendor.addresses.length > 0">
-                        <div class="address-row">
-                            <div class="single-address" v-for="address in vendor.addresses">
-                                <div class="content">
-                                    <div class="phone">
-                                        <label>Phone</label>
-                                        <span class="phone">@{{ address.phone }}</span>
-                                    </div>
-                                    <div class="address">
-                                        <label>Address</label>
-                                        <span class="address_1 block">@{{ address.address_1 }}</span>
-                                        <span class="address_2 block" v-if="address.address_2">@{{ address.address_2 }}</span>
-                                        <span class="city">@{{ address.city }}</span>,
-                                        <span class="state">@{{ address.state }}</span>
-                                        <span class="country block">@{{ address.country }}</span>
-                                    </div>
-                                </div>
+                    <div class="address-row">
+                        <div class="single-address"
+                             v-for="address in vendor.addresses"
+                             :class="{
+                                    'primary': address.primary
+                                 }"
+                        >
+                            @can('edit', $vendor)
+                            <div class="controls">
+                                <a class="set-primary dotted clickable" v-if="! address.primary" @click="
+                                setPrimary(address)">Set as primary</a>
+                                <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
+                                <a class="remove clickable" @click="removeAddress(address)"><i
+                                        class="fa fa-close"></i></a>
+                            </div>
+                            @endcan
+                            <div class="phone">
+                                <label>Phone</label>
+                                <span class="phone">@{{ address.phone }}</span>
+                            </div>
+                            <div class="address">
+                                <label>Address</label>
+                                <span class="address_1 block">@{{ address.address_1 }}</span>
+                                <span class="address_2 block" v-if="address.address_2">@{{ address.address_2 }}</span>
+                                <span class="city">@{{ address.city }}</span>,
+                                <span class="state">@{{ address.state }}</span>
+                                <span class="country block">@{{ address.country }}</span>
                             </div>
                         </div>
+                    </div>
                 </div>
 
                 <em v-else>None</em>
+            </section>
+            <section class="bank_accounts">
+                <h5>Bank Accounts</h5>
+
+                <form @submit.prevent="addBankAccount">
+                    <div class="account_info">
+                        <label>Account Information</label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="shift-label-input">
+                                    <input type="text" v-model="bankAccountName" required>
+                                    <label placeholder="Account Name" class="required"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="shift-label-input">
+                                    <input type="text" v-model="bankAccountNumber" required>
+                                    <label placeholder="# Number" class="required"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bank_info">
+                        <label>Bank Details</label>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="shift-label-input">
+                                    <input type="text" v-model="bankName" required>
+                                    <label placeholder="Bank Name" class="required"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="shift-label-input">
+                                    <input type="text" class="not-required"
+                                           v-model="swift" :class="{
+                                    'filled': swift.length > 0
+                                }">
+                                    <label placeholder="SWIFT / IBAN"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="shift-label-input">
+                                    <input type="text" class="not-required" v-model="bankPhone">
+                                    <label placeholder="Phone Number"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shift-label-input">
+                            <input type="text" class="not-required" v-model="bankAddress">
+                            <label placeholder="Address"></label>
+                        </div>
+                    </div>
+                </form>
             </section>
         </div>
     </div>

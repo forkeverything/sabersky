@@ -15,16 +15,17 @@ class AddAddressRequest extends Request
      */
     public function authorize()
     {
+        $canEditModel = false;
         $type = $this->input('owner_type');
         switch ($type) {
             case 'vendor':
-                $canEditModel = Gate::allows('edit', Vendor::find($this->input('owner_id')));
+                $canEditModel = Gate::allows('vendor_manage') && Gate::allows('edit', Vendor::find($this->input('owner_id')));
                 break;
             case 'company':
                 $canEditModel = Auth::user()->company_id === $this->input('owner_id');
                 break;
         }
-        return Gate::allows('vendor_manage') && $canEditModel;
+        return $canEditModel;
     }
 
     /**
