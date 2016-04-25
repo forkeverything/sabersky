@@ -182,6 +182,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
     Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
+    Route::post('/vendors/{vendor}/bank_accounts', 'VendorsController@postAddBankAccount');
 
     
     

@@ -112,7 +112,7 @@ class CompanyController extends Controller
         if ($query) {
             $companies = Company::where('id', '!=', Auth::user()->company->id)
             ->where('name', 'LIKE', '%' . $query . '%')
-            ->with('registeredAddresses');
+            ->with('addresses');
             /*
              * TODO ::: Add ability for more search parameters: address, industry etc.
              */

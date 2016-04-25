@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Http\Requests\AddBankAccountRequest;
 use App\Http\Requests\AddNewVendorRequest;
 use App\Http\Requests\LinkCompanyToVendorRequest;
 use App\Vendor;
@@ -117,7 +118,7 @@ class VendorsController extends Controller
     public function apiGetSingle(Vendor $vendor)
     {
         if(Gate::allows('view', $vendor)) {
-            return $vendor->load('addresses');
+            return $vendor->load('addresses', 'bankAccounts');
         }
         return response("Not authorized to view that Vendor");
     }
@@ -140,6 +141,18 @@ class VendorsController extends Controller
         }
         
         return response("Not authorized to edit that Vendor", 403);
-            
+    }
+
+    /**
+     * Handle POST request from form to save a Bank Account to
+     * a Vendor
+     * 
+     * @param Vendor $vendor
+     * @param AddBankAccountRequest $request
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function postAddBankAccount(Vendor $vendor, AddBankAccountRequest $request)
+    {
+        return $vendor->bankAccounts()->create($request->all());
     }
 }

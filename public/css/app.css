@@ -6320,6 +6320,15 @@ label.required {
     transition-duration: .2s;
     -webkit-transform: translate(0, -0.5em);
     transform: translate(0, -0.5em); }
+  .shift-label-input.no-validate input[type="text"].not-required:focus,
+  .shift-label-input.no-validate input[type="text"].not-required.filled,
+  .shift-label-input.no-validate input[type="text"][required]:focus,
+  .shift-label-input.no-validate input[type="text"][required]:valid,
+  .shift-label-input.no-validate input[type="email"][required]:focus,
+  .shift-label-input.no-validate input[type="email"][required]:valid,
+  .shift-label-input.no-validate input[type="password"][required]:focus,
+  .shift-label-input.no-validate input[type="password"][required]:valid {
+    border-color: #3498DB; }
 
 .validated-input::before {
   position: absolute;
@@ -7489,6 +7498,95 @@ label.required {
     #vendor-single-custom .addresses .addresses-collection .address-row .single-address .address .address_1 {
       font-weight: bold; }
 
+#vendor-single-custom .bank-accounts .section-top {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+  #vendor-single-custom .bank-accounts .section-top .link-toggle-add-bank-account-form span {
+    border-bottom: 1px dotted #353535; }
+  #vendor-single-custom .bank-accounts .section-top .link-toggle-add-bank-account-form:hover span {
+    border-bottom: 1px solid #3498DB; }
+
+#vendor-single-custom .bank-accounts .add-form-wrap {
+  display: block;
+  overflow: hidden;
+  transition: all 0.5s;
+  max-height: 0; }
+  #vendor-single-custom .bank-accounts .add-form-wrap.expanded {
+    transition: all 0.3s;
+    max-height: 5000px !important; }
+  #vendor-single-custom .bank-accounts .add-form-wrap #form_add_bank_account {
+    border: 1px solid #E6E9EB;
+    padding: 30px;
+    margin: 0 0 15px 0; }
+
+#vendor-single-custom .bank-accounts .bank-accounts-collection {
+  margin: 0 0 -15px 0; }
+  #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account {
+    margin: 0 0 15px 0;
+    border-radius: 3px;
+    border: 1px solid #3498DB; }
+    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .header {
+      padding: 10px;
+      background: #3498DB;
+      color: #fff; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .header h5 {
+        margin: 0; }
+    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body {
+      padding: 10px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin: 0 -10px; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .heading {
+        display: block;
+        color: #3498DB;
+        margin: 0 0 5px; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account {
+        margin: 0 10px; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account .table-account-info tr td:first-child {
+          width: 10px;
+          white-space: nowrap;
+          padding: 0.25em 1em 0.25em 0;
+          font-weight: normal;
+          border-right: 1px solid #3498DB; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account .table-account-info tr td {
+          border: 0;
+          padding: 0.25em 1em;
+          font-weight: bold; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin: 0 0 -10px 0; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .heading {
+          -webkit-flex: 100%;
+          -ms-flex: 100%;
+          flex: 100%;
+          margin: 0 10px 5px 10px; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-name {
+          -webkit-flex: 100%;
+          -ms-flex: 100%;
+          flex: 100%;
+          margin: 0 10px 5px 10px; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank div .bank-label {
+          display: block;
+          color: #93989F;
+          text-align: left;
+          padding: 0;
+          font-size: 0.8em; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-phone, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-address, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .swift {
+          margin: 0 10px 10px 10px; }
+
 .vendor-connection {
   font-style: italic; }
   .vendor-connection.verified {
@@ -8538,27 +8636,27 @@ label.required {
     .active-filters .button-remove-filter .field {
       font-weight: bold; }
 
-.loading-header:after {
-  margin: 0 0 0 10px;
-  opacity: 1;
-  position: absolute;
-  font-family: FontAwesome; }
-
-.loading-header.loading:after {
-  color: #93989F;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-  transition: opacity 0.2s;
-  content: "\f1ce";
-  opacity: 0.6; }
-
-.loading-header.success:after {
-  content: "\f00c";
-  color: #27AE60; }
-
-.loading-header.error:after {
-  content: "\f00d";
-  color: #C0392B; }
+.loading-header {
+  position: relative; }
+  .loading-header:after {
+    margin: 0 0 0 10px;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    font-family: FontAwesome; }
+  .loading-header.loading:after {
+    color: #93989F;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    transition: opacity 0.2s;
+    content: "\f1ce";
+    opacity: 0.6; }
+  .loading-header.success:after {
+    content: "\f00c";
+    color: #27AE60; }
+  .loading-header.error:after {
+    content: "\f00d";
+    color: #C0392B; }
 
 body {
   font-family: 'helvetica';

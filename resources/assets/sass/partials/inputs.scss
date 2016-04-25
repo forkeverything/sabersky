@@ -101,6 +101,19 @@ label.required {
     transform: translate(0, -0.5em);
   }
 
+  &.no-validate {
+    input[type="text"].not-required:focus,
+    input[type="text"].not-required.filled,
+    input[type="text"][required]:focus,
+    input[type="text"][required]:valid,
+    input[type="email"][required]:focus,
+    input[type="email"][required]:valid,
+    input[type="password"][required]:focus,
+    input[type="password"][required]:valid {
+      border-color: $blue;
+    }
+  }
+
 }
 
 .validated-input {
@@ -170,3 +183,4 @@ label.required {
   }
 
 }
+

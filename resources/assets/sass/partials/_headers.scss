@@ -1,9 +1,11 @@
 .loading-header {
+  position: relative;
 
   &:after {
     margin: 0 0 0 10px;
     opacity: 1;
     position: absolute;
+    top: 0;
     font-family: FontAwesome;
   }
 

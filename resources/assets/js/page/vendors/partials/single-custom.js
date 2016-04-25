@@ -10,7 +10,14 @@ Vue.component('vendor-custom', {
             vendor: {},
             description: '',
             editDescription: false,
-            savedDescription: ''
+            savedDescription: '',
+            showAddBankAccountForm: false,
+            accountName: '',
+            accountNumber: '',
+            bankName: '',
+            swift: '',
+            bankPhone: '',
+            bankAddress: ''
         };
     },
     props: [],
@@ -49,15 +56,15 @@ Vue.component('vendor-custom', {
                 }
             });
         },
-        setPrimary: function(address) {
+        setPrimary: function (address) {
             var self = this;
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/api/address/' + address.id + '/set_primary',
                 method: 'PUT',
-                success: function(data) {
-                   // success
+                success: function (data) {
+                    // success
                     self.vendor.addresses = _.map(self.vendor.addresses, function (vendorAddress) {
                         if (vendorAddress.id === address.id) {
                             vendorAddress.primary = 1;
@@ -66,39 +73,76 @@ Vue.component('vendor-custom', {
                         }
                         return vendorAddress;
                     });
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                     self.ajaxReady = true;
                 }
             });
         },
-        removeAddress: function(address){
+        removeAddress: function (address) {
             var self = this;
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/api/address/' + address.id,
                 method: 'DELETE',
-                success: function(data) {
-                   // success
+                success: function (data) {
+                    // success
                     flashNotify('success', 'Removed address');
                     self.vendor.addresses = _.reject(self.vendor.addresses, address);
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                     self.ajaxReady = true;
                 }
             });
         },
-        addBankAccount: function() {
-
+        toggleAddBankAccountForm: function () {
+            this.showAddBankAccountForm = !this.showAddBankAccountForm;
+        },
+        addBankAccount: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/bank_accounts',
+                method: 'POST',
+                data: {
+                    "account_name": self.accountName,
+                    "account_number": self.accountNumber,
+                    "bank_name": self.bankName,
+                    "swift": self.swift,
+                    "bank_phone": self.bankPhone,
+                    "bank_address": self.bankAddress
+                },
+                success: function (data) {
+                    // Push to front
+                    self.vendor.bank_accounts.push(data);
+                    // Reset Fields
+                    self.accountName = '';
+                    self.accountNumber = '';
+                    self.bankName = '';
+                    self.swift = '';
+                    self.bankPhone = '';
+                    self.bankAddres = '';
+                    // Flash
+                    flashNotify('success', 'Added bank account to vendor')
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    flashNotify('error', 'Could not add bank account to vendor')
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
     events: {
-        'address-added': function(address) {
+        'address-added': function (address) {
             this.vendor.addresses.push(address);
         }
     },
@@ -107,10 +151,10 @@ Vue.component('vendor-custom', {
         $.ajax({
             url: '/api/vendors/' + self.vendorID,
             method: 'GET',
-            success: function(data) {
+            success: function (data) {
                 self.vendor = data;
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });

@@ -70,58 +70,64 @@
 
                 <em v-else>None</em>
             </section>
-            <section class="bank_accounts">
-                <h5>Bank Accounts</h5>
+            <section class="bank-accounts">
 
-                <form @submit.prevent="addBankAccount">
-                    <div class="account_info">
-                        <label>Account Information</label>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="shift-label-input">
-                                    <input type="text" v-model="bankAccountName" required>
-                                    <label placeholder="Account Name" class="required"></label>
-                                </div>
+                <div class="section-top">
+                    <h5>Bank Accounts</h5>
+                    <a class="clickable link-toggle-add-bank-account-form" @click="toggleAddBankAccountForm">
+                    <span v-show="!  showAddBankAccountForm">
+                        <i class="fa fa-plus"></i> Bank Account
+                    </span>
+                    <span v-else>Hide</span>
+                    </a>
+                </div>
+
+                @include('vendors.partials.single.form_add_bank.form')
+
+                <div class="bank-accounts-collection" v-if="vendor.bank_accounts && vendor.bank_accounts.length > 0">
+
+                    <div class="single-bank-account" v-for="account in vendor.bank_accounts">
+                        <div class="header">
+                            <h5>@{{ account.bank_name }}</h5>
+                        </div>
+                        <div class="body">
+                            <div class="account">
+                                <span class="heading">Account</span>
+                                <!-- account Table -->
+                                <table class="table table-account-info">
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>@{{ account.account_name }}</td>
+                                        </tr>
+                                    <tr>
+                                        <td>Number</td>
+                                        <td>@{{ account.account_number }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="shift-label-input">
-                                    <input type="text" v-model="bankAccountNumber" required>
-                                    <label placeholder="# Number" class="required"></label>
+                            <div class="bank">
+                                <span class="heading">Bank</span>
+                                <div class="bank-name"><strong>@{{ account.bank_name }}</strong></div>
+                                <div class="bank-phone">
+                                    <span class="bank-label">Phone Number</span><span v-if="account.bank_phone">@{{ account.bank_phone }}</span><span v-else>-</span>
+                                </div>
+                                <div class="bank-address">
+                                    <span class="bank-label">Branch Address</span>
+                                    <span v-if="account.bank_address">@{{ account.bank_address }}</span><span v-else>-</span>
+                                </div>
+                                <div class="swift">
+                                    <span class="bank-label">SWIFT / IBAN</span>
+                                    <span v-if="account.swift">@{{ account.swift }}</span><span v-else>-</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bank_info">
-                        <label>Bank Details</label>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="shift-label-input">
-                                    <input type="text" v-model="bankName" required>
-                                    <label placeholder="Bank Name" class="required"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="shift-label-input">
-                                    <input type="text" class="not-required"
-                                           v-model="swift" :class="{
-                                    'filled': swift.length > 0
-                                }">
-                                    <label placeholder="SWIFT / IBAN"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="shift-label-input">
-                                    <input type="text" class="not-required" v-model="bankPhone">
-                                    <label placeholder="Phone Number"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="shift-label-input">
-                            <input type="text" class="not-required" v-model="bankAddress">
-                            <label placeholder="Address"></label>
-                        </div>
-                    </div>
-                </form>
+
+                </div>
+
+                <em v-else>No known registered bank accounts</em>
             </section>
         </div>
     </div>

@@ -17,11 +17,15 @@ class CreateBankAccountsTable extends Migration
             $table->timestamps();
 
             $table->string('bank_name');
-            $table->string('bank_account_name');
-            $table->string('bank_account_number');
+            $table->string('account_name');
+            $table->string('account_number');
             $table->string('bank_phone')->nullable();
             $table->string('bank_address')->nullable();
             $table->string('swift')->nullable();
+
+            // For soft-deletes
+            $table->boolean('active')->default(1);
+            
 
 
             $table->integer('vendor_id')->unsigned();
