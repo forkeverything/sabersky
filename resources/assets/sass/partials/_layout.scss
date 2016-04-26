@@ -86,11 +86,14 @@
     min-height: 500px;
     padding: 0 0 30px;
 
+    // Remove if flex layout broken -----
     display: flex;
     flex-direction: column;
+    // ----------------------
   }
 }
 
+// Remove if flex layout broken --------------------------------------
 .container {
   width: 100%;
   padding-left: 20px;
@@ -114,6 +117,7 @@
     width: 100%!important;
   }
 }
+// ------------------------------------------------------
 
 .page-body {
   background: #FFFFFF;
@@ -132,6 +136,7 @@
   }
 }
 
+// Remove if flex layout broken --------------------------------------
 .row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -147,8 +152,9 @@
     flex: 100%;
   }
 
-  @media screen and (max-width: 997px) {
+  @media screen and (max-width: $screen-sm-min - 1) {
     width: 100%;
   }
 }
+// ------------------------------------------------------
 
