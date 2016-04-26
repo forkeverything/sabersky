@@ -21,7 +21,7 @@
         flex-wrap: wrap;
 
         .single-address {
-          @include flex-wrap-fix(300px, 2000px, 10px, 10px);
+          @include flex-wrap-fix(500px, 2000px, 10px, 10px);
           margin-bottom: 20px;
           border: 1px solid $border-light;
           border-radius: 3px;

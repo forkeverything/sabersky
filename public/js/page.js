@@ -1771,7 +1771,9 @@ Vue.component('vendor-custom', {
         startEditDescription: function () {
             this.editDescription = true;
             this.$nextTick(function () {
-                $('.description-editor').focus();
+                $editor = $('.description-editor');
+                $editor.focus();
+                autosize.update($editor);
             });
         },
         saveDescription: function () {
