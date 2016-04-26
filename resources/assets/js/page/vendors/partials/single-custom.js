@@ -17,7 +17,8 @@ Vue.component('vendor-custom', {
             bankName: '',
             swift: '',
             bankPhone: '',
-            bankAddress: ''
+            bankAddress: '',
+            linkedCompanyID: ''
         };
     },
     props: [],

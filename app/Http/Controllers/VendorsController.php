@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BankAccount;
 use App\Company;
 use App\Http\Requests\AddBankAccountRequest;
 use App\Http\Requests\AddNewVendorRequest;
@@ -34,7 +35,7 @@ class VendorsController extends Controller
         ];
 
         $vendors = Auth::user()->company->vendors;
-        
+
         return view('vendors.all', compact('vendors', 'breadcrumbs'));
     }
 
@@ -56,7 +57,7 @@ class VendorsController extends Controller
 
     /**
      * Handle POST request to add a new Vendor
-     * 
+     *
      * @param AddNewVendorRequest $request
      */
     public function postAddCustomVendor(AddNewVendorRequest $request)
@@ -100,7 +101,7 @@ class VendorsController extends Controller
      */
     public function getSingle(Vendor $vendor)
     {
-        if(Gate::allows('view', $vendor)) {
+        if (Gate::allows('view', $vendor)) {
             $breadcrumbs = [
                 ['<i class="fa fa-truck"></i> Vendors', '/vendors'],
                 [$vendor->name, '#']
@@ -117,7 +118,7 @@ class VendorsController extends Controller
      */
     public function apiGetSingle(Vendor $vendor)
     {
-        if(Gate::allows('view', $vendor)) {
+        if (Gate::allows('view', $vendor)) {
             return $vendor->load('addresses', 'bankAccounts');
         }
         return response("Not authorized to view that Vendor");
@@ -125,7 +126,7 @@ class VendorsController extends Controller
 
     /**
      * POST request to update a Vendor's description
-     * 
+     *
      * @param Vendor $vendor
      * @param Request $request
      * @return mixed
@@ -133,20 +134,20 @@ class VendorsController extends Controller
     public function postSaveDescription(Vendor $vendor, Request $request)
     {
         if (Gate::allows('edit', $vendor)) {
-            if($vendor->update(['description' => $request->input('description')])) {
+            if ($vendor->update(['description' => $request->input('description')])) {
                 return response("Updated vendor description", 200);
             };
 
             return response("Could not update vendor description", 500);
         }
-        
+
         return response("Not authorized to edit that Vendor", 403);
     }
 
     /**
      * Handle POST request from form to save a Bank Account to
      * a Vendor
-     * 
+     *
      * @param Vendor $vendor
      * @param AddBankAccountRequest $request
      * @return \Illuminate\Database\Eloquent\Model
@@ -154,5 +155,25 @@ class VendorsController extends Controller
     public function postAddBankAccount(Vendor $vendor, AddBankAccountRequest $request)
     {
         return $vendor->bankAccounts()->create($request->all());
+    }
+
+    /**
+     * DELETE request to remove a Vendor's associated Bank Account model
+     *
+     * @param Vendor $vendor
+     * @param $bankAccountId
+     * @return mixed
+     */
+    public function deleteBankAccount(Vendor $vendor, $bankAccountId)
+    {
+        if (Gate::allows('edit', $vendor)) {
+            BankAccount::find($bankAccountId)                           // BankAccount model we're trying to modify
+                       ->where('vendor_id', '=', $vendor->id)           // ...belongs to right vendor check
+                       ->firstOrFail()
+                       ->tryDelete();
+            return response("Could not delete Bank Account", 500);
+        }
+
+        return response("Not allowed to delete that Vendor's Bank Account", 403);
     }
 }

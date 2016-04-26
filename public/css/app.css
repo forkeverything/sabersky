@@ -6099,10 +6099,12 @@ button.close {
     outline: 0;
     color: #FFFFFF; }
   .btn-solid:disabled, .btn-solid-green:disabled, .btn-solid-yellow:disabled, .btn-solid-blue:disabled, .btn-solid-red:disabled {
-    background: #757575;
+    background: #D2D2D2;
+    color: #757575;
     box-shadow: none !important; }
     .btn-solid:disabled:hover, .btn-solid-green:disabled:hover, .btn-solid-yellow:disabled:hover, .btn-solid-blue:disabled:hover, .btn-solid-red:disabled:hover {
-      background: #757575; }
+      color: #757575;
+      background: #D2D2D2; }
 
 .btn-solid-green {
   border-color: #2ECC71;
@@ -6131,6 +6133,13 @@ button.close {
   .btn-solid-red:hover, .btn-solid-red:focus, .btn-solid-red:active, .btn-solid-red.active {
     background-color: #C0392B;
     border-color: #C0392B; }
+
+.btn-full {
+  width: 100%; }
+
+.btn-small {
+  height: 2em;
+  padding: 0 1em; }
 
 .btn-remove {
   font-size: 18px;
@@ -8793,6 +8802,8 @@ h2, h3, h4, h5 {
 
 p {
   margin: 0 0 30px; }
+  p.text-muted {
+    margin: 0 0 10px; }
 
 label {
   font-size: 0.8em;

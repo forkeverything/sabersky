@@ -30,9 +30,17 @@
                         @endcan
                 </div>
                 <div class="link-company page-body">
-                    <h5>Linked Company</h5>
-                    <p>Nec dubitamus multa iter quae et nos invenerat. Qui ipsorum lingua Celtae, nostra Galli appellantur. Cum sociis natoque penatibus et magnis dis parturient. Ambitioni dedisse scripsisse iudicaretur.
-                        Paullum deliquit, ponderibus modulisque suis ratio utitur. Inmensae subtilitatis, obscuris et malesuada fames. Quam diu etiam furor iste tuus nos eludet?</p>
+                    <h5>Company Link</h5>
+                    <div class="linked-company-info" v-if="vendor.linked_company_id">
+
+                    </div>
+                    <form class="form-link-company" v-else>
+                        <div class="form-group">
+                            <p class="text-muted">Search for this Vendor on SaberSky</p>
+                            <company-search-selecter :name.sync="linkedCompanyID"></company-search-selecter>
+                        </div>
+                            <button type="submit" class="btn btn-solid-blue btn-full btn-small" :disabled="! linkedCompanyID">Send Link Request</button>
+                    </form>
                 </div>
             </div>
             <div class="col-sm-8">

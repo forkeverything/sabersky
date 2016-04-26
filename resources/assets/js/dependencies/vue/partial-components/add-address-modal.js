@@ -4,7 +4,7 @@ Vue.component('add-address-modal', {
     '                  class="btn btn-add-address btn-outline-green"' +
     '                  @click="showModal"' +
     '                  >' +
-    '                  <i class="fa fa-plus"></i> Address' +
+    '                  <i class="fa fa-plus"></i> New Address' +
     '          </button>' +
     '          <div class="modal-address-add modal-form" v-show="visible" @click="hideModal">' +
     '               <form class="form-item-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +

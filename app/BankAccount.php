@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class BankAccount extends Model
@@ -21,4 +22,30 @@ class BankAccount extends Model
         'swift',
         'vendor_id'
     ];
+
+    /**
+     * A Bank Account could potentially have many POs made
+     * to be paid to it.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
+
+    /**
+     * Try to delete a Bank Account if there are no POs
+     * made to it for payment
+     * 
+     * @throws Exception
+     */
+    public function tryDelete()
+    {
+        if($this->purchaseOrders) {
+            throw new Exception("Can't remove a Bank Account with existing Purchase Orders");
+        } else {
+            $this->delete();
+        }
+    }
 }

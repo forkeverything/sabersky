@@ -13,10 +13,12 @@
   }
 
   &:disabled {
-    background: $dark-grey;
+    background: $grey;
+    color: $dark-grey;
     @include box-shadow(none !important);
     &:hover {
-      background: $dark-grey;
+      color: $dark-grey;
+      background: $grey;
     }
   }
 }

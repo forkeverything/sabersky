@@ -183,6 +183,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
     Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
     Route::post('/vendors/{vendor}/bank_accounts', 'VendorsController@postAddBankAccount');
+    Route::delete('/vendors/{vendor}/bank_accounts/{bank_account_id}', 'VendorsController@deleteBankAccount');
 
     
     

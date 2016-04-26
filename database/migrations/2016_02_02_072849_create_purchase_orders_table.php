@@ -21,7 +21,8 @@ class CreatePurchaseOrdersTable extends Migration
             $table->float('total', '15', 2)->default(0);
             
             $table->integer('project_id')->unsigned();
-            $table->integer('vendor_id')->unsigned()->nullable();
+            $table->integer('vendor_id')->unsigned();
+            $table->integer('bank_account_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
 
 
