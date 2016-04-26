@@ -18,11 +18,19 @@ Vue.component('vendor-custom', {
             swift: '',
             bankPhone: '',
             bankAddress: '',
-            linkedCompanyID: ''
+            companyIDToLink: ''
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        vendorLink: function () {
+            if(this.vendor.linked_company_id) {
+                if(this.vendor.verified) return 'verified';
+                return 'pending';
+            }
+            return 'custom';
+        }
+    },
     methods: {
         startEditDescription: function () {
             this.editDescription = true;
@@ -184,6 +192,33 @@ Vue.component('vendor-custom', {
                 error: function (response) {
                     console.log(response);
                     flashNotify('error', 'Could not remove bank account');
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        linkCompany: function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/link',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendor.id,
+                    "linked_company_id": self.companyIDToLink
+                },
+                success: function(data) {
+                   // success
+                    flashNotify('success', 'Linked company to vendor');
+                    self.companyIDToLink = '';
+
+                    self.vendor = data;
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+                    
+                    vueValidation(response, self);
                     self.ajaxReady = true;
                 }
             });

@@ -1,3 +1,94 @@
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('items-all', {
     name: 'allItems',
     el: function () {
@@ -265,97 +356,170 @@ Vue.component('item-single', {
         });
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
     el: function () {
-        return '#add-line-item';
+        return '#projects-all'
     },
     data: function () {
         return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
         };
     },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
     ready: function () {
+
+        // Fetch projects
         var self = this;
         $.ajax({
+            url: '/api/projects',
             method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
             }
         });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
     }
 });
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
 
-
-
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
+    }
+});
 Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
     el: function() {
@@ -560,170 +724,6 @@ Vue.component('purchase-orders-submit', {
     ready: function () {
         this.$watch('projectID', function (val) {
             if (val)this.fetchPurchaseRequests(val);
-        });
-    }
-});
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: [],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
-            }
         });
     }
 });
@@ -1071,44 +1071,6 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -1247,6 +1209,357 @@ Vue.component('vendors-add-new', {
     },
     events: {
 
+    },
+    ready: function() {
+
+    }
+});
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
+Vue.component('vendor-custom', {
+    name: 'vendorCustom',
+    el: function () {
+        return '#vendor-single-custom'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            vendorID: '',
+            vendor: {},
+            description: '',
+            editDescription: false,
+            savedDescription: '',
+            showAddBankAccountForm: false,
+            accountName: '',
+            accountNumber: '',
+            bankName: '',
+            swift: '',
+            bankPhone: '',
+            bankAddress: '',
+            companyIDToLink: ''
+        };
+    },
+    props: [],
+    computed: {
+        vendorLink: function () {
+            if(this.vendor.linked_company_id) {
+                if(this.vendor.verified) return 'verified';
+                return 'pending';
+            }
+            return 'custom';
+        }
+    },
+    methods: {
+        startEditDescription: function () {
+            this.editDescription = true;
+            this.$nextTick(function () {
+                $editor = $('.description-editor');
+                $editor.focus();
+                autosize.update($editor);
+            });
+        },
+        saveDescription: function () {
+            this.editDescription = false;
+            this.savedDescription = 'saving';
+            var self = this;
+            if (!self.ajaxReady) {
+                self.savedDescription = 'error';
+                return;
+            }
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/description',
+                method: 'POST',
+                data: {
+                    "description": self.description
+                },
+                success: function (data) {
+                    // success
+                    self.savedDescription = 'success';
+                    self.vendor.description = self.description;
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.savedDescription = 'error';
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        addressSetPrimary: function (address) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address/' + address.id + '/set_primary',
+                method: 'PUT',
+                success: function (data) {
+                    // success
+                    self.vendor.addresses = _.map(self.vendor.addresses, function (vendorAddress) {
+                        if (vendorAddress.id === address.id) {
+                            vendorAddress.primary = 1;
+                        } else {
+                            vendorAddress.primary = 0;
+                        }
+                        return vendorAddress;
+                    });
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        removeAddress: function (address) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address/' + address.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    flashNotify('success', 'Removed address');
+                    self.vendor.addresses = _.reject(self.vendor.addresses, address);
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        toggleAddBankAccountForm: function () {
+            this.showAddBankAccountForm = !this.showAddBankAccountForm;
+        },
+        addBankAccount: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/bank_accounts',
+                method: 'POST',
+                data: {
+                    "account_name": self.accountName,
+                    "account_number": self.accountNumber,
+                    "bank_name": self.bankName,
+                    "swift": self.swift,
+                    "bank_phone": self.bankPhone,
+                    "bank_address": self.bankAddress
+                },
+                success: function (data) {
+                    // Push to front
+                    self.vendor.bank_accounts.push(data);
+                    // Reset Fields
+                    self.accountName = '';
+                    self.accountNumber = '';
+                    self.bankName = '';
+                    self.swift = '';
+                    self.bankPhone = '';
+                    self.bankAddres = '';
+                    // hide add section
+                    self.showAddBankAccountForm = false;
+                    // Flash
+                    flashNotify('success', 'Added bank account to vendor')
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    flashNotify('error', 'Could not add bank account to vendor')
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        bankSetPrimary: function(account) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
+                method: 'POST',
+                success: function(data) {
+                    self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
+                        if (bankAccount.id === account.id) {
+                            bankAccount.primary = 1;
+                        } else {
+                            bankAccount.primary = 0;
+                        }
+                        return bankAccount;
+                    });
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    flashNotify('error', 'Could not set Bank Account as primary');
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        deleteAccount: function (account) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendor.id + '/bank_accounts/' + account.id,
+                method: 'DELETE',
+                success: function (data) {
+                    self.vendor.bank_accounts = _.reject(self.vendor.bank_accounts, account);
+                    flashNotify('success', 'Removed bank account');
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove bank account');
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        linkCompany: function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/link',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendor.id,
+                    "linked_company_id": self.companyIDToLink
+                },
+                success: function(data) {
+                   // success
+                    flashNotify('success', 'Linked company to vendor');
+                    self.companyIDToLink = '';
+
+                    self.vendor = data;
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+                    
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+        'address-added': function (address) {
+            this.vendor.addresses.push(address);
+        }
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/vendors/' + self.vendorID,
+            method: 'GET',
+            success: function (data) {
+                self.vendor = data;
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+});
+Vue.component('vendor-add-search', {
+    name: 'vendorAddSearchCompany',
+    el: function () {
+        return '#vendor-add-search'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            linkedCompanyID: ''
+        };
+    },
+    props: ['currentTab'],
+    computed: {},
+    methods: {
+        addCompanyAsNewVendor: function() {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/link',
+                method: 'POST',
+                data: {
+                    "linked_company_id": self.linkedCompanyID
+                },
+                success: function(data) {
+                   // success
+                    flashNotifyNextRequest('success', 'Sent request to link Company as a Vendor');
+                    location.href = "/vendors";
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+});
+Vue.component('vendor-add-custom', {
+    name: 'vendorAddCustom',
+    el: function() {
+        return '#vendor-add-custom'
+    },
+    data: function() {
+        return {
+        
+        };
+    },
+    props: ['currentTab'],
+    computed: {
+        
+    },
+    methods: {
+        
+    },
+    events: {
+        
     },
     ready: function() {
 
@@ -1741,284 +2054,6 @@ Vue.component('settings-rules', {
         });
 
         self.fetchRules();
-    }
-});
-Vue.component('vendor-custom', {
-    name: 'vendorCustom',
-    el: function () {
-        return '#vendor-single-custom'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            vendorID: '',
-            vendor: {},
-            description: '',
-            editDescription: false,
-            savedDescription: '',
-            showAddBankAccountForm: false,
-            accountName: '',
-            accountNumber: '',
-            bankName: '',
-            swift: '',
-            bankPhone: '',
-            bankAddress: '',
-            linkedCompanyID: ''
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        startEditDescription: function () {
-            this.editDescription = true;
-            this.$nextTick(function () {
-                $editor = $('.description-editor');
-                $editor.focus();
-                autosize.update($editor);
-            });
-        },
-        saveDescription: function () {
-            this.editDescription = false;
-            this.savedDescription = 'saving';
-            var self = this;
-            if (!self.ajaxReady) {
-                self.savedDescription = 'error';
-                return;
-            }
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendorID + '/description',
-                method: 'POST',
-                data: {
-                    "description": self.description
-                },
-                success: function (data) {
-                    // success
-                    self.savedDescription = 'success';
-                    self.vendor.description = self.description;
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.savedDescription = 'error';
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        addressSetPrimary: function (address) {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/address/' + address.id + '/set_primary',
-                method: 'PUT',
-                success: function (data) {
-                    // success
-                    self.vendor.addresses = _.map(self.vendor.addresses, function (vendorAddress) {
-                        if (vendorAddress.id === address.id) {
-                            vendorAddress.primary = 1;
-                        } else {
-                            vendorAddress.primary = 0;
-                        }
-                        return vendorAddress;
-                    });
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        removeAddress: function (address) {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/address/' + address.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    flashNotify('success', 'Removed address');
-                    self.vendor.addresses = _.reject(self.vendor.addresses, address);
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        toggleAddBankAccountForm: function () {
-            this.showAddBankAccountForm = !this.showAddBankAccountForm;
-        },
-        addBankAccount: function () {
-            var self = this;
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendorID + '/bank_accounts',
-                method: 'POST',
-                data: {
-                    "account_name": self.accountName,
-                    "account_number": self.accountNumber,
-                    "bank_name": self.bankName,
-                    "swift": self.swift,
-                    "bank_phone": self.bankPhone,
-                    "bank_address": self.bankAddress
-                },
-                success: function (data) {
-                    // Push to front
-                    self.vendor.bank_accounts.push(data);
-                    // Reset Fields
-                    self.accountName = '';
-                    self.accountNumber = '';
-                    self.bankName = '';
-                    self.swift = '';
-                    self.bankPhone = '';
-                    self.bankAddres = '';
-                    // hide add section
-                    self.showAddBankAccountForm = false;
-                    // Flash
-                    flashNotify('success', 'Added bank account to vendor')
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    flashNotify('error', 'Could not add bank account to vendor')
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        bankSetPrimary: function(account) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
-                method: 'POST',
-                success: function(data) {
-                    self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
-                        if (bankAccount.id === account.id) {
-                            bankAccount.primary = 1;
-                        } else {
-                            bankAccount.primary = 0;
-                        }
-                        return bankAccount;
-                    });
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    flashNotify('error', 'Could not set Bank Account as primary');
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        deleteAccount: function (account) {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendor.id + '/bank_accounts/' + account.id,
-                method: 'DELETE',
-                success: function (data) {
-                    self.vendor.bank_accounts = _.reject(self.vendor.bank_accounts, account);
-                    flashNotify('success', 'Removed bank account');
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-                    flashNotify('error', 'Could not remove bank account');
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {
-        'address-added': function (address) {
-            this.vendor.addresses.push(address);
-        }
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/vendors/' + self.vendorID,
-            method: 'GET',
-            success: function (data) {
-                self.vendor = data;
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
-    }
-});
-Vue.component('vendor-add-search', {
-    name: 'vendorAddSearchCompany',
-    el: function () {
-        return '#vendor-add-search'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            linkedCompanyID: ''
-        };
-    },
-    props: ['currentTab'],
-    computed: {},
-    methods: {
-        addCompanyAsNewVendor: function() {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/link',
-                method: 'POST',
-                data: {
-                    "linked_company_id": self.linkedCompanyID
-                },
-                success: function(data) {
-                   // success
-                    flashNotifyNextRequest('success', 'Sent request to link Company as a Vendor');
-                    location.href = "/vendors";
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-});
-Vue.component('vendor-add-custom', {
-    name: 'vendorAddCustom',
-    el: function() {
-        return '#vendor-add-custom'
-    },
-    data: function() {
-        return {
-        
-        };
-    },
-    props: ['currentTab'],
-    computed: {
-        
-    },
-    methods: {
-        
-    },
-    events: {
-        
-    },
-    ready: function() {
-
     }
 });
 //# sourceMappingURL=page.js.map

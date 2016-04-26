@@ -119,7 +119,7 @@ class VendorsController extends Controller
     public function apiGetSingle(Vendor $vendor)
     {
         if (Gate::allows('view', $vendor)) {
-            return $vendor->load('addresses', 'bankAccounts');
+            return $vendor->load('linkedCompany','addresses');
         }
         return response("Not authorized to view that Vendor");
     }
@@ -170,7 +170,7 @@ class VendorsController extends Controller
             $deleted = BankAccount::where('id', $bankAccountId)             // BankAccount model we're trying to modify
                                   ->where('vendor_id', '=', $vendor->id)    // ...belongs to right vendor check
                                   ->firstOrFail()
-                                  ->tryDelete();
+                                  ->deleteOrDeactivate();
             if ($deleted) return response("Removed Bank Account", 200);
             return response("Could not delete Bank Account", 500);
         }

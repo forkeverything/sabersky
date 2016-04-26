@@ -17,9 +17,10 @@ class Vendor extends Model
     ];
 
     protected $appends = [
-        'numberPO',
-        'averagePO',
-        'allAddresses'
+        'number_po',
+        'average_po',
+        'all_addresses',
+        'bank_accounts'
     ];
 
 
@@ -86,7 +87,8 @@ class Vendor extends Model
     public function linkCompany(Company $company)
     {
         $this->linked_company_id = $company->id;
-        return $this->save();
+        $this->save();
+        return $this;
     }
 
     /**
@@ -120,14 +122,34 @@ class Vendor extends Model
     }
 
     /**
-     * Vendor can have many Bank Accounts
-     * on record
+     * Vendor can have many Bank Accounts. This returns all of
+     * them - including the inactive ones (the ones that
+     * have been removed but have POs linked to them)
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function bankAccounts()
+    public function allBankAccounts()
     {
         return $this->hasMany(BankAccount::class);
+    }
+
+    /**
+     * When we only want to retrieve Active Bank accounts. Set an accessor
+     * which will set a relation dynamically. This way it's cleaner in
+     * a way so we're not calling a method to return a collection.
+     *
+     * @return mixed
+     */
+    public function getBankAccountsAttribute()
+    {
+        // Have we already loaded it for this instance?
+        if (! array_key_exists('bank_accounts', $this->relations)) {
+            // No? load it!
+            $activeAccounts = $this->allBankAccounts()->where('active', '1')->get();
+            $this->setRelation('bank_accounts', $activeAccounts);
+        }
+        // Return whatever should have been loaded as the relation
+        return $this->getRelation('bank_accounts');
     }
 
 
@@ -181,14 +203,22 @@ class Vendor extends Model
     /**
      * Retrieve all known addresses for this Vendor. Perform
      * a look-up for both this Vendor's addresses as well
-     * as the linked Company's registered addresses.
+     * as the linked Company's registered address.
      *
      * @return mixed
      */
     public function getAllAddressesAttribute()
     {
-        return $this->linkedCompany ? $this->addresses->merge($this->linkedCompany->addresses) : $this->addresses;
+        // If we're linked, and the linked company has a registered address
+        if ($this->linkedCompany && $companyAddress = $this->linkedCompany->addresses) {
+            // Merge all addresses and return
+            return $this->addresses->merge($companyAddress);
+        }
+        return $this->addresses;
+
     }
+
+
 
 
 

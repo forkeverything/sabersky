@@ -30,16 +30,20 @@
                         @endcan
                 </div>
                 <div class="link-company page-body">
-                    <h5>Company Link</h5>
-                    <div class="linked-company-info" v-if="vendor.linked_company_id">
-
+                    <div class="link-top">
+                        <h5>Company Link</h5>
+                        <span class="link-badge" :class="vendorLink">@{{ vendorLink }}</span>
                     </div>
-                    <form class="form-link-company" v-else>
+                    <div class="linked-company-info" v-if="vendor.linked_company_id">
+                        <span class="company-name">@{{ vendor.linked_company.name }}</span>
+                        <p class="description">@{{ vendor.linked_company.description }}</p>
+                    </div>
+                    <form class="form-link-company" v-else @submit.prevent="linkCompany">
                         <div class="form-group">
                             <p class="text-muted">Search for this Vendor on SaberSky</p>
-                            <company-search-selecter :name.sync="linkedCompanyID"></company-search-selecter>
+                            <company-search-selecter :name.sync="companyIDToLink"></company-search-selecter>
                         </div>
-                            <button type="submit" class="btn btn-solid-blue btn-full btn-small" v-show="! linkedCompanyID" :disabled="! linkedCompanyID">Send Link Request</button>
+                            <button type="submit" class="btn btn-solid-blue btn-full btn-small" v-show="companyIDToLink" :disabled="! companyIDToLink">Send Link Request</button>
                     </form>
                 </div>
             </div>

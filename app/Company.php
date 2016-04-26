@@ -69,13 +69,13 @@ class Company extends Model
 
 
     /**
-     * A Company can have many records of addresses
+     * A Company can only have one address
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function addresses()
     {
-        return $this->morphMany(Address::class, 'owner');
+        return $this->morphOne(Address::class, 'owner');
     }
 
 

@@ -48,3 +48,42 @@
     }
   }
 }
+
+@mixin badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  font-size: 0.8em;
+  border-radius: 6px;
+  margin: 0 0 0 15px;
+}
+
+@mixin badge-style($type) {
+  @if ($type == success) {
+    color: $extra-dark-green;
+    background: $light-green;
+    border: 1px solid $green;
+  }
+
+  @if ($type == info)  {
+    color: $text-muted;
+    background: $body-background;
+    border: 1px solid $border-dark;
+  }
+
+  @if ($type == warning)  {
+    color: $orange;
+    background: $light-yellow;
+    border: 1px solid $orange;
+  }
+
+
+  @if ($type == error)  {
+    color: $dark-red;
+    background: $extra-light-red;
+    border: 1px solid $dark-red;
+  }
+
+
+}

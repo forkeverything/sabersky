@@ -15,6 +15,48 @@
     }
   }
 
+  .link-company {
+
+    .link-top {
+      margin: 0 0 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h5 {
+        margin: 0;
+      }
+
+      .link-badge {
+        @include badge;
+        padding: 0 1.5em;
+
+        &.custom {
+          @include badge-style(info);
+        }
+
+        &.pending {
+          @include badge-style(warning);
+        }
+
+        &.verified {
+          @include badge-style(success);
+        }
+      }
+    }
+
+    .company-name {
+      display: block;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    .description {
+      margin: 0;
+    }
+
+  }
+
   .addresses {
 
     .btn-add-address {

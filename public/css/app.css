@@ -7257,9 +7257,9 @@ label.required {
     align-items: center;
     height: 25px;
     font-size: 0.8em;
-    width: 100px;
     border-radius: 6px;
-    margin: 0 0 0 15px; }
+    margin: 0 0 0 15px;
+    width: 100px; }
     #purchase-request-single .card-request .card-title .badge-state.open {
       color: #1C6F3D;
       background: #9CFFA8;
@@ -7508,6 +7508,55 @@ label.required {
   font-style: italic; }
   #vendor-single-custom .label-primary i {
     margin: 0 5px 0 0; }
+
+#vendor-single-custom .link-company .link-top {
+  margin: 0 0 15px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  #vendor-single-custom .link-company .link-top h5 {
+    margin: 0; }
+  #vendor-single-custom .link-company .link-top .link-badge {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 25px;
+    font-size: 0.8em;
+    border-radius: 6px;
+    margin: 0 0 0 15px;
+    padding: 0 1.5em; }
+    #vendor-single-custom .link-company .link-top .link-badge.custom {
+      color: #93989F;
+      background: #ebeef0;
+      border: 1px solid #A1A4AA; }
+    #vendor-single-custom .link-company .link-top .link-badge.pending {
+      color: #FFA339;
+      background: #FCFFBA;
+      border: 1px solid #FFA339; }
+    #vendor-single-custom .link-company .link-top .link-badge.verified {
+      color: #1C6F3D;
+      background: #9CFFA8;
+      border: 1px solid #2ECC71; }
+
+#vendor-single-custom .link-company .company-name {
+  display: block;
+  font-weight: bold;
+  margin: 0 0 10px; }
+
+#vendor-single-custom .link-company .description {
+  margin: 0; }
 
 #vendor-single-custom .addresses .btn-add-address {
   display: block;

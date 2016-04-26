@@ -102,31 +102,19 @@
       margin: 0 0 5px;
 
       .badge-state {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 25px;
-        font-size: 0.8em;
+        @include badge;
         width: 100px;
-        border-radius: 6px;
-        margin: 0 0 0 15px;
 
         &.open {
-          color: $extra-dark-green;
-          background: $light-green;
-          border: 1px solid $green;
+          @include badge-style(success);
         }
 
         &.complete {
-          color: $text-muted;
-          background: $body-background;
-          border: 1px solid $border-dark;
+          @include badge-style(info);
         }
 
         &.cancelled {
-          color: $dark-red;
-          background: $extra-light-red;
-          border: 1px solid $dark-red;
+          @include badge-style(error);
         }
       }
     }

@@ -46,15 +46,26 @@ class BankAccount extends Model
     }
 
     /**
+     * Deactives (soft-deletes) this model
+     * @return bool
+     */
+    protected function deactivate()
+    {
+        $this->active = 0;
+        return $this->save();
+    }
+
+    /**
      * Try to delete a Bank Account if there are no POs
-     * made to it for payment
+     * made to it for payment. Otherwise we'll just
+     * soft-delete by de-activating it.
      * 
      * @throws Exception
      */
-    public function tryDelete()
+    public function deleteOrDeactivate()
     {
         if($this->purchaseOrders->count() > 0) {
-            throw new Exception("Can't remove a Bank Account with existing Purchase Orders");
+            return $this->deactivate();
         } else {
             return $this->delete();
         }
