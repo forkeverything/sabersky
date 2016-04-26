@@ -23,6 +23,10 @@ class CreateBankAccountsTable extends Migration
             $table->string('bank_address')->nullable();
             $table->string('swift')->nullable();
 
+
+            // Primary
+            $table->boolean('primary')->default(0);
+
             // For soft-deletes
             $table->boolean('active')->default(1);
             

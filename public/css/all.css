@@ -5975,6 +5975,12 @@ button.close {
     .page-body {
       padding: 30px; } }
 
+.card-no-bg {
+  padding: 15px; }
+  @media screen and (min-width: 998px) {
+    .card-no-bg {
+      padding: 30px; } }
+
 .row .page-body {
   margin: 0 0 20px; }
 
@@ -7496,6 +7502,13 @@ label.required {
 #vendor-single-custom .description .no-description {
   font-style: italic; }
 
+#vendor-single-custom .label-primary {
+  color: #27AE60;
+  background: #fff;
+  font-style: italic; }
+  #vendor-single-custom .label-primary i {
+    margin: 0 5px 0 0; }
+
 #vendor-single-custom .addresses .btn-add-address {
   display: block;
   margin: 0 0 15px 0; }
@@ -7545,12 +7558,6 @@ label.required {
       justify-content: space-between;
       margin: 0 0 10px 0;
       height: 21px; }
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .label-primary {
-        color: #27AE60;
-        background: #fff;
-        font-style: italic; }
-        #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .label-primary i {
-          margin: 0 5px 0 0; }
       #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .remove {
         color: #93989F; }
         #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .remove:hover {
@@ -7601,57 +7608,67 @@ label.required {
       color: #fff; }
       #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .header h5 {
         margin: 0; }
-    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body {
-      padding: 10px;
+    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      padding: 10px 15px 0 15px; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-set-account-primary {
+        height: 20px; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account {
+        color: #93989F; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account:hover {
+          color: #E74C3C; }
+    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      padding: 10px 15px 0 15px;
       -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin: 0 -10px; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .heading {
+      flex-wrap: wrap; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .heading {
         display: block;
         color: #3498DB;
         margin: 0 0 5px; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account {
-        margin: 0 10px; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account .table-account-info tr td:first-child {
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account {
+        margin: 0 15px 0 0;
+        -webkit-flex: 1 1 200px;
+        -ms-flex: 1 1 200px;
+        flex: 1 1 200px; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td:first-child {
           width: 10px;
           white-space: nowrap;
           padding: 0.25em 1em 0.25em 0;
           font-weight: normal;
           border-right: 1px solid #3498DB; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .account .table-account-info tr td {
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td {
           border: 0;
           padding: 0.25em 1em;
           font-weight: bold; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank {
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        margin: 0 0 -10px 0; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .heading {
-          -webkit-flex: 100%;
-          -ms-flex: 100%;
-          flex: 100%;
-          margin: 0 10px 5px 10px; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-name {
-          -webkit-flex: 100%;
-          -ms-flex: 100%;
-          flex: 100%;
-          margin: 0 10px 5px 10px; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank div .bank-label {
-          display: block;
-          color: #93989F;
-          text-align: left;
-          padding: 0;
-          font-size: 0.8em; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-phone, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .bank-address, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .body .bank .swift {
-          margin: 0 10px 10px 10px; }
+      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank {
+        -webkit-flex: 1 0 300px;
+        -ms-flex: 1 0 300px;
+        flex: 1 0 300px; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .heading, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .bank-name {
+          margin: 0 0 5px 0; }
+        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info {
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          margin: 0 -10px; }
+          #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-label {
+            display: block;
+            color: #93989F;
+            text-align: left;
+            padding: 0;
+            font-size: 0.8em;
+            white-space: nowrap; }
+          #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-phone, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-address, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .swift {
+            margin: 0 10px 10px 10px; }
 
 .vendor-connection {
   font-style: italic; }

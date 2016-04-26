@@ -59,7 +59,7 @@ Vue.component('vendor-custom', {
                 }
             });
         },
-        setPrimary: function (address) {
+        addressSetPrimary: function (address) {
             var self = this;
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
@@ -132,6 +132,8 @@ Vue.component('vendor-custom', {
                     self.swift = '';
                     self.bankPhone = '';
                     self.bankAddres = '';
+                    // hide add section
+                    self.showAddBankAccountForm = false;
                     // Flash
                     flashNotify('success', 'Added bank account to vendor')
                     self.ajaxReady = true;
@@ -139,6 +141,49 @@ Vue.component('vendor-custom', {
                 error: function (response) {
                     flashNotify('error', 'Could not add bank account to vendor')
                     vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        bankSetPrimary: function(account) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
+                method: 'POST',
+                success: function(data) {
+                    self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
+                        if (bankAccount.id === account.id) {
+                            bankAccount.primary = 1;
+                        } else {
+                            bankAccount.primary = 0;
+                        }
+                        return bankAccount;
+                    });
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    flashNotify('error', 'Could not set Bank Account as primary');
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        deleteAccount: function (account) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendor.id + '/bank_accounts/' + account.id,
+                method: 'DELETE',
+                success: function (data) {
+                    self.vendor.bank_accounts = _.reject(self.vendor.bank_accounts, account);
+                    flashNotify('success', 'Removed bank account');
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove bank account');
                     self.ajaxReady = true;
                 }
             });

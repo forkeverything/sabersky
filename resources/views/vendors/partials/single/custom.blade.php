@@ -39,7 +39,7 @@
                             <p class="text-muted">Search for this Vendor on SaberSky</p>
                             <company-search-selecter :name.sync="linkedCompanyID"></company-search-selecter>
                         </div>
-                            <button type="submit" class="btn btn-solid-blue btn-full btn-small" :disabled="! linkedCompanyID">Send Link Request</button>
+                            <button type="submit" class="btn btn-solid-blue btn-full btn-small" v-show="! linkedCompanyID" :disabled="! linkedCompanyID">Send Link Request</button>
                     </form>
                 </div>
             </div>
@@ -64,7 +64,12 @@
                             <div class="header">
                                 <h5>@{{ account.bank_name }}</h5>
                             </div>
-                            <div class="body">
+                            <div class="account-controls">
+                                <a class="dotted clickable link-set-account-primary" @click="bankSetPrimary(account)" v-if="! account.primary">Set primary</a>
+                                <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
+                                <a class="link-remove-account clickable" @click.prevent="deleteAccount(account)">remove</a>
+                            </div>
+                            <div class="account-body">
                                 <div class="account">
                                     <span class="heading">Account</span>
                                     <!-- account Table -->
@@ -84,19 +89,21 @@
                                 <div class="bank">
                                     <span class="heading">Bank</span>
                                     <div class="bank-name"><strong>@{{ account.bank_name }}</strong></div>
-                                    <div class="bank-phone">
-                                        <span class="bank-label">Phone Number</span><span
-                                                v-if="account.bank_phone">@{{ account.bank_phone }}</span><span
-                                                v-else>-</span>
-                                    </div>
-                                    <div class="bank-address">
-                                        <span class="bank-label">Branch Address</span>
-                                        <span v-if="account.bank_address">@{{ account.bank_address }}</span><span
-                                                v-else>-</span>
-                                    </div>
-                                    <div class="swift">
-                                        <span class="bank-label">SWIFT / IBAN</span>
-                                        <span v-if="account.swift">@{{ account.swift }}</span><span v-else>-</span>
+                                    <div class="extra-info">
+                                        <div class="bank-phone">
+                                            <span class="bank-label">Phone Number</span><span
+                                                    v-if="account.bank_phone">@{{ account.bank_phone }}</span><span
+                                                    v-else>-</span>
+                                        </div>
+                                        <div class="bank-address">
+                                            <span class="bank-label">Branch Address</span>
+                                            <span v-if="account.bank_address">@{{ account.bank_address }}</span><span
+                                                    v-else>-</span>
+                                        </div>
+                                        <div class="swift">
+                                            <span class="bank-label">SWIFT / IBAN</span>
+                                            <span v-if="account.swift">@{{ account.swift }}</span><span v-else>-</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +131,7 @@
                         @can('edit', $vendor)
                         <div class="controls">
                             <a class="set-primary dotted clickable" v-if="! address.primary" @click="
-                                setPrimary(address)">Set as primary</a>
+                                addressSetPrimary(address)">Set primary</a>
                             <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
                             <a class="remove clickable" @click="removeAddress(address)"><i
                                     class="fa fa-close"></i></a>

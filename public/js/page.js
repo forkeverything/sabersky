@@ -265,6 +265,97 @@ Vue.component('item-single', {
         });
     }
 });
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
     el: function() {
@@ -472,97 +563,6 @@ Vue.component('purchase-orders-submit', {
         });
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
-    el: function () {
-        return '#add-line-item';
-    },
-    data: function () {
-        return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
-    }
-});
-
-
-
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -1804,7 +1804,7 @@ Vue.component('vendor-custom', {
                 }
             });
         },
-        setPrimary: function (address) {
+        addressSetPrimary: function (address) {
             var self = this;
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
@@ -1877,6 +1877,8 @@ Vue.component('vendor-custom', {
                     self.swift = '';
                     self.bankPhone = '';
                     self.bankAddres = '';
+                    // hide add section
+                    self.showAddBankAccountForm = false;
                     // Flash
                     flashNotify('success', 'Added bank account to vendor')
                     self.ajaxReady = true;
@@ -1884,6 +1886,49 @@ Vue.component('vendor-custom', {
                 error: function (response) {
                     flashNotify('error', 'Could not add bank account to vendor')
                     vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        bankSetPrimary: function(account) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
+                method: 'POST',
+                success: function(data) {
+                    self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
+                        if (bankAccount.id === account.id) {
+                            bankAccount.primary = 1;
+                        } else {
+                            bankAccount.primary = 0;
+                        }
+                        return bankAccount;
+                    });
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    flashNotify('error', 'Could not set Bank Account as primary');
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        deleteAccount: function (account) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendor.id + '/bank_accounts/' + account.id,
+                method: 'DELETE',
+                success: function (data) {
+                    self.vendor.bank_accounts = _.reject(self.vendor.bank_accounts, account);
+                    flashNotify('success', 'Removed bank account');
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove bank account');
                     self.ajaxReady = true;
                 }
             });

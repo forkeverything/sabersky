@@ -6,6 +6,15 @@
     }
   }
 
+  .label-primary {
+    color: $dark-green;
+    background: #fff;
+    font-style: italic;
+    i {
+      margin: 0 5px 0 0;
+    }
+  }
+
   .addresses {
 
     .btn-add-address {
@@ -36,15 +45,6 @@
             justify-content: space-between;
             margin: 0 0 10px 0;
             height: 21px;
-
-            .label-primary {
-              color: $dark-green;
-              background: #fff;
-              font-style: italic;
-              i {
-                margin: 0 5px 0 0;
-              }
-            }
 
             .remove {
               color: $text-muted;
@@ -102,10 +102,9 @@
       @include transition(all 0.5s);
       max-height: 0;
 
-
       &.expanded {
         @include transition(all 0.3s);
-        max-height: 5000px!important;
+        max-height: 5000px !important;
       }
 
       #form_add_bank_account {
@@ -133,11 +132,27 @@
           }
         }
 
-        .body {
-          padding: 10px;
+        .account-controls {
           display: flex;
+          justify-content: space-between;
+          padding: 10px 15px 0 15px;
+
+          .link-set-account-primary {
+            height: 20px;
+          }
+
+          .link-remove-account {
+            color: $text-muted;
+            &:hover {
+              color: $red;
+            }
+          }
+        }
+
+        .account-body {
+          display: flex;
+          padding: 10px 15px 0 15px;
           flex-wrap: wrap;
-          margin: 0 -10px;
 
           .heading {
             display: block;
@@ -146,7 +161,8 @@
           }
 
           .account {
-            margin: 0 10px;
+            margin: 0 15px 0 0;
+            flex: 1 1 200px;
 
             .table-account-info {
               tr {
@@ -169,32 +185,28 @@
           }
 
           .bank {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 0 -10px 0;
+            flex: 1 0 300px;
 
-            .heading {
-              flex: 100%;
-              margin: 0 10px 5px 10px;
+            .heading, .bank-name {
+              margin: 0 0 5px 0;
             }
 
-            .bank-name {
-              flex: 100%;
-              margin: 0 10px 5px 10px;
-            }
+            .extra-info {
+              display: flex;
+              margin: 0 -10px;
 
-            div {
               .bank-label {
                 display: block;
                 color: $text-muted;
                 text-align: left;
                 padding: 0;
                 font-size: 0.8em;
+                white-space: nowrap;
               }
-            }
 
-            .bank-phone, .bank-address, .swift {
-              margin: 0 10px 10px 10px;
+              .bank-phone, .bank-address, .swift {
+                margin: 0 10px 10px 10px;
+              }
             }
           }
         }

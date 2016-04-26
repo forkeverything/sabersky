@@ -167,13 +167,36 @@ class VendorsController extends Controller
     public function deleteBankAccount(Vendor $vendor, $bankAccountId)
     {
         if (Gate::allows('edit', $vendor)) {
-            BankAccount::find($bankAccountId)                           // BankAccount model we're trying to modify
-                       ->where('vendor_id', '=', $vendor->id)           // ...belongs to right vendor check
-                       ->firstOrFail()
-                       ->tryDelete();
+            $deleted = BankAccount::where('id', $bankAccountId)             // BankAccount model we're trying to modify
+                                  ->where('vendor_id', '=', $vendor->id)    // ...belongs to right vendor check
+                                  ->firstOrFail()
+                                  ->tryDelete();
+            if ($deleted) return response("Removed Bank Account", 200);
             return response("Could not delete Bank Account", 500);
         }
 
         return response("Not allowed to delete that Vendor's Bank Account", 403);
+    }
+
+    /**
+     * POST req to set a Bank Account as the primary account
+     * for a given Vendor
+     *
+     * @param Vendor $vendor
+     * @param $bankAccountId
+     * @return mixed
+     */
+    public function postBankAccountSetPrimary(Vendor $vendor, $bankAccountId)
+    {
+        if (Gate::allows('edit', $vendor)) {
+            $set = BankAccount::where('id', $bankAccountId)
+                              ->where('vendor_id', '=', $vendor->id)
+                              ->firstOrFail()
+                              ->setPrimary();
+            if ($set) return response("Set Bank Account as primary", 200);
+            return response("Could not set Bank Account as primary", 500);
+        }
+
+        return response("Not allowed to edit that Bank Account", 403);
     }
 }

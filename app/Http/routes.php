@@ -184,6 +184,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
     Route::post('/vendors/{vendor}/bank_accounts', 'VendorsController@postAddBankAccount');
     Route::delete('/vendors/{vendor}/bank_accounts/{bank_account_id}', 'VendorsController@deleteBankAccount');
+    Route::post('/vendors/{vendor}/bank_accounts/{bank_account_id}/set_primary', 'VendorsController@postBankAccountSetPrimary');
 
     
     
