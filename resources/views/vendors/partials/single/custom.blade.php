@@ -29,6 +29,11 @@
                         <span v-else class="no-description">None</span>
                         @endcan
                 </div>
+                <div class="link-company page-body">
+                    <h5>Linked Company</h5>
+                    <p>Nec dubitamus multa iter quae et nos invenerat. Qui ipsorum lingua Celtae, nostra Galli appellantur. Cum sociis natoque penatibus et magnis dis parturient. Ambitioni dedisse scripsisse iudicaretur.
+                        Paullum deliquit, ponderibus modulisque suis ratio utitur. Inmensae subtilitatis, obscuris et malesuada fames. Quam diu etiam furor iste tuus nos eludet?</p>
+                </div>
             </div>
             <div class="col-sm-8">
                 <div class="bank-accounts page-body">

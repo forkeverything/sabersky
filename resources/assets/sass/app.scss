@@ -319,51 +319,7 @@ li.active {
   }
 }
 
-#main-stage {
-  display: flex;
-  height: 100vh;
-  overflow-x: hidden;
 
-  #side-menu {
-    flex: 0 0 230px;
-    overflow-y: scroll;
-    min-height: 500px;
-  }
-
-  #body-content {
-    flex: 1 0 300px;
-    overflow-y: scroll;
-    min-height: 500px;
-    padding: 0 0 30px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-
-  .with-menu {
-    .container {
-      width: 520px;
-    }
-  }
-}
-
-@media screen and (min-width: 998px) {
-  .container {
-    width: 740px !important;
-  }
-}
-
-@media screen and (min-width: 1222px) {
-  .container {
-    width: 940px !important;
-  }
-}
-
-@media screen and (min-width: 1430px) {
-  .container {
-    width: 1170px !important;
-  }
-}
 
 // Hide FOUC
 [v-cloak] {
