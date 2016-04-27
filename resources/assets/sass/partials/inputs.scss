@@ -33,12 +33,10 @@ label.required {
 .shift-label-input {
   margin: 0 0 15px 0;
   position: relative;
-  border: 1px solid $border-light;
 
   input {
     width: 100%;
-    height: -webkit-calc(3.5em);
-    height: calc(3.5em);
+    height: 3.5em;
     padding: 2em 1em 1em calc(0.8em - 1px);
     background: #FFFFFF;
     resize: none;

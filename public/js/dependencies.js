@@ -718,49 +718,55 @@ Vue.component('add-address-modal', {
     '                  <i class="fa fa-plus"></i> New Address' +
     '          </button>' +
     '          <div class="modal-address-add modal-form" v-show="visible" @click="hideModal">' +
-    '               <form class="form-item-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
+    '               <form class="form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
     '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '                   <form-errors></form-errors>' +
     '                   <h3>Add Address</h3>' +
-    '                   <div class="form-group">' +
-    '                       <label class="required">Address</label>' +
-    '                       <input class="form-control" type="text" v-model="address1" required>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input type="text" v-model="address1" required>' +
+    '                       <label class="required" placeholder="Address"></label>' +
     '                   </div>' +
-    '                   <div class="form-group">' +
-    '                       <label>Address 2</label>' +
-    '                       <input class="form-control" type="text" v-model="address2">' +
-    '                   </div>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group">' +
-    '                               <label class="required">City</label>' +
-    '                               <input class="form-control" type="text" v-model="city" required>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group">' +
-    '                               <label class="required">Zip</label>' +
-    '                               <input class="form-control" type="text" v-model="zip" required>' +
-    '                           </div>' +
-    '                       </div>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input class="not-required"' +
+    '                              type="text"' +
+    '                              v-model="address2"' +
+    '                              :class="{' +
+    "                                  'filled': address2.length > 0" +
+    '                              }"' +
+    '                       >' +
+    '                       <label placeholder="Address 2"></label>' +
     '                   </div>' +
     '                   <div class="row">' +
     '                       <div class="col-sm-6">' +
-    '                           <div class="form-group">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="city" required>' +
+    '                               <label class="required" placeholder="City"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="zip" required>' +
+    '                               <label class="required" placeholder="Zip"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="form-group shift-select">' +
     '                               <label class="required">Country</label>' +
     '                               <select class="address-country-selecter"><option></option></select>' +
     '                           </div>' +
     '                       </div>' +
     '                       <div class="col-sm-6">' +
-    '                           <div class="form-group">' +
+    '                           <div class="form-group shift-select">' +
     '                               <label class="required">State</label>' +
     '                               <select class="address-state-selecter"><option></option></select>' +
     '                           </div>' +
     '                       </div>' +
     '                   </div>' +
-    '                   <div class="form-group">' +
-    '                       <label class="required">Phone Number</label>' +
-    '                       <input class="form-control" type="text" v-model="phone" required>' +
+    '                   <div class="shift-label-input">' +
+    '                       <input type="text" v-model="phone" required>' +
+    '                       <label class="required" placeholder="Phone Number"></label>' +
     '                   </div>' +
     '                   <div class="form-group align-end">' +
     '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +

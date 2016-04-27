@@ -54,9 +54,6 @@
                                                         <h5>Bank Accounts</h5>
                                                         <add-bank-account-modal :vendor.sync="vendor"></add-bank-account-modal>
                                                 </div>
-                                                <form-errors></form-errors>
-                                                @include('vendors.partials.single.form_add_bank.form')
-
                                                 <div class="bank-accounts-collection"
                                                      v-if="vendor.bank_accounts && vendor.bank_accounts.length > 0">
 
