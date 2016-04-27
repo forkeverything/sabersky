@@ -1,4 +1,4 @@
-<div class="add-form-wrap" :class="{ 'expanded': showAddBankAccountForm }">
+<div class="add-form-wrap" v-show="showAddBankAccountForm">
     <form-errors></form-errors>
     <form @submit.prevent="addBankAccount" id="form_add_bank_account">
         <h4>Add New Bank Account</h4>

@@ -55,6 +55,10 @@
       margin: 0;
     }
 
+    .link-bottom {
+      margin: 15px 0 0 0;
+    }
+
   }
 
   .addresses {
@@ -122,32 +126,18 @@
   .bank-accounts  {
 
     .section-top {
+      align-items: center;
       display: flex;
       justify-content: space-between;
+      margin: 0 0 15px 0;
 
-      .link-toggle-add-bank-account-form {
-        span {
-          border-bottom: 1px dotted $black;
-        }
-
-        &:hover {
-          span {
-            border-bottom: 1px solid $blue;
-          }
-        }
+      h5 {
+        margin: 0;
       }
     }
 
     .add-form-wrap {
       display: block;
-      overflow: hidden;
-      @include transition(all 0.5s);
-      max-height: 0;
-
-      &.expanded {
-        @include transition(all 0.3s);
-        max-height: 5000px !important;
-      }
 
       #form_add_bank_account {
         border: 1px solid $border-light;

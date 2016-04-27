@@ -31,7 +31,7 @@ class VendorPolicy
      */
     public function view(User $user, Vendor $vendor)
     {
-        return $user->companyid === $vendor->base_company_id;
+        return $user->company_id === $vendor->base_company_id;
     }
 
 

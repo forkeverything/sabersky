@@ -223,6 +223,8 @@ class Vendor extends Model
     {
         // If we're linked, and the linked company has a registered address
         if ($this->linkedCompany && $companyAddress = $this->linkedCompany->addresses) {
+            // If Vendor model doesn't have any addresses
+            if(! $this->addresses->count() > 0) return $companyAddress;
             // Merge all addresses and return
             return $this->addresses->merge($companyAddress);
         }

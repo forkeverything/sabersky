@@ -2,9 +2,19 @@
 @import "vendors/single";
 @import "vendors/requests";
 
+.company-search-selecter {
+  .option {
+    &.disabled {
+      &:hover {
+        background: #fff !important;
+        color: $black !important;
+      }
+    }
+  }
+}
 
 .vendor-connection {
-
+  margin: 0 0 0 5px;
   font-style: italic;
 
   &.verified {
@@ -13,7 +23,8 @@
     &:before {
       font-family: FontAwesome;
       content: "\f00c";
-      margin: 0 5px 0 0;
+      margin: 0 3px 0 0;
+      font-size: 1.2em;
     }
   }
 
@@ -21,6 +32,7 @@
     color: $orange;
   }
 }
+
 #vendors-all {
 
 }

@@ -180,6 +180,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/vendors/add', ['as' => 'addVendor', 'uses' => 'VendorsController@getAddForm']);
     Route::post('/vendors/link', 'VendorsController@postLinkCompanyToVendor');
+    Route::put('/vendors/{vendor}/unlink', 'VendorsController@putUnlinkCompanyToVendor');
     Route::post('/vendors/add', 'VendorsController@postAddCustomVendor');
     Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');

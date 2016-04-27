@@ -45,11 +45,11 @@ Vue.component('company-search-selecter', {
                     switch (item.connection) {
                         case 'pending':
                             selectedClass += 'disabled"';
-                            connectionSpan = '<span class="connection pending"> <em>pending</em></span>';
+                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
                             break;
                         case 'verified':
                             selectedClass += 'disabled"';
-                            connectionSpan = '<span class="connection verified"> <i class="fa fa-check"></i> <em>verified</em></span>';
+                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
                             break;
                         default:
                             selectedClass += '"';

@@ -7562,6 +7562,9 @@ label.required {
 #vendor-single .link-company .description {
   margin: 0; }
 
+#vendor-single .link-company .link-bottom {
+  margin: 15px 0 0 0; }
+
 #vendor-single .addresses .btn-add-address {
   display: block;
   margin: 0 0 15px 0; }
@@ -7625,25 +7628,21 @@ label.required {
       font-weight: bold; }
 
 #vendor-single .bank-accounts .section-top {
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
-  justify-content: space-between; }
-  #vendor-single .bank-accounts .section-top .link-toggle-add-bank-account-form span {
-    border-bottom: 1px dotted #353535; }
-  #vendor-single .bank-accounts .section-top .link-toggle-add-bank-account-form:hover span {
-    border-bottom: 1px solid #3498DB; }
+  justify-content: space-between;
+  margin: 0 0 15px 0; }
+  #vendor-single .bank-accounts .section-top h5 {
+    margin: 0; }
 
 #vendor-single .bank-accounts .add-form-wrap {
-  display: block;
-  overflow: hidden;
-  transition: all 0.5s;
-  max-height: 0; }
-  #vendor-single .bank-accounts .add-form-wrap.expanded {
-    transition: all 0.3s;
-    max-height: 5000px !important; }
+  display: block; }
   #vendor-single .bank-accounts .add-form-wrap #form_add_bank_account {
     border: 1px solid #E6E9EB;
     padding: 30px;
@@ -7758,14 +7757,20 @@ label.required {
       width: 100px;
       margin: 0 15px 0 0; }
 
+.company-search-selecter .option.disabled:hover {
+  background: #fff !important;
+  color: #353535 !important; }
+
 .vendor-connection {
+  margin: 0 0 0 5px;
   font-style: italic; }
   .vendor-connection.verified {
     color: #27AE60; }
     .vendor-connection.verified:before {
       font-family: FontAwesome;
       content: "\f00c";
-      margin: 0 5px 0 0; }
+      margin: 0 3px 0 0;
+      font-size: 1.2em; }
   .vendor-connection.pending {
     color: #FFA339; }
 

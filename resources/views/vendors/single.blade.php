@@ -25,7 +25,7 @@
                                                 </div>
                                                 @else
                                                         <h5>Description</h5>
-                                                        <p v-if="vendor.description.length > 0">
+                                                        <p v-if="vendor.description && vendor.description.length > 0">
                                                                 @{{ vendor.description }}
                                                         </p>
                                                         <span v-else class="no-description">None</span>
@@ -40,25 +40,19 @@
                                                         <span class="company-name">@{{ vendor.linked_company.name }}</span>
                                                         <p class="description">@{{ vendor.linked_company.description }}</p>
                                                 </div>
-                                                <form class="form-link-company" v-else @submit.prevent="linkCompany">
-                                                        <div class="form-group">
-                                                                <p class="text-muted">Search for this Vendor on SaberSky</p>
-                                                                <company-search-selecter :name.sync="companyIDToLink"></company-search-selecter>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-solid-blue btn-full btn-small" v-show="companyIDToLink" :disabled="! companyIDToLink">Send Link Request</button>
-                                                </form>
+                                            <vendor-single-link-company :vendor.sync="vendor"></vendor-single-link-company>
+                                            @can('vendor_manage')
+                                            <div class="link-bottom align-end" v-if="vendor.linked_company_id">
+                                                <button type="button" class="btn btn-small btn-outline-grey" @click="unlinkCompany">Unlink Company</button>
+                                            </div>
+                                            @endcan
                                         </div>
                                 </div>
                                 <div class="col-sm-8">
                                         <div class="bank-accounts page-body">
                                                 <div class="section-top">
                                                         <h5>Bank Accounts</h5>
-                                                        <a class="clickable link-toggle-add-bank-account-form" @click="toggleAddBankAccountForm">
-                    <span v-show="!  showAddBankAccountForm">
-                        <i class="fa fa-plus"></i> Bank Account
-                    </span>
-                                                        <span v-else>Hide</span>
-                                                        </a>
+                                                        <add-bank-account-modal :vendor.sync="vendor"></add-bank-account-modal>
                                                 </div>
                                                 <form-errors></form-errors>
                                                 @include('vendors.partials.single.form_add_bank.form')
@@ -117,7 +111,11 @@
 
                                                 </div>
 
-                                                <em v-else>No known registered bank accounts</em>
+                                            <div v-else class="empty-stage">
+                                                <i class="fa fa-bank"></i>
+                                                <h3>No Accounts Found</h3>
+                                                <p>Add a bank account to a vendor and for effortless payments of purchase orders</p>
+                                            </div>
                                         </div>
                                 </div>
                         </div>

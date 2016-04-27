@@ -1,9 +1,11 @@
 <?php
 
+use App\Address;
 use App\Company;
 use App\Item;
 use App\Project;
 use App\User;
+use App\Vendor;
 use Illuminate\Database\Seeder;
 
 class PusakaSetupSeeder extends Seeder
@@ -19,6 +21,7 @@ class PusakaSetupSeeder extends Seeder
         DB::table('users')->truncate();
         DB::table('items')->truncate();
         DB::table('projects')->truncate();
+        DB::table('vendors')->truncate();
 
         $company = Company::create([
             'name' => 'Pusaka Jaya',
@@ -47,5 +50,42 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         ]);
 
         $user->projects()->save($project);
+        
+        // Vendors
+        $verifiedVendors = factory(Vendor::class, 3)->create([
+            'base_company_id' => 1,
+            'verified' => 1
+        ]);
+
+        foreach ($verifiedVendors as $vendor) {
+            factory(Address::class)->create([
+                'owner_id' => $vendor->linkedCompany->id,
+                'owner_type' => 'company'
+            ]);
+        }
+
+        $pendingVendors = factory(Vendor::class, 2)->create([
+            'base_company_id' => 1,
+            'verified' => 0
+        ]);
+
+        foreach ($pendingVendors as $vendor) {
+            factory(Address::class)->create([
+                'owner_id' => $vendor->id
+            ]);
+            factory(Address::class)->create([
+                'owner_id' => $vendor->linkedCompany->id,
+                'owner_type' => 'company'
+            ]);
+        }
+
+        $customVendor = factory(Vendor::class)->create([
+            'base_company_id' => 1,
+            'linked_company_id' => null
+        ]);
+
+        factory(Address::class, 3)->create([
+            'owner_id' => $customVendor->id
+        ]);
     }
 }

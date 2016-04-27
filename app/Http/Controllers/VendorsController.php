@@ -93,6 +93,24 @@ class VendorsController extends Controller
     }
 
     /**
+     * Handle POST req to unlink Company to a specific Company. Unlink linking (which 
+     * may be used to create new Vendor models), we can just use route-model bind
+     * here so we can get the right model quicker
+     * 
+     * @param Vendor $vendor
+     * @param Request $request
+     * @return Vendor
+     */
+    public function putUnlinkCompanyToVendor(Vendor $vendor, Request $request)
+    {
+        if (Gate::allows('edit', $vendor)) {
+            if($vendor->unlinkCompany()) return $vendor;
+            return response("Could not unlink Company to Vendor", 500);
+        }
+        return response("Not authorized to edit that Vendor", 403);
+    }
+
+    /**
      * Retrieves the view for a single Vendor if
      * the Client is authorized to view it.
      *
@@ -154,7 +172,7 @@ class VendorsController extends Controller
      */
     public function postAddBankAccount(Vendor $vendor, AddBankAccountRequest $request)
     {
-        return $vendor->bankAccounts()->create($request->all());
+        return $vendor->allBankAccounts()->create($request->all());
     }
 
     /**

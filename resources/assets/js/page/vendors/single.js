@@ -11,21 +11,14 @@ Vue.component('vendor-single', {
             description: '',
             editDescription: false,
             savedDescription: '',
-            showAddBankAccountForm: false,
-            accountName: '',
-            accountNumber: '',
-            bankName: '',
-            swift: '',
-            bankPhone: '',
-            bankAddress: '',
             companyIDToLink: ''
         };
     },
     props: [],
     computed: {
         vendorLink: function () {
-            if(this.vendor.linked_company_id) {
-                if(this.vendor.verified) return 'verified';
+            if (this.vendor.linked_company_id) {
+                if (this.vendor.verified) return 'verified';
                 return 'pending';
             }
             return 'custom';
@@ -111,56 +104,14 @@ Vue.component('vendor-single', {
                 }
             });
         },
-        toggleAddBankAccountForm: function () {
-            this.showAddBankAccountForm = !this.showAddBankAccountForm;
-        },
-        addBankAccount: function () {
+        bankSetPrimary: function (account) {
             var self = this;
-            vueClearValidationErrors(self);
             if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendorID + '/bank_accounts',
-                method: 'POST',
-                data: {
-                    "account_name": self.accountName,
-                    "account_number": self.accountNumber,
-                    "bank_name": self.bankName,
-                    "swift": self.swift,
-                    "bank_phone": self.bankPhone,
-                    "bank_address": self.bankAddress
-                },
-                success: function (data) {
-                    // Push to front
-                    self.vendor.bank_accounts.push(data);
-                    // Reset Fields
-                    self.accountName = '';
-                    self.accountNumber = '';
-                    self.bankName = '';
-                    self.swift = '';
-                    self.bankPhone = '';
-                    self.bankAddres = '';
-                    // hide add section
-                    self.showAddBankAccountForm = false;
-                    // Flash
-                    flashNotify('success', 'Added bank account to vendor')
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    flashNotify('error', 'Could not add bank account to vendor')
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        bankSetPrimary: function(account) {
-            var self = this;
-            if(!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
                 method: 'POST',
-                success: function(data) {
+                success: function (data) {
                     self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
                         if (bankAccount.id === account.id) {
                             bankAccount.primary = 1;
@@ -169,9 +120,9 @@ Vue.component('vendor-single', {
                         }
                         return bankAccount;
                     });
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     flashNotify('error', 'Could not set Bank Account as primary');
                     self.ajaxReady = true;
                 }
@@ -196,29 +147,25 @@ Vue.component('vendor-single', {
                 }
             });
         },
-        linkCompany: function() {
+        unlinkCompany: function () {
             var self = this;
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/vendors/link',
-                method: 'POST',
+                url: '/vendors/' + self.vendor.id + '/unlink',
+                method: 'PUT',
                 data: {
-                    "vendor_id": self.vendor.id,
-                    "linked_company_id": self.companyIDToLink
+                    "vendor_id": self.vendor.id
                 },
-                success: function(data) {
-                   // success
-                    flashNotify('success', 'Linked company to vendor');
-                    self.companyIDToLink = '';
-
+                success: function (data) {
+                    // success
+                    flashNotify('info', 'Unlinked company to vendor');
                     self.vendor = data;
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
-                    
-                    vueValidation(response, self);
+
                     self.ajaxReady = true;
                 }
             });

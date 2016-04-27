@@ -56,8 +56,9 @@ class Company extends Model
             $vendor = DB::table('vendors')->select(DB::raw(1))
                 ->where('base_company_id', $userCompany->id)
                 ->where('linked_company_id', $this->id)
-                ->get();
-
+                ->select(['verified'])
+                ->first();
+            
             if($vendor) return $vendor->verified ?  'verified' : 'pending';
 
             return 'No connection to this company';
@@ -265,7 +266,7 @@ class Company extends Model
     /**
      * Retrieves all the Vendor models that have this Company
      * linked to it
-     * 
+     *
      * @param int $verifiedOnly
      * @return mixed
      */

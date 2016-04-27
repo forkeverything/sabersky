@@ -1319,21 +1319,14 @@ Vue.component('vendor-single', {
             description: '',
             editDescription: false,
             savedDescription: '',
-            showAddBankAccountForm: false,
-            accountName: '',
-            accountNumber: '',
-            bankName: '',
-            swift: '',
-            bankPhone: '',
-            bankAddress: '',
             companyIDToLink: ''
         };
     },
     props: [],
     computed: {
         vendorLink: function () {
-            if(this.vendor.linked_company_id) {
-                if(this.vendor.verified) return 'verified';
+            if (this.vendor.linked_company_id) {
+                if (this.vendor.verified) return 'verified';
                 return 'pending';
             }
             return 'custom';
@@ -1419,56 +1412,14 @@ Vue.component('vendor-single', {
                 }
             });
         },
-        toggleAddBankAccountForm: function () {
-            this.showAddBankAccountForm = !this.showAddBankAccountForm;
-        },
-        addBankAccount: function () {
+        bankSetPrimary: function (account) {
             var self = this;
-            vueClearValidationErrors(self);
             if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/vendors/' + self.vendorID + '/bank_accounts',
-                method: 'POST',
-                data: {
-                    "account_name": self.accountName,
-                    "account_number": self.accountNumber,
-                    "bank_name": self.bankName,
-                    "swift": self.swift,
-                    "bank_phone": self.bankPhone,
-                    "bank_address": self.bankAddress
-                },
-                success: function (data) {
-                    // Push to front
-                    self.vendor.bank_accounts.push(data);
-                    // Reset Fields
-                    self.accountName = '';
-                    self.accountNumber = '';
-                    self.bankName = '';
-                    self.swift = '';
-                    self.bankPhone = '';
-                    self.bankAddres = '';
-                    // hide add section
-                    self.showAddBankAccountForm = false;
-                    // Flash
-                    flashNotify('success', 'Added bank account to vendor')
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    flashNotify('error', 'Could not add bank account to vendor')
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        bankSetPrimary: function(account) {
-            var self = this;
-            if(!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
                 method: 'POST',
-                success: function(data) {
+                success: function (data) {
                     self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
                         if (bankAccount.id === account.id) {
                             bankAccount.primary = 1;
@@ -1477,9 +1428,9 @@ Vue.component('vendor-single', {
                         }
                         return bankAccount;
                     });
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     flashNotify('error', 'Could not set Bank Account as primary');
                     self.ajaxReady = true;
                 }
@@ -1504,29 +1455,25 @@ Vue.component('vendor-single', {
                 }
             });
         },
-        linkCompany: function() {
+        unlinkCompany: function () {
             var self = this;
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/vendors/link',
-                method: 'POST',
+                url: '/vendors/' + self.vendor.id + '/unlink',
+                method: 'PUT',
                 data: {
-                    "vendor_id": self.vendor.id,
-                    "linked_company_id": self.companyIDToLink
+                    "vendor_id": self.vendor.id
                 },
-                success: function(data) {
-                   // success
-                    flashNotify('success', 'Linked company to vendor');
-                    self.companyIDToLink = '';
-
+                success: function (data) {
+                    // success
+                    flashNotify('info', 'Unlinked company to vendor');
                     self.vendor = data;
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
-                    
-                    vueValidation(response, self);
+
                     self.ajaxReady = true;
                 }
             });
@@ -2042,6 +1989,182 @@ Vue.component('settings-rules', {
         self.fetchRules();
     }
 });
+Vue.component('add-bank-account-modal', {
+    name: 'add-bank-account-modal',
+    template: '<button type="button"' +
+    '               class="btn btn-add-modal btn-outline-blue"' +
+    '               @click="showModal"' +
+    '          >' +
+    '           New Account' +
+    '</button>' +
+    '          <div class="modal-bank-account-add modal-form" v-show="visible" @click="hideModal">' +
+    '               <form class="form-add-bank-account main-form" @click.stop="" @submit.prevent="addBankAccount">' +
+    '                   <form-errors></form-errors>' +
+    '                   <h4>Add New Bank Account</h4>'+
+    '                   <div class="account_info">'+
+    '                       <label>Account Information</label>'+
+    '                       <div class="row">'+
+    '                           <div class="col-xs-6">'+
+    '                               <div class="shift-label-input no-validate">'+
+    '                                   <input type="text" v-model="accountName" required>'+
+    '                                   <label placeholder="Account Name" class="required"></label>'+
+    '                               </div>'+
+    '                           </div>'+
+    '                           <div class="col-xs-6">'+
+    '                               <div class="shift-label-input no-validate">'+
+    '                                   <input type="text" v-model="accountNumber" required>'+
+    '                                   <label placeholder="# Number" class="required"></label>'+
+    '                               </div>'+
+    '                           </div>'+
+    '                       </div>'+
+    '                   </div>'+
+    '                   <div class="bank_info">'+
+    '                       <label>Bank Details</label>'+
+    '                       <div class="visible-xs">'+
+    '                           <div class="shift-label-input no-validate">'+
+    '                               <input type="text" v-model="bankName" required>'+
+    '                               <label placeholder="Bank Name" class="required"></label>'+
+    '                           </div>'+
+    '                       </div>'+
+    '                       <div class="row hidden-xs">'+
+    '                           <div class="col-sm-4">'+
+    '                               <div class="shift-label-input no-validate">'+
+    '                                   <input type="text" v-model="bankName" required>'+
+    '                                   <label placeholder="Bank Name" class="required"></label>'+
+    '                               </div>'+
+    '                           </div>'+
+    '                           <div class="col-sm-4">'+
+    '                               <div class="shift-label-input no-validate">'+
+    '                                   <input type="text" ' +
+    '                                       class="not-required"'+
+    '                                       v-model="swift" ' +
+    '                                       :class="{'+
+    "                                           'filled': swift.length > 0"+
+    '                                       }">'+
+    '                                   <label placeholder="SWIFT / IBAN"></label>'+
+    '                               </div>'+
+    '                           </div>'+
+    '                           <div class="col-sm-4">'+
+    '                               <div class="shift-label-input no-validate">'+
+    '                                   <input type="text" ' +
+    '                                       class="not-required" ' +
+    '                                       v-model="bankPhone" ' +
+    '                                       :class="{'+
+    "                                           'filled': bankPhone.length > 0"+
+    '                                       }">'+
+    '                                   <label placeholder="Phone Number"></label>'+
+    '                               </div>'+
+    '                           </div>'+
+    '                  </div>'+
+    '                  <div class="row visible-xs">'+
+    '                       <div class="col-xs-6">'+
+    '                           <div class="shift-label-input no-validate">'+
+    '                               <input type="text" ' +
+    '                                      class="not-required"'+
+    '                                      v-model="swift" ' +
+    '                                      :class="{' +
+    "                                           'filled': swift.length > 0"+
+    '                                       }">'+
+    '                               <label placeholder="SWIFT / IBAN"></label>'+
+    '                           </div>'+
+    '                      </div>'+
+    '                      <div class="col-xs-6">'+
+    '                           <div class="shift-label-input no-validate">'+
+    '                               <input type="text" ' +
+    '                                      class="not-required" ' +
+    '                                      v-model="bankPhone" ' +
+    '                                      :class="{' +
+    "                                           'filled': bankPhone.length > 0 "+
+    '                                       }">'+
+    '                                       <label placeholder="Phone Number"></label>' +
+    '                           </div>'+
+    '                       </div>'+
+    '                </div>'+
+    '                <div class="shift-label-input no-validate">'+
+    '                       <input type="text" ' +
+    '                              class="not-required" ' +
+    '                              v-model="bankAddress" ' +
+    '                               :class="{'+
+    "                                   'filled': bankAddress.length > 0" +
+    '                               }">'+
+    '                       <label placeholder="Address"></label>'+
+    '               </div>'+
+    '           </div>'+
+    '           <div class="align-end">'+
+    '               <button type="submit" class="btn btn-solid-blue"><i class="fa fa-plus"></i> Bank Account</button>'+
+    '           </div>'+
+    '       </form>' +
+    ' </div>',
+    data: function() {
+        return {
+            ajaxReady: true,
+            ajaxObject: {},
+            visible: false,
+            accountName: '',
+            accountNumber: '',
+            bankName: '',
+            swift: '',
+            bankPhone: '',
+            bankAddress: ''
+        };
+    },
+    props: ['vendor'],
+    computed: {
+        
+    },
+    methods: {
+        showModal: function () {
+            this.visible = true;
+        },
+        hideModal: function () {
+            this.visible = false;
+        },
+        addBankAccount: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/' + self.vendor.id + '/bank_accounts',
+                method: 'POST',
+                data: {
+                    "account_name": self.accountName,
+                    "account_number": self.accountNumber,
+                    "bank_name": self.bankName,
+                    "swift": self.swift,
+                    "bank_phone": self.bankPhone,
+                    "bank_address": self.bankAddress
+                },
+                success: function (data) {
+                    // Push to front
+                    self.vendor.bank_accounts.push(data);
+                    // Reset Fields
+                    self.accountName = '';
+                    self.accountNumber = '';
+                    self.bankName = '';
+                    self.swift = '';
+                    self.bankPhone = '';
+                    self.bankAddres = '';
+                    // Flash
+                    flashNotify('success', 'Added bank account to vendor');
+                    self.visible = false;
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    flashNotify('error', 'Could not add bank account to vendor')
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+    },
+    events: {
+        
+    },
+    ready: function() {
+        
+    }
+});
 Vue.component('vendor-add-search', {
     name: 'vendorAddSearchCompany',
     el: function () {
@@ -2105,6 +2228,60 @@ Vue.component('vendor-add-custom', {
     },
     events: {
         
+    },
+    ready: function() {
+
+    }
+});
+Vue.component('vendor-single-link-company', {
+    name: 'vendorLinkCompany',
+    template:  '<form class="form-link-company" v-else @submit.prevent="linkCompany" v-if="! vendor.linked_company_id">'+
+    '               <form-errors></form-errors>'+
+    '               <div class="form-group">'+
+    '                   <p class="text-muted">Search for this Vendor on SaberSky</p>'+
+    '                   <company-search-selecter :name.sync="companyIDToLink"></company-search-selecter>'+
+    '               </div>'+
+    '               <button type="submit" class="btn btn-solid-blue btn-full btn-small" v-show="companyIDToLink" :disabled="! companyIDToLink">Send Link Request</button>'+
+    '            </form>',
+    data: function() {
+        return {
+            ajaxReady: true,
+            companyIDToLink: ''
+        };
+    },
+    props: ['vendor'],
+    computed: {
+
+    },
+    methods: {
+        linkCompany: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/vendors/link',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendor.id,
+                    "linked_company_id": self.companyIDToLink
+                },
+                success: function (data) {
+                    // success
+                    flashNotify('success', 'Linked company to vendor');
+                    self.companyIDToLink = '';
+                    self.vendor = data;
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+
     },
     ready: function() {
 
