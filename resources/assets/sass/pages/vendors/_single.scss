@@ -146,6 +146,21 @@
       }
     }
 
+
+    &.no-accounts {
+      display: flex;
+      flex-wrap: wrap;
+
+      .section-top {
+        height: 42px;
+        flex: 100%;
+      }
+
+      .empty-stage {
+        flex: 100%;
+      }
+    }
+
     .bank-accounts-collection {
       margin: 0 0 -15px 0;
 

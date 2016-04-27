@@ -7675,6 +7675,23 @@ label.required {
     padding: 30px;
     margin: 0 0 15px 0; }
 
+#vendor-single .bank-accounts.no-accounts {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  #vendor-single .bank-accounts.no-accounts .section-top {
+    height: 42px;
+    -webkit-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%; }
+  #vendor-single .bank-accounts.no-accounts .empty-stage {
+    -webkit-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%; }
+
 #vendor-single .bank-accounts .bank-accounts-collection {
   margin: 0 0 -15px 0; }
   #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account {
