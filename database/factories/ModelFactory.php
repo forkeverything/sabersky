@@ -52,7 +52,8 @@ $factory->define(App\Vendor::class, function (Faker\Generator $faker) {
     return [
         'name' => 'PT.' . $faker->company,
         'description' => $faker->paragraph(3),
-        'base_company_id' => factory(Company::class)->create()->id
+        'base_company_id' => factory(Company::class)->create()->id,
+        'linked_company_id' => factory(Company::class)->create()->id,
     ];
 });
 

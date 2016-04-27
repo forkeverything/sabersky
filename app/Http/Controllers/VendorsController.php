@@ -119,7 +119,7 @@ class VendorsController extends Controller
     public function apiGetSingle(Vendor $vendor)
     {
         if (Gate::allows('view', $vendor)) {
-            return $vendor->load('linkedCompany','addresses');
+            return $vendor->load('linkedCompany', 'addresses');
         }
         return response("Not authorized to view that Vendor");
     }
@@ -167,8 +167,8 @@ class VendorsController extends Controller
     public function deleteBankAccount(Vendor $vendor, $bankAccountId)
     {
         if (Gate::allows('edit', $vendor)) {
-            $deleted = BankAccount::where('id', $bankAccountId)             // BankAccount model we're trying to modify
-                                  ->where('vendor_id', '=', $vendor->id)    // ...belongs to right vendor check
+            $deleted = BankAccount::where('id', $bankAccountId)// BankAccount model we're trying to modify
+                                  ->where('vendor_id', '=', $vendor->id)// ...belongs to right vendor check
                                   ->firstOrFail()
                                   ->deleteOrDeactivate();
             if ($deleted) return response("Removed Bank Account", 200);
@@ -198,5 +198,68 @@ class VendorsController extends Controller
         }
 
         return response("Not allowed to edit that Bank Account", 403);
+    }
+
+    /**
+     * Handle POST request to either verify or dismiss
+     * a Vendor that has linked to the User's Company
+     *
+     * @param Vendor $vendor
+     * @param $action
+     * @return mixed
+     */
+    public function postVerifyVendor(Vendor $vendor, $action)
+    {
+        // User must be allowed to accept reqeusts, as well as accept vendor
+        if (Gate::allows('vendor_manage') && Gate::allows('handleRequest', $vendor)) {
+            switch ($action) {
+                case 'verify':
+                    $vendor->verify();
+                    return response("Verified vendor request", 200);
+                    break;
+                case 'dismiss':
+                    $vendor->unlinkCompany();
+                    return response("Dismissed vendor request", 200);
+                    break;
+                default:
+                    return response("No action taken for request", 500);
+            }
+        }
+
+        return response("Not authorized to verify that vendor", 403);
+    }
+
+    /**
+     * Shows view for Requests page so that the client can accept / reject
+     * Vendor requests that want to link the client's Company to a
+     * Vendor model
+     *
+     * @return mixed
+     */
+    public function getRequestsPage()
+    {
+        if (Gate::allows('vendor_manage')) {
+            $breadcrumbs = [
+                ['<i class="fa fa-truck"></i> Vendors', '/vendors'],
+                ['Requests', '#']
+            ];
+            return view('vendors.requests', compact('breadcrumbs'));
+        }
+        flash("Need permission to accept vendor requests");
+        return redirect('/vendors');
+    }
+
+    /**
+     * Handle api request to see Pending requests to be linked a Vendor
+     * for the Client's Company
+     *
+     * @return mixed
+     */
+    public function apiGetPendingRequests()
+    {
+        if (Gate::allows('vendor_manage')) {
+            return Auth::user()->company->customerVendors(0)->with('baseCompany')->get();
+        }
+        return response("Not allowed to manage vendors", 403);
     }
 }

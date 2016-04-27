@@ -6087,28 +6087,24 @@ button.close {
 .btn-outline-grey {
   color: #757575;
   border: 1px solid #757575; }
-  .btn-outline-grey:hover {
-    color: #757575;
-    box-shadow: 0 0 0 3px #757575 !important;
-    fill: #757575; }
-  .btn-outline-grey:focus {
-    color: #757575; }
+  .btn-outline-grey:hover, .btn-outline-grey:focus {
+    border: 1px solid #757575; }
 
-.btn-solid, .btn-solid-green, .btn-solid-yellow, .btn-solid-blue, .btn-solid-red {
+.btn-solid, .btn-solid-green, .btn-solid-yellow, .btn-solid-blue, .btn-solid-red, .btn-solid-grey {
   color: #FFFFFF;
   border: 0 !important;
   transition: all 0.15s ease-out;
   height: 3em;
   padding: 0.5em 1em;
   display: inline-block; }
-  .btn-solid:hover, .btn-solid-green:hover, .btn-solid-yellow:hover, .btn-solid-blue:hover, .btn-solid-red:hover, .btn-solid:focus, .btn-solid-green:focus, .btn-solid-yellow:focus, .btn-solid-blue:focus, .btn-solid-red:focus, .btn-solid:active, .btn-solid-green:active, .btn-solid-yellow:active, .btn-solid-blue:active, .btn-solid-red:active, .btn-solid.active, .active.btn-solid-green, .active.btn-solid-yellow, .active.btn-solid-blue, .active.btn-solid-red {
+  .btn-solid:hover, .btn-solid-green:hover, .btn-solid-yellow:hover, .btn-solid-blue:hover, .btn-solid-red:hover, .btn-solid-grey:hover, .btn-solid:focus, .btn-solid-green:focus, .btn-solid-yellow:focus, .btn-solid-blue:focus, .btn-solid-red:focus, .btn-solid-grey:focus, .btn-solid:active, .btn-solid-green:active, .btn-solid-yellow:active, .btn-solid-blue:active, .btn-solid-red:active, .btn-solid-grey:active, .btn-solid.active, .active.btn-solid-green, .active.btn-solid-yellow, .active.btn-solid-blue, .active.btn-solid-red, .active.btn-solid-grey {
     outline: 0;
     color: #FFFFFF; }
-  .btn-solid:disabled, .btn-solid-green:disabled, .btn-solid-yellow:disabled, .btn-solid-blue:disabled, .btn-solid-red:disabled {
+  .btn-solid:disabled, .btn-solid-green:disabled, .btn-solid-yellow:disabled, .btn-solid-blue:disabled, .btn-solid-red:disabled, .btn-solid-grey:disabled {
     background: #D2D2D2;
     color: #757575;
     box-shadow: none !important; }
-    .btn-solid:disabled:hover, .btn-solid-green:disabled:hover, .btn-solid-yellow:disabled:hover, .btn-solid-blue:disabled:hover, .btn-solid-red:disabled:hover {
+    .btn-solid:disabled:hover, .btn-solid-green:disabled:hover, .btn-solid-yellow:disabled:hover, .btn-solid-blue:disabled:hover, .btn-solid-red:disabled:hover, .btn-solid-grey:disabled:hover {
       color: #757575;
       background: #D2D2D2; }
 
@@ -6139,6 +6135,14 @@ button.close {
   .btn-solid-red:hover, .btn-solid-red:focus, .btn-solid-red:active, .btn-solid-red.active {
     background-color: #C0392B;
     border-color: #C0392B; }
+
+.btn-solid-grey {
+  border-color: #D2D2D2;
+  background-color: #D2D2D2;
+  color: #757575; }
+  .btn-solid-grey:hover, .btn-solid-grey:focus, .btn-solid-grey:active, .btn-solid-grey.active {
+    background-color: #757575;
+    border-color: #757575; }
 
 .btn-full {
   width: 100%; }
@@ -7719,6 +7723,41 @@ label.required {
           #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-phone, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-address, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .swift {
             margin: 0 10px 10px 10px; }
 
+#vendor-requests .list-pending-requests .single-requests {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-top: 1px solid #E6E9EB;
+  border-bottom: 0;
+  padding: 20px 0;
+  margin: 0 0 -10px 0; }
+  #vendor-requests .list-pending-requests .single-requests:last-child {
+    border-bottom: 1px solid #E6E9EB; }
+  #vendor-requests .list-pending-requests .single-requests .thumbnail-name {
+    -webkit-flex: 1 0 300px;
+    -ms-flex: 1 0 300px;
+    flex: 1 0 300px;
+    font-weight: bold;
+    margin: 0 0 10px 0; }
+  #vendor-requests .list-pending-requests .single-requests .request-controls {
+    margin: 0 -15px 10px 0;
+    white-space: nowrap;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    #vendor-requests .list-pending-requests .single-requests .request-controls button {
+      width: 100px;
+      margin: 0 15px 0 0; }
+
 .vendor-connection {
   font-style: italic; }
   .vendor-connection.verified {
@@ -8169,7 +8208,7 @@ label.required {
     display: -ms-flexbox;
     display: flex; }
     .custom-tabs .nav-tabs li {
-      border: 1px solid #ebeef0;
+      border: 1px solid #D2D2D2;
       border-radius: 0;
       text-align: center; }
       .custom-tabs .nav-tabs li:not(:last-child) {
@@ -8264,7 +8303,7 @@ label.required {
         background: #fafbfc; }
   .custom-tabs .tab-content {
     background: #fff;
-    border: 1px solid #ebeef0;
+    border: 1px solid #D2D2D2;
     border-top: 0;
     padding: 30px; }
 

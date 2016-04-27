@@ -122,6 +122,18 @@ class Vendor extends Model
     }
 
     /**
+     * Unlinks Company (if any) that is
+     * linked to this Vendor
+     *
+     * @return bool
+     */
+    public function unlinkCompany()
+    {
+        $this->linked_company_id = null;
+        return $this->save();
+    }
+
+    /**
      * Vendor can have many Bank Accounts. This returns all of
      * them - including the inactive ones (the ones that
      * have been removed but have POs linked to them)

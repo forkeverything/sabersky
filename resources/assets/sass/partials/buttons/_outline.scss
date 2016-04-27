@@ -96,13 +96,7 @@
   color: $dark-grey;
   border: 1px solid $dark-grey;
 
-  &:hover {
-    color: $dark-grey;
-    @include box-shadow(0 0 0 3px $dark-grey !important);
-    fill: $dark-grey;
-  }
-
-  &:focus {
-    color: $dark-grey;
+  &:hover, &:focus {
+    border: 1px solid $dark-grey;
   }
 }

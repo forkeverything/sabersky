@@ -31,7 +31,7 @@ class VendorPolicy
      */
     public function view(User $user, Vendor $vendor)
     {
-        return $user->company->id === $vendor->base_company_id;
+        return $user->companyid === $vendor->base_company_id;
     }
 
 
@@ -46,5 +46,18 @@ class VendorPolicy
     public function edit(User $user, Vendor $vendor)
     {
         return $this->view($user, $vendor) && Gate::allows('vendor_manage');
+    }
+
+    /**
+     * A User is only allowed to accept a Vendor model if the Vendor is
+     * linked to the User's Company
+     *
+     * @param User $user
+     * @param Vendor $vendor
+     * @return bool
+     */
+    public function handleRequest(User $user, Vendor $vendor)
+    {
+        return $user->company_id === $vendor->linked_company_id;
     }
 }

@@ -66,3 +66,15 @@
     border-color: $dark-red;
   }
 }
+
+.btn-solid-grey {
+  @extend .btn-solid;
+  border-color: $grey;
+  background-color: $grey;
+  color: $dark-grey;
+
+  &:hover, &:focus, &:active, &.active {
+    background-color: $dark-grey;
+    border-color: $dark-grey;
+  }
+}

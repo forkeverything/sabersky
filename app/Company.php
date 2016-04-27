@@ -42,27 +42,25 @@ class Company extends Model
         'connection'
     ];
 
+    /**
+     * Checks the connection status for logged-user's Company
+     * and this Company model
+     *
+     * @return string
+     */
     public function getConnectionAttribute()
     {
         if (Auth::check()) {
             $userCompany = Auth::user()->company;
 
-            $verified = DB::table('vendors')->select(DB::raw(1))
+            $vendor = DB::table('vendors')->select(DB::raw(1))
                 ->where('base_company_id', $userCompany->id)
                 ->where('linked_company_id', $this->id)
-                ->where('verified', 1)
                 ->get();
 
-            if($verified) return 'verified';
+            if($vendor) return $vendor->verified ?  'verified' : 'pending';
 
-            $pending = DB::table('vendors')->select(DB::raw(1))
-                         ->where('base_company_id', $userCompany->id)
-                         ->where('linked_company_id', $this->id)
-                         ->where('verified', 0)
-                         ->get();
-
-            if($pending) return 'pending';
-
+            return 'No connection to this company';
         }
         return 'Can\'t determine connection without logged User Company';
     }
@@ -264,6 +262,19 @@ class Company extends Model
         return $this->hasMany(Vendor::class, 'base_company_id');
     }
 
+    /**
+     * Retrieves all the Vendor models that have this Company
+     * linked to it
+     * 
+     * @param int $verifiedOnly
+     * @return mixed
+     */
+    public function customerVendors($verifiedOnly = 1)
+    {
+        return $this->hasMany(Vendor::class, 'linked_company_id')
+            ->where('verified', $verifiedOnly);
+    }
+
 
     /**
      * Companies that have linked their Vendor model to this
@@ -272,10 +283,10 @@ class Company extends Model
      *
      * @return $this
      */
-    public function customers()
+    public function customerCompanies($verifiedOnly = 1)
     {
         return $this->belongsToMany(Company::class, 'vendors', 'linked_company_id', 'base_company_id')
-            ->wherePivot('verified' , '=', 1)
+            ->wherePivot('verified', '=', $verifiedOnly)
             ->withPivot('verified');
     }
 
@@ -285,10 +296,10 @@ class Company extends Model
      *
      * @return $this
      */
-    public function linkedAsVendorCompanies()
+    public function supplierCompanies($verifiedOnly = 1)
     {
         return $this->belongsToMany(Company::class, 'vendors', 'base_company_id', 'linked_company_id')
-                    ->wherePivot('verified' , '=', 1)
+                    ->wherePivot('verified' , '=', $verifiedOnly)
                     ->withPivot('verified');
     }
 
@@ -338,7 +349,7 @@ class Company extends Model
      */
     protected function mergeConnects()
     {
-        return $this->customers->merge($this->linkedAsVendorCompanies);
+        return $this->customerCompanies->merge($this->supplierCompanies);
     }
 
 
