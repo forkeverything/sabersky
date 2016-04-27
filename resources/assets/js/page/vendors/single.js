@@ -1,7 +1,7 @@
-Vue.component('vendor-custom', {
-    name: 'vendorCustom',
+Vue.component('vendor-single', {
+    name: 'vendorSingle',
     el: function () {
-        return '#vendor-single-custom'
+        return '#vendor-single'
     },
     data: function () {
         return {

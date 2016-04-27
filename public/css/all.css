@@ -7499,17 +7499,17 @@ label.required {
 #vendor-add-search .company-selected.disabled {
   color: #93989F; }
 
-#vendor-single-custom .description .no-description {
+#vendor-single .description .no-description {
   font-style: italic; }
 
-#vendor-single-custom .label-primary {
+#vendor-single .label-primary {
   color: #27AE60;
   background: #fff;
   font-style: italic; }
-  #vendor-single-custom .label-primary i {
+  #vendor-single .label-primary i {
     margin: 0 5px 0 0; }
 
-#vendor-single-custom .link-company .link-top {
+#vendor-single .link-company .link-top {
   margin: 0 0 15px;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7520,9 +7520,9 @@ label.required {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center; }
-  #vendor-single-custom .link-company .link-top h5 {
+  #vendor-single .link-company .link-top h5 {
     margin: 0; }
-  #vendor-single-custom .link-company .link-top .link-badge {
+  #vendor-single .link-company .link-top .link-badge {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -7537,32 +7537,32 @@ label.required {
     border-radius: 6px;
     margin: 0 0 0 15px;
     padding: 0 1.5em; }
-    #vendor-single-custom .link-company .link-top .link-badge.custom {
+    #vendor-single .link-company .link-top .link-badge.custom {
       color: #93989F;
       background: #ebeef0;
       border: 1px solid #A1A4AA; }
-    #vendor-single-custom .link-company .link-top .link-badge.pending {
+    #vendor-single .link-company .link-top .link-badge.pending {
       color: #FFA339;
       background: #FCFFBA;
       border: 1px solid #FFA339; }
-    #vendor-single-custom .link-company .link-top .link-badge.verified {
+    #vendor-single .link-company .link-top .link-badge.verified {
       color: #1C6F3D;
       background: #9CFFA8;
       border: 1px solid #2ECC71; }
 
-#vendor-single-custom .link-company .company-name {
+#vendor-single .link-company .company-name {
   display: block;
   font-weight: bold;
   margin: 0 0 10px; }
 
-#vendor-single-custom .link-company .description {
+#vendor-single .link-company .description {
   margin: 0; }
 
-#vendor-single-custom .addresses .btn-add-address {
+#vendor-single .addresses .btn-add-address {
   display: block;
   margin: 0 0 15px 0; }
 
-#vendor-single-custom .addresses .addresses-collection .address-row {
+#vendor-single .addresses .addresses-collection .address-row {
   margin: 0 -10px -20px -10px;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7570,7 +7570,7 @@ label.required {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
-  #vendor-single-custom .addresses .addresses-collection .address-row .single-address {
+  #vendor-single .addresses .addresses-collection .address-row .single-address {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
@@ -7585,20 +7585,20 @@ label.required {
     border-radius: 3px;
     padding: 10px; }
     @media (min-width: 1000px) {
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address {
+      #vendor-single .addresses .addresses-collection .address-row .single-address {
         max-width: calc(50% - 20px); } }
     @media (min-width: 1500px) {
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address {
+      #vendor-single .addresses .addresses-collection .address-row .single-address {
         max-width: calc(33.3333333333% - 20px); } }
     @media (min-width: 2000px) {
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address {
+      #vendor-single .addresses .addresses-collection .address-row .single-address {
         max-width: calc(25% - 20px); } }
     @media (min-width: 2500px) {
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address {
+      #vendor-single .addresses .addresses-collection .address-row .single-address {
         max-width: calc(20% - 20px); } }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address.primary {
+    #vendor-single .addresses .addresses-collection .address-row .single-address.primary {
       border-color: #2ECC71; }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls {
+    #vendor-single .addresses .addresses-collection .address-row .single-address .controls {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7607,57 +7607,57 @@ label.required {
       justify-content: space-between;
       margin: 0 0 10px 0;
       height: 21px; }
-      #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .remove {
+      #vendor-single .addresses .addresses-collection .address-row .single-address .controls .remove {
         color: #93989F; }
-        #vendor-single-custom .addresses .addresses-collection .address-row .single-address .controls .remove:hover {
+        #vendor-single .addresses .addresses-collection .address-row .single-address .controls .remove:hover {
           color: #E74C3C; }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address label, #vendor-single-custom .addresses .addresses-collection .address-row .single-address span.block {
+    #vendor-single .addresses .addresses-collection .address-row .single-address label, #vendor-single .addresses .addresses-collection .address-row .single-address span.block {
       display: block; }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address label {
+    #vendor-single .addresses .addresses-collection .address-row .single-address label {
       margin: 0 0 5px 0; }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address .phone {
+    #vendor-single .addresses .addresses-collection .address-row .single-address .phone {
       margin: 0 0 10px 0; }
-    #vendor-single-custom .addresses .addresses-collection .address-row .single-address .address .address_1 {
+    #vendor-single .addresses .addresses-collection .address-row .single-address .address .address_1 {
       font-weight: bold; }
 
-#vendor-single-custom .bank-accounts .section-top {
+#vendor-single .bank-accounts .section-top {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between; }
-  #vendor-single-custom .bank-accounts .section-top .link-toggle-add-bank-account-form span {
+  #vendor-single .bank-accounts .section-top .link-toggle-add-bank-account-form span {
     border-bottom: 1px dotted #353535; }
-  #vendor-single-custom .bank-accounts .section-top .link-toggle-add-bank-account-form:hover span {
+  #vendor-single .bank-accounts .section-top .link-toggle-add-bank-account-form:hover span {
     border-bottom: 1px solid #3498DB; }
 
-#vendor-single-custom .bank-accounts .add-form-wrap {
+#vendor-single .bank-accounts .add-form-wrap {
   display: block;
   overflow: hidden;
   transition: all 0.5s;
   max-height: 0; }
-  #vendor-single-custom .bank-accounts .add-form-wrap.expanded {
+  #vendor-single .bank-accounts .add-form-wrap.expanded {
     transition: all 0.3s;
     max-height: 5000px !important; }
-  #vendor-single-custom .bank-accounts .add-form-wrap #form_add_bank_account {
+  #vendor-single .bank-accounts .add-form-wrap #form_add_bank_account {
     border: 1px solid #E6E9EB;
     padding: 30px;
     margin: 0 0 15px 0; }
 
-#vendor-single-custom .bank-accounts .bank-accounts-collection {
+#vendor-single .bank-accounts .bank-accounts-collection {
   margin: 0 0 -15px 0; }
-  #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account {
+  #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account {
     margin: 0 0 15px 0;
     border-radius: 3px;
     border: 1px solid #3498DB; }
-    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .header {
+    #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .header {
       padding: 10px;
       background: #3498DB;
       color: #fff; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .header h5 {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .header h5 {
         margin: 0; }
-    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls {
+    #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-controls {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7665,13 +7665,13 @@ label.required {
       -ms-flex-pack: justify;
       justify-content: space-between;
       padding: 10px 15px 0 15px; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-set-account-primary {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-set-account-primary {
         height: 20px; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account {
         color: #93989F; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account:hover {
+        #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-controls .link-remove-account:hover {
           color: #E74C3C; }
-    #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body {
+    #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7679,44 +7679,44 @@ label.required {
       -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .heading {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .heading {
         display: block;
         color: #3498DB;
         margin: 0 0 5px; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account {
         margin: 0 15px 0 0;
         -webkit-flex: 1 1 200px;
         -ms-flex: 1 1 200px;
         flex: 1 1 200px; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td:first-child {
+        #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td:first-child {
           width: 10px;
           white-space: nowrap;
           padding: 0.25em 1em 0.25em 0;
           font-weight: normal;
           border-right: 1px solid #3498DB; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td {
+        #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .account .table-account-info tr td {
           border: 0;
           padding: 0.25em 1em;
           font-weight: bold; }
-      #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank {
+      #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank {
         -webkit-flex: 1 0 300px;
         -ms-flex: 1 0 300px;
         flex: 1 0 300px; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .heading, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .bank-name {
+        #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .heading, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .bank-name {
           margin: 0 0 5px 0; }
-        #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info {
+        #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
           margin: 0 -10px; }
-          #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-label {
+          #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-label {
             display: block;
             color: #93989F;
             text-align: left;
             padding: 0;
             font-size: 0.8em;
             white-space: nowrap; }
-          #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-phone, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-address, #vendor-single-custom .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .swift {
+          #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-phone, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .bank-address, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-body .bank .extra-info .swift {
             margin: 0 10px 10px 10px; }
 
 .vendor-connection {
