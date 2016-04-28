@@ -14,9 +14,10 @@ Vue.component('purchase-orders-submit', {
             order: 'asc',
             urgent: '',
             searchTerm: '',
-            selectedPRs: []
+            lineItems: []
         };
     },
+    props: ['user'],
     computed: {
         hasPurchaseRequests: function() {
             return ! _.isEmpty(this.purchaseRequests);
@@ -89,10 +90,10 @@ Vue.component('purchase-orders-submit', {
             this.searchPurchaseRequests();
         },
         selectPR: function(purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.selectedPRs = _.reject(this.selectedPRs, purchaseRequest) : this.selectedPRs.push(purchaseRequest) ;
+            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest) ;
         },
         alreadySelectedPR: function(purchaseRequest) {
-            return _.find(this.selectedPRs, function(pr) {
+            return _.find(this.lineItems, function(pr) {
                 return pr.id === purchaseRequest.id;
             });
         }

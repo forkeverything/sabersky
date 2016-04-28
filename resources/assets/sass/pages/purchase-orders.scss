@@ -1,38 +1,4 @@
-#purchase-orders-submit {
-  .step {
-    margin: 0 0 30px;
-
-    h5 {
-      margin: 0 0 15px;
-    }
-
-    &.purchase_requests {
-      .pr-controls{
-        display: flex;
-        margin: 0 -10px 0 0;
-        flex-wrap: wrap;
-
-        .form-pr-search {
-          flex: 1 1 400px;
-          margin: 0 10px 10px 0;
-        }
-
-        .api-paginator {
-          margin: 0 10px 10px 0;
-          ul {
-            li {
-              min-width: 35px;
-            }
-          }
-        }
-      }
-
-      .table-purchase-requests-po-submit {
-        margin: 0 0 15px 0;
-      }
-    }
-  }
-}
+@import "purchase-orders/submit";
 
 #purchase-orders-all {
   #button-submit-purchase-order {

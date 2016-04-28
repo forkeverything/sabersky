@@ -9,7 +9,8 @@ Vue.filter('easyDateModel', {
     // model -> view
     // formats the value when updating the input element.
     read: function (value) {
-        if (value) {
+        var date = moment(value, "DD-MM-YYYY");
+        if (value && date) {
             return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
         }
         return value;

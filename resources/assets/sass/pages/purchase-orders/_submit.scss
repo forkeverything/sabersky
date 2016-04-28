@@ -1,0 +1,105 @@
+#purchase-orders-submit {
+  .step {
+    margin: 0 0 30px;
+
+    h5 {
+      margin: 0 0 15px;
+    }
+
+    &.purchase_requests {
+      .pr-controls{
+        display: flex;
+        margin: 0 -10px 0 0;
+        flex-wrap: wrap;
+
+        .form-pr-search {
+          flex: 1 1 400px;
+          margin: 0 10px 10px 0;
+        }
+
+        .api-paginator {
+          margin: 0 10px 10px 0;
+          ul {
+            li {
+              min-width: 35px;
+            }
+          }
+        }
+      }
+
+      .table-purchase-requests-po-submit {
+        margin: 0 0 15px 0;
+      }
+    }
+
+    &.line-items {
+
+      //.list-line-items {
+      //
+      //  .list-item-single {
+      //    display: flex;
+      //    flex-wrap: wrap;
+      //    padding: 3px 10px 0 20px;
+      //    margin: 0 0 15px 0;
+      //    position: relative;
+      //
+      //    .count {
+      //      position: absolute;
+      //      top: 0;
+      //      left: 0;
+      //      color: $grey;
+      //      font-size: 1.25em;
+      //      font-weight: bold;
+      //    }
+      //
+      //    .item-details {
+      //      flex: 100%;
+      //      margin: 0 0 5px 0;
+      //
+      //      .brand, .name, .sku {
+      //        display: block;
+      //      }
+      //
+      //      .sku {
+      //        font-style: italic;
+      //      }
+      //
+      //      .brand {
+      //        font-weight: bold;
+      //      }
+      //    }
+      //
+      //    .quantity, .price {
+      //      margin: 0 0 10px 0;
+      //      input, .input-group-addon {
+      //        text-align: center;
+      //        height: 2em;
+      //        @include border-radius(0);
+      //      }
+      //    }
+      //
+      //    .quantity {
+      //      flex: 0 1 80px;
+      //    }
+      //
+      //    .at {
+      //      display: flex;
+      //      align-items: center;
+      //      margin: 0 5px;
+      //      color: $grey;
+      //    }
+      //
+      //    .date-payable, .date-delivery {
+      //
+      //
+      //    }
+      //
+      //    .date-payable {
+      //      margin: 0 0 10px 0;
+      //    }
+      //
+      //  }
+      //}
+    }
+  }
+}
