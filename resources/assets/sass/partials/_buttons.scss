@@ -54,3 +54,32 @@
     @include border-radius(0);
   }
 }
+
+
+.btn-close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  float: right;
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  -moz-opacity: .2;
+  opacity: .2;
+  @include filter(alpha(opacity=20));
+
+  &:hover, &:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    @include filter(alpha(opacity=50));
+    -moz-opacity: .5;
+    opacity: .5;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=(50));
+    outline: 0;
+  }
+}
