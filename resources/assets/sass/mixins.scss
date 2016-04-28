@@ -19,6 +19,14 @@
   transition: $transition;
 }
 
+@mixin filter($filter) {
+  -webkit-filter: $filter;
+  -moz-filter: $filter;
+  -o-filter: $filter;
+  -ms-filter: $filter;
+  filter: $filter;
+}
+
 @mixin animation($animation) {
   -webkit-animation: $animation;
   -moz-animation: $animation;

@@ -9126,6 +9126,13 @@ li.active {
 .no-wrap {
   white-space: nowrap; }
 
+.bg-blur {
+  -webkit-filter: blur(7px) grayscale(0.6) opacity(0.9);
+  -moz-filter: blur(7px) grayscale(0.6) opacity(0.9);
+  -o-filter: blur(7px) grayscale(0.6) opacity(0.9);
+  -ms-filter: blur(7px) grayscale(0.6) opacity(0.9);
+  filter: blur(7px) grayscale(0.6) opacity(0.9); }
+
 /*# sourceMappingURL=app.css.map */
 
 /*!
