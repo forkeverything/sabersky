@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_toastr.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Flash.php" afterPath="$PROJECT_DIR$/app/Utilities/Flash.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Vendor.php" afterPath="$PROJECT_DIR$/app/Vendor.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js" afterPath="$PROJECT_DIR$/public/js/dependencies.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js.map" afterPath="$PROJECT_DIR$/public/js/dependencies.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dependencies/toastr.js" afterPath="$PROJECT_DIR$/resources/assets/js/dependencies/toastr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/toast-alert.js" afterPath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/toast-alert.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/page/vendors/single.js" afterPath="$PROJECT_DIR$/resources/assets/js/page/vendors/single.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_notifications.scss" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_toasts.scss" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/partials/_toasts.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/_toasts.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/flash.blade.php" afterPath="$PROJECT_DIR$/resources/views/flash.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,6 +28,20 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="procure" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="app.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -84,20 +86,20 @@
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/paginator.js" />
         <option value="$PROJECT_DIR$/resources/views/purchase_orders/submit.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/purchase-orders/submit.js" />
-        <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_notifications.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_toastr.scss" />
         <option value="$PROJECT_DIR$/app/Utilities/Flash.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/resources/views/flash.blade.php" />
         <option value="$PROJECT_DIR$/app/Vendor.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_toasts.scss" />
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/toast-alert.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/toastr.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/vendors/single.js" />
+        <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/resources/views/flash.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
       </list>
     </option>
   </component>
@@ -198,24 +200,6 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -280,84 +264,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dependencies" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="toastr" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -507,16 +413,16 @@
       <workItem from="1461771232652" duration="2461000" />
       <workItem from="1461783624565" duration="286000" />
       <workItem from="1461831420962" duration="11277000" />
-      <workItem from="1461856546406" duration="2386000" />
+      <workItem from="1461856546406" duration="2479000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="686190000" />
+    <option name="totallyTimeSpent" value="686283000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1361" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -706,6 +612,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="783">
           <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -713,6 +620,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -720,6 +628,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="853">
           <caret line="241" column="27" selection-start-line="241" selection-start-column="27" selection-end-line="241" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -917,31 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
-          <folding>
-            <marker date="1461848329000" expanded="true" signature="41:448" placeholder="/*...*/" />
-            <marker date="1461848329000" expanded="true" signature="471:3408" placeholder="{...}" />
-            <marker date="1461848329000" expanded="true" signature="515:1224" placeholder="[...]" />
-            <marker date="1461848329000" expanded="true" signature="1368:2450" placeholder="[...]" />
-            <marker date="1461848329000" expanded="true" signature="2833:3286" placeholder="[...]" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_notifications.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1461849061000" expanded="true" signature="36:147" placeholder="{...}" />
-            <marker date="1461849061000" expanded="true" signature="113:145" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
@@ -995,84 +879,6 @@
             <marker date="1461856879000" expanded="true" signature="727:1030" placeholder="..." />
             <marker date="1461856879000" expanded="true" signature="828:904" placeholder="..." />
             <marker date="1461856879000" expanded="true" signature="1219:1251" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-          <folding>
-            <marker date="1461857091000" expanded="true" signature="1151:1214" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1224:1248" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1261:1459" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1344:1413" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1427:1456" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1474:1529" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1543:1649" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1663:1709" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1719:1744" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1757:1806" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1810:2296" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1840:1892" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1935:1987" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="1999:2022" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2035:2157" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2088:2153" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2173:2294" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2225:2290" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2301:2365" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2370:2393" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2410:2433" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2437:2504" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2475:2502" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2512:2631" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2642:2661" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2675:2821" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2766:2819" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="2834:3080" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3097:3177" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3111:3175" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3194:3396" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3273:3294" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3300:3394" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3339:3390" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3404:3524" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3414:3461" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3423:3457" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3471:3522" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3485:3518" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3538:4029" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3579:3920" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3588:3916" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3605:3657" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3685:3783" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3812:3910" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3929:4027" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3938:4023" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="3979:4017" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4041:4065" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4080:4144" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4107:4142" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4161:4182" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4196:4558" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4414:4465" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4506:4556" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4572:4605" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4614:5275" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4645:4810" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4836:4951" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="4969:5189" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5199:5219" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5236:5273" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5302:5333" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5348:5592" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5440:5517" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5524:5555" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5561:5590" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5603:5629" placeholder="{...}" />
-            <marker date="1461857091000" expanded="true" signature="5640:5701" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1266,19 +1072,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/flash.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding>
-            <marker date="1461858103000" expanded="true" signature="111:718" placeholder="{&quot;text&quot;: &quot;{{ session('flash_message')['message'] }}&quot;...}" />
-            <marker date="1461858103000" expanded="true" signature="512:696" placeholder="{&quot;open&quot;: 'animated slideInUp'...}" />
-            <marker date="1461858103000" expanded="true" signature="1008:1412" placeholder="{&quot;dismissQueue&quot;: false...}" />
-            <marker date="1461858103000" expanded="true" signature="1256:1400" placeholder="{&quot;open&quot;: 'animated slideInUp'...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/bower/toastr/toastr.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -1353,15 +1146,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="783">
           <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <marker date="1461858806000" expanded="true" signature="13:741" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="106:739" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="330:394" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="410:476" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="492:550" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="564:626" placeholder="{...}" />
-            <marker date="1461858806000" expanded="true" signature="643:735" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1387,6 +1172,38 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
           <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/flash.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_notifications.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
           <folding />
         </state>
       </provider>

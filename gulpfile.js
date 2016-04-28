@@ -42,7 +42,6 @@ elixir(function(mix) {
         'moment/min/moment-with-locales.min.js',
         'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
         'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
-        'noty/js/noty/packaged/jquery.noty.packaged.min.js',
         'selectize/dist/js/standalone/selectize.min.js',
         'dropzone/dist/min/dropzone.min.js',
         'bootstrap-fileinput/js/fileinput.min.js',
