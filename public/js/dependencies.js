@@ -1443,25 +1443,25 @@ Vue.component('paginator', {
             return this.response.last_page
         },
         paginatedPages: function () {
+            var startPage;
+            var endPage;
             switch (this.currentPage) {
                 case 1:
                 case 2:
-                    if(this.lastPage > 0) {
-                        var endPage = (this.lastPage < 5) ? this.lastPage : 5;
-                        return this.makePagesArray(1, endPage);
-                    } else {
-                        return this.makePagesArray(1, 5);
-                    }
+                    // First 2 pages - always return first 5 pages
+                    return this.makePagesArray(1, 5);
                     break;
                 case this.lastPage:
                 case this.lastPage - 1:
-                    var startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
-                    var endPage = this.lastPage;
+                    // Last 2 pages - return last 5 pages
+                        // If we have more than 5 pages count back 4 pages. Else start at page 1
+                        startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
+                        endPage = (this.lastPage > 5 ) ? this.lastPage : 5;
                     return this.makePagesArray(startPage, endPage);
                     break;
                 default:
-                    var startPage = this.currentPage - 2;
-                    var endPage = this.currentPage + 2;
+                    startPage = this.currentPage - 2;
+                    endPage = this.currentPage + 2;
                     return this.makePagesArray(startPage, endPage);
             }
         }

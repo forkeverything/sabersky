@@ -54,7 +54,7 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-        if ($request->ajax()) {
+        if (true) {
             $state = $request->query('state');
             $number = $request->query('number');
             $projectID = $request->query('project_id');

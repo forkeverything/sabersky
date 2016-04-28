@@ -265,6 +265,97 @@ Vue.component('item-single', {
         });
     }
 });
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -536,8 +627,8 @@ Vue.component('purchase-orders-submit', {
             projects: [],
             projectID: '',
             purchaseRequests: [],
-            sort: '',
-            order: '',
+            sort: 'number',
+            order: 'asc',
             urgent: '',
             searchTerm: '',
             selectedPRs: []
@@ -549,21 +640,18 @@ Vue.component('purchase-orders-submit', {
         }
     },
     methods: {
-        fetchPurchaseRequests: function (projectID, sort, order, page, search) {
+        fetchPurchaseRequests: function (page) {
             var self = this;
-
-            sort = sort || 'number';
-            order = order || 'asc';
-            search = search || '';
+            page = page || 1;
 
             var url = '/api/purchase_requests?' +
                 'state=open' +
                 '&quantity=1+' +
-                '&project_id=' + projectID +
-                '&sort=' + sort +
-                '&order=' + order +
+                '&project_id=' + self.projectID +
+                '&sort=' + self.sort +
+                '&order=' + self.order +
                 '&per_page=3' +
-                '&search=' + search;
+                '&search=' + self.searchTerm;
 
             if(page) url += '&page=' + page;
             
@@ -599,18 +687,19 @@ Vue.component('purchase-orders-submit', {
         },
         changeSort: function (sort) {
             if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests(this.projectID, this.sort, newOrder);
+                this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests();
             } else {
-                this.fetchPurchaseRequests(this.projectID, sort, 'asc');
+                this.sort = sort;
+                this.order = 'asc';
+                this.fetchPurchaseRequests();
             }
         },
         searchPurchaseRequests: function() {
             var self = this;
 
             if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-
-            self.fetchPurchaseRequests(self.projectID, self.sort, self.order, 1, self.searchTerm);
+            self.fetchPurchaseRequests();
         },
         clearSearch: function() {
             this.searchTerm = '';
@@ -627,12 +716,13 @@ Vue.component('purchase-orders-submit', {
     },
     events: {
         'go-to-page': function (page) {
-            this.fetchPurchaseRequests(this.projectID, this.sort, 'asc', page);
+            this.fetchPurchaseRequests(page);
         }
     },
     ready: function () {
         this.$watch('projectID', function (val) {
-            if (val)this.fetchPurchaseRequests(val);
+            if (! val) return;
+            this.fetchPurchaseRequests();
         });
     }
 });
@@ -980,6 +1070,44 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -1096,44 +1224,6 @@ Vue.component('team-single-user', {
         var self = this;
     }
 });
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('vendors-add-new', {
     name: 'addNewVendor',
     el: function() {
@@ -1407,97 +1497,6 @@ Vue.component('vendor-single', {
         });
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
-    el: function () {
-        return '#add-line-item';
-    },
-    data: function () {
-        return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
-    }
-});
-
-
-
 Vue.component('settings-company', {
     name: 'settingsCompany',
     template: '',

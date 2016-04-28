@@ -244,46 +244,59 @@ abstract class apiRepository
     {
         if ($term) {
             $this->{'search'} = $term;
-            foreach ($this->searchableFields as $key => $field) {
-                // Break up the field
-                $fieldsArray = explode('.', $field);
-                // are we dealing with a search on a relationship table?
-                if (count($fieldsArray) > 1) {
-                    // Yes - check if it's the first the first field
-                    if ($key === 0) {
-                        // Use where
-                        $this->query->whereExists(function ($q) use ($fieldsArray, $term) {
-                            $q->select(DB::raw(1))
-                              ->from(($fieldsArray[1]))
-                              ->whereRaw($fieldsArray[0] . '.' . str_singular($fieldsArray[1]) . '_id = ' . $fieldsArray[1] . '.id')
-                              ->where($fieldsArray[2], 'LIKE', '%' . $term . '%');
-                        });
-                    } else {
-                        // If on the relationship table
-                        $this->query->orWhereExists(function ($q) use ($fieldsArray, $term) {
-                            // We find at least 1 entry
-                            $q->select(DB::raw(1))
-                                // from relationship table
-                              ->from(($fieldsArray[1]))
-                                // Only interested in related rows
-                              ->whereRaw($fieldsArray[0] . '.' . str_singular($fieldsArray[1]) . '_id = ' . $fieldsArray[1] . '.id')
-                                // Our search term
-                              ->where($fieldsArray[2], 'LIKE', '%' . $term . '%');
-                        });
-                    }
-                } else {
-                    // We're searching our direct table
-                    if ($key === 0) {
-                        // Use where
-                        $this->query->where($fieldsArray[0], 'LIKE', '%' . $term . '%');
-                    } else {
-                        $this->query->orWhere($fieldsArray[0], 'LIKE', '%' . $term . '%');
-                    }
+            $this->query->where(function ($query) use ($term) {
+                foreach ($this->searchableFields as $index => $field) {
+                    $fieldsArray = explode('.', $field);
 
+                    if(count($fieldsArray) === 1 ) {
+                        $this->searchQueryDirect($query, $fieldsArray[0], $term, $index);
+                    } else {
+                        $this->searchQueryRelated($query, $fieldsArray, $term, $index);
+                    }
                 }
-            }
+                return $query;
+
+            });
         }
         return $this;
+    }
+
+    /**
+     * Performs a search query on a field directly related
+     * to the Model
+     *
+     * @param Builder $query
+     * @param $field
+     * @param $term
+     * @param $index
+     * @return mixed
+     */
+    protected function searchQueryDirect(Builder $query, $field, $term, $index)
+    {
+        $funcName = $index === 0 ? 'where' : 'orWhere';
+        return call_user_func([$query, $funcName], $field, 'LIKE', '%' . $term . '%');
+    }
+
+    /**
+     * Performs search on field that is on a related table. As
+     * defined in the $searchableFields[] on the model.
+     * 
+     * @param Builder $query
+     * @param $fieldArray
+     * @param $term
+     * @param $index
+     * @return mixed
+     */
+    protected function searchQueryRelated(Builder $query, $fieldArray, $term, $index)
+    {
+        $funcName = $index === 0 ? 'whereExists' : 'orWhereExists';
+        $callback = function ($q) use ($fieldArray, $term) {
+            $q->select(DB::raw(1))
+              ->from(($fieldArray[1]))
+              ->whereRaw($fieldArray[0] . '.' . str_singular($fieldArray[1]) . '_id = ' . $fieldArray[1] . '.id')
+              ->where($fieldArray[2], 'LIKE', '%' . $term . '%');
+        };
+        return call_user_func([$query, $funcName], $callback);
     }
 
 

@@ -10,8 +10,8 @@ Vue.component('purchase-orders-submit', {
             projects: [],
             projectID: '',
             purchaseRequests: [],
-            sort: '',
-            order: '',
+            sort: 'number',
+            order: 'asc',
             urgent: '',
             searchTerm: '',
             selectedPRs: []
@@ -23,21 +23,18 @@ Vue.component('purchase-orders-submit', {
         }
     },
     methods: {
-        fetchPurchaseRequests: function (projectID, sort, order, page, search) {
+        fetchPurchaseRequests: function (page) {
             var self = this;
-
-            sort = sort || 'number';
-            order = order || 'asc';
-            search = search || '';
+            page = page || 1;
 
             var url = '/api/purchase_requests?' +
                 'state=open' +
                 '&quantity=1+' +
-                '&project_id=' + projectID +
-                '&sort=' + sort +
-                '&order=' + order +
+                '&project_id=' + self.projectID +
+                '&sort=' + self.sort +
+                '&order=' + self.order +
                 '&per_page=3' +
-                '&search=' + search;
+                '&search=' + self.searchTerm;
 
             if(page) url += '&page=' + page;
             
@@ -73,18 +70,19 @@ Vue.component('purchase-orders-submit', {
         },
         changeSort: function (sort) {
             if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests(this.projectID, this.sort, newOrder);
+                this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests();
             } else {
-                this.fetchPurchaseRequests(this.projectID, sort, 'asc');
+                this.sort = sort;
+                this.order = 'asc';
+                this.fetchPurchaseRequests();
             }
         },
         searchPurchaseRequests: function() {
             var self = this;
 
             if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-
-            self.fetchPurchaseRequests(self.projectID, self.sort, self.order, 1, self.searchTerm);
+            self.fetchPurchaseRequests();
         },
         clearSearch: function() {
             this.searchTerm = '';
@@ -101,12 +99,13 @@ Vue.component('purchase-orders-submit', {
     },
     events: {
         'go-to-page': function (page) {
-            this.fetchPurchaseRequests(this.projectID, this.sort, 'asc', page);
+            this.fetchPurchaseRequests(page);
         }
     },
     ready: function () {
         this.$watch('projectID', function (val) {
-            if (val)this.fetchPurchaseRequests(val);
+            if (! val) return;
+            this.fetchPurchaseRequests();
         });
     }
 });
