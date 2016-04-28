@@ -1,4 +1,4 @@
-#toast-plate {
+#toast-container {
   position: fixed;
   width: 300px;
   z-index: 10002;
@@ -12,25 +12,30 @@
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 0;
+    opacity: 1!important;
 
-    &.info {
+    &.toast-info {
       color: $dark-blue;
       border-color: $dark-blue;
     }
 
-    &.success {
+    &.toast-success {
       color: $dark-green;
       border-color: $dark-green;
     }
 
-    &.warning {
+    &.toast-warning {
       color: $orange;
       border-color: $orange;
     }
 
-    &.error {
+    &.toast-error {
       color: $dark-red;
       border-color: $dark-red;
+    }
+
+    &:hover {
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25),0 2px 10px 0 rgba(0,0,0,0.25)!important;
     }
 
     .btn-close {

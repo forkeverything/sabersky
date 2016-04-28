@@ -293,9 +293,9 @@ function uniqueSelectize(el, placeholder) {
 }
 toastr.options = {
     "closeButton": true,
+    "closeHtml": '<button type="button" class="btn-close"><i class="fa fa-close"></i></button>',
     "debug": false,
     "newestOnTop": true,
-    "progressBar": false,
     "positionClass": "toast-bottom-right",
     "preventDuplicates": false,
     "onclick": null,
@@ -2028,7 +2028,7 @@ Vue.component('text-clipper', {
 });
 Vue.component('toast-alert', {
     name: 'toaster',
-    template: '<div class="toast-plate">' +
+    template: '<div id="toast-plate">' +
     '               <div class="toast animated"' +
     '                    v-for="(index, alert) in alerts"' +
     '                    transition="fade"' +
@@ -2065,7 +2065,11 @@ Vue.component('toast-alert', {
         }
     },
     ready: function() {
-
+        /*
+        TODO ::: Implement this component to handle alerts if/when we
+        make the jump to Vue for handling all client-side. Which
+        includes routing, auth etc.
+         */
     }
 });
 Vue.component('user-projects-selecter', {

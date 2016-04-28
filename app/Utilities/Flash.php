@@ -28,7 +28,7 @@ class Flash
      */
     public function info($message)
     {
-        $this->create($message, 'information');
+        $this->create($message, 'info');
     }
 
     /**

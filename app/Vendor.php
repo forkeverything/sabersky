@@ -19,7 +19,6 @@ class Vendor extends Model
     protected $appends = [
         'number_po',
         'average_po',
-        'all_addresses',
         'bank_accounts'
     ];
 
@@ -212,25 +211,6 @@ class Vendor extends Model
         return $this->morphMany(Address::class, 'owner');
     }
 
-    /**
-     * Retrieve all known addresses for this Vendor. Perform
-     * a look-up for both this Vendor's addresses as well
-     * as the linked Company's registered address.
-     *
-     * @return mixed
-     */
-    public function getAllAddressesAttribute()
-    {
-        // If we're linked, and the linked company has a registered address
-        if ($this->linkedCompany && $companyAddress = $this->linkedCompany->addresses) {
-            // If Vendor model doesn't have any addresses
-            if(! $this->addresses->count() > 0) return $companyAddress;
-            // Merge all addresses and return
-            return $this->addresses->merge($companyAddress);
-        }
-        return $this->addresses;
-
-    }
 
 
 

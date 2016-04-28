@@ -1,8 +1,8 @@
 toastr.options = {
     "closeButton": true,
+    "closeHtml": '<button type="button" class="btn-close"><i class="fa fa-close"></i></button>',
     "debug": false,
     "newestOnTop": true,
-    "progressBar": false,
     "positionClass": "toast-bottom-right",
     "preventDuplicates": false,
     "onclick": null,

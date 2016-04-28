@@ -43,7 +43,6 @@
         @yield('content')
         </div>
     @endif
-            <toast-alert></toast-alert>
 </div>
 
 

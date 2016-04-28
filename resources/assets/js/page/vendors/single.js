@@ -159,7 +159,7 @@ Vue.component('vendor-single', {
                 },
                 success: function (data) {
                     // success
-                    flashNotify('info', 'Unlinked company to vendor');
+                    flashNotify('success', 'Unlinked company to vendor');
                     self.vendor = data;
                     self.ajaxReady = true;
                 },

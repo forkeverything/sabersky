@@ -1,6 +1,6 @@
 Vue.component('toast-alert', {
     name: 'toaster',
-    template: '<div class="toast-plate">' +
+    template: '<div id="toast-plate">' +
     '               <div class="toast animated"' +
     '                    v-for="(index, alert) in alerts"' +
     '                    transition="fade"' +
@@ -37,6 +37,10 @@ Vue.component('toast-alert', {
         }
     },
     ready: function() {
-
+        /*
+        TODO ::: Implement this component to handle alerts if/when we
+        make the jump to Vue for handling all client-side. Which
+        includes routing, auth etc.
+         */
     }
 });
