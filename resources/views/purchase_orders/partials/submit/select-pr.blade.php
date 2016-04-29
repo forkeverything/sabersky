@@ -65,7 +65,7 @@
                             <span class="item-name">@{{ purchaseRequest.item.name }}</span>
                             <div class="bottom">
                                 <span
-                                        v-if="purchaseRequest.urgent" class="badge-urgent"> <i
+                                        v-if="purchaseRequest.urgent" class="badge-urgent with-tooltip" v-tooltip title="Urgent Request" data-placement="bottom"> <i
                                             class="fa fa-warning"></i></span>
                                 <div class="quantity"><label>QTY:</label> @{{ purchaseRequest.quantity }}</div>
                             </div>
