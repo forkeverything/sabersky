@@ -73,13 +73,19 @@
         vertical-align: middle;
         position: relative;
 
+        &.clickable {
+
+        }
+
         &.current_asc, &.current_desc {
-          padding: 10px 10px 10px 10px;
 
           &:after {
             margin: 0 0 0 3px;
             font-family: FontAwesome;
             font-size: 1.3em;
+            position: absolute;
+            right: 10px;
+            top: calc(50% - 12px);
           }
         }
 
@@ -89,11 +95,6 @@
 
         &.current_desc:after {
           content: '\f0d7';
-        }
-
-        &.heading-center {
-          padding: 10px;
-          text-align: center;
         }
       }
     }

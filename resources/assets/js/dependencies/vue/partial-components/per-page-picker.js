@@ -1,6 +1,7 @@
 Vue.component('per-page-picker', {
     name: 'itemsPerPagePicker',
     template: '<div class="per-page-picker">' +
+    '<span>Results Per Page</span>' +
     '<select-picker :name.sync="newItemsPerPage" :options.sync="itemsPerPageOptions" :function="changeItemsPerPage"></select-picker>' +
     '</div>',
     el: function() {
@@ -12,14 +13,14 @@ Vue.component('per-page-picker', {
             itemsPerPageOptions: [
                 {
                     value: 8,
-                    label: '8 Requests / Page'
+                    label: 8
                 }, {
                     value: 16,
-                    label: '16 Requests / Page'
+                    label: 16
                 },
                 {
                     value: 32,
-                    label: '32 Requests / Page'
+                    label: 32
                 }
             ]
         };

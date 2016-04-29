@@ -8,9 +8,15 @@
   .per-page-picker {
     flex: 0 1 220px;
     margin: 0 15px 15px 0;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin: 0 10px 0 0;
+    }
 
     .themed-select {
-      width: 100%!important;
+      width: 75px!important;
     }
   }
 

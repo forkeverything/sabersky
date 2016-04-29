@@ -1,105 +1,128 @@
 #purchase-orders-submit {
-  .step {
-    margin: 0 0 30px;
 
-    h5 {
-      margin: 0 0 15px;
+  h5 {
+    margin: 0 0 15px;
+  }
+
+  .project-selecter {
+    margin: 0 0 15px;
+
+    .themed-select {
+      button {
+        @include border-radius(0);
+      }
+    }
+  }
+
+  .purchase_requests {
+    .pr-controls {
+      .form-pr-search {
+        display: block;
+        input  {
+          @include border-radius(0);
+        }
+      }
     }
 
-    &.purchase_requests {
-      .pr-controls{
-        display: flex;
-        margin: 0 -10px 0 0;
-        flex-wrap: wrap;
+    .pr-controls-bottom {
+      .api-paginator {
+        ul {
+          li {
+            min-width: 35px;
+          }
+        }
+      }
+    }
 
-        .form-pr-search {
-          flex: 1 1 400px;
-          margin: 0 10px 10px 0;
+    .table-purchase-requests-po-submit {
+      border-top: 0;
+      margin: 0 0 15px 0;
+
+      .col-checkbox {
+        width: 50px;
+        text-align: center;
+      }
+
+      .col-number {
+        width: 80px;
+        text-align: center;
+      }
+
+      .col-item {
+
+        .item-brand, .item-name  {
+          display: inline-block;
         }
 
-        .api-paginator {
-          margin: 0 10px 10px 0;
-          ul {
-            li {
-              min-width: 35px;
+        .bottom {
+          display:  block;
+          .badge-urgent {
+            margin: 0 5px 0 0;
+          }
+          .quantity {
+            display: inline-block;
+            label {
+              margin: 0;
             }
           }
         }
       }
 
-      .table-purchase-requests-po-submit {
-        margin: 0 0 15px 0;
+      .col-due {
+        width: 100px;
+        text-align: center;
       }
     }
+  }
 
-    &.line-items {
+  .line-items {
 
-      //.list-line-items {
-      //
-      //  .list-item-single {
-      //    display: flex;
-      //    flex-wrap: wrap;
-      //    padding: 3px 10px 0 20px;
-      //    margin: 0 0 15px 0;
-      //    position: relative;
-      //
-      //    .count {
-      //      position: absolute;
-      //      top: 0;
-      //      left: 0;
-      //      color: $grey;
-      //      font-size: 1.25em;
-      //      font-weight: bold;
-      //    }
-      //
-      //    .item-details {
-      //      flex: 100%;
-      //      margin: 0 0 5px 0;
-      //
-      //      .brand, .name, .sku {
-      //        display: block;
-      //      }
-      //
-      //      .sku {
-      //        font-style: italic;
-      //      }
-      //
-      //      .brand {
-      //        font-weight: bold;
-      //      }
-      //    }
-      //
-      //    .quantity, .price {
-      //      margin: 0 0 10px 0;
-      //      input, .input-group-addon {
-      //        text-align: center;
-      //        height: 2em;
-      //        @include border-radius(0);
-      //      }
-      //    }
-      //
-      //    .quantity {
-      //      flex: 0 1 80px;
-      //    }
-      //
-      //    .at {
-      //      display: flex;
-      //      align-items: center;
-      //      margin: 0 5px;
-      //      color: $grey;
-      //    }
-      //
-      //    .date-payable, .date-delivery {
-      //
-      //
-      //    }
-      //
-      //    .date-payable {
-      //      margin: 0 0 10px 0;
-      //    }
-      //
-      //  }
-      //}
+    .list-line-items {
+
+      .list-item-single {
+
+        .count {
+          font-size: 1.25em;
+          font-weight: bold;
+          margin: 0 5px 0 0;
+        }
+
+        .item-details {
+          margin: 0 0 10px 0;
+          padding-top: 5px;
+
+          .brand, .name, .sku {
+            display: block;
+          }
+
+          .sku {
+            font-style: italic;
+            color: $text-muted;
+            font-size: 0.9em;
+          }
+
+          .brand {
+            font-weight: bold;
+          }
+        }
+
+        .quantity, .price {
+        }
+
+        .quantity {
+          input {
+            width: 50px;
+          }
+        }
+
+        .date-payable, .date-delivery {
+        }
+
+        .date-payable {
+
+        }
+
+      }
     }
   }
 }

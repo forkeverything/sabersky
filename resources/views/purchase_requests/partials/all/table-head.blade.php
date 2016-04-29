@@ -18,7 +18,7 @@
     >
     Project
     </th>
-    <th class="clickable heading-center"
+    <th class="clickable"
     @click="changeSort('quantity')"
     :class="{
                                             'current_asc': sort === 'quantity' && order === 'asc',

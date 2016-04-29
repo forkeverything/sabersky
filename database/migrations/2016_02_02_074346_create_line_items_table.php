@@ -18,8 +18,8 @@ class CreateLineItemsTable extends Migration
 
             $table->integer('quantity');
             $table->float('price', 15, 2);
-            $table->dateTime('payable');
-            $table->dateTime('delivery');
+            $table->dateTime('payable')->nullable();
+            $table->dateTime('delivery')->nullable();
             $table->boolean('delivered')->default(0);
             $table->boolean('paid')->default(0);
             $table->string('status')->default('unreceived'); // 'unreceived', 'accepted', 'rejected'

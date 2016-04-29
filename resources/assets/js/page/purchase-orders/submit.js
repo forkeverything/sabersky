@@ -34,7 +34,7 @@ Vue.component('purchase-orders-submit', {
                 '&project_id=' + self.projectID +
                 '&sort=' + self.sort +
                 '&order=' + self.order +
-                '&per_page=3' +
+                '&per_page=8' +
                 '&search=' + self.searchTerm;
 
             if(page) url += '&page=' + page;

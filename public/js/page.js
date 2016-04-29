@@ -1,3 +1,270 @@
+Vue.component('items-all', {
+    name: 'allItems',
+    el: function () {
+        return '#items-all';
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            items: [],
+            itemsFilterDropdown: false,
+            filterOptions: [
+                {
+                    value: 'brand',
+                    label: 'Brand'
+                },
+                {
+                    value: 'name',
+                    label: 'Name'
+                },
+                {
+                    value: 'project',
+                    label: 'Project'
+                }
+            ],
+            filter: '',
+            filterValue: '',
+            response: {},
+            queryParams: {
+                brand: '',
+                name: '',
+                project: ''
+            },
+            searchTerm: '',
+            sort: '',
+            order: '',
+            lastPage: '',
+            currentPage: '',
+            itemsPerPage: '',
+            ajaxObject: {}
+        };
+    },
+    computed: {
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
+    methods: {
+        setLoadQuery: function () {
+            var currentQuery = window.location.href.split('?')[1];
+
+            return currentQuery
+        },
+        getCompanyItems: function (query) {
+            var self = this;
+            var url = query ? '/api/items?' + query : '/api/items';
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    self.response = response;
+                    self.items = _.omit(response.data, 'query_parameters');
+
+                    self.queryParams = {};
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.queryParams[key] = value;
+                    });
+
+                    self.searchTerm = response.data.query_parameters.search;
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+
+                    // push state (if query is different from url)
+                    pushStateIfDiffQuery(query);
+
+                    // Scrolltop
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
+                },
+                error: function (err) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        addItemsFilter: function () {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[this.filter] = this.filterValue;
+            this.getCompanyItems(updateQueryString(queryObj));
+
+            // reset filter values
+            this.filter = '';
+            this.filterValue = '';
+
+            // hide dropdown
+            this.itemsFilterDropdown = false;
+
+        },
+        removeFilter: function (type) {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[type] = null;
+            this.getCompanyItems(updateQueryString(queryObj));
+        },
+        searchItemQuery: function () {
+            var self = this;
+
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+
+            if (self.searchTerm) {
+                self.getCompanyItems(updateQueryString({
+                    search: self.searchTerm,
+                    page: 1
+                }));
+            } else {
+                self.getCompanyItems(updateQueryString({
+                    search: null,
+                    page: 1
+                }));
+            }
+
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+                this.getCompanyItems(updateQueryString('order', newOrder));
+            } else {
+                this.getCompanyItems(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        },
+        getItemProjects: function (item) {
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
+            });
+            return projects;
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.getCompanyItems(updateQueryString(queryObj));
+
+        },
+        clearSearch: function() {
+            this.searchTerm = '';
+            this.searchItemQuery();
+        }
+    },
+    events: {},
+    ready: function () {
+
+        this.getCompanyItems(this.setLoadQuery());
+        onPopQuery(this.getCompanyItems);
+
+    }
+});
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            photos: [],
+            fileErrors: []
+        };
+    },
+    props: ['itemId'],
+    computed: {},
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.photos = _.reject(self.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
+    events: {},
+    ready: function () {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.itemId,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
+                    } else {
+                        self.fileErrors.push(file.name + ': ' + err);
+                    }
+                });
+            }
+        });
+    }
+});
 Vue.component('add-line-item', {
     name: 'addLineItem',
     el: function () {
@@ -89,6 +356,170 @@ Vue.component('add-line-item', {
 
 
 
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
+    }
+});
 Vue.component('purchase-orders-all',{
     name: 'allPurchaseOrders',
     el: function() {
@@ -220,7 +651,7 @@ Vue.component('purchase-orders-submit', {
                 '&project_id=' + self.projectID +
                 '&sort=' + self.sort +
                 '&order=' + self.order +
-                '&per_page=3' +
+                '&per_page=8' +
                 '&search=' + self.searchTerm;
 
             if(page) url += '&page=' + page;
@@ -640,6 +1071,44 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -754,475 +1223,6 @@ Vue.component('team-single-user', {
     },
     ready: function() {
         var self = this;
-    }
-});
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
-Vue.component('items-all', {
-    name: 'allItems',
-    el: function () {
-        return '#items-all';
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            items: [],
-            itemsFilterDropdown: false,
-            filterOptions: [
-                {
-                    value: 'brand',
-                    label: 'Brand'
-                },
-                {
-                    value: 'name',
-                    label: 'Name'
-                },
-                {
-                    value: 'project',
-                    label: 'Project'
-                }
-            ],
-            filter: '',
-            filterValue: '',
-            response: {},
-            queryParams: {
-                brand: '',
-                name: '',
-                project: ''
-            },
-            searchTerm: '',
-            sort: '',
-            order: '',
-            lastPage: '',
-            currentPage: '',
-            itemsPerPage: '',
-            ajaxObject: {}
-        };
-    },
-    computed: {
-        hasItems: function() {
-            return !_.isEmpty(this.items);
-        }
-    },
-    methods: {
-        setLoadQuery: function () {
-            var currentQuery = window.location.href.split('?')[1];
-
-            return currentQuery
-        },
-        getCompanyItems: function (query) {
-            var self = this;
-            var url = query ? '/api/items?' + query : '/api/items';
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.ajaxObject = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    self.response = response;
-                    self.items = _.omit(response.data, 'query_parameters');
-
-                    self.queryParams = {};
-                    _.forEach(response.data.query_parameters, function (value, key) {
-                        self.queryParams[key] = value;
-                    });
-
-                    self.searchTerm = response.data.query_parameters.search;
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
-
-                    // push state (if query is different from url)
-                    pushStateIfDiffQuery(query);
-
-                    // Scrolltop
-                    document.getElementById('body-content').scrollTop = 0;
-
-                    self.ajaxReady = true;
-                },
-                error: function (err) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        addItemsFilter: function () {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[this.filter] = this.filterValue;
-            this.getCompanyItems(updateQueryString(queryObj));
-
-            // reset filter values
-            this.filter = '';
-            this.filterValue = '';
-
-            // hide dropdown
-            this.itemsFilterDropdown = false;
-
-        },
-        removeFilter: function (type) {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[type] = null;
-            this.getCompanyItems(updateQueryString(queryObj));
-        },
-        searchItemQuery: function () {
-            var self = this;
-
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-
-            if (self.searchTerm) {
-                self.getCompanyItems(updateQueryString({
-                    search: self.searchTerm,
-                    page: 1
-                }));
-            } else {
-                self.getCompanyItems(updateQueryString({
-                    search: null,
-                    page: 1
-                }));
-            }
-
-        },
-        changeSort: function (sort) {
-            if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
-                this.getCompanyItems(updateQueryString('order', newOrder));
-            } else {
-                this.getCompanyItems(updateQueryString({
-                    sort: sort,
-                    order: 'asc',
-                    page: 1
-                }));
-            }
-        },
-        getItemProjects: function (item) {
-            // Parses out project names from an Item's Purchase Requests
-            var projects = [];
-            _.forEach(item.purchase_requests, function (pr) {
-                if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
-            });
-            return projects;
-        },
-        removeAllFilters: function() {
-            var self = this;
-            var queryObj = {};
-            _.forEach(self.filterOptions, function (option) {
-                queryObj[option.value] = null;
-            });
-            this.getCompanyItems(updateQueryString(queryObj));
-
-        },
-        clearSearch: function() {
-            this.searchTerm = '';
-            this.searchItemQuery();
-        }
-    },
-    events: {},
-    ready: function () {
-
-        this.getCompanyItems(this.setLoadQuery());
-        onPopQuery(this.getCompanyItems);
-
-    }
-});
-Vue.component('item-single', {
-    name: 'itemSingle',
-    el: function () {
-        return '#item-single'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            photos: [],
-            fileErrors: []
-        };
-    },
-    props: ['itemId'],
-    computed: {},
-    methods: {
-        deletePhoto: function(photo) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                    console.log(data);
-                   self.photos = _.reject(self.photos, photo);
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearErrors: function() {
-            this.fileErrors = [];
-        }
-    },
-    events: {},
-    ready: function () {
-
-        var self = this;
-
-        // Fetch item photos
-        $.ajax({
-            url: '/api/items/' + self.itemId,
-            method: 'GET',
-            success: function(data) {
-               // success
-                self.photos = data.photos
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-
-        new Dropzone("#item-photo-uploader", {
-            autoProcessQueue: true,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            previewTemplate: '<div class="dz-image-row">' +
-            '                       <div class="dz-image">' +
-            '                           <img data-dz-thumbnail>' +
-            '                       </div>' +
-            '                       <div class="dz-file-details">' +
-            '                           <div class="name-status">' +
-            '                               <span data-dz-name class="file-name"></span>' +
-            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
-            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
-            '                           </div>' +
-            '                           <span class="file-size" data-dz-size></span>' +
-            '                           <div class="dz-progress progress">' +
-            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                </div>',
-            init: function () {
-                this.on("complete", function (file) {
-                    setTimeout(function () {
-                        this.removeFile(file);
-                    }.bind(this), 5000);
-                });
-                this.on("success", function (files, response) {
-                    // Upload was successful, receive response
-                    // of Photo Model back from the server.
-                    self.photos.push(response);
-                });
-                this.on("error", function (file, err) {
-                    if(typeof err === 'object') {
-                        _.forEach(err.file, function (error) {
-                            self.fileErrors.push(file.name + ': ' + error);
-                        });
-                    } else {
-                        self.fileErrors.push(file.name + ': ' + err);
-                    }
-                });
-            }
-        });
-    }
-});
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: [],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
-            }
-        });
     }
 });
 Vue.component('vendors-add-new', {
