@@ -36,7 +36,17 @@
 
     .table-purchase-requests-po-submit {
       border-top: 0;
-      margin: 0 0 15px 0;
+
+      .heading-select-all {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+
+        i {
+          font-weight: bold
+        }
+      }
 
       .col-checkbox {
         width: 50px;

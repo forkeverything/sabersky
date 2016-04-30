@@ -18,7 +18,19 @@
             <table class="table table-bordered table-hover table-standard table-purchase-requests-po-submit">
                 <thead>
                 <tr>
-                    <th></th>
+                    <th class="heading-center heading-select-all">
+                        <div class="checkbox styled">
+                            <label>
+                                <i class="fa fa-check-square-o checked" v-if="allPurchaseRequestsChecked"></i>
+                                <i class="fa fa-square-o empty" v-else></i>
+                                <input class="clickable hidden"
+                                       type="checkbox"
+                                    @change="selectAllPR"
+                                :checked="allPurchaseRequestsChecked"
+                                >
+                            </label>
+                        </div>
+                    </th>
                     <th class="clickable"
                     @click="changeSort('number')"
                     :class="{
@@ -51,11 +63,18 @@
                 <template v-for="purchaseRequest in purchaseRequests">
                     <tr class="row-single-pr">
                         <td class="col-checkbox">
-                            <input class="clickable"
-                                   type="checkbox"
-                            @change="selectPR(purchaseRequest)"
-                            :checked="alreadySelectedPR(purchaseRequest)"
-                            >
+
+                            <div class="checkbox styled">
+                                <label>
+                                    <i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>
+                                    <i class="fa fa-square-o empty" v-else></i>
+                                    <input class="clickable hidden"
+                                           type="checkbox"
+                                    @change="selectPR(purchaseRequest)"
+                                    :checked="alreadySelectedPR(purchaseRequest)"
+                                    >
+                                </label>
+                            </div>
                         </td>
                         <td class="no-wrap col-number">
                             #@{{ purchaseRequest.number }}</td>

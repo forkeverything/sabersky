@@ -21,6 +21,15 @@ Vue.component('purchase-orders-submit', {
     computed: {
         hasPurchaseRequests: function() {
             return ! _.isEmpty(this.purchaseRequests);
+        },
+        allPurchaseRequestsChecked: function() {
+            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
+                return request.id
+            });
+            var lineItemIDs = _.map(this.lineItems, function (item) {
+                return item.id
+            });
+            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
         }
     },
     methods: {
@@ -90,12 +99,24 @@ Vue.component('purchase-orders-submit', {
             this.searchPurchaseRequests();
         },
         selectPR: function(purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest) ;
+            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
         },
         alreadySelectedPR: function(purchaseRequest) {
             return _.find(this.lineItems, function(pr) {
                 return pr.id === purchaseRequest.id;
             });
+        },
+        selectAllPR: function() {
+            var self = this;
+            if(self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.lineItems = _.reject(self.lineItems, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (! self.alreadySelectedPR(request)) self.lineItems.push(request);
+                });
+            }
         }
     },
     events: {
