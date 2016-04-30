@@ -162,7 +162,7 @@ Vue.component('add-item-modal', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    url: '/api/items/search/brands/' + encodeURIComponent(query),
                     type: 'GET',
                     error: function () {
                         callback();

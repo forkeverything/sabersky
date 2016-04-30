@@ -3,7 +3,7 @@
     <vendor-single inline-template>
         <div class="container" id="vendor-single">
             <input type="hidden" value="{{ $vendor->id }}" v-model="vendorID">
-            <div class="row">
+            <div class="row flexing">
                 <div class="col-sm-4">
                     <div class="description page-body">
                         @can('edit', $vendor)

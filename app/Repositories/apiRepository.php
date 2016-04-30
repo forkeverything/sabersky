@@ -107,6 +107,19 @@ abstract class apiRepository
         return $this;
     }
 
+    /**
+     * Wrapper - Used to only select certain
+     * fields
+     * 
+     * @param $fields
+     * @return $this
+     */
+    public function select($fields)
+    {
+        $this->query->select($fields);
+        return $this;
+    }
+
 
     /**
      * Attaches this object's properties
@@ -159,6 +172,31 @@ abstract class apiRepository
         $data = $this->query->get();
         $this->addPropertiesToResults($data);
         return $data;
+    }
+
+    /**
+     * Wrapper - Method on Query Builder that removes
+     * duplicates from retrieved results set.
+     *
+     * @return $this
+     */
+    public function distinct()
+    {
+        $this->query->distinct();
+        return $this;
+    }
+
+    /**
+     * Wrapper - limit number of results for the
+     * query
+     *
+     * @param $limit
+     * @return $this
+     */
+    public function take($limit)
+    {
+        $this->query->take($limit);
+        return $this;
     }
 
     /**
@@ -240,10 +278,13 @@ abstract class apiRepository
      * @param $term
      * @return $this
      */
-    public function searchFor($term)
+    public function searchFor($term, $searchFieldsArray = null)
     {
         if ($term) {
             $this->{'search'} = $term;
+            // If one-time search fields defined, use them
+            if($searchFieldsArray) $this->searchableFields = $searchFieldsArray;
+            // perform search
             $this->query->where(function ($query) use ($term) {
                 foreach ($this->searchableFields as $index => $field) {
                     $fieldsArray = explode('.', $field);
@@ -292,9 +333,9 @@ abstract class apiRepository
         $funcName = $index === 0 ? 'whereExists' : 'orWhereExists';
         $callback = function ($q) use ($fieldArray, $term) {
             $q->select(DB::raw(1))
-              ->from(($fieldArray[1]))
-              ->whereRaw($fieldArray[0] . '.' . str_singular($fieldArray[1]) . '_id = ' . $fieldArray[1] . '.id')
-              ->where($fieldArray[2], 'LIKE', '%' . $term . '%');
+              ->from(($fieldArray[2]))
+              ->whereRaw($fieldArray[0] . '.' . $fieldArray[1] . '=' . $fieldArray[2] . '.id')
+              ->where($fieldArray[3], 'LIKE', '%' . $term . '%');
         };
         return call_user_func([$query, $funcName], $callback);
     }

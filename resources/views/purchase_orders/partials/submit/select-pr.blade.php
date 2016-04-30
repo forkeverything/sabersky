@@ -1,4 +1,9 @@
-<div class="purchase_requests" v-show="projectID">
+<div class="purchase_requests"
+     :class="{
+        'inactive': ! projectID
+     }"
+>
+    <div class="overlay"></div>
     <label class="display-block">Purchase Requests</label>
     <div class="pr-controls">
         <form class="form-pr-search" @submit.prevent="searchPurchaseRequests">
@@ -13,15 +18,15 @@
             >
         </form>
     </div>
-    <div class="pr-bag" v-if="hasPurchaseRequests">
+    <div class="pr-bag" v-show="hasPurchaseRequests">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover table-standard table-purchase-requests-po-submit">
+            <table class="table table-hover table-standard table-purchase-requests-po-submit">
                 <thead>
                 <tr>
                     <th class="heading-center heading-select-all">
                         <div class="checkbox styled">
                             <label>
-                                <i class="fa fa-check-square-o checked" v-if="allPurchaseRequestsChecked"></i>
+                                <i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>
                                 <i class="fa fa-square-o empty" v-else></i>
                                 <input class="clickable hidden"
                                        type="checkbox"

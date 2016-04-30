@@ -318,6 +318,11 @@ Vue.transition('slide', {
     leaveClass: 'slideOutLeft'
 });
 
+Vue.transition('slide-right', {
+    enterClass: 'slideInRight',
+    leaveClass: 'slideOutRight'
+});
+
 Vue.transition('fade-slide', {
     enterClass: 'fadeInDown',
     leaveClass: 'fadeOutUp'
@@ -1608,7 +1613,7 @@ Vue.component('add-item-modal', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    url: '/api/items/search/brands/' + encodeURIComponent(query),
                     type: 'GET',
                     error: function () {
                         callback();
@@ -1903,7 +1908,7 @@ Vue.component('item-brand-selecter', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/brands/search/' + encodeURI(query),
+                    url: '/api/items/search/brands/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();
@@ -1943,7 +1948,7 @@ Vue.component('item-name-selecter', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/names/search/' + encodeURI(query),
+                    url: '/api/items/search/names/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();
@@ -2217,6 +2222,47 @@ Vue.component('user-projects-selecter', {
             },
             error: function (response) {
                 console.log(response);
+            }
+        });
+    }
+});
+Vue.component('vendor-selecter', {
+    name: 'vendorSelecter',
+    template: '<select class="vendor-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.vendor-search-selecter').selectize({
+            valueField: 'id',
+            searchField: 'name',
+            maxItems: 1,
+            create: false,
+            placeholder: 'Search for vendor',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-vendor-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-vendor">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/vendors/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
             }
         });
     }

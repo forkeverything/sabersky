@@ -119,10 +119,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/items', ['as' => 'showAllItems', 'uses' => 'ItemsController@getAll']);
     Route::get('/api/items', 'ItemsController@apiGetAll');
     Route::get('/api/items/brands', 'ItemsController@apiGetAllBrands');
-    Route::get('/api/items/brands/search/{query}', 'ItemsController@apiGetSearchBrands');
-    Route::get('/api/items/names/search/{query}', 'ItemsController@apiGetSearchNames');
-    Route::get('/api/items/find', 'ItemsController@apiGetSingleBy');
-    Route::get('/api/items/search/{query}', 'ItemsController@getSearchItems');
+    Route::get('/api/items/search/brands/{query}', 'ItemsController@apiGetSearchBrands');
+    Route::get('/api/items/search/names/{query}', 'ItemsController@apiGetSearchNames');
+    Route::get('/api/items/search/{query}', 'ItemsController@apiGetSearchItems');
     Route::post('/api/items', 'ItemsController@postAddNew');
     Route::post('/api/items/{item}/photo', ['as' => 'addItemPhoto', 'uses' => 'ItemsController@postAddPhoto']);
     Route::get('/items/{item}', ['as' => 'getSingleItem', 'uses' => 'ItemsController@getSingle']);
@@ -177,18 +176,19 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@getAll']);
     Route::get('/vendors/requests', ['as' => 'showVendorRequests', 'uses' => 'VendorsController@getRequestsPage']);
-    Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/vendors/add', ['as' => 'addVendor', 'uses' => 'VendorsController@getAddForm']);
     Route::post('/vendors/link', 'VendorsController@postLinkCompanyToVendor');
     Route::put('/vendors/{vendor}/unlink', 'VendorsController@putUnlinkCompanyToVendor');
     Route::post('/vendors/add', 'VendorsController@postAddCustomVendor');
     Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
-    Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
     Route::post('/vendors/{vendor}/description', 'VendorsController@postSaveDescription');
     Route::post('/vendors/{vendor}/bank_accounts', 'VendorsController@postAddBankAccount');
     Route::delete('/vendors/{vendor}/bank_accounts/{bank_account_id}', 'VendorsController@deleteBankAccount');
     Route::post('/vendors/{vendor}/bank_accounts/{bank_account_id}/set_primary', 'VendorsController@postBankAccountSetPrimary');
     Route::post('/vendors/{vendor}/request/{action}', 'VendorsController@postVerifyVendor');
+    Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
+    Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
+    Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
 
     
     

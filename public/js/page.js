@@ -621,6 +621,7 @@ Vue.component('purchase-orders-submit', {
     },
     data: function () {
         return {
+            step: 1,
             ajaxReady: true,
             ajaxObject: {},
             response: {},
@@ -631,7 +632,8 @@ Vue.component('purchase-orders-submit', {
             order: 'asc',
             urgent: '',
             searchTerm: '',
-            lineItems: []
+            lineItems: [],
+            vendorID: ''
         };
     },
     props: ['user'],
@@ -647,6 +649,9 @@ Vue.component('purchase-orders-submit', {
                 return item.id
             });
             return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        },
+        hasLineItems: function(){
+            return this.lineItems.length >0;
         }
     },
     methods: {
@@ -737,6 +742,15 @@ Vue.component('purchase-orders-submit', {
         },
         showSinglePR: function(purchaseRequest) {
             this.$broadcast('modal-show-single-pr', purchaseRequest);   
+        },
+        removeLineItem: function(lineItem) {
+            this.lineItems = _.reject(this.lineItems, lineItem);
+        },
+        clearAllLineItems: function() {
+            this.lineItems = [];
+        },
+        goStep: function(step) {
+            this.step = step;
         }
     },
     events: {

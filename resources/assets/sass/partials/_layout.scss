@@ -145,22 +145,25 @@
 
 // Remove if flex layout broken --------------------------------------
 .row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-  flex-wrap: wrap;
-}
-.row > [class*='col-'] {
-  display: flex;
-  flex-direction: column;
+  &.flexing {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
 
-  .page-body {
-    flex: 100%;
-  }
+    & > [class*='col-'] {
+      display: flex;
+      flex-direction: column;
 
-  @media screen and (max-width: $screen-sm-min - 1) {
-    width: 100%;
+      .page-body {
+        flex: 100%;
+      }
+
+      @media screen and (max-width: $screen-sm-min - 1) {
+        width: 100%;
+      }
+    }
   }
 }
 // ------------------------------------------------------

@@ -91,24 +91,7 @@ class CompanyItemsRepository extends apiRepository
 
         return $this;
     }
-
-    /**
-     * Search Item fields: SKU, Brand, Name
-     *
-     * @param null $search
-     * @return $this
-     */
-    public function searchSkuBrandName($search = null)
-    {
-        if ($search) {
-            $this->{'search'} = $search;
-            $this->query->where('sku', 'LIKE', '%' . $search . '%')
-                        ->orWhere('brand', 'LIKE', '%' . $search . '%')
-                        ->orWhere('items.name', 'LIKE', '%' . $search . '%');
-        }
-        return $this;
-    }
-
+    
 
 
 }

@@ -13,6 +13,16 @@
   }
 }
 
+.vendor-search-selecter {
+  .selected-vendor {
+    @include border-radius(0);
+    background: #fff;
+  }
+  .single-vendor-option {
+
+  }
+}
+
 .vendor-connection {
   margin: 0 0 0 5px;
   font-style: italic;
@@ -36,3 +46,4 @@
 #vendors-all {
 
 }
+

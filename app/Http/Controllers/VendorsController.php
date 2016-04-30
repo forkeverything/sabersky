@@ -7,6 +7,7 @@ use App\Company;
 use App\Http\Requests\AddBankAccountRequest;
 use App\Http\Requests\AddNewVendorRequest;
 use App\Http\Requests\LinkCompanyToVendorRequest;
+use App\Repositories\CompanyVendorsRepository;
 use App\Vendor;
 use Illuminate\Http\Request;
 
@@ -93,10 +94,10 @@ class VendorsController extends Controller
     }
 
     /**
-     * Handle POST req to unlink Company to a specific Company. Unlink linking (which 
+     * Handle POST req to unlink Company to a specific Company. Unlink linking (which
      * may be used to create new Vendor models), we can just use route-model bind
      * here so we can get the right model quicker
-     * 
+     *
      * @param Vendor $vendor
      * @param Request $request
      * @return Vendor
@@ -104,7 +105,7 @@ class VendorsController extends Controller
     public function putUnlinkCompanyToVendor(Vendor $vendor, Request $request)
     {
         if (Gate::allows('edit', $vendor)) {
-            if($vendor->unlinkCompany()) return $vendor;
+            if ($vendor->unlinkCompany()) return $vendor;
             return response("Could not unlink Company to Vendor", 500);
         }
         return response("Not authorized to edit that Vendor", 403);
@@ -279,5 +280,23 @@ class VendorsController extends Controller
             return Auth::user()->company->customerVendors(0)->with('baseCompany')->get();
         }
         return response("Not allowed to manage vendors", 403);
+    }
+
+    /**
+     * Handle GET request to perform a search for logged-in
+     * User's Company's vendor lists
+     * @param Request $request
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchVendors(Request $request, $query)
+    {
+        if ($query) {
+            $results = CompanyVendorsRepository::forCompany(Auth::user()->company)
+                                               ->searchFor($query, ['name', 'vendors.linked_company_id.companies.name'])
+                                               ->getWithoutQueryProperties();
+            return $results;
+        }
+        return response("Could not search for Company's vendors.", 500);
     }
 }

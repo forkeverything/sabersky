@@ -62,16 +62,25 @@
 
   thead {
     tr {
-      background: $body-background;
+      background: $blue;
       th {
         height: 45px;
         border: 0;
         padding: 10px 26px 10px 10px;
-        color: $midnight-mid;
+        color: #fff!important;
+        font-weight: normal;
         text-transform: uppercase;
-        font-size: 0.9em;
+        font-size: 0.8em;
         vertical-align: middle;
         position: relative;
+
+        &:first-child {
+          border-left: 1px solid $blue;
+        }
+
+        &:last-child {
+          border-right: 1px solid $blue;
+        }
 
         &.heading-center {
           padding: 10px;
@@ -110,9 +119,24 @@
         }
       }
 
+      &:last-child {
+        td {
+          border-bottom: 1px solid $border-light;
+        }
+      }
+
       td {
-        padding: 15px;
+        border-top: 1px solid $border-light;
+        padding: 10px;
         vertical-align: middle;
+
+        &:first-child {
+          border-left: 1px solid $border-light;
+        }
+
+        &:last-child {
+          border-right: 1px solid $border-light;
+        }
       }
     }
   }

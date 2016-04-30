@@ -8,6 +8,11 @@ Vue.transition('slide', {
     leaveClass: 'slideOutLeft'
 });
 
+Vue.transition('slide-right', {
+    enterClass: 'slideInRight',
+    leaveClass: 'slideOutRight'
+});
+
 Vue.transition('fade-slide', {
     enterClass: 'fadeInDown',
     leaveClass: 'fadeOutUp'

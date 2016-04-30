@@ -1,28 +1,29 @@
-Vue.component('item-name-selecter', {
-    name: 'itemNameSelecter',
-    template: '<select class="item-name-search-selecter">' +
+Vue.component('vendor-selecter', {
+    name: 'vendorSelecter',
+    template: '<select class="vendor-search-selecter">' +
     '<option></option>' +
     '</select>',
     props: ['name'],
     ready: function() {
         var self = this;
-        $('.item-name-search-selecter').selectize({
-            valueField: 'name',
+        $('.vendor-search-selecter').selectize({
+            valueField: 'id',
             searchField: 'name',
+            maxItems: 1,
             create: false,
-            placeholder: 'Search for a name',
+            placeholder: 'Search for vendor',
             render: {
                 option: function(item, escape) {
-                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                    return '<div class="single-vendor-option">' + escape(item.name) + '</div>'
                 },
                 item: function(item, escape) {
-                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                    return '<div class="selected-vendor">' + escape(item.name) + '</div>'
                 }
             },
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/search/names/' + encodeURI(query),
+                    url: '/api/vendors/search/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();

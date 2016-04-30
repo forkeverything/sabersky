@@ -22,7 +22,7 @@ Vue.component('item-brand-selecter', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/items/brands/search/' + encodeURI(query),
+                    url: '/api/items/search/brands/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();

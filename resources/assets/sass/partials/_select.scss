@@ -179,20 +179,21 @@
     .selectize-dropdown-content {
       padding: 0;
 
-      .option {
+      div {
         height: 30px;
         display: flex;
         align-items: center;
+
+        &.selected {
+          background: #fff;
+          color: $blue;
+        }
 
         &.active {
           background: $blue;
           color: #fff;
         }
 
-        &.selected {
-          background: #fff;
-          color: $blue;
-        }
 
         &:last-child {
           border-bottom-right-radius: 3px;

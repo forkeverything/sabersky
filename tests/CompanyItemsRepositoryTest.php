@@ -139,7 +139,7 @@ class CompanyItemsRepositoryTest extends TestCase
         // Get 11 on start
         $this->assertCount(11, array_filter(CompanyItemsRepository::forCompany(static::$company)->get()->pluck('name')->toArray()));
         // get 1 on search for snafu
-        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchSkuBrandName('snafu')->get()->pluck('name')->toArray()));
+        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchFor('snafu', ['sku', 'brand', 'name'])->get()->pluck('name')->toArray()));
     }
 
     /**
@@ -161,7 +161,7 @@ class CompanyItemsRepositoryTest extends TestCase
         // Get 11 on start
         $this->assertCount(11, array_filter(CompanyItemsRepository::forCompany(static::$company)->get()->pluck('name')->toArray()));
         // get 1 on search for snafu
-        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchSkuBrandName('snafu')->get()->pluck('name')->toArray()));
+        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchFor('snafu', ['sku', 'brand', 'name'])->get()->pluck('name')->toArray()));
     }
 
     /**
@@ -183,7 +183,7 @@ class CompanyItemsRepositoryTest extends TestCase
         // Get 11 on start
         $this->assertCount(11, array_filter(CompanyItemsRepository::forCompany(static::$company)->get()->pluck('name')->toArray()));
         // get 1 on search for snafu
-        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchSkuBrandName('snafu')->get()->pluck('name')->toArray()));
+        $this->assertCount(1, array_filter(CompanyItemsRepository::forCompany(static::$company)->searchFor('snafu', ['sku', 'brand', 'name'])->get()->pluck('name')->toArray()));
     }
 
 }

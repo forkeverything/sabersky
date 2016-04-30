@@ -44,9 +44,9 @@ class UserPurchaseRequestsRepository extends apiRepository
      */
     protected $searchableFields = [
         'number',
-        'purchase_requests.items.brand',
-        'purchase_requests.items.name',
-        'purchase_requests.users.name'
+        'purchase_requests.item_id.items.brand',
+        'purchase_requests.item_id.items.name',
+        'purchase_requests.user_id.users.name'
     ];
 
     /**
