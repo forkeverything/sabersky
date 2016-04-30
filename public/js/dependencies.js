@@ -1767,7 +1767,12 @@ Vue.component('single-pr-modal', {
     '       </div>',
     data: function() {
         return {
-            purchaseRequest: {},
+            purchaseRequest: {
+                user: {},
+                item: {
+                    photos: []
+                }
+            },
             visible: false
         }
     },

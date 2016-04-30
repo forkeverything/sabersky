@@ -72,7 +72,7 @@ $factory->define(\App\BankAccount::class, function (Faker\Generator $faker) {
 $factory->define(\App\Address::class, function (Faker\Generator $faker) {
     return [
         'address_1' => $faker->streetAddress,
-        'address_2' => $faker->address,
+        'address_2' => $faker->name . ' Building',
         'city' => $faker->city,
         'state' => $faker->city,
         'zip' => $faker->postcode,

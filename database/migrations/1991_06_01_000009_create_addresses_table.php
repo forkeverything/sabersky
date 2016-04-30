@@ -16,6 +16,7 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
+            $table->string('contact_person')->nullable();
             $table->string('address_1');
             $table->string('address_2')->nullable();
             $table->string('city');

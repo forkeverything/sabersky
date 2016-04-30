@@ -4,7 +4,7 @@
             @include('purchase_orders.partials.submit.select-vendor')
         </div>
         <div class="page-body select-pr">
-            <h5>Find Requests</h5>
+            <h5>Search For Requests</h5>
             <div class="project-selecter">
                 <label class="display-block">Project</label>
                 <user-projects-selecter :name.sync="projectID"></user-projects-selecter>
@@ -45,13 +45,14 @@
                 </table>
             </div>
             <div class="empty-stage" v-else>
-                <i class="fa fa-arrow-circle-left"></i>
+                <i class="fa fa-arrow-circle-left hidden-xs"></i>
+                <i class="fa fa-arrow-circle-up visible-xs"></i>
                 <h3>No Items Added</h3>
-                <p>Add items by selecting requests from the right</p>
+                <p>Add items by selecting some requests</p>
             </div>
             <div class="line-items-control" v-show="hasLineItems">
                 <button type="button" class="btn btn-outline-grey btn-clear" @click="clearAllLineItems"><i class="fa fa-trash"></i> Clear All</button>
-                <button type="button" class="btn btn-solid-blue btn-next" @click="goStep(2)">Next Step <i class="fa fa-angle-double-right"></i></button>
+                <button type="button" class="btn btn-solid-green btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendorID">Next Step <i class="fa fa-angle-double-right"></i></button>
             </div>
         </div>
     </div>

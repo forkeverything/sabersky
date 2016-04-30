@@ -155,9 +155,12 @@
                                 <span class="address_1 block">@{{ address.address_1 }}</span>
                                     <span class="address_2 block"
                                           v-if="address.address_2">@{{ address.address_2 }}</span>
-                                <span class="city">@{{ address.city }}</span>,
-                                <span class="state">@{{ address.state }}</span>
-                                <span class="country block">@{{ address.country }}</span>
+                                <span class="city">@{{ address.city }}</span>
+                                <span class="zip">@{{ address.zip }}</span>
+                                <div class="state-country block">
+                                    <span class="state">@{{ address.state }}</span>,
+                                    <span class="country">@{{ address.country }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

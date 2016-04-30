@@ -72,7 +72,7 @@ class Company extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addresses()
+    public function address()
     {
         return $this->morphOne(Address::class, 'owner');
     }

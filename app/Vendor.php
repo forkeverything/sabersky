@@ -26,12 +26,12 @@ class Vendor extends Model
     /**
      * Mutator to save linked_company_id field as NULL
      * instead of an empty string.
-     * 
+     *
      * @param $value
      */
     public function setLinkedCompanyIdAttribute($value)
     {
-        if ( empty($value) ) {
+        if (empty($value)) {
             $this->attributes['linked_company_id'] = NULL;
         } else {
             $this->attributes['linked_company_id'] = $value;
@@ -154,7 +154,7 @@ class Vendor extends Model
     public function getBankAccountsAttribute()
     {
         // Have we already loaded it for this instance?
-        if (! array_key_exists('bank_accounts', $this->relations)) {
+        if (!array_key_exists('bank_accounts', $this->relations)) {
             // No? load it!
             $activeAccounts = $this->allBankAccounts()->where('active', '1')->get();
             $this->setRelation('bank_accounts', $activeAccounts);
@@ -210,12 +210,5 @@ class Vendor extends Model
     {
         return $this->morphMany(Address::class, 'owner');
     }
-
-
-
-
-
-
-
 
 }

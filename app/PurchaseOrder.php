@@ -178,4 +178,15 @@ class PurchaseOrder extends Model
         return $this->project->company->rules;
     }
 
+    /**
+     * A PO Could be made out to an address that belongs to
+     * either a Vendor or a Company linked to Vendor
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
 }

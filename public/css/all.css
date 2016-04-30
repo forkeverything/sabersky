@@ -7570,12 +7570,14 @@ label.required {
       font-size: 1.3em; }
 
 #purchase-orders-submit .submit-step {
-  -webkit-animation-duration: 0.15s;
-  animation-duration: 0.15s; }
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear; }
 
 #purchase-orders-submit #po-submit-2 {
-  -webkit-animation-delay: 0.15s;
-  animation-delay: 0.15s; }
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s; }
 
 #purchase-orders-all #button-submit-purchase-order {
   margin: 0 0 30px; }

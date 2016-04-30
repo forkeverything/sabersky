@@ -633,7 +633,9 @@ Vue.component('purchase-orders-submit', {
             urgent: '',
             searchTerm: '',
             lineItems: [],
-            vendorID: ''
+            vendorID: '',
+            vendor: {},
+            addressID: ''
         };
     },
     props: ['user'],
@@ -652,6 +654,10 @@ Vue.component('purchase-orders-submit', {
         },
         hasLineItems: function(){
             return this.lineItems.length >0;
+        },
+        availableAddresses: function() {
+            if(! this.vendor) return;
+            return this.vendor.addresses.push(this.vendor.linked_company.address);
         }
     },
     methods: {
@@ -762,6 +768,21 @@ Vue.component('purchase-orders-submit', {
         this.$watch('projectID', function (val) {
             if (! val) return;
             this.fetchPurchaseRequests();
+        });
+        this.$watch('vendorID', function (val) {
+            var self = this;
+            if (! val) return;
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+            self.ajaxObject = $.ajax({
+                url: '/api/vendors/' + val,
+                method: 'GET',
+                success: function(data) {
+                   self.vendor = data;
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
         });
     }
 });
