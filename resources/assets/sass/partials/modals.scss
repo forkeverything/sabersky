@@ -1,7 +1,8 @@
-@import "add/item";
-@import "add/address";
+@import "modals/item";
+@import "modals/address";
+@import "modals/single-pr";
 
-.modal-form {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +14,7 @@
   align-items: center;
   z-index: $z-item-add-modal;
 
-  .main-form {
+  .modal-body {
     background: #fff;
     padding: 30px 45px;
     max-height: 100%;
@@ -34,14 +35,17 @@
 
     .button-hide-modal {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 0;
+      right: 0;
       background: transparent;
-      font-size: 2em;
-      color: $grey;
+      font-size: 1.5em;
+      color: $black;
+      opacity: 0.2;
 
       &:focus, &:hover, &:active {
         @include box-shadow(none);
+        opacity: 0.5;
+        @include transition(opacity 0.15s);
       }
     }
   }

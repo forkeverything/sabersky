@@ -117,6 +117,9 @@ Vue.component('purchase-orders-submit', {
                     if (! self.alreadySelectedPR(request)) self.lineItems.push(request);
                 });
             }
+        },
+        showSinglePR: function(purchaseRequest) {
+            this.$broadcast('modal-show-single-pr', purchaseRequest);   
         }
     },
     events: {

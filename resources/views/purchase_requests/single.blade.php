@@ -12,15 +12,15 @@
             </div>
             <div class="col-sm-8">
                 <div class="card-request page-body">
-                    <h4 class="card-title">Purchase Request <span
+                    <h4 class="card-title">Purchase Request #{{ $purchaseRequest->number }}<span
                                 class="badge-state {{ $purchaseRequest->state }}">{{ $purchaseRequest->state }}</span>
                     </h4>
                     <div class="requested-info">
-                        Made {{ $purchaseRequest->created_at->diffForHumans() }}
+                        Requested {{ $purchaseRequest->created_at->diffForHumans() }}
                         by {{ $purchaseRequest->user->name }}
                     </div>
                     <div class="required">
-                        <span class="card-subheading">Required by</span>
+                        <span class="card-subheading">Due by</span>
                         <div class="due">
                             @if($purchaseRequest->urgent)
                                 <span class="badge-urgent"><i class="fa fa-warning"></i></span>

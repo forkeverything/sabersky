@@ -520,6 +520,10 @@ Vue.directive('dropdown-toggle', {
     }
 });
 
+Vue.directive('fancybox', function() {
+    // Init fancy box on elements that may be loaded dynamically using Vue
+    $(this.el).fancybox();
+});
 Vue.directive('rule-property-select', {
     twoWay: true,
     bind: function () {
@@ -737,518 +741,6 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-Vue.component('add-address-modal', {
-    name: 'addAddressModal',
-    template: '<button type="button"' +
-    '                  class="btn btn-add-address btn-outline-green"' +
-    '                  @click="showModal"' +
-    '                  >' +
-    '                  <i class="fa fa-plus"></i> New Address' +
-    '          </button>' +
-    '          <div class="modal-address-add modal-form" v-show="visible" @click="hideModal">' +
-    '               <form class="form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
-    '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '                   <form-errors></form-errors>' +
-    '                   <h3>Add Address</h3>' +
-    '                   <div class="shift-label-input no-validate">' +
-    '                       <input type="text" v-model="address1" required>' +
-    '                       <label class="required" placeholder="Address"></label>' +
-    '                   </div>' +
-    '                   <div class="shift-label-input no-validate">' +
-    '                       <input class="not-required"' +
-    '                              type="text"' +
-    '                              v-model="address2"' +
-    '                              :class="{' +
-    "                                  'filled': address2.length > 0" +
-    '                              }"' +
-    '                       >' +
-    '                       <label placeholder="Address 2"></label>' +
-    '                   </div>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input no-validate">' +
-    '                               <input type="text" v-model="city" required>' +
-    '                               <label class="required" placeholder="City"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input no-validate">' +
-    '                               <input type="text" v-model="zip" required>' +
-    '                               <label class="required" placeholder="Zip"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                   </div>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group shift-select">' +
-    '                               <label class="required">Country</label>' +
-    '                               <select class="address-country-selecter"><option></option></select>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group shift-select">' +
-    '                               <label class="required">State</label>' +
-    '                               <select class="address-state-selecter"><option></option></select>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                   </div>' +
-    '                   <div class="shift-label-input">' +
-    '                       <input type="text" v-model="phone" required>' +
-    '                       <label class="required" placeholder="Phone Number"></label>' +
-    '                   </div>' +
-    '                   <div class="form-group align-end">' +
-    '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +
-    '                   </div>' +
-    '               </form>' +
-    '          </div>',
-    data: function () {
-        return {
-            ajaxReady: true,
-            ajaxObject: {},
-            visible: false,
-            loaded: false,
-            address1: '',
-            address2: '',
-            city: '',
-            state: '',
-            countryID: '',
-            zip: '',
-            phone: ''
-        };
-    },
-    props: ['owner-id', 'owner-type'],
-    computed: {
-        canSaveAddress: function () {
-            return this.address1.length > 0 && this.city.length > 0 && this.countryID.length > 0 && this.zip.length > 0 && this.phone.length > 0;
-        }
-    },
-    methods: {
-        showModal: function () {
-            this.visible = true;
-        },
-        hideModal: function () {
-            this.visible = false;
-        },
-        addAddress: function () {
-            var self = this;
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/address',
-                method: 'POST',
-                data: {
-                    "owner_id": self.ownerId,
-                    "owner_type": self.ownerType,
-                    "address_1": self.address1,
-                    "address_2": self.address2,
-                    "city": self.city,
-                    "state": self.state,
-                    "country_id": self.countryID,
-                    "zip": self.zip,
-                    "phone": self.phone
-                },
-                success: function (data) {
-                    // success
-                    self.visible = false;
-                    flashNotify('success', 'Added a new address');
-                    self.$dispatch('address-added', data);
-                    self.ajaxReady = true;
-
-                    // reset fields
-                    self.address1 = '';
-                    self.address2 = '';
-                    self.city = '';
-                    self.state = '';
-                    self.countryID = '';
-                    self.zip = '';
-                    self.phone = '';
-                    
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-        var self = this;
-        var $select_country, select_country;
-        var $select_state, select_state;
-
-        // Init Country Selecter
-        $select_country = $('.address-country-selecter').selectize({
-            valueField: 'id',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Type to select a Country',
-            render: {
-                option: function (item, escape) {
-                    return '<div class="single-country-option">' + escape(item.name) + '</div>'
-                },
-                item: function (item, escape) {
-                    return '<div class="selected-country">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/countries/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                if (!value.length) return;
-
-                self.countryID = value;
-
-                select_state.disable();
-                select_state.clearOptions();
-                select_state.load(function (callback) {
-                    if (!_.isEmpty(self.ajaxObject) && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-                    self.ajaxObject = $.ajax({
-                        url: '/countries/' + value + '/states',
-                        success: function (results) {
-                            select_state.enable();
-                            callback(results);
-                        },
-                        error: function () {
-                            callback();
-                        }
-                    })
-                });
-            }
-        });
-
-        $select_state = $('.address-state-selecter').selectize({
-            valueField: 'name',
-            labelField: 'name',
-            searchField: ['name'],
-            placeholder: 'Select or add a state',
-            create: true,
-            onChange: function (value) {
-                self.state = value;
-            }
-        });
-
-        select_country = $select_country[0].selectize;
-        select_state = $select_state[0].selectize;
-        select_state.disable();
-
-        self.loaded = true;
-    }
-});
-Vue.component('add-item-modal', {
-    name: 'addItemModal',
-    template: '<button type="button"' +
-    '               class="btn button-add-item"' +
-    '               :class="{' +
-    "                   'btn-outline-blue': this.buttonType === 'blue'," +
-    "                   'btn-solid-green': ! this.buttonType"+
-    '}"' +
-    '               @click="showModal"' +
-    '               >' +
-    '               Add New Item' +
-    '</button>'+
-    '<div class="modal-item-add modal-form" v-show="visible" @click="hideModal">' +
-    '<form class="form-item-add main-form" v-show="loaded" @click.stop="">' +
-    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '<form-errors></form-errors>' +
-    '<h3>Add New Item</h3>' +
-    '   <div class="form-group">' +
-    '       <label>SKU</label>' +
-    '       <input class="form-control" type="text" v-model="sku">' +
-    '   </div>' +
-    '<div class="form-group brand-name-wrap">' +
-    '<div class="brand-selection"><label>Brand</label><select class="item-add-brand-select"><option></option></select></div>' +
-    '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
-    '</div>' +
-    '   <div class="form-group">' +
-    '       <label  class="required">Specification</label>' +
-    '       <textarea class="form-control" v-model="specification" rows="5"></textarea>' +
-    '   </div>' +
-    '<div class="form-group">' +
-    '<div class="item-photo-uploader">' +
-    '<label>Photos</label>' +
-    '<div class="dropzone-errors" v-show="fileErrors.length > 0">' +
-    '<span class="error-heading">Could not add the following files</span>' +
-    '<span class="button-clear" @click="clearErrors">clear</span>' +
-    '<ul class="file-upload-errors">' +
-    '<li v-for="error in fileErrors" track-by="$index">{{ error }}</li>' +
-    '</ul>' +
-    '</div>' +
-    '<div class="item-photo-dropzone dropzone">' +
-    '<div class="dz-message"><i class="fa fa-image"></i>' +
-    'Click or drop images to upload' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div class="bottom align-end">' +
-    '   <button type="button"' +
-    '           class="btn btn-solid-green"' +
-    '           @click.prevent="submitAddItemForm"' +
-    '           :disabled="! canSubmitForm"' +
-    '   >' +
-    '       Save Item' +
-    '   </button>' +
-    '</div>' +
-    '</form>' +
-    '</div>',
-    data: function () {
-        return {
-            visible: false,
-            ajaxReady: true,
-            loaded: false,
-            existingBrands: null,
-            sku: '',
-            brand: '',
-            name: '',
-            specification: '',
-            uploadedFiles: [],
-            fileErrors: [],
-            dropzone: {}
-        };
-    },
-    props: ['buttonType'],
-    computed: {
-        canSubmitForm: function () {
-            return this.name.length > 0 && this.specification.length > 0;
-        }
-    },
-    methods: {
-        showModal: function() {
-            this.visible = true;
-        },
-        hideModal: function() {
-            this.visible = false;
-        },
-        clearErrors: function () {
-            this.fileErrors = []
-        },
-        submitAddItemForm: function () {
-            var self = this;
-
-            // Create new FormData Instance
-            var fd = new FormData();
-
-            // Attach our previously uploaded files to data
-            _.forEach(self.uploadedFiles, function (file) {
-                fd.append('item_photos[]', file);
-            });
-
-            // Append our other data
-            fd.append('sku', self.sku);
-            fd.append('brand', self.brand);
-            fd.append('name', self.name);
-            fd.append('specification', self.specification);
-
-            // Send Req. via Ajax
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items',
-                method: 'POST',
-                data: fd,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    // success
-                    console.log('success!');
-                    console.log(data);
-                    self.ajaxReady = true;
-                    self.clearFields(); // Clear selected fields
-                    self.$dispatch('added-new-item', data);   // Send out event for parent component
-                    self.visible = false;
-                    flashNotify('success', 'Added new Item');
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearFields: function () {
-            this.sku = '';
-            this.brand = '';
-            this.name = '';
-            this.specification = '';
-            this.uploadedFiles = '';
-            this.fileErrors = [];
-            this.dropzone.removeAllFiles();
-        }
-    },
-    events: {},
-    ready: function () {
-        var self = this;
-
-        // Brand selectize init
-        $('.item-add-brand-select').selectize({
-            valueField: 'brand',
-            searchField: 'brand',
-            create: true,
-            placeholder: 'Find or enter a new brand',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/brands/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.brand = value;
-            }
-        });
-
-        // File Upload
-        var dzMaxFileSize = 5 * (1000000);
-        self.dropzone = new Dropzone("div.item-photo-dropzone", {
-            autoProcessQueue: false,
-            url: "#",
-            acceptedFiles: 'image/*',
-            accept: function (file, done) {
-                if (self.uploadedFiles.length > 12) {
-                    self.fileErrors.push("Maximum of 12 Photos reached");
-                    this.removeFile(file);
-                } else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-                    self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
-                    this.removeFile(file);
-                } else if (file.size > dzMaxFileSize) {
-                    self.fileErrors.push('"' + file.name + '" file size over 5MB');
-                    this.removeFile(file);
-                }
-                else {
-                    done();
-                }
-            },
-            previewTemplate: '<div class="dz-image-row"><div class="dz-image"><img data-dz-thumbnail></div><div class="dz-file-details"><span data-dz-name class="file-name"></span><span class="file-size" data-dz-size></span></div><div class="link-remove"><i class="fa fa-close" data-dz-remove></i></div></div>',
-            init: function () {
-                this.on("addedfile", function (file) {
-                    self.uploadedFiles.push(file);
-                });
-                this.on("removedfile", function (file) {
-                    self.uploadedFiles = _.reject(self.uploadedFiles, file);
-                })
-            }
-        });
-
-        self.loaded = true;
-    }
-});
-Vue.component('company-search-selecter', {
-    name: 'companySearchSelecter',
-    template: '<select class="company-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.company-search-selecter').selectize({
-            valueField: 'id',
-            searchField: ['name'],
-            create: false,
-            placeholder: 'Search by Company Name',
-            render: {
-                option: function (item, escape) {
-
-                    var optionClass = 'class="option company-single-option ',
-                        connectionSpan;
-
-                    switch (item.connection) {
-                        case 'pending':
-                            optionClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
-                            break;
-                        case 'verified':
-                            optionClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
-                            break;
-                        default:
-                            optionClass += '"';
-                            connectionSpan = '';
-                    }
-
-
-                    return '<div ' + optionClass +'>' +
-                        '       <span class="name">' + escape(item.name) + '</span>' +
-                        connectionSpan +
-                        '   </div>'
-                },
-                item: function (item, escape) {
-
-                    var selectedClass = 'class="company-selected ',
-                        connectionSpan;
-
-                    switch (item.connection) {
-                        case 'pending':
-                            selectedClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
-                            break;
-                        case 'verified':
-                            selectedClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
-                            break;
-                        default:
-                            selectedClass += '"';
-                            connectionSpan = '';
-                    }
-
-                    return '<div ' + selectedClass + '>' +
-                        '           <label>Selected Company</label>' +
-                        '           <div class="name">' + escape(item.name) +
-                        connectionSpan +
-                        '           </div>' +
-                        '           <span class="description">' + escape(item.description) + '</span>' +
-                        '       </div>' +
-                        '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/company/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                self.name = value;
-            }
-        });
-    }
-});
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -1274,138 +766,6 @@ Vue.component('form-errors', {
         },
         'clear-errors': function() {
             this.errors = [];
-        }
-    }
-});
-Vue.component('item-brand-selecter', {
-    name: 'itemBrandSelecter',
-    template: '<select class="item-brand-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.item-brand-search-selecter').selectize({
-            valueField: 'brand',
-            searchField: 'brand',
-            create: false,
-            placeholder: 'Search for a brand',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/brands/search/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('item-name-selecter', {
-    name: 'itemNameSelecter',
-    template: '<select class="item-name-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.item-name-search-selecter').selectize({
-            valueField: 'name',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Search for a name',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-name">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/names/search/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('modal', {
-    data: function () {
-        return {
-            title: '',
-            body: '',
-            buttonText: '',
-            buttonClass: '',
-            callbackEventName: ''
-        }
-    },
-    template: '<div class="modal-roles modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
-    '<div class="vertical-alignment-helper">' +
-    '<div class="modal-dialog vertical-align-center">' +
-    '<div class="modal-content">' +
-    '<div class="modal-header">' +
-    '<h5 class="text-center">{{ title }}</h5>' +
-    '</div>' +
-    '<div class="modal-body">' +
-    '<p>{{ body }}</p>' +
-    '</div>' +
-    '<div class="modal-footer">' +
-    '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>' +
-    '<a class="btn btn-ok btn-confirm {{ buttonClass }}"' +
-    '   @click="fireEvent" data-dismiss="modal"' +
-    '>' +
-    '{{ buttonText }}' +
-    '</a>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>',
-    methods: {
-        fireEvent: function() {
-            this.$dispatch(this.callbackEventName);
-        }
-    },
-    events: {
-        'new-modal': function (settings) {
-            var self = this;
-            self.title = settings.title;
-            self.body = settings.body;
-            self.buttonClass = settings.buttonClass;
-            self.buttonText = settings.buttonText;
-            self.callbackEventName = settings.callbackEventName;
-
-            // show the modal
-            $(this.$el).modal('show');
-
         }
     }
 });
@@ -1654,6 +1014,951 @@ Vue.component('power-table', {
 
     }
 });
+Vue.component('select-picker', {
+    template: '<select v-model="name" class="themed-select" @change="callChangeFunction">' +
+    ' <option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
+    '<option v-if="option && option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
+    '</select>',
+    name: 'selectpicker',
+    props: ['options', 'name', 'function', 'placeholder'],
+    methods: {
+        callChangeFunction: function () {
+            if (this.function && typeof this.function === 'function') {
+                this.function();
+            }
+        }
+    },
+    ready: function () {
+
+        // Init our picker
+        $(this.$el).selectpicker({
+            iconBase: 'fa',
+            tickIcon: 'fa-check'
+        });
+
+        this.$watch('name', function (val) {
+            $(this.$el).val(val);
+            $(this.$el).selectpicker('render');
+        });
+
+        // Update whenever options change
+        this.$watch('options', function (val) {
+            // Refresh our picker UI
+            $(this.$el).selectpicker('refresh');
+            // Update manually because v-model won't catch
+            this.name = $(this.$el).selectpicker('val');
+        }.bind(this))
+    }
+});
+Vue.component('select-type', {
+    name: 'selectType',
+    template: '<select class="select-type" v-show="receivedOptions">' +
+    '<option></option>' +
+    '               <option value="{{ option }}" v-for="option in options">{{ option }}</option>' + '' +
+    '          </select>',
+    data: function () {
+        return {
+            receivedOptions: false,
+            selectize: {}
+        };
+    },
+    props: [
+        'options',
+        'name',
+        'create',
+        'unique',
+        'placeholder'
+    ],
+    ready: function () {
+
+
+        var self = this;
+
+        var unique = this.unique || true,
+            create = this.create || true,
+            placeholder = this.placeholder || 'Type to select...';
+
+        this.$watch('name', function (value) {
+            if(! value)this.selectize.clear();
+        });
+
+        this.$watch('options', function () {
+            this.receivedOptions = true;
+            if (!_.isEmpty(this.selectize)) this.selectize.destroy();
+            this.selectize = $(this.$el).selectize({
+                create: create,
+                sortField: 'text',
+                placeholder: placeholder,
+                createFilter: function (input) {
+                    input = input.toLowerCase();
+                    var optionsArray = $.map(unique.options, function (value) {
+                        return [value];
+                    });
+                    var unmatched = true;
+                    _.forEach(optionsArray, function (option) {
+                        if ((option.text).toLowerCase() === input) {
+                            unmatched = false;
+                        }
+                    });
+                    return unmatched;   // true if unmatched (ie. new) value
+                },
+                onChange: function (value) {
+                    // When we select / enter a new value - enter it into our data
+                    self.name = value;
+                }
+            })[0].selectize;
+            // Let parent component know select is loaded
+            this.$dispatch('select-loaded');
+        });
+
+
+        // TODO :: Add ability to re-render when options changes
+        //      - Maybe define options on selectize and render options / item through plugin (instead of Vue)
+        //      - Call clearOption()?
+        //      - Clear Cache? Some bug, unknown if fixed
+
+    },
+    beforeDestroy: function () {
+        this.selectize.destroy();   // TODO :: Check if valid & necessary
+    }
+});
+Vue.component('text-clipper', {
+    name: 'textClipper',
+    template: '<div class="text-clipper"' +
+    '               :class="{' +
+    "                   'expanded': !clip" +
+    '               }"' +
+    '           >' +
+    '               <div v-if="isClipped" class="clipped">' +
+    '                   {{ text | limitString limit }}' +
+    '                   <a class="btn-show-more-text" @click.prevent.stop="unclip">' +
+    '                       <span class="clickable">...</span>' +
+    '                   </a>' +
+    '               </div>' +
+    '               <div v-else class="unclipped">' +
+    '                   {{ text }}' +
+    '               </div>' +
+    '            </div>',
+    data: function() {
+        return {
+            limit: 150,
+            clip: true
+        };
+    },
+    props: ['text'],
+    computed: {
+        isClipped: function() {
+            return this.text.length > this.limit && this.clip;
+        }
+    },
+    methods: {
+        unclip: function() {
+            // Set max-height dynamically - depending on amount of text
+            $(this.$el).css('max-height', $(this.$el).height());
+            // Playing it safe
+            setTimeout(function() {
+                this.clip = false;
+            }.bind(this), 150);
+        }
+    },
+    ready: function() {
+        // If the data changes but we're still using the same Component instance
+        this.$watch('text', function () {
+            // Reset it - ie. clip text
+            this.clip = true;
+        });
+    }
+});
+Vue.component('toast-alert', {
+    name: 'toaster',
+    template: '<div id="toast-plate">' +
+    '               <div class="toast animated"' +
+    '                    v-for="(index, alert) in alerts"' +
+    '                    transition="fade"' +
+    '                    :class="alert.type">' +
+    '<button type="button" class="btn-close" @click="dismiss(alert) "><i class="fa fa-close"></i></button>' +
+    '{{{ alert.content }}}' +
+    '</div>' +
+    '</div>',
+    data: function() {
+        return {
+            alerts: []
+        };
+    },
+    methods: {
+        addToQueue: function(alert) {
+            // Attach a timeout ID and use it as unique id
+            alert.timerID = setTimeout(function () {
+                // dismiss (hide) the alert after 3 secs...
+                this.dismiss(alert);
+            }.bind(this), 3000);
+            // finally push alert
+            this.alerts.push(alert);
+        },
+        dismiss: function(alert) {
+            // if we prematurely cleared it.. clear the timeout
+            clearTimeout(alert.timerID);
+            // Remove it from array (will work because of unique timerID)
+            this.alerts = _.reject(this.alerts, alert);
+        }
+    },
+    events: {
+        'serve-toast': function(alert) {
+            this.addToQueue(alert);
+        }
+    },
+    ready: function() {
+        /*
+        TODO ::: Implement this component to handle alerts if/when we
+        make the jump to Vue for handling all client-side. Which
+        includes routing, auth etc.
+         */
+    }
+});
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('add-address-modal', {
+    name: 'addAddressModal',
+    template: '<button type="button"' +
+    '                  class="btn btn-add-address btn-outline-green"' +
+    '                  @click="showModal"' +
+    '                  >' +
+    '                  <i class="fa fa-plus"></i> New Address' +
+    '          </button>' +
+    '          <div class="modal-overlay modal-address-add modal-form" v-show="visible" @click="hideModal">' +
+    '               <form class="modal-body form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
+    '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '                   <form-errors></form-errors>' +
+    '                   <h3>Add Address</h3>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input type="text" v-model="address1" required>' +
+    '                       <label class="required" placeholder="Address"></label>' +
+    '                   </div>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input class="not-required"' +
+    '                              type="text"' +
+    '                              v-model="address2"' +
+    '                              :class="{' +
+    "                                  'filled': address2.length > 0" +
+    '                              }"' +
+    '                       >' +
+    '                       <label placeholder="Address 2"></label>' +
+    '                   </div>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="city" required>' +
+    '                               <label class="required" placeholder="City"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="zip" required>' +
+    '                               <label class="required" placeholder="Zip"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="form-group shift-select">' +
+    '                               <label class="required">Country</label>' +
+    '                               <select class="address-country-selecter"><option></option></select>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="form-group shift-select">' +
+    '                               <label class="required">State</label>' +
+    '                               <select class="address-state-selecter"><option></option></select>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="shift-label-input">' +
+    '                       <input type="text" v-model="phone" required>' +
+    '                       <label class="required" placeholder="Phone Number"></label>' +
+    '                   </div>' +
+    '                   <div class="form-group align-end">' +
+    '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +
+    '                   </div>' +
+    '               </form>' +
+    '          </div>',
+    data: function () {
+        return {
+            ajaxReady: true,
+            ajaxObject: {},
+            visible: false,
+            loaded: false,
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            countryID: '',
+            zip: '',
+            phone: ''
+        };
+    },
+    props: ['owner-id', 'owner-type'],
+    computed: {
+        canSaveAddress: function () {
+            return this.address1.length > 0 && this.city.length > 0 && this.countryID.length > 0 && this.zip.length > 0 && this.phone.length > 0;
+        }
+    },
+    methods: {
+        showModal: function () {
+            this.visible = true;
+        },
+        hideModal: function () {
+            this.visible = false;
+        },
+        addAddress: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address',
+                method: 'POST',
+                data: {
+                    "owner_id": self.ownerId,
+                    "owner_type": self.ownerType,
+                    "address_1": self.address1,
+                    "address_2": self.address2,
+                    "city": self.city,
+                    "state": self.state,
+                    "country_id": self.countryID,
+                    "zip": self.zip,
+                    "phone": self.phone
+                },
+                success: function (data) {
+                    // success
+                    self.visible = false;
+                    flashNotify('success', 'Added a new address');
+                    self.$dispatch('address-added', data);
+                    self.ajaxReady = true;
+
+                    // reset fields
+                    self.address1 = '';
+                    self.address2 = '';
+                    self.city = '';
+                    self.state = '';
+                    self.countryID = '';
+                    self.zip = '';
+                    self.phone = '';
+                    
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+        var self = this;
+        var $select_country, select_country;
+        var $select_state, select_state;
+
+        // Init Country Selecter
+        $select_country = $('.address-country-selecter').selectize({
+            valueField: 'id',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Type to select a Country',
+            render: {
+                option: function (item, escape) {
+                    return '<div class="single-country-option">' + escape(item.name) + '</div>'
+                },
+                item: function (item, escape) {
+                    return '<div class="selected-country">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/countries/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                if (!value.length) return;
+
+                self.countryID = value;
+
+                select_state.disable();
+                select_state.clearOptions();
+                select_state.load(function (callback) {
+                    if (!_.isEmpty(self.ajaxObject) && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+                    self.ajaxObject = $.ajax({
+                        url: '/countries/' + value + '/states',
+                        success: function (results) {
+                            select_state.enable();
+                            callback(results);
+                        },
+                        error: function () {
+                            callback();
+                        }
+                    })
+                });
+            }
+        });
+
+        $select_state = $('.address-state-selecter').selectize({
+            valueField: 'name',
+            labelField: 'name',
+            searchField: ['name'],
+            placeholder: 'Select or add a state',
+            create: true,
+            onChange: function (value) {
+                self.state = value;
+            }
+        });
+
+        select_country = $select_country[0].selectize;
+        select_state = $select_state[0].selectize;
+        select_state.disable();
+
+        self.loaded = true;
+    }
+});
+Vue.component('add-item-modal', {
+    name: 'addItemModal',
+    template: '<button type="button"' +
+    '               class="btn button-add-item"' +
+    '               :class="{' +
+    "                   'btn-outline-blue': this.buttonType === 'blue'," +
+    "                   'btn-solid-green': ! this.buttonType"+
+    '}"' +
+    '               @click="showModal"' +
+    '               >' +
+    '               Add New Item' +
+    '</button>'+
+    '<div class="modal-item-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
+    '<form class="form-item-add main-form modal-body" v-show="loaded" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '<form-errors></form-errors>' +
+    '<h3>Add New Item</h3>' +
+    '   <div class="form-group">' +
+    '       <label>SKU</label>' +
+    '       <input class="form-control" type="text" v-model="sku">' +
+    '   </div>' +
+    '<div class="form-group brand-name-wrap">' +
+    '<div class="brand-selection"><label>Brand</label><select class="item-add-brand-select"><option></option></select></div>' +
+    '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
+    '</div>' +
+    '   <div class="form-group">' +
+    '       <label  class="required">Specification</label>' +
+    '       <textarea class="form-control" v-model="specification" rows="5"></textarea>' +
+    '   </div>' +
+    '<div class="form-group">' +
+    '<div class="item-photo-uploader">' +
+    '<label>Photos</label>' +
+    '<div class="dropzone-errors" v-show="fileErrors.length > 0">' +
+    '<span class="error-heading">Could not add the following files</span>' +
+    '<span class="button-clear" @click="clearErrors">clear</span>' +
+    '<ul class="file-upload-errors">' +
+    '<li v-for="error in fileErrors" track-by="$index">{{ error }}</li>' +
+    '</ul>' +
+    '</div>' +
+    '<div class="item-photo-dropzone dropzone">' +
+    '<div class="dz-message"><i class="fa fa-image"></i>' +
+    'Click or drop images to upload' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="bottom align-end">' +
+    '   <button type="button"' +
+    '           class="btn btn-solid-green"' +
+    '           @click.prevent="submitAddItemForm"' +
+    '           :disabled="! canSubmitForm"' +
+    '   >' +
+    '       Save Item' +
+    '   </button>' +
+    '</div>' +
+    '</form>' +
+    '</div>',
+    data: function () {
+        return {
+            visible: false,
+            ajaxReady: true,
+            loaded: false,
+            existingBrands: null,
+            sku: '',
+            brand: '',
+            name: '',
+            specification: '',
+            uploadedFiles: [],
+            fileErrors: [],
+            dropzone: {}
+        };
+    },
+    props: ['buttonType'],
+    computed: {
+        canSubmitForm: function () {
+            return this.name.length > 0 && this.specification.length > 0;
+        }
+    },
+    methods: {
+        showModal: function() {
+            this.visible = true;
+        },
+        hideModal: function() {
+            this.visible = false;
+        },
+        clearErrors: function () {
+            this.fileErrors = []
+        },
+        submitAddItemForm: function () {
+            var self = this;
+
+            // Create new FormData Instance
+            var fd = new FormData();
+
+            // Attach our previously uploaded files to data
+            _.forEach(self.uploadedFiles, function (file) {
+                fd.append('item_photos[]', file);
+            });
+
+            // Append our other data
+            fd.append('sku', self.sku);
+            fd.append('brand', self.brand);
+            fd.append('name', self.name);
+            fd.append('specification', self.specification);
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items',
+                method: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // success
+                    console.log('success!');
+                    console.log(data);
+                    self.ajaxReady = true;
+                    self.clearFields(); // Clear selected fields
+                    self.$dispatch('added-new-item', data);   // Send out event for parent component
+                    self.visible = false;
+                    flashNotify('success', 'Added new Item');
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearFields: function () {
+            this.sku = '';
+            this.brand = '';
+            this.name = '';
+            this.specification = '';
+            this.uploadedFiles = '';
+            this.fileErrors = [];
+            this.dropzone.removeAllFiles();
+        }
+    },
+    events: {},
+    ready: function () {
+        var self = this;
+
+        // Brand selectize init
+        $('.item-add-brand-select').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: true,
+            placeholder: 'Find or enter a new brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.brand = value;
+            }
+        });
+
+        // File Upload
+        var dzMaxFileSize = 5 * (1000000);
+        self.dropzone = new Dropzone("div.item-photo-dropzone", {
+            autoProcessQueue: false,
+            url: "#",
+            acceptedFiles: 'image/*',
+            accept: function (file, done) {
+                if (self.uploadedFiles.length > 12) {
+                    self.fileErrors.push("Maximum of 12 Photos reached");
+                    this.removeFile(file);
+                } else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
+                    this.removeFile(file);
+                } else if (file.size > dzMaxFileSize) {
+                    self.fileErrors.push('"' + file.name + '" file size over 5MB');
+                    this.removeFile(file);
+                }
+                else {
+                    done();
+                }
+            },
+            previewTemplate: '<div class="dz-image-row"><div class="dz-image"><img data-dz-thumbnail></div><div class="dz-file-details"><span data-dz-name class="file-name"></span><span class="file-size" data-dz-size></span></div><div class="link-remove"><i class="fa fa-close" data-dz-remove></i></div></div>',
+            init: function () {
+                this.on("addedfile", function (file) {
+                    self.uploadedFiles.push(file);
+                });
+                this.on("removedfile", function (file) {
+                    self.uploadedFiles = _.reject(self.uploadedFiles, file);
+                })
+            }
+        });
+
+        self.loaded = true;
+    }
+});
+Vue.component('modal', {
+    data: function () {
+        return {
+            title: '',
+            body: '',
+            buttonText: '',
+            buttonClass: '',
+            callbackEventName: ''
+        }
+    },
+    template: '<div class="modal-roles modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+    '<div class="vertical-alignment-helper">' +
+    '<div class="modal-dialog vertical-align-center">' +
+    '<div class="modal-content">' +
+    '<div class="modal-header">' +
+    '<h5 class="text-center">{{ title }}</h5>' +
+    '</div>' +
+    '<div class="modal-body">' +
+    '<p>{{ body }}</p>' +
+    '</div>' +
+    '<div class="modal-footer">' +
+    '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>' +
+    '<a class="btn btn-ok btn-confirm {{ buttonClass }}"' +
+    '   @click="fireEvent" data-dismiss="modal"' +
+    '>' +
+    '{{ buttonText }}' +
+    '</a>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>',
+    methods: {
+        fireEvent: function() {
+            this.$dispatch(this.callbackEventName);
+        }
+    },
+    events: {
+        'new-modal': function (settings) {
+            var self = this;
+            self.title = settings.title;
+            self.body = settings.body;
+            self.buttonClass = settings.buttonClass;
+            self.buttonText = settings.buttonText;
+            self.callbackEventName = settings.callbackEventName;
+
+            // show the modal
+            $(this.$el).modal('show');
+
+        }
+    }
+});
+Vue.component('single-pr-modal', {
+    name: 'singlePurchaseRequestModal',
+    template: '<div class="modal-overlay single-pr" tabindex="-1" role="dialog" aria-labelledby="singlePRModal" aria-hidden="true" v-show="visible" @click="hideModal">' +
+    '               <div class="modal-body" @click.stop="">'+
+    '                   <modal-close-button></modal-close-button>' +
+    '                       <h3>Purchase Request #{{ purchaseRequest.number }} <span'+
+    '                           class="badge-state {{ purchaseRequest.state }}">{{ purchaseRequest.state }}</span>' +
+    '                       </h3>' +
+    '                       <div class="pr">' +
+    '                           <div class="request-info">' +
+    '                               <span class="requested">Requested {{ purchaseRequest.created_at | diffHuman }}</span>' +
+    '                               <span class="requester">{{ purchaseRequest.user.name }}</span>' +
+    '                           </div>' +
+    '                           <div class="due">' +
+    '                               <h5>Due Date</h5>' +
+    '                               <span class="date">{{ purchaseRequest.due | easyDate }}</span>' +
+    '                           </div>' +
+    '                           <div class="quantity">' +
+    '                               <h5>Quantity</h5>' +
+    '                               <span class="number">{{ purchaseRequest.quantity }}</span>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="item">' +
+    '                           <h5>Item</h5>' +
+    '                           <div class="main-photo">' +
+    '                               <a v-if="purchaseRequest.item.photos.length > 0" :href="purchaseRequest.item.photos[0].path" class="fancybox image-item-main" rel="group">' +
+    '                                   <img :src="purchaseRequest.item.photos[0].thumbnail_path" alt="Item Main Photo">' +
+    '                               </a>' +
+    '                               <div class="placeholder" v-else>'+
+    '                                   <i class="fa fa-image"></i>'+
+    '                               </div>' +
+    '                           </div>' +
+    '                           <div class="details">' +
+    '                               <span class="sku display-block" v-if="purchaseRequest.item.sku">{{ purchaseRequest.item.sku }}</span>' +
+    '                               <span class="brand" v-if="purchaseRequest.item.brand">{{ purchaseRequest.item.brand }} - </span>' +
+    '                               <span class="name">{{ purchaseRequest.item.name }}</span>' +
+    '                               <p class="specification">{{ purchaseRequest.item.specification }} </p>' +
+    '                               <div class="item-images" v-if="purchaseRequest.item.photos.length > 0">' +
+    '                                   <ul class="image-gallery list-unstyled list-inline">' +
+    '                                       <li class="single-item-image" v-for="photo in purchaseRequest.item.photos">' +
+    '                                           <a :href="photo.path" v-fancybox rel="group">' +
+    '                                               <img :src="photo.thumbnail_path" alt="item image">' +
+    '                                           </a>' +
+    '                                       </li>' +
+    '                                   </ul>' +
+    '                               </div>' +
+    '                          </div>' +
+    '                      </div>'+
+    '             </div>' +
+    '       </div>',
+    data: function() {
+        return {
+            purchaseRequest: {},
+            visible: false
+        }
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+        hideModal: function() {
+            this.visible = false;
+        }
+    },
+    events: {
+        'modal-show-single-pr': function(purchaseRequest) {
+            this.purchaseRequest = purchaseRequest;
+            this.$nextTick(function () {
+                this.visible = true;
+            });
+        },
+        'click-close-modal': function() {
+            this.hideModal();
+        }
+    },
+    ready: function() {
+
+    }
+});
+
+
+Vue.component('company-search-selecter', {
+    name: 'companySearchSelecter',
+    template: '<select class="company-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.company-search-selecter').selectize({
+            valueField: 'id',
+            searchField: ['name'],
+            create: false,
+            placeholder: 'Search by Company Name',
+            render: {
+                option: function (item, escape) {
+
+                    var optionClass = 'class="option company-single-option ',
+                        connectionSpan;
+
+                    switch (item.connection) {
+                        case 'pending':
+                            optionClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
+                            break;
+                        case 'verified':
+                            optionClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
+                            break;
+                        default:
+                            optionClass += '"';
+                            connectionSpan = '';
+                    }
+
+
+                    return '<div ' + optionClass +'>' +
+                        '       <span class="name">' + escape(item.name) + '</span>' +
+                        connectionSpan +
+                        '   </div>'
+                },
+                item: function (item, escape) {
+
+                    var selectedClass = 'class="company-selected ',
+                        connectionSpan;
+
+                    switch (item.connection) {
+                        case 'pending':
+                            selectedClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
+                            break;
+                        case 'verified':
+                            selectedClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
+                            break;
+                        default:
+                            selectedClass += '"';
+                            connectionSpan = '';
+                    }
+
+                    return '<div ' + selectedClass + '>' +
+                        '           <label>Selected Company</label>' +
+                        '           <div class="name">' + escape(item.name) +
+                        connectionSpan +
+                        '           </div>' +
+                        '           <span class="description">' + escape(item.description) + '</span>' +
+                        '       </div>' +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/company/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('item-brand-selecter', {
+    name: 'itemBrandSelecter',
+    template: '<select class="item-brand-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-brand-search-selecter').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: false,
+            placeholder: 'Search for a brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/brands/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('item-name-selecter', {
+    name: 'itemNameSelecter',
+    template: '<select class="item-name-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-name-search-selecter').selectize({
+            valueField: 'name',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Search for a name',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/names/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
 Vue.component('registration-popup', {
     name: 'registration-popup',
     el: function () {
@@ -1787,114 +2092,6 @@ Vue.component('registration-popup', {
     ready: function () {
     }
 });
-Vue.component('select-picker', {
-    template: '<select v-model="name" class="themed-select" @change="callChangeFunction">' +
-    ' <option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
-    '<option v-if="option && option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
-    '</select>',
-    name: 'selectpicker',
-    props: ['options', 'name', 'function', 'placeholder'],
-    methods: {
-        callChangeFunction: function () {
-            if (this.function && typeof this.function === 'function') {
-                this.function();
-            }
-        }
-    },
-    ready: function () {
-
-        // Init our picker
-        $(this.$el).selectpicker({
-            iconBase: 'fa',
-            tickIcon: 'fa-check'
-        });
-
-        this.$watch('name', function (val) {
-            $(this.$el).val(val);
-            $(this.$el).selectpicker('render');
-        });
-
-        // Update whenever options change
-        this.$watch('options', function (val) {
-            // Refresh our picker UI
-            $(this.$el).selectpicker('refresh');
-            // Update manually because v-model won't catch
-            this.name = $(this.$el).selectpicker('val');
-        }.bind(this))
-    }
-});
-Vue.component('select-type', {
-    name: 'selectType',
-    template: '<select class="select-type" v-show="receivedOptions">' +
-    '<option></option>' +
-    '               <option value="{{ option }}" v-for="option in options">{{ option }}</option>' + '' +
-    '          </select>',
-    data: function () {
-        return {
-            receivedOptions: false,
-            selectize: {}
-        };
-    },
-    props: [
-        'options',
-        'name',
-        'create',
-        'unique',
-        'placeholder'
-    ],
-    ready: function () {
-
-
-        var self = this;
-
-        var unique = this.unique || true,
-            create = this.create || true,
-            placeholder = this.placeholder || 'Type to select...';
-
-        this.$watch('name', function (value) {
-            if(! value)this.selectize.clear();
-        });
-
-        this.$watch('options', function () {
-            this.receivedOptions = true;
-            if (!_.isEmpty(this.selectize)) this.selectize.destroy();
-            this.selectize = $(this.$el).selectize({
-                create: create,
-                sortField: 'text',
-                placeholder: placeholder,
-                createFilter: function (input) {
-                    input = input.toLowerCase();
-                    var optionsArray = $.map(unique.options, function (value) {
-                        return [value];
-                    });
-                    var unmatched = true;
-                    _.forEach(optionsArray, function (option) {
-                        if ((option.text).toLowerCase() === input) {
-                            unmatched = false;
-                        }
-                    });
-                    return unmatched;   // true if unmatched (ie. new) value
-                },
-                onChange: function (value) {
-                    // When we select / enter a new value - enter it into our data
-                    self.name = value;
-                }
-            })[0].selectize;
-            // Let parent component know select is loaded
-            this.$dispatch('select-loaded');
-        });
-
-
-        // TODO :: Add ability to re-render when options changes
-        //      - Maybe define options on selectize and render options / item through plugin (instead of Vue)
-        //      - Call clearOption()?
-        //      - Clear Cache? Some bug, unknown if fixed
-
-    },
-    beforeDestroy: function () {
-        this.selectize.destroy();   // TODO :: Check if valid & necessary
-    }
-});
 Vue.component('side-menu', {
     name: 'sideMenu',
     el: function () {
@@ -1991,99 +2188,6 @@ Vue.component('team-member-selecter', {
         });
     }
 });
-Vue.component('text-clipper', {
-    name: 'textClipper',
-    template: '<div class="text-clipper"' +
-    '               :class="{' +
-    "                   'expanded': !clip" +
-    '               }"' +
-    '           >' +
-    '               <div v-if="isClipped" class="clipped">' +
-    '                   {{ text | limitString limit }}' +
-    '                   <a class="btn-show-more-text" @click.prevent.stop="unclip">' +
-    '                       <span class="clickable">...</span>' +
-    '                   </a>' +
-    '               </div>' +
-    '               <div v-else class="unclipped">' +
-    '                   {{ text }}' +
-    '               </div>' +
-    '            </div>',
-    data: function() {
-        return {
-            limit: 150,
-            clip: true
-        };
-    },
-    props: ['text'],
-    computed: {
-        isClipped: function() {
-            return this.text.length > this.limit && this.clip;
-        }
-    },
-    methods: {
-        unclip: function() {
-            // Set max-height dynamically - depending on amount of text
-            $(this.$el).css('max-height', $(this.$el).height());
-            // Playing it safe
-            setTimeout(function() {
-                this.clip = false;
-            }.bind(this), 150);
-        }
-    },
-    ready: function() {
-        // If the data changes but we're still using the same Component instance
-        this.$watch('text', function () {
-            // Reset it - ie. clip text
-            this.clip = true;
-        });
-    }
-});
-Vue.component('toast-alert', {
-    name: 'toaster',
-    template: '<div id="toast-plate">' +
-    '               <div class="toast animated"' +
-    '                    v-for="(index, alert) in alerts"' +
-    '                    transition="fade"' +
-    '                    :class="alert.type">' +
-    '<button type="button" class="btn-close" @click="dismiss(alert) "><i class="fa fa-close"></i></button>' +
-    '{{{ alert.content }}}' +
-    '</div>' +
-    '</div>',
-    data: function() {
-        return {
-            alerts: []
-        };
-    },
-    methods: {
-        addToQueue: function(alert) {
-            // Attach a timeout ID and use it as unique id
-            alert.timerID = setTimeout(function () {
-                // dismiss (hide) the alert after 3 secs...
-                this.dismiss(alert);
-            }.bind(this), 3000);
-            // finally push alert
-            this.alerts.push(alert);
-        },
-        dismiss: function(alert) {
-            // if we prematurely cleared it.. clear the timeout
-            clearTimeout(alert.timerID);
-            // Remove it from array (will work because of unique timerID)
-            this.alerts = _.reject(this.alerts, alert);
-        }
-    },
-    events: {
-        'serve-toast': function(alert) {
-            this.addToQueue(alert);
-        }
-    },
-    ready: function() {
-        /*
-        TODO ::: Implement this component to handle alerts if/when we
-        make the jump to Vue for handling all client-side. Which
-        includes routing, auth etc.
-         */
-    }
-});
 Vue.component('user-projects-selecter', {
     name: 'userProjectsSelecter',
     template: '<select-picker :options="projects" ' +
@@ -2117,22 +2221,13 @@ Vue.component('user-projects-selecter', {
         });
     }
 });
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
-    '<span class="dash">-</span>'+
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
+Vue.component('modal-close-button', {
+    name: 'modalClose',
+    template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
+    methods: {
+        hideModal: function() {
+            this.$dispatch('click-close-modal');
+        }
+    }
 });
 //# sourceMappingURL=dependencies.js.map

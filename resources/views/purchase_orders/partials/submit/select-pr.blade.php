@@ -1,4 +1,4 @@
-<section class="purchase_requests" v-show="projectID">
+<div class="purchase_requests" v-show="projectID">
     <label class="display-block">Purchase Requests</label>
     <div class="pr-controls">
         <form class="form-pr-search" @submit.prevent="searchPurchaseRequests">
@@ -77,11 +77,14 @@
                             </div>
                         </td>
                         <td class="no-wrap col-number">
-                            #@{{ purchaseRequest.number }}</td>
+                            <a class="dotted clickable" @click="showSinglePR(purchaseRequest)">#@{{ purchaseRequest.number }}</a>
+                        </td>
                         <td class="col-item">
+                            <a class="dotted clickable" @click="showSinglePR(purchaseRequest)">
                                             <span class="item-brand"
                                                   v-if="purchaseRequest.item.brand.length > 0">@{{ purchaseRequest.item.brand }} - </span>
                             <span class="item-name">@{{ purchaseRequest.item.name }}</span>
+                            </a>
                             <div class="bottom">
                                 <span
                                         v-if="purchaseRequest.urgent" class="badge-urgent with-tooltip" v-tooltip title="Urgent Request" data-placement="bottom"> <i
@@ -108,4 +111,5 @@
         <p>We couldn't find any requests to fulfill. Try selecting a different Project or <a
                     class="dotted clickable" @click="clearSearch">clear</a> the search.</p>
     </div>
-</section>
+    <single-pr-modal></single-pr-modal>
+</div>

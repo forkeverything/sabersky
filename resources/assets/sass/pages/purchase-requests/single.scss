@@ -100,23 +100,6 @@
       align-items: center;
       justify-content: space-between;
       margin: 0 0 5px;
-
-      .badge-state {
-        @include badge;
-        width: 100px;
-
-        &.open {
-          @include badge-style(success);
-        }
-
-        &.complete {
-          @include badge-style(info);
-        }
-
-        &.cancelled {
-          @include badge-style(error);
-        }
-      }
     }
 
 
