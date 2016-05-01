@@ -47,6 +47,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/countries', 'CountriesController@getAll');
     Route::get('/countries/search/{term}', 'CountriesController@getSearchCountry');
     Route::get('/countries/{country}/states', 'CountriesController@getStates');
+    Route::get('/countries/currency/search/{query}', 'CountriesController@apiGetSearchCurrency');
 
     /*
      * Address

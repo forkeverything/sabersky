@@ -7605,21 +7605,12 @@ label.required {
       #purchase-orders-submit #po-submit-2 .top-nav-buttons .btn-prev i {
         margin: 0 5px 0 0;
         font-size: 1.3em; }
-  #purchase-orders-submit #po-submit-2 .order-details .table-items .input-qty, #purchase-orders-submit #po-submit-2 .order-details .table-items .input-price, #purchase-orders-submit #po-submit-2 .order-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .order-details .table-items .input-date-delivery {
-    text-align: center;
-    padding: 0.5em; }
-  #purchase-orders-submit #po-submit-2 .order-details .table-items .input-qty {
-    width: 80px; }
-  #purchase-orders-submit #po-submit-2 .order-details .table-items .input-price {
-    width: 120px; }
-  #purchase-orders-submit #po-submit-2 .order-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .order-details .table-items .input-date-delivery {
-    width: 100px; }
-  #purchase-orders-submit #po-submit-2 .vendor-info label {
+  #purchase-orders-submit #po-submit-2 .vendor-details label {
     display: block;
     margin: 0 0 5px; }
-  #purchase-orders-submit #po-submit-2 .vendor-info .name-group {
+  #purchase-orders-submit #po-submit-2 .vendor-details .name-group {
     margin: 0 0 10px; }
-    #purchase-orders-submit #po-submit-2 .vendor-info .name-group .name {
+    #purchase-orders-submit #po-submit-2 .vendor-details .name-group .name {
       font-weight: bold;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7627,18 +7618,18 @@ label.required {
       -webkit-align-items: flex-start;
       -ms-flex-align: start;
       align-items: flex-start; }
-      #purchase-orders-submit #po-submit-2 .vendor-info .name-group .name .vendor-connection {
+      #purchase-orders-submit #po-submit-2 .vendor-details .name-group .name .vendor-connection {
         font-weight: normal;
         font-size: 0.75em; }
-  #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address {
+  #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address {
     margin: 0 0 -15px; }
-    #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address {
+    #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address {
       border: 1px solid #E6E9EB;
       border-radius: 4px;
       padding: 10px;
       margin: 0 0 15px;
       position: relative; }
-      #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address .change-overlay {
+      #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address .change-overlay {
         display: none;
         width: 100%;
         height: 100%;
@@ -7657,18 +7648,27 @@ label.required {
         flex-direction: column;
         color: #93989F;
         opacity: 0.8; }
-        #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address .change-overlay i {
+        #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address .change-overlay i {
           font-size: 4em; }
-        #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address .change-overlay h3 {
+        #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address .change-overlay h3 {
           font-weight: bold; }
-      #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address .contact_person {
+      #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address .contact_person {
         font-weight: bold; }
-      #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address:hover {
+      #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address:hover {
         border-color: #3498DB; }
-        #purchase-orders-submit #po-submit-2 .vendor-info .address-selection .list-address .single-address:hover.selected .change-overlay {
+        #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address:hover.selected .change-overlay {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-delivery {
+    text-align: center;
+    padding: 0.5em; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty {
+    width: 80px; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
+    width: 120px; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-delivery {
+    width: 100px; }
 
 #purchase-orders-all #button-submit-purchase-order {
   margin: 0 0 30px; }
@@ -8795,6 +8795,14 @@ label.required {
     font-size: 0.8em;
     vertical-align: middle;
     position: relative; }
+    .table-standard thead tr th.required:after {
+      position: absolute;
+      top: 7px;
+      content: "*";
+      text-transform: lowercase;
+      font-size: 1.5em;
+      margin: 0 0 0 3px;
+      color: #fff; }
     .table-standard thead tr th:first-child {
       border-left: 1px solid #3498DB; }
     .table-standard thead tr th:last-child {

@@ -1,0 +1,27 @@
+#po-submit-2 {
+  animation-delay: 0.3s;
+
+  .btn-create {
+    flex: 0 0 150px;
+  }
+
+  .top-nav-buttons {
+    margin: 0 0 30px;
+    display: flex;
+    justify-content: space-between;
+
+    .btn-prev {
+      display: flex;
+      align-items: center;
+
+      i {
+        margin: 0 5px 0 0;
+        font-size: 1.3em;
+      }
+    }
+  }
+
+  @import "step-2/vendor";
+  @import "step-2/order";
+  @import "step-2/items";
+}

@@ -55,4 +55,23 @@ class CountriesController extends Controller
 
         return $statesArray;
     }
+
+    /**
+     * GET request to search for a Currency
+     * @param $query
+     * @return array|static[]
+     */
+    public function apiGetSearchCurrency($query)
+    {
+        if (! $query) return response("Could not fing currency", 500);
+        return \DB::table('countries')
+           ->where('name', 'LIKE', '%' . $query . '%')
+           ->orWhere('currency', 'LIKE', '%' . $query . '%')
+           ->orWhere('currency_code', 'LIKE', '%' . $query . '%')
+           ->orWhere('currency_symbol', 'LIKE', '%' . $query . '%')
+            ->select(['id', 'name', 'currency', 'currency_code', 'currency_symbol'])
+            ->take(5)
+           ->get();
+    }
+
 }

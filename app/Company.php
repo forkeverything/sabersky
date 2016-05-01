@@ -35,12 +35,27 @@ class Company extends Model
     protected $fillable = [
         'name',
         'description',
-        'currency'
+        'currency_id'
     ];
 
     protected $appends = [
+        'currency',
         'connection'
     ];
+
+    public function currencyCountry()
+    {
+        return $this->belongsTo(Country::class, 'currency_id');
+    }
+
+    public function getCurrencyAttribute()
+    {
+        return $this->currencyCountry()
+                    ->select(['id', 'name', 'currency', 'currency_code', 'currency_symbol'])
+                    ->first();
+    }
+
+
 
     /**
      * Checks the connection status for logged-user's Company

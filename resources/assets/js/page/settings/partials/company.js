@@ -16,7 +16,7 @@ Vue.component('settings-company', {
     computed: {
         canUpdateCompany: function () {
             if (this.company) {
-                return this.company.name.length > 0 && this.company.currency.length > 0;
+                return this.company.name.length > 0;
             }
             return false;
         }

@@ -4,9 +4,9 @@
                 class="fa fa-angle-double-left"></i>Prev Step</button>
         <button type="button" class="btn btn-solid-green btn-create" @click="createOrder">Create Order</button>
     </div>
-    <div c.lass="row flexing">
+    <div class="row flexing">
         <div class="col-sm-4">
-            <div class="page-body vendor-info">
+            <div class="page-body vendor-details">
                 <h5>Vendor</h5>
                 <div class="name-group">
                     <label>Name</label>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="address-selection">
-                    <label v-if="! selectedAddress">Addresses</label>
+                    <label v-if="! selectedAddress" class="required">Addresses</label>
                     <label v-else>Selected Address</label>
                     <ul class="list-unstyled list-address">
                         <li class="single-address clickable"
@@ -49,15 +49,18 @@
             </div>
         </div>
         <div class="col-sm-8">
-            <div class="page-body">
+            <div class="page-body order-details">
                 <h5>
-                    Purchase Information
+                    Order
                 </h5>
+                <div class="currency-selection">
+
+                </div>
             </div>
         </div>
     </div>
-    <div class="order-details page-body">
-        <h5>Order Details</h5>
+    <div class="item-details page-body">
+        <h5>Items</h5>
         <div class="table-responsive">
             <!-- Line Items Table -->
             <table class="table table-standard table-items">
@@ -65,8 +68,8 @@
                 <tr>
                     <th>PR</th>
                     <th>Item</th>
-                    <th>QTY</th>
-                    <th>Price</th>
+                    <th class="required">QTY</th>
+                    <th class="required">Price</th>
                     <th>Total</th>
                     <th>Payable</th>
                     <th>Delivery</th>
@@ -80,7 +83,7 @@
                             <a class="dotted clickable" @click="showSinglePR(lineItem)">
                             #@{{ lineItem.number }}</a>
                         </td>
-                        <td class="col-item">
+                        <td class="col-item no-wrap">
                             <a class="dotted clickable" @click="showSinglePR(lineItem)">
                                             <span class="item-brand"
                                                   v-if="lineItem.item.brand.length > 0">@{{ lineItem.item.brand }}

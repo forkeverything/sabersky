@@ -69,8 +69,8 @@ class CompanyController extends Controller
      */
     public function getCurrency()
     {
-        if($company = Auth::user()->company) return $company->currency;
-        return '$';
+        if($company = Auth::user()->company) return $company->currency->currency_symbol;
+        return response("Could not find user company", 404);
     }
 
     /**

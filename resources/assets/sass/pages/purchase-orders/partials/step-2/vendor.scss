@@ -1,0 +1,73 @@
+.vendor-details {
+
+  label {
+    display: block;
+    margin: 0 0 5px;
+  }
+
+  .name-group {
+    margin: 0 0 10px;
+    .name {
+      font-weight: bold;
+      display: flex;
+      align-items: flex-start;
+
+      .vendor-connection {
+        font-weight: normal;
+        font-size: 0.75em;
+      }
+    }
+  }
+
+  .address-selection {
+
+    .list-address {
+      margin: 0 0 -15px;
+
+      .single-address {
+        border: 1px solid $border-light;
+        @include border-radius(4px);
+        padding: 10px;
+        margin: 0 0 15px;
+        position: relative;
+
+        .change-overlay {
+          display: none;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: #fff;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          color: $text-muted;
+          opacity: 0.8;
+
+          i {
+            font-size: 4em;
+          }
+
+          h3 {
+            font-weight: bold;
+          }
+        }
+
+        .contact_person {
+          font-weight: bold;
+        }
+
+        &:hover {
+          border-color: $blue;
+
+          &.selected {
+            .change-overlay {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -26,7 +26,6 @@ class CreatePurchaseOrdersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('address_id')->unsigned()->nullable();
 
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('vendor_id')->references('id')->on('vendors');

@@ -18,8 +18,8 @@
             ></textarea>
             </div>
             <div class="form-group">
-                <h5>Currency Symbol</h5>
-                <input type="text" v-model="company.currency" class="form-control">
+                <h5>Default Currency</h5>
+                <currency-selecter :name.sync="company.currency_id" :default="company.currency"></currency-selecter>
             </div>
             <div class="row">
                 <div class="col-sm-offset-9 col-sm-3">

@@ -74,6 +74,16 @@
         vertical-align: middle;
         position: relative;
 
+        &.required:after {
+          position: absolute;
+          top: 7px;
+          content: "*";
+          text-transform: lowercase;
+          font-size: 1.5em;
+          margin: 0 0 0 3px;
+          color: #fff;
+        }
+
         &:first-child {
           border-left: 1px solid $blue;
         }
