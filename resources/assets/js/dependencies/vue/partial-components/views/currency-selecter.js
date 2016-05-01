@@ -8,7 +8,7 @@ Vue.component('currency-selecter', {
         var self = this;
         var selecter = $('.currency-selecter').selectize({
             valueField: 'id',
-            searchField: ['name', 'currency', 'currency_symbol'],
+            searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
             create: false,
             placeholder: 'Search for a currency',
             render: {
@@ -34,6 +34,7 @@ Vue.component('currency-selecter', {
             },
             onChange: function(value) {
                 self.name = value;
+                self.$dispatch('changed-currency', value);
             }
         });
 

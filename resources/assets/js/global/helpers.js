@@ -193,3 +193,18 @@ function pushStateIfDiffQuery(query) {
         window.history.pushState({}, "", '?' + query);
     }
 }
+
+/**
+ * Formats a number into comma-separated thousands
+ * @param val
+ * @returns {*}
+ */
+function formatNumber(val) {
+    if(isNaN(parseFloat(val))) return val;
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+}

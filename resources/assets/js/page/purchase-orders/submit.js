@@ -19,7 +19,9 @@ Vue.component('purchase-orders-submit', {
             vendorID: '',
             vendor: {},
             addressID: '',
-            selectedAddress: ''
+            selectedAddress: '',
+            currencyID: '',
+            currencySymbol: ''
         };
     },
     props: ['user'],
@@ -155,12 +157,19 @@ Vue.component('purchase-orders-submit', {
         },
         calculateTotal: function (lineItem) {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
-            return lineItem.order_quantity * lineItem.order_price;
+            var currencySymbol = this.currencySymbol || '$';
+            return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
         }
     },
     events: {
         'go-to-page': function (page) {
             this.fetchPurchaseRequests(page);
+        },
+        'changed-currency': function(countryID) {
+            var self = this;
+            $.get('/countries/' + countryID, function (data) {
+                self.currencySymbol = data.currency_symbol;
+            });
         }
     },
     ready: function () {

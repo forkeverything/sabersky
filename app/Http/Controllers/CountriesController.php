@@ -57,15 +57,24 @@ class CountriesController extends Controller
     }
 
     /**
+     * Returns a country by its ID
+     * @param Country $country
+     * @return Country
+     */
+    public function getSingleCountry(Country $country)
+    {
+        return $country;
+    }
+
+    /**
      * GET request to search for a Currency
      * @param $query
      * @return array|static[]
      */
-    public function apiGetSearchCurrency($query)
+    public function getSearchCurrency($query)
     {
         if (! $query) return response("Could not fing currency", 500);
-        return \DB::table('countries')
-           ->where('name', 'LIKE', '%' . $query . '%')
+        return Country::where('name', 'LIKE', '%' . $query . '%')
            ->orWhere('currency', 'LIKE', '%' . $query . '%')
            ->orWhere('currency_code', 'LIKE', '%' . $query . '%')
            ->orWhere('currency_symbol', 'LIKE', '%' . $query . '%')

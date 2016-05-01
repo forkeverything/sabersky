@@ -54,7 +54,8 @@
                     Order
                 </h5>
                 <div class="currency-selection">
-
+                    <label>Currency</label>
+                    <currency-selecter :name.sync="currencyID" :default="user.company.currency"></currency-selecter>
                 </div>
             </div>
         </div>
@@ -104,7 +105,7 @@
                                    v-model="lineItem.order_price | numberModel" placeholder="price">
                         </td>
                         <td>
-                            <strong>@{{ calculateTotal(lineItem) | numberFormat }}</strong>
+                            <strong>@{{ calculateTotal(lineItem) }}</strong>
                         </td>
                         <td>
                             <input class="form-control input-date-payable" type="text" v-datepicker
