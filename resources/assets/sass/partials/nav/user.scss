@@ -48,11 +48,9 @@
     }
   }
 
-  @media screen and (min-width: 768px){
+  @media screen and (min-width: $screen-sm-min) {
     padding: 0 15px;
-  }
 
-  @media screen and (min-width: 998px) {
     .breadcrumbs {
       font-size: 1.3em;
 
@@ -62,7 +60,7 @@
     }
   }
 
-  @media screen and (min-width: 1222px) {
+  @media screen and (min-width: $screen-md-min) {
     .breadcrumbs {
       font-size: 1.5em;
 

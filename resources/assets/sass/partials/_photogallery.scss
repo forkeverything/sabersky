@@ -20,7 +20,7 @@
     }
   }
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: $screen-xs-max) {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;

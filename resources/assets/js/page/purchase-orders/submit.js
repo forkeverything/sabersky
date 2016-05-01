@@ -18,15 +18,16 @@ Vue.component('purchase-orders-submit', {
             lineItems: [],
             vendorID: '',
             vendor: {},
-            addressID: ''
+            addressID: '',
+            selectedAddress: ''
         };
     },
     props: ['user'],
     computed: {
-        hasPurchaseRequests: function() {
-            return ! _.isEmpty(this.purchaseRequests);
+        hasPurchaseRequests: function () {
+            return !_.isEmpty(this.purchaseRequests);
         },
-        allPurchaseRequestsChecked: function() {
+        allPurchaseRequestsChecked: function () {
             var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
                 return request.id
             });
@@ -35,12 +36,14 @@ Vue.component('purchase-orders-submit', {
             });
             return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
         },
-        hasLineItems: function(){
-            return this.lineItems.length >0;
+        hasLineItems: function () {
+            return this.lineItems.length > 0;
         },
-        availableAddresses: function() {
-            if(! this.vendor) return;
-            return this.vendor.addresses.push(this.vendor.linked_company.address);
+        availableAddresses: function () {
+            if (!this.vendor) return;
+            var vendorAddresses = this.vendor.addresses;
+            if (vendorAddresses) vendorAddresses.push(this.vendor.linked_company.address);
+            return vendorAddresses;
         }
     },
     methods: {
@@ -57,8 +60,8 @@ Vue.component('purchase-orders-submit', {
                 '&per_page=8' +
                 '&search=' + self.searchTerm;
 
-            if(page) url += '&page=' + page;
-            
+            if (page) url += '&page=' + page;
+
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             self.ajaxObject = $.ajax({
@@ -99,47 +102,60 @@ Vue.component('purchase-orders-submit', {
                 this.fetchPurchaseRequests();
             }
         },
-        searchPurchaseRequests: function() {
+        searchPurchaseRequests: _.debounce(function () {
             var self = this;
-
+            // If we're still waiting on a response cancel, abort, and fire a new request
             if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
             self.fetchPurchaseRequests();
-        },
-        clearSearch: function() {
+        }, 200),
+        clearSearch: function () {
             this.searchTerm = '';
             this.searchPurchaseRequests();
         },
-        selectPR: function(purchaseRequest) {
+        selectPR: function (purchaseRequest) {
             this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
         },
-        alreadySelectedPR: function(purchaseRequest) {
-            return _.find(this.lineItems, function(pr) {
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.lineItems, function (pr) {
                 return pr.id === purchaseRequest.id;
             });
         },
-        selectAllPR: function() {
+        selectAllPR: function () {
             var self = this;
-            if(self.allPurchaseRequestsChecked) {
+            if (self.allPurchaseRequestsChecked) {
                 _.forEach(self.purchaseRequests, function (request) {
                     self.lineItems = _.reject(self.lineItems, request);
                 });
             } else {
                 _.forEach(self.purchaseRequests, function (request) {
-                    if (! self.alreadySelectedPR(request)) self.lineItems.push(request);
+                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
                 });
             }
         },
-        showSinglePR: function(purchaseRequest) {
-            this.$broadcast('modal-show-single-pr', purchaseRequest);   
+        showSinglePR: function (purchaseRequest) {
+            this.$broadcast('modal-show-single-pr', purchaseRequest);
         },
-        removeLineItem: function(lineItem) {
+        removeLineItem: function (lineItem) {
             this.lineItems = _.reject(this.lineItems, lineItem);
         },
-        clearAllLineItems: function() {
+        clearAllLineItems: function () {
             this.lineItems = [];
         },
-        goStep: function(step) {
+        goStep: function (step) {
             this.step = step;
+        },
+        selectAddress: function (address) {
+            this.selectedAddress = this.selectedAddress ? null : address;
+        },
+        visibleAddress: function (address) {
+            console.log('ran');
+            console.log(!this.selectedAddress);
+            if (_.isEmpty(this.selectedAddress)) return true;
+            return this.selectedAddress == address;
+        },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            return lineItem.order_quantity * lineItem.order_price;
         }
     },
     events: {
@@ -149,20 +165,18 @@ Vue.component('purchase-orders-submit', {
     },
     ready: function () {
         this.$watch('projectID', function (val) {
-            if (! val) return;
+            if (!val) return;
             this.fetchPurchaseRequests();
         });
         this.$watch('vendorID', function (val) {
             var self = this;
-            if (! val) return;
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-            self.ajaxObject = $.ajax({
+            $.ajax({
                 url: '/api/vendors/' + val,
                 method: 'GET',
-                success: function(data) {
-                   self.vendor = data;
+                success: function (data) {
+                    self.vendor = data;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                 }
             });

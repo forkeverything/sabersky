@@ -138,7 +138,7 @@ class VendorsController extends Controller
     public function apiGetSingle(Vendor $vendor)
     {
         if (Gate::allows('view', $vendor)) {
-            return $vendor->load('linkedCompany', 'addresses');
+            return $vendor->load('addresses', 'linkedCompany', 'linkedCompany.address');
         }
         return response("Not authorized to view that Vendor");
     }

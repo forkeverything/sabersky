@@ -265,97 +265,6 @@ Vue.component('item-single', {
         });
     }
 });
-Vue.component('add-line-item', {
-    name: 'addLineItem',
-    el: function () {
-        return '#add-line-item';
-    },
-    data: function () {
-        return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
-    }
-});
-
-
-
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -520,61 +429,70 @@ Vue.component('project-single', {
         });
     }
 });
-Vue.component('purchase-orders-all',{
-    name: 'allPurchaseOrders',
-    el: function() {
-        return '#purchase-orders-all';
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
     },
-    data: function() {
+    data: function () {
         return {
-            purchaseOrders: [],
-            headings: [
-                ['created_at', 'Date Submitted'],
-                ['project.name', 'Project'],
-                ['', 'Item(s)'],
-                ['total', 'OrderTotal'],
-                ['', 'Status'],
-                ['', 'Paid'],
-                ['', 'Delivered']
-            ],
-            statuses: [
-                {
-                    key: 'pending',
-                    label: 'Pending'
-                },
-                {
-                    key: 'approved',
-                    label: 'Approved'
-                },
-                {
-                    key: 'rejected',
-                    label: 'Rejected'
-                },
-                {
-                    key: '',
-                    label: 'All'
-                }
-            ],
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
             field: '',
             order: '',
-            urgent: '',
-            filter: 'pending'
+            urgent: ''
         };
     },
     ready: function () {
         var self = this;
         $.ajax({
-            url: '/api/purchase_orders',
             method: 'GET',
+            url: '/api/purchase_requests/available',
             success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
+                self.purchaseRequests = data;
             }
         });
     },
     methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
         changeSort: function ($newField) {
             if (this.field == $newField) {
                 this.order = (this.order == '') ? -1 : '';
@@ -583,209 +501,25 @@ Vue.component('purchase-orders-all',{
                 this.order = ''
             }
         },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
         toggleUrgent: function () {
             this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
         }
-    }
-});
-Vue.component('purchase-orders-submit', {
-    el: function () {
-        return '#purchase-orders-submit';
     },
-    data: function () {
-        return {
-            step: 1,
-            ajaxReady: true,
-            ajaxObject: {},
-            response: {},
-            projects: [],
-            projectID: '',
-            purchaseRequests: [],
-            sort: 'number',
-            order: 'asc',
-            urgent: '',
-            searchTerm: '',
-            lineItems: [],
-            vendorID: '',
-            vendor: {},
-            addressID: ''
-        };
-    },
-    props: ['user'],
     computed: {
-        hasPurchaseRequests: function() {
-            return ! _.isEmpty(this.purchaseRequests);
+        subtotal: function () {
+            return this.quantity * this.price;
         },
-        allPurchaseRequestsChecked: function() {
-            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
-                return request.id
-            });
-            var lineItemIDs = _.map(this.lineItems, function (item) {
-                return item.id
-            });
-            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
         },
-        hasLineItems: function(){
-            return this.lineItems.length >0;
-        },
-        availableAddresses: function() {
-            if(! this.vendor) return;
-            return this.vendor.addresses.push(this.vendor.linked_company.address);
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
         }
-    },
-    methods: {
-        fetchPurchaseRequests: function (page) {
-            var self = this;
-            page = page || 1;
-
-            var url = '/api/purchase_requests?' +
-                'state=open' +
-                '&quantity=1+' +
-                '&project_id=' + self.projectID +
-                '&sort=' + self.sort +
-                '&order=' + self.order +
-                '&per_page=8' +
-                '&search=' + self.searchTerm;
-
-            if(page) url += '&page=' + page;
-            
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.ajaxObject = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
-
-                    // Pull flags from response (better than parsing url)
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
-                    self.urgent = response.data.query_parameters.urgent;
-
-                    self.ajaxReady = true;
-
-                    // self.$nextTick(function() {
-                    //     self.finishLoading = true;
-                    // })
-                    // TODO ::: Add a loader for each request
-
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeSort: function (sort) {
-            if (this.sort === sort) {
-                this.order = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests();
-            } else {
-                this.sort = sort;
-                this.order = 'asc';
-                this.fetchPurchaseRequests();
-            }
-        },
-        searchPurchaseRequests: function() {
-            var self = this;
-
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-            self.fetchPurchaseRequests();
-        },
-        clearSearch: function() {
-            this.searchTerm = '';
-            this.searchPurchaseRequests();
-        },
-        selectPR: function(purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
-        },
-        alreadySelectedPR: function(purchaseRequest) {
-            return _.find(this.lineItems, function(pr) {
-                return pr.id === purchaseRequest.id;
-            });
-        },
-        selectAllPR: function() {
-            var self = this;
-            if(self.allPurchaseRequestsChecked) {
-                _.forEach(self.purchaseRequests, function (request) {
-                    self.lineItems = _.reject(self.lineItems, request);
-                });
-            } else {
-                _.forEach(self.purchaseRequests, function (request) {
-                    if (! self.alreadySelectedPR(request)) self.lineItems.push(request);
-                });
-            }
-        },
-        showSinglePR: function(purchaseRequest) {
-            this.$broadcast('modal-show-single-pr', purchaseRequest);   
-        },
-        removeLineItem: function(lineItem) {
-            this.lineItems = _.reject(this.lineItems, lineItem);
-        },
-        clearAllLineItems: function() {
-            this.lineItems = [];
-        },
-        goStep: function(step) {
-            this.step = step;
-        }
-    },
-    events: {
-        'go-to-page': function (page) {
-            this.fetchPurchaseRequests(page);
-        }
-    },
-    ready: function () {
-        this.$watch('projectID', function (val) {
-            if (! val) return;
-            this.fetchPurchaseRequests();
-        });
-        this.$watch('vendorID', function (val) {
-            var self = this;
-            if (! val) return;
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-            self.ajaxObject = $.ajax({
-                url: '/api/vendors/' + val,
-                method: 'GET',
-                success: function(data) {
-                   self.vendor = data;
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-        });
     }
 });
+
+
+
 Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
     el: function () {
@@ -1130,6 +864,286 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('purchase-orders-all',{
+    name: 'allPurchaseOrders',
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+    methods: {
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    }
+});
+Vue.component('purchase-orders-submit', {
+    el: function () {
+        return '#purchase-orders-submit';
+    },
+    data: function () {
+        return {
+            step: 1,
+            ajaxReady: true,
+            ajaxObject: {},
+            response: {},
+            projects: [],
+            projectID: '',
+            purchaseRequests: [],
+            sort: 'number',
+            order: 'asc',
+            urgent: '',
+            searchTerm: '',
+            lineItems: [],
+            vendorID: '',
+            vendor: {},
+            addressID: '',
+            selectedAddress: ''
+        };
+    },
+    props: ['user'],
+    computed: {
+        hasPurchaseRequests: function () {
+            return !_.isEmpty(this.purchaseRequests);
+        },
+        allPurchaseRequestsChecked: function () {
+            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
+                return request.id
+            });
+            var lineItemIDs = _.map(this.lineItems, function (item) {
+                return item.id
+            });
+            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        },
+        hasLineItems: function () {
+            return this.lineItems.length > 0;
+        },
+        availableAddresses: function () {
+            if (!this.vendor) return;
+            var vendorAddresses = this.vendor.addresses;
+            if (vendorAddresses) vendorAddresses.push(this.vendor.linked_company.address);
+            return vendorAddresses;
+        }
+    },
+    methods: {
+        fetchPurchaseRequests: function (page) {
+            var self = this;
+            page = page || 1;
+
+            var url = '/api/purchase_requests?' +
+                'state=open' +
+                '&quantity=1+' +
+                '&project_id=' + self.projectID +
+                '&sort=' + self.sort +
+                '&order=' + self.order +
+                '&per_page=8' +
+                '&search=' + self.searchTerm;
+
+            if (page) url += '&page=' + page;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
+
+                    // Pull flags from response (better than parsing url)
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+                    self.urgent = response.data.query_parameters.urgent;
+
+                    self.ajaxReady = true;
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests();
+            } else {
+                this.sort = sort;
+                this.order = 'asc';
+                this.fetchPurchaseRequests();
+            }
+        },
+        searchPurchaseRequests: _.debounce(function () {
+            var self = this;
+            // If we're still waiting on a response cancel, abort, and fire a new request
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+            self.fetchPurchaseRequests();
+        }, 200),
+        clearSearch: function () {
+            this.searchTerm = '';
+            this.searchPurchaseRequests();
+        },
+        selectPR: function (purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
+        },
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.lineItems, function (pr) {
+                return pr.id === purchaseRequest.id;
+            });
+        },
+        selectAllPR: function () {
+            var self = this;
+            if (self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.lineItems = _.reject(self.lineItems, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
+                });
+            }
+        },
+        showSinglePR: function (purchaseRequest) {
+            this.$broadcast('modal-show-single-pr', purchaseRequest);
+        },
+        removeLineItem: function (lineItem) {
+            this.lineItems = _.reject(this.lineItems, lineItem);
+        },
+        clearAllLineItems: function () {
+            this.lineItems = [];
+        },
+        goStep: function (step) {
+            this.step = step;
+        },
+        selectAddress: function (address) {
+            this.selectedAddress = this.selectedAddress ? null : address;
+        },
+        visibleAddress: function (address) {
+            console.log('ran');
+            console.log(!this.selectedAddress);
+            if (_.isEmpty(this.selectedAddress)) return true;
+            return this.selectedAddress == address;
+        },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            return lineItem.order_quantity * lineItem.order_price;
+        }
+    },
+    events: {
+        'go-to-page': function (page) {
+            this.fetchPurchaseRequests(page);
+        }
+    },
+    ready: function () {
+        this.$watch('projectID', function (val) {
+            if (!val) return;
+            this.fetchPurchaseRequests();
+        });
+        this.$watch('vendorID', function (val) {
+            var self = this;
+            $.ajax({
+                url: '/api/vendors/' + val,
+                method: 'GET',
+                success: function (data) {
+                    self.vendor = data;
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    }
+});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {

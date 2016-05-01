@@ -1,4 +1,5 @@
 Vue.filter('numberFormat', function (val) {
+    if(isNaN(parseFloat(val))) return val;
     //Seperates the components of the number
     var n = val.toString().split(".");
     //Comma-fies the first part

@@ -30,7 +30,7 @@
       }
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $screen-sm-max) {
       display: block;
       button {
         margin: 8px 15px;
@@ -52,7 +52,7 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $screen-sm-max) {
     li {
       a {
         padding: 10px 15px;
@@ -75,7 +75,7 @@
   overflow-x: hidden;
 
   #side-menu {
-    flex: 0 0 230px;
+    flex: 0 0 $side-menu-width;
     overflow-y: scroll;
     min-height: 500px;
   }
@@ -125,14 +125,14 @@
   @include border-radius(3px);
   @include box-shadow( 0 2px 4px rgba(0, 0, 0, 0.1));
 
-  @media screen and (min-width: 998px) {
+  @media screen and (min-width: $screen-sm-min) {
     padding: 30px;
   }
 }
 
 .card-no-bg {
   padding: 15px;
-  @media screen and (min-width: 998px) {
+  @media screen and (min-width: $screen-sm-min) {
     padding: 30px;
   }
 }
@@ -160,7 +160,7 @@
         flex: 100%;
       }
 
-      @media screen and (max-width: $screen-sm-min - 1) {
+      @media screen and (max-width: $screen-sm-max) {
         width: 100%;
       }
     }

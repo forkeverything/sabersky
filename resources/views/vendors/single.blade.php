@@ -146,6 +146,10 @@
                                         class="fa fa-close"></i></a>
                             </div>
                             @endcan
+                            <div class="contact-person">
+                                <label>Contact Person</label>
+                                    <span class="name">@{{ address.contact_person }}</span>
+                            </div>
                             <div class="phone">
                                 <label>Phone</label>
                                 <span class="phone">@{{ address.phone }}</span>

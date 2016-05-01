@@ -10,7 +10,7 @@
         width: 100%;
       }
 
-      @media screen and (min-width: 998px) {
+      @media screen and (min-width: $screen-sm-min) {
         width: initial;
       }
     }
@@ -152,7 +152,7 @@
   .pr-bag {
     margin: 15px 0;
 
-    @media screen and (min-width: 998px) {
+    @media screen and (min-width: $screen-sm-min) {
       margin: 30px 0;
     }
   }

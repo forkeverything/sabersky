@@ -71,6 +71,7 @@ $factory->define(\App\BankAccount::class, function (Faker\Generator $faker) {
 
 $factory->define(\App\Address::class, function (Faker\Generator $faker) {
     return [
+        'contact_person' => $faker->name,
         'address_1' => $faker->streetAddress,
         'address_2' => $faker->name . ' Building',
         'city' => $faker->city,

@@ -34,7 +34,7 @@
                                     <span class="brand" v-if="lineItem.item.brand">@{{ lineItem.item.brand }} - </span>
                                     <span class="name">@{{ lineItem.item.name }}</span>
                                 </div>
-                                <div class="details">
+                                <div class="line-item-details">
                                     <span class="project">@{{ lineItem.project.name | capitalize }}</span><label>QTY: </label><span class="quantity">@{{ lineItem.quantity }}</span>
                                 </div>
                                 <button type="button" class="btn-close" @click="removeLineItem(lineItem)"><i class="fa fa-close"></i></button>
@@ -52,7 +52,7 @@
             </div>
             <div class="line-items-control" v-show="hasLineItems">
                 <button type="button" class="btn btn-outline-grey btn-clear" @click="clearAllLineItems"><i class="fa fa-trash"></i> Clear All</button>
-                <button type="button" class="btn btn-solid-green btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendorID">Next Step <i class="fa fa-angle-double-right"></i></button>
+                <button type="button" class="btn btn-solid-blue btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendorID">Next Step <i class="fa fa-angle-double-right"></i></button>
             </div>
         </div>
     </div>

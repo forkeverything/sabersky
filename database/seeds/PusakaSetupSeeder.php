@@ -87,5 +87,17 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         factory(Address::class, 3)->create([
             'owner_id' => $customVendor->id
         ]);
+
+        // Purchase Requests
+            factory(\App\PurchaseRequest::class, 10)->create([
+                'state' => 'open',
+                'project_id' => 1,
+                'item_id' => factory(Item::class)->create([
+                    'company_id' => 1
+                ])->id,
+                'user_id' => factory(\App\User::class)->create([
+                    'company_id' => 1
+                ])->id
+            ]);
     }
 }

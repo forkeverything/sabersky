@@ -61,7 +61,6 @@ body {
 
 }
 
-
 .page-header {
   margin: 15px 0 30px 0;
   border: 0;
@@ -279,12 +278,12 @@ li.active {
   font-weight: normal;
   text-align: center;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: $screen-md-max) {
     padding: 100px 75px;
     font-size: 26px;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $screen-sm-max) {
     padding: 75px 15px;
     font-size: 20px;
   }
@@ -325,8 +324,6 @@ li.active {
   }
 }
 
-
-
 // Hide FOUC
 [v-cloak] {
   display: none !important;
@@ -345,11 +342,13 @@ li.active {
   }
 
   h3 {
-      margin: 0 0 10px 0;
+    margin: 0 0 10px 0;
+    text-align: center;
   }
 
   p {
     color: $text-muted;
+    text-align: center;
   }
 }
 

@@ -1,6 +1,6 @@
 .button-show-side-menu {
   
-  @media screen and(min-width: 998px) {
+  @media screen and(min-width: $screen-sm-min + (2 * $side-menu-width)) {
     display: none;
   }
 }
@@ -148,7 +148,7 @@
     }
   }
 
-  @media screen and (min-width: 998px) {
+  @media screen and (min-width: $screen-sm-min + (2 * $side-menu-width)) {
     display: block !important;
   }
 }

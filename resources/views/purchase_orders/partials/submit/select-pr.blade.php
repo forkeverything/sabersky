@@ -116,5 +116,4 @@
         <p>We couldn't find any requests to fulfill. Try selecting a different Project or <a
                     class="dotted clickable" @click="clearSearch">clear</a> the search.</p>
     </div>
-    <single-pr-modal></single-pr-modal>
 </div>

@@ -132,7 +132,7 @@
         }
       }
 
-      @media screen and (min-width: 1200px) {
+      @media screen and (min-width: $screen-lg-min) {
         table-layout: fixed;
 
         td, th {
