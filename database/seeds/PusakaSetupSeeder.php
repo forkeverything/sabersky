@@ -29,6 +29,18 @@ class PusakaSetupSeeder extends Seeder
             'currency_id' => '360'
         ]);
 
+        // Give pusaka a address!
+        $company->address()->create([
+            'contact_person' => 'Albert Wu',
+            'phone' => '0816827592',
+            'address_1' => 'JL 1 & 2 Megakuningan',
+            'address_2' => 'Setiabudi',
+            'city' => 'DKI Jakarta',
+            'zip' => '237952',
+            'state' => 'Jawa',
+            'country_id' => 360
+        ]);
+
         $user = User::create([
             'name' => 'Michael Sutono',
             'email' => 'mail@wumike.com',

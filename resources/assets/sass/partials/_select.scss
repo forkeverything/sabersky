@@ -202,6 +202,9 @@
       }
 
       .create {
+        strong {
+          margin-left: 5px;
+        }
         &.active {
           background: #fff;
           color: $blue !important;
@@ -238,7 +241,22 @@
         }
       }
 
-      input[placeholder] {
+      ::-webkit-input-placeholder {
+        text-transform: uppercase;
+        color: $text-muted;
+        font-size: 0.8em;
+      }
+      ::-moz-placeholder          {
+        text-transform: uppercase;
+        color: $text-muted;
+        font-size: 0.8em;
+      } /* Firefox 19+ */
+      :-moz-placeholder           {
+        text-transform: uppercase;
+        color: $text-muted;
+        font-size: 0.8em;
+      } /* Firefox 18- */
+      :-ms-input-placeholder      {
         text-transform: uppercase;
         color: $text-muted;
         font-size: 0.8em;

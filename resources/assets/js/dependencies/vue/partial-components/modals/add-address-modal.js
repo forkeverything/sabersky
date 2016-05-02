@@ -11,6 +11,25 @@ Vue.component('add-address-modal', {
     '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '                   <form-errors></form-errors>' +
     '                   <h3>Add Address</h3>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input">' +
+    '                               <input type="text" ' +
+    '                                      class="not-required" ' +
+    '                                      v-model="contactPerson" ' +
+    '                                      :class="{' +
+    "                                           'filled': user.company.address.contact_person }" +
+    '                               ">' +
+    '                               <label placeholder="Contact Person"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input">' +
+    '                               <input type="text" required v-model="user.company.address.phone">' +
+    '                               <label placeholder="Phone" class="required"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
     '                   <div class="shift-label-input no-validate">' +
     '                       <input type="text" v-model="address1" required>' +
     '                       <label class="required" placeholder="Address"></label>' +
@@ -53,10 +72,6 @@ Vue.component('add-address-modal', {
     '                           </div>' +
     '                       </div>' +
     '                   </div>' +
-    '                   <div class="shift-label-input">' +
-    '                       <input type="text" v-model="phone" required>' +
-    '                       <label class="required" placeholder="Phone Number"></label>' +
-    '                   </div>' +
     '                   <div class="form-group align-end">' +
     '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +
     '                   </div>' +
@@ -68,13 +83,14 @@ Vue.component('add-address-modal', {
             ajaxObject: {},
             visible: false,
             loaded: false,
+            contactPerson: '',
+            phone: '',
             address1: '',
             address2: '',
             city: '',
-            state: '',
-            countryID: '',
             zip: '',
-            phone: ''
+            countryID: '',
+            state: ''
         };
     },
     props: ['owner-id', 'owner-type'],
@@ -101,13 +117,14 @@ Vue.component('add-address-modal', {
                 data: {
                     "owner_id": self.ownerId,
                     "owner_type": self.ownerType,
+                    "contact_person": self.contactPerson,
+                    "phone": self.phone,
                     "address_1": self.address1,
                     "address_2": self.address2,
                     "city": self.city,
-                    "state": self.state,
-                    "country_id": self.countryID,
                     "zip": self.zip,
-                    "phone": self.phone
+                    "country_id": self.countryID,
+                    "state": self.state
                 },
                 success: function (data) {
                     // success
@@ -117,14 +134,15 @@ Vue.component('add-address-modal', {
                     self.ajaxReady = true;
 
                     // reset fields
+                    self.contactPerson = '';
+                    self.phone = '';
                     self.address1 = '';
                     self.address2 = '';
                     self.city = '';
-                    self.state = '';
-                    self.countryID = '';
                     self.zip = '';
-                    self.phone = '';
-                    
+                    self.countryID = '';
+                    self.state = '';
+
                 },
                 error: function (response) {
                     console.log(response);

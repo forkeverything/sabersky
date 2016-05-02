@@ -40,9 +40,9 @@ Vue.component('currency-selecter', {
 
         // Setting the default (company's saved) currency
         var _selecter = selecter[0].selectize;
-        this.$watch('default', function(value) {
+        this.$watch('default', function (value) {
             _selecter.addOption(value);
             _selecter.setValue(value.id);
-        })
+        });
     }
 });

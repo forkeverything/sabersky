@@ -520,295 +520,6 @@ Vue.component('project-single', {
         });
     }
 });
-Vue.component('purchase-orders-all',{
-    name: 'allPurchaseOrders',
-    el: function() {
-        return '#purchase-orders-all';
-    },
-    data: function() {
-        return {
-            purchaseOrders: [],
-            headings: [
-                ['created_at', 'Date Submitted'],
-                ['project.name', 'Project'],
-                ['', 'Item(s)'],
-                ['total', 'OrderTotal'],
-                ['', 'Status'],
-                ['', 'Paid'],
-                ['', 'Delivered']
-            ],
-            statuses: [
-                {
-                    key: 'pending',
-                    label: 'Pending'
-                },
-                {
-                    key: 'approved',
-                    label: 'Approved'
-                },
-                {
-                    key: 'rejected',
-                    label: 'Rejected'
-                },
-                {
-                    key: '',
-                    label: 'All'
-                }
-            ],
-            field: '',
-            order: '',
-            urgent: '',
-            filter: 'pending'
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
-    methods: {
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
-        }
-    }
-});
-Vue.component('purchase-orders-submit', {
-    el: function () {
-        return '#purchase-orders-submit';
-    },
-    data: function () {
-        return {
-            step: 1,
-            ajaxReady: true,
-            ajaxObject: {},
-            response: {},
-            projects: [],
-            projectID: '',
-            purchaseRequests: [],
-            sort: 'number',
-            order: 'asc',
-            urgent: '',
-            searchTerm: '',
-            lineItems: [],
-            vendorID: '',
-            vendor: {},
-            addressID: '',
-            selectedAddress: '',
-            currencyID: '',
-            currencySymbol: ''
-        };
-    },
-    props: ['user'],
-    computed: {
-        hasPurchaseRequests: function () {
-            return !_.isEmpty(this.purchaseRequests);
-        },
-        allPurchaseRequestsChecked: function () {
-            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
-                return request.id
-            });
-            var lineItemIDs = _.map(this.lineItems, function (item) {
-                return item.id
-            });
-            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
-        },
-        hasLineItems: function () {
-            return this.lineItems.length > 0;
-        },
-        availableAddresses: function () {
-            if (!this.vendor) return;
-            var vendorAddresses = this.vendor.addresses;
-            if (vendorAddresses) vendorAddresses.push(this.vendor.linked_company.address);
-            return vendorAddresses;
-        }
-    },
-    methods: {
-        fetchPurchaseRequests: function (page) {
-            var self = this;
-            page = page || 1;
-
-            var url = '/api/purchase_requests?' +
-                'state=open' +
-                '&quantity=1+' +
-                '&project_id=' + self.projectID +
-                '&sort=' + self.sort +
-                '&order=' + self.order +
-                '&per_page=8' +
-                '&search=' + self.searchTerm;
-
-            if (page) url += '&page=' + page;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.ajaxObject = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
-
-                    // Pull flags from response (better than parsing url)
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
-                    self.urgent = response.data.query_parameters.urgent;
-
-                    self.ajaxReady = true;
-
-                    // self.$nextTick(function() {
-                    //     self.finishLoading = true;
-                    // })
-                    // TODO ::: Add a loader for each request
-
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeSort: function (sort) {
-            if (this.sort === sort) {
-                this.order = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests();
-            } else {
-                this.sort = sort;
-                this.order = 'asc';
-                this.fetchPurchaseRequests();
-            }
-        },
-        searchPurchaseRequests: _.debounce(function () {
-            var self = this;
-            // If we're still waiting on a response cancel, abort, and fire a new request
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-            self.fetchPurchaseRequests();
-        }, 200),
-        clearSearch: function () {
-            this.searchTerm = '';
-            this.searchPurchaseRequests();
-        },
-        selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
-        },
-        alreadySelectedPR: function (purchaseRequest) {
-            return _.find(this.lineItems, function (pr) {
-                return pr.id === purchaseRequest.id;
-            });
-        },
-        selectAllPR: function () {
-            var self = this;
-            if (self.allPurchaseRequestsChecked) {
-                _.forEach(self.purchaseRequests, function (request) {
-                    self.lineItems = _.reject(self.lineItems, request);
-                });
-            } else {
-                _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
-                });
-            }
-        },
-        showSinglePR: function (purchaseRequest) {
-            this.$broadcast('modal-show-single-pr', purchaseRequest);
-        },
-        removeLineItem: function (lineItem) {
-            this.lineItems = _.reject(this.lineItems, lineItem);
-        },
-        clearAllLineItems: function () {
-            this.lineItems = [];
-        },
-        goStep: function (step) {
-            this.step = step;
-        },
-        selectAddress: function (address) {
-            this.selectedAddress = this.selectedAddress ? null : address;
-        },
-        visibleAddress: function (address) {
-            console.log('ran');
-            console.log(!this.selectedAddress);
-            if (_.isEmpty(this.selectedAddress)) return true;
-            return this.selectedAddress == address;
-        },
-        calculateTotal: function (lineItem) {
-            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
-            var currencySymbol = this.currencySymbol || '$';
-            return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
-        }
-    },
-    events: {
-        'go-to-page': function (page) {
-            this.fetchPurchaseRequests(page);
-        },
-        'changed-currency': function(countryID) {
-            var self = this;
-            $.get('/countries/' + countryID, function (data) {
-                self.currencySymbol = data.currency_symbol;
-            });
-        }
-    },
-    ready: function () {
-        this.$watch('projectID', function (val) {
-            if (!val) return;
-            this.fetchPurchaseRequests();
-        });
-        this.$watch('vendorID', function (val) {
-            var self = this;
-            $.ajax({
-                url: '/api/vendors/' + val,
-                method: 'GET',
-                success: function (data) {
-                    self.vendor = data;
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        });
-    }
-});
 Vue.component('purchase-requests-all', {
     name: 'allPurchaseRequests',
     el: function () {
@@ -1153,6 +864,305 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('purchase-orders-all',{
+    name: 'allPurchaseOrders',
+    el: function() {
+        return '#purchase-orders-all';
+    },
+    data: function() {
+        return {
+            purchaseOrders: [],
+            headings: [
+                ['created_at', 'Date Submitted'],
+                ['project.name', 'Project'],
+                ['', 'Item(s)'],
+                ['total', 'OrderTotal'],
+                ['', 'Status'],
+                ['', 'Paid'],
+                ['', 'Delivered']
+            ],
+            statuses: [
+                {
+                    key: 'pending',
+                    label: 'Pending'
+                },
+                {
+                    key: 'approved',
+                    label: 'Approved'
+                },
+                {
+                    key: 'rejected',
+                    label: 'Rejected'
+                },
+                {
+                    key: '',
+                    label: 'All'
+                }
+            ],
+            field: '',
+            order: '',
+            urgent: '',
+            filter: 'pending'
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
+    methods: {
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        changeFilter: function (filter) {
+            this.filter = filter;
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    }
+});
+Vue.component('purchase-orders-submit', {
+    el: function () {
+        return '#purchase-orders-submit';
+    },
+    data: function () {
+        return {
+            step: 1,
+            ajaxReady: true,
+            ajaxObject: {},
+            response: {},
+            projects: [],
+            projectID: '',
+            purchaseRequests: [],
+            sort: 'number',
+            order: 'asc',
+            urgent: '',
+            searchTerm: '',
+            lineItems: [],
+            vendorID: '',
+            vendor: {
+                linked_company: {}
+            },
+            addressID: '',
+            selectedAddress: '',
+            currencyID: '',
+            currencySymbol: '',
+            billingAddressCountryID: '',
+            billingAddressState: ''
+        };
+    },
+    props: ['user'],
+    computed: {
+        hasPurchaseRequests: function () {
+            return !_.isEmpty(this.purchaseRequests);
+        },
+        allPurchaseRequestsChecked: function () {
+            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
+                return request.id
+            });
+            var lineItemIDs = _.map(this.lineItems, function (item) {
+                return item.id
+            });
+            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        },
+        hasLineItems: function () {
+            return this.lineItems.length > 0;
+        },
+        vendorAddresses: function () {
+            // Only if we have a vendor
+            if (!this.vendor) return;
+            // Grab the addresses associated with Vendor model
+            var vendorAddresses = this.vendor.addresses;
+            // If we have addresses and a linked company - add the Company's address
+            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
+            return vendorAddresses;
+        }
+    },
+    methods: {
+        fetchPurchaseRequests: function (page) {
+            var self = this;
+            page = page || 1;
+
+            var url = '/api/purchase_requests?' +
+                'state=open' +
+                '&quantity=1+' +
+                '&project_id=' + self.projectID +
+                '&sort=' + self.sort +
+                '&order=' + self.order +
+                '&per_page=8' +
+                '&search=' + self.searchTerm;
+
+            if (page) url += '&page=' + page;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
+
+                    // Pull flags from response (better than parsing url)
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+                    self.urgent = response.data.query_parameters.urgent;
+
+                    self.ajaxReady = true;
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests();
+            } else {
+                this.sort = sort;
+                this.order = 'asc';
+                this.fetchPurchaseRequests();
+            }
+        },
+        searchPurchaseRequests: _.debounce(function () {
+            var self = this;
+            // If we're still waiting on a response cancel, abort, and fire a new request
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+            self.fetchPurchaseRequests();
+        }, 200),
+        clearSearch: function () {
+            this.searchTerm = '';
+            this.searchPurchaseRequests();
+        },
+        selectPR: function (purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
+        },
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.lineItems, function (pr) {
+                return pr.id === purchaseRequest.id;
+            });
+        },
+        selectAllPR: function () {
+            var self = this;
+            if (self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.lineItems = _.reject(self.lineItems, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
+                });
+            }
+        },
+        showSinglePR: function (purchaseRequest) {
+            this.$broadcast('modal-show-single-pr', purchaseRequest);
+        },
+        removeLineItem: function (lineItem) {
+            this.lineItems = _.reject(this.lineItems, lineItem);
+        },
+        clearAllLineItems: function () {
+            this.lineItems = [];
+        },
+        goStep: function (step) {
+            this.step = step;
+        },
+        selectAddress: function (address) {
+            this.selectedAddress = this.selectedAddress ? null : address;
+        },
+        visibleAddress: function (address) {
+            console.log('ran');
+            console.log(!this.selectedAddress);
+            if (_.isEmpty(this.selectedAddress)) return true;
+            return this.selectedAddress == address;
+        },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            var currencySymbol = this.currencySymbol || '$';
+            return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
+        },
+        createOrder: function() {
+
+        }
+    },
+    events: {
+        'go-to-page': function (page) {
+            this.fetchPurchaseRequests(page);
+        },
+        'changed-currency': function(countryID) {
+            var self = this;
+            $.get('/countries/' + countryID, function (data) {
+                self.currencySymbol = data.currency_symbol;
+            });
+        }
+    },
+    ready: function () {
+        this.$watch('projectID', function (val) {
+            if (!val) return;
+            this.fetchPurchaseRequests();
+        });
+        this.$watch('vendorID', function (val) {
+            var self = this;
+            $.ajax({
+                url: '/api/vendors/' + val,
+                method: 'GET',
+                success: function (data) {
+                    self.vendor = data;
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    }
+});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -1191,122 +1201,6 @@ Vue.component('settings', {
     }
 });
 
-Vue.component('team-all', {
-    name: 'teamAll',
-    el: function() {
-        return '#team-all'
-    },
-    data: function() {
-        return {
-            employees: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                },
-                {
-                    label: 'Status',
-                    path: ['status'],
-                    sort: 'status'
-                }
-            ]
-        };
-    },
-    props: ['user'],
-    computed: {
-        
-    },
-    methods: {
-        
-    },
-    events: {
-        
-    },
-    ready: function() {
-        var self = this;
-        $.ajax({
-            url: '/api/team',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.employees = _.map(data, function(staff) {
-                   staff.name = '<a href="/team/user/' + staff.id + '">' + staff.name + '</a>';
-                   staff.status = staff.invite_key ? '<span class="badge badge-warning">Pending</span>' : '<span class="badge badge-success">Confirmed</span>';
-                   return staff;
-               });
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-    }
-});
-Vue.component('team-single-user', {
-    name: 'teamSingleUser',
-    el: function() {
-        return '#team-single-user'
-    },
-    data: function() {
-        return {
-            roles: [],
-            changeButton: false,
-            userToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-        showChangeButton: function() {
-            this.changeButton = true;
-        },
-        confirmDelete: function(user) {
-            this.userToDelete = user;
-            this.$broadcast('new-modal', {
-                title: 'Confirm Permanently Delete ' + user.name,
-                body: 'Deleting a User is immediate and permanent. All data regarding the User will automatically be removed. This action is irreversible. Any pending actions may become incompletable.',
-                buttonText: 'Delete ' + user.name + ' and all corresponding data',
-                buttonClass: 'btn-danger',
-                callbackEventName: 'delete-user'
-            });
-        }
-    },
-    events: {
-        'delete-user': function() {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/team/user/' + self.userToDelete.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                   self.ajaxReady = true;
-                    window.location.href = '/team';
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function() {
-        var self = this;
-    }
-});
 Vue.component('vendors-add-new', {
     name: 'addNewVendor',
     el: function() {
@@ -1578,6 +1472,122 @@ Vue.component('vendor-single', {
                 console.log(response);
             }
         });
+    }
+});
+Vue.component('team-all', {
+    name: 'teamAll',
+    el: function() {
+        return '#team-all'
+    },
+    data: function() {
+        return {
+            employees: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                },
+                {
+                    label: 'Status',
+                    path: ['status'],
+                    sort: 'status'
+                }
+            ]
+        };
+    },
+    props: ['user'],
+    computed: {
+        
+    },
+    methods: {
+        
+    },
+    events: {
+        
+    },
+    ready: function() {
+        var self = this;
+        $.ajax({
+            url: '/api/team',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.employees = _.map(data, function(staff) {
+                   staff.name = '<a href="/team/user/' + staff.id + '">' + staff.name + '</a>';
+                   staff.status = staff.invite_key ? '<span class="badge badge-warning">Pending</span>' : '<span class="badge badge-success">Confirmed</span>';
+                   return staff;
+               });
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
+});
+Vue.component('team-single-user', {
+    name: 'teamSingleUser',
+    el: function() {
+        return '#team-single-user'
+    },
+    data: function() {
+        return {
+            roles: [],
+            changeButton: false,
+            userToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+        showChangeButton: function() {
+            this.changeButton = true;
+        },
+        confirmDelete: function(user) {
+            this.userToDelete = user;
+            this.$broadcast('new-modal', {
+                title: 'Confirm Permanently Delete ' + user.name,
+                body: 'Deleting a User is immediate and permanent. All data regarding the User will automatically be removed. This action is irreversible. Any pending actions may become incompletable.',
+                buttonText: 'Delete ' + user.name + ' and all corresponding data',
+                buttonClass: 'btn-danger',
+                callbackEventName: 'delete-user'
+            });
+        }
+    },
+    events: {
+        'delete-user': function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/team/user/' + self.userToDelete.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                   self.ajaxReady = true;
+                    window.location.href = '/team';
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function() {
+        var self = this;
     }
 });
 Vue.component('settings-company', {

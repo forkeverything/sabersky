@@ -1,7 +1,17 @@
+// Root script that gets run on EVERY page
+
+// Initialize our event bus
+var vueEventBus = new Vue();
+
+// root Vue instance
 new Vue({
     el: '#app-layout',
     data: {
-        user: {},
+        user: {
+            company: {
+                address: {}
+            }
+        },
         showingMenu: false,
         showNavDropdown: false
     },
@@ -13,16 +23,9 @@ new Vue({
     methods: {
         getLoggedUser: function() {
           var self = this;
-          $.ajax({
-              url: '/api/me',
-              method: 'GET',
-              success: function(data) {
-                  self.user = data;
-              },
-              error: function(response) {
-                  console.log('No logged user');
-              }
-          });
+            $.get('/api/me', function (data) {
+                self.user = data;
+            });
         },
         toggleSideMenu: function () {
             this.$broadcast('toggle-side-menu');

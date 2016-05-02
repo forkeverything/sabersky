@@ -17,11 +17,15 @@ Vue.component('purchase-orders-submit', {
             searchTerm: '',
             lineItems: [],
             vendorID: '',
-            vendor: {},
+            vendor: {
+                linked_company: {}
+            },
             addressID: '',
             selectedAddress: '',
             currencyID: '',
-            currencySymbol: ''
+            currencySymbol: '',
+            billingAddressCountryID: '',
+            billingAddressState: ''
         };
     },
     props: ['user'],
@@ -41,10 +45,13 @@ Vue.component('purchase-orders-submit', {
         hasLineItems: function () {
             return this.lineItems.length > 0;
         },
-        availableAddresses: function () {
+        vendorAddresses: function () {
+            // Only if we have a vendor
             if (!this.vendor) return;
+            // Grab the addresses associated with Vendor model
             var vendorAddresses = this.vendor.addresses;
-            if (vendorAddresses) vendorAddresses.push(this.vendor.linked_company.address);
+            // If we have addresses and a linked company - add the Company's address
+            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
             return vendorAddresses;
         }
     },
@@ -159,6 +166,9 @@ Vue.component('purchase-orders-submit', {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
             var currencySymbol = this.currencySymbol || '$';
             return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
+        },
+        createOrder: function() {
+
         }
     },
     events: {

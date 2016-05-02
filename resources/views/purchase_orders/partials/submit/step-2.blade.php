@@ -20,7 +20,7 @@
                     <label v-else>Selected Address</label>
                     <ul class="list-unstyled list-address">
                         <li class="single-address clickable"
-                            v-for="address in availableAddresses"
+                            v-for="address in vendorAddresses"
                         @click="selectAddress(address)"
                         v-show="! selectedAddress || selectedAddress == address"
                         :class="{
@@ -56,6 +56,73 @@
                 <div class="currency-selection">
                     <label>Currency</label>
                     <currency-selecter :name.sync="currencyID" :default="user.company.currency"></currency-selecter>
+                </div>
+                <div class="set-address">
+                    <div class="billing-address">
+                        <label>Billing Address</label>
+                        <div class="address-fields">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="shift-label-input">
+                                        <input type="text" class="not-required" v-model="user.company.address.contact_person" :class="{ 'filled': user.company.address.contact_person }">
+                                        <label placeholder="Contact Person"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <div class="shift-label-input">
+                                    <input type="text" required v-model="user.company.address.phone">
+                                    <label placeholder="Phone" class="required"></label>
+                                 </div>
+                                </div>
+                            </div>
+                            <div class="shift-label-input">
+                                <input type="text" required v-model="user.company.address.address_1">
+                                <label placeholder="Address" class="required"></label>
+                             </div>
+                            <div class="shift-label-input">
+                                <input type="text"
+                                       required
+                                       v-model="user.company.address.address_2"
+                                       class="not-required"
+                                       :class="{
+                                            'filled': user.company.address.address_2
+                                        }"
+                                >
+                                <label placeholder="Address 2"></label>
+                             </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="shift-label-input">
+                                        <input type="text" required v-model="user.company.address.city">
+                                        <label placeholder="City"></label>
+                                    </div class="required">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="shift-label-input">
+                                        <input type="text" required v-model="user.company.address.zip">
+                                        <label placeholder="Zip"></label>
+                                    </div class="required">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group shift-select">
+                                        <label class="required">Country</label>
+                                        <country-selecter  :name.sync="billingAddressCountryID" :default="user.company.address.country_id" :event="selected-billing-country"></country-selecter>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group shift-select">
+                                        <label class="required">State</label>
+                                        <state-selecter :name.sync="billingAddressState" :default="user.company.address.state" :listen="selected-billing-country"></state-selecter>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shipping-address">
+
+                    </div>
                 </div>
             </div>
         </div>

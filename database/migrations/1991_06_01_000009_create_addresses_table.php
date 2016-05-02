@@ -17,12 +17,12 @@ class CreateAddressesTable extends Migration
             $table->timestamps();
 
             $table->string('contact_person')->nullable();
+            $table->string('phone');
             $table->string('address_1');
             $table->string('address_2')->nullable();
             $table->string('city');
-            $table->string('state');
             $table->string('zip');
-            $table->string('phone');
+            $table->string('state');
 
             $table->boolean('primary')->default(0);
 
