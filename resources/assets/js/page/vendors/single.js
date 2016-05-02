@@ -7,7 +7,9 @@ Vue.component('vendor-single', {
         return {
             ajaxReady: true,
             vendorID: '',
-            vendor: {},
+            vendor: {
+                bank_accounts: []
+            },
             description: '',
             editDescription: false,
             savedDescription: '',

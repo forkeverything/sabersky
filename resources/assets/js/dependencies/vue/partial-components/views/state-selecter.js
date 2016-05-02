@@ -17,7 +17,7 @@ Vue.component('state-selecter', {
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],
-            placeholder: 'Select or add a state',
+            placeholder: 'State',
             create: true,
             onChange: function (value) {
                 self.name = value;

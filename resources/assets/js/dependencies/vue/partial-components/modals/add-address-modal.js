@@ -18,14 +18,14 @@ Vue.component('add-address-modal', {
     '                                      class="not-required" ' +
     '                                      v-model="contactPerson" ' +
     '                                      :class="{' +
-    "                                           'filled': user.company.address.contact_person }" +
+    "                                           'filled': contactPerson }" +
     '                               ">' +
     '                               <label placeholder="Contact Person"></label>' +
     '                           </div>' +
     '                       </div>' +
     '                       <div class="col-sm-6">' +
     '                           <div class="shift-label-input">' +
-    '                               <input type="text" required v-model="user.company.address.phone">' +
+    '                               <input type="text" required v-model="phone">' +
     '                               <label placeholder="Phone" class="required"></label>' +
     '                           </div>' +
     '                       </div>' +
@@ -62,13 +62,13 @@ Vue.component('add-address-modal', {
     '                       <div class="col-sm-6">' +
     '                           <div class="form-group shift-select">' +
     '                               <label class="required">Country</label>' +
-    '                               <select class="address-country-selecter"><option></option></select>' +
+    '                               <country-selecter :name.sync="countryID"></country-selecter>' +
     '                           </div>' +
     '                       </div>' +
     '                       <div class="col-sm-6">' +
     '                           <div class="form-group shift-select">' +
     '                               <label class="required">State</label>' +
-    '                               <select class="address-state-selecter"><option></option></select>' +
+    '                               <state-selecter :name.sync="state""></state-selecter>'+
     '                           </div>' +
     '                       </div>' +
     '                   </div>' +
@@ -156,74 +156,6 @@ Vue.component('add-address-modal', {
     events: {},
     ready: function () {
         var self = this;
-        var $select_country, select_country;
-        var $select_state, select_state;
-
-        // Init Country Selecter
-        $select_country = $('.address-country-selecter').selectize({
-            valueField: 'id',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Type to select a Country',
-            render: {
-                option: function (item, escape) {
-                    return '<div class="single-country-option">' + escape(item.name) + '</div>'
-                },
-                item: function (item, escape) {
-                    return '<div class="selected-country">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/countries/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                if (!value.length) return;
-
-                self.countryID = value;
-
-                select_state.disable();
-                select_state.clearOptions();
-                select_state.load(function (callback) {
-                    if (!_.isEmpty(self.ajaxObject) && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-                    self.ajaxObject = $.ajax({
-                        url: '/countries/' + value + '/states',
-                        success: function (results) {
-                            select_state.enable();
-                            callback(results);
-                        },
-                        error: function () {
-                            callback();
-                        }
-                    })
-                });
-            }
-        });
-
-        $select_state = $('.address-state-selecter').selectize({
-            valueField: 'name',
-            labelField: 'name',
-            searchField: ['name'],
-            placeholder: 'Select or add a state',
-            create: true,
-            onChange: function (value) {
-                self.state = value;
-            }
-        });
-
-        select_country = $select_country[0].selectize;
-        select_state = $select_state[0].selectize;
-        select_state.disable();
-
         self.loaded = true;
     }
 });

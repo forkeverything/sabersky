@@ -23,7 +23,7 @@ Vue.component('country-selecter', {
             valueField: 'id',
             searchField: 'name',
             create: false,
-            placeholder: 'select a Country',
+            placeholder: 'Country',
             render: {
                 option: function (item, escape) {
                     return '<div class="single-country-option">' + escape(item.name) + '</div>'
