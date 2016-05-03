@@ -69,7 +69,7 @@ class PurchaseRequestController extends Controller
             $order = $request->query('order');
             $urgent = $request->query('urgent');
             $perPage = $request->query('per_page');
-
+            
 
             $data = UserPurchaseRequestsRepository::forUser(Auth::user())
                                                   ->whereState($state)

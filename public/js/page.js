@@ -641,8 +641,23 @@ Vue.component('purchase-orders-submit', {
             selectedAddress: '',
             currencyID: '',
             currencySymbol: '',
-            billingAddressCountryID: '',
-            billingAddressState: ''
+            billingContactPerson: '',
+            billingPhone: '',
+            billingAddress1: '',
+            billingAddress2: '',
+            billingCity: '',
+            billingZip: '',
+            billingCountryID: '',
+            billingState: '',
+            shippingAddressSameAsBilling: true,
+            shippingContactPerson: '',
+            shippingPhone: '',
+            shippingAddress1: '',
+            shippingAddress2: '',
+            shippingCity: '',
+            shippingZip: '',
+            shippingCountryID: '',
+            shippingState: ''
         };
     },
     props: ['user'],
@@ -782,7 +797,7 @@ Vue.component('purchase-orders-submit', {
         calculateTotal: function (lineItem) {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
             var currencySymbol = this.currencySymbol || '$';
-            return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
         },
         createOrder: function() {
 
@@ -1605,13 +1620,12 @@ Vue.component('settings-company', {
         }
     },
     props: [
-      'settingsView'
+      'settingsView',
+        'user'
     ],
     computed: {
         canUpdateCompany: function () {
-            if (this.company) {
-                return this.company.name.length > 0;
-            }
+                if(this.user) return this.user.company.name;
             return false;
         }
     },
@@ -1625,14 +1639,14 @@ Vue.component('settings-company', {
                 url: '/api/company',
                 method: 'PUT',
                 data: {
-                    name: self.company.name,
-                    description: self.company.description,
-                    currency: self.company.currency
+                    name: self.user.company.name,
+                    description: self.user.company.description,
+                    currency_id: self.user.company.settings.currency_id,
+                    currency_decimal_points: self.user.company.settings.currency_decimal_points
                 },
                 success: function (data) {
                     // success
                     flashNotify('success', 'Updated Company information');
-                    self.$dispatch('update-company');
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -1646,20 +1660,6 @@ Vue.component('settings-company', {
     },
     ready: function() {
         var self = this;
-        // GET user company info
-        $.ajax({
-            url: '/api/company',
-            method: 'GET',
-            success: function (data) {
-                // success
-                self.company = data;
-            },
-            error: function (response) {
-                console.log('Request Error!');
-                console.log(response);
-            }
-        });
-
     }
 });
 Vue.component('settings-permissions', {

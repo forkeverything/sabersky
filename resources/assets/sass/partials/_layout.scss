@@ -81,7 +81,8 @@
   }
 
   #body-content {
-    flex: 1 0 300px;
+    // flex: 1 0 300px; (layout w/ side-menu was a bit small)
+    flex: 1 0 400px;
     overflow-y: scroll;
     min-height: 500px;
     padding: 0 0 30px;

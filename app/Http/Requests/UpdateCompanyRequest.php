@@ -28,7 +28,8 @@ class UpdateCompanyRequest extends Request
     {
         return [
             'name' => 'required|unique:companies,name,' . Auth::user()->company->id ,
-            'currency' => 'required'
+            'currency_id' => 'required',
+            'currency_decimal_points' => 'required'
         ];
     }
 

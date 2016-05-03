@@ -34,28 +34,12 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
-        'description',
-        'currency_id'
+        'description'
     ];
 
     protected $appends = [
-        'currency',
         'connection'
     ];
-
-    public function currencyCountry()
-    {
-        return $this->belongsTo(Country::class, 'currency_id');
-    }
-
-    public function getCurrencyAttribute()
-    {
-        return $this->currencyCountry()
-                    ->select(['id', 'name', 'currency', 'currency_code', 'currency_symbol'])
-                    ->first();
-    }
-
-
 
     /**
      * Checks the connection status for logged-user's Company
@@ -116,6 +100,17 @@ class Company extends Model
     public function statistics()
     {
         return $this->hasOne(CompanyStatistics::class);
+    }
+
+    /**
+     * Each Company has their own company-wide settings
+     * that employees share
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function settings()
+    {
+        return $this->hasOne(CompanySettings::class);
     }
 
     /**

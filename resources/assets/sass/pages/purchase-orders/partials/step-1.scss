@@ -101,7 +101,10 @@
 
     .line-items-container {
       .table {
-        margin: 0 0 15px 0;
+
+        @media screen and (min-width: $screen-sm-min) {
+          margin: 0 0 15px 0;
+        }
 
         .col-item {
           position: relative;

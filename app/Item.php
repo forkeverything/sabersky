@@ -177,7 +177,6 @@ class Item extends Model
     protected function approvedLineItems()
     {
         return $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
-                    ->where('purchase_orders.submitted', 1)
                     ->where('purchase_orders.status', 'approved')
                     ->get(['line_items.*']);
     }

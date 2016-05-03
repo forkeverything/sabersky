@@ -16,6 +16,7 @@ Vue.filter('numberModel', {
             val = val.substring(0, limit); // if there is a limit, trim the value
         }
         //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        return parseInt(val.replace(/[^0-9.]/g, ""))
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
     }
 });

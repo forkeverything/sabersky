@@ -24,8 +24,23 @@ Vue.component('purchase-orders-submit', {
             selectedAddress: '',
             currencyID: '',
             currencySymbol: '',
-            billingAddressCountryID: '',
-            billingAddressState: ''
+            billingContactPerson: '',
+            billingPhone: '',
+            billingAddress1: '',
+            billingAddress2: '',
+            billingCity: '',
+            billingZip: '',
+            billingCountryID: '',
+            billingState: '',
+            shippingAddressSameAsBilling: true,
+            shippingContactPerson: '',
+            shippingPhone: '',
+            shippingAddress1: '',
+            shippingAddress2: '',
+            shippingCity: '',
+            shippingZip: '',
+            shippingCountryID: '',
+            shippingState: ''
         };
     },
     props: ['user'],
@@ -165,7 +180,7 @@ Vue.component('purchase-orders-submit', {
         calculateTotal: function (lineItem) {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
             var currencySymbol = this.currencySymbol || '$';
-            return currencySymbol + ' ' + formatNumber(lineItem.order_quantity * lineItem.order_price);
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
         },
         createOrder: function() {
 

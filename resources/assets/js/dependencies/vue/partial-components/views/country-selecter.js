@@ -19,7 +19,7 @@ Vue.component('country-selecter', {
     ready: function() {
         var self = this,
             select_country;
-        $select_country = $('.country-selecter').selectize({
+        $select_country = $(self.$el).selectize({
             valueField: 'id',
             searchField: 'name',
             create: false,

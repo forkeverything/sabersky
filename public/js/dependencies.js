@@ -735,7 +735,8 @@ Vue.filter('numberModel', {
             val = val.substring(0, limit); // if there is a limit, trim the value
         }
         //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        return parseInt(val.replace(/[^0-9.]/g, ""))
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
     }
 });
 Vue.filter('percentage', {
@@ -1238,6 +1239,29 @@ Vue.component('integer-range-field', {
     '<input type="number" class="form-control" v-model="max" min="0">'+
     '</div>',
     props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return this.model;
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+            }
+        }
+    }
 });
 Vue.component('add-address-modal', {
     name: 'addAddressModal',
@@ -1861,7 +1885,7 @@ Vue.component('country-selecter', {
     ready: function() {
         var self = this,
             select_country;
-        $select_country = $('.country-selecter').selectize({
+        $select_country = $(self.$el).selectize({
             valueField: 'id',
             searchField: 'name',
             create: false,
@@ -2250,7 +2274,7 @@ Vue.component('state-selecter', {
             self = this,
             listenEvent = self.listen || 'selected-country';
 
-        $select_state = $('.state-selecter').selectize({
+        $select_state = $(self.$el).selectize({
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],

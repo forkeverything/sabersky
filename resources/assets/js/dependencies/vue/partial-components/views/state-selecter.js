@@ -13,7 +13,7 @@ Vue.component('state-selecter', {
             self = this,
             listenEvent = self.listen || 'selected-country';
 
-        $select_state = $('.state-selecter').selectize({
+        $select_state = $(self.$el).selectize({
             valueField: 'name',
             labelField: 'name',
             searchField: ['name'],

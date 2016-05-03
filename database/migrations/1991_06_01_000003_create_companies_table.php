@@ -18,9 +18,6 @@ class CreateCompaniesTable extends Migration
 
             $table->string('name');
             $table->text('description')->nullable();
-
-            $table->integer('currency_id')->unsigned()->default('840');
-            $table->foreign('currency_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 

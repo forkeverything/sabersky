@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyController extends Controller
 {
@@ -82,10 +83,19 @@ class CompanyController extends Controller
      */
     public function putUpdate(UpdateCompanyRequest $request)
     {
-        if(Auth::user()->company()->update($request->all())){
-            return response('Updated company info');
+        if(Gate::allows('settings_change')){
+            $company = Auth::user()->company;
+            $company->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description')
+            ]);
+            $company->settings()->update([
+                'currency_id' => $request->input('currency_id'),
+                'currency_decimal_points' => $request->input('currency_decimal_points')
+            ]);
+            return response("Updated User Company", 200);
         }
-        abort(400, 'Could not update company');
+        return response('Not authorized to change settings', 500);
     }
 
     /**

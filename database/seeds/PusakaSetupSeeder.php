@@ -25,8 +25,11 @@ class PusakaSetupSeeder extends Seeder
 
         $company = Company::create([
             'name' => 'Pusaka Jaya',
-            'description' => 'EPC Contractor & Independent Power Producer for over 20 years.',
-            'currency_id' => '360'
+            'description' => 'EPC Contractor & Independent Power Producer for over 20 years.'
+        ]);
+
+        $company->settings()->update([
+            'currency_id' => 360
         ]);
 
         // Give pusaka a address!
@@ -62,7 +65,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         ]);
 
         $user->projects()->save($project);
-        
+
         // Vendors
         $verifiedVendors = factory(Vendor::class, 3)->create([
             'base_company_id' => 1,

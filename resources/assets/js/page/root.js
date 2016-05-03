@@ -9,7 +9,10 @@ new Vue({
     data: {
         user: {
             company: {
-                address: {}
+                address: {},
+                settings: {
+                    currency: {}
+                }
             }
         },
         showingMenu: false,

@@ -21,6 +21,7 @@
 
   .address-selection {
 
+
     .list-address {
       margin: 0 0 -15px;
 
@@ -56,6 +57,10 @@
 
         .contact_person {
           font-weight: bold;
+        }
+
+        &.selected {
+          border-color: $green;
         }
 
         &:hover {

@@ -20,6 +20,7 @@ label.required {
   display: flex;
   align-items: center;
   margin: 0 0 6px 0;
+  position: relative;
 
   &:after {
     content: "*";
@@ -27,6 +28,8 @@ label.required {
     font-size: 1.5em;
     margin: 0 0 0 2px;
     color: $red;
+    position: absolute;
+    top: -5px;
   }
 }
 

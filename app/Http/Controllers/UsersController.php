@@ -83,7 +83,7 @@ class UsersController extends Controller
      */
     public function apiGetLoggedUser()
     {
-        $user = Auth::user()->load('company', 'company.address', 'role');
+        $user = Auth::user()->load('company', 'company.address', 'company.settings', 'role');
         return $user;
     }
 

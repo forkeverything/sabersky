@@ -17,8 +17,9 @@ class CompanyServiceProvider extends ServiceProvider
     {
         // Whenever we create Company model
         Company::created(function ($company) {
-            // We also want to create it's statistics table
+            // We also want to create it's statistics & settings table
             $company->statistics()->create([]);
+            $company->settings()->create([]);
         });
     }
 
