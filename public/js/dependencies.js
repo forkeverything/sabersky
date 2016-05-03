@@ -1253,7 +1253,7 @@ Vue.component('number-input', {
                 if(this.model === 0) return 0;
                 if(! this.model) return;
                 if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return this.model;
+                return accounting.formatNumber(this.model, this.precision, ",");
             },
             set: function(newVal) {
                 // Acts like a 2 way filter
@@ -1261,6 +1261,790 @@ Vue.component('number-input', {
                 this.model = accounting.toFixed(newVal, this.precision);
             }
         }
+    }
+});
+Vue.component('company-search-selecter', {
+    name: 'companySearchSelecter',
+    template: '<select class="company-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.company-search-selecter').selectize({
+            valueField: 'id',
+            searchField: ['name'],
+            create: false,
+            placeholder: 'Search by Company Name',
+            render: {
+                option: function (item, escape) {
+
+                    var optionClass = 'class="option company-single-option ',
+                        connectionSpan;
+
+                    switch (item.connection) {
+                        case 'pending':
+                            optionClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
+                            break;
+                        case 'verified':
+                            optionClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
+                            break;
+                        default:
+                            optionClass += '"';
+                            connectionSpan = '';
+                    }
+
+
+                    return '<div ' + optionClass +'>' +
+                        '       <span class="name">' + escape(item.name) + '</span>' +
+                        connectionSpan +
+                        '   </div>'
+                },
+                item: function (item, escape) {
+
+                    var selectedClass = 'class="company-selected ',
+                        connectionSpan;
+
+                    switch (item.connection) {
+                        case 'pending':
+                            selectedClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
+                            break;
+                        case 'verified':
+                            selectedClass += 'disabled"';
+                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
+                            break;
+                        default:
+                            selectedClass += '"';
+                            connectionSpan = '';
+                    }
+
+                    return '<div ' + selectedClass + '>' +
+                        '           <label>Selected Company</label>' +
+                        '           <div class="name">' + escape(item.name) +
+                        connectionSpan +
+                        '           </div>' +
+                        '           <span class="description">' + escape(item.description) + '</span>' +
+                        '       </div>' +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/company/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('country-selecter', {
+    name: 'countrySelecter',
+    template: '<select class="country-selecter"><option></option></select>',
+    data: function() {
+        return {
+
+        };
+    },
+    props: ['name', 'event', 'default'],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+        var self = this,
+            select_country;
+        $select_country = $(self.$el).selectize({
+            valueField: 'id',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Country',
+            render: {
+                option: function (item, escape) {
+                    return '<div class="single-country-option">' + escape(item.name) + '</div>'
+                },
+                item: function (item, escape) {
+                    return '<div class="selected-country">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/countries/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                if (!value.length) return;
+
+                // Update the name prop to pass data onto parent component
+                self.name = value;
+
+                var eventName = self.event || 'selected-country';
+                // Fire event
+                vueEventBus.$emit(eventName, value);
+            }
+        });
+
+        select_country = $select_country[0].selectize;
+        // IF we got a default country ID
+        self.$watch('default', function (countryID) {
+            // fetch associated country
+            $.get('/countries/' + countryID, function(data) {
+                // Add option
+                select_country.addOption(data);
+
+                // Select the option - we set to silent because there may be other
+                // selecters watching this one for changes, and they may have
+                // their own default values: ie. state-selecter
+                select_country.setValue(countryID, true);
+
+                // Update the name value
+                self.name = countryID;
+            });
+        });
+    }
+});
+Vue.component('currency-selecter', {
+    name: 'currencySelecter',
+    template: '<select class="currency-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name', 'default'],
+    ready: function() {
+        var self = this;
+        var selecter = $('.currency-selecter').selectize({
+            valueField: 'id',
+            searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
+            create: false,
+            placeholder: 'Search for a currency',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="option-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol)  + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/countries/currency/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+                self.$dispatch('changed-currency', value);
+            }
+        });
+
+        // Setting the default (company's saved) currency
+        var _selecter = selecter[0].selectize;
+        this.$watch('default', function (value) {
+            _selecter.addOption(value);
+            _selecter.setValue(value.id);
+        });
+    }
+});
+Vue.component('item-brand-selecter', {
+    name: 'itemBrandSelecter',
+    template: '<select class="item-brand-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-brand-search-selecter').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: false,
+            placeholder: 'Search for a brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/brands/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('item-name-selecter', {
+    name: 'itemNameSelecter',
+    template: '<select class="item-name-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.item-name-search-selecter').selectize({
+            valueField: 'name',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Search for a name',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/names/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('modal-select-address', {
+    name: 'modalSelectAddress',
+    template: '<button type="button" v-show="! selected" class="btn button-select-address btn-outline-blue" @click="showModal">Select Address</button>' +
+    '<div class="modal-select-address modal-overlay" v-show="visible" @click="hideModal">' +
+    '<div class="modal-body" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '<h3>Select an Address</h3>' +
+    '<ul class="list-unstyled list-address" v-if="addresses.length > 0">' +
+    '<li class="single-address clickable" v-for="address in addresses" @click="select(address)">' +
+    '<span class="contact_person display-block" v-if="address.contact_person">{{ address.contact_person }}</span>' +
+    '<span class="address_1 display-block">{{ address.address_1 }}</span>' +
+    '<span class="address_2 display-block" v-if="address.address_2">{{ address.address_2 }}</span>' +
+    '<span class="city">{{ address.city }}</span>,' +
+    '<div class="zip">{{ address.zip }}</div>' +
+    '<div class="state-country display-block">' +
+    '<span class="state">{{ address.state }}</span>,' +
+    '<span class="country">{{ address.country }}</span><br>' +
+    '<span class="phone"><abbr title="Phone">P:</abbr> {{ address.phone }}</span>' +
+    '</div>' +
+    '</li>' +
+    '</ul>' +
+    '<em v-else>No Addresses found, add an address to a Vendor to select it here.</em>' +
+    '</div>' +
+    '</div>' +
+    '<div class="single-address clickable selected" v-show="selected">' +
+    '<div class="change-overlay" @click="remove">' +
+    '<i class="fa fa-close"></i>' +
+    '<h3>Remove</h3>' +
+    '</div>' +
+    '<span class="contact_person display-block" v-if="selected.contact_person">{{ selected.contact_person }}</span>' +
+    '<span class="address_1 display-block">{{ selected.address_1 }}</span>' +
+    '<span class="address_2 display-block" v-if="selected.address_2">{{ selected.address_2 }}</span>' +
+    '<span class="city">{{ selected.city }}</span>,' +
+    '<span class="zip">{{ selected.zip }}</span>' +
+    '<div class="state-country display-block">' +
+    '<span class="state">{{ selected.state }}</span>,' +
+    '<span class="country">{{ selected.country }}</span><br>' +
+    '<span class="phone"><abbr title="Phone">P:</abbr> {{ selected.phone }}</span>' +
+    '</div>' +
+    '</div>',
+    data: function () {
+        return {
+            visible: false
+        };
+    },
+    props: ['selected', 'addresses'],
+    computed: {},
+    methods: {
+        showModal: function () {
+            this.visible = true;
+        },
+        hideModal: function () {
+            this.visible = false;
+        },
+        select: function (address) {
+            this.selected = address;
+            this.hideModal();
+        },
+        remove: function () {
+            this.selected = '';
+        }
+    },
+    events: {},
+    ready: function () {
+
+    }
+});
+Vue.component('modal-select-bank-account', {
+    name: 'modalSelectBankAccount',
+    template: '<button type="button" v-show="! selected" class="btn button-select-account btn-outline-blue" @click="showModal">Select Bank Account</button>' +
+    '<div class="modal-select-account modal-overlay" v-show="visible" @click="hideModal">' +
+    '<div class="modal-body" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '<h3>Select a Bank Account</h3>' +
+    '<ul class="list-unstyled list-accounts" v-if="accounts.length > 0">' +
+    '<li class="single-account clickable" v-for="account in accounts" @click="select(account)">' +
+    '<span class="account-name">{{ account.account_name }}</span>' +
+    '<span class="account-number">{{ account.account_number }}</span>' +
+    '<span class="bank-name">{{ account.bank_name }}</span>' +
+    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ account.bank_phone }}</span>' +
+    '<span class="bank-address" v-if="account.bank_address">{{ account.bank_address }}</span>' +
+    '<span class="swift" v-if="account.swift">SWIFT / IBAN: {{ account.swift }}</span>' +
+    '</li>' +
+    '</ul>' +
+    '<em v-else>No Bank Accounts found. Add one to Vendor before selecting it here.</em>' +
+    '</div>' +
+    '</div>' +
+    '<div class="single-account clickable selected" v-show="selected">' +
+    '<div class="change-overlay" @click="remove">' +
+    '<i class="fa fa-close"></i>' +
+    '<h3>Remove</h3>' +
+    '</div>' +
+    '<span class="account-name">{{ selected.account_name }}</span>' +
+    '<span class="account-number">{{ selected.account_number }}</span>' +
+    '<span class="bank-name">{{ selected.bank_name }}</span>' +
+    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ selected.bank_phone }}</span>' +
+    '<span class="bank-address" v-if="selected.bank_address">{{ selected.bank_address }}</span>' +
+    '<span class="swift" v-if="selected.swift">SWIFT / IBAN: {{ selected.swift }}</span>' +
+    '</div>',
+    data: function () {
+        return {
+            visible: false
+        };
+    },
+    props: ['selected', 'accounts'],
+    methods: {
+        showModal: function () {
+            this.visible = true;
+        },
+        hideModal: function () {
+            this.visible = false;
+        },
+        select: function (account) {
+            this.selected = account;
+            this.hideModal();
+        },
+        remove: function () {
+            this.selected = '';
+        }
+    },
+    events: {},
+    ready: function () {
+
+    }
+});
+Vue.component('registration-popup', {
+    name: 'registration-popup',
+    el: function () {
+        return '#registration-popup'
+    },
+    data: function () {
+        return {
+            showRegisterPopup: false,
+            companyName: '',
+            validCompanyName: 'unfilled',
+            companyNameError: '',
+            email: '',
+            validEmail: 'unfilled',
+            emailError: '',
+            password: '',
+            validPassword: 'unfilled',
+            name: '',
+            validName: 'unfilled',
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        toggleShowRegistrationPopup: function () {
+            this.showRegisterPopup = !this.showRegisterPopup;
+        },
+        checkCompanyName: function () {
+            var self = this;
+            self.validCompanyName = 'unfilled';
+            if (self.companyName.length > 0) {
+                // No symbols in name
+                if (!alphaNumeric(self.companyName)) {
+                    self.validCompanyName = false;
+                    self.companyNameError = 'Company name cannot contain symbols';
+                    return;
+                }
+                self.validCompanyName = 'loading';
+                if (!self.ajaxReady) return;
+                self.ajaxReady = false;
+                $.ajax({
+                    url: '/api/company/profile/' + encodeURI(self.companyName),
+                    method: '',
+                    success: function (data) {
+                        // success
+                        if (!_.isEmpty(data)) {
+                            self.validCompanyName = false;
+                            self.companyNameError = 'That Company name is already taken'
+                        } else {
+                            self.validCompanyName = true;
+                            self.companyNameError = '';
+                        }
+                        self.ajaxReady = true;
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        self.ajaxReady = true;
+                    }
+                });
+            }
+        },
+        checkEmail: function () {
+            var self = this;
+            self.validEmail = 'unfilled';
+            if (self.email.length > 0) {
+                if (validateEmail(self.email)) {
+                    self.validEmail = 'loading';
+                    if (!self.ajaxReady) return;
+                    self.ajaxReady = false;
+                    $.ajax({
+                        url: '/api/user/email/' + self.email + '/check',
+                        method: 'GET',
+                        success: function (data) {
+                            // success
+                            if (data) {
+                                self.validEmail = true;
+                                self.emailError = '';
+                            }
+                            self.ajaxReady = true;
+                        },
+                        error: function (response) {
+                            console.log(response);
+                            self.ajaxReady = true;
+                            self.validEmail = false;
+                            self.emailError = 'Account already exists for that email';
+                        }
+                    });
+                } else {
+                    self.validEmail = false;
+                    self.emailError = 'Invalid email format - you@example.com';
+                }
+            }
+        },
+        checkPassword: function () {
+            this.validPassword = 'unfilled';
+            if (this.password.length > 0) {
+                this.validPassword = (this.password.length >= 6);
+            }
+        },
+        checkName: function () {
+            this.validName = this.name.length > 0 ? true : 'unfilled';
+        },
+        registerNewCompany: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/company',
+                method: 'POST',
+                data: {
+                    company_name: self.companyName,
+                    name: self.name,
+                    email: self.email,
+                    password: self.password
+                },
+                success: function (data) {
+                    // success
+                    window.location.href = "/dashboard";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+});
+Vue.component('side-menu', {
+    name: 'sideMenu',
+    el: function () {
+        return '#side-menu'
+    },
+    data: function () {
+        return {
+            show: false,
+            userPopup: false,
+            userInitials: '',
+            companyName: '',
+            finishedCompiling: false
+        };
+    },
+    props: ['user'],
+    computed: {},
+    methods: {
+        toggleUserPopup: function() {
+            this.userPopup = !this.userPopup;
+        }
+    },
+    events: {
+        'toggle-side-menu': function() {
+            this.show = !this.show;
+        },
+        'hide-side-menu': function() {
+            this.show = false;
+        }
+    },
+    ready: function () {
+        var self = this;
+        $(window).on('resize', _.debounce(function() {
+            if($(window).width() > 1670) self.show = false;
+        }, 50));
+
+        // To hide popup
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.user-popup').length && !$(event.target).is('.user-popup')) {
+                self.userPopup = false;
+            }
+        });
+
+        // When user prop is loaded
+        self.$watch('user', function (user) {
+            // set initials
+            var names = user.name.split(' ');
+            self.userInitials = names.map(function (name, index) {
+                if(index === 0 || index === names.length - 1) return name.charAt(0);
+            }).join('');
+            // set name
+            self.companyName = user.company.name;
+            // set flag
+            self.finishedCompiling = true;
+        });
+    }
+});
+Vue.component('state-selecter', {
+    name: 'stateSelecter',
+    template: '<select class="state-selecter"><option></option></select>',
+    data: function () {
+        return {};
+    },
+    props: ['name', 'listen', 'event', 'default'],
+    computed: {},
+    methods: {},
+    ready: function () {
+        var xhr,
+            select_state,
+            self = this,
+            listenEvent = self.listen || 'selected-country';
+
+        $select_state = $(self.$el).selectize({
+            valueField: 'name',
+            labelField: 'name',
+            searchField: ['name'],
+            placeholder: 'State',
+            create: true,
+            onChange: function (value) {
+                self.name = value;
+                var selectedEventName = self.event || 'selected-state';
+                vueEventBus.$emit(selectedEventName);
+            }
+        });
+
+        select_state = $select_state[0].selectize;
+
+        window.select_state = $select_state[0].selectize;
+
+
+        vueEventBus.$on(listenEvent, function (value) {
+            select_state.disable();
+            select_state.clearOptions();
+            select_state.load(function (callback) {
+                // Jump queue
+                if (!_.isEmpty(xhr) && xhr.readyState != 4) xhr.abort();
+                // Fire req
+                xhr = $.ajax({
+                    url: '/countries/' + value + '/states',
+                    success: function (results) {
+                        select_state.enable();
+                        callback(results);
+                    },
+                    error: function () {
+                        callback();
+                    }
+                })
+            });
+        });
+
+        self.$watch('default', function (state) {
+            select_state.createItem(state);
+        });
+    }
+});
+Vue.component('team-member-selecter', {
+    name: 'teamMemberSelecter',
+    template: '<select class="team-member-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.team-member-search-selecter').selectize({
+            valueField: 'id',
+            searchField: 'name',
+            create: false,
+            placeholder: 'Search for Team Member',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-name">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/team/members/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
+    }
+});
+Vue.component('user-projects-selecter', {
+    name: 'userProjectsSelecter',
+    template: '<select-picker :options="projects" ' +
+    '               :name.sync="name"'+
+    '               :placeholder="' + "'Pick a Project...'" + '">' +
+    '           </select-picker>',
+    data: function() {
+        return {
+            projects: []
+        };
+    },
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $.ajax({
+            url: '/api/user/projects',
+            method: 'GET',
+            success: function (data) {
+                // success
+                self.projects = _.map(data, function (project) {
+                    if (project.name) {
+                        project.value = project.id;
+                        project.label = strCapitalize(project.name);
+                        return project;
+                    }
+                });
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+});
+Vue.component('vendor-connection', {
+    name: 'vendorConnection',
+    template: '<span class="vendor-connection {{ vendor.linked_company.connection }}">{{ vendor.linked_company.connection }}</span>',
+    props: ['vendor']
+});
+Vue.component('vendor-selecter', {
+    name: 'vendorSelecter',
+    template: '<select class="vendor-search-selecter">' +
+    '<option></option>' +
+    '</select>',
+    props: ['name'],
+    ready: function() {
+        var self = this;
+        $('.vendor-search-selecter').selectize({
+            valueField: 'id',
+            searchField: 'name',
+            maxItems: 1,
+            create: false,
+            placeholder: 'Search for vendor',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-vendor-option">' + escape(item.name) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-vendor">' + escape(item.name) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/vendors/search/' + encodeURI(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.name = value;
+            }
+        });
     }
 });
 Vue.component('add-address-modal', {
@@ -1777,665 +2561,6 @@ Vue.component('single-pr-modal', {
 });
 
 
-Vue.component('company-search-selecter', {
-    name: 'companySearchSelecter',
-    template: '<select class="company-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.company-search-selecter').selectize({
-            valueField: 'id',
-            searchField: ['name'],
-            create: false,
-            placeholder: 'Search by Company Name',
-            render: {
-                option: function (item, escape) {
-
-                    var optionClass = 'class="option company-single-option ',
-                        connectionSpan;
-
-                    switch (item.connection) {
-                        case 'pending':
-                            optionClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
-                            break;
-                        case 'verified':
-                            optionClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
-                            break;
-                        default:
-                            optionClass += '"';
-                            connectionSpan = '';
-                    }
-
-
-                    return '<div ' + optionClass +'>' +
-                        '       <span class="name">' + escape(item.name) + '</span>' +
-                        connectionSpan +
-                        '   </div>'
-                },
-                item: function (item, escape) {
-
-                    var selectedClass = 'class="company-selected ',
-                        connectionSpan;
-
-                    switch (item.connection) {
-                        case 'pending':
-                            selectedClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection pending">pending</span>';
-                            break;
-                        case 'verified':
-                            selectedClass += 'disabled"';
-                            connectionSpan = '<span class="vendor-connection verified">verified</span>';
-                            break;
-                        default:
-                            selectedClass += '"';
-                            connectionSpan = '';
-                    }
-
-                    return '<div ' + selectedClass + '>' +
-                        '           <label>Selected Company</label>' +
-                        '           <div class="name">' + escape(item.name) +
-                        connectionSpan +
-                        '           </div>' +
-                        '           <span class="description">' + escape(item.description) + '</span>' +
-                        '       </div>' +
-                        '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/company/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('country-selecter', {
-    name: 'countrySelecter',
-    template: '<select class="country-selecter"><option></option></select>',
-    data: function() {
-        return {
-
-        };
-    },
-    props: ['name', 'event', 'default'],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-        var self = this,
-            select_country;
-        $select_country = $(self.$el).selectize({
-            valueField: 'id',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Country',
-            render: {
-                option: function (item, escape) {
-                    return '<div class="single-country-option">' + escape(item.name) + '</div>'
-                },
-                item: function (item, escape) {
-                    return '<div class="selected-country">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/countries/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                if (!value.length) return;
-
-                // Update the name prop to pass data onto parent component
-                self.name = value;
-
-                var eventName = self.event || 'selected-country';
-                // Fire event
-                vueEventBus.$emit(eventName, value);
-            }
-        });
-
-        select_country = $select_country[0].selectize;
-        // IF we got a default country ID
-        self.$watch('default', function (countryID) {
-            // fetch associated country
-            $.get('/countries/' + countryID, function(data) {
-                // Add option
-                select_country.addOption(data);
-
-                // Select the option - we set to silent because there may be other
-                // selecters watching this one for changes, and they may have
-                // their own default values: ie. state-selecter
-                select_country.setValue(countryID, true);
-
-                // Update the name value
-                self.name = countryID;
-            });
-        });
-    }
-});
-Vue.component('currency-selecter', {
-    name: 'currencySelecter',
-    template: '<select class="currency-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name', 'default'],
-    ready: function() {
-        var self = this;
-        var selecter = $('.currency-selecter').selectize({
-            valueField: 'id',
-            searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
-            create: false,
-            placeholder: 'Search for a currency',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="option-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol)  + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/countries/currency/search/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-                self.$dispatch('changed-currency', value);
-            }
-        });
-
-        // Setting the default (company's saved) currency
-        var _selecter = selecter[0].selectize;
-        this.$watch('default', function (value) {
-            _selecter.addOption(value);
-            _selecter.setValue(value.id);
-        });
-    }
-});
-Vue.component('item-brand-selecter', {
-    name: 'itemBrandSelecter',
-    template: '<select class="item-brand-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.item-brand-search-selecter').selectize({
-            valueField: 'brand',
-            searchField: 'brand',
-            create: false,
-            placeholder: 'Search for a brand',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/brands/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('item-name-selecter', {
-    name: 'itemNameSelecter',
-    template: '<select class="item-name-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.item-name-search-selecter').selectize({
-            valueField: 'name',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Search for a name',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-name">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/names/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('registration-popup', {
-    name: 'registration-popup',
-    el: function () {
-        return '#registration-popup'
-    },
-    data: function () {
-        return {
-            showRegisterPopup: false,
-            companyName: '',
-            validCompanyName: 'unfilled',
-            companyNameError: '',
-            email: '',
-            validEmail: 'unfilled',
-            emailError: '',
-            password: '',
-            validPassword: 'unfilled',
-            name: '',
-            validName: 'unfilled',
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        toggleShowRegistrationPopup: function () {
-            this.showRegisterPopup = !this.showRegisterPopup;
-        },
-        checkCompanyName: function () {
-            var self = this;
-            self.validCompanyName = 'unfilled';
-            if (self.companyName.length > 0) {
-                // No symbols in name
-                if (!alphaNumeric(self.companyName)) {
-                    self.validCompanyName = false;
-                    self.companyNameError = 'Company name cannot contain symbols';
-                    return;
-                }
-                self.validCompanyName = 'loading';
-                if (!self.ajaxReady) return;
-                self.ajaxReady = false;
-                $.ajax({
-                    url: '/api/company/profile/' + encodeURI(self.companyName),
-                    method: '',
-                    success: function (data) {
-                        // success
-                        if (!_.isEmpty(data)) {
-                            self.validCompanyName = false;
-                            self.companyNameError = 'That Company name is already taken'
-                        } else {
-                            self.validCompanyName = true;
-                            self.companyNameError = '';
-                        }
-                        self.ajaxReady = true;
-                    },
-                    error: function (response) {
-                        console.log(response);
-                        self.ajaxReady = true;
-                    }
-                });
-            }
-        },
-        checkEmail: function () {
-            var self = this;
-            self.validEmail = 'unfilled';
-            if (self.email.length > 0) {
-                if (validateEmail(self.email)) {
-                    self.validEmail = 'loading';
-                    if (!self.ajaxReady) return;
-                    self.ajaxReady = false;
-                    $.ajax({
-                        url: '/api/user/email/' + self.email + '/check',
-                        method: 'GET',
-                        success: function (data) {
-                            // success
-                            if (data) {
-                                self.validEmail = true;
-                                self.emailError = '';
-                            }
-                            self.ajaxReady = true;
-                        },
-                        error: function (response) {
-                            console.log(response);
-                            self.ajaxReady = true;
-                            self.validEmail = false;
-                            self.emailError = 'Account already exists for that email';
-                        }
-                    });
-                } else {
-                    self.validEmail = false;
-                    self.emailError = 'Invalid email format - you@example.com';
-                }
-            }
-        },
-        checkPassword: function () {
-            this.validPassword = 'unfilled';
-            if (this.password.length > 0) {
-                this.validPassword = (this.password.length >= 6);
-            }
-        },
-        checkName: function () {
-            this.validName = this.name.length > 0 ? true : 'unfilled';
-        },
-        registerNewCompany: function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/company',
-                method: 'POST',
-                data: {
-                    company_name: self.companyName,
-                    name: self.name,
-                    email: self.email,
-                    password: self.password
-                },
-                success: function (data) {
-                    // success
-                    window.location.href = "/dashboard";
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-});
-Vue.component('side-menu', {
-    name: 'sideMenu',
-    el: function () {
-        return '#side-menu'
-    },
-    data: function () {
-        return {
-            show: false,
-            userPopup: false,
-            userInitials: '',
-            companyName: '',
-            finishedCompiling: false
-        };
-    },
-    props: ['user'],
-    computed: {},
-    methods: {
-        toggleUserPopup: function() {
-            this.userPopup = !this.userPopup;
-        }
-    },
-    events: {
-        'toggle-side-menu': function() {
-            this.show = !this.show;
-        },
-        'hide-side-menu': function() {
-            this.show = false;
-        }
-    },
-    ready: function () {
-        var self = this;
-        $(window).on('resize', _.debounce(function() {
-            if($(window).width() > 1670) self.show = false;
-        }, 50));
-
-        // To hide popup
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.user-popup').length && !$(event.target).is('.user-popup')) {
-                self.userPopup = false;
-            }
-        });
-
-        // When user prop is loaded
-        self.$watch('user', function (user) {
-            // set initials
-            var names = user.name.split(' ');
-            self.userInitials = names.map(function (name, index) {
-                if(index === 0 || index === names.length - 1) return name.charAt(0);
-            }).join('');
-            // set name
-            self.companyName = user.company.name;
-            // set flag
-            self.finishedCompiling = true;
-        });
-    }
-});
-Vue.component('state-selecter', {
-    name: 'stateSelecter',
-    template: '<select class="state-selecter"><option></option></select>',
-    data: function () {
-        return {};
-    },
-    props: ['name', 'listen', 'event', 'default'],
-    computed: {},
-    methods: {},
-    ready: function () {
-        var xhr,
-            select_state,
-            self = this,
-            listenEvent = self.listen || 'selected-country';
-
-        $select_state = $(self.$el).selectize({
-            valueField: 'name',
-            labelField: 'name',
-            searchField: ['name'],
-            placeholder: 'State',
-            create: true,
-            onChange: function (value) {
-                self.name = value;
-                var selectedEventName = self.event || 'selected-state';
-                vueEventBus.$emit(selectedEventName);
-            }
-        });
-
-        select_state = $select_state[0].selectize;
-
-        window.select_state = $select_state[0].selectize;
-
-
-        vueEventBus.$on(listenEvent, function (value) {
-            select_state.disable();
-            select_state.clearOptions();
-            select_state.load(function (callback) {
-                // Jump queue
-                if (!_.isEmpty(xhr) && xhr.readyState != 4) xhr.abort();
-                // Fire req
-                xhr = $.ajax({
-                    url: '/countries/' + value + '/states',
-                    success: function (results) {
-                        select_state.enable();
-                        callback(results);
-                    },
-                    error: function () {
-                        callback();
-                    }
-                })
-            });
-        });
-
-        self.$watch('default', function (state) {
-            select_state.createItem(state);
-        });
-    }
-});
-Vue.component('team-member-selecter', {
-    name: 'teamMemberSelecter',
-    template: '<select class="team-member-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.team-member-search-selecter').selectize({
-            valueField: 'id',
-            searchField: 'name',
-            create: false,
-            placeholder: 'Search for Team Member',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-name-option">' + escape(item.name) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-name">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/team/members/search/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
-Vue.component('user-projects-selecter', {
-    name: 'userProjectsSelecter',
-    template: '<select-picker :options="projects" ' +
-    '               :name.sync="name"'+
-    '               :placeholder="' + "'Pick a Project...'" + '">' +
-    '           </select-picker>',
-    data: function() {
-        return {
-            projects: []
-        };
-    },
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $.ajax({
-            url: '/api/user/projects',
-            method: 'GET',
-            success: function (data) {
-                // success
-                self.projects = _.map(data, function (project) {
-                    if (project.name) {
-                        project.value = project.id;
-                        project.label = strCapitalize(project.name);
-                        return project;
-                    }
-                });
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
-    }
-});
-Vue.component('vendor-connection', {
-    name: 'vendorConnection',
-    template: '<span class="vendor-connection {{ vendor.linked_company.connection }}">{{ vendor.linked_company.connection }}</span>',
-    props: ['vendor']
-});
-Vue.component('vendor-selecter', {
-    name: 'vendorSelecter',
-    template: '<select class="vendor-search-selecter">' +
-    '<option></option>' +
-    '</select>',
-    props: ['name'],
-    ready: function() {
-        var self = this;
-        $('.vendor-search-selecter').selectize({
-            valueField: 'id',
-            searchField: 'name',
-            maxItems: 1,
-            create: false,
-            placeholder: 'Search for vendor',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-vendor-option">' + escape(item.name) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-vendor">' + escape(item.name) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/vendors/search/' + encodeURI(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.name = value;
-            }
-        });
-    }
-});
 Vue.component('modal-close-button', {
     name: 'modalClose',
     template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',

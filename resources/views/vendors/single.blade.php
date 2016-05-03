@@ -15,7 +15,7 @@
                     }"
                         >Description</h5>
                         <div class="form-group">
-                            <p v-if="description.length > 0" @click="startEditDescription" v-show="! editDescription"
+                            <p v-if="description" @click="startEditDescription" v-show="! editDescription"
                             >@{{ vendor.description }}</p>
                             <span v-else class="no-description" @click="startEditDescription" v-show="! editDescription"
                             >
@@ -26,7 +26,7 @@
                         </div>
                         @else
                             <h5>Description</h5>
-                            <p v-if="vendor.description && vendor.description.length > 0">
+                            <p v-if="vendor.description">
                                 @{{ vendor.description }}
                             </p>
                             <span v-else class="no-description">None</span>
@@ -61,7 +61,7 @@
                             <add-bank-account-modal :vendor.sync="vendor"></add-bank-account-modal>
                         </div>
                         <div class="bank-accounts-collection"
-                             v-if="vendor.bank_accounts && vendor.bank_accounts.length > 0"
+                             v-if="vendor.bank_accounts.length > 0"
                         >
 
                             <div class="single-bank-account" v-for="account in vendor.bank_accounts">
@@ -118,7 +118,7 @@
                         </div>
                         <div v-else class="empty-stage">
                             <i class="fa fa-bank"></i>
-                            <h3>No Accounts Found</h3>
+                            <h4>No Accounts Found</h4>
                             <p>Add a bank account to a vendor and for effortless payments of purchase orders</p>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                 @can('edit', $vendor)
                 <add-address-modal :owner-id="{{ $vendor->id }}" :owner-type="'vendor'"></add-address-modal>
                 @endcan
-                <div class="addresses-collection" v-if="vendor.addresses && vendor.addresses.length > 0">
+                <div class="addresses-collection" v-if="vendor.addresses.length > 0">
                     <div class="address-row">
                         <div class="single-address"
                              v-for="address in vendor.addresses"

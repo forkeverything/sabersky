@@ -16,7 +16,7 @@
                     </ul>
                     <div class="empty-stage" v-else>
                         <i class="fa fa-rocket"></i>
-                        <h3>No pending vendor requests at this time</h3>
+                        <h4>No pending vendor requests at this time</h4>
                         <p>Ask your customers to register on SaberSky and link you as a vendor for more integrated and
                             efficient transactions.</p>
                     </div>

@@ -18,9 +18,10 @@ Vue.component('purchase-orders-submit', {
             lineItems: [],
             vendorID: '',
             vendor: {
-                linked_company: {}
+                linked_company: {},
+                bank_accounts: [],
+                addresses: []
             },
-            addressID: '',
             selectedAddress: '',
             currencyID: '',
             currencySymbol: '',
@@ -40,7 +41,8 @@ Vue.component('purchase-orders-submit', {
             shippingCity: '',
             shippingZip: '',
             shippingCountryID: '',
-            shippingState: ''
+            shippingState: '',
+            selectedBankAccount: ''
         };
     },
     props: ['user'],

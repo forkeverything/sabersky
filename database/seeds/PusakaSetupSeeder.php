@@ -1,6 +1,7 @@
 <?php
 
 use App\Address;
+use App\BankAccount;
 use App\Company;
 use App\Item;
 use App\Project;
@@ -67,43 +68,57 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         $user->projects()->save($project);
 
         // Vendors
-        $verifiedVendors = factory(Vendor::class, 3)->create([
-            'base_company_id' => 1,
-            'verified' => 1
-        ]);
 
-        foreach ($verifiedVendors as $vendor) {
-            factory(Address::class)->create([
-                'owner_id' => $vendor->linkedCompany->id,
-                'owner_type' => 'company'
+            // Verified vendors
+            $verifiedVendors = factory(Vendor::class, 3)->create([
+                'base_company_id' => 1,
+                'verified' => 1
             ]);
-        }
 
-        $pendingVendors = factory(Vendor::class, 2)->create([
-            'base_company_id' => 1,
-            'verified' => 0
-        ]);
+            foreach ($verifiedVendors as $vendor) {
+                factory(Address::class)->create([
+                    'owner_id' => $vendor->linkedCompany->id,
+                    'owner_type' => 'company'
+                ]);
+                factory(BankAccount::class, 3)->create([
+                    'vendor_id' => $vendor->id
+                ]);
+            }
 
-        foreach ($pendingVendors as $vendor) {
-            factory(Address::class)->create([
-                'owner_id' => $vendor->id
+            // Pending Vendors
+            $pendingVendors = factory(Vendor::class, 2)->create([
+                'base_company_id' => 1,
+                'verified' => 0,
             ]);
-            factory(Address::class)->create([
-                'owner_id' => $vendor->linkedCompany->id,
-                'owner_type' => 'company'
+
+            foreach ($pendingVendors as $vendor) {
+                factory(Address::class)->create([
+                    'owner_id' => $vendor->id
+                ]);
+                factory(Address::class)->create([
+                    'owner_id' => $vendor->linkedCompany->id,
+                    'owner_type' => 'company'
+                ]);
+                factory(BankAccount::class, 2)->create([
+                    'vendor_id' => $vendor->id
+                ]);
+            }
+
+            // Custom Vendor
+            $customVendor = factory(Vendor::class)->create([
+                'base_company_id' => 1,
+                'linked_company_id' => null
             ]);
-        }
 
-        $customVendor = factory(Vendor::class)->create([
-            'base_company_id' => 1,
-            'linked_company_id' => null
-        ]);
+            factory(Address::class, 3)->create([
+                'owner_id' => $customVendor->id
+            ]);
 
-        factory(Address::class, 3)->create([
-            'owner_id' => $customVendor->id
-        ]);
+            factory(BankAccount::class, 1)->create([
+                'vendor_id' => $customVendor->id
+            ]);
 
-        // Purchase Requests
+            // Purchase Requests
             factory(\App\PurchaseRequest::class, 10)->create([
                 'state' => 'open',
                 'project_id' => 1,

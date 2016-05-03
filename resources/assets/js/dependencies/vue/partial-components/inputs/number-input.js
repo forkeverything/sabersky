@@ -11,7 +11,7 @@ Vue.component('number-input', {
                 if(this.model === 0) return 0;
                 if(! this.model) return;
                 if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return this.model;
+                return accounting.formatNumber(this.model, this.precision, ",");
             },
             set: function(newVal) {
                 // Acts like a 2 way filter

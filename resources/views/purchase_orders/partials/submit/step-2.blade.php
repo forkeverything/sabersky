@@ -7,49 +7,27 @@
     <div class="row flexing">
         <div class="col-sm-4">
             <div class="page-body vendor-details">
-                <h5>Vendor</h5>
-                <div class="name-group">
-                    <label>Name</label>
+                <h3>Vendor</h3>
+                <div class="name-group form-">
+                    <h5>Name</h5>
                     <div class="name">
                         @{{ vendor.name }}
                         <vendor-connection :vendor="vendor"></vendor-connection>
                     </div>
                 </div>
                 <div class="address-selection">
-                    <label v-if="! selectedAddress" class="required">Addresses</label>
-                    <label v-else>Selected Address</label>
-                    <ul class="list-unstyled list-address">
-                        <li class="single-address clickable"
-                            v-for="address in vendorAddresses"
-                        @click="selectAddress(address)"
-                        v-show="! selectedAddress || selectedAddress == address"
-                        :class="{
-                                'selected': selectedAddress == address
-                            }"
-                        >
-                        <div class="change-overlay">
-                            <i class="fa fa-repeat"></i>
-                            <h3>Change</h3>
-                        </div>
-                        <span class="contact_person display-block"
-                              v-if="address.contact_person">@{{ address.contact_person }}</span>
-                        <span class="phone"><em>Phone:</em> @{{ address.phone }}</span>
-                        <span class="address_1 display-block">@{{ address.address_1 }}</span>
-                                    <span class="address_2 display-block"
-                                          v-if="address.address_2">@{{ address.address_2 }}</span>
-                        <span class="city">@{{ address.city }}</span>,
-                        <div class="zip">@{{ address.zip }}</div>
-                        <div class="state-country display-block">
-                            <span class="state">@{{ address.state }}</span>,
-                            <span class="country">@{{ address.country }}</span>
-                        </div>
-                        </li>
-                    </ul>
+                    <h5>Address</h5>
+                    <modal-select-address :selected.sync="selectedAddress" :addresses.sync="vendorAddresses"></modal-select-address>
+                </div>
+                <div class="bank-selection">
+                    <h5>Bank Account</h5>
+                    <modal-select-bank-account :selected.sync="selectedBankAccount" :accounts.sync="vendor.bank_accounts"></modal-select-bank-account>
                 </div>
             </div>
         </div>
         <div class="col-sm-8">
             <div class="page-body order-details">
+                <h3>Order</h3>
                 <div class="currency-selection section">
                     <h5>
                         Currency
@@ -225,7 +203,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="item-details page-body">
-                <h5>Items</h5>
+                <h3>Items</h3>
                 <div class="table-responsive">
                     <!-- Line Items Table -->
                     <table class="table table-standard table-items">

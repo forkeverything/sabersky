@@ -4,9 +4,9 @@
             @include('purchase_orders.partials.submit.select-vendor')
         </div>
         <div class="page-body select-pr">
-            <h5>Search For Requests</h5>
+            <h3>Search For Requests</h3>
             <div class="project-selecter">
-                <label class="display-block">Project</label>
+                <h5>Project</h5>
                 <user-projects-selecter :name.sync="projectID"></user-projects-selecter>
             </div>
             @include('purchase_orders.partials.submit.select-pr')
@@ -14,10 +14,11 @@
     </div>
     <div class="col-sm-4">
         <div class="page-body vendor hidden-xs">
+            <h3>Vendor</h3>
             @include('purchase_orders.partials.submit.select-vendor')
         </div>
         <div class="page-body line-items">
-            <h5>Selected Items</h5>
+            <h3>Selected Items</h3>
             <div class="table-responsive line-items-container" v-show="hasLineItems">
                 <!-- Line Items Table -->
                 <table class="table table-standard table-striped">
@@ -47,7 +48,7 @@
             <div class="empty-stage" v-else>
                 <i class="fa fa-arrow-circle-left hidden-xs"></i>
                 <i class="fa fa-arrow-circle-up visible-xs"></i>
-                <h3>No Items Added</h3>
+                <h4>No Items Added</h4>
                 <p>Add items by selecting some requests</p>
             </div>
             <div class="line-items-control" v-show="hasLineItems">

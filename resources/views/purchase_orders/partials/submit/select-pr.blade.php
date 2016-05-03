@@ -4,7 +4,7 @@
      }"
 >
     <div class="overlay"></div>
-    <label class="display-block">Purchase Requests</label>
+    <h5>Purchase Requests</h5>
     <div class="pr-controls">
         <form class="form-pr-search" @submit.prevent="searchPurchaseRequests">
             <input class="form-control input-item-search"
@@ -112,7 +112,7 @@
     </div>
     <div class="empty-stage" v-else>
         <i class="fa  fa-hand-rock-o"></i>
-        <h3>No Purchase Requests</h3>
+        <h4>No Purchase Requests</h4>
         <p>We couldn't find any requests to fulfill. Try selecting a different Project or <a
                     class="dotted clickable" @click="clearSearch">clear</a> the search.</p>
     </div>

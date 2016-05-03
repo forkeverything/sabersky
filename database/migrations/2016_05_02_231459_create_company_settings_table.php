@@ -18,6 +18,8 @@ class CreateCompanySettingsTable extends Migration
 
 
             $table->boolean('po_requires_bank_account')->default(1);
+            $table->boolean('po_requires_address')->default(1);
+
             $table->integer('currency_decimal_points')->default(2);
             $table->integer('currency_id')->unsigned()->default('840');
             $table->foreign('currency_id')->references('id')->on('countries')->onDelete('cascade');

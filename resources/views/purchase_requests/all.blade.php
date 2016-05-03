@@ -108,7 +108,7 @@
                 </div>
                 <div class="no-purchase-requests empty-stage" v-else>
                     <i class="fa fa-shopping-basket"></i>
-                    <h3>Could not find any Purchase Requests</h3>
+                    <h4>Could not find any Purchase Requests</h4>
                     <p>Try changing filters or <a class="dotted clickable" @click="removeAllFilters">removing all</a> filters to see more requests.</p>
                 </div>
 
