@@ -23,8 +23,7 @@ Vue.component('purchase-orders-submit', {
                 addresses: []
             },
             selectedAddress: '',
-            currencyID: '',
-            currencySymbol: '',
+            currency: '',
             billingContactPerson: '',
             billingPhone: '',
             billingAddress1: '',
@@ -42,7 +41,17 @@ Vue.component('purchase-orders-submit', {
             shippingZip: '',
             shippingCountryID: '',
             shippingState: '',
-            selectedBankAccount: ''
+            selectedBankAccount: '',
+            additionalCosts: [
+                {
+                    name: '',
+                    type: '',
+                    amount: ''
+                }
+            ],
+            newCostName: '',
+            newCostType: '',
+            newCostAmount: ''
         };
     },
     props: ['user'],
@@ -70,6 +79,25 @@ Vue.component('purchase-orders-submit', {
             // If we have addresses and a linked company - add the Company's address
             if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
             return vendorAddresses;
+        },
+        currencySymbol: function() {
+            return this.currency.currency_symbol;
+        },
+        orderSubtotal: function() {
+            var self = this;
+            var subtotal = 0;
+            if(! self.lineItems.length > 0) return;
+            _.forEach(self.lineItems, function (item) {
+                if(item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
+            });
+            return accounting.formatNumber(subtotal, self.user.company.settings.currency_decimal_points, ',');
+        },
+        orderTotal: function() {
+            var total = this.orderSubtotal
+            _.forEach(this.additionalCosts, function (cost) {
+                this.total += cost.amount;
+            }.bind(this));
+            return total;
         }
     },
     methods: {
@@ -191,12 +219,6 @@ Vue.component('purchase-orders-submit', {
     events: {
         'go-to-page': function (page) {
             this.fetchPurchaseRequests(page);
-        },
-        'changed-currency': function(countryID) {
-            var self = this;
-            $.get('/countries/' + countryID, function (data) {
-                self.currencySymbol = data.currency_symbol;
-            });
         }
     },
     ready: function () {

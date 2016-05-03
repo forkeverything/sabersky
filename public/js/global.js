@@ -208,4 +208,13 @@ function formatNumber(val) {
     //Combines the two sections
     return n.join(".");
 }
+
+/**
+ * Checks if a given value is a numeric (ie. a number)
+ * @param n
+ * @returns {boolean}
+ */
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
 //# sourceMappingURL=global.js.map

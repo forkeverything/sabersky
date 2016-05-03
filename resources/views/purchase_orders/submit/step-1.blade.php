@@ -1,7 +1,7 @@
 <div id="po-submit-1" v-show="step === 1" class="submit-step row animated" transition="slide">
     <div class="col-sm-8">
         <div class="page-body select-vendor visible-xs">
-            @include('purchase_orders.partials.submit.select-vendor')
+            @include('purchase_orders.submit.select-vendor')
         </div>
         <div class="page-body select-pr">
             <h3>Search For Requests</h3>
@@ -9,13 +9,13 @@
                 <h5>Project</h5>
                 <user-projects-selecter :name.sync="projectID"></user-projects-selecter>
             </div>
-            @include('purchase_orders.partials.submit.select-pr')
+            @include('purchase_orders.submit.select-pr')
         </div>
     </div>
     <div class="col-sm-4">
         <div class="page-body vendor hidden-xs">
             <h3>Vendor</h3>
-            @include('purchase_orders.partials.submit.select-vendor')
+            @include('purchase_orders.submit.select-vendor')
         </div>
         <div class="page-body line-items">
             <h3>Selected Items</h3>

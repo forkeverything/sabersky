@@ -30,6 +30,7 @@ class PusakaSetupSeeder extends Seeder
         ]);
 
         $company->settings()->update([
+            'currency_decimal_points' => 0,
             'currency_id' => 360
         ]);
 

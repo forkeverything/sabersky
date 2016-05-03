@@ -1,6 +1,6 @@
 Vue.component('modal-select-address', {
     name: 'modalSelectAddress',
-    template: '<button type="button" v-show="! selected" class="btn button-select-address btn-outline-blue" @click="showModal">Select Address</button>' +
+    template: '<button type="button" v-show="! selected" class="btn btn-small button-select-address btn-outline-blue" @click="showModal">Select Address</button>' +
     '<div class="modal-select-address modal-overlay" v-show="visible" @click="hideModal">' +
     '<div class="modal-body" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +

@@ -33,8 +33,9 @@ Vue.component('currency-selecter', {
                 });
             },
             onChange: function(value) {
-                self.name = value;
-                self.$dispatch('changed-currency', value);
+                $.get('/countries/' + value, function (data) {
+                    self.name = data;
+                });
             }
         });
 

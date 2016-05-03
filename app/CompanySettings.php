@@ -14,6 +14,7 @@ class CompanySettings extends Model
      */
     protected $fillable = [
         'po_requires_bank_account',
+        'po_requires_address',
         'currency_decimal_points',
         'currency_id',
         'company_id'

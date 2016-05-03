@@ -1,6 +1,6 @@
 .vendor-details {
 
-  >div {
+  > div {
     display: inline-block;
     width: 100%;
     margin: 0 0 30px;
@@ -33,7 +33,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: $text-muted;
+    color: $red;
     opacity: 0.6;
     @include border-radius(3px);
 
@@ -49,14 +49,20 @@
   .address-selection {
 
     .list-address {
-      margin: 0 0 -15px;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -10px -20px -10px;
+
+      .single-address {
+        @include flex-wrap-fix(500px, 2000px, 10px, 10px);
+        margin-bottom: 20px;
+      }
     }
 
     .single-address {
+      padding: 10px;
       border: 1px solid $border-light;
       @include border-radius(4px);
-      padding: 10px;
-      margin: 0 0 15px;
 
       .contact_person {
         font-weight: bold;
@@ -69,8 +75,6 @@
 
       &.selected {
         position: relative;
-        border-color: $green;
-        margin: 0;
         &:hover {
           .change-overlay {
             display: flex;
@@ -109,8 +113,6 @@
       margin: 0 -10px -20px -10px;
 
       .single-account {
-        border: 1px solid $grey;
-        padding: 10px;
         @include flex-wrap-fix(500px, 2000px, 10px, 10px);
         margin-bottom: 20px;
         &:hover {
@@ -119,13 +121,16 @@
       }
     }
 
-    .single-account.selected {
-      position:  relative;
-      border: 1px solid $blue;
+    .single-account {
+      border: 1px solid $grey;
       padding: 10px;
-      &:hover {
-        .change-overlay {
-          display: flex;
+
+      &.selected {
+        position: relative;
+        &:hover {
+          .change-overlay {
+            display: flex;
+          }
         }
       }
     }

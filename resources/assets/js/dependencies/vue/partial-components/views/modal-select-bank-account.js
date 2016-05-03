@@ -1,6 +1,6 @@
 Vue.component('modal-select-bank-account', {
     name: 'modalSelectBankAccount',
-    template: '<button type="button" v-show="! selected" class="btn button-select-account btn-outline-blue" @click="showModal">Select Bank Account</button>' +
+    template: '<button type="button" v-show="! selected" class="btn btn-small button-select-account btn-outline-blue" @click="showModal">Select Bank Account</button>' +
     '<div class="modal-select-account modal-overlay" v-show="visible" @click="hideModal">' +
     '<div class="modal-body" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
