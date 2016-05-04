@@ -63,7 +63,7 @@
                         <div class="input-group"
                              v-else
                         >
-                            <span class="input-group-addon" v-cloak>@{{ user.company.settings.currency.currency_symbol }}</span>
+                            <span class="input-group-addon" v-cloak>@{{ currencySymbol }}</span>
                             <input type="text"
                                    class="form-control input-rule-limit"
                                    v-model="ruleLimit | numberModel"

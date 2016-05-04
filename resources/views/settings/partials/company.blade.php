@@ -19,11 +19,11 @@
             </div>
             <div class="form-group">
                 <h5>Default Currency</h5>
-                <currency-selecter :name.sync="user.company.settings.currency_id" :default="user.company.settings.currency"></currency-selecter>
+                <currency-selecter :name.sync="userCurrency" :default="userCurrency"></currency-selecter>
             </div>
             <div class="form-group">
                 <h5>Money Decimal Places</h5>
-                <number-input :model.sync="user.company.settings.currency_decimal_points" :placeholder="'Decimals'" :class="['form-control']"></number-input>
+                <number-input :model.sync="currencyDecimalPoints" :placeholder="'Decimals'" :class="['form-control']"></number-input>
             </div>
             <div class="row">
                 <div class="col-xs-12 align-end">

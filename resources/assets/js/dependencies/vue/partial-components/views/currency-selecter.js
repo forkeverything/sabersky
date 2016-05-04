@@ -33,6 +33,7 @@ Vue.component('currency-selecter', {
                 });
             },
             onChange: function(value) {
+                if(! value) self.name = '';
                 $.get('/countries/' + value, function (data) {
                     self.name = data;
                 });
@@ -41,7 +42,12 @@ Vue.component('currency-selecter', {
 
         // Setting the default (company's saved) currency
         var _selecter = selecter[0].selectize;
-        this.$watch('default', function (value) {
+        var defaultCurrency;
+
+        self.$watch('default', function (value) {
+            // if we've already added it, return
+            if(defaultCurrency && defaultCurrency.id === value.id) return;
+            defaultCurrency = value;
             _selecter.addOption(value);
             _selecter.setValue(value.id);
         });

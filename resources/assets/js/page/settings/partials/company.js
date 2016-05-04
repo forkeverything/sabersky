@@ -4,20 +4,37 @@ Vue.component('settings-company', {
     el: function () {
         return '#settings-company';
     },
-    data: function() {
+    data: function () {
         return {
             ajaxReady: true,
             company: false
         }
     },
     props: [
-      'settingsView',
+        'settingsView',
         'user'
     ],
     computed: {
         canUpdateCompany: function () {
-                if(this.user) return this.user.company.name;
+            if (this.user) return this.user.company.name;
             return false;
+        },
+        userCurrency: {
+            get: function () {
+                return this.user.company.settings.currency;
+            },
+            set: function (newValue) {
+                // if we get a object
+                if (newValue !== null && typeof newValue === 'object') {
+                    // Update currency ID property (server persistence)
+                    this.user.company.settings.currency_id = newValue.id;
+                    // Update currency object (client)
+                    this.user.company.settings.currency = newValue;
+                }
+            }
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
         }
     },
     methods: {
@@ -49,7 +66,7 @@ Vue.component('settings-company', {
             });
         }
     },
-    ready: function() {
+    ready: function () {
         var self = this;
     }
 });

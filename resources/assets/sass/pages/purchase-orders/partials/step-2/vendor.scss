@@ -54,7 +54,7 @@
       margin: 0 -10px -20px -10px;
 
       .single-address {
-        @include flex-wrap-fix(500px, 2000px, 10px, 10px);
+        @include flex-wrap-fix(800px, 2000px, 10px, 10px);
         margin-bottom: 20px;
       }
     }
@@ -113,7 +113,7 @@
       margin: 0 -10px -20px -10px;
 
       .single-account {
-        @include flex-wrap-fix(500px, 2000px, 10px, 10px);
+        @include flex-wrap-fix(800px, 2000px, 10px, 10px);
         margin-bottom: 20px;
         &:hover {
           border-color: $blue;

@@ -748,6 +748,15 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number) {
+            return accounting.formatNumber(number, this.user.company.settings.currency_decimal_points, ',');
+        }
+    }
+};
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -1912,11 +1921,8 @@ Vue.component('country-selecter', {
                 });
             },
             onChange: function (value) {
-                if (!value.length) return;
-
                 // Update the name prop to pass data onto parent component
                 self.name = value;
-
                 var eventName = self.event || 'selected-country';
                 // Fire event
                 vueEventBus.$emit(eventName, value);
@@ -1977,6 +1983,7 @@ Vue.component('currency-selecter', {
                 });
             },
             onChange: function(value) {
+                if(! value) self.name = '';
                 $.get('/countries/' + value, function (data) {
                     self.name = data;
                 });
@@ -1985,7 +1992,12 @@ Vue.component('currency-selecter', {
 
         // Setting the default (company's saved) currency
         var _selecter = selecter[0].selectize;
-        this.$watch('default', function (value) {
+        var defaultCurrency;
+
+        self.$watch('default', function (value) {
+            // if we've already added it, return
+            if(defaultCurrency && defaultCurrency.id === value.id) return;
+            defaultCurrency = value;
             _selecter.addOption(value);
             _selecter.setValue(value.id);
         });

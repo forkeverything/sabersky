@@ -1,3 +1,94 @@
+Vue.component('add-line-item', {
+    name: 'addLineItem',
+    el: function () {
+        return '#add-line-item';
+    },
+    data: function () {
+        return {
+            purchaseRequests: [],
+            selectedPurchaseRequest: '',
+            quantity: '',
+            price: '',
+            payable: '',
+            delivery: '',
+            canAjax: true,
+            field: '',
+            order: '',
+            urgent: ''
+        };
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: '/api/purchase_requests/available',
+            success: function (data) {
+                self.purchaseRequests = data;
+            }
+        });
+    },
+    methods: {
+        selectPurchaseRequest: function ($selected) {
+            this.selectedPurchaseRequest = $selected;
+        },
+        removeSelectedPurchaseRequest: function () {
+            this.selectedPurchaseRequest = '';
+            this.quantity = '';
+            this.price = '';
+            this.payable = '';
+            this.delivery = '';
+        },
+        addLineItem: function () {
+            var self = this;
+            if (self.canAjax) {
+                self.canAjax = false;
+                $.ajax({
+                    url: '/purchase_orders/add_line_item',
+                    method: 'POST',
+                    data: {
+                        purchase_request_id: self.selectedPurchaseRequest.id,
+                        quantity: self.quantity,
+                        price: self.price,
+                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
+                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
+                    },
+                    success: function (data) {
+                        window.location = '/purchase_orders/submit';
+                    },
+                    error: function (res, status, error) {
+                        console.log(res);
+                        self.canAjax = true;
+                    }
+                });
+            }
+        },
+        changeSort: function ($newField) {
+            if (this.field == $newField) {
+                this.order = (this.order == '') ? -1 : '';
+            } else {
+                this.field = $newField;
+                this.order = ''
+            }
+        },
+        toggleUrgent: function () {
+            this.urgent = (this.urgent) ? '' : 1;
+        }
+    },
+    computed: {
+        subtotal: function () {
+            return this.quantity * this.price;
+        },
+        validQuantity: function () {
+            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
+        },
+        canAddPurchaseRequest: function () {
+            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
+        }
+    }
+});
+
+
+
 Vue.component('items-all', {
     name: 'allItems',
     el: function () {
@@ -140,9 +231,9 @@ Vue.component('items-all', {
             // Parses out project names from an Item's Purchase Requests
             var projects = [];
             _.forEach(item.purchase_requests, function (pr) {
-                if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
+                projects.push(pr.project);
             });
-            return projects;
+            return _.uniqBy(projects, 'id');
         },
         removeAllFilters: function() {
             var self = this;
@@ -261,261 +352,6 @@ Vue.component('item-single', {
                         self.fileErrors.push(file.name + ': ' + err);
                     }
                 });
-            }
-        });
-    }
-});
-Vue.component('add-line-item', {
-    name: 'addLineItem',
-    el: function () {
-        return '#add-line-item';
-    },
-    data: function () {
-        return {
-            purchaseRequests: [],
-            selectedPurchaseRequest: '',
-            quantity: '',
-            price: '',
-            payable: '',
-            delivery: '',
-            canAjax: true,
-            field: '',
-            order: '',
-            urgent: ''
-        };
-    },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            method: 'GET',
-            url: '/api/purchase_requests/available',
-            success: function (data) {
-                self.purchaseRequests = data;
-            }
-        });
-    },
-    methods: {
-        selectPurchaseRequest: function ($selected) {
-            this.selectedPurchaseRequest = $selected;
-        },
-        removeSelectedPurchaseRequest: function () {
-            this.selectedPurchaseRequest = '';
-            this.quantity = '';
-            this.price = '';
-            this.payable = '';
-            this.delivery = '';
-        },
-        addLineItem: function () {
-            var self = this;
-            if (self.canAjax) {
-                self.canAjax = false;
-                $.ajax({
-                    url: '/purchase_orders/add_line_item',
-                    method: 'POST',
-                    data: {
-                        purchase_request_id: self.selectedPurchaseRequest.id,
-                        quantity: self.quantity,
-                        price: self.price,
-                        payable: moment(self.payable, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss"),
-                        delivery: moment(self.delivery, "DD/MM/YYYY").format("YYYY-MM-DD H:mm:ss")
-                    },
-                    success: function (data) {
-                        window.location = '/purchase_orders/submit';
-                    },
-                    error: function (res, status, error) {
-                        console.log(res);
-                        self.canAjax = true;
-                    }
-                });
-            }
-        },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
-            } else {
-                this.field = $newField;
-                this.order = ''
-            }
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        }
-    },
-    computed: {
-        subtotal: function () {
-            return this.quantity * this.price;
-        },
-        validQuantity: function () {
-            return (this.selectedPurchaseRequest.quantity >= this.quantity && this.quantity > 0);
-        },
-        canAddPurchaseRequest: function () {
-            return (!!this.selectedPurchaseRequest && !!this.quantity & !!this.price && !!this.payable && !!this.delivery && this.validQuantity)
-        }
-    }
-});
-
-
-
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: [],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
             }
         });
     }
@@ -640,6 +476,7 @@ Vue.component('purchase-orders-submit', {
                 addresses: []
             },
             selectedAddress: '',
+            selectedBankAccount: '',
             currency: '',
             billingContactPerson: '',
             billingPhone: '',
@@ -658,14 +495,7 @@ Vue.component('purchase-orders-submit', {
             shippingZip: '',
             shippingCountryID: '',
             shippingState: '',
-            selectedBankAccount: '',
-            additionalCosts: [
-                {
-                    name: '',
-                    type: '',
-                    amount: ''
-                }
-            ],
+            additionalCosts: [],
             newCostName: '',
             newCostType: '',
             newCostAmount: ''
@@ -673,6 +503,18 @@ Vue.component('purchase-orders-submit', {
     },
     props: ['user'],
     computed: {
+        PORequiresAddress: function() {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function() {
+            return this.user.company.settings.po_requires_bank_account;
+        },
+        currencyDecimalPoints: function() {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        userCurrency: function() {
+            return this.user.company.settings.currency;
+        },
         hasPurchaseRequests: function () {
             return !_.isEmpty(this.purchaseRequests);
         },
@@ -697,24 +539,77 @@ Vue.component('purchase-orders-submit', {
             if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
             return vendorAddresses;
         },
-        currencySymbol: function() {
+        currencySymbol: function () {
             return this.currency.currency_symbol;
         },
-        orderSubtotal: function() {
+        orderSubtotal: function () {
             var self = this;
             var subtotal = 0;
-            if(! self.lineItems.length > 0) return;
+            if (!self.lineItems.length > 0) return;
             _.forEach(self.lineItems, function (item) {
-                if(item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
+                if (item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
             });
-            return accounting.formatNumber(subtotal, self.user.company.settings.currency_decimal_points, ',');
+            return subtotal;
         },
-        orderTotal: function() {
-            var total = this.orderSubtotal
+        canAddNewCost: function () {
+            return this.newCostName.length > 0 && this.newCostAmount.length > 0 && this.newCostType.length > 0;
+        },
+        orderTotal: function () {
+            var subtotal = this.orderSubtotal;
+            var total = subtotal;
             _.forEach(this.additionalCosts, function (cost) {
-                this.total += cost.amount;
-            }.bind(this));
+                var amount = parseFloat(cost.amount);
+                if (cost.type == '%') {
+
+                    // Calculate the percentage off the sub-total NOT running total. This implies
+                    // that other additional costs are NOT taxable. If user wants to include
+                    // taxable costs, add as separate additional costs / discounts.
+
+                    total += (subtotal * amount / 100);
+                } else {
+                    total += amount;
+                }
+            });
             return total;
+        },
+        validBillingAddress: function () {
+            return !!this.billingPhone && !!this.billingAddress1 && !!this.billingCity && !!this.billingZip && !!this.billingCountryID && !!this.billingState;
+        },
+        validShippingAddress: function () {
+            return !!this.shippingPhone && !!this.shippingAddress1 && !!this.shippingCity && !!this.shippingZip && !!this.shippingCountryID && !!this.shippingState;
+        },
+        canCreateOrder: function () {
+            var validVendor = true,
+                validOrder = true,
+                validItems = true;
+
+            // Vendor
+                // one selected
+                if (!this.vendorID) validVendor = false;
+                // if we need address and no address
+                if (this.user.company.settings.po_requires_address && !this.selectedAddress) validVendor = false;
+                // if we need bank account and no bank account selected
+                if (this.user.company.settings.po_requires_bank_account && !this.selectedBankAccount) validVendor = false;
+
+            // Order
+                // currency set!
+                if (!this.currency) validOrder = false;
+                // Billing address required fields valid
+                if (!this.validBillingAddress) validOrder = false;
+                // If shipping NOT the same &&  Shipping address required fields not valid
+                if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
+
+            // Items
+                // Make sure we have some items
+                if(! this.lineItems.length > 0) validItems = false;
+                // for each line item...
+                _.forEach(this.lineItems, function (item) {
+                    // quantity and price is filled
+                    if (!item.order_quantity || !item.order_price) validItems = false;
+                });
+
+            // Create away if all valid
+            return validVendor && validOrder && validItems
         }
     },
     methods: {
@@ -829,7 +724,22 @@ Vue.component('purchase-orders-submit', {
             var currencySymbol = this.currencySymbol || '$';
             return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
         },
-        createOrder: function() {
+        addAdditionalCost: function () {
+            var self = this;
+            var cost = {
+                name: self.newCostName,
+                amount: self.newCostAmount,
+                type: self.newCostType
+            };
+            self.additionalCosts.push(cost);
+            self.newCostName = '';
+            self.newCostAmount = '';
+            self.newCostType = '%';
+        },
+        removeAdditionalCost: function (cost) {
+            this.additionalCosts = _.reject(this.additionalCosts, cost);
+        },
+        createOrder: function () {
 
         }
     },
@@ -838,6 +748,7 @@ Vue.component('purchase-orders-submit', {
             this.fetchPurchaseRequests(page);
         }
     },
+    mixins: [numberFormatter],
     ready: function () {
         this.$watch('projectID', function (val) {
             if (!val) return;
@@ -1202,6 +1113,170 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
+    }
+});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -1638,20 +1713,37 @@ Vue.component('settings-company', {
     el: function () {
         return '#settings-company';
     },
-    data: function() {
+    data: function () {
         return {
             ajaxReady: true,
             company: false
         }
     },
     props: [
-      'settingsView',
+        'settingsView',
         'user'
     ],
     computed: {
         canUpdateCompany: function () {
-                if(this.user) return this.user.company.name;
+            if (this.user) return this.user.company.name;
             return false;
+        },
+        userCurrency: {
+            get: function () {
+                return this.user.company.settings.currency;
+            },
+            set: function (newValue) {
+                // if we get a object
+                if (newValue !== null && typeof newValue === 'object') {
+                    // Update currency ID property (server persistence)
+                    this.user.company.settings.currency_id = newValue.id;
+                    // Update currency object (client)
+                    this.user.company.settings.currency = newValue;
+                }
+            }
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
         }
     },
     methods: {
@@ -1683,7 +1775,7 @@ Vue.component('settings-company', {
             });
         }
     },
-    ready: function() {
+    ready: function () {
         var self = this;
     }
 });
@@ -1984,6 +2076,9 @@ Vue.component('settings-rules', {
         'settingsView'
     ],
     computed: {
+        currencySymbol: function() {
+          return this.user.company.settings.currency.currency_symbol;  
+        },
         ruleHasLimit: function () {
             return (this.selectedTrigger && this.selectedTrigger.has_limit);
         },

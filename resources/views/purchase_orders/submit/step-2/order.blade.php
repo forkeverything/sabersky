@@ -1,12 +1,12 @@
 <h3>Order</h3>
 <div class="currency-selection section">
-    <h5>
+    <h5 class="required">
         Currency
     </h5>
-    <currency-selecter :name.sync="currency" :default="user.company.settings.currency"></currency-selecter>
+    <currency-selecter :name.sync="currency" :default="userCurrency"></currency-selecter>
 </div>
 <div class="billing-address section">
-    <h5>Billing Address</h5>
+    <h5 class="required">Billing Address</h5>
     <div class="address-fields">
         <div class="row">
             <div class="col-sm-6">

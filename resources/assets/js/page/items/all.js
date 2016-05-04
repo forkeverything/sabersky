@@ -140,9 +140,9 @@ Vue.component('items-all', {
             // Parses out project names from an Item's Purchase Requests
             var projects = [];
             _.forEach(item.purchase_requests, function (pr) {
-                if (projects.indexOf(pr.project.name) === -1)projects.push(pr.project);
+                projects.push(pr.project);
             });
-            return projects;
+            return _.uniqBy(projects, 'id');
         },
         removeAllFilters: function() {
             var self = this;

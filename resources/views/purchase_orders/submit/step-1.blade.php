@@ -14,7 +14,6 @@
     </div>
     <div class="col-sm-4">
         <div class="page-body vendor hidden-xs">
-            <h3>Vendor</h3>
             @include('purchase_orders.submit.select-vendor')
         </div>
         <div class="page-body line-items">

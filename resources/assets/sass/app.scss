@@ -145,6 +145,20 @@ h5 {
   font-weight: bold;
 }
 
+h1, h2, h3, h4, h5 {
+  &.required {
+    display: flex;
+    &:after {
+      font-size: 0.75em;
+      font-weight: normal;
+      content: "(required)";
+      margin-left: 5px;
+      color: $text-muted;
+      font-style: italic;
+    }
+  }
+}
+
 
 p {
   margin: 0 0 30px;

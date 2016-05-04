@@ -37,7 +37,7 @@
                     <number-input :model.sync="lineItem.order_quantity" :placeholder="'qty'" :class="['input-qty', 'form-control']"></number-input>
                 </td>
                 <td>
-                    <number-input :model.sync="lineItem.order_price" :placeholder="'price'" :class="['input-price', 'form-control']" :decimal="user.company.settings.currency_decimal_points"></number-input>
+                    <number-input :model.sync="lineItem.order_price" :placeholder="'price'" :class="['input-price', 'form-control']" :decimal="currencyDecimalPoints"></number-input>
                 </td>
                 <td>
                     <strong>@{{ calculateTotal(lineItem) }}</strong>

@@ -46,11 +46,8 @@ Vue.component('country-selecter', {
                 });
             },
             onChange: function (value) {
-                if (!value.length) return;
-
                 // Update the name prop to pass data onto parent component
                 self.name = value;
-
                 var eventName = self.event || 'selected-country';
                 // Fire event
                 vueEventBus.$emit(eventName, value);

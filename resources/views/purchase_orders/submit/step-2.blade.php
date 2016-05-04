@@ -2,7 +2,6 @@
     <div class="top-nav-buttons">
         <button type="button" class="btn btn-solid-blue btn-prev" @click="goStep(1)"><i
                 class="fa fa-angle-double-left"></i>Prev Step</button>
-        <button type="button" class="btn btn-solid-green btn-create" @click="createOrder">Create Order</button>
     </div>
     <div class="row flexing">
         <div class="col-sm-4">
@@ -31,6 +30,6 @@
         </div>
     </div>
     <div class="bottom-nav-buttons align-end">
-        <button type="button" class="btn btn-solid-green btn-create" @click="createOrder">Create Order</button>
+        <button type="button" class="btn btn-solid-green btn-create" @click="createOrder" :disabled="! canCreateOrder">Create Order</button>
     </div>
 </div>

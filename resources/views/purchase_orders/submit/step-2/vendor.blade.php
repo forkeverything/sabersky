@@ -7,10 +7,10 @@
     </div>
 </div>
 <div class="address-selection">
-    <h5>Address</h5>
+    <h5 :class="{ 'required' : PORequiresAddress }">Address</h5>
     <modal-select-address :selected.sync="selectedAddress" :addresses.sync="vendorAddresses"></modal-select-address>
 </div>
 <div class="bank-selection">
-    <h5>Bank Account</h5>
+    <h5 :class="{ 'required' : PORequiresBankAccount }">Bank Account</h5>
     <modal-select-bank-account :selected.sync="selectedBankAccount" :accounts.sync="vendor.bank_accounts"></modal-select-bank-account>
 </div>

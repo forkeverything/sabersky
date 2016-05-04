@@ -23,6 +23,7 @@ Vue.component('purchase-orders-submit', {
                 addresses: []
             },
             selectedAddress: '',
+            selectedBankAccount: '',
             currency: '',
             billingContactPerson: '',
             billingPhone: '',
@@ -41,14 +42,7 @@ Vue.component('purchase-orders-submit', {
             shippingZip: '',
             shippingCountryID: '',
             shippingState: '',
-            selectedBankAccount: '',
-            additionalCosts: [
-                {
-                    name: '',
-                    type: '',
-                    amount: ''
-                }
-            ],
+            additionalCosts: [],
             newCostName: '',
             newCostType: '',
             newCostAmount: ''
@@ -56,6 +50,18 @@ Vue.component('purchase-orders-submit', {
     },
     props: ['user'],
     computed: {
+        PORequiresAddress: function() {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function() {
+            return this.user.company.settings.po_requires_bank_account;
+        },
+        currencyDecimalPoints: function() {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        userCurrency: function() {
+            return this.user.company.settings.currency;
+        },
         hasPurchaseRequests: function () {
             return !_.isEmpty(this.purchaseRequests);
         },
@@ -80,24 +86,77 @@ Vue.component('purchase-orders-submit', {
             if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
             return vendorAddresses;
         },
-        currencySymbol: function() {
+        currencySymbol: function () {
             return this.currency.currency_symbol;
         },
-        orderSubtotal: function() {
+        orderSubtotal: function () {
             var self = this;
             var subtotal = 0;
-            if(! self.lineItems.length > 0) return;
+            if (!self.lineItems.length > 0) return;
             _.forEach(self.lineItems, function (item) {
-                if(item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
+                if (item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
             });
-            return accounting.formatNumber(subtotal, self.user.company.settings.currency_decimal_points, ',');
+            return subtotal;
         },
-        orderTotal: function() {
-            var total = this.orderSubtotal
+        canAddNewCost: function () {
+            return this.newCostName.length > 0 && this.newCostAmount.length > 0 && this.newCostType.length > 0;
+        },
+        orderTotal: function () {
+            var subtotal = this.orderSubtotal;
+            var total = subtotal;
             _.forEach(this.additionalCosts, function (cost) {
-                this.total += cost.amount;
-            }.bind(this));
+                var amount = parseFloat(cost.amount);
+                if (cost.type == '%') {
+
+                    // Calculate the percentage off the sub-total NOT running total. This implies
+                    // that other additional costs are NOT taxable. If user wants to include
+                    // taxable costs, add as separate additional costs / discounts.
+
+                    total += (subtotal * amount / 100);
+                } else {
+                    total += amount;
+                }
+            });
             return total;
+        },
+        validBillingAddress: function () {
+            return !!this.billingPhone && !!this.billingAddress1 && !!this.billingCity && !!this.billingZip && !!this.billingCountryID && !!this.billingState;
+        },
+        validShippingAddress: function () {
+            return !!this.shippingPhone && !!this.shippingAddress1 && !!this.shippingCity && !!this.shippingZip && !!this.shippingCountryID && !!this.shippingState;
+        },
+        canCreateOrder: function () {
+            var validVendor = true,
+                validOrder = true,
+                validItems = true;
+
+            // Vendor
+                // one selected
+                if (!this.vendorID) validVendor = false;
+                // if we need address and no address
+                if (this.user.company.settings.po_requires_address && !this.selectedAddress) validVendor = false;
+                // if we need bank account and no bank account selected
+                if (this.user.company.settings.po_requires_bank_account && !this.selectedBankAccount) validVendor = false;
+
+            // Order
+                // currency set!
+                if (!this.currency) validOrder = false;
+                // Billing address required fields valid
+                if (!this.validBillingAddress) validOrder = false;
+                // If shipping NOT the same &&  Shipping address required fields not valid
+                if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
+
+            // Items
+                // Make sure we have some items
+                if(! this.lineItems.length > 0) validItems = false;
+                // for each line item...
+                _.forEach(this.lineItems, function (item) {
+                    // quantity and price is filled
+                    if (!item.order_quantity || !item.order_price) validItems = false;
+                });
+
+            // Create away if all valid
+            return validVendor && validOrder && validItems
         }
     },
     methods: {
@@ -212,7 +271,22 @@ Vue.component('purchase-orders-submit', {
             var currencySymbol = this.currencySymbol || '$';
             return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
         },
-        createOrder: function() {
+        addAdditionalCost: function () {
+            var self = this;
+            var cost = {
+                name: self.newCostName,
+                amount: self.newCostAmount,
+                type: self.newCostType
+            };
+            self.additionalCosts.push(cost);
+            self.newCostName = '';
+            self.newCostAmount = '';
+            self.newCostType = '%';
+        },
+        removeAdditionalCost: function (cost) {
+            this.additionalCosts = _.reject(this.additionalCosts, cost);
+        },
+        createOrder: function () {
 
         }
     },
@@ -221,6 +295,7 @@ Vue.component('purchase-orders-submit', {
             this.fetchPurchaseRequests(page);
         }
     },
+    mixins: [numberFormatter],
     ready: function () {
         this.$watch('projectID', function (val) {
             if (!val) return;

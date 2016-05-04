@@ -7606,13 +7606,7 @@ label.required {
     -ms-flex: 0 0 150px;
     flex: 0 0 150px; }
   #purchase-orders-submit #po-submit-2 .top-nav-buttons {
-    margin: 0 0 30px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between; }
+    margin: 0 0 30px; }
     #purchase-orders-submit #po-submit-2 .top-nav-buttons .btn-prev {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7675,25 +7669,22 @@ label.required {
       -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
       flex-grow: 1;
-      -webkit-flex-basis: 500px;
-      -ms-flex-preferred-size: 500px;
-      flex-basis: 500px;
+      -webkit-flex-basis: 800px;
+      -ms-flex-preferred-size: 800px;
+      flex-basis: 800px;
       max-width: 100%;
       margin-left: 10px;
       margin-right: 10px;
       margin-bottom: 20px; }
-      @media (min-width: 1000px) {
+      @media (min-width: 1600px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address {
           max-width: calc(50% - 20px); } }
-      @media (min-width: 1500px) {
+      @media (min-width: 2400px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address {
           max-width: calc(33.3333333333% - 20px); } }
-      @media (min-width: 2000px) {
+      @media (min-width: 3200px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address {
           max-width: calc(25% - 20px); } }
-      @media (min-width: 2500px) {
-        #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .list-address .single-address {
-          max-width: calc(20% - 20px); } }
   #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .single-address {
     padding: 10px;
     border: 1px solid #E6E9EB;
@@ -7733,25 +7724,22 @@ label.required {
       -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
       flex-grow: 1;
-      -webkit-flex-basis: 500px;
-      -ms-flex-preferred-size: 500px;
-      flex-basis: 500px;
+      -webkit-flex-basis: 800px;
+      -ms-flex-preferred-size: 800px;
+      flex-basis: 800px;
       max-width: 100%;
       margin-left: 10px;
       margin-right: 10px;
       margin-bottom: 20px; }
-      @media (min-width: 1000px) {
+      @media (min-width: 1600px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .list-accounts .single-account {
           max-width: calc(50% - 20px); } }
-      @media (min-width: 1500px) {
+      @media (min-width: 2400px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .list-accounts .single-account {
           max-width: calc(33.3333333333% - 20px); } }
-      @media (min-width: 2000px) {
+      @media (min-width: 3200px) {
         #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .list-accounts .single-account {
           max-width: calc(25% - 20px); } }
-      @media (min-width: 2500px) {
-        #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .list-accounts .single-account {
-          max-width: calc(20% - 20px); } }
       #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .list-accounts .single-account:hover {
         border-color: #3498DB; }
   #purchase-orders-submit #po-submit-2 .vendor-details .bank-selection .single-account {
@@ -7786,11 +7774,103 @@ label.required {
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
     width: 120px; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-delivery {
-    width: 125px; }
-  #purchase-orders-submit #po-submit-2 .table-summary .col-currency {
-    text-align: right; }
-    #purchase-orders-submit #po-submit-2 .table-summary .col-currency .themed-select {
-      width: 80px; }
+    width: 200px; }
+  #purchase-orders-submit #po-submit-2 .summary {
+    margin: 20px 0 0 0; }
+    #purchase-orders-submit #po-submit-2 .summary .table-summary {
+      font-size: 1.2em; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary tr td {
+        border: 0;
+        padding: 5px; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .col-amount {
+        text-align: right; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .col-amount input {
+          text-align: right; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .col-currency {
+        text-align: left;
+        padding-right: 0; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-added-costs .col-title {
+        position: relative; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-added-costs .col-title .close {
+          float: none;
+          font-size: 1em;
+          position: absolute;
+          top: -2px;
+          left: -10px; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs input {
+        font-size: 1em;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        border-radius: 0;
+        height: 24px;
+        color: #757575; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select {
+        width: 40px; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select button {
+          border-radius: 0;
+          padding: 0;
+          font-size: 1em;
+          border: 0; }
+          #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select button span {
+            color: #757575; }
+          #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select button .caret {
+            right: 0;
+            color: #757575; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select .dropdown-menu.open {
+          border: 1px solid #A1A4AA;
+          right: 4px;
+          left: initial;
+          overflow: initial !important;
+          box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) !important;
+          top: calc(100% + 10px); }
+          #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select .dropdown-menu.open:after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 0 8px 8px;
+            border-color: #FFFFFF transparent;
+            display: block;
+            width: 0;
+            z-index: 1;
+            top: -8px;
+            left: 45px; }
+          #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select .dropdown-menu.open:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 0 8px 8px;
+            border-color: #A1A4AA transparent;
+            display: block;
+            width: 0;
+            z-index: 0;
+            top: -9px;
+            left: 45px; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select .dropdown-menu.inner {
+          position: relative;
+          width: 80px;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs .themed-select .dropdown-menu li a {
+          -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+          justify-content: flex-end; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-add-button td {
+        padding: 0 10px 15px 10px;
+        position: relative;
+        height: 44px; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-add-button .btn-add-cost {
+        position: absolute;
+        right: 0;
+        top: 3px; }
+        #purchase-orders-submit #po-submit-2 .summary .table-summary .row-add-button .btn-add-cost i {
+          margin: 0 5px 0 0;
+          font-size: 0.8em; }
+      #purchase-orders-submit #po-submit-2 .summary .table-summary .row-total td {
+        padding: 10px 5px;
+        border-top: 1px solid #A1A4AA;
+        font-weight: bold;
+        font-size: 1.6em; }
 
 #purchase-orders-all #button-submit-purchase-order {
   margin: 0 0 30px; }
@@ -9538,6 +9618,18 @@ h4, h5 {
 h5 {
   font-size: 1.1em;
   font-weight: bold; }
+
+h1.required, h2.required, h3.required, h4.required, h5.required {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  h1.required:after, h2.required:after, h3.required:after, h4.required:after, h5.required:after {
+    font-size: 0.75em;
+    font-weight: normal;
+    content: "(required)";
+    margin-left: 5px;
+    color: #93989F;
+    font-style: italic; }
 
 p {
   margin: 0 0 30px; }
