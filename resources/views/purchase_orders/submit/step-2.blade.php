@@ -4,12 +4,12 @@
                 class="fa fa-angle-double-left"></i>Prev Step</button>
     </div>
     <div class="row flexing">
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <div class="page-body vendor-details">
                 @include('purchase_orders.submit.step-2.vendor')
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-md-8">
             <div class="page-body order-details">
                 @include('purchase_orders.submit.step-2.order')
             </div>
@@ -23,10 +23,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-offset-6 col-sm-6">
-            <div class="summary">
+        <div class="col-md-offset-6 col-md-6">
                 @include('purchase_orders.submit.step-2.summary')
-            </div>
         </div>
     </div>
     <div class="bottom-nav-buttons align-end">
