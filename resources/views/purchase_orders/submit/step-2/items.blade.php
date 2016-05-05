@@ -9,8 +9,6 @@
             <th class="required">QTY</th>
             <th class="required">Price</th>
             <th>Total</th>
-            <th>Payable</th>
-            <th>Delivery</th>
         <tr>
         </tr>
         </thead>
@@ -32,23 +30,40 @@
                         <span class="project">@{{ lineItem.project.name | capitalize }}</span><label>QTY: </label><span
                                 class="quantity">@{{ lineItem.quantity }}</span>
                     </div>
+                    <div class="dates">
+                        <div class="payable">
+                            <input class="form-control input-date-payable hidden"
+                                   type="text"
+                                   v-datepicker
+                                   button-only="true"
+                                   v-model="lineItem.order_payable"
+                            >
+                            <span class="date-type">Payable</span>
+                            <span v-show="lineItem.order_payable">@{{ lineItem.order_payable }}</span>
+                        </div>
+                        <div class="delivery">
+                            <input class="form-control input-date-delivery hidden"
+                                   type="text"
+                                   v-datepicker
+                                   button-only="true"
+                                   v-model="lineItem.order_delivery"
+                            >
+                            <span class="date-type">Delivery</span>
+                            <span v-show="lineItem.order_delivery">@{{ lineItem.order_delivery }}</span>
+                        </div>
+                    </div>
                 </td>
                 <td>
-                    <number-input :model.sync="lineItem.order_quantity" :placeholder="'qty'" :class="['input-qty', 'form-control']"></number-input>
+                    <number-input :model.sync="lineItem.order_quantity" :placeholder="'qty'"
+                                  :class="['input-qty', 'form-control']"></number-input>
                 </td>
                 <td>
-                    <number-input :model.sync="lineItem.order_price" :placeholder="'price'" :class="['input-price', 'form-control']" :decimal="currencyDecimalPoints"></number-input>
+                    <number-input :model.sync="lineItem.order_price" :placeholder="'price'"
+                                  :class="['input-price', 'form-control']"
+                                  :decimal="currencyDecimalPoints"></number-input>
                 </td>
                 <td>
                     <strong>@{{ calculateTotal(lineItem) }}</strong>
-                </td>
-                <td>
-                    <input class="form-control input-date-payable" type="text" v-datepicker
-                           v-model="lineItem.order_payable" placeholder="payable">
-                </td>
-                <td>
-                    <input class="form-control input-date-delivery" type="text" v-datepicker
-                           v-model="lineItem.order_delivery" placeholder="delivery">
                 </td>
             </tr>
         </template>

@@ -2,7 +2,27 @@
 
   .table-items {
 
-    .input-qty, .input-price, .input-date-payable, .input-date-delivery {
+    .col-item {
+
+      .dates {
+        font-size: 0.9em;
+
+        .payable, .delivery {
+          margin: 3px 0 0 0;
+
+          .date-type {
+            color: $text-muted;
+          }
+
+          .ui-datepicker-trigger {
+            width: 14px;
+            margin: -3px 3px 0 0;
+          }
+        }
+      }
+    }
+
+    .input-qty, .input-price {
       text-align: center;
       padding: 0.5em;
     }
@@ -13,10 +33,6 @@
 
     .input-price {
       width: 120px;
-    }
-
-    .input-date-payable, .input-date-delivery {
-      width: 200px;   // Any smaller and datepicker bugs-out @ small widths
     }
   }
 }

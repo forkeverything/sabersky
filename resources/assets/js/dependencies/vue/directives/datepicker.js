@@ -1,7 +1,19 @@
-Vue.directive('datepicker', function() {
-    $(this.el).datepicker({
-        format: "dd/mm/yyyy",
-        startDate: 'today',
-        language: 'en' // TODO ::: Change according to client Lang
-    });
+Vue.directive('datepicker', {
+    params: ['button-only'],
+    bind: function() {
+        if(this.params.buttonOnly) {
+            $(this.el).datepicker({
+                dateFormat: "dd/mm/yy",
+                minDate: 0,
+                buttonImage: '/images/icons/calendar.png',
+                buttonImageOnly: true,
+                showOn: 'both'
+            });
+        } else {
+            $(this.el).datepicker({
+                dateFormat: "dd/mm/yy",
+                minDate: 0
+            });
+        }
+    }
 });

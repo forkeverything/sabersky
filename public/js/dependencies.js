@@ -11,14 +11,12 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('.datepicker').datepicker({
-        format: "dd/mm/yyyy",
-        startDate: 'today',
-        language: 'en'      // TODO ::: Change according to client Lang
+        dateFormat: "dd/mm/yy",
+        minDate: 0
     });
 
     $('.filter-datepicker').datepicker({
-        format: "dd/mm/yyyy",
-        language: 'en'      // TODO ::: Change according to client Lang
+        dateFormat: "dd/mm/yy"
     });
 });
 Dropzone.autoDiscover = false;
@@ -485,12 +483,24 @@ Vue.directive('autofit-tabs', {
 
     }
 });
-Vue.directive('datepicker', function() {
-    $(this.el).datepicker({
-        format: "dd/mm/yyyy",
-        startDate: 'today',
-        language: 'en' // TODO ::: Change according to client Lang
-    });
+Vue.directive('datepicker', {
+    params: ['button-only'],
+    bind: function() {
+        if(this.params.buttonOnly) {
+            $(this.el).datepicker({
+                dateFormat: "dd/mm/yy",
+                minDate: 0,
+                buttonImage: '/images/icons/calendar.png',
+                buttonImageOnly: true,
+                showOn: 'both'
+            });
+        } else {
+            $(this.el).datepicker({
+                dateFormat: "dd/mm/yy",
+                minDate: 0
+            });
+        }
+    }
 });
 Vue.directive('dropdown-toggle', {
     twoWay: true,
@@ -687,6 +697,7 @@ Vue.filter('easyDateModel', {
     // model -> view
     // formats the value when updating the input element.
     read: function (value) {
+        console.log(value);
         var date = moment(value, "DD-MM-YYYY");
         if (value && date) {
             return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');

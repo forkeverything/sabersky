@@ -7766,15 +7766,22 @@ label.required {
       #purchase-orders-submit #po-submit-2 .order-details .shipping-address .check-same-billing label i {
         width: 20px;
         margin: 0 5px 0 0; }
-  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-delivery {
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates {
+    font-size: 0.9em; }
+    #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .delivery {
+      margin: 3px 0 0 0; }
+      #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .payable .date-type, #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .delivery .date-type {
+        color: #93989F; }
+      #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .payable .ui-datepicker-trigger, #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .delivery .ui-datepicker-trigger {
+        width: 14px;
+        margin: -3px 3px 0 0; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
     text-align: center;
     padding: 0.5em; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty {
     width: 80px; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
     width: 120px; }
-  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-date-delivery {
-    width: 200px; }
   #purchase-orders-submit #po-submit-2 .summary {
     margin: 20px 0 0 0; }
     #purchase-orders-submit #po-submit-2 .summary .table-summary {
@@ -9538,6 +9545,61 @@ label.required {
     border-width: 6px 6px 6px 0;
     border-right-color: #ccc; }
 
+.ui-datepicker-trigger {
+  width: 20px;
+  cursor: pointer; }
+
+#ui-datepicker-div {
+  padding: 0.5em;
+  background: #fff;
+  border: 1px solid #3498DB;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3); }
+  #ui-datepicker-div .ui-datepicker-header {
+    margin: -0.5em -.5em 0 -.5em;
+    background: #3498DB;
+    color: #fff; }
+    #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev {
+      cursor: pointer; }
+      #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev.ui-datepicker-prev-hover {
+        left: 2px;
+        top: 2px; }
+      #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev span {
+        color: transparent; }
+        #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev span:before {
+          font-family: FontAwesome;
+          content: "\f053";
+          color: #fff;
+          position: absolute;
+          left: calc(50% - 10px); }
+    #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next {
+      cursor: pointer;
+      right: 6px; }
+      #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next.ui-datepicker-next-hover {
+        right: 6px;
+        top: 2px; }
+      #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next span {
+        color: transparent; }
+        #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next span:before {
+          font-family: FontAwesome;
+          content: "\f054";
+          color: #fff;
+          position: absolute;
+          left: calc(50% - 10px); }
+    #ui-datepicker-div .ui-datepicker-header .ui-corner-all {
+      -moz-user-select: -moz-none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      /*
+        Introduced in IE 10.
+        See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+      */
+      -ms-user-select: none;
+      user-select: none; }
+      #ui-datepicker-div .ui-datepicker-header .ui-corner-all:focus, #ui-datepicker-div .ui-datepicker-header .ui-corner-all:active, #ui-datepicker-div .ui-datepicker-header .ui-corner-all:hover {
+        outline: 0; }
+  #ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-unselectable, #ui-datepicker-div .ui-datepicker-calendar .ui-state-disabled {
+    color: #93989F; }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }
@@ -9645,14 +9707,6 @@ label {
 
 textarea {
   resize: none; }
-
-.datepicker {
-  border: 1px dashed #E6E9EB;
-  cursor: pointer;
-  letter-spacing: 1px; }
-  .datepicker:focus {
-    outline: none;
-    border: 1px solid #3498DB; }
 
 .clickable {
   cursor: pointer;

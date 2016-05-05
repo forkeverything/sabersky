@@ -46,7 +46,7 @@
                         <tr>
                             <th>Date Needed By</th>
                             <td>
-                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)" v-model="due | easyDateModel">
+                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)" v-model="due">
                             </td>
                         </tr>
                         <tr>

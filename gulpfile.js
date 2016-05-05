@@ -19,7 +19,7 @@ elixir(function(mix) {
         '../../../public/css/app.css',
         // Packages
         'font-awesome/css/font-awesome.min.css',
-        'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
+        'jquery-ui/themes/base/datepicker.css',
         'animate.css/animate.min.css',
         'selectize/dist/css/selectize.css',
         'selectize/dist/css/selectize.bootstrap3.css',
@@ -40,8 +40,7 @@ elixir(function(mix) {
         'vue/dist/vue.js',
         'lodash/lodash.js',
         'moment/min/moment-with-locales.min.js',
-        'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
-        'bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js',
+        'jquery-ui/ui/datepicker.js',
         'selectize/dist/js/standalone/selectize.min.js',
         'dropzone/dist/min/dropzone.min.js',
         'bootstrap-fileinput/js/fileinput.min.js',
