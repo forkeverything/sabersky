@@ -37,6 +37,7 @@
 @import "partials/tooltips";
 @import "partials/datepicker";
 
+
 body {
   font-family: 'helvetica';
   background: $body-background;
@@ -371,4 +372,11 @@ li.active {
 
 .bg-blur {
   @include filter(blur(7px) grayscale(0.6) opacity(0.9));
+}
+
+.single-address, address {
+  .contact_person, .company_name {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
 }

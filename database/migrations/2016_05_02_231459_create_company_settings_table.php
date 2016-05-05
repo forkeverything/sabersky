@@ -22,7 +22,7 @@ class CreateCompanySettingsTable extends Migration
 
             $table->integer('currency_decimal_points')->default(2);
             $table->integer('currency_id')->unsigned()->default('840');
-            $table->foreign('currency_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('currency_id')->references('id')->on('countries');
 
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

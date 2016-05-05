@@ -131,23 +131,21 @@ Route::group(['middleware' => 'web'], function () {
     Route::delete('/api/items/{item}/photo/{photo}', 'ItemsController@apiDeleteItemPhoto');
 
     /**
-     * Purchase Orders & Line Items
+     * Purchase Orders
      */
     Route::get('/purchase_orders', ['as' => 'showAllPurchaseOrders', 'uses' => 'PurchaseOrdersController@getAll']);
-    Route::get('/purchase_orders/submit', ['as' => 'submitPurchaseOrder', 'uses' => 'PurchaseOrdersController@getSubmitForm']);
-    Route::post('/purchase_orders/submit/step_1', ['as' => 'savePOStep1', 'uses' => 'PurchaseOrdersController@step1']);
-    Route::post('/purchase_orders/submit/step_2', ['as' => 'savePOStep2', 'uses' => 'PurchaseOrdersController@step2']);
-    Route::get('/purchase_orders/add_line_item', ['as' => 'addLineItem', 'uses' => 'PurchaseOrdersController@addLineItem']);
-    Route::post('/purchase_orders/remove_line_item/{lineItem}', ['as' => 'removeLineItem', 'uses' => 'PurchaseOrdersController@removeLineItem']);
-    Route::post('/purchase_orders/add_line_item', 'PurchaseOrdersController@saveLineItem');
-    Route::get('/purchase_orders/cancel_unsubmitted', ['as' => 'cancelUnsubmittedPO', 'uses' => 'PurchaseOrdersController@cancelUnsubmitted']);
-    Route::post('/purchase_orders/submit', ['as' => 'completePurchaseOrder', 'uses' => 'purchaseOrdersController@complete']);
+    Route::get('/purchase_orders/submit', ['as' => 'getSubmitPOForm', 'uses' => 'PurchaseOrdersController@getSubmitForm']);
+    Route::post('/purchase_orders/submit', 'PurchaseOrdersController@postSubmit');
     Route::get('/purchase_orders/single/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@single']);
     Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder' , 'uses' => 'PurchaseOrdersController@approve']);
     Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder' , 'uses' => 'PurchaseOrdersController@reject']);
-    Route::post('/purchase_orders/line_item/paid', ['as' => 'markLineItemPaid', 'uses' => 'PurchaseOrdersController@markPaid']);
-    Route::post('/purchase_orders/line_item/delivered', ['as' => 'markLineItemDelivered', 'uses' => 'PurchaseOrdersController@markDelivered']);
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiAll');
+    
+    /*
+     * Line Items
+     */
+    Route::put('/line_item/paid', ['as' => 'markLineItemPaid', 'uses' => 'LineItemsController@putMarkPaid']);
+    Route::put('/line_item/delivered', ['as' => 'markLineItemDelivered', 'uses' => 'LineItemsController@putMarkDelivered']);
 
     /**
      * Settings

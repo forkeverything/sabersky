@@ -25,6 +25,7 @@ Vue.component('purchase-orders-submit', {
             selectedAddress: '',
             selectedBankAccount: '',
             currency: '',
+            billingAddressSameAsCompany: true,
             billingContactPerson: '',
             billingPhone: '',
             billingAddress1: '',
@@ -50,17 +51,24 @@ Vue.component('purchase-orders-submit', {
     },
     props: ['user'],
     computed: {
-        PORequiresAddress: function() {
+        PORequiresAddress: function () {
             return this.user.company.settings.po_requires_address;
         },
-        PORequiresBankAccount: function() {
+        PORequiresBankAccount: function () {
             return this.user.company.settings.po_requires_bank_account;
         },
-        currencyDecimalPoints: function() {
+        currencyDecimalPoints: function () {
             return this.user.company.settings.currency_decimal_points;
         },
-        userCurrency: function() {
+        userCurrency: function () {
             return this.user.company.settings.currency;
+        },
+        company: function() {
+          return this.user.company;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
         },
         hasPurchaseRequests: function () {
             return !_.isEmpty(this.purchaseRequests);
@@ -131,29 +139,31 @@ Vue.component('purchase-orders-submit', {
                 validItems = true;
 
             // Vendor
-                // one selected
-                if (!this.vendorID) validVendor = false;
-                // if we need address and no address
-                if (this.user.company.settings.po_requires_address && !this.selectedAddress) validVendor = false;
-                // if we need bank account and no bank account selected
-                if (this.user.company.settings.po_requires_bank_account && !this.selectedBankAccount) validVendor = false;
+            // one selected
+            if (!this.vendorID) validVendor = false;
+            // if we need address and no address
+            if (this.user.company.settings.po_requires_address && !this.selectedAddress) validVendor = false;
+            // if we need bank account and no bank account selected
+            if (this.user.company.settings.po_requires_bank_account && !this.selectedBankAccount) validVendor = false;
 
             // Order
-                // currency set!
-                if (!this.currency) validOrder = false;
-                // Billing address required fields valid
-                if (!this.validBillingAddress) validOrder = false;
-                // If shipping NOT the same &&  Shipping address required fields not valid
-                if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
+            // currency set!
+            if (!this.currency) validOrder = false;
+            // Billing address required fields valid
+            if (!this.validBillingAddress) validOrder = false;
+            // If shipping NOT the same &&  Shipping address required fields not valid
+            if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
 
             // Items
-                // Make sure we have some items
-                if(! this.lineItems.length > 0) validItems = false;
-                // for each line item...
-                _.forEach(this.lineItems, function (item) {
-                    // quantity and price is filled
-                    if (!item.order_quantity || !item.order_price) validItems = false;
-                });
+            // Make sure we have some items
+            if (!this.lineItems.length > 0) validItems = false;
+            // for each line item...
+            _.forEach(this.lineItems, function (item) {
+                // quantity and price is filled
+                if (!item.order_quantity || !item.order_price) validItems = false;
+                // quantity to order <= quantity requested
+                if(item.order_quantity > item.quantity) validItems = false;
+            });
 
             // Create away if all valid
             return validVendor && validOrder && validItems
@@ -287,7 +297,50 @@ Vue.component('purchase-orders-submit', {
             this.additionalCosts = _.reject(this.additionalCosts, cost);
         },
         createOrder: function () {
-
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/purchase_orders/submit',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendorID,
+                    "vendor_address_id": self.selectedAddress.id,
+                    "vendor_bank_account_id": self.selectedBankAccount.id,
+                    "currency_id": self.currency.id,
+                    "billing_address_same_as_company": self.billingAddressSameAsCompany,
+                    "billing_contact_person": self.billingContactPerson,
+                    "billing_phone": self.billingPhone,
+                    "billing_address_1": self.billingAddress1,
+                    "billing_address_2": self.billingAddress2,
+                    "billing_city": self.billingCity,
+                    "billing_zip": self.billingZip,
+                    "billing_country_id": self.billingCountryID,
+                    "billing_state": self.billingState,
+                    "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
+                    "shipping_phone": self.shippingPhone,
+                    "shipping_address_1": self.shippingAddress1,
+                    "shipping_address_2": self.shippingAddress2,
+                    "shipping_city": self.shippingCity,
+                    "shipping_zip": self.shippingZip,
+                    "shipping_country_id": self.shippingCountryID,
+                    "shipping_state": self.shippingState,
+                    "line_items": self.lineItems,
+                    "additional_costs": self.additionalCosts
+                },
+                success: function(data) {
+                   // success
+                    flashNotifyNextRequest('success', 'Submitted Purchase Order');
+                    location = "/purchase_orders";
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
     events: {

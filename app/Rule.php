@@ -22,6 +22,14 @@ use Illuminate\Support\Facades\DB;
  * @property-read \App\Company $company
  * @property-read mixed $property
  * @property-read mixed $trigger
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereLimit($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereRulePropertyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereRuleTriggerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereCompanyId($value)
+ * @mixin \Eloquent
  */
 class Rule extends Model
 {
@@ -38,11 +46,23 @@ class Rule extends Model
         'company_id'
     ];
 
+    /**
+     * Automatically append these properties. We didn't create model's for these
+     * because they are only an extension of Rules and also we don't foresee
+     * Users being able to create / update these.
+     *
+     * @var array
+     */
     protected $appends = [
         'property',
         'trigger'
     ];
 
+    /**
+     * Always eager load these relationships
+     *
+     * @var array
+     */
     protected $with = [
         'roles'
     ];
@@ -103,6 +123,13 @@ class Rule extends Model
             ->first();
     }
 
+    /**
+     * Process a Purchase Order by applying the relevant
+     * checks depending on what type of Rule this
+     * model is.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
     public function processPurchaseOrder(PurchaseOrder $purchaseOrder)
     {
         switch ($this->property->name) {
@@ -120,11 +147,17 @@ class Rule extends Model
         }
     }
 
+    /**
+     * Check the property 'order_total' for any triggers that might
+     * have been tripped.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
     protected function checkOrderTotal(PurchaseOrder $purchaseOrder)
     {
         switch ($this->trigger->name) {
             case 'exceeds':
-                if ($purchaseOrder->total > $this->limit) $this->attachPO($purchaseOrder);
+                if ($purchaseOrder->total > $this->limit) $this->attachToPO($purchaseOrder);
                 break;
             default:
                 abort(500, 'That trigger does not exist for Order Total');
@@ -132,12 +165,17 @@ class Rule extends Model
         }
     }
 
+    /**
+     * Checks 'vendor' property triggers.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
     protected function checkVendor(PurchaseOrder $purchaseOrder)
     {
         switch ($this->trigger->name) {
             case 'new':
-                // If the PO's vendor only has 1 previous PO - assume new vendor
-                if (count($purchaseOrder->vendor->purchaseOrders) === 1) $this->attachPO($purchaseOrder);
+                // If we the Vendor does not have any prior 'approved' POs, we can assume the Vendor is 'new'
+                if (! $purchaseOrder->vendor->purchaseOrders()->where('status', 'approved')->first()) $this->attachToPO($purchaseOrder);
                 break;
             default:
                 abort(500, 'That trigger does not exist for Vendor');
@@ -145,22 +183,28 @@ class Rule extends Model
         }
     }
 
+    /**
+     * Check for 'single_item' property triggers.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
     protected function checkSingleItems(PurchaseOrder $purchaseOrder)
     {
         foreach ($purchaseOrder->lineItems as $lineItem) {
             switch ($this->trigger->name) {
                 case 'exceeds':
-                    if (($lineItem->price * $lineItem->quantity) > $this->limit) $this->attachPO($purchaseOrder);
+                    // Do any items exceed the single item limit?
+                    if (($lineItem->price * $lineItem->quantity) > $this->limit) $this->attachToPO($purchaseOrder);
                     break;
                 case 'new':
-                    // If the item being ordered has only been requested once (now), then it's new
-                    if (count($lineItem->purchaseRequest->item->purchaseRequests) === 1) $this->attachPO($purchaseOrder);
+                    // If the item being ordered has only been ordered once (current PO), then it's new
+                    if ($lineItem->purchaseRequest->item->new) $this->attachToPO($purchaseOrder);
                     break;
                 case 'percentage_over_mean':
                     $mean = $lineItem->purchaseRequest->item->mean;
                     $price = $lineItem->price;
                     $meanDiff = ($price - $mean) / $mean;
-                    if ($meanDiff > $this->limit) $this->attachPO($purchaseOrder);
+                    if ($meanDiff > $this->limit) $this->attachToPO($purchaseOrder);
                     break;
                 default:
                     abort(500, 'That trigger does not exist for Single Items');
@@ -169,7 +213,12 @@ class Rule extends Model
         }
     }
 
-    protected function attachPO(PurchaseOrder $purchaseOrder)
+    /**
+     * Attaches this Rule to a Purchase Order
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
+    protected function attachToPO(PurchaseOrder $purchaseOrder)
     {
         return $this->purchaseOrders()->attach($purchaseOrder);
     }

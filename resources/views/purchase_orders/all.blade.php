@@ -9,7 +9,7 @@
             </div>
             <div class="page-body">
                 @can('po_submit')
-                <a href="{{ route('submitPurchaseOrder') }}">
+                <a href="{{ route('getSubmitPOForm') }}">
                     <button class="btn btn-solid-green" id="button-submit-purchase-order">Submit Purchase Order</button>
                 </a>
                 @endcan

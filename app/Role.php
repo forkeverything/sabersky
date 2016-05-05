@@ -17,6 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $company_id
  * @property-read \App\Company $company
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
+ * @method static \Illuminate\Database\Query\Builder|\App\Role whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Role wherePosition($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Role whereCompanyId($value)
+ * @mixin \Eloquent
  */
 class Role extends Model
 {

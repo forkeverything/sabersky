@@ -23,6 +23,23 @@ use Illuminate\Support\Facades\DB;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  * @property string $currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
+ * @property-read mixed $connection
+ * @property-read \App\Address $address
+ * @property-read \App\CompanyStatistics $statistics
+ * @property-read \App\CompanySettings $settings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $vendors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Vendor[] $customerVendors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $customerCompanies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $supplierCompanies
+ * @property-read mixed $connects
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereDescription($value)
+ * @mixin \Eloquent
  */
 class Company extends Model
 {
@@ -170,14 +187,14 @@ class Company extends Model
 
     }
 
+    /**
+     * A Company can have many Purchase Orders 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function purchaseOrders()
     {
-        return $this->hasManyThrough(PurchaseOrder::class, Project::class);
-    }
-
-    public function company()
-    {
-        return $this->projects()->first()->company;
+        return $this->hasMany(PurchaseOrder::class);
     }
 
     /**

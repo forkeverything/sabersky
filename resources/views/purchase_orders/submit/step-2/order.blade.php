@@ -7,14 +7,43 @@
 </div>
 <div class="billing-address section">
     <h5 class="required">Billing Address</h5>
-    <div class="address-fields">
+    <div class="check-same-company checkbox styled" v-if="companyAddress">
+        <label>
+            <i class="fa fa-check-square-o checked" v-show="billingAddressSameAsCompany"></i>
+            <i class="fa fa-square-o empty" v-else></i>
+            <input class="clickable hidden"
+                   type="checkbox"
+                   v-model="billingAddressSameAsCompany">
+            Same as Company Address
+        </label>
+    </div>
+    <div class="company-address" v-show="companyAddress && billingAddressSameAsCompany">
+        <address>
+            <span class="company_name">@{{ company.name }}</span>
+            <span class="display-block"
+                  v-if="companyAddress.contact_person"
+            >
+                @{{ companyAddress.contact_person }}
+            </span>
+            <span class="address_1 display-block">@{{ companyAddress.address_1 }}</span>
+            <span class="address_2 display-block" v-if="companyAddress.address_2">@{{ companyAddress.address_2 }}</span>
+            <span class="city">@{{ companyAddress.city }}</span>,
+            <span class="zip">@{{ companyAddress.zip }}</span>
+            <div class="state-country display-block">
+                <span class="state">@{{ companyAddress.state }}</span>,
+                <span class="country">@{{ companyAddress.country }}</span><br>
+                <span class="phone"><abbr title="Phone">P:</abbr> @{{ companyAddress.phone }}</span>
+            </div>
+        </address>
+    </div>
+    <div class="address-fields" v-show="companyAddress && ! billingAddressSameAsCompany">
         <div class="row">
             <div class="col-sm-6">
                 <div class="shift-label-input">
                     <input type="text" class="not-required"
                            v-model="billingContactPerson"
                            :class="{ 'filled': billingContactPerson }"
-                           :value="user.company.address.contact_person"
+                           :value="companyAddress.contact_person"
                     >
                     <label placeholder="Contact Person"></label>
                 </div>
@@ -23,7 +52,7 @@
                 <div class="shift-label-input">
                     <input type="text"
                            required
-                           :value="user.company.address.phone"
+                           :value="companyAddress.phone"
                            v-model="billingPhone"
                     >
                     <label placeholder="Phone" class="required"></label>
@@ -33,7 +62,7 @@
         <div class="shift-label-input">
             <input type="text"
                    required
-                   :value="user.company.address.address_1"
+                   :value="companyAddress.address_1"
                    v-model="billingAddress1"
             >
             <label placeholder="Address" class="required"></label>
@@ -41,7 +70,7 @@
         <div class="shift-label-input">
             <input type="text"
                    required
-                   :value="user.company.address.address_2"
+                   :value="companyAddress.address_2"
                    class="not-required"
                    :class="{
                                             'filled': billingAddress2
@@ -55,7 +84,7 @@
                 <div class="shift-label-input">
                     <input type="text"
                            required
-                           :value="user.company.address.city"
+                           :value="companyAddress.city"
                            v-model="billingCity"
                     >
                     <label placeholder="City" class="required"></label>
@@ -65,7 +94,7 @@
                 <div class="shift-label-input">
                     <input type="text"
                            required
-                           :value="user.company.address.zip"
+                           :value="companyAddress.zip"
                            v-model="billingZip"
                     >
                     <label class="required" placeholder="Zip"></label>
@@ -77,7 +106,7 @@
                 <div class="form-group shift-select">
                     <label class="required">Country</label>
                     <country-selecter :name.sync="billingCountryID"
-                                      :default="user.company.address.country_id"
+                                      :default="companyAddress.country_id"
                                       :event="selected-billing-country"></country-selecter>
                 </div>
             </div>
@@ -85,7 +114,7 @@
                 <div class="form-group shift-select">
                     <label class="required">State</label>
                     <state-selecter :name.sync="billingState"
-                                    :default="user.company.address.state"
+                                    :default="companyAddress.state"
                                     :listen="selected-billing-country"></state-selecter>
                 </div>
             </div>
@@ -96,7 +125,7 @@
     <h5>Shipping Address</h5>
     <div class="check-same-billing checkbox styled">
         <label>
-            <i class="fa fa-check-square-o checked" v-if="shippingAddressSameAsBilling"></i>
+            <i class="fa fa-check-square-o checked" v-show="shippingAddressSameAsBilling"></i>
             <i class="fa fa-square-o empty" v-else></i>
             <input class="clickable hidden"
                    type="checkbox"
@@ -104,7 +133,7 @@
             Same as billing address
         </label>
     </div>
-    <div class="address-fields" v-if="! shippingAddressSameAsBilling">
+    <div class="address-fields" v-show="! shippingAddressSameAsBilling">
         <div class="row">
             <div class="col-sm-6">
                 <div class="shift-label-input">

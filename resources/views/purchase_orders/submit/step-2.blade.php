@@ -27,6 +27,7 @@
                 @include('purchase_orders.submit.step-2.summary')
         </div>
     </div>
+    <form-errors></form-errors>
     <div class="bottom-nav-buttons align-end">
         <button type="button" class="btn btn-solid-green btn-create" @click="createOrder" :disabled="! canCreateOrder">Create Order</button>
     </div>

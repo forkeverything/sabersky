@@ -23,6 +23,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property-read mixed $new
  * @property-read mixed $mean
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Photo[] $photos
+ * @property string $sku
+ * @property string $brand
+ * @property integer $company_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereSku($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereBrand($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereSpecification($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereCompanyId($value)
+ * @mixin \Eloquent
  */
 class Item extends Model
 {
@@ -183,7 +195,8 @@ class Item extends Model
 
     /**
      * Calculated the Mean Price for the
-     * item.
+     * Item, using all the 'approved'
+     * Purchase Orders
      *
      * @return float|null
      */

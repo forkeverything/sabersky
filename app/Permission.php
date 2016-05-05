@@ -13,6 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $label
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
+ * @method static \Illuminate\Database\Query\Builder|\App\Permission whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Permission whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Permission whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Permission whereLabel($value)
+ * @mixin \Eloquent
  */
 class Permission extends Model
 {

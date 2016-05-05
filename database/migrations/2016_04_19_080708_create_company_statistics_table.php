@@ -17,6 +17,7 @@ class CreateCompanyStatisticsTable extends Migration
             $table->timestamps();
 
             $table->integer('pr_count')->default(0);
+            $table->integer('po_count')->default(0);
 
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

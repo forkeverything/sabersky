@@ -6,6 +6,35 @@ use App\Address;
 use Illuminate\Database\Eloquent\Model;
 
 
+/**
+ * App\Vendor
+ *
+ * @property integer $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $name
+ * @property string $description
+ * @property integer $base_company_id
+ * @property boolean $verified
+ * @property integer $linked_company_id
+ * @property-read \App\Company $baseCompany
+ * @property-read \App\Company $linkedCompany
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BankAccount[] $allBankAccounts
+ * @property-read mixed $bank_accounts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
+ * @property-read mixed $number_p_o
+ * @property-read mixed $average_p_o
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Address[] $addresses
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereBaseCompanyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereVerified($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereLinkedCompanyId($value)
+ * @mixin \Eloquent
+ */
 class Vendor extends Model
 {
     protected $fillable = [

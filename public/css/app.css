@@ -6100,7 +6100,7 @@ button.close {
     outline: 0;
     color: #FFFFFF; }
   .btn-solid:disabled, .btn-solid-green:disabled, .btn-solid-yellow:disabled, .btn-solid-blue:disabled, .btn-solid-red:disabled, .btn-solid-grey:disabled {
-    background: #D2D2D2;
+    background: #D2D2D2 !important;
     color: #757575;
     box-shadow: none !important; }
     .btn-solid:disabled:hover, .btn-solid-green:disabled:hover, .btn-solid-yellow:disabled:hover, .btn-solid-blue:disabled:hover, .btn-solid-red:disabled:hover, .btn-solid-grey:disabled:hover {
@@ -7689,9 +7689,6 @@ label.required {
     padding: 10px;
     border: 1px solid #E6E9EB;
     border-radius: 4px; }
-    #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .single-address .contact_person {
-      font-weight: bold;
-      font-size: 1.2em; }
     #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .single-address:hover {
       border-color: #3498DB; }
     #purchase-orders-submit #po-submit-2 .vendor-details .address-selection .single-address.selected {
@@ -7753,9 +7750,9 @@ label.required {
         display: flex; }
   #purchase-orders-submit #po-submit-2 .order-details .section {
     margin: 0 0 15px 0; }
-  #purchase-orders-submit #po-submit-2 .order-details .shipping-address .check-same-billing {
+  #purchase-orders-submit #po-submit-2 .order-details .billing-address .checkbox, #purchase-orders-submit #po-submit-2 .order-details .shipping-address .checkbox {
     margin: 0 0 10px 0; }
-    #purchase-orders-submit #po-submit-2 .order-details .shipping-address .check-same-billing label {
+    #purchase-orders-submit #po-submit-2 .order-details .billing-address .checkbox label, #purchase-orders-submit #po-submit-2 .order-details .shipping-address .checkbox label {
       width: auto;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7763,7 +7760,7 @@ label.required {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center; }
-      #purchase-orders-submit #po-submit-2 .order-details .shipping-address .check-same-billing label i {
+      #purchase-orders-submit #po-submit-2 .order-details .billing-address .checkbox label i, #purchase-orders-submit #po-submit-2 .order-details .shipping-address .checkbox label i {
         width: 20px;
         margin: 0 5px 0 0; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates {
@@ -9866,5 +9863,9 @@ li.active {
   -o-filter: blur(7px) grayscale(0.6) opacity(0.9);
   -ms-filter: blur(7px) grayscale(0.6) opacity(0.9);
   filter: blur(7px) grayscale(0.6) opacity(0.9); }
+
+.single-address .contact_person, .single-address .company_name, address .contact_person, address .company_name {
+  font-weight: bold;
+  font-size: 1.2em; }
 
 /*# sourceMappingURL=app.css.map */

@@ -23,6 +23,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Project $project
  * @property-read \App\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\LineItem[] $lineItems
+ * @property integer $number
+ * @property-read mixed $fulfilled_quantity
+ * @property-read mixed $initial_quantity
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereNumber($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereQuantity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereDue($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereUrgent($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereItemId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereProjectId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereUserId($value)
+ * @mixin \Eloquent
  */
 class PurchaseRequest extends Model
 {
@@ -53,7 +68,7 @@ class PurchaseRequest extends Model
         'due'
     ];
 
-
+    
     /**
      * Every PR has belongs to a single Item
      * which it is requesting.
@@ -189,18 +204,30 @@ class PurchaseRequest extends Model
         return $this;
     }
 
+    /**
+     * Calculates how many quantities of this PR's Item has
+     * already been fulfilled (by 'approved' POs).
+     *
+     * @return int
+     */
     public function getFulfilledQuantityAttribute()
     {
         $fulfilledQuantities = 0;
         $lineItems = $this->lineItems;
         foreach ($lineItems as $lineItem) {
-            if ($lineItem->purchaseOrder->status !== 'rejected') {
-                $fulfilledQuantities += $lineItem->quantity;
-            }
+            if ($lineItem->purchaseOrder->hasStatus('rejected')) break;
+            $fulfilledQuantities += $lineItem->quantity;
         }
         return $fulfilledQuantities;
     }
 
+    /**
+     * Calculates how many quantities were originally requested in
+     * this PR. Remember we 'add back' quantities when a PO has
+     * been rejected.
+     *
+     * @return int
+     */
     public function getInitialQuantityAttribute()
     {
         return $this->quantity + $this->fulfilledQuantity;

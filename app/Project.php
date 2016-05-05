@@ -23,6 +23,15 @@ use Illuminate\Support\Facades\Auth;
  * @property-read \App\Company $company
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereLocation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereOperational($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Project whereCompanyId($value)
+ * @mixin \Eloquent
  */
 class Project extends Model
 {

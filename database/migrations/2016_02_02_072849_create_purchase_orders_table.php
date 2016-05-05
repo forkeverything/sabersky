@@ -16,17 +16,41 @@ class CreatePurchaseOrdersTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
+            // Status of Order
             $table->string('status')->default('pending'); // pending, approved or rejected
 
-            $table->integer('vendor_id')->unsigned();
-            $table->integer('bank_account_id')->unsigned()->nullable();
-            $table->integer('user_id')->unsigned();
-            $table->integer('address_id')->unsigned()->nullable();
+            $table->integer('number');  // Sequential numbering per. company
 
+            // Vendor
+                // id
+                $table->integer('vendor_id')->unsigned();
+                $table->foreign('vendor_id')->references('id')->on('vendors');
+                // Address
+                $table->integer('vendor_address_id')->unsigned()->nullable();                           // Can be NULL depending on Company Settings
+                $table->foreign('vendor_address_id')->references('id')->on('addresses');
+                // Account
+                $table->integer('vendor_bank_account_id')->unsigned()->nullable();                      // Can be NULL depending on Company Settings
+                $table->foreign('vendor_bank_account_id')->references('id')->on('bank_accounts');
+
+            // Purchase Info
+                // Currency
+                $table->integer('currency_id')->unsigned()->default('840');
+                $table->foreign('currency_id')->references('id')->on('countries');
+                // Compulsory billing address - null at first, attach after creating model
+                $table->integer('billing_address_id')->unsigned()->nullable();
+                $table->foreign('billing_address_id')->references('id')->on('addresses');
+                // Optional shipping address (if null assume same as billing)
+                $table->integer('shipping_address_id')->unsigned()->nullable();
+                $table->foreign('shipping_address_id')->references('id')->on('addresses');
+
+            // User that submitted PO
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('vendor_id')->references('id')->on('vendors');
-            $table->foreign('bank_account_id')->references('id')->on('bank_accounts');
-            $table->foreign('address_id')->references('id')->on('addresses');
+
+            // Company
+            $table->integer('company_id')->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies');
+
         });
     }
 

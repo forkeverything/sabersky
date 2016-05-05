@@ -23,6 +23,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $invite_key
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereInviteKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereCompanyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereRoleId($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
