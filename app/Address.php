@@ -71,6 +71,24 @@ class Address extends Model
     }
 
     /**
+     * :::UNTESTED:::
+     *
+     * Wrapper func to manually set an Address's owner
+     * using a type (string) and id (int)
+     * 
+     * @param $type
+     * @param $id
+     * @return $this
+     */
+    public function setOwner($type, $id)
+    {
+        $this->owner_type = $type;
+        $this->owner_id = $id;
+        $this->save();
+        return $this;
+    }
+
+    /**
      * Append the Address's country's name
      * @return mixed
      */
@@ -105,4 +123,5 @@ class Address extends Model
         $this->primary = 0;
         return $this->save();
     }
+
 }

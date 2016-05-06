@@ -255,10 +255,7 @@ class PurchaseOrder extends Model
      */
     public function billingAddress()
     {
-        // If we're latching onto an Address that belongs to a Company, then just fetch it
-        if ($this->billing_address_id) return $this->belongsTo(Address::class, 'billing_address_id');
-        // Otherwise we're creating a new Address for this PO, we should set this PO as the owner
-        return $this->morphOne(Address::class, 'owner');
+        return $this->belongsTo(Address::class, 'billing_address_id');
     }
 
     /**
@@ -269,12 +266,13 @@ class PurchaseOrder extends Model
      */
     public function shippingAddress()
     {
-        if ($this->shipping_address_id) return $this->belongsTo(Address::class, 'shipping_address_id');
-        return $this->morphOne(Address::class, 'owner');
+        return $this->belongsTo(Address::class, 'shipping_address_id');
     }
 
     /**
-     * Attaches Address models as Billing and Shipping Addresses respectively
+     * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach
+     * billing_address_id and shipping_address_id - so it allows them to both reference different
+     * Address models. If an Address has no owner, we will also attach this PO as the owner.
      *
      * @param Address $billingAddress
      * @param Address $shippingAddress
@@ -282,17 +280,14 @@ class PurchaseOrder extends Model
      */
     public function attachBillingAndShippingAddresses(Address $billingAddress, Address $shippingAddress)
     {
-        if ($billingAddress->owner_id) {
-            $this->billing_address_id = $billingAddress->id;
-        } else {
-            $this->billingAddress()->save($billingAddress);
-        }
 
-        if ($shippingAddress->owner_id) {
-            $this->shipping_address_id = $shippingAddress->id;
-        } else {
-            $this->shippingAddress()->save($shippingAddress);
-        }
+        // Attach IDs
+        $this->billing_address_id = $billingAddress->id;
+        $this->shipping_address_id = $shippingAddress->id;
+
+        // Save as parent IF the address does not already belong to another parent (ie. Company)
+        if (! $billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
+        if (! $shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
 
         $this->save();
         return $this;

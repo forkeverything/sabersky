@@ -84,24 +84,6 @@ $factory->define(\App\Address::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(\App\PurchaseOrder::class, function (Faker\Generator $faker) {
-    return [
-        'project_id' => 1,
-        'vendor_id' => factory(\App\Vendor::class)->create()->id,
-        'user_id' => factory(\App\User::class)->create()->id
-    ];
-});
-
-$factory->define(\App\Item::class, function (Faker\Generator $faker) {
-    return [
-        'sku' => str_random(10),
-        'brand' => $faker->name,
-        'name' => $faker->word,
-        'specification' => $faker->paragraph(2),
-        'company_id' => factory(Company::class)->create()->id
-    ];
-});
-
 $factory->define(\App\PurchaseRequest::class, function (Faker\Generator $faker) {
     $project = factory(Project::class)->create();
     return [
@@ -118,6 +100,49 @@ $factory->define(\App\PurchaseRequest::class, function (Faker\Generator $faker) 
         ])->id
     ];
 });
+
+$factory->define(\App\PurchaseOrder::class, function (Faker\Generator $faker) {
+    $vendor = factory(\App\Vendor::class)->create();
+    $vendorAddress = factory(\App\Address::class)->create([
+        'owner_id' => $vendor->id
+    ]);
+    $vendorBankAccount = factory(\App\BankAccount::class)->create([
+        'vendor_id' => $vendor->id
+    ]);
+    return [
+        'vendor_id' => $vendor->id,
+        'vendor_address_id' => $vendorAddress->id,
+        'vendor_bank_account_id' => $vendorBankAccount->id,
+        'user_id' => factory(\App\User::class)->create([
+            'company_id' => $vendor->base_company_id
+        ])->id,
+        'company_id' => $vendor->base_company_id
+    ];
+});
+
+$factory->define(\App\Item::class, function (Faker\Generator $faker) {
+    return [
+        'sku' => str_random(10),
+        'brand' => $faker->name,
+        'name' => $faker->word,
+        'specification' => $faker->paragraph(2),
+        'company_id' => factory(Company::class)->create()->id
+    ];
+});
+
+$factory->define(\App\LineItem::class, function (Faker\Generator $faker) {
+    $purchaseRequest = factory(\App\PurchaseRequest::class)->create();
+
+    return [
+        'quantity' => $purchaseRequest->quantity,
+        'price' => $faker->randomNumber(6),
+        'payable' => $faker->date('d/m/Y'),
+        'delivery' => $faker->date('d/m/Y'),
+
+    ];
+});
+
+
 
 $factory->define(\App\Photo::class, function (Faker\Generator $faker) {
     $name = $faker->word;
