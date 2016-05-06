@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Company;
+use App\PurchaseOrder;
 use App\Vendor;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +21,8 @@ class AddressServiceProvider extends ServiceProvider
         Relation::morphMap([
             // Instead use singular of table name
             'vendor' => Vendor::class,
-            'company' => Company::class
+            'company' => Company::class,
+            'purchase_order' => PurchaseOrder::class
         ]);
     }
 

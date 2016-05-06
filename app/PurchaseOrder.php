@@ -60,7 +60,7 @@ class PurchaseOrder extends Model
      * Dynamically generated Total Attribute which takes into
      * account each Line Item as well as any Additional Costs
      * that have been added to the Order
-     * 
+     *
      * @return int|string
      */
     public function getTotalAttribute()
@@ -82,7 +82,7 @@ class PurchaseOrder extends Model
 
     /**
      * A Purchase Order belongs to a single Company
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function company()
@@ -102,7 +102,7 @@ class PurchaseOrder extends Model
 
     /**
      * A PO can contain many Line Items.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function lineItems()
@@ -124,7 +124,7 @@ class PurchaseOrder extends Model
      * Will update the quantities for any PRs that are
      * fulfilled by the Line Items contained within
      * this PO
-     * 
+     *
      * @return $this
      */
     public function updatePurchaseRequests()
@@ -210,7 +210,7 @@ class PurchaseOrder extends Model
     public function tryAutoApprove()
     {
         // If PO is 'pending' and DOES NOT have any attached rules
-        if($this->hasStatus('pending') && count($this->rules) === 0) {
+        if ($this->hasStatus('pending') && count($this->rules) === 0) {
             $this->markApproved();
         }
         return $this;
@@ -230,7 +230,7 @@ class PurchaseOrder extends Model
     /**
      * A PO Could be made out to an address that belongs to
      * either a Vendor or a Company linked to Vendor
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function vendorAddress()
@@ -240,7 +240,7 @@ class PurchaseOrder extends Model
 
     /**
      * PO made out to a single Vendor's Bank Account
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function vendorBankAccount()
@@ -250,23 +250,27 @@ class PurchaseOrder extends Model
 
     /**
      * PO Made out to a single Billing Address
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function billingAddress()
     {
-        return $this->belongsTo(Address::class, 'billing_address_id');
+        // If we're latching onto an Address that belongs to a Company, then just fetch it
+        if ($this->billing_address_id) return $this->belongsTo(Address::class, 'billing_address_id');
+        // Otherwise we're creating a new Address for this PO, we should set this PO as the owner
+        return $this->morphOne(Address::class, 'owner');
     }
 
     /**
      * Optionally, PO can be made out to a Shipping Address that differs
      * from it's Billing Address
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function shippingAddress()
     {
-        return $this->belongsTo(Address::class, 'shipping_address_id');
+        if ($this->shipping_address_id) return $this->belongsTo(Address::class, 'shipping_address_id');
+        return $this->morphOne(Address::class, 'owner');
     }
 
     /**
@@ -278,8 +282,18 @@ class PurchaseOrder extends Model
      */
     public function attachBillingAndShippingAddresses(Address $billingAddress, Address $shippingAddress)
     {
-        $this->billing_address_id = $billingAddress->id;
-        $this->shipping_address_id = $shippingAddress->id;
+        if ($billingAddress->owner_id) {
+            $this->billing_address_id = $billingAddress->id;
+        } else {
+            $this->billingAddress()->save($billingAddress);
+        }
+
+        if ($shippingAddress->owner_id) {
+            $this->shipping_address_id = $shippingAddress->id;
+        } else {
+            $this->shippingAddress()->save($shippingAddress);
+        }
+
         $this->save();
         return $this;
     }

@@ -27,29 +27,29 @@ class SubmitPurchaseOrderRequest extends Request
         return [
             // Vendor
             'vendor_id' => 'required',
-            'vendor_address_id' => 'required_if:po_requires_address,true',
-            'vendor_bank_account_id' => 'required_if:po_requires_bank_account, true',
+            'vendor_address_id' => 'required_if:po_requires_address, 1',
+            'vendor_bank_account_id' => 'required_if:po_requires_bank_account, 1',
             // Order
                 // Currency
                 'currency_id' => 'required',
                 // Billing
-                'billing_phone' => 'required_if:billing_address_same_as_company, false',
-                'billing_address_1' => 'required_if:billing_address_same_as_company, false',
-                'billing_city' => 'required_if:billing_address_same_as_company, false',
-                'billing_zip' => 'required_if:billing_address_same_as_company, false',
-                'billing_state' => 'required_if:billing_address_same_as_company, false',
-                'billing_country_id' => 'required_if:billing_address_same_as_company, false',
+                'billing_phone' => 'required_if:billing_address_same_as_company, 0',
+                'billing_address_1' => 'required_if:billing_address_same_as_company, 0',
+                'billing_city' => 'required_if:billing_address_same_as_company, 0',
+                'billing_zip' => 'required_if:billing_address_same_as_company, 0',
+                'billing_state' => 'required_if:billing_address_same_as_company, 0',
+                'billing_country_id' => 'required_if:billing_address_same_as_company, 0',
                 // Shipping
-                'shipping_phone' => 'required_if:billing_address_same_as_company, false',
-                'shipping_address_1' => 'required_if:shipping_address_same_as_billing, false',
-                'shipping_city' => 'required_if:shipping_address_same_as_billing, false',
-                'shipping_zip' => 'required_if:shipping_address_same_as_billing, false',
-                'shipping_state' => 'required_if:shipping_address_same_as_billing, false',
-                'shipping_country_id' => 'required_if:shipping_address_same_as_billing, false',
+                'shipping_phone' => 'required_if:shipping_address_same_as_billing, 0',
+                'shipping_address_1' => 'required_if:shipping_address_same_as_billing, 0',
+                'shipping_city' => 'required_if:shipping_address_same_as_billing, 0',
+                'shipping_zip' => 'required_if:shipping_address_same_as_billing, 0',
+                'shipping_state' => 'required_if:shipping_address_same_as_billing, 0',
+                'shipping_country_id' => 'required_if:shipping_address_same_as_billing, 0',
             // Line Items
                 'line_items.*.order_quantity' => 'required',
-                'line_items.*' => 'required|line_item_quantity',
                 'line_items.*.order_price' => 'required',
+                'line_items.*' => 'required|line_item_quantity_valid|pr_can_fulfill|pr_state_open|',
             // Additional costs
                 'additional_costs.*.name' => 'required',
                 'additional_costs.*.type' => 'required',
@@ -82,10 +82,12 @@ class SubmitPurchaseOrderRequest extends Request
             'shipping_state.required_if' => 'Shipping State required',
             'shipping_country_id.required_if' => 'Shipping Country not selected',
             // Line Items
-            'line_items.*.order_quantity.required' => 'Item quantity required',
+            'line_items.*.line_item_quantity_valid' => 'Line Item QTY exceeds Request QTY',
+            'line_items.*.pr_can_fulfill' => 'Not authorized to fulfill this Request',
+            'line_items.*.pr_state_open' => 'Request is not open for fulfillment',
+            'line_items.*.order_quantity.required' => 'Line Item QTY required',
+            'line_items.*.order_price.required' => 'Line Item Price required',
             'line_items.*.required' => 'Line Items are required',
-            'line_items.*.line_item_quantity' => 'Line Item QTY exceeds Request QTY',
-            'line_items.*.order_price.required' => 'Item price required',
             // Additional costs
             'additional_costs.*.name.required' => 'Cost / Discount Name required',
             'additional_costs.*.type.required' => 'Cost / Discount Type required',

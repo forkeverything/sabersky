@@ -25,7 +25,8 @@ class PurchaseRequestPolicy
     }
 
     /**
-     * UNTESTED
+     * :::UNTESTED:::
+     * 
      * Authorized to make changes to a PR if a User is allows to view
      * the PR and also if the User Role has authorization to make
      * Purchase Requests.
@@ -37,6 +38,22 @@ class PurchaseRequestPolicy
     public function change(User $user, PurchaseRequest $purchaseRequest)
     {
         return $this->view($user, $purchaseRequest) && Gate::allows('pr_make');
+    }
+
+    /**
+     * :::UNTESTED:::
+     *
+     * A User is allowed to fulfill (make a order) for a PR if they are
+     * allowed to view it (belong to same project) and they are also
+     * authorized to submit Purchase Orders.
+     * 
+     * @param User $user
+     * @param PurchaseRequest $purchaseRequest
+     * @return bool
+     */
+    public function fulfill(User $user, PurchaseRequest $purchaseRequest)
+    {
+        return $this->view($user, $purchaseRequest) && Gate::allows('po_submit');
     }
 
 

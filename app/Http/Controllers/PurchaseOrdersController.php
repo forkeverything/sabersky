@@ -27,11 +27,6 @@ class PurchaseOrdersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        /**
-         * TODO :: Find a better way to persist PO when adding Line Items
-         * to Purchase Orders - maybe through front-end data instead
-         * of DB
-         */
     }
 
     /**
@@ -91,6 +86,7 @@ class PurchaseOrdersController extends Controller
      */
     public function postSubmit(SubmitPurchaseOrderRequest $request)
     {
+
         // Create our purchase orders
         $purchaseOrder = PurchaseOrder::create([
             'vendor_id' => $request->input('vendor_id'),
@@ -104,7 +100,7 @@ class PurchaseOrdersController extends Controller
         // IF billing was not same as company
         $billingAddress = Auth::user()->company->address;
         if (!$request->input('billing_address_same_as_company')) {
-            $billingAddress = $purchaseOrder->billingAddress()->create([
+            $billingAddress = Address::create([
                 'contact_person' => $request->input('billing_contact_person'),
                 'phone' => $request->input('billing_phone'),
                 'address_1' => $request->input('billing_address_1'),
@@ -118,7 +114,7 @@ class PurchaseOrdersController extends Controller
 
         $shippingAddress = $billingAddress;
         if (!$request->input('shipping_address_same_as_billing')) {
-            $shippingAddress = $purchaseOrder->shippingAddress()->create([
+            $shippingAddress  = Address::create([
                 'contact_person' => $request->input('shipping_contact_person'),
                 'phone' => $request->input('shipping_phone'),
                 'address_1' => $request->input('shipping_address_1'),
@@ -132,7 +128,6 @@ class PurchaseOrdersController extends Controller
 
         // Create Line Items
         foreach ($request->input('line_items') as $lineItem) {
-
             $purchaseOrder->lineItems()->create([
                 'quantity' => $lineItem['order_quantity'],
                 'price' => $lineItem['order_price'],
