@@ -86,7 +86,7 @@ class PurchaseOrdersController extends Controller
      */
     public function postSubmit(SubmitPurchaseOrderRequest $request)
     {
-
+        
         // Create our purchase orders
         $purchaseOrder = PurchaseOrder::create([
             'vendor_id' => $request->input('vendor_id'),

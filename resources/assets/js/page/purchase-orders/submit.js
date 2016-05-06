@@ -25,7 +25,7 @@ Vue.component('purchase-orders-submit', {
             selectedAddress: '',
             selectedBankAccount: '',
             currency: '',
-            billingAddressSameAsCompany: true,
+            billingAddressSameAsCompany: 1,
             billingContactPerson: '',
             billingPhone: '',
             billingAddress1: '',
@@ -34,7 +34,7 @@ Vue.component('purchase-orders-submit', {
             billingZip: '',
             billingCountryID: '',
             billingState: '',
-            shippingAddressSameAsBilling: true,
+            shippingAddressSameAsBilling: 1,
             shippingContactPerson: '',
             shippingPhone: '',
             shippingAddress1: '',
@@ -63,8 +63,8 @@ Vue.component('purchase-orders-submit', {
         userCurrency: function () {
             return this.user.company.settings.currency;
         },
-        company: function() {
-          return this.user.company;
+        company: function () {
+            return this.user.company;
         },
         companyAddress: function () {
             if (_.isEmpty(this.user.company.address)) return false;
@@ -150,7 +150,7 @@ Vue.component('purchase-orders-submit', {
             // currency set!
             if (!this.currency) validOrder = false;
             // Billing address required fields valid
-            if (!this.validBillingAddress) validOrder = false;
+            if (!this.billingAddressSameAsCompany && !this.validBillingAddress) validOrder = false;
             // If shipping NOT the same &&  Shipping address required fields not valid
             if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
 
@@ -162,7 +162,7 @@ Vue.component('purchase-orders-submit', {
                 // quantity and price is filled
                 if (!item.order_quantity || !item.order_price) validItems = false;
                 // quantity to order <= quantity requested
-                if(item.order_quantity > item.quantity) validItems = false;
+                if (item.order_quantity > item.quantity) validItems = false;
             });
 
             // Create away if all valid
@@ -299,7 +299,7 @@ Vue.component('purchase-orders-submit', {
         createOrder: function () {
             var self = this;
             vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
+            if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
                 url: '/purchase_orders/submit',
@@ -319,6 +319,7 @@ Vue.component('purchase-orders-submit', {
                     "billing_country_id": self.billingCountryID,
                     "billing_state": self.billingState,
                     "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
+                    "shipping_contact_person": self.shippingContactPerson,
                     "shipping_phone": self.shippingPhone,
                     "shipping_address_1": self.shippingAddress1,
                     "shipping_address_2": self.shippingAddress2,
@@ -329,13 +330,13 @@ Vue.component('purchase-orders-submit', {
                     "line_items": self.lineItems,
                     "additional_costs": self.additionalCosts
                 },
-                success: function(data) {
-                   // success
+                success: function (data) {
+                    // success
                     flashNotifyNextRequest('success', 'Submitted Purchase Order');
                     location = "/purchase_orders";
-                   self.ajaxReady = true;
+                    self.ajaxReady = true;
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log(response);
                     vueValidation(response, self);
                     self.ajaxReady = true;
@@ -350,12 +351,21 @@ Vue.component('purchase-orders-submit', {
     },
     mixins: [numberFormatter],
     ready: function () {
+
         this.$watch('projectID', function (val) {
             if (!val) return;
             this.fetchPurchaseRequests();
         });
+
         this.$watch('vendorID', function (val) {
             var self = this;
+            self.vendor = {
+                linked_company: {},
+                bank_accounts: [],
+                addresses: []
+            };
+            self.selectedAddress = '';
+            self.selectedBankAccount = '';
             $.ajax({
                 url: '/api/vendors/' + val,
                 method: 'GET',

@@ -13,7 +13,10 @@
             <i class="fa fa-square-o empty" v-else></i>
             <input class="clickable hidden"
                    type="checkbox"
-                   v-model="billingAddressSameAsCompany">
+                   v-model="billingAddressSameAsCompany"
+                   :true-value="1"
+                   :false-value="0"
+            >
             Same as Company Address
         </label>
     </div>
@@ -107,7 +110,7 @@
                     <label class="required">Country</label>
                     <country-selecter :name.sync="billingCountryID"
                                       :default="companyAddress.country_id"
-                                      :event="selected-billing-country"></country-selecter>
+                                      :event="'selected-billing-country'"></country-selecter>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -115,7 +118,7 @@
                     <label class="required">State</label>
                     <state-selecter :name.sync="billingState"
                                     :default="companyAddress.state"
-                                    :listen="selected-billing-country"></state-selecter>
+                                    :listen="'selected-billing-country'"></state-selecter>
                 </div>
             </div>
         </div>
@@ -129,7 +132,10 @@
             <i class="fa fa-square-o empty" v-else></i>
             <input class="clickable hidden"
                    type="checkbox"
-                   v-model="shippingAddressSameAsBilling">
+                   v-model="shippingAddressSameAsBilling"
+                   :true-value="1"
+                   :false-value="0"
+            >
             Same as billing address
         </label>
     </div>
@@ -184,14 +190,14 @@
                 <div class="form-group shift-select">
                     <label class="required">Country</label>
                     <country-selecter :name.sync="shippingCountryID"
-                                      :event="selected-shipping-country"></country-selecter>
+                                      :event="'selected-shipping-country'"></country-selecter>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group shift-select">
                     <label class="required">State</label>
                     <state-selecter :name.sync="shippingState"
-                                    :listen="selected-shipping-country"></state-selecter>
+                                    :listen="'selected-shipping-country'"></state-selecter>
                 </div>
             </div>
         </div>
