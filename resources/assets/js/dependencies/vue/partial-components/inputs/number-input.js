@@ -1,7 +1,7 @@
 Vue.component('number-input', {
     name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class'],
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled'],
     computed: {
         precision: function() {
             return this.decimal || 0;

@@ -51,12 +51,7 @@
                         <div class="input-group"
                              v-if="selectedTrigger.limit_type === 'percentage'"
                         >
-                            <input type="text"
-                                   class="form-control input-rule-limit"
-                                   v-model="ruleLimit | percentage"
-                                   placeholder="Enter a value"
-                                   :disabled="! ruleHasLimit"
-                            >
+                            <number-input :model.sync="ruleLimit" :placeholder="'limit'" :class="['form-control', 'input-rule-limit']" :disabled="! ruleHasLimit"></number-input>
                             <span class="input-group-addon">%</span>
                         </div>
 
@@ -64,12 +59,7 @@
                              v-else
                         >
                             <span class="input-group-addon" v-cloak>@{{ currencySymbol }}</span>
-                            <input type="text"
-                                   class="form-control input-rule-limit"
-                                   v-model="ruleLimit | numberModel"
-                                   placeholder="Enter a value"
-                                   :disabled="! ruleHasLimit"
-                            >
+                            <number-input :model.sync="ruleLimit" :placeholder="'limit'" :class="['form-control', 'input-rule-limit']" :disabled="! ruleHasLimit"></number-input>
                         </div>
 
                     </td>

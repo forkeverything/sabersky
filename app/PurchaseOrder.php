@@ -52,9 +52,23 @@ class PurchaseOrder extends Model
     ];
 
     protected $appends = [
+        'subtotal',
         'total'
     ];
 
+    /**
+     * Returns the subtotal calculated from each Line Item
+     *
+     * @return int
+     */
+    public function getSubtotalAttribute()
+    {
+        $subtotal = 0;
+        foreach ($this->lineItems as $lineItem) {
+            $subtotal += ($lineItem->quantity * $lineItem->price);
+        }
+        return $subtotal;
+    }
 
     /**
      * Dynamically generated Total Attribute which takes into
@@ -65,14 +79,11 @@ class PurchaseOrder extends Model
      */
     public function getTotalAttribute()
     {
-        $subtotal = (int)0;
-        foreach ($this->lineItems as $lineItem) {
-            $subtotal += ($lineItem->quantity * $lineItem->price);
-        }
-        $total = $subtotal;
+
+        $total = $this->subtotal;
         foreach ($this->additionalCosts as $additionalCost) {
             if ($additionalCost->type == '%') {
-                $total += ($subtotal * ($additionalCost->amount / 100));
+                $total += ($this->subtotal * ($additionalCost->amount / 100));
             } else {
                 $total += $additionalCost->amount;
             }
@@ -189,10 +200,11 @@ class PurchaseOrder extends Model
      *
      * @return $this
      */
-    public function attachRules()
+    public function attachRules($company = null, $rules = null)
     {
-        // Get a list of all the company's rules
-        $companyRules = $this->getCompanyRules();
+        $company = $company ?: $this->company;
+        // Get a list of all the company's rules - or if testing, use the mock object provided
+        $companyRules = $rules ?: $company->getRules();
         // For each rule - check each property
         foreach ($companyRules as $rule) {
             $rule->processPurchaseOrder($this);
@@ -216,16 +228,6 @@ class PurchaseOrder extends Model
         return $this;
     }
 
-    /**
-     * Returns all the rules for the project's
-     * company.
-     *
-     * @return Rule[]|\Illuminate\Database\Eloquent\Collection
-     */
-    protected function getCompanyRules()
-    {
-        return $this->company->rules;
-    }
 
     /**
      * A PO Could be made out to an address that belongs to
@@ -302,6 +304,32 @@ class PurchaseOrder extends Model
     public function additionalCosts()
     {
         return $this->hasMany(PurchaseOrderAdditionalCost::class);
+    }
+
+    /**
+     * Checks if this PO is over a given limit.
+     *
+     * Tested within RuleTest
+     *
+     * @param $limit
+     * @return bool
+     */
+    public function totalExceeds($limit)
+    {
+        return $this->total > $limit;
+    }
+
+    /**
+     * Checks whether this PO's vendor is 'new', ie. is there a previous PO
+     * that is also to the same Vendor that is approved?
+     *
+     * Tested within RuleTest
+     * 
+     * @return bool
+     */
+    public function newVendor()
+    {
+        return count($this->vendor->purchaseOrders()->where('status', 'approved')->get()) < 1;
     }
 
 }

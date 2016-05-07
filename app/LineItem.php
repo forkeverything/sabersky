@@ -75,16 +75,52 @@ class LineItem extends Model
         if($value) $this->attributes['delivery'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-
-
+    /**
+     * Line Item is fulfilling a single Purchase Request
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function purchaseRequest()
     {
         return $this->belongsTo(PurchaseRequest::class);
     }
 
+    /**
+     * Line Item can only also belong to one Purcahse Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function purchaseOrder()
     {
         return $this->belongsTo(PurchaseOrder::class);
+    }
+
+    /**
+     * Takes a limit and sees if this Line Item's subtotal, price * quantity
+     * is over the limit.
+     *
+     * Tested in RuleTest
+     * 
+     * @param $limit
+     * @return bool
+     */
+    public function subtotalExceeds($limit)
+    {
+        return ($this->price * $this->quantity) > $limit;
+    }
+
+    /**
+     * Check if the Item this Line Item is servicing's price is over the Item's mean
+     * by a percentage (0 - 100)
+     *
+     * @param $percentage
+     * @return bool
+     */
+    public function itemPriceIsOverMeanBy($percentage)
+    {
+        if(! $itemMean = $this->purchaseRequest->item->mean) return false;
+        $meanDiff = ($this->price - $itemMean) / $itemMean;
+        return $meanDiff > ($percentage / 100);
     }
 
 }

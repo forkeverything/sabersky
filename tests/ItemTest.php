@@ -3,6 +3,8 @@
 use App\Company;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
+use App\PurchaseRequest;
+use App\User;
 use App\Utilities\BuildPhoto;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -86,6 +88,95 @@ class ItemTest extends TestCase
 
         $this->assertNotEmpty(Item::find($item->id)->photos->all());
         $this->assertEquals($photo->id, Item::find($item->id)->photos()->first()->id);
+    }
 
+    /**
+     * @test
+     */
+    public function it_gets_the_right_amount_of_approved_line_items()
+    {
+        $item = factory(Item::class)->create();
+        $this->assertCount(0, $item->approved_line_items);
+
+        $pr = factory(PurchaseRequest::class)->create([
+            'item_id' => $item->id,
+            'project_id' => factory(\App\Project::class)->create([
+                'company_id' => $item->company_id
+            ])->id,
+            'user_id' => factory(User::class)->create([
+                'company_id' => $item->company_id,
+            ])->id
+        ]);
+
+        $po = factory(\App\PurchaseOrder::class)->create(['status' => 'pending']);
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => $po->id
+        ]);
+
+        $po = factory(\App\PurchaseOrder::class)->create(['status' => 'approved']);
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => $po->id
+        ]);
+
+        $po = factory(\App\PurchaseOrder::class)->create(['status' => 'approved']);
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => $po->id
+        ]);
+
+        $po = factory(\App\PurchaseOrder::class)->create(['status' => 'rejected']);
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => $po->id
+        ]);
+
+        // We should get 2 approved_line_items (ignoring pending and cancelled)
+        $this->assertCount(2, Item::find($item->id)->approved_line_items);
+    }
+
+    /**
+     * @test
+     */
+    public function it_calculates_the_correct_mean()
+    {
+        $item = factory(Item::class)->create();
+
+        $this->assertEquals(0, $item->mean);
+
+        $pr = factory(PurchaseRequest::class)->create([
+            'item_id' => $item->id,
+            'project_id' => factory(\App\Project::class)->create([
+                'company_id' => $item->company_id
+            ])->id,
+            'user_id' => factory(User::class)->create([
+                'company_id' => $item->company_id,
+            ])->id,
+            'quantity' => 30
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+            'quantity' => 10,
+            'price' => 5.5
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+            'quantity' => 10,
+            'price' => 13
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+            'quantity' => 10,
+            'price' => 32.28
+        ]);
+
+        $this->assertEquals(16.67, Item::find($item->id)->mean);
     }
 }

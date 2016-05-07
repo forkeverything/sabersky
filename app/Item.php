@@ -176,21 +176,23 @@ class Item extends Model
      */
     public function getNewAttribute()
     {
-        return $this->approvedLineItems()->count() < 1;
+        return $this->approved_line_items->count() < 1;
     }
 
-
-    /**
-     * Returns all the Line Items for this
-     * item where the Purchase Order has
-     * already been approved.
-     * @return mixed
-     */
-    protected function approvedLineItems()
+    public function getApprovedLineItemsAttribute()
     {
-        return $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
-                    ->where('purchase_orders.status', 'approved')
-                    ->get(['line_items.*']);
+        if( ! array_key_exists('approved_line_items', $this->relations)) $this->loadApprovedLineItems();
+        return $this->getRelation('approved_line_items');
+    }
+
+    protected function loadApprovedLineItems()
+    {
+        if( ! array_key_exists('approved_line_items', $this->relations)) {
+            $approvedLineItems = $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
+                              ->where('purchase_orders.status', 'approved')
+                              ->get(['line_items.*']);
+            $this->setRelation('approved_line_items', $approvedLineItems);
+        }
     }
 
     /**
@@ -202,16 +204,16 @@ class Item extends Model
      */
     public function getMeanAttribute()
     {
-        $numOrdered = array_sum($this->approvedLineItems()->pluck('quantity')->toArray());
+        $numOrdered = array_sum($this->approved_line_items->pluck('quantity')->toArray());
 
         if ($numOrdered) {
             $sumOrderedValue = 0;
-            foreach ($this->approvedLineItems()->pluck('quantity', 'price') as $quantity => $price) {
+            foreach ($this->approved_line_items->pluck('quantity', 'price') as $quantity => $price) {
                 $sumOrderedValue += ($quantity * $price);
             }
-            return $sumOrderedValue / $numOrdered;
+            return number_format($sumOrderedValue / $numOrdered, 2);
         }
-        return null;
+        return 0;
     }
 
     /**
@@ -254,4 +256,5 @@ class Item extends Model
         // Attach it the current model instance
         return $this->photos()->save($photo);
     }
+    
 }

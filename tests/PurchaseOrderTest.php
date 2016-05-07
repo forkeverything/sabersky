@@ -1,13 +1,17 @@
 <?php
 
 use App\Address;
+use App\Company;
 use App\Item;
+use App\LineItem;
 use App\Project;
 use App\PurchaseOrder;
+use App\Rule;
 use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery as m;
 
 class PurchaseOrderTest extends TestCase
 {
@@ -140,12 +144,12 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals(30, \App\PurchaseRequest::find($PR_2->id)->quantity);
 
         // Make a line items
-        factory(\App\LineItem::class)->create([
+        factory(LineItem::class)->create([
             'quantity' => $PR_1->quantity,
             'purchase_request_id' => $PR_1->id,
             'purchase_order_id' => static::$purchaseOrder->id
         ]);
-        factory(\App\LineItem::class)->create([
+        factory(LineItem::class)->create([
             'quantity' => 10,
             'purchase_request_id' => $PR_2->id,
             'purchase_order_id' => static::$purchaseOrder->id
@@ -158,6 +162,90 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals(0, \App\PurchaseRequest::find($PR_1->id)->quantity);
         // fulfilled 10 out of 30 = 20 left
         $this->assertEquals(20, \App\PurchaseRequest::find($PR_2->id)->quantity);
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_calls_process_purchase_order_on_rule()
+    {
+        $company = m::mock(Company::class);
+        $rule1 = m::mock(Rule::class);
+        $rule2 = m::mock(Rule::class);
+        $company->shouldReceive('getRules')
+        ->once()
+        ->andReturn([$rule1, $rule2]);
+        $rule1->shouldReceive('processPurchaseOrder')->once()->with(static::$purchaseOrder);
+        $rule2->shouldReceive('processPurchaseOrder')->once()->with(static::$purchaseOrder);
+        static::$purchaseOrder->attachRules($company);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_correct_subtotal()
+    {
+        // 3 Line items - total price should be: 10.5 + 21.12 + 100 = 150
+        factory(LineItem::class)->create([
+            'quantity' => 3,
+            'price' => 3.5,
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+        factory(LineItem::class)->create([
+            'quantity' => 4,
+            'price' => 5.28,
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+        factory(LineItem::class)->create([
+            'quantity' => 2,
+            'price' => 50,
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+
+        $this->assertEquals(131.62, static::$purchaseOrder->subtotal);
+    }
+
+    /**
+     * @test
+     */
+    public function it_calculates_correct_total()
+    {
+        // Create line items totalling subtotal = 100
+        factory(LineItem::class, 5)->create([
+            'quantity' => 2,
+            'price' => 10,
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+
+        // Create our costs / discount
+            // tax = 30% = (0.3 * 100) = 30
+            factory(\App\PurchaseOrderAdditionalCost::class)->create([
+                'type' => '%',
+                'amount' => '30',
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+            // Shipping = 20 (fixed)
+            factory(\App\PurchaseOrderAdditionalCost::class)->create([
+                'type' => 'fixed',
+                'amount' => '20',
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+            // discount = -10% = - (0.1) * 100 = -10
+            factory(\App\PurchaseOrderAdditionalCost::class)->create([
+                'type' => '%',
+                'amount' => '-10',
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+            // Gift voucher = -5
+            factory(\App\PurchaseOrderAdditionalCost::class)->create([
+                'type' => 'fixed',
+                'amount' => '-5',
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+
+        // Total Cost should be 100 + 30 + 20 - 10 - 5= 140
+        $this->assertEquals(135, static::$purchaseOrder->total);
     }
 
 }

@@ -247,6 +247,16 @@ class Company extends Model
     }
 
     /**
+     * Returns alls the Rules that exist for this Company
+     * 
+     * @return Rule[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
      * Creates a new project for the company. The user
      * is the logged user who created the project.
      *

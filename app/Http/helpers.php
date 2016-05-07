@@ -90,3 +90,15 @@ function isDate($string)
 {
     return !! preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $string);
 }
+
+/**
+ * takes a snake_case_string and turns it into a CamelCaseString
+ * , with first letter capitalized.
+ * @param $str
+ * @return mixed
+ */
+function str_snake_to_camel($str)
+{
+    return str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
+}
+

@@ -87,4 +87,6 @@ class CompanyTest extends TestCase
         $this->assertEquals($companyName, Company::fetchPublicProfile($companyName)->name);
     }
 
+
+
 }

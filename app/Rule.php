@@ -104,9 +104,9 @@ class Rule extends Model
     public function getPropertyAttribute()
     {
         return DB::table('rule_properties')
-            ->select('*')
-            ->where('id', $this->rule_property_id)
-            ->first();
+                 ->select('*')
+                 ->where('id', $this->rule_property_id)
+                 ->first();
     }
 
     /**
@@ -118,9 +118,9 @@ class Rule extends Model
     public function getTriggerAttribute()
     {
         return DB::table('rule_triggers')
-            ->select('*')
-            ->where('id', $this->rule_trigger_id)
-            ->first();
+                 ->select('*')
+                 ->where('id', $this->rule_trigger_id)
+                 ->first();
     }
 
     /**
@@ -130,87 +130,23 @@ class Rule extends Model
      *
      * @param PurchaseOrder $purchaseOrder
      */
-    public function processPurchaseOrder(PurchaseOrder $purchaseOrder)
+    public function processPurchaseOrder(PurchaseOrder $purchaseOrder, $property = null)
     {
-        switch ($this->property->name) {
-            case 'order_total':
-                $this->checkOrderTotal($purchaseOrder);
-                break;
-            case 'vendor':
-                $this->checkVendor($purchaseOrder);
-                break;
-            case 'single_item':
-                $this->checkSingleItems($purchaseOrder);
-                break;
-            default:
-                abort(500, 'That property does not exist');
-        }
+        $property = $property ?: $this->property->name;
+        $func = 'check' . str_snake_to_camel($property);
+        $this->$func($purchaseOrder);
     }
 
     /**
-     * Check the property 'order_total' for any triggers that might
-     * have been tripped.
+     * Returns this Rule's Trigger's name or check if this Rule's Trigger
+     * has a given name.
      *
-     * @param PurchaseOrder $purchaseOrder
+     * @return mixed
      */
-    protected function checkOrderTotal(PurchaseOrder $purchaseOrder)
+    public function getTriggerName($trigger = null)
     {
-        switch ($this->trigger->name) {
-            case 'exceeds':
-                if ($purchaseOrder->total > $this->limit) $this->attachToPO($purchaseOrder);
-                break;
-            default:
-                abort(500, 'That trigger does not exist for Order Total');
-                break;
-        }
-    }
-
-    /**
-     * Checks 'vendor' property triggers.
-     *
-     * @param PurchaseOrder $purchaseOrder
-     */
-    protected function checkVendor(PurchaseOrder $purchaseOrder)
-    {
-        switch ($this->trigger->name) {
-            case 'new':
-                // If we the Vendor does not have any prior 'approved' POs, we can assume the Vendor is 'new'
-                if (! $purchaseOrder->vendor->purchaseOrders()->where('status', 'approved')->first()) $this->attachToPO($purchaseOrder);
-                break;
-            default:
-                abort(500, 'That trigger does not exist for Vendor');
-                break;
-        }
-    }
-
-    /**
-     * Check for 'single_item' property triggers.
-     *
-     * @param PurchaseOrder $purchaseOrder
-     */
-    protected function checkSingleItems(PurchaseOrder $purchaseOrder)
-    {
-        foreach ($purchaseOrder->lineItems as $lineItem) {
-            switch ($this->trigger->name) {
-                case 'exceeds':
-                    // Do any items exceed the single item limit?
-                    if (($lineItem->price * $lineItem->quantity) > $this->limit) $this->attachToPO($purchaseOrder);
-                    break;
-                case 'new':
-                    // If the item being ordered has only been ordered once (current PO), then it's new
-                    if ($lineItem->purchaseRequest->item->new) $this->attachToPO($purchaseOrder);
-                    break;
-                case 'percentage_over_mean':
-                    $mean = $lineItem->purchaseRequest->item->mean;
-                    $price = $lineItem->price;
-                    $meanDiff = ($price - $mean) / $mean;
-                    if ($meanDiff > $this->limit) $this->attachToPO($purchaseOrder);
-                    break;
-                default:
-                    abort(500, 'That trigger does not exist for Single Items');
-                    break;
-            }
-        }
+        if ($trigger) return $this->trigger->name == $trigger;
+        return $this->trigger->name;
     }
 
     /**
@@ -221,6 +157,105 @@ class Rule extends Model
     protected function attachToPO(PurchaseOrder $purchaseOrder)
     {
         return $this->purchaseOrders()->attach($purchaseOrder);
+    }
+
+    /**
+     * Check the property 'order_total' for any triggers that might
+     * have been tripped.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
+    public function checkOrderTotal(PurchaseOrder $purchaseOrder)
+    {
+        $func = 'checkOrderTotal' . str_snake_to_camel($this->getTriggerName());
+        $this->$func($purchaseOrder);
+    }
+
+    /**
+     * Check
+     * property: order_total
+     * trigger: exceeds
+     * @param PurchaseOrder $purchaseOrder
+     */
+    protected function checkOrderTotalExceeds(PurchaseOrder $purchaseOrder)
+    {
+        if ($purchaseOrder->totalExceeds($this->limit)) $this->attachToPO($purchaseOrder);
+    }
+
+    /**
+     * Checks 'vendor' property triggers.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
+    public function checkVendor(PurchaseOrder $purchaseOrder)
+    {
+        $func = 'checkVendor' . str_snake_to_camel($this->getTriggerName());
+        $this->$func($purchaseOrder);
+    }
+
+    /**
+     * Check
+     * property: vendor
+     * trigger: new
+     * @param PurchaseOrder $purchaseOrder
+     */
+    protected function checkVendorNew(PurchaseOrder $purchaseOrder)
+    {
+        if ($purchaseOrder->newVendor()) $this->attachToPO($purchaseOrder);
+    }
+
+    /**
+     * Check for 'single_item' property triggers.
+     *
+     * @param PurchaseOrder $purchaseOrder
+     */
+    public function checkSingleItem(PurchaseOrder $purchaseOrder)
+    {
+        foreach ($purchaseOrder->lineItems as $lineItem) {
+            $func = 'checkSingleItem' . str_snake_to_camel($this->getTriggerName());
+            $this->$func($purchaseOrder, $lineItem);
+        }
+    }
+
+    /**
+     * Check
+     * property: single_item
+     * trigger: exceeds
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param LineItem $lineItem
+     */
+    protected function checkSingleItemExceeds(PurchaseOrder $purchaseOrder, LineItem $lineItem)
+    {
+        // Do any items exceed the single item limit?
+        if ($lineItem->subtotalExceeds($this->limit)) $this->attachToPO($purchaseOrder);
+    }
+
+    /**
+     * Check
+     * property: single_item
+     * trigger: new
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param LineItem $lineItem
+     */
+    protected function checkSingleItemNew(PurchaseOrder $purchaseOrder, LineItem $lineItem)
+    {
+        // If the item being ordered has only been ordered once (current PO), then it's new
+        if ($lineItem->purchaseRequest->item->new) $this->attachToPO($purchaseOrder);
+    }
+
+    /**
+     * Check
+     * property: single_item
+     * trigger: percentage_over_mean
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param LineItem $lineItem
+     */
+    protected function checkSingleItemPercentageOverMean(PurchaseOrder $purchaseOrder, LineItem $lineItem)
+    {
+        if($lineItem->itemPriceIsOverMeanBy($this->limit)) $this->attachToPO($purchaseOrder);
     }
 
 }
