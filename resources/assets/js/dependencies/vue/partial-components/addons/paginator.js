@@ -51,7 +51,7 @@ Vue.component('paginator', {
 
         };
     },
-    props: ['response', 'reqFunction'],
+    props: ['response', 'reqFunction', 'event-name'],
     computed: {
         currentPage: function() {
             return this.response.current_page;
@@ -92,7 +92,10 @@ Vue.component('paginator', {
             return pagesArray;
         },
         goToPage: function (page) {
-            this.$dispatch('go-to-page', page);
+            // if we get a custom event name - fire it
+            if(this.eventName) vueEventBus.$emit(this.eventName, page);
+            vueEventBus.$emit('go-to-page', page);
+            this.$dispatch('go-to-page', page);         // TODO ::: REMOVE WILL BE DEPRACATED Vue 2.0 <
             if (0 < page && page <= this.lastPage && typeof(this.reqFunction) == 'function') this.reqFunction(updateQueryString('page', page));
         }
     },

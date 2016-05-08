@@ -69,18 +69,21 @@ Vue.component('single-pr-modal', {
         }
     },
     events: {
-        'modal-show-single-pr': function(purchaseRequest) {
-            this.purchaseRequest = purchaseRequest;
-            this.$nextTick(function () {
-                this.visible = true;
-            });
-        },
         'click-close-modal': function() {
             this.hideModal();
         }
     },
     ready: function() {
-
+        var self = this;
+        vueEventBus.$on('modal-single-pr-show', function(purchaseRequest) {
+            self.purchaseRequest = purchaseRequest;
+            self.$nextTick(function () {
+                self.visible = true;
+            });
+        });
+        vueEventBus.$on('modal-close', function() {
+            self.hideModal();
+        });
     }
 });
 

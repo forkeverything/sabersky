@@ -623,47 +623,38 @@ Vue.component('purchase-orders-submit', {
         return {
             step: 1,
             ajaxReady: true,
-            ajaxObject: {},
-            response: {},
-            projects: [],
-            projectID: '',
-            purchaseRequests: [],
-            sort: 'number',
-            order: 'asc',
-            urgent: '',
-            searchTerm: '',
             lineItems: [],
-            vendorID: '',
             vendor: {
                 linked_company: {},
-                bank_accounts: [],
-                addresses: []
+                addresses: [],
+                bank_accounts: []
             },
-            selectedAddress: '',
-            selectedBankAccount: '',
+            selectedVendorAddress: '',
+            selectedVendorBankAccount: '',
             currency: '',
             billingAddressSameAsCompany: 1,
-            billingContactPerson: '',
-            billingPhone: '',
-            billingAddress1: '',
-            billingAddress2: '',
-            billingCity: '',
-            billingZip: '',
-            billingCountryID: '',
-            billingState: '',
+            billingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
             shippingAddressSameAsBilling: 1,
-            shippingContactPerson: '',
-            shippingPhone: '',
-            shippingAddress1: '',
-            shippingAddress2: '',
-            shippingCity: '',
-            shippingZip: '',
-            shippingCountryID: '',
-            shippingState: '',
-            additionalCosts: [],
-            newCostName: '',
-            newCostType: '',
-            newCostAmount: ''
+            shippingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
+            additionalCosts: []
         };
     },
     props: ['user'],
@@ -680,6 +671,9 @@ Vue.component('purchase-orders-submit', {
         userCurrency: function () {
             return this.user.company.settings.currency;
         },
+        currencySymbol: function () {
+            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
+        },
         company: function () {
             return this.user.company;
         },
@@ -687,68 +681,23 @@ Vue.component('purchase-orders-submit', {
             if (_.isEmpty(this.user.company.address)) return false;
             return this.user.company.address;
         },
-        hasPurchaseRequests: function () {
-            return !_.isEmpty(this.purchaseRequests);
-        },
-        allPurchaseRequestsChecked: function () {
-            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
-                return request.id
-            });
-            var lineItemIDs = _.map(this.lineItems, function (item) {
-                return item.id
-            });
-            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
-        },
         hasLineItems: function () {
             return this.lineItems.length > 0;
         },
         vendorAddresses: function () {
             // Only if we have a vendor
-            if (!this.vendor) return;
+            if (!this.vendor.id) return [];
             // Grab the addresses associated with Vendor model
-            var vendorAddresses = this.vendor.addresses;
+            var vendorAddresses = this.vendor.addresses || [];
             // If we have addresses and a linked company - add the Company's address
             if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
             return vendorAddresses;
         },
-        currencySymbol: function () {
-            return this.currency.currency_symbol;
-        },
-        orderSubtotal: function () {
-            var self = this;
-            var subtotal = 0;
-            if (!self.lineItems.length > 0) return;
-            _.forEach(self.lineItems, function (item) {
-                if (item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
-            });
-            return subtotal;
-        },
-        canAddNewCost: function () {
-            return this.newCostName.length > 0 && this.newCostAmount.length > 0 && this.newCostType.length > 0;
-        },
-        orderTotal: function () {
-            var subtotal = this.orderSubtotal;
-            var total = subtotal;
-            _.forEach(this.additionalCosts, function (cost) {
-                var amount = parseFloat(cost.amount);
-                if (cost.type == '%') {
-
-                    // Calculate the percentage off the sub-total NOT running total. This implies
-                    // that other additional costs are NOT taxable. If user wants to include
-                    // taxable costs, add as separate additional costs / discounts.
-
-                    total += (subtotal * amount / 100);
-                } else {
-                    total += amount;
-                }
-            });
-            return total;
-        },
         validBillingAddress: function () {
-            return !!this.billingPhone && !!this.billingAddress1 && !!this.billingCity && !!this.billingZip && !!this.billingCountryID && !!this.billingState;
+            return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
         },
         validShippingAddress: function () {
-            return !!this.shippingPhone && !!this.shippingAddress1 && !!this.shippingCity && !!this.shippingZip && !!this.shippingCountryID && !!this.shippingState;
+            return !!this.shippingAddress.phone && !!this.shippingAddress.address_1 && !!this.shippingAddress.city && !!this.shippingAddress.zip && !!this.shippingAddress.country_id && !!this.shippingAddress.state;
         },
         canCreateOrder: function () {
             var validVendor = true,
@@ -757,11 +706,11 @@ Vue.component('purchase-orders-submit', {
 
             // Vendor
             // one selected
-            if (!this.vendorID) validVendor = false;
+            if (!this.vendor.id) validVendor = false;
             // if we need address and no address
-            if (this.user.company.settings.po_requires_address && !this.selectedAddress) validVendor = false;
+            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
             // if we need bank account and no bank account selected
-            if (this.user.company.settings.po_requires_bank_account && !this.selectedBankAccount) validVendor = false;
+            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
 
             // Order
             // currency set!
@@ -787,94 +736,6 @@ Vue.component('purchase-orders-submit', {
         }
     },
     methods: {
-        fetchPurchaseRequests: function (page) {
-            var self = this;
-            page = page || 1;
-
-            var url = '/api/purchase_requests?' +
-                'state=open' +
-                '&quantity=1+' +
-                '&project_id=' + self.projectID +
-                '&sort=' + self.sort +
-                '&order=' + self.order +
-                '&per_page=8' +
-                '&search=' + self.searchTerm;
-
-            if (page) url += '&page=' + page;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.ajaxObject = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
-
-                    // Pull flags from response (better than parsing url)
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
-                    self.urgent = response.data.query_parameters.urgent;
-
-                    self.ajaxReady = true;
-
-                    // self.$nextTick(function() {
-                    //     self.finishLoading = true;
-                    // })
-                    // TODO ::: Add a loader for each request
-
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeSort: function (sort) {
-            if (this.sort === sort) {
-                this.order = (this.order === 'asc') ? 'desc' : 'asc';
-                this.fetchPurchaseRequests();
-            } else {
-                this.sort = sort;
-                this.order = 'asc';
-                this.fetchPurchaseRequests();
-            }
-        },
-        searchPurchaseRequests: _.debounce(function () {
-            var self = this;
-            // If we're still waiting on a response cancel, abort, and fire a new request
-            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
-            self.fetchPurchaseRequests();
-        }, 200),
-        clearSearch: function () {
-            this.searchTerm = '';
-            this.searchPurchaseRequests();
-        },
-        selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
-        },
-        alreadySelectedPR: function (purchaseRequest) {
-            return _.find(this.lineItems, function (pr) {
-                return pr.id === purchaseRequest.id;
-            });
-        },
-        selectAllPR: function () {
-            var self = this;
-            if (self.allPurchaseRequestsChecked) {
-                _.forEach(self.purchaseRequests, function (request) {
-                    self.lineItems = _.reject(self.lineItems, request);
-                });
-            } else {
-                _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
-                });
-            }
-        },
-        showSinglePR: function (purchaseRequest) {
-            this.$broadcast('modal-show-single-pr', purchaseRequest);
-        },
         removeLineItem: function (lineItem) {
             this.lineItems = _.reject(this.lineItems, lineItem);
         },
@@ -885,33 +746,16 @@ Vue.component('purchase-orders-submit', {
             this.step = step;
         },
         selectAddress: function (address) {
-            this.selectedAddress = this.selectedAddress ? null : address;
+            this.selectedVendorAddress = this.selectedVendorAddress ? null : address;
         },
         visibleAddress: function (address) {
-            console.log('ran');
-            console.log(!this.selectedAddress);
-            if (_.isEmpty(this.selectedAddress)) return true;
-            return this.selectedAddress == address;
+            if (_.isEmpty(this.selectedVendorAddress)) return true;
+            return this.selectedVendorAddress == address;
         },
         calculateTotal: function (lineItem) {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
             var currencySymbol = this.currencySymbol || '$';
             return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
-        },
-        addAdditionalCost: function () {
-            var self = this;
-            var cost = {
-                name: self.newCostName,
-                amount: self.newCostAmount,
-                type: self.newCostType
-            };
-            self.additionalCosts.push(cost);
-            self.newCostName = '';
-            self.newCostAmount = '';
-            self.newCostType = '%';
-        },
-        removeAdditionalCost: function (cost) {
-            this.additionalCosts = _.reject(this.additionalCosts, cost);
         },
         createOrder: function () {
             var self = this;
@@ -922,28 +766,28 @@ Vue.component('purchase-orders-submit', {
                 url: '/purchase_orders/submit',
                 method: 'POST',
                 data: {
-                    "vendor_id": self.vendorID,
-                    "vendor_address_id": self.selectedAddress.id,
-                    "vendor_bank_account_id": self.selectedBankAccount.id,
+                    "vendor_id": self.vendor.id,
+                    "vendor_address_id": self.selectedVendorAddress.id,
+                    "vendor_bank_account_id": self.selectedVendorBankAccount.id,
                     "currency_id": self.currency.id,
                     "billing_address_same_as_company": self.billingAddressSameAsCompany,
-                    "billing_contact_person": self.billingContactPerson,
-                    "billing_phone": self.billingPhone,
-                    "billing_address_1": self.billingAddress1,
-                    "billing_address_2": self.billingAddress2,
-                    "billing_city": self.billingCity,
-                    "billing_zip": self.billingZip,
-                    "billing_country_id": self.billingCountryID,
-                    "billing_state": self.billingState,
+                    "billing_contact_person": self.billingAddress.contact_person,
+                    "billing_phone": self.billingAddress.phone,
+                    "billing_address_1": self.billingAddress.address_1,
+                    "billing_address_2": self.billingAddress.address_2,
+                    "billing_city": self.billingAddress.city,
+                    "billing_zip": self.billingAddress.zip,
+                    "billing_country_id": self.billingAddress.country_id,
+                    "billing_state": self.billingAddress.state,
                     "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
-                    "shipping_contact_person": self.shippingContactPerson,
-                    "shipping_phone": self.shippingPhone,
-                    "shipping_address_1": self.shippingAddress1,
-                    "shipping_address_2": self.shippingAddress2,
-                    "shipping_city": self.shippingCity,
-                    "shipping_zip": self.shippingZip,
-                    "shipping_country_id": self.shippingCountryID,
-                    "shipping_state": self.shippingState,
+                    "shipping_contact_person": self.shippingAddress.contact_person,
+                    "shipping_phone": self.shippingAddress.phone,
+                    "shipping_address_1": self.shippingAddress.address_1,
+                    "shipping_address_2": self.shippingAddress.address_2,
+                    "shipping_city": self.shippingAddress.city,
+                    "shipping_zip": self.shippingAddress.zip,
+                    "shipping_country_id": self.shippingAddress.country_id,
+                    "shipping_state": self.shippingAddress.state,
                     "line_items": self.lineItems,
                     "additional_costs": self.additionalCosts
                 },
@@ -961,39 +805,12 @@ Vue.component('purchase-orders-submit', {
             });
         }
     },
-    events: {
-        'go-to-page': function (page) {
-            this.fetchPurchaseRequests(page);
-        }
-    },
-    mixins: [numberFormatter],
+    mixins: [modalSinglePR],
     ready: function () {
-
-        this.$watch('projectID', function (val) {
-            if (!val) return;
-            this.fetchPurchaseRequests();
-        });
-
-        this.$watch('vendorID', function (val) {
-            var self = this;
-            self.vendor = {
-                linked_company: {},
-                bank_accounts: [],
-                addresses: []
-            };
-            self.selectedAddress = '';
-            self.selectedBankAccount = '';
-            $.ajax({
-                url: '/api/vendors/' + val,
-                method: 'GET',
-                success: function (data) {
-                    self.vendor = data;
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        });
+        vueEventBus.$on('po-submit-selected-vendor', function() {
+            this.selectedVendorAddress = '';
+            this.selectedVendorBankAccount = '';
+        }.bind(this));
     }
 });
 Vue.component('purchase-requests-all', {
@@ -1768,6 +1585,541 @@ Vue.component('vendor-single', {
                 console.log(response);
             }
         });
+    }
+});
+Vue.component('po-billing-address', {
+    name: 'purchaseOrderSubmitBillingAddress',
+    data: function () {
+        return {};
+    },
+    template: '<div class="check-same-company checkbox styled" v-if="companyAddress">' +
+    '<label>' +
+    '<i class="fa fa-check-square-o checked" v-show="billingAddressSameAsCompany"></i>' +
+    '<i class="fa fa-square-o empty" v-else></i>' +
+    '<input class="clickable hidden" type="checkbox" v-model="billingAddressSameAsCompany" :true-value="1" :false-value="0" >' +
+    'Same as Company Address' +
+    '</label>' +
+    '</div>' +
+    '<div class="company-address" v-show="companyAddress && billingAddressSameAsCompany">' +
+    '<address>' +
+    '<span class="company_name">{{ company.name }}</span>' +
+    '<span class="display-block v-if="companyAddress.contact_person" >' +
+    '{{ companyAddress.contact_person }}' +
+    '</span>' +
+    '<span class="address_1 display-block">{{ companyAddress.address_1 }}</span>' +
+    '<span class="address_2 display-block" v-if="companyAddress.address_2">{{ companyAddress.address_2 }}</span>' +
+    '<span class="city">{{ companyAddress.city }}</span>,' +
+    '<span class="zip">{{ companyAddress.zip }}</span>' +
+    '<div class="state-country display-block">' +
+    '<span class="state">{{ companyAddress.state }}</span>,' +
+    '<span class="country">{{ companyAddress.country }}</span><br>' +
+    '<span class="phone"><abbr title="Phone">P:</abbr> {{ companyAddress.phone }}</span>' +
+    '</div>' +
+    '</address>' +
+    '</div>' +
+    '<div class="address-fields" v-show="companyAddress && ! billingAddressSameAsCompany">' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '<div class="shift-label-input">' +
+    '<input type="text" class="not-required" v-model="billingAddress.contact_person" :class="{' +  "'filled': billingAddress.contact_person" + '}" :value="companyAddress.contact_person" >' +
+    '<label placeholder="Contact Person"></label>' +
+    '</div>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '<div class="shift-label-input">' +
+    '<input type="text" required :value="companyAddress.phone" v-model="billingAddress.phone" >' +
+    '<label placeholder="Phone" class="required"></label>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="shift-label-input">' +
+    '<input type="text" required :value="companyAddress.address_1" v-model="billingAddress.address_1" >' +
+    '<label placeholder="Address" class="required"></label>' +
+    '</div>' +
+    '<div class="shift-label-input">' +
+    '<input type="text" required :value="companyAddress.address_2" class="not-required" :class="{' + "'filled': billingAddress.address_2" + '}" v-model="billingAddress.address_2" >' +
+    '<label placeholder="Address 2"></label>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '<div class="shift-label-input">' +
+    '<input type="text" required :value="companyAddress.city" v-model="billingAddress.city">' +
+    '<label placeholder="City" class="required"></label>' +
+    '</div>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '<div class="shift-label-input">' +
+    '<input type="text" required :value="companyAddress.zip" v-model="billingAddress.zip" >' +
+    '<label class="required" placeholder="Zip"></label>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '<div class="form-group shift-select">' +
+    '<label class="required">Country</label>' +
+    '<country-selecter :name.sync="billingAddress.country_id" :default="companyAddress.country_id" :event="' + "'selected-billing - country'" + '"></country-selecter>' +
+    '</div>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '<div class="form-group shift-select">' +
+    '<label class="required">State</label>' +
+    '<state-selecter :name.sync="billingAddress.state" :default="companyAddress.state" :listen="'+ "'selected-billing - country'" + '"></state-selecter>'+
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>',
+    props: ['billing-address-same-as-company', 'billing-address', 'company'],
+    computed: {
+        companyAddress: function () {
+            if (_.isEmpty(this.company.address)) return false;
+            return this.company.address;
+        }
+    },
+    methods: {},
+    events: {},
+    ready: function () {
+
+    }
+});
+Vue.component('po-shipping-address', {
+    name: 'purchaseOrderShippingAddress',
+    template: '<div class="check-same-billing checkbox styled">'+
+    '<label>'+
+    '<i class="fa fa-check-square-o checked" v-show="shippingAddressSameAsBilling"></i>'+
+    '<i class="fa fa-square-o empty" v-else></i>'+
+'<input class="clickable hidden" type="checkbox" v-model="shippingAddressSameAsBilling" :true-value="1" :false-value="0" >'+
+    'Same as billing address'+
+'</label>'+
+'</div>'+
+'<div class="address-fields" v-show="! shippingAddressSameAsBilling">'+
+    '<div class="row">'+
+    '<div class="col-sm-6">'+
+    '<div class="shift-label-input">'+
+    '<input type="text" class="not-required" v-model="shippingAddress.contact_person" :class="{' +  "'filled': shippingAddress.contact_person" +  '}">'+
+    '<label placeholder="Contact Person"></label>'+
+    '</div>'+
+    '</div>'+
+    '<div class="col-sm-6">'+
+    '<div class="shift-label-input">'+
+    '<input type="text" required v-model="shippingAddress.phone">'+
+    '<label placeholder="Phone" class="required"></label>'+
+    '</div>'+
+    '</div>'+
+    '</div>'+
+    '<div class="shift-label-input">'+
+    '<input type="text" required v-model="shippingAddress.address_1">'+
+    '<label placeholder="Address" class="required"></label>'+
+    '</div>'+
+    '<div class="shift-label-input">'+
+    '<input type="text" required v-model="shippingAddress.address_2" class="not-required" :class="{' + "'filled': shippingAddress.address_2" + '}">'+
+'<label placeholder="Address 2"></label>'+
+    '</div>'+
+    '<div class="row">'+
+    '<div class="col-sm-6">'+
+    '<div class="shift-label-input">'+
+    '<input type="text" required v-model="shippingAddress.city">'+
+    '<label class="required" placeholder="City"></label>'+
+    '</div>'+
+    '</div>'+
+    '<div class="col-sm-6">'+
+    '<div class="shift-label-input">'+
+    '<input type="text" required v-model="shippingAddress.zip">'+
+    '<label class="required" placeholder="Zip"></label>'+
+    '</div>'+
+    '</div>'+
+    '</div>'+
+    '<div class="row">'+
+    '<div class="col-sm-6">'+
+    '<div class="form-group shift-select">'+
+    '<label class="required">Country</label>'+
+    '<country-selecter :name.sync="shippingAddress.country_id" :event="' + "'selected-shipping-country'" + '"></country-selecter>'+
+    '</div>'+
+    '</div>'+
+    '<div class="col-sm-6">'+
+    '<div class="form-group shift-select">'+
+    '<label class="required">State</label>'+
+    '<state-selecter :name.sync="shippingAddress.state" :listen="' + "'selected-shipping-country'" + '"></state-selecter>'+
+    '</div>'+
+    '</div>'+
+    '</div>'+
+    '</div>',
+    data: function() {
+        return {
+
+        };
+    },
+    props: ['shipping-address-same-as-billing', 'shipping-address'],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+
+    }
+});
+Vue.component('select-line-items', {
+    name: 'selectLineItems',
+    template: '<div class="project-selecter">'+
+    '<h5>Project</h5>'+
+    '<user-projects-selecter :name.sync="projectID"></user-projects-selecter>'+
+    '</div>'+
+    '<div class="purchase_requests"'+
+':class="{'+
+"'inactive': ! projectID"+
+'}"'+
+'>'+
+'<div class="overlay"></div>'+
+    '<h5>Purchase Requests</h5>'+
+'<div class="pr-controls">'+
+    '<form class="form-pr-search" @submit.prevent="searchPurchaseRequests">'+
+    '<input class="form-control input-item-search"'+
+'type="text"'+
+'placeholder="Search by # Number, Item (Brand or Name) or Requester"'+
+'@keyup="searchPurchaseRequests"'+
+'v-model="searchTerm"'+
+':class="{'+
+"'active': searchTerm && searchTerm.length > 0"+
+'}"'+
+'>'+
+'</form>'+
+'</div>'+
+'<div class="pr-bag" v-show="hasPurchaseRequests">'+
+    '<div class="table-responsive">'+
+    '<table class="table table-hover table-standard table-purchase-requests-po-submit">'+
+    '<thead>'+
+    '<tr>'+
+    '<th class="heading-center heading-select-all">'+
+    '<div class="checkbox styled">'+
+    '<label>'+
+    '<i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>'+
+    '<i class="fa fa-square-o empty" v-else></i>'+
+'<input class="clickable hidden"'+
+'type="checkbox"'+
+'@change="selectAllPR"'+
+':checked="allPurchaseRequestsChecked"'+
+    '>'+
+    '</label>'+
+    '</div>'+
+    '</th>'+
+    '<th class="clickable"'+
+'@click="changeSort(' + "'number'" +')"'+
+':class="{'+
+"'current_asc': sort === 'number' && order === 'asc',"+
+    "'current_desc': sort === 'number' && order === 'desc'"+
+'}"'+
+'>'+
+'PR'+
+'</th>'+
+'<th class="clickable"'+
+'@click="changeSort(' + "'item_name'" + ')"'+
+':class="{'+
+"'current_asc': sort === 'item_name' && order === 'asc',"+
+    "'current_desc': sort === 'item_name' && order === 'desc'"+
+'}"'+
+'>'+
+'Item'+
+'</th>'+
+'<th class="clickable"'+
+'@click="changeSort(' + "'due'" + ')"'+
+':class="{'+
+"'current_asc': sort === 'due' && order === 'asc',"+
+    "'current_desc': sort === 'due' && order === 'desc'"+
+'}"'+
+'>'+
+'Due</th>'+
+'</tr>'+
+'</thead>'+
+'<tbody>'+
+'<template v-for="purchaseRequest in purchaseRequests">'+
+    '<tr class="row-single-pr">'+
+    '<td class="col-checkbox">'+
+    '<div class="checkbox styled">'+
+    '<label>'+
+    '<i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>'+
+    '<i class="fa fa-square-o empty" v-else></i>'+
+'<input class="clickable hidden"'+
+'type="checkbox"'+
+'@change="selectPR(purchaseRequest)"'+
+':checked="alreadySelectedPR(purchaseRequest)"'+
+    '>'+
+    '</label>'+
+    '</div>'+
+    '</td>'+
+    '<td class="no-wrap col-number">'+
+    '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">#{{ purchaseRequest.number }}</a>'+
+'</td>'+
+'<td class="col-item">'+
+    '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">'+
+    '<span class="item-brand"'+
+'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
+'<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
+'</a>'+
+'<div class="bottom">'+
+    '<span '+
+'v-if="purchaseRequest.urgent" class="badge-urgent with-tooltip" v-tooltip title="Urgent Request" data-placement="bottom"> <i '+
+'class="fa fa-warning"></i></span>'+
+    '<div class="quantity"><label>QTY:</label> {{ purchaseRequest.quantity }}</div>'+
+'</div>'+
+'</td>'+
+'<td class="col-due no-wrap">'+
+'<span class="pr-due">{{ purchaseRequest.due | date }}</span>'+
+'</td>'+
+'</tr>'+
+'</template>'+
+'</tbody>'+
+'</table>'+
+'</div>'+
+'<div class="page-controls bottom">'+
+    '<per-page-picker :response="response" :req-function="fetchPurchaseRequests"></per-page-picker>'+
+    '<paginator :response="response" :event-name="' + "'po-submit-pr-page'" + '"></paginator>'+
+    '</div>'+
+    '</div>'+
+    '<div class="empty-stage" v-else>'+
+'<i class="fa  fa-hand-rock-o"></i>'+
+    '<h4>No Purchase Requests</h4>'+
+'<p>We couldn\'t find any requests to fulfill. Try selecting a different Project or <a '+
+'class="dotted clickable" @click="clearSearch">clear</a> the search.</p>'+
+'</div>'+
+'</div>',
+    data: function() {
+        return {
+            ajaxReady: true,
+            ajaxObject: {},
+            response: {},
+            projectID: '',
+            purchaseRequests: [],
+            sort: 'number',
+            order: 'asc',
+            urgent: '',
+            searchTerm: ''
+        };
+    },
+    props: ['line-items'],
+    computed: {
+        hasPurchaseRequests: function () {
+            return !_.isEmpty(this.purchaseRequests);
+        },
+        allPurchaseRequestsChecked: function () {
+            var purchaseRequestIDs = _.map(this.purchaseRequests, function (request) {
+                return request.id
+            });
+            var lineItemIDs = _.map(this.lineItems, function (item) {
+                return item.id
+            });
+            return _.intersection(lineItemIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        }
+    },
+    methods: {
+        fetchPurchaseRequests: function (page) {
+            var self = this;
+            page = page || 1;
+
+            var url = '/api/purchase_requests?' +
+                'state=open' +
+                '&quantity=1+' +
+                '&project_id=' + self.projectID +
+                '&sort=' + self.sort +
+                '&order=' + self.order +
+                '&per_page=8' +
+                '&search=' + self.searchTerm;
+
+            if (page) url += '&page=' + page;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.ajaxObject = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
+
+                    // Pull flags from response (better than parsing url)
+                    self.sort = response.data.query_parameters.sort;
+                    self.order = response.data.query_parameters.order;
+                    self.urgent = response.data.query_parameters.urgent;
+
+                    self.ajaxReady = true;
+
+                    // self.$nextTick(function() {
+                    //     self.finishLoading = true;
+                    // })
+                    // TODO ::: Add a loader for each request
+
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.sort === sort) {
+                this.order = (this.order === 'asc') ? 'desc' : 'asc';
+                this.fetchPurchaseRequests();
+            } else {
+                this.sort = sort;
+                this.order = 'asc';
+                this.fetchPurchaseRequests();
+            }
+        },
+        searchPurchaseRequests: _.debounce(function () {
+            var self = this;
+            // If we're still waiting on a response cancel, abort, and fire a new request
+            if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
+            self.fetchPurchaseRequests();
+        }, 200),
+        clearSearch: function () {
+            this.searchTerm = '';
+            this.searchPurchaseRequests();
+        },
+        selectPR: function (purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
+        },
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.lineItems, function (pr) {
+                return pr.id === purchaseRequest.id;
+            });
+        },
+        selectAllPR: function () {
+            var self = this;
+            if (self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.lineItems = _.reject(self.lineItems, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
+                });
+            } 
+        }
+    },
+    mixins: [modalSinglePR],
+    ready: function() {
+
+        // select a new project -> load relevant PRs
+        this.$watch('projectID', function (val) {
+            if (!val) return;
+            this.fetchPurchaseRequests();
+        });
+
+        // listen to our custom go to page event name
+        vueEventBus.$on('po-submit-pr-page', function (page) {
+            this.fetchPurchaseRequests(page);
+        }.bind(this));
+    }
+});
+Vue.component('po-submit-summary', {
+    name: 'summary',
+    template: '<div class="summary table-responsive">' +
+    '<table class="table table-standard table-summary">' +
+    '<tbody>' +
+    '<tr>' +
+    '<td class="col-title">Subtotal</td>' +
+    '<td class="col-amount">{{ formatNumber(orderSubtotal, currencyDecimalPoints) }}</td>' +
+    '<td class="col-currency">{{ currencySymbol }}</td>' +
+    '</tr>' +
+    '<template v-for="cost in additionalCosts">' +
+    '<tr class="row-added-costs">' +
+    '<td class="col-title">' +
+    '{{ cost.name }}' +
+    '<button type="button" class="close" aria-label="Close" @click="removeAdditionalCost(cost)"><span aria-hidden="true">&times;</span></button>' +
+    '</td>' +
+    '<td class="col-amount">{{ formatNumber(cost.amount, currencyDecimalPoints) }}</td>' +
+    '<td class="col-currency">{{ cost.type }}</td>' +
+    '</tr>' +
+    '</template>' +
+    '<tr class="row-inputs">' +
+    '<td class="col-title">' +
+    '<input type="text" class="form-control" placeholder="cost / discount" v-model="newCost.name">' +
+    '</td>' +
+    '<td class="col-amount">' +
+    '<number-input :model.sync="newCost.amount" :placeholder="' + "'amount'" + '" :class="[' + "'form-control'" + ']"></number-input>' +
+    '</td>' +
+    '<td class="col-currency">' +
+    '<select-picker :options="[{value:' + "'%', label: '%'" + '}, {value: currencySymbol, label: currencySymbol }]" :name.sync="newCost.type"></select-picker>' +
+    '</td>' +
+    '</tr>' +
+    '<tr v-show="canAddNewCost" class="row-add-button">' +
+    '<td></td>' +
+    '<td></td>' +
+    '<td>' +
+    '<button type="button" class="btn btn-small btn-add-cost btn-outline-blue" @click="addAdditionalCost"><i class="fa fa-plus"></i> Cost / Discount</button></td>' +
+    '</tr>' +
+    '<tr class="row-total">' +
+    '<td class="col-title">Total Cost</td>' +
+    '<td class="col-amount">{{ formatNumber(orderTotal, currencyDecimalPoints) }}</td>' +
+    '<td class="col-currency">{{ currencySymbol }}</td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>' +
+    '</div>',
+    data: function () {
+        return {
+            newCost: {
+                name: '',
+                type: '%',
+                amonut: ''
+            }
+        };
+    },
+    props: ['line-items', 'additional-costs', 'currency-symbol', 'currency-decimal-points'],
+    computed: {
+        orderSubtotal: function () {
+            var self = this;
+            var subtotal = 0;
+            if (!self.lineItems.length > 0) return;
+            _.forEach(self.lineItems, function (item) {
+                if (item.order_quantity && item.order_price && isNumeric(item.order_quantity) && isNumeric(item.order_price)) subtotal += (item.order_quantity * item.order_price);
+            });
+            return subtotal;
+        },
+        canAddNewCost: function () {
+            return this.newCost.name && this.newCost.amount && this.newCost.type;
+        },
+        orderTotal: function () {
+            var subtotal = this.orderSubtotal;
+            var total = subtotal;
+            _.forEach(this.additionalCosts, function (cost) {
+                var amount = parseFloat(cost.amount);
+                if (cost.type == '%') {
+
+                    // Calculate the percentage off the sub-total NOT running total. This implies
+                    // that other additional costs are NOT taxable. If user wants to include
+                    // taxable costs, add as separate additional costs / discounts.
+
+                    total += (subtotal * amount / 100);
+                } else {
+                    total += amount;
+                }
+            });
+            return total;
+        }
+    },
+    methods: {
+        removeAdditionalCost: function (cost) {
+            this.additionalCosts = _.reject(this.additionalCosts, cost);
+        },
+        addAdditionalCost: function () {
+            this.additionalCosts.push(this.newCost);
+            this.newCost = {
+                name: '',
+                type: '%',
+                amonut: ''
+            }
+        }
+    },
+    events: {},
+    mixins: [numberFormatter],
+    ready: function () {
     }
 });
 Vue.component('settings-company', {

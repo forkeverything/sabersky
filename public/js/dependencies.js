@@ -306,30 +306,25 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
 };
-Vue.transition('fade', {
-    enterClass: 'fadeIn',
-    leaveClass: 'fadeOut'
-});
-
-Vue.transition('slide', {
-    enterClass: 'slideInLeft',
-    leaveClass: 'slideOutLeft'
-});
-
-Vue.transition('slide-right', {
-    enterClass: 'slideInRight',
-    leaveClass: 'slideOutRight'
-});
-
-Vue.transition('fade-slide', {
-    enterClass: 'fadeInDown',
-    leaveClass: 'fadeOutUp'
-});
-
-Vue.transition('slide-down', {
-    enterClass: 'slideInDown',
-    leaveClass: 'slideOutUp'
-});
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints) {
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -759,15 +754,30 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number) {
-            return accounting.formatNumber(number, this.user.company.settings.currency_decimal_points, ',');
-        }
-    }
-};
+Vue.transition('fade', {
+    enterClass: 'fadeIn',
+    leaveClass: 'fadeOut'
+});
+
+Vue.transition('slide', {
+    enterClass: 'slideInLeft',
+    leaveClass: 'slideOutLeft'
+});
+
+Vue.transition('slide-right', {
+    enterClass: 'slideInRight',
+    leaveClass: 'slideOutRight'
+});
+
+Vue.transition('fade-slide', {
+    enterClass: 'fadeInDown',
+    leaveClass: 'fadeOutUp'
+});
+
+Vue.transition('slide-down', {
+    enterClass: 'slideInDown',
+    leaveClass: 'slideOutUp'
+});
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -849,7 +859,7 @@ Vue.component('paginator', {
 
         };
     },
-    props: ['response', 'reqFunction'],
+    props: ['response', 'reqFunction', 'event-name'],
     computed: {
         currentPage: function() {
             return this.response.current_page;
@@ -890,7 +900,10 @@ Vue.component('paginator', {
             return pagesArray;
         },
         goToPage: function (page) {
-            this.$dispatch('go-to-page', page);
+            // if we get a custom event name - fire it
+            if(this.eventName) vueEventBus.$emit(this.eventName, page);
+            vueEventBus.$emit('go-to-page', page);
+            this.$dispatch('go-to-page', page);         // TODO ::: REMOVE WILL BE DEPRACATED Vue 2.0 <
             if (0 < page && page <= this.lastPage && typeof(this.reqFunction) == 'function') this.reqFunction(updateQueryString('page', page));
         }
     },
@@ -1781,18 +1794,21 @@ Vue.component('single-pr-modal', {
         }
     },
     events: {
-        'modal-show-single-pr': function(purchaseRequest) {
-            this.purchaseRequest = purchaseRequest;
-            this.$nextTick(function () {
-                this.visible = true;
-            });
-        },
         'click-close-modal': function() {
             this.hideModal();
         }
     },
     ready: function() {
-
+        var self = this;
+        vueEventBus.$on('modal-single-pr-show', function(purchaseRequest) {
+            self.purchaseRequest = purchaseRequest;
+            self.$nextTick(function () {
+                self.visible = true;
+            });
+        });
+        vueEventBus.$on('modal-close', function() {
+            self.hideModal();
+        });
     }
 });
 
@@ -1994,7 +2010,11 @@ Vue.component('currency-selecter', {
                 });
             },
             onChange: function(value) {
-                if(! value) self.name = '';
+                if(! value) {
+                    self.name = '';
+                    return;
+                }
+
                 $.get('/countries/' + value, function (data) {
                     self.name = data;
                 });
@@ -2549,8 +2569,22 @@ Vue.component('vendor-selecter', {
     template: '<select class="vendor-search-selecter">' +
     '<option></option>' +
     '</select>',
-    props: ['name'],
-    ready: function() {
+    props: ['vendor'],
+    methods: {
+        clearVendor: function () {
+            this.vendor = {
+                linked_company: {},
+                addresses: [],
+                bank_accounts: []
+            };
+        },
+        fetchVendor: function(vendorID) {
+            $.get('/api/vendors/' + vendorID, function (data) {
+                this.vendor = data;
+            }.bind(this));
+        }
+    },
+    ready: function () {
         var self = this;
         $('.vendor-search-selecter').selectize({
             valueField: 'id',
@@ -2559,14 +2593,14 @@ Vue.component('vendor-selecter', {
             create: false,
             placeholder: 'Search for vendor',
             render: {
-                option: function(item, escape) {
+                option: function (item, escape) {
                     return '<div class="single-vendor-option">' + escape(item.name) + '</div>'
                 },
-                item: function(item, escape) {
+                item: function (item, escape) {
                     return '<div class="selected-vendor">' + escape(item.name) + '</div>'
                 }
             },
-            load: function(query, callback) {
+            load: function (query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
                     url: '/api/vendors/search/' + encodeURI(query),
@@ -2579,8 +2613,9 @@ Vue.component('vendor-selecter', {
                     }
                 });
             },
-            onChange: function(value) {
-                self.name = value;
+            onChange: function (value) {
+                vueEventBus.$emit('po-submit-selected-vendor');
+                value ? self.fetchVendor(value) : self.clearVendor();
             }
         });
     }
@@ -2590,7 +2625,7 @@ Vue.component('modal-close-button', {
     template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
     methods: {
         hideModal: function() {
-            this.$dispatch('click-close-modal');
+            vueEventBus.$emit('modal-close');
         }
     }
 });

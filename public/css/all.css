@@ -7804,7 +7804,9 @@ label.required {
           font-size: 1em;
           position: absolute;
           top: -2px;
-          left: -10px; }
+          margin-left: 5px; }
+          #purchase-orders-submit #po-submit-2 .summary .table-summary .row-added-costs .col-title .close:active, #purchase-orders-submit #po-submit-2 .summary .table-summary .row-added-costs .col-title .close:focus, #purchase-orders-submit #po-submit-2 .summary .table-summary .row-added-costs .col-title .close:hover {
+            outline: 0; }
       #purchase-orders-submit #po-submit-2 .summary .table-summary .row-inputs input {
         font-size: 1em;
         background: transparent;
@@ -7870,7 +7872,8 @@ label.required {
       #purchase-orders-submit #po-submit-2 .summary .table-summary .row-add-button .btn-add-cost {
         position: absolute;
         right: 0;
-        top: 3px; }
+        top: 3px;
+        margin: 0 3px; }
         #purchase-orders-submit #po-submit-2 .summary .table-summary .row-add-button .btn-add-cost i {
           margin: 0 5px 0 0;
           font-size: 0.8em; }

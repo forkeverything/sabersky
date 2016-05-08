@@ -24,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-md-offset-6 col-md-6">
-                @include('purchase_orders.submit.step-2.summary')
+            <po-submit-summary :line-items="lineItems" :additional-costs.sync="additionalCosts" :currency-symbol="currencySymbol" :currency-decimal-points="currencyDecimalPoints"></po-submit-summary>
         </div>
     </div>
     <form-errors></form-errors>

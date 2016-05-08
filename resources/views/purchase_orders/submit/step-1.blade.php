@@ -5,11 +5,7 @@
         </div>
         <div class="page-body select-pr">
             <h3>Search For Requests</h3>
-            <div class="project-selecter">
-                <h5>Project</h5>
-                <user-projects-selecter :name.sync="projectID"></user-projects-selecter>
-            </div>
-            @include('purchase_orders.submit.select-pr')
+            <select-line-items :line-items.sync="lineItems"></select-line-items>
         </div>
     </div>
     <div class="col-md-4">
@@ -52,7 +48,7 @@
             </div>
             <div class="line-items-control" v-show="hasLineItems">
                 <button type="button" class="btn btn-outline-grey btn-clear" @click="clearAllLineItems"><i class="fa fa-trash"></i> Clear All</button>
-                <button type="button" class="btn btn-solid-blue btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendorID">Next Step <i class="fa fa-angle-double-right"></i></button>
+                <button type="button" class="btn btn-solid-blue btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendor.id">Next Step <i class="fa fa-angle-double-right"></i></button>
             </div>
         </div>
     </div>

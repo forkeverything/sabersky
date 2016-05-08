@@ -34,7 +34,11 @@
           font-size: 1em;
           position: absolute;
           top: -2px;
-          left: -10px;
+          margin-left: 5px;
+
+          &:active, &:focus, &:hover {
+            outline: 0;
+          }
         }
       }
     }
@@ -134,6 +138,7 @@
         position: absolute;
         right: 0;
         top: 3px;
+        margin: 0 3px;
         i {
           margin: 0 5px 0 0;
           font-size: 0.8em;
