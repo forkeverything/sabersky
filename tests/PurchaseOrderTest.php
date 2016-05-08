@@ -248,4 +248,35 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals(135, static::$purchaseOrder->total);
     }
 
+    /**
+     * @test
+     */
+    public function it_auto_approves_the_right_purchase_order()
+    {
+        // Some rule
+        $rule = factory(Rule::class)->create([
+            'rule_property_id' => 1,
+            'rule_trigger_id' => 1,
+            'limit' => 100
+        ]);
+
+
+        // pending, rules - still pending
+        $invalidPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+        // Manually attach a rule * Only for testing, usually we only want the Rule Model to do all the
+        // attaching / detaching for consistency's stake
+        $invalidPO->rules()->attach($rule);
+
+        // pending, no rules  - approve
+        $validPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+
+        $invalidPO->tryAutoApprove();
+        $validPO->tryAutoApprove();
+
+        $this->assertEquals('pending', PurchaseOrder::find($invalidPO->id)->status);
+        $this->assertEquals('approved', PurchaseOrder::find($validPO->id)->status);
+
+
+    }
+
 }
