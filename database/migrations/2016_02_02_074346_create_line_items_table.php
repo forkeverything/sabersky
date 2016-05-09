@@ -37,6 +37,9 @@ class CreateLineItemsTable extends Migration
              * delivery (date), paid (bool), status (strings / enum).
              */
 
+            // Avoid multiples
+            $table->unique(['purchase_order_id', 'purchase_request_id']);
+
         });
     }
 

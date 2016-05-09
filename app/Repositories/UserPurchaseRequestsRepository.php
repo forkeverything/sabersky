@@ -94,7 +94,7 @@ class UserPurchaseRequestsRepository extends apiRepository
     public function whereState($state)
     {
         // Set filter property
-        $this->{'state'} = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all' ) ? $state : 'open';
+        $this->{'state'} = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all') ? $state : 'open';
 
         // Filter our results
         switch ($this->state) {
@@ -112,7 +112,7 @@ class UserPurchaseRequestsRepository extends apiRepository
             default:
                 $this->query->where('state', 'open')->where('quantity', '>', 0);
         }
-        
+
         return $this;
     }
 
@@ -124,7 +124,7 @@ class UserPurchaseRequestsRepository extends apiRepository
      */
     public function forProject($projectID)
     {
-        if($projectID) {
+        if ($projectID) {
             $project = Project::find($projectID);
             $this->{'project'} = $project;
             $this->query->where('project_id', $projectID);
@@ -135,7 +135,7 @@ class UserPurchaseRequestsRepository extends apiRepository
     /**
      * Single function that can perform a filter for a PR's Item using
      * either Item Name, Brand or Both (makes a unique combination)
-     * 
+     *
      * @param null $itemBrand
      * @param null $itemName
      * @return $this
@@ -146,11 +146,11 @@ class UserPurchaseRequestsRepository extends apiRepository
 
             switch ($index) {
                 case 0:
-                     if($term) $this->{'item_brand'} = $term;
+                    if ($term) $this->{'item_brand'} = $term;
                     $column = 'brand';
                     break;
                 case 1:
-                    if($term) $this->{'item_name'} = $term;
+                    if ($term) $this->{'item_name'} = $term;
                     $column = 'name';
                     break;
                 default:
@@ -171,14 +171,14 @@ class UserPurchaseRequestsRepository extends apiRepository
 
     /**
      * Filters by the user_id field for Purchase Requests
-     * 
+     *
      * @param $userID
      * @return $this
      */
     public function byUser($userID)
     {
         if ($userID) {
-            $user =  User::find($userID);
+            $user = User::find($userID);
             $this->{'user'} = User::find($userID);
             $this->query->where('user_id', $userID);
         }
@@ -194,8 +194,8 @@ class UserPurchaseRequestsRepository extends apiRepository
     public function onlyUrgent($urgent = 0)
     {
         $this->{'urgent'} = ($urgent == 1) ?: 0;
-        if($this->urgent) $this->query->where('urgent', 1);
+        if ($this->urgent) $this->query->where('urgent', 1);
         return $this;
     }
-    
+
 }

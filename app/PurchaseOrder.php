@@ -51,6 +51,12 @@ class PurchaseOrder extends Model
         'company_id'
     ];
 
+    /**
+     * Automatically append these to all Orders. Since subtotal and total both
+     * rely on LineItems, they will get eager-loaded automatically too.
+     * 
+     * @var array
+     */
     protected $appends = [
         'subtotal',
         'total'

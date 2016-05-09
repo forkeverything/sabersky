@@ -115,7 +115,7 @@ $factory->define(PurchaseRequest::class, function (Faker\Generator $faker) {
     $project = factory(Project::class)->create();
     return [
         'quantity' => $faker->numberBetween(1, 50),                 // numberBetween is inclusive. Override to 0 to make 'completed' PRs
-        'due' => $faker->dateTimeThisYear->format('d/m/Y'),
+        'due' => $faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
         'state' => $faker->randomElement(['open', 'cancelled']),
         'urgent' => $faker->boolean(20),
         'project_id' => $project->id,
@@ -173,8 +173,8 @@ $factory->define(LineItem::class, function (Faker\Generator $faker) {
     return [
         'quantity' => $purchaseRequest->quantity,
         'price' => $faker->randomNumber(6),
-        'payable' => $faker->date('d/m/Y'),
-        'delivery' => $faker->date('d/m/Y'),
+        'payable' =>  $faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
+        'delivery' =>  $faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
         'purchase_request_id' => $purchaseRequest->id,
         'purchase_order_id' => factory(PurchaseOrder::class)->create()->id
     ];

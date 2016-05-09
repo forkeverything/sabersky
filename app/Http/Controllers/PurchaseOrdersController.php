@@ -12,6 +12,7 @@ use App\Http\Requests\SubmitPurchaseOrderRequest;
 use App\LineItem;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
+use App\Repositories\CompanyPurchaseOrdersRepository;
 use App\User;
 use App\Vendor;
 use Illuminate\Http\Request;
@@ -52,6 +53,9 @@ class PurchaseOrdersController extends Controller
      */
     public function apiAll(Request $request)
     {
+        return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)->get();
+        
+        
         if ($request->ajax()) {
             return $purchaseOrders = Auth::user()->company->purchaseOrders()->whereSubmitted(1)->with(['project', 'vendor', 'user', 'lineItems', 'lineItems.purchaseRequest.item'])->get();
         }

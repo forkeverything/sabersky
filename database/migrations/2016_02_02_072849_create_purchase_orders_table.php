@@ -25,21 +25,21 @@ class CreatePurchaseOrdersTable extends Migration
                 // id
                 $table->integer('vendor_id')->unsigned();
                 $table->foreign('vendor_id')->references('id')->on('vendors');
-                // Address
-                $table->integer('vendor_address_id')->unsigned()->nullable();                           // Can be NULL depending on Company Settings
+                // Address - Can be NULL depending on Company Settings
+                $table->integer('vendor_address_id')->unsigned()->nullable();
                 $table->foreign('vendor_address_id')->references('id')->on('addresses');
-                // Account
-                $table->integer('vendor_bank_account_id')->unsigned()->nullable();                      // Can be NULL depending on Company Settings
+                // Account - Can be NULL depending on Company Settings
+                $table->integer('vendor_bank_account_id')->unsigned()->nullable();
                 $table->foreign('vendor_bank_account_id')->references('id')->on('bank_accounts');
 
             // Purchase Info
                 // Currency
                 $table->integer('currency_id')->unsigned()->default('840');
                 $table->foreign('currency_id')->references('id')->on('countries');
-                // Compulsory billing address - null at first, attach after creating model
+                // Compulsory billing address - NULL at first, attach after creating model
                 $table->integer('billing_address_id')->unsigned()->nullable();
                 $table->foreign('billing_address_id')->references('id')->on('addresses');
-                // Optional shipping address (if null assume same as billing)
+                // Either points to same Address as Billing or different Address model
                 $table->integer('shipping_address_id')->unsigned()->nullable();
                 $table->foreign('shipping_address_id')->references('id')->on('addresses');
 
