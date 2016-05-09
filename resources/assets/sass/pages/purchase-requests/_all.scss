@@ -88,50 +88,6 @@
       justify-content: center;
       align-items: center;
 
-      .pr-states {
-        margin: 0 15px 0 0;
-        display: flex;
-        justify-content: flex-end;
-        position: relative;
-
-        .button-show-states-dropdown {
-          width: 115px;
-        }
-
-        .dropdown-states {
-
-          .dropdown-title {
-            font-size: 0.8em;
-            text-transform: uppercase;
-            padding: 0 1em;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            color: $text-muted;
-          }
-
-          ul {
-            margin: 0;
-
-            .pr-dropdown-item {
-              height: 30px;
-              padding: 0 1em 0 1.5em;
-              text-align: left;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              &:hover {
-                background: $blue;
-                color: #fff;
-              }
-
-              &.all {
-                border-top: 1px solid $border-light;
-              }
-            }
-          }
-        }
-      }
       .control-urgent {
         input {
           margin: 0 5px 0 0;

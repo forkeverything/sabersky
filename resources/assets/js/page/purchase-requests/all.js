@@ -12,7 +12,6 @@ Vue.component('purchase-requests-all', {
             state: '',
             filter: '',
             sort: '',
-            showStatesDropdown: false,
             showFiltersDropdown: false,
 
             filterValue: '',
@@ -26,7 +25,7 @@ Vue.component('purchase-requests-all', {
                 item_brand: '',
                 item_name: ''
             },
-
+            
             filterOptions: [
                 {
                     value: 'number',
@@ -76,7 +75,7 @@ Vue.component('purchase-requests-all', {
                 },
                 {
                     name: 'all',
-                    label: 'All Statuses'
+                    label: 'All'
                 }
             ],
             ajaxReady: true,
@@ -142,11 +141,9 @@ Vue.component('purchase-requests-all', {
                 }
             });
         },
-        changeState: function (state) {
-            this.state = state;
-            this.showStatesDropdown = false;
+        changeState: function (stateName) {
             this.fetchPurchaseRequests(updateQueryString({
-                state: state.name,
+                state: stateName,
                 page: 1
             }));
         },

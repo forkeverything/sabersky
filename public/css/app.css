@@ -7096,47 +7096,6 @@ label.required {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
-    #purchase-requests-all .pr-controls .controls-right .pr-states {
-      margin: 0 15px 0 0;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-      justify-content: flex-end;
-      position: relative; }
-      #purchase-requests-all .pr-controls .controls-right .pr-states .button-show-states-dropdown {
-        width: 115px; }
-      #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states .dropdown-title {
-        font-size: 0.8em;
-        text-transform: uppercase;
-        padding: 0 1em;
-        height: 30px;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-align-items: center;
-        -ms-flex-align: center;
-        align-items: center;
-        color: #93989F; }
-      #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul {
-        margin: 0; }
-        #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item {
-          height: 30px;
-          padding: 0 1em 0 1.5em;
-          text-align: left;
-          cursor: pointer;
-          display: -webkit-flex;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-align-items: center;
-          -ms-flex-align: center;
-          align-items: center; }
-          #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item:hover {
-            background: #3498DB;
-            color: #fff; }
-          #purchase-requests-all .pr-controls .controls-right .pr-states .dropdown-states ul .pr-dropdown-item.all {
-            border-top: 1px solid #E6E9EB; }
     #purchase-requests-all .pr-controls .controls-right .control-urgent input {
       margin: 0 5px 0 0; }
     #purchase-requests-all .pr-controls .controls-right .control-urgent label {
@@ -9439,26 +9398,18 @@ label.required {
   -ms-flex: 100%;
   flex: 100%; }
   .active-filters .button-remove-filter {
-    border: 1px solid #A1A4AA;
-    background: #ebeef0;
-    color: #A1A4AA;
-    border-radius: 6px;
-    position: relative;
-    padding: 0.5em 1.75em 0.5em 1.75em;
-    margin: 5px 10px 5px 0; }
-    .active-filters .button-remove-filter:after {
-      content: "\f00d";
-      font-family: FontAwesome;
-      position: absolute;
-      top: 3px;
-      right: 10px;
-      font-size: 0.75em; }
+    margin: 5px 10px 5px 0;
+    padding: 0; }
+    .active-filters .button-remove-filter:not(:last-child) {
+      padding: 0 10px 0 0;
+      border-right: 1px solid #D2D2D2; }
     .active-filters .button-remove-filter:hover {
-      border: 1px solid #3498DB;
-      background: #EFF9FD;
-      color: #3498DB; }
+      color: #E74C3C;
+      text-decoration: line-through; }
+      .active-filters .button-remove-filter:hover .field {
+        color: #E74C3C; }
     .active-filters .button-remove-filter .field {
-      font-weight: bold; }
+      color: #93989F; }
 
 .loading-header {
   position: relative; }

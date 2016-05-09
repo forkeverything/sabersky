@@ -2,31 +2,26 @@
   flex: 100%;
 
   .button-remove-filter {
-    border: 1px solid $border-dark;
-    background: $body-background;
-    color: $border-dark;
-    @include border-radius(6px);
-    position: relative;
-    padding: 0.5em 1.75em 0.5em 1.75em;
-    margin: 5px 10px 5px 0;
 
-    &:after {
-      content: "\f00d";
-      font-family: FontAwesome;
-      position: absolute;
-      top: 3px;
-      right: 10px;
-      font-size: 0.75em;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+
+    &:not(:last-child) {
+      padding: 0 10px 0 0;
+      border-right: 1px solid $grey;
     }
 
     &:hover {
-      border: 1px solid $blue;
-      background: $extra-light-blue;
-      color: $blue;
+      color: $red;
+      text-decoration: line-through;
+
+      .field {
+        color: $red;
+      }
     }
 
     .field {
-      font-weight: bold;
+      color: $text-muted;
     }
   }
 }
