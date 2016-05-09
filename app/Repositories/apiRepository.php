@@ -340,5 +340,21 @@ abstract class apiRepository
         return call_user_func([$query, $funcName], $callback);
     }
 
+    /**
+     * Filters by the user_id field for the model
+     *
+     * @param $userID
+     * @return $this
+     */
+    public function byUser($userID)
+    {
+        if ($userID) {
+            $user = User::find($userID);
+            $this->{'user'} = User::find($userID);
+            $this->query->where('user_id', $userID);
+        }
+        return $this;
+    }
+
 
 }

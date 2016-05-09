@@ -51,15 +51,19 @@ class PurchaseOrdersController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function apiAll(Request $request)
+    public function apiGetAll(Request $request)
     {
-        return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)->get();
-        
-        
-        if ($request->ajax()) {
-            return $purchaseOrders = Auth::user()->company->purchaseOrders()->whereSubmitted(1)->with(['project', 'vendor', 'user', 'lineItems', 'lineItems.purchaseRequest.item'])->get();
-        }
-        return redirect('/');
+        if(! $request->ajax()) return response("Wrong way, go back!", 500);
+        return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)
+                                              ->whereStatus($request->status)
+                                              ->filterIntegerField('number', $request->number)
+                                              ->hasRequestForProject($request->project_id)
+                                              ->filterDateField('created_at', $request->submitted)
+                                              ->byUser($request->user_id)
+                                              ->sortOn($request->sort, $request->order)
+                                              ->searchFor($request->search)
+                                              ->with(['lineItems', 'vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'billingAddress', 'shippingAddress'])
+                                              ->paginate($request->per_page);
     }
 
     /**
@@ -90,7 +94,7 @@ class PurchaseOrdersController extends Controller
      */
     public function postSubmit(SubmitPurchaseOrderRequest $request)
     {
-        
+
         // Create our purchase orders
         $purchaseOrder = PurchaseOrder::create([
             'vendor_id' => $request->input('vendor_id'),
@@ -118,7 +122,7 @@ class PurchaseOrdersController extends Controller
 
         $shippingAddress = $billingAddress;
         if (!$request->input('shipping_address_same_as_billing')) {
-            $shippingAddress  = Address::create([
+            $shippingAddress = Address::create([
                 'contact_person' => $request->input('shipping_contact_person'),
                 'phone' => $request->input('shipping_phone'),
                 'address_1' => $request->input('shipping_address_1'),
@@ -153,9 +157,9 @@ class PurchaseOrdersController extends Controller
         }
 
         // Process our PO
-        $purchaseOrder->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)    // Attach addresses
-                      ->updatePurchaseRequests()                                                // Update Purchase Requests
-                      ->attachRules()                                                           // Attach rules to Purchase Orders
+        $purchaseOrder->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)// Attach addresses
+                      ->updatePurchaseRequests()// Update Purchase Requests
+                      ->attachRules()// Attach rules to Purchase Orders
                       ->tryAutoApprove();                                                       // Try to approve
 
         return $purchaseOrder;

@@ -139,7 +139,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_orders/single/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@single']);
     Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder' , 'uses' => 'PurchaseOrdersController@approve']);
     Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder' , 'uses' => 'PurchaseOrdersController@reject']);
-    Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiAll');
+    Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiGetAll');
     
     /*
      * Line Items

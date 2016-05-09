@@ -54,39 +54,21 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-        if (true) {
-            $state = $request->query('state');
-            $number = $request->query('number');
-            $projectID = $request->query('project_id');
-            $quantity = $request->query('quantity');
-            $itemBrand = $request->query('item_brand');
-            $itemName = $request->query('item_name');
-            $due = $request->query('due');
-            $requested = $request->query('requested');
-            $userID = $request->query('user_id');
-            $search = $request->query('search');
-            $sort = $request->query('sort');
-            $order = $request->query('order');
-            $urgent = $request->query('urgent');
-            $perPage = $request->query('per_page');
-            
-
-            $data = UserPurchaseRequestsRepository::forUser(Auth::user())
-                                                  ->whereState($state)
-                                                  ->filterIntegerField('number', $number)
-                                                  ->forProject($projectID)
-                                                  ->filterIntegerField('quantity', $quantity)
-                                                  ->filterByItem($itemBrand, $itemName)
-                                                  ->filterDateField('due', $due)
-                                                  ->filterDateField('purchase_requests.created_at', $requested)
-                                                  ->byUser($userID)
-                                                  ->searchFor($search)
-                                                  ->onlyUrgent($urgent)
-                                                  ->sortOn($sort, $order)
+        if ($request->ajax()) {
+            return UserPurchaseRequestsRepository::forUser(Auth::user())
+                                                  ->whereState($request->state)
+                                                  ->filterIntegerField('number', $request->number)
+                                                  ->forProject($request->project_id)
+                                                  ->filterIntegerField('quantity', $request->quantity)
+                                                  ->filterByItem($request->item_brand, $request->item_name)
+                                                  ->filterDateField('due', $request->due)
+                                                  ->filterDateField('purchase_requests.created_at', $request->requested)
+                                                  ->byUser($request->user_id)
+                                                  ->searchFor($request->search)
+                                                  ->onlyUrgent($request->urgent)
+                                                  ->sortOn($request->sort, $request->order)
                                                   ->with(['item.photos', 'project', 'user'])
-                                                  ->paginate($perPage);
-
-            return $data;
+                                                  ->paginate($request->per_page);
         } else {
             abort('501', 'Oops..can\'t get in that way.');
         }
