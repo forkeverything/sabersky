@@ -306,25 +306,30 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
 };
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints) {
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
+Vue.transition('fade', {
+    enterClass: 'fadeIn',
+    leaveClass: 'fadeOut'
+});
+
+Vue.transition('slide', {
+    enterClass: 'slideInLeft',
+    leaveClass: 'slideOutLeft'
+});
+
+Vue.transition('slide-right', {
+    enterClass: 'slideInRight',
+    leaveClass: 'slideOutRight'
+});
+
+Vue.transition('fade-slide', {
+    enterClass: 'fadeInDown',
+    leaveClass: 'fadeOutUp'
+});
+
+Vue.transition('slide-down', {
+    enterClass: 'slideInDown',
+    leaveClass: 'slideOutUp'
+});
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -754,30 +759,25 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-Vue.transition('fade', {
-    enterClass: 'fadeIn',
-    leaveClass: 'fadeOut'
-});
-
-Vue.transition('slide', {
-    enterClass: 'slideInLeft',
-    leaveClass: 'slideOutLeft'
-});
-
-Vue.transition('slide-right', {
-    enterClass: 'slideInRight',
-    leaveClass: 'slideOutRight'
-});
-
-Vue.transition('fade-slide', {
-    enterClass: 'fadeInDown',
-    leaveClass: 'fadeOutUp'
-});
-
-Vue.transition('slide-down', {
-    enterClass: 'slideInDown',
-    leaveClass: 'slideOutUp'
-});
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints) {
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +

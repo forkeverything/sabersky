@@ -40,7 +40,7 @@ class PurchaseOrdersController extends Controller
         $breadcrumbs = [
             ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '#'],
         ];
-        return view('purchase_orders.all');
+        return view('purchase_orders.all', compact('breadcrumbs'));
     }
 
     /**

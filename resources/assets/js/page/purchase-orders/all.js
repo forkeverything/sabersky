@@ -15,6 +15,7 @@ Vue.component('purchase-orders-all',{
                 ['', 'Paid'],
                 ['', 'Delivered']
             ],
+            activeStatus: 'pending',
             statuses: [
                 {
                     key: 'pending',
@@ -39,20 +40,10 @@ Vue.component('purchase-orders-all',{
             filter: 'pending'
         };
     },
-    ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
     methods: {
+        changeStatus: function(status) {
+            this.activeStatus = status;
+        },
         changeSort: function ($newField) {
             if (this.field == $newField) {
                 this.order = (this.order == '') ? -1 : '';
@@ -91,5 +82,18 @@ Vue.component('purchase-orders-all',{
                 return true;
             }
         }
-    }
+    },
+    ready: function () {
+        var self = this;
+        $.ajax({
+            url: '/api/purchase_orders',
+            method: 'GET',
+            success: function (data) {
+                self.purchaseOrders = data;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    },
 });
