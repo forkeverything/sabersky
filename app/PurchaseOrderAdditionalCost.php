@@ -40,7 +40,7 @@ class PurchaseOrderAdditionalCost extends Model
      */
     public function setTypeAttribute($value)
     {
-        $type = $this->type === '%' ? '%' : 'fixed';
+        $type = $value === '%' ? '%' : 'fixed';
         $this->attributes['type'] = $type;
     }
 }

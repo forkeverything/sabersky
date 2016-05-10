@@ -197,6 +197,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
 
-    
-    
+    Route::get('test', function () {
+
+        return \App\Repositories\CompanyPurchaseOrdersRepository::forCompany(\App\Company::find(1))
+                                              ->getWithoutQueryProperties();
+    });
+
 });

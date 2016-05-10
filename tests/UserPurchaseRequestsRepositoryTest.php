@@ -101,7 +101,10 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->getWithoutQueryProperties());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
+
     public function it_filters_correct_PR_state()
     {
 
@@ -125,7 +128,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
         // Given State - does it identify correctly?
         $this->assertCount(5, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('open')->getWithoutQueryProperties());
         $this->assertCount(10, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('cancelled')->getWithoutQueryProperties());
-        $this->assertCount(3, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('complete')->getWithoutQueryProperties());
+        $this->assertCount(3, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('fulfilled')->getWithoutQueryProperties());
         $this->assertCount(18, UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->whereState('all')->getWithoutQueryProperties());
 
         // Give wrong value - default to 'open' States

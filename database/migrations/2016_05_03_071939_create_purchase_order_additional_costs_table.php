@@ -18,7 +18,7 @@ class CreatePurchaseOrderAdditionalCostsTable extends Migration
 
             $table->string('name');         // - freight, discount, tax,  etc...
             $table->string('type');         // - fixed or percentage
-            $table->integer('amount');      // - to be added or deducted (discount, negative values)
+            $table->float('amount', 15, 2);      // - to be added or deducted (discount, negative values)
 
             $table->integer('purchase_order_id')->unsigned();
             $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');

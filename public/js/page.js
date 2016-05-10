@@ -144,261 +144,6 @@ Vue.component('item-single', {
         });
     }
 });
-Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
-    name: 'allPurchaseOrders',
-    el: function () {
-        return '#purchase-orders-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/purchase_orders',
-            statuses: ['pending', 'approved', 'rejected', 'all']
-        };
-    },
-    computed: {
-        purchaseOrders: function () {
-            return _.omit(this.response.data, 'query_parameters');
-        }
-    },
-    methods: {
-        changeStatus: function (status) {
-            this.makeRequest(updateQueryString({
-                status: status,
-                page: 1
-            }));
-        },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        changeFilter: function (filter) {
-            this.filter = filter;
-        },
-        toggleUrgent: function () {
-            this.urgent = (this.urgent) ? '' : 1;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
-        }
-    },
-    ready: function () {
-    }
-}));
-Vue.component('purchase-orders-submit', {
-    el: function () {
-        return '#purchase-orders-submit';
-    },
-    data: function () {
-        return {
-            step: 1,
-            ajaxReady: true,
-            lineItems: [],
-            vendor: {
-                linked_company: {},
-                addresses: [],
-                bank_accounts: []
-            },
-            selectedVendorAddress: '',
-            selectedVendorBankAccount: '',
-            currency: '',
-            billingAddressSameAsCompany: 1,
-            billingAddress: {
-                contact_person: '',
-                phone: '',
-                address_1: '',
-                address_2: '',
-                city: '',
-                zip: '',
-                country_id: '',
-                state: ''
-            },
-            shippingAddressSameAsBilling: 1,
-            shippingAddress: {
-                contact_person: '',
-                phone: '',
-                address_1: '',
-                address_2: '',
-                city: '',
-                zip: '',
-                country_id: '',
-                state: ''
-            },
-            additionalCosts: []
-        };
-    },
-    props: ['user'],
-    computed: {
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        userCurrency: function () {
-            return this.user.company.settings.currency;
-        },
-        currencySymbol: function () {
-            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
-        },
-        company: function () {
-            return this.user.company;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        hasLineItems: function () {
-            return this.lineItems.length > 0;
-        },
-        vendorAddresses: function () {
-            // Only if we have a vendor
-            if (!this.vendor.id) return [];
-            // Grab the addresses associated with Vendor model
-            var vendorAddresses = this.vendor.addresses || [];
-            // If we have addresses and a linked company - add the Company's address
-            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
-            return vendorAddresses;
-        },
-        validBillingAddress: function () {
-            return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
-        },
-        validShippingAddress: function () {
-            return !!this.shippingAddress.phone && !!this.shippingAddress.address_1 && !!this.shippingAddress.city && !!this.shippingAddress.zip && !!this.shippingAddress.country_id && !!this.shippingAddress.state;
-        },
-        canCreateOrder: function () {
-            var validVendor = true,
-                validOrder = true,
-                validItems = true;
-
-            // Vendor
-            // one selected
-            if (!this.vendor.id) validVendor = false;
-            // if we need address and no address
-            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
-            // if we need bank account and no bank account selected
-            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
-
-            // Order
-            // currency set!
-            if (!this.currency) validOrder = false;
-            // Billing address required fields valid
-            if (!this.billingAddressSameAsCompany && !this.validBillingAddress) validOrder = false;
-            // If shipping NOT the same &&  Shipping address required fields not valid
-            if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
-
-            // Items
-            // Make sure we have some items
-            if (!this.lineItems.length > 0) validItems = false;
-            // for each line item...
-            _.forEach(this.lineItems, function (item) {
-                // quantity and price is filled
-                if (!item.order_quantity || !item.order_price) validItems = false;
-                // quantity to order <= quantity requested
-                if (item.order_quantity > item.quantity) validItems = false;
-            });
-
-            // Create away if all valid
-            return validVendor && validOrder && validItems
-        }
-    },
-    methods: {
-        removeLineItem: function (lineItem) {
-            this.lineItems = _.reject(this.lineItems, lineItem);
-        },
-        clearAllLineItems: function () {
-            this.lineItems = [];
-        },
-        goStep: function (step) {
-            this.step = step;
-        },
-        selectAddress: function (address) {
-            this.selectedVendorAddress = this.selectedVendorAddress ? null : address;
-        },
-        visibleAddress: function (address) {
-            if (_.isEmpty(this.selectedVendorAddress)) return true;
-            return this.selectedVendorAddress == address;
-        },
-        calculateTotal: function (lineItem) {
-            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
-            var currencySymbol = this.currencySymbol || '$';
-            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
-        },
-        createOrder: function () {
-            var self = this;
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/purchase_orders/submit',
-                method: 'POST',
-                data: {
-                    "vendor_id": self.vendor.id,
-                    "vendor_address_id": self.selectedVendorAddress.id,
-                    "vendor_bank_account_id": self.selectedVendorBankAccount.id,
-                    "currency_id": self.currency.id,
-                    "billing_address_same_as_company": self.billingAddressSameAsCompany,
-                    "billing_contact_person": self.billingAddress.contact_person,
-                    "billing_phone": self.billingAddress.phone,
-                    "billing_address_1": self.billingAddress.address_1,
-                    "billing_address_2": self.billingAddress.address_2,
-                    "billing_city": self.billingAddress.city,
-                    "billing_zip": self.billingAddress.zip,
-                    "billing_country_id": self.billingAddress.country_id,
-                    "billing_state": self.billingAddress.state,
-                    "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
-                    "shipping_contact_person": self.shippingAddress.contact_person,
-                    "shipping_phone": self.shippingAddress.phone,
-                    "shipping_address_1": self.shippingAddress.address_1,
-                    "shipping_address_2": self.shippingAddress.address_2,
-                    "shipping_city": self.shippingAddress.city,
-                    "shipping_zip": self.shippingAddress.zip,
-                    "shipping_country_id": self.shippingAddress.country_id,
-                    "shipping_state": self.shippingAddress.state,
-                    "line_items": self.lineItems,
-                    "additional_costs": self.additionalCosts
-                },
-                success: function (data) {
-                    // success
-                    flashNotifyNextRequest('success', 'Submitted Purchase Order');
-                    location = "/purchase_orders";
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    mixins: [modalSinglePR],
-    ready: function () {
-        vueEventBus.$on('po-submit-selected-vendor', function() {
-            this.selectedVendorAddress = '';
-            this.selectedVendorBankAccount = '';
-        }.bind(this));
-    }
-});
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -768,6 +513,255 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
+    name: 'allPurchaseOrders',
+    el: function () {
+        return '#purchase-orders-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/purchase_orders',
+            statuses: ['pending', 'approved', 'rejected', 'all']
+        };
+    },
+    computed: {
+        purchaseOrders: function () {
+            return _.omit(this.response.data, 'query_parameters');
+        }
+    },
+    methods: {
+        changeStatus: function (status) {
+            this.makeRequest(updateQueryString({
+                status: status,
+                page: 1
+            }));
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    },
+    ready: function () {
+    }
+}));
+Vue.component('purchase-orders-submit', {
+    el: function () {
+        return '#purchase-orders-submit';
+    },
+    data: function () {
+        return {
+            step: 1,
+            ajaxReady: true,
+            lineItems: [],
+            vendor: {
+                linked_company: {},
+                addresses: [],
+                bank_accounts: []
+            },
+            selectedVendorAddress: '',
+            selectedVendorBankAccount: '',
+            currency: '',
+            billingAddressSameAsCompany: 1,
+            billingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
+            shippingAddressSameAsBilling: 1,
+            shippingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
+            additionalCosts: []
+        };
+    },
+    props: ['user'],
+    computed: {
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        userCurrency: function () {
+            return this.user.company.settings.currency;
+        },
+        currencySymbol: function () {
+            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
+        },
+        company: function () {
+            return this.user.company;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        hasLineItems: function () {
+            return this.lineItems.length > 0;
+        },
+        vendorAddresses: function () {
+            // Only if we have a vendor
+            if (!this.vendor.id) return [];
+            // Grab the addresses associated with Vendor model
+            var vendorAddresses = this.vendor.addresses || [];
+            // If we have addresses and a linked company - add the Company's address
+            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
+            return vendorAddresses;
+        },
+        validBillingAddress: function () {
+            return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
+        },
+        validShippingAddress: function () {
+            return !!this.shippingAddress.phone && !!this.shippingAddress.address_1 && !!this.shippingAddress.city && !!this.shippingAddress.zip && !!this.shippingAddress.country_id && !!this.shippingAddress.state;
+        },
+        canCreateOrder: function () {
+            var validVendor = true,
+                validOrder = true,
+                validItems = true;
+
+            // Vendor
+            // one selected
+            if (!this.vendor.id) validVendor = false;
+            // if we need address and no address
+            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
+            // if we need bank account and no bank account selected
+            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
+
+            // Order
+            // currency set!
+            if (!this.currency) validOrder = false;
+            // Billing address required fields valid
+            if (!this.billingAddressSameAsCompany && !this.validBillingAddress) validOrder = false;
+            // If shipping NOT the same &&  Shipping address required fields not valid
+            if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
+
+            // Items
+            // Make sure we have some items
+            if (!this.lineItems.length > 0) validItems = false;
+            // for each line item...
+            _.forEach(this.lineItems, function (item) {
+                // quantity and price is filled
+                if (!item.order_quantity || !item.order_price) validItems = false;
+                // quantity to order <= quantity requested
+                if (item.order_quantity > item.quantity) validItems = false;
+            });
+
+            // Create away if all valid
+            return validVendor && validOrder && validItems
+        }
+    },
+    methods: {
+        removeLineItem: function (lineItem) {
+            this.lineItems = _.reject(this.lineItems, lineItem);
+        },
+        clearAllLineItems: function () {
+            this.lineItems = [];
+        },
+        goStep: function (step) {
+            this.step = step;
+        },
+        selectAddress: function (address) {
+            this.selectedVendorAddress = this.selectedVendorAddress ? null : address;
+        },
+        visibleAddress: function (address) {
+            if (_.isEmpty(this.selectedVendorAddress)) return true;
+            return this.selectedVendorAddress == address;
+        },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            var currencySymbol = this.currencySymbol || '$';
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
+        },
+        createOrder: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/purchase_orders/submit',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendor.id,
+                    "vendor_address_id": self.selectedVendorAddress.id,
+                    "vendor_bank_account_id": self.selectedVendorBankAccount.id,
+                    "currency_id": self.currency.id,
+                    "billing_address_same_as_company": self.billingAddressSameAsCompany,
+                    "billing_contact_person": self.billingAddress.contact_person,
+                    "billing_phone": self.billingAddress.phone,
+                    "billing_address_1": self.billingAddress.address_1,
+                    "billing_address_2": self.billingAddress.address_2,
+                    "billing_city": self.billingAddress.city,
+                    "billing_zip": self.billingAddress.zip,
+                    "billing_country_id": self.billingAddress.country_id,
+                    "billing_state": self.billingAddress.state,
+                    "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
+                    "shipping_contact_person": self.shippingAddress.contact_person,
+                    "shipping_phone": self.shippingAddress.phone,
+                    "shipping_address_1": self.shippingAddress.address_1,
+                    "shipping_address_2": self.shippingAddress.address_2,
+                    "shipping_city": self.shippingAddress.city,
+                    "shipping_zip": self.shippingAddress.zip,
+                    "shipping_country_id": self.shippingAddress.country_id,
+                    "shipping_state": self.shippingAddress.state,
+                    "line_items": self.lineItems,
+                    "additional_costs": self.additionalCosts
+                },
+                success: function (data) {
+                    // success
+                    flashNotifyNextRequest('success', 'Submitted Purchase Order');
+                    location = "/purchase_orders";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    mixins: [modalSinglePR],
+    ready: function () {
+        vueEventBus.$on('po-submit-selected-vendor', function() {
+            this.selectedVendorAddress = '';
+            this.selectedVendorBankAccount = '';
+        }.bind(this));
+    }
+});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {

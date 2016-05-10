@@ -17,18 +17,38 @@ class CompanyPurchaseOrdersRepositoryTest extends TestCase
     {
         // Make purchase orders: 3 pending, 2 approved, 1 rejected (6 all)
         $someCompany = factory(Company::class)->create();
-        factory(PurchaseOrder::class, 3)->create([
+        $pendingOrders = factory(PurchaseOrder::class, 3)->create([
             'status' => 'pending',
             'company_id' => $someCompany->id
         ]);
-        factory(PurchaseOrder::class, 2)->create([
+
+        foreach ($pendingOrders as $pendingOrder) {
+                factory(\App\LineItem::class)->create([
+                    'purchase_order_id' => $pendingOrder->id
+                ]);
+            }
+
+        $approvedOrders = factory(PurchaseOrder::class, 2)->create([
             'status' => 'approved',
             'company_id' => $someCompany->id
         ]);
-        factory(PurchaseOrder::class, 1)->create([
+
+        foreach ($approvedOrders as $approvedOrder) {
+            factory(\App\LineItem::class)->create([
+                'purchase_order_id' => $approvedOrder->id
+            ]);
+        }
+
+
+        $rejectedOrder = factory(PurchaseOrder::class, 1)->create([
             'status' => 'rejected',
             'company_id' => $someCompany->id
         ]);
+
+            factory(\App\LineItem::class)->create([
+                'purchase_order_id' => $rejectedOrder->id
+            ]);
+
 
         // Got 6!
         $this->assertCount(6, Company::find($someCompany->id)->purchaseOrders);
@@ -39,6 +59,7 @@ class CompanyPurchaseOrdersRepositoryTest extends TestCase
             'rejected' => 1,
             'all' => 6
         ];
+
 
         foreach ($statusAndExpected as $status => $expectedCount) {
             $this->assertCount($expectedCount, CompanyPurchaseOrdersRepository::forCompany($someCompany)

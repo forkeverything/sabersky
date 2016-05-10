@@ -1,3 +1,55 @@
+
+.filter-button-toggle-dropdown {
+  color: $text-muted;
+  border: 1px solid $grey;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  line-height: 1;
+  width: 80px;
+
+  &:hover, &:focus, &:active {
+    color: $blue;
+  }
+}
+
+.filter-dropdown {
+  .integer-range-field, .date-range-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 10px;
+
+    input {
+      flex: 1;
+      text-align: center;
+    }
+
+    .dash {
+      font-size: 1.5em;
+      color: $text-muted;
+      margin: 0 10px;
+    }
+  }
+
+  .date-range-field {
+
+    input {
+      height: 34px;
+      padding: 6px 12px;
+      border: 1px solid $border-light;
+      border-radius: 4px;
+      width: 100%;
+
+      &:focus {
+        border: 1px solid $blue;
+        outline: 0;
+      }
+    }
+  }
+}
+
 .active-filters {
   flex: 100%;
 

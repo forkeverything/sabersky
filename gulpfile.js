@@ -78,5 +78,5 @@ elixir(function(mix) {
 
     mix.browserSync({proxy: 'pusakagroup.app'});
 
-    // mix.phpUnit(null, {group: 'driven'});
+    mix.phpUnit(null, {group: 'driven'});
 });

@@ -7039,53 +7039,6 @@ label.required {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
-  #purchase-requests-all .pr-controls .button-toggle-dropdown {
-    color: #93989F;
-    border: 1px solid #D2D2D2;
-    border-radius: 4px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-align-content: center;
-    -ms-flex-line-pack: center;
-    align-content: center;
-    line-height: 1; }
-    #purchase-requests-all .pr-controls .button-toggle-dropdown:hover, #purchase-requests-all .pr-controls .button-toggle-dropdown:focus, #purchase-requests-all .pr-controls .button-toggle-dropdown:active {
-      color: #3498DB; }
-  #purchase-requests-all .pr-controls .controls-left .pr-filters .button-show-filters-dropdown {
-    width: 80px; }
-  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    margin: 0 0 10px; }
-    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field input, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input {
-      -webkit-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      text-align: center; }
-    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .integer-range-field .dash, #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field .dash {
-      font-size: 1.5em;
-      color: #93989F;
-      margin: 0 10px; }
-  #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input {
-    height: 34px;
-    padding: 6px 12px;
-    border: 1px solid #E6E9EB;
-    border-radius: 4px;
-    width: 100%; }
-    #purchase-requests-all .pr-controls .controls-left .filter-dropdown .date-range-field input:focus {
-      border: 1px solid #3498DB;
-      outline: 0; }
   #purchase-requests-all .pr-controls .controls-right {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -9392,6 +9345,55 @@ label.required {
       cursor: not-allowed; }
     .api-paginator ul li.paginate-nav i {
       font-weight: bold; }
+
+.filter-button-toggle-dropdown {
+  color: #93989F;
+  border: 1px solid #D2D2D2;
+  border-radius: 4px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  line-height: 1;
+  width: 80px; }
+  .filter-button-toggle-dropdown:hover, .filter-button-toggle-dropdown:focus, .filter-button-toggle-dropdown:active {
+    color: #3498DB; }
+
+.filter-dropdown .integer-range-field, .filter-dropdown .date-range-field {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 0 10px; }
+  .filter-dropdown .integer-range-field input, .filter-dropdown .date-range-field input {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    text-align: center; }
+  .filter-dropdown .integer-range-field .dash, .filter-dropdown .date-range-field .dash {
+    font-size: 1.5em;
+    color: #93989F;
+    margin: 0 10px; }
+
+.filter-dropdown .date-range-field input {
+  height: 34px;
+  padding: 6px 12px;
+  border: 1px solid #E6E9EB;
+  border-radius: 4px;
+  width: 100%; }
+  .filter-dropdown .date-range-field input:focus {
+    border: 1px solid #3498DB;
+    outline: 0; }
 
 .active-filters {
   -webkit-flex: 100%;
