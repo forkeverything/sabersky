@@ -7,11 +7,11 @@
             </section>
             <div class="page-body">
                 <div class="items-control">
-                    <div class="filter dropdown" v-dropdown-toggle="itemsFilterDropdown">
+                    <div class="filter dropdown" v-dropdown-toggle="showFiltersDropdown">
                         <button type="button" class="btn button-show-filter-dropdown">Filter items <i
                                     class="fa fa-caret-down"></i></button>
                         <div class="filter-dropdown dropdown-container left"
-                             v-show="itemsFilterDropdown"
+                             v-show="showFiltersDropdown"
                         >
                             <p>Show items where</p>
                             <select-picker :options="filterOptions" :name.sync="filter"
@@ -38,15 +38,15 @@
                             <!-- Add Filter Button -->
                             <button class="button-add-filter btn btn-outline-blue"
                                     v-show="filter && filterValue"
-                                    @click.stop.prevent="addItemsFilter">Add Filter
+                                    @click.stop.prevent="addFilter">Add Filter
                             </button>
                         </div>
                     </div>
-                    <form class="form-item-search" @submit.prevent="searchItemQuery">
+                    <form class="form-item-search" @submit.prevent="searchTerm">
                         <input class="form-control input-item-search"
                                type="text"
                                placeholder="Search by SKU, Brand or Name"
-                        @keyup="searchItemQuery"
+                        @keyup="searchTerm"
                         v-model="params.search"
                         :class="{
                                     'active': params.search && params.search.length > 0

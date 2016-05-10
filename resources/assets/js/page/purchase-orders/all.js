@@ -1,23 +1,11 @@
-Vue.component('purchase-orders-all', {
+Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
     el: function () {
         return '#purchase-orders-all';
     },
     data: function () {
         return {
-            ajaxReady: true,
-            response: {},
-            params: {},
-            headings: [
-                ['created_at', 'Date Submitted'],
-                ['project.name', 'Project'],
-                ['', 'Item(s)'],
-                ['total', 'OrderTotal'],
-                ['', 'Status'],
-                ['', 'Paid'],
-                ['', 'Delivered']
-            ],
-            activeStatus: 'pending',
+            requestUrl: '/api/purchase_orders',
             statuses: ['pending', 'approved', 'rejected', 'all']
         };
     },
@@ -27,57 +15,11 @@ Vue.component('purchase-orders-all', {
         }
     },
     methods: {
-        fetchOrders: function (query) {
-            var self = this,
-                url = '/api/purchase_orders';
-
-            query = query || window.location.href.split('?')[1];
-            if (query) url = url + '?' + query;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // update response
-                    self.response = response;
-                    // update req. params
-                    self.params = {};
-                    _.forEach(response.data.query_parameters, function (value, key) {
-                        self.params[key] = value;
-                    });
-
-                    pushStateIfDiffQuery(query);
-                    document.getElementById('body-content').scrollTop = 0;
-
-                    self.ajaxReady = true;
-
-                    // TODO ::: Add a loader for each request
-                },
-                error: function (response) {
-                    console.log(response);
-                    self.ajaxReady = true;
-                }
-            });
-        },
         changeStatus: function (status) {
-            this.fetchOrders(updateQueryString({
+            this.makeRequest(updateQueryString({
                 status: status,
                 page: 1
             }));
-        },
-        changeSort: function (sort) {
-            if (this.params.sort === sort) {
-                var newOrder = (this.params.order === 'asc') ? 'desc' : 'asc';
-                this.fetchOrders(updateQueryString('order', newOrder));
-            } else {
-                this.fetchOrders(updateQueryString({
-                    sort: sort,
-                    order: 'asc',
-                    page: 1
-                }));
-            }
         },
         checkUrgent: function (purchaseOrder) {
             // takes a purchaseOrder and sees
@@ -111,7 +53,5 @@ Vue.component('purchase-orders-all', {
         }
     },
     ready: function () {
-        this.fetchOrders();
-        onPopCallFunction(this.fetchOrders);
     }
-});
+}));

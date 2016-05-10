@@ -306,25 +306,6 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
 };
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints) {
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
 Vue.transition('fade', {
     enterClass: 'fadeIn',
     leaveClass: 'fadeOut'
@@ -348,128 +329,6 @@ Vue.transition('fade-slide', {
 Vue.transition('slide-down', {
     enterClass: 'slideInDown',
     leaveClass: 'slideOutUp'
-});
-Vue.filter('capitalize', function (str) {
-    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    if(! array) return;
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('properDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value.replace(/\s/g, "").length > 0) {
-            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        if(val.replace(/\s/g, "").length > 0) {
-            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
-        }
-        return val;
-    }
-});
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
-    }
-    return value;
-});
-
-Vue.filter('easyDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        console.log(value);
-        var date = moment(value, "DD-MM-YYYY");
-        if (value && date) {
-            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        return val;
-    }
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val && val.length > limit) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    if(isNaN(parseFloat(val))) return val;
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
-        }
-    },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        // Trim invalid characters, and round to 2 decimal places
-        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
-    },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
-    }
 });
 Vue.directive('autofit-tabs', {
     bind: function () {
@@ -778,47 +637,147 @@ Vue.directive('selectoption', {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
-    '<span class="dash">-</span>'+
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
-    '</div>',
-    props: ['min', 'max']
+Vue.filter('capitalize', function (str) {
+    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
+Vue.filter('chunk', function (array, length) {
+    if(! array) return;
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
 });
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-            }
+Vue.filter('diffHuman', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
         }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
     }
 });
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+    }
+    return value;
+});
+
+Vue.filter('easyDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        console.log(value);
+        var date = moment(value, "DD-MM-YYYY");
+        if (value && date) {
+            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        return val;
+    }
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val && val.length > limit) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    if(isNaN(parseFloat(val))) return val;
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
+    }
+});
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints) {
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -1296,523 +1255,174 @@ Vue.component('toast-alert', {
          */
     }
 });
-Vue.component('add-address-modal', {
-    name: 'addAddressModal',
-    template: '<button type="button"' +
-    '                  class="btn btn-add-address btn-outline-green"' +
-    '                  @click="showModal"' +
-    '                  >' +
-    '                  <i class="fa fa-plus"></i> New Address' +
-    '          </button>' +
-    '          <div class="modal-overlay modal-address-add modal-form" v-show="visible" @click="hideModal">' +
-    '               <form class="modal-body form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
-    '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '                   <form-errors></form-errors>' +
-    '                   <h3>Add Address</h3>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input">' +
-    '                               <input type="text" ' +
-    '                                      class="not-required" ' +
-    '                                      v-model="contactPerson" ' +
-    '                                      :class="{' +
-    "                                           'filled': contactPerson }" +
-    '                               ">' +
-    '                               <label placeholder="Contact Person"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input">' +
-    '                               <input type="text" required v-model="phone">' +
-    '                               <label placeholder="Phone" class="required"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                   </div>' +
-    '                   <div class="shift-label-input no-validate">' +
-    '                       <input type="text" v-model="address1" required>' +
-    '                       <label class="required" placeholder="Address"></label>' +
-    '                   </div>' +
-    '                   <div class="shift-label-input no-validate">' +
-    '                       <input class="not-required"' +
-    '                              type="text"' +
-    '                              v-model="address2"' +
-    '                              :class="{' +
-    "                                  'filled': address2.length > 0" +
-    '                              }"' +
-    '                       >' +
-    '                       <label placeholder="Address 2"></label>' +
-    '                   </div>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input no-validate">' +
-    '                               <input type="text" v-model="city" required>' +
-    '                               <label class="required" placeholder="City"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="shift-label-input no-validate">' +
-    '                               <input type="text" v-model="zip" required>' +
-    '                               <label class="required" placeholder="Zip"></label>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                   </div>' +
-    '                   <div class="row">' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group shift-select">' +
-    '                               <label class="required">Country</label>' +
-    '                               <country-selecter :name.sync="countryID"></country-selecter>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="col-sm-6">' +
-    '                           <div class="form-group shift-select">' +
-    '                               <label class="required">State</label>' +
-    '                               <state-selecter :name.sync="state""></state-selecter>'+
-    '                           </div>' +
-    '                       </div>' +
-    '                   </div>' +
-    '                   <div class="form-group align-end">' +
-    '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +
-    '                   </div>' +
-    '               </form>' +
-    '          </div>',
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+            }
+        }
+    }
+});
+var apiRequestAllBaseComponent = Vue.extend({
+    name: 'APIRequestall',
     data: function () {
         return {
             ajaxReady: true,
-            ajaxObject: {},
-            visible: false,
-            loaded: false,
-            contactPerson: '',
-            phone: '',
-            address1: '',
-            address2: '',
-            city: '',
-            zip: '',
-            countryID: '',
-            state: ''
+            request: {},
+            response: {},
+            params: {},
+            showFiltersDropdown: false,
+            filter: '',
+            filterValue: '',
+            minFilterValue: ' ',
+            maxFilterValue: ' ',
         };
-    },
-    props: ['owner-id', 'owner-type'],
-    computed: {
-        canSaveAddress: function () {
-            return this.address1.length > 0 && this.city.length > 0 && this.countryID.length > 0 && this.zip.length > 0 && this.phone.length > 0;
-        }
-    },
-    methods: {
-        showModal: function () {
-            this.visible = true;
-        },
-        hideModal: function () {
-            this.visible = false;
-        },
-        addAddress: function () {
-            var self = this;
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/address',
-                method: 'POST',
-                data: {
-                    "owner_id": self.ownerId,
-                    "owner_type": self.ownerType,
-                    "contact_person": self.contactPerson,
-                    "phone": self.phone,
-                    "address_1": self.address1,
-                    "address_2": self.address2,
-                    "city": self.city,
-                    "zip": self.zip,
-                    "country_id": self.countryID,
-                    "state": self.state
-                },
-                success: function (data) {
-                    // success
-                    self.visible = false;
-                    flashNotify('success', 'Added a new address');
-                    self.$dispatch('address-added', data);
-                    self.ajaxReady = true;
-
-                    // reset fields
-                    self.contactPerson = '';
-                    self.phone = '';
-                    self.address1 = '';
-                    self.address2 = '';
-                    self.city = '';
-                    self.zip = '';
-                    self.countryID = '';
-                    self.state = '';
-
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-        var self = this;
-        self.loaded = true;
-    }
-});
-Vue.component('add-item-modal', {
-    name: 'addItemModal',
-    template: '<button type="button"' +
-    '               class="btn button-add-item"' +
-    '               :class="{' +
-    "                   'btn-outline-blue': this.buttonType === 'blue'," +
-    "                   'btn-solid-green': ! this.buttonType"+
-    '}"' +
-    '               @click="showModal"' +
-    '               >' +
-    '               Add New Item' +
-    '</button>'+
-    '<div class="modal-item-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
-    '<form class="form-item-add main-form modal-body" v-show="loaded" @click.stop="">' +
-    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '<form-errors></form-errors>' +
-    '<h3>Add New Item</h3>' +
-    '   <div class="form-group">' +
-    '       <label>SKU</label>' +
-    '       <input class="form-control" type="text" v-model="sku">' +
-    '   </div>' +
-    '<div class="form-group brand-name-wrap">' +
-    '<div class="brand-selection"><label>Brand</label><select class="item-add-brand-select"><option></option></select></div>' +
-    '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
-    '</div>' +
-    '   <div class="form-group">' +
-    '       <label  class="required">Specification</label>' +
-    '       <textarea class="form-control" v-model="specification" rows="5"></textarea>' +
-    '   </div>' +
-    '<div class="form-group">' +
-    '<div class="item-photo-uploader">' +
-    '<label>Photos</label>' +
-    '<div class="dropzone-errors" v-show="fileErrors.length > 0">' +
-    '<span class="error-heading">Could not add the following files</span>' +
-    '<span class="button-clear" @click="clearErrors">clear</span>' +
-    '<ul class="file-upload-errors">' +
-    '<li v-for="error in fileErrors" track-by="$index">{{ error }}</li>' +
-    '</ul>' +
-    '</div>' +
-    '<div class="item-photo-dropzone dropzone">' +
-    '<div class="dz-message"><i class="fa fa-image"></i>' +
-    'Click or drop images to upload' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div class="bottom align-end">' +
-    '   <button type="button"' +
-    '           class="btn btn-solid-green"' +
-    '           @click.prevent="submitAddItemForm"' +
-    '           :disabled="! canSubmitForm"' +
-    '   >' +
-    '       Save Item' +
-    '   </button>' +
-    '</div>' +
-    '</form>' +
-    '</div>',
-    data: function () {
-        return {
-            visible: false,
-            ajaxReady: true,
-            loaded: false,
-            existingBrands: null,
-            sku: '',
-            brand: '',
-            name: '',
-            specification: '',
-            uploadedFiles: [],
-            fileErrors: [],
-            dropzone: {}
-        };
-    },
-    props: ['buttonType'],
-    computed: {
-        canSubmitForm: function () {
-            return this.name.length > 0 && this.specification.length > 0;
-        }
-    },
-    methods: {
-        showModal: function() {
-            this.visible = true;
-        },
-        hideModal: function() {
-            this.visible = false;
-        },
-        clearErrors: function () {
-            this.fileErrors = []
-        },
-        submitAddItemForm: function () {
-            var self = this;
-
-            // Create new FormData Instance
-            var fd = new FormData();
-
-            // Attach our previously uploaded files to data
-            _.forEach(self.uploadedFiles, function (file) {
-                fd.append('item_photos[]', file);
-            });
-
-            // Append our other data
-            fd.append('sku', self.sku);
-            fd.append('brand', self.brand);
-            fd.append('name', self.name);
-            fd.append('specification', self.specification);
-
-            // Send Req. via Ajax
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items',
-                method: 'POST',
-                data: fd,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    // success
-                    console.log('success!');
-                    console.log(data);
-                    self.ajaxReady = true;
-                    self.clearFields(); // Clear selected fields
-                    self.$dispatch('added-new-item', data);   // Send out event for parent component
-                    self.visible = false;
-                    flashNotify('success', 'Added new Item');
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearFields: function () {
-            this.sku = '';
-            this.brand = '';
-            this.name = '';
-            this.specification = '';
-            this.uploadedFiles = '';
-            this.fileErrors = [];
-            this.dropzone.removeAllFiles();
-        }
-    },
-    events: {},
-    ready: function () {
-        var self = this;
-
-        // Brand selectize init
-        $('.item-add-brand-select').selectize({
-            valueField: 'brand',
-            searchField: 'brand',
-            create: true,
-            placeholder: 'Find or enter a new brand',
-            render: {
-                option: function(item, escape) {
-                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
-                },
-                item: function(item, escape) {
-                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/brands/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function(value) {
-                self.brand = value;
-            }
-        });
-
-        // File Upload
-        var dzMaxFileSize = 5 * (1000000);
-        self.dropzone = new Dropzone("div.item-photo-dropzone", {
-            autoProcessQueue: false,
-            url: "#",
-            acceptedFiles: 'image/*',
-            accept: function (file, done) {
-                if (self.uploadedFiles.length > 12) {
-                    self.fileErrors.push("Maximum of 12 Photos reached");
-                    this.removeFile(file);
-                } else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-                    self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
-                    this.removeFile(file);
-                } else if (file.size > dzMaxFileSize) {
-                    self.fileErrors.push('"' + file.name + '" file size over 5MB');
-                    this.removeFile(file);
-                }
-                else {
-                    done();
-                }
-            },
-            previewTemplate: '<div class="dz-image-row"><div class="dz-image"><img data-dz-thumbnail></div><div class="dz-file-details"><span data-dz-name class="file-name"></span><span class="file-size" data-dz-size></span></div><div class="link-remove"><i class="fa fa-close" data-dz-remove></i></div></div>',
-            init: function () {
-                this.on("addedfile", function (file) {
-                    self.uploadedFiles.push(file);
-                });
-                this.on("removedfile", function (file) {
-                    self.uploadedFiles = _.reject(self.uploadedFiles, file);
-                })
-            }
-        });
-
-        self.loaded = true;
-    }
-});
-Vue.component('modal', {
-    data: function () {
-        return {
-            title: '',
-            body: '',
-            buttonText: '',
-            buttonClass: '',
-            callbackEventName: ''
-        }
-    },
-    template: '<div class="modal-roles modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
-    '<div class="vertical-alignment-helper">' +
-    '<div class="modal-dialog vertical-align-center">' +
-    '<div class="modal-content">' +
-    '<div class="modal-header">' +
-    '<h5 class="text-center">{{ title }}</h5>' +
-    '</div>' +
-    '<div class="modal-body">' +
-    '<p>{{ body }}</p>' +
-    '</div>' +
-    '<div class="modal-footer">' +
-    '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>' +
-    '<a class="btn btn-ok btn-confirm {{ buttonClass }}"' +
-    '   @click="fireEvent" data-dismiss="modal"' +
-    '>' +
-    '{{ buttonText }}' +
-    '</a>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</div>',
-    methods: {
-        fireEvent: function() {
-            this.$dispatch(this.callbackEventName);
-        }
-    },
-    events: {
-        'new-modal': function (settings) {
-            var self = this;
-            self.title = settings.title;
-            self.body = settings.body;
-            self.buttonClass = settings.buttonClass;
-            self.buttonText = settings.buttonText;
-            self.callbackEventName = settings.callbackEventName;
-
-            // show the modal
-            $(this.$el).modal('show');
-
-        }
-    }
-});
-Vue.component('single-pr-modal', {
-    name: 'singlePurchaseRequestModal',
-    template: '<div class="modal-overlay single-pr" tabindex="-1" role="dialog" aria-labelledby="singlePRModal" aria-hidden="true" v-show="visible" @click="hideModal">' +
-    '               <div class="modal-body" @click.stop="">'+
-    '                   <modal-close-button></modal-close-button>' +
-    '                       <h3>Purchase Request #{{ purchaseRequest.number }} <span'+
-    '                           class="badge-state {{ purchaseRequest.state }}">{{ purchaseRequest.state }}</span>' +
-    '                       </h3>' +
-    '                       <div class="pr">' +
-    '                           <div class="request-info">' +
-    '                               <span class="requested">Requested {{ purchaseRequest.created_at | diffHuman }}</span>' +
-    '                               <span class="requester">{{ purchaseRequest.user.name }}</span>' +
-    '                           </div>' +
-    '                           <div class="due">' +
-    '                               <h5>Due Date</h5>' +
-    '                               <span class="date">{{ purchaseRequest.due | easyDate }}</span>' +
-    '                           </div>' +
-    '                           <div class="quantity">' +
-    '                               <h5>Quantity</h5>' +
-    '                               <span class="number">{{ purchaseRequest.quantity }}</span>' +
-    '                           </div>' +
-    '                       </div>' +
-    '                       <div class="item">' +
-    '                           <h5>Item</h5>' +
-    '                           <div class="main-photo">' +
-    '                               <a v-if="purchaseRequest.item.photos.length > 0" :href="purchaseRequest.item.photos[0].path" class="fancybox image-item-main" rel="group">' +
-    '                                   <img :src="purchaseRequest.item.photos[0].thumbnail_path" alt="Item Main Photo">' +
-    '                               </a>' +
-    '                               <div class="placeholder" v-else>'+
-    '                                   <i class="fa fa-image"></i>'+
-    '                               </div>' +
-    '                           </div>' +
-    '                           <div class="details">' +
-    '                               <span class="sku display-block" v-if="purchaseRequest.item.sku">{{ purchaseRequest.item.sku }}</span>' +
-    '                               <span class="brand" v-if="purchaseRequest.item.brand">{{ purchaseRequest.item.brand }} - </span>' +
-    '                               <span class="name">{{ purchaseRequest.item.name }}</span>' +
-    '                               <p class="specification">{{ purchaseRequest.item.specification }} </p>' +
-    '                               <div class="item-images" v-if="purchaseRequest.item.photos.length > 0">' +
-    '                                   <ul class="image-gallery list-unstyled list-inline">' +
-    '                                       <li class="single-item-image" v-for="photo in purchaseRequest.item.photos">' +
-    '                                           <a :href="photo.path" v-fancybox rel="group">' +
-    '                                               <img :src="photo.thumbnail_path" alt="item image">' +
-    '                                           </a>' +
-    '                                       </li>' +
-    '                                   </ul>' +
-    '                               </div>' +
-    '                          </div>' +
-    '                      </div>'+
-    '             </div>' +
-    '       </div>',
-    data: function() {
-        return {
-            purchaseRequest: {
-                user: {},
-                item: {
-                    photos: []
-                }
-            },
-            visible: false
-        }
     },
     props: [],
-    computed: {
-
-    },
+    computed: {},
     methods: {
-        hideModal: function() {
-            this.visible = false;
-        }
-    },
-    events: {
-        'click-close-modal': function() {
-            this.hideModal();
-        }
-    },
-    ready: function() {
-        var self = this;
-        vueEventBus.$on('modal-single-pr-show', function(purchaseRequest) {
-            self.purchaseRequest = purchaseRequest;
-            self.$nextTick(function () {
-                self.visible = true;
+        checkSetup: function() {
+            if(!this.requestUrl) throw new Error("No Request URL set as 'requestUrl' ");
+            if(this.hasFilter && _.isEmpty(this.filterOptions)) throw new Error("Need filterOptions[] defined to use filters");
+        },
+        makeRequest: function (query) {
+            var self = this,
+                url = this.requestUrl;
+
+            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
+            query = query || window.location.href.split('?')[1];
+            // If we had a query (arg or parsed) - attach it to our url
+            if (query) url = url + '?' + query;
+
+            // self.finishLoading = false;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.request = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    // Attach filters
+                    // Reset obj
+                    self.params = {};
+                    // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.params[key] = value;
+                    });
+
+
+                    // push state (if query is different from url)
+                    pushStateIfDiffQuery(query);
+
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
             });
-        });
-        vueEventBus.$on('modal-close', function() {
-            self.hideModal();
-        });
+        },
+        changeSort: function (sort) {
+            if (this.params.sort === sort) {
+                var order = (this.params.order === 'asc') ? 'desc' : 'asc';
+                this.makeRequest(updateQueryString('order', order));
+            } else {
+                this.makeRequest(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        },
+        searchTerm: _.debounce(function () {
+            if (this.request && this.request.readyState != 4) this.request.abort();
+            var term = this.params.search || null;
+            this.makeRequest(updateQueryString({
+                search: term,
+                page: 1
+            }))
+        }, 200),
+        clearSearch: function () {
+            this.params.search = '';
+            this.searchTerm();
+        },
+        resetFilterInput: function() {
+            this.filter = '';
+            this.filterValue = '';
+            this.minFilterValue = ' ';
+            this.maxFilterValue = ' ';
+        },
+        addFilter: function () {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
+            console.log(queryObj);
+            this.makeRequest(updateQueryString(queryObj));
+            this.resetFilterInput();
+            this.showFiltersDropdown = false;
+        },
+        removeFilter: function(filter) {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[filter] = null;
+            this.makeRequest(updateQueryString(queryObj));
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.makeRequest(updateQueryString(queryObj));
+        }
+    },
+    events: {},
+    ready: function () {
+        this.checkSetup();
+        this.makeRequest();
+        onPopCallFunction(this.makeRequest);
     }
 });
-
-
 Vue.component('company-search-selecter', {
     name: 'companySearchSelecter',
     template: '<select class="company-search-selecter">' +
@@ -2620,6 +2230,523 @@ Vue.component('vendor-selecter', {
         });
     }
 });
+Vue.component('add-address-modal', {
+    name: 'addAddressModal',
+    template: '<button type="button"' +
+    '                  class="btn btn-add-address btn-outline-green"' +
+    '                  @click="showModal"' +
+    '                  >' +
+    '                  <i class="fa fa-plus"></i> New Address' +
+    '          </button>' +
+    '          <div class="modal-overlay modal-address-add modal-form" v-show="visible" @click="hideModal">' +
+    '               <form class="modal-body form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
+    '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '                   <form-errors></form-errors>' +
+    '                   <h3>Add Address</h3>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input">' +
+    '                               <input type="text" ' +
+    '                                      class="not-required" ' +
+    '                                      v-model="contactPerson" ' +
+    '                                      :class="{' +
+    "                                           'filled': contactPerson }" +
+    '                               ">' +
+    '                               <label placeholder="Contact Person"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input">' +
+    '                               <input type="text" required v-model="phone">' +
+    '                               <label placeholder="Phone" class="required"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input type="text" v-model="address1" required>' +
+    '                       <label class="required" placeholder="Address"></label>' +
+    '                   </div>' +
+    '                   <div class="shift-label-input no-validate">' +
+    '                       <input class="not-required"' +
+    '                              type="text"' +
+    '                              v-model="address2"' +
+    '                              :class="{' +
+    "                                  'filled': address2.length > 0" +
+    '                              }"' +
+    '                       >' +
+    '                       <label placeholder="Address 2"></label>' +
+    '                   </div>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="city" required>' +
+    '                               <label class="required" placeholder="City"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="shift-label-input no-validate">' +
+    '                               <input type="text" v-model="zip" required>' +
+    '                               <label class="required" placeholder="Zip"></label>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="row">' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="form-group shift-select">' +
+    '                               <label class="required">Country</label>' +
+    '                               <country-selecter :name.sync="countryID"></country-selecter>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="col-sm-6">' +
+    '                           <div class="form-group shift-select">' +
+    '                               <label class="required">State</label>' +
+    '                               <state-selecter :name.sync="state""></state-selecter>'+
+    '                           </div>' +
+    '                       </div>' +
+    '                   </div>' +
+    '                   <div class="form-group align-end">' +
+    '                       <button type="submit" class="btn btn-solid-green" :disabled="! canSaveAddress">Save Address</button>' +
+    '                   </div>' +
+    '               </form>' +
+    '          </div>',
+    data: function () {
+        return {
+            ajaxReady: true,
+            ajaxObject: {},
+            visible: false,
+            loaded: false,
+            contactPerson: '',
+            phone: '',
+            address1: '',
+            address2: '',
+            city: '',
+            zip: '',
+            countryID: '',
+            state: ''
+        };
+    },
+    props: ['owner-id', 'owner-type'],
+    computed: {
+        canSaveAddress: function () {
+            return this.address1.length > 0 && this.city.length > 0 && this.countryID.length > 0 && this.zip.length > 0 && this.phone.length > 0;
+        }
+    },
+    methods: {
+        showModal: function () {
+            this.visible = true;
+        },
+        hideModal: function () {
+            this.visible = false;
+        },
+        addAddress: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/address',
+                method: 'POST',
+                data: {
+                    "owner_id": self.ownerId,
+                    "owner_type": self.ownerType,
+                    "contact_person": self.contactPerson,
+                    "phone": self.phone,
+                    "address_1": self.address1,
+                    "address_2": self.address2,
+                    "city": self.city,
+                    "zip": self.zip,
+                    "country_id": self.countryID,
+                    "state": self.state
+                },
+                success: function (data) {
+                    // success
+                    self.visible = false;
+                    flashNotify('success', 'Added a new address');
+                    self.$dispatch('address-added', data);
+                    self.ajaxReady = true;
+
+                    // reset fields
+                    self.contactPerson = '';
+                    self.phone = '';
+                    self.address1 = '';
+                    self.address2 = '';
+                    self.city = '';
+                    self.zip = '';
+                    self.countryID = '';
+                    self.state = '';
+
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+        var self = this;
+        self.loaded = true;
+    }
+});
+Vue.component('add-item-modal', {
+    name: 'addItemModal',
+    template: '<button type="button"' +
+    '               class="btn button-add-item"' +
+    '               :class="{' +
+    "                   'btn-outline-blue': this.buttonType === 'blue'," +
+    "                   'btn-solid-green': ! this.buttonType"+
+    '}"' +
+    '               @click="showModal"' +
+    '               >' +
+    '               Add New Item' +
+    '</button>'+
+    '<div class="modal-item-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
+    '<form class="form-item-add main-form modal-body" v-show="loaded" @click.stop="">' +
+    '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
+    '<form-errors></form-errors>' +
+    '<h3>Add New Item</h3>' +
+    '   <div class="form-group">' +
+    '       <label>SKU</label>' +
+    '       <input class="form-control" type="text" v-model="sku">' +
+    '   </div>' +
+    '<div class="form-group brand-name-wrap">' +
+    '<div class="brand-selection"><label>Brand</label><select class="item-add-brand-select"><option></option></select></div>' +
+    '<div class="enter-name"><label  class="required">Name</label><input class="form-control" type="text" v-model="name"></div>' +
+    '</div>' +
+    '   <div class="form-group">' +
+    '       <label  class="required">Specification</label>' +
+    '       <textarea class="form-control" v-model="specification" rows="5"></textarea>' +
+    '   </div>' +
+    '<div class="form-group">' +
+    '<div class="item-photo-uploader">' +
+    '<label>Photos</label>' +
+    '<div class="dropzone-errors" v-show="fileErrors.length > 0">' +
+    '<span class="error-heading">Could not add the following files</span>' +
+    '<span class="button-clear" @click="clearErrors">clear</span>' +
+    '<ul class="file-upload-errors">' +
+    '<li v-for="error in fileErrors" track-by="$index">{{ error }}</li>' +
+    '</ul>' +
+    '</div>' +
+    '<div class="item-photo-dropzone dropzone">' +
+    '<div class="dz-message"><i class="fa fa-image"></i>' +
+    'Click or drop images to upload' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="bottom align-end">' +
+    '   <button type="button"' +
+    '           class="btn btn-solid-green"' +
+    '           @click.prevent="submitAddItemForm"' +
+    '           :disabled="! canSubmitForm"' +
+    '   >' +
+    '       Save Item' +
+    '   </button>' +
+    '</div>' +
+    '</form>' +
+    '</div>',
+    data: function () {
+        return {
+            visible: false,
+            ajaxReady: true,
+            loaded: false,
+            existingBrands: null,
+            sku: '',
+            brand: '',
+            name: '',
+            specification: '',
+            uploadedFiles: [],
+            fileErrors: [],
+            dropzone: {}
+        };
+    },
+    props: ['buttonType'],
+    computed: {
+        canSubmitForm: function () {
+            return this.name.length > 0 && this.specification.length > 0;
+        }
+    },
+    methods: {
+        showModal: function() {
+            this.visible = true;
+        },
+        hideModal: function() {
+            this.visible = false;
+        },
+        clearErrors: function () {
+            this.fileErrors = []
+        },
+        submitAddItemForm: function () {
+            var self = this;
+
+            // Create new FormData Instance
+            var fd = new FormData();
+
+            // Attach our previously uploaded files to data
+            _.forEach(self.uploadedFiles, function (file) {
+                fd.append('item_photos[]', file);
+            });
+
+            // Append our other data
+            fd.append('sku', self.sku);
+            fd.append('brand', self.brand);
+            fd.append('name', self.name);
+            fd.append('specification', self.specification);
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items',
+                method: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // success
+                    console.log('success!');
+                    console.log(data);
+                    self.ajaxReady = true;
+                    self.clearFields(); // Clear selected fields
+                    self.$dispatch('added-new-item', data);   // Send out event for parent component
+                    self.visible = false;
+                    flashNotify('success', 'Added new Item');
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearFields: function () {
+            this.sku = '';
+            this.brand = '';
+            this.name = '';
+            this.specification = '';
+            this.uploadedFiles = '';
+            this.fileErrors = [];
+            this.dropzone.removeAllFiles();
+        }
+    },
+    events: {},
+    ready: function () {
+        var self = this;
+
+        // Brand selectize init
+        $('.item-add-brand-select').selectize({
+            valueField: 'brand',
+            searchField: 'brand',
+            create: true,
+            placeholder: 'Find or enter a new brand',
+            render: {
+                option: function(item, escape) {
+                    return '<div class="single-brand-option">' + escape(item.brand) + '</div>'
+                },
+                item: function(item, escape) {
+                    return '<div class="selected-brand">' + escape(item.brand) + '</div>'
+                }
+            },
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/brands/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function(value) {
+                self.brand = value;
+            }
+        });
+
+        // File Upload
+        var dzMaxFileSize = 5 * (1000000);
+        self.dropzone = new Dropzone("div.item-photo-dropzone", {
+            autoProcessQueue: false,
+            url: "#",
+            acceptedFiles: 'image/*',
+            accept: function (file, done) {
+                if (self.uploadedFiles.length > 12) {
+                    self.fileErrors.push("Maximum of 12 Photos reached");
+                    this.removeFile(file);
+                } else if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    self.fileErrors.push('"' + file.name + '" not a valid image type (.jpeg, .png, .gif)');
+                    this.removeFile(file);
+                } else if (file.size > dzMaxFileSize) {
+                    self.fileErrors.push('"' + file.name + '" file size over 5MB');
+                    this.removeFile(file);
+                }
+                else {
+                    done();
+                }
+            },
+            previewTemplate: '<div class="dz-image-row"><div class="dz-image"><img data-dz-thumbnail></div><div class="dz-file-details"><span data-dz-name class="file-name"></span><span class="file-size" data-dz-size></span></div><div class="link-remove"><i class="fa fa-close" data-dz-remove></i></div></div>',
+            init: function () {
+                this.on("addedfile", function (file) {
+                    self.uploadedFiles.push(file);
+                });
+                this.on("removedfile", function (file) {
+                    self.uploadedFiles = _.reject(self.uploadedFiles, file);
+                })
+            }
+        });
+
+        self.loaded = true;
+    }
+});
+Vue.component('modal', {
+    data: function () {
+        return {
+            title: '',
+            body: '',
+            buttonText: '',
+            buttonClass: '',
+            callbackEventName: ''
+        }
+    },
+    template: '<div class="modal-roles modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+    '<div class="vertical-alignment-helper">' +
+    '<div class="modal-dialog vertical-align-center">' +
+    '<div class="modal-content">' +
+    '<div class="modal-header">' +
+    '<h5 class="text-center">{{ title }}</h5>' +
+    '</div>' +
+    '<div class="modal-body">' +
+    '<p>{{ body }}</p>' +
+    '</div>' +
+    '<div class="modal-footer">' +
+    '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>' +
+    '<a class="btn btn-ok btn-confirm {{ buttonClass }}"' +
+    '   @click="fireEvent" data-dismiss="modal"' +
+    '>' +
+    '{{ buttonText }}' +
+    '</a>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</div>',
+    methods: {
+        fireEvent: function() {
+            this.$dispatch(this.callbackEventName);
+        }
+    },
+    events: {
+        'new-modal': function (settings) {
+            var self = this;
+            self.title = settings.title;
+            self.body = settings.body;
+            self.buttonClass = settings.buttonClass;
+            self.buttonText = settings.buttonText;
+            self.callbackEventName = settings.callbackEventName;
+
+            // show the modal
+            $(this.$el).modal('show');
+
+        }
+    }
+});
+Vue.component('single-pr-modal', {
+    name: 'singlePurchaseRequestModal',
+    template: '<div class="modal-overlay single-pr" tabindex="-1" role="dialog" aria-labelledby="singlePRModal" aria-hidden="true" v-show="visible" @click="hideModal">' +
+    '               <div class="modal-body" @click.stop="">'+
+    '                   <modal-close-button></modal-close-button>' +
+    '                       <h3>Purchase Request #{{ purchaseRequest.number }} <span'+
+    '                           class="badge-state {{ purchaseRequest.state }}">{{ purchaseRequest.state }}</span>' +
+    '                       </h3>' +
+    '                       <div class="pr">' +
+    '                           <div class="request-info">' +
+    '                               <span class="requested">Requested {{ purchaseRequest.created_at | diffHuman }}</span>' +
+    '                               <span class="requester">{{ purchaseRequest.user.name }}</span>' +
+    '                           </div>' +
+    '                           <div class="due">' +
+    '                               <h5>Due Date</h5>' +
+    '                               <span class="date">{{ purchaseRequest.due | easyDate }}</span>' +
+    '                           </div>' +
+    '                           <div class="quantity">' +
+    '                               <h5>Quantity</h5>' +
+    '                               <span class="number">{{ purchaseRequest.quantity }}</span>' +
+    '                           </div>' +
+    '                       </div>' +
+    '                       <div class="item">' +
+    '                           <h5>Item</h5>' +
+    '                           <div class="main-photo">' +
+    '                               <a v-if="purchaseRequest.item.photos.length > 0" :href="purchaseRequest.item.photos[0].path" class="fancybox image-item-main" rel="group">' +
+    '                                   <img :src="purchaseRequest.item.photos[0].thumbnail_path" alt="Item Main Photo">' +
+    '                               </a>' +
+    '                               <div class="placeholder" v-else>'+
+    '                                   <i class="fa fa-image"></i>'+
+    '                               </div>' +
+    '                           </div>' +
+    '                           <div class="details">' +
+    '                               <span class="sku display-block" v-if="purchaseRequest.item.sku">{{ purchaseRequest.item.sku }}</span>' +
+    '                               <span class="brand" v-if="purchaseRequest.item.brand">{{ purchaseRequest.item.brand }} - </span>' +
+    '                               <span class="name">{{ purchaseRequest.item.name }}</span>' +
+    '                               <p class="specification">{{ purchaseRequest.item.specification }} </p>' +
+    '                               <div class="item-images" v-if="purchaseRequest.item.photos.length > 0">' +
+    '                                   <ul class="image-gallery list-unstyled list-inline">' +
+    '                                       <li class="single-item-image" v-for="photo in purchaseRequest.item.photos">' +
+    '                                           <a :href="photo.path" v-fancybox rel="group">' +
+    '                                               <img :src="photo.thumbnail_path" alt="item image">' +
+    '                                           </a>' +
+    '                                       </li>' +
+    '                                   </ul>' +
+    '                               </div>' +
+    '                          </div>' +
+    '                      </div>'+
+    '             </div>' +
+    '       </div>',
+    data: function() {
+        return {
+            purchaseRequest: {
+                user: {},
+                item: {
+                    photos: []
+                }
+            },
+            visible: false
+        }
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+        hideModal: function() {
+            this.visible = false;
+        }
+    },
+    events: {
+        'click-close-modal': function() {
+            this.hideModal();
+        }
+    },
+    ready: function() {
+        var self = this;
+        vueEventBus.$on('modal-single-pr-show', function(purchaseRequest) {
+            self.purchaseRequest = purchaseRequest;
+            self.$nextTick(function () {
+                self.visible = true;
+            });
+        });
+        vueEventBus.$on('modal-close', function() {
+            self.hideModal();
+        });
+    }
+});
+
+
 Vue.component('modal-close-button', {
     name: 'modalClose',
     template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',

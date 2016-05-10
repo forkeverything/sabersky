@@ -62,7 +62,7 @@
 
         <button class="button-add-filter btn btn-outline-blue"
                 v-show="filter && (filterValue || minFilterValue || maxFiltervalue)"
-                @click.stop.prevent="addPRsFilter">Add Filter
+                @click.stop.prevent="addFilter">Add Filter
         </button>
     </div>
 </div>
