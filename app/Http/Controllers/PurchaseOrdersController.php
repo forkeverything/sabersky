@@ -58,8 +58,8 @@ class PurchaseOrdersController extends Controller
     {
         return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)
                                               ->whereStatus($request->status)
-                                              ->filterIntegerField('number', $request->number)
                                               ->hasRequestForProject($request->project_id)
+                                              ->filterIntegerField('number', $request->number)
                                               ->filterDateField('created_at', $request->submitted)
                                               ->byUser($request->user_id)
                                               ->sortOn($request->sort, $request->order)
@@ -159,7 +159,6 @@ class PurchaseOrdersController extends Controller
                 ]);
             }
         }
-
 
 
         // Process our PO

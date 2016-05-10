@@ -3,8 +3,8 @@
     <th class="clickable"
     @click="changeSort('number')"
     :class="{
-                                            'current_asc': sort === 'number' && order === 'asc',
-                                            'current_desc': sort === 'number' && order === 'desc'
+                                            'current_asc': params.sort === 'number' && params.order === 'asc',
+                                            'current_desc': params.sort === 'number' && params.order === 'desc'
                                         }"
     >
     PR
@@ -12,8 +12,8 @@
     <th class="clickable"
     @click="changeSort('project_name')"
     :class="{
-                                            'current_asc': sort === 'project_name' && order === 'asc',
-                                            'current_desc': sort === 'project_name' && order === 'desc'
+                                            'current_asc': params.sort === 'project_name' && params.order === 'asc',
+                                            'current_desc': params.sort === 'project_name' && params.order === 'desc'
                                         }"
     >
     Project
@@ -21,8 +21,8 @@
     <th class="clickable"
     @click="changeSort('quantity')"
     :class="{
-                                            'current_asc': sort === 'quantity' && order === 'asc',
-                                            'current_desc': sort === 'quantity' && order === 'desc'
+                                            'current_asc': params.sort === 'quantity' && params.order === 'asc',
+                                            'current_desc': params.sort === 'quantity' && params.order === 'desc'
                                         }"
     >
     Qty
@@ -30,8 +30,8 @@
     <th class="clickable"
     @click="changeSort('item_name')"
     :class="{
-                                            'current_asc': sort === 'item_name' && order === 'asc',
-                                            'current_desc': sort === 'item_name' && order === 'desc'
+                                            'current_asc': params.sort === 'item_name' && params.order === 'asc',
+                                            'current_desc': params.sort === 'item_name' && params.order === 'desc'
                                         }"
     >
     Item
@@ -39,16 +39,16 @@
     <th class="clickable"
     @click="changeSort('due')"
     :class="{
-                                            'current_asc': sort === 'due' && order === 'asc',
-                                            'current_desc': sort === 'due' && order === 'desc'
+                                            'current_asc': params.sort === 'due' && params.order === 'asc',
+                                            'current_desc': params.sort === 'due' && params.order === 'desc'
                                         }"
     >
     Due</th>
     <th class="clickable"
     @click="changeSort('created_at')"
     :class="{
-                                            'current_asc': sort === 'created_at' && order === 'asc',
-                                            'current_desc': sort === 'created_at' && order === 'desc'
+                                            'current_asc': params.sort === 'created_at' && params.order === 'asc',
+                                            'current_desc': params.sort === 'created_at' && params.order === 'desc'
                                         }"
     >
     Requested
@@ -56,8 +56,8 @@
     <th class="clickable"
     @click="changeSort('requester_name')"
     :class="{
-                                            'current_asc': sort === 'requester_name' && order === 'asc',
-                                            'current_desc': sort === 'requester_name' && order === 'desc'
+                                            'current_asc': params.sort === 'requester_name' && params.order === 'asc',
+                                            'current_desc': params.sort === 'requester_name' && params.order === 'desc'
                                         }"
     >
     By

@@ -105,6 +105,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
     public function hasRequestForProject($projectID)
     {
         if(! $projectID) return $this;
+        $this->{'project_id'} = $projectID;
         $this->query->whereExists(function ($query) use ($projectID) {
             $query->select(DB::raw(1))
                   ->from('purchase_requests')

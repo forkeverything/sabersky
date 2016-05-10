@@ -14,19 +14,19 @@
                 <ul class="nav nav-tabs" role="tablist" v-autofit-tabs>
                     <li class="clickable"
                         role="presentation"
-                        v-for="availableState in states"
-                    @click="changeState(availableState.name)"
+                        v-for="state in states"
+                    @click="changeState(state)"
                     :class="{
-                                'active': state == availableState.name
+                                'active': params.state == state
                             }"
                     >
-                    <a href="#settings-@{{ availableState.name }}"
-                       aria-controls="settings-@{{ availableState.name }}"
+                    <a href="#settings-@{{ state }}"
+                       aria-controls="settings-@{{ state }}"
                        role="tab"
                        data-toggle="tab"
-                       :class="state.name"
+                       :class="state"
                     >
-                        @{{ availableState.label }}
+                        @{{ state }}
                     </a>
                     </li>
                 </ul>
@@ -40,7 +40,7 @@
                                 <div class="control-urgent">
                                     <input type="checkbox"
                                            id="checkbox-pr-urgent"
-                                           v-model="urgent"
+                                           v-model="params.urgent"
                                     @click="toggleUrgentOnly"
                                     >
                                     <label class="clickable"

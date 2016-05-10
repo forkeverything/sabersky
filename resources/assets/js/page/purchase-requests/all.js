@@ -6,26 +6,14 @@ Vue.component('purchase-requests-all', {
     data: function () {
         return {
             response: {},
-            purchaseRequests: [],
-            order: '',
-            urgent: '',
-            state: '',
-            filter: '',
-            sort: '',
+            params: {},
             showFiltersDropdown: false,
 
+            filter: '',
             filterValue: '',
             minFilterValue: ' ',
             maxFilterValue: ' ',
 
-            activeFilters: {
-               number_filter_integer: '',
-                project: '',
-                quantity_filter_integer: '',
-                item_brand: '',
-                item_name: ''
-            },
-            
             filterOptions: [
                 {
                     value: 'number',
@@ -60,40 +48,26 @@ Vue.component('purchase-requests-all', {
                     label: 'Requester'
                 }
             ],
-            states: [
-                {
-                    name: 'open',   // What gets sent to server
-                    label: 'Open'   // Displayed to client
-                },
-                {
-                    name: 'complete',
-                    label: 'Completed'
-                },
-                {
-                    name: 'cancelled',
-                    label: 'Cancelled'
-                },
-                {
-                    name: 'all',
-                    label: 'All'
-                }
-            ],
+            states: ['open', 'fulfilled', 'cancelled', 'all'],
             ajaxReady: true,
             finishLoading: false
         };
     },
-    computed: {},
+    computed: {
+        purchaseRequests: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        }
+    },
     methods: {
-        setLoadQuery: function () {
-            // The currenty query
-            var currentQuery = window.location.href.split('?')[1];
-            // If state set - use query. Else - set a default for the state
-            currentQuery = getParameterByName('state') ? currentQuery : updateQueryString('state', 'open');
-            return currentQuery;
-        },
         fetchPurchaseRequests: function (query) {
-            var url = query ? '/api/purchase_requests?' + query : '/api/purchase_requests';
-            var self = this;
+
+            var self = this,
+                url = '/api/purchase_requests';
+
+            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
+            query = query || window.location.href.split('?')[1];
+            // If we had a query (arg or parsed) - attach it to our url
+            if(query) url = url + '?' + query;
 
             // self.finishLoading = false;
 
@@ -105,20 +79,13 @@ Vue.component('purchase-requests-all', {
                 success: function (response) {
                     // Update data
                     self.response = response;
-                    self.purchaseRequests = _.omit(response.data, 'query_parameters');
-
-                    // Pull flags from response (better than parsing url)
-                    self.state = response.data.query_parameters.state;
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
-                    self.urgent = response.data.query_parameters.urgent;
 
                     // Attach filters
                         // Reset obj
-                        self.activeFilters = {};
+                        self.params = {};
                         // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
                         _.forEach(response.data.query_parameters, function (value, key) {
-                            self.activeFilters[key] = value;
+                            self.params[key] = value;
                         });
 
 
@@ -148,16 +115,16 @@ Vue.component('purchase-requests-all', {
             }));
         },
         toggleUrgentOnly: function () {
-            var urgent = this.urgent ? 0 : 1;
+            var urgent = this.params.urgent ? 0 : 1;
             this.fetchPurchaseRequests(updateQueryString({
-                state: this.state, // use same state
+                state: this.params.state, // use same state
                 page: 1, // Reset to page 1
                 urgent: urgent
             }));
         },
         changeSort: function (sort) {
-            if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+            if (this.params.sort === sort) {
+                var newOrder = (this.params.order === 'asc') ? 'desc' : 'asc';
                 this.fetchPurchaseRequests(updateQueryString('order', newOrder));
             } else {
                 this.fetchPurchaseRequests(updateQueryString({
@@ -200,8 +167,7 @@ Vue.component('purchase-requests-all', {
     },
     ready: function () {
         // If exists
-        this.fetchPurchaseRequests(this.setLoadQuery());
-
-        onPopQuery(this.fetchPurchaseRequests);
+        this.fetchPurchaseRequests();
+        onPopCallFunction(this.fetchPurchaseRequests);
     }
 });

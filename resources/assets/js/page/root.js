@@ -48,7 +48,6 @@ new Vue({
     }
 });
 
-
 /**
  TODO :: Find a way to persist user info
  on Local Storage so that we aren't requesting it all the time.

@@ -12,7 +12,7 @@ class CompanyVendorsRepository extends apiRepository
 
     /**
      * Init our query - We're only interested in Vendors
-     * that belong to the given Company
+     * that belong to the given Companyz
      * 
      * @param Company $company
      * @return mixed

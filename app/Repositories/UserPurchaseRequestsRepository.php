@@ -94,7 +94,7 @@ class UserPurchaseRequestsRepository extends apiRepository
     public function whereState($state)
     {
         // Set filter property
-        $this->{'state'} = ($state === 'open' || $state === 'cancelled' || $state === 'complete' || $state === 'all') ? $state : 'open';
+        $this->{'state'} = ($state === 'open' || $state === 'cancelled' || $state === 'fulfilled' || $state === 'all') ? $state : 'open';
 
         // Filter our results
         switch ($this->state) {
@@ -104,7 +104,7 @@ class UserPurchaseRequestsRepository extends apiRepository
             case 'cancelled':
                 $this->query->where('state', 'cancelled')->where('quantity', '>', 0);
                 break;
-            case 'complete':
+            case 'fulfilled':
                 $this->query->where('quantity', 0);
                 break;
             case 'all':

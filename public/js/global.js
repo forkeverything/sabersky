@@ -172,11 +172,11 @@ function URIEncoder(value) {
  *
  * @param callback
  */
-function onPopQuery(callback)
+function onPopCallFunction(callback)
 {
     window.onpopstate = function (e) {
         if (e.state) {
-            callback(window.location.href.split('?')[1]);
+            callback();
         }
     }
 }

@@ -146,7 +146,7 @@ class PurchaseRequest extends Model
     }
 
     /**
-     * This allows us to attach a pseudo-state of 'complete'
+     * This allows us to attach a pseudo-state of 'fulfilled'
      * to Purchase Requests that have an outstanding
      * quantity of 0
      *
@@ -155,7 +155,7 @@ class PurchaseRequest extends Model
      */
     public function getStateAttribute($value)
     {
-        if($this->quantity === 0) return 'complete';
+        if($this->quantity === 0) return 'fulfilled';
         return $value;
     }
 

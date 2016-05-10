@@ -45,14 +45,14 @@ Vue.component('items-all', {
         }
     },
     methods: {
-        setLoadQuery: function () {
-            var currentQuery = window.location.href.split('?')[1];
-
-            return currentQuery
-        },
         getCompanyItems: function (query) {
-            var self = this;
-            var url = query ? '/api/items?' + query : '/api/items';
+            var self = this,
+                url = '/api/items';
+
+            query = query || window.location.href.split('?')[1];
+            if(query) url = url + '?' + query;
+
+
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             self.ajaxObject = $.ajax({
@@ -160,9 +160,7 @@ Vue.component('items-all', {
     },
     events: {},
     ready: function () {
-
-        this.getCompanyItems(this.setLoadQuery());
-        onPopQuery(this.getCompanyItems);
-
+        this.getCompanyItems();
+        onPopCallFunction(this.getCompanyItems);
     }
 });

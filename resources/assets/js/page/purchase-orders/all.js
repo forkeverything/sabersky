@@ -1,11 +1,13 @@
-Vue.component('purchase-orders-all',{
+Vue.component('purchase-orders-all', {
     name: 'allPurchaseOrders',
-    el: function() {
+    el: function () {
         return '#purchase-orders-all';
     },
-    data: function() {
+    data: function () {
         return {
-            purchaseOrders: [],
+            ajaxReady: true,
+            response: {},
+            params: {},
             headings: [
                 ['created_at', 'Date Submitted'],
                 ['project.name', 'Project'],
@@ -40,8 +42,52 @@ Vue.component('purchase-orders-all',{
             filter: 'pending'
         };
     },
+    computed: {
+        purchaseOrders: function () {
+            return _.omit(this.response.data, 'query_parameters');
+        }
+    },
     methods: {
-        changeStatus: function(status) {
+        setLoadQuery: function() {
+            var currentQuery = window.location.href.split('?')[1];
+            // If state set - use query. Else - set a default for the state
+            currentQuery = getParameterByName('state') ? currentQuery : updateQueryString('state', 'open');
+            return currentQuery;
+        },
+        fetchOrders: function (query) {
+            var self = this,
+                url = '/api/purchase_orders';
+
+            if (query) url = url + '?' + query;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (data) {
+                    // update response
+                    self.response = response;
+                    // update req. params
+                    self.params = {};
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.params[key] = value;
+                    });
+
+                    pushStateIfDiffQuery(query);
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
+
+                    // TODO ::: Add a loader for each request
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeStatus: function (status) {
             this.activeStatus = status;
         },
         changeSort: function ($newField) {
@@ -84,16 +130,7 @@ Vue.component('purchase-orders-all',{
         }
     },
     ready: function () {
-        var self = this;
-        $.ajax({
-            url: '/api/purchase_orders',
-            method: 'GET',
-            success: function (data) {
-                self.purchaseOrders = data;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    },
+        this.fetchOrders();
+        onPopCallFunction(this.fetchOrders);
+    }
 });
