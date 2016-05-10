@@ -47,24 +47,24 @@
                                type="text"
                                placeholder="Search by SKU, Brand or Name"
                         @keyup="searchItemQuery"
-                        v-model="searchTerm"
+                        v-model="params.search"
                         :class="{
-                                    'active': searchTerm && searchTerm.length > 0
+                                    'active': params.search && params.search.length > 0
                                }"
                         >
                     </form>
                     <div class="active-filters">
-                        <button type="button" v-if="queryParams.brand" class="btn button-remove-filter" @click="
+                        <button type="button" v-if="params.brand" class="btn button-remove-filter" @click="
                         removeFilter('brand')"><span
-                                class="field">Brand: </span>@{{ queryParams.brand }}</button>
+                                class="field">Brand: </span>@{{ params.brand }}</button>
 
-                        <button type="button" v-if="queryParams.name" class="btn button-remove-filter" @click="
+                        <button type="button" v-if="params.name" class="btn button-remove-filter" @click="
                         removeFilter('name')"><span
-                                class="field">Name: </span>@{{ queryParams.name }}</button>
+                                class="field">Name: </span>@{{ params.name }}</button>
 
-                        <button type="button" v-if="queryParams.project" class="btn button-remove-filter" @click="
+                        <button type="button" v-if="params.project" class="btn button-remove-filter" @click="
                         removeFilter('project')"><span
-                                class="field">Project: </span>@{{ queryParams.project.name }}</button>
+                                class="field">Project: </span>@{{ params.project.name }}</button>
                     </div>
                 </div>
                 <div v-if="hasItems">
@@ -77,16 +77,16 @@
                                 <th class="clickable"
                                 @click="changeSort('name')"
                                 :class="{
-                                            'current_asc': sort === 'name' && order === 'asc',
-                                            'current_desc': sort === 'name' && order === 'desc'
+                                            'current_asc': params.sort === 'name' && params.order === 'asc',
+                                            'current_desc': params.sort === 'name' && params.order === 'desc'
                                         }"
                                 >
                                 Details</th>
                                 <th class="clickable"
                                 @click="changeSort('sku')"
                                 :class="{
-                                            'current_asc': sort === 'sku' && order === 'asc',
-                                            'current_desc': sort === 'sku' && order === 'desc'
+                                            'current_asc': params.sort === 'sku' && params.order === 'asc',
+                                            'current_desc': params.sort === 'sku' && params.order === 'desc'
                                         }"
                                 >
                                 SKU</th>

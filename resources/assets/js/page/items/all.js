@@ -6,8 +6,11 @@ Vue.component('items-all', {
     data: function () {
         return {
             ajaxReady: true,
-            items: [],
+            response: {},
+            params: {},
             itemsFilterDropdown: false,
+            filter: '',
+            filterValue: '',
             filterOptions: [
                 {
                     value: 'brand',
@@ -22,24 +25,13 @@ Vue.component('items-all', {
                     label: 'Project'
                 }
             ],
-            filter: '',
-            filterValue: '',
-            response: {},
-            queryParams: {
-                brand: '',
-                name: '',
-                project: ''
-            },
-            searchTerm: '',
-            sort: '',
-            order: '',
-            lastPage: '',
-            currentPage: '',
-            itemsPerPage: '',
             ajaxObject: {}
         };
     },
     computed: {
+        items: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
         hasItems: function() {
             return !_.isEmpty(this.items);
         }
@@ -60,16 +52,11 @@ Vue.component('items-all', {
                 method: 'GET',
                 success: function (response) {
                     self.response = response;
-                    self.items = _.omit(response.data, 'query_parameters');
 
-                    self.queryParams = {};
+                    self.params = {};
                     _.forEach(response.data.query_parameters, function (value, key) {
-                        self.queryParams[key] = value;
+                        self.params[key] = value;
                     });
-
-                    self.searchTerm = response.data.query_parameters.search;
-                    self.sort = response.data.query_parameters.sort;
-                    self.order = response.data.query_parameters.order;
 
                     // push state (if query is different from url)
                     pushStateIfDiffQuery(query);
@@ -80,6 +67,7 @@ Vue.component('items-all', {
                     self.ajaxReady = true;
                 },
                 error: function (err) {
+                    console.log(err);
                     self.ajaxReady = true;
                 }
             });
@@ -111,9 +99,9 @@ Vue.component('items-all', {
 
             if (self.ajaxObject && self.ajaxObject.readyState != 4) self.ajaxObject.abort();
 
-            if (self.searchTerm) {
+            if (self.params.search) {
                 self.getCompanyItems(updateQueryString({
-                    search: self.searchTerm,
+                    search: self.params.search,
                     page: 1
                 }));
             } else {
@@ -125,8 +113,8 @@ Vue.component('items-all', {
 
         },
         changeSort: function (sort) {
-            if (this.sort === sort) {
-                var newOrder = (this.order === 'asc') ? 'desc' : 'asc';
+            if (this.params.sort === sort) {
+                var newOrder = (this.params.order === 'asc') ? 'desc' : 'asc';
                 this.getCompanyItems(updateQueryString('order', newOrder));
             } else {
                 this.getCompanyItems(updateQueryString({
@@ -145,16 +133,15 @@ Vue.component('items-all', {
             return _.uniqBy(projects, 'id');
         },
         removeAllFilters: function() {
-            var self = this;
             var queryObj = {};
-            _.forEach(self.filterOptions, function (option) {
+            _.forEach(this.filterOptions, function (option) {
                 queryObj[option.value] = null;
             });
             this.getCompanyItems(updateQueryString(queryObj));
 
         },
         clearSearch: function() {
-            this.searchTerm = '';
+            this.params.search = '';
             this.searchItemQuery();
         }
     },

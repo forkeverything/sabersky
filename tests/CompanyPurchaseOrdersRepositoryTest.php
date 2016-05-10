@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyPurchaseOrdersRepositoryTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * @test
      */

@@ -26,7 +26,7 @@
                        data-toggle="tab"
                        :class="state"
                     >
-                        @{{ state }}
+                        @{{ state | capitalize }}
                     </a>
                     </li>
                 </ul>

@@ -15,18 +15,18 @@
                     <li class="clickable"
                         role="presentation"
                         v-for="status in statuses"
-                    @click="changeStatus(status.key)"
+                    @click="changeStatus(status)"
                     :class="{
-                                'active': activeStatus === status.key
+                                'active': activeStatus === status
                             }"
                     >
-                    <a href="#settings-@{{ status.key }}"
-                       aria-controls="settings-@{{ status.key }}"
+                    <a href="#settings-@{{ status }}"
+                       aria-controls="settings-@{{ status }}"
                        role="tab"
                        data-toggle="tab"
-                       :class="status.key"
+                       :class="status"
                     >
-                        @{{ status.label }}
+                        @{{ status | capitalize }}
                     </a>
                     </li>
                 </ul>

@@ -5,10 +5,11 @@ Vue.component('purchase-requests-all', {
     },
     data: function () {
         return {
+            ajaxReady: true,
+            finishLoading: false,
             response: {},
             params: {},
             showFiltersDropdown: false,
-
             filter: '',
             filterValue: '',
             minFilterValue: ' ',
@@ -48,9 +49,7 @@ Vue.component('purchase-requests-all', {
                     label: 'Requester'
                 }
             ],
-            states: ['open', 'fulfilled', 'cancelled', 'all'],
-            ajaxReady: true,
-            finishLoading: false
+            states: ['open', 'fulfilled', 'cancelled', 'all']
         };
     },
     computed: {
@@ -108,9 +107,9 @@ Vue.component('purchase-requests-all', {
                 }
             });
         },
-        changeState: function (stateName) {
+        changeState: function (state) {
             this.fetchPurchaseRequests(updateQueryString({
-                state: stateName,
+                state: state,
                 page: 1
             }));
         },

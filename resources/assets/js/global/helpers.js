@@ -189,7 +189,7 @@ function onPopCallFunction(callback)
  * @param query
  */
 function pushStateIfDiffQuery(query) {
-    if (query !== window.location.href.split('?')[1]) {
+    if (query && query !== window.location.href.split('?')[1]) {
         window.history.pushState({}, "", '?' + query);
     }
 }

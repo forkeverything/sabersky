@@ -18,28 +18,7 @@ Vue.component('purchase-orders-all', {
                 ['', 'Delivered']
             ],
             activeStatus: 'pending',
-            statuses: [
-                {
-                    key: 'pending',
-                    label: 'Pending'
-                },
-                {
-                    key: 'approved',
-                    label: 'Approved'
-                },
-                {
-                    key: 'rejected',
-                    label: 'Rejected'
-                },
-                {
-                    key: '',
-                    label: 'All'
-                }
-            ],
-            field: '',
-            order: '',
-            urgent: '',
-            filter: 'pending'
+            statuses: ['pending', 'approved', 'rejected', 'all']
         };
     },
     computed: {
@@ -48,16 +27,11 @@ Vue.component('purchase-orders-all', {
         }
     },
     methods: {
-        setLoadQuery: function() {
-            var currentQuery = window.location.href.split('?')[1];
-            // If state set - use query. Else - set a default for the state
-            currentQuery = getParameterByName('state') ? currentQuery : updateQueryString('state', 'open');
-            return currentQuery;
-        },
         fetchOrders: function (query) {
             var self = this,
                 url = '/api/purchase_orders';
 
+            query = query || window.location.href.split('?')[1];
             if (query) url = url + '?' + query;
 
             if (!self.ajaxReady) return;
@@ -65,7 +39,7 @@ Vue.component('purchase-orders-all', {
             $.ajax({
                 url: url,
                 method: 'GET',
-                success: function (data) {
+                success: function (response) {
                     // update response
                     self.response = response;
                     // update req. params
@@ -88,14 +62,21 @@ Vue.component('purchase-orders-all', {
             });
         },
         changeStatus: function (status) {
-            this.activeStatus = status;
+            this.fetchOrders(updateQueryString({
+                status: status,
+                page: 1
+            }));
         },
-        changeSort: function ($newField) {
-            if (this.field == $newField) {
-                this.order = (this.order == '') ? -1 : '';
+        changeSort: function (sort) {
+            if (this.params.sort === sort) {
+                var newOrder = (this.params.order === 'asc') ? 'desc' : 'asc';
+                this.fetchOrders(updateQueryString('order', newOrder));
             } else {
-                this.field = $newField;
-                this.order = ''
+                this.fetchOrders(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
             }
         },
         checkUrgent: function (purchaseOrder) {
