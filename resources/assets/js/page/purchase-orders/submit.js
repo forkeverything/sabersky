@@ -146,7 +146,7 @@ Vue.component('purchase-orders-submit', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/purchase_orders/submit',
+                url: '/api/purchase_orders/submit',
                 method: 'POST',
                 data: {
                     "vendor_id": self.vendor.id,

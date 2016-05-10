@@ -21,6 +21,7 @@ class RulesController extends Controller
         $this->middleware('auth');
         $this->middleware('company');
         $this->middleware('settings.change');
+        $this->middleware('api.only');
     }
 
     /**

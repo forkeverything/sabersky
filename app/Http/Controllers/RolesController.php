@@ -19,6 +19,7 @@ class RolesController extends Controller
         $this->middleware('auth');
         $this->middleware('company');
         $this->middleware('settings.change', ['except' => 'apiGetRoles']);
+        $this->middleware('api.only');
     }
 
     /**

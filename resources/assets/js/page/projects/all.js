@@ -33,7 +33,7 @@ Vue.component('projects-all', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/projects/' + self.projectToDelete.id,
+                url: '/projects/' + self.projectToDelete.id,
                 method: 'DELETE',
                 success: function (data) {
                     // success

@@ -22,6 +22,9 @@ class VendorsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+        $this->middleware('api.only', [
+            'only' => ['apiGetPendingRequests', 'apiGetSearchVendors', 'apiGetSingle']
+        ]);
     }
 
 

@@ -27,6 +27,10 @@ class UsersController extends Controller
                 'getCheckEmailAvailability'
             ]
         ]);
+        
+        $this->middleware('api.only', [
+            'only' => ['apiGetTeam', 'apiGetSearchTeamMembers', 'apiGetAllProjects']
+        ]);
     }
 
     /**
@@ -81,7 +85,7 @@ class UsersController extends Controller
      *
      * @return mixed
      */
-    public function apiGetLoggedUser()
+    public function getLoggedUser()
     {
         $user = Auth::user()->load('company', 'company.address', 'company.settings', 'role');
         return $user;

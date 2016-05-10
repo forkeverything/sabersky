@@ -15,6 +15,7 @@ class AddressesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+        $this->middleware('api.only');
     }
 
     /**
@@ -23,7 +24,7 @@ class AddressesController extends Controller
      * @param AddAddressRequest $request
      * @return static
      */
-    public function postAddNew(AddAddressRequest $request)
+    public function apiPostAddNew(AddAddressRequest $request)
     {
         return Address::create($request->all());
     }
@@ -35,7 +36,7 @@ class AddressesController extends Controller
      * @param Address $address
      * @return bool
      */
-    public function putSetPrimary(Address $address)
+    public function apiPutSetPrimary(Address $address)
     {
         if (Gate::allows('edit', $address)) {
             $address->setAsPrimary();
@@ -51,7 +52,7 @@ class AddressesController extends Controller
      * @return bool|null
      * @throws \Exception
      */
-    public function deleteAddress(Address $address)
+    public function apiDeleteAddress(Address $address)
     {
         if (Gate::allows('edit', $address)) {
             $address->delete();

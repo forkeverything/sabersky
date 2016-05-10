@@ -14,10 +14,11 @@ class PurchaseOrdersControllerTest extends TestCase
     use WithoutMiddleware, DatabaseTransactions;
 
     // the route we're posting to submit a PO
-    protected static $routePostSubmit = '/purchase_orders/submit';
+    protected static $routePostSubmit = '/api/purchase_orders/submit';
 
-    // A random purchase request
-    protected static $purchaseRequest;
+    // A random purchase requests
+    protected static $PR_1;
+    protected static $PR_2;
 
     // POST data that will fail for all fields
     protected static $failingData;
@@ -37,8 +38,10 @@ class PurchaseOrdersControllerTest extends TestCase
         parent::setUp();
         // Bypass Authorization Gate
         Gate::shouldReceive('allows')->andReturn(true);
-        // Probably need a PR for our Order to fulfille
-        static::$purchaseRequest = factory(\App\PurchaseRequest::class)->create();
+        // Need 2 PRs
+        static::$PR_1 = factory(\App\PurchaseRequest::class)->create();
+        static::$PR_2 = factory(\App\PurchaseRequest::class)->create();
+
         // Set default failing data
         static::$failingData = [
             'foo' => 'bar',
@@ -48,14 +51,14 @@ class PurchaseOrdersControllerTest extends TestCase
             "shipping_address_same_as_billing" => 0,
             "line_items" => [
                 [
-                    'id' => static::$purchaseRequest->id,
+                    'id' => static::$PR_1->id,
                     'state' => 'cancelled',
                     'order_quantity' => null
                 ],
                 [
-                    'id' => static::$purchaseRequest->id,
+                    'id' => static::$PR_2->id,
                     'state' => 'open',
-                    "order_quantity" => (static::$purchaseRequest->quantity + 1)
+                    "order_quantity" => (static::$PR_2->quantity + 1)
                 ],
             ],
             "additional_costs" => [
@@ -72,15 +75,15 @@ class PurchaseOrdersControllerTest extends TestCase
             "shipping_address_same_as_billing" => 1,
             "line_items" => [
                 [
-                    'id' => static::$purchaseRequest->id,
+                    'id' => static::$PR_1->id,
                     'state' => 'open',
                     'order_quantity' => 5,
                     'order_price' => 1000
                 ],
                 [
-                    'id' => static::$purchaseRequest->id,
+                    'id' => static::$PR_2->id,
                     'state' => 'open',
-                    "order_quantity" => (static::$purchaseRequest->quantity),
+                    "order_quantity" => (static::$PR_2->quantity),
                     'order_price' => 1000
                 ],
             ],
@@ -108,9 +111,9 @@ class PurchaseOrdersControllerTest extends TestCase
              ->seeStatusCode(422)
              ->seeJsonStructure([
                  "vendor_id",
-                 "currency_id",
                  "vendor_address_id",
                  "vendor_bank_account_id",
+                 "currency_id",
                  "billing_phone",
                  'billing_address_1',
                  'billing_city',

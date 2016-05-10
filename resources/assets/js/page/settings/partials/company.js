@@ -44,7 +44,7 @@ Vue.component('settings-company', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/company',
+                url: '/company',
                 method: 'PUT',
                 data: {
                     name: self.user.company.name,

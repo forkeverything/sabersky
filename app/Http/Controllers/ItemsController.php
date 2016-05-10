@@ -23,6 +23,9 @@ class ItemsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+        $this->middleware('api.only', [
+            'except' => ['getAll', 'getSingle']
+        ]);
     }
 
     /**

@@ -25,6 +25,9 @@ class ProjectsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+        $this->middleware('api.only', [
+            'only' => ['apiGetAll', 'apiGetTeamMembers']
+        ]);
         if ($user = Auth::user()) {
             $this->company = Auth::user()->company->load('projects');
         }
@@ -224,7 +227,7 @@ class ProjectsController extends Controller
      * @return string
      * @throws \Exception
      */
-    public function apiDelete(Project $project)
+    public function delete(Project $project)
     {
         $this->checkProjectAuthorization($project);
         if($project->delete()) return 'Successfully deleted Project';

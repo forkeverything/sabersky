@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\APIOnly;
 use App\Http\Middleware\ChangeSettings;
 use App\Http\Middleware\HasCompany;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -52,6 +53,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         // ... Custom Middlewares
         'company' => HasCompany::class,
-        'settings.change' => ChangeSettings::class
+        'settings.change' => ChangeSettings::class,
+        'api.only' => APIOnly::class,
     ];
 }

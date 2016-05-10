@@ -68,7 +68,7 @@ Vue.component('registration-popup', {
                     if (!self.ajaxReady) return;
                     self.ajaxReady = false;
                     $.ajax({
-                        url: '/api/user/email/' + self.email + '/check',
+                        url: '/user/email/' + self.email + '/check',
                         method: 'GET',
                         success: function (data) {
                             // success
@@ -105,7 +105,7 @@ Vue.component('registration-popup', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/company',
+                url: '/company',
                 method: 'POST',
                 data: {
                     company_name: self.companyName,

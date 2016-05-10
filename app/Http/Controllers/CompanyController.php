@@ -23,8 +23,12 @@ class CompanyController extends Controller
         $this->middleware('auth', [
             'except' => ['postRegisterCompany','getPublicProfile']
         ]);
+        $this->middleware('api.only', [
+            'only' => ['apiGetOwn', 'apiGetCurrency', 'apiGetPublicProfile', 'apiGetSearchCompany']
+        ]);
     }
 
+    
     /**
      * POST request to register a new Company.
      * Will create a company as well as a
@@ -58,7 +62,7 @@ class CompanyController extends Controller
      *
      * @return mixed
      */
-    public function getOwn()
+    public function apiGetOwn()
     {
         if($company = Auth::user()->company) return $company;
     }
@@ -68,7 +72,7 @@ class CompanyController extends Controller
      *
      * @return mixed
      */
-    public function getCurrency()
+    public function apiGetCurrency()
     {
         if($company = Auth::user()->company) return $company->currency->currency_symbol;
         return response("Could not find user company", 404);
@@ -105,7 +109,7 @@ class CompanyController extends Controller
      * @param $term
      * @return mixed
      */
-    public function getPublicProfile($term)
+    public function apiGetPublicProfile($term)
     {
         return Company::fetchPublicProfile($term);
     }
@@ -122,7 +126,7 @@ class CompanyController extends Controller
         if ($query) {
             $companies = Company::where('id', '!=', Auth::user()->company->id)
             ->where('name', 'LIKE', '%' . $query . '%')
-            ->with('addresses');
+            ->with('address');
             /*
              * TODO ::: Add ability for more search parameters: address, industry etc.
              */

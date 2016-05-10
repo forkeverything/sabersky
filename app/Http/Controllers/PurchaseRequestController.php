@@ -25,9 +25,9 @@ class PurchaseRequestController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
-        if ($user = Auth::user()) {
-            $this->purchaseRequests = $user->company->purchaseRequests->load(['project', 'item', 'user']);
-        }
+        $this->middleware('api.only', [
+            'only' => ['apiGetAll']
+        ]);
     }
 
     /**
@@ -131,29 +131,7 @@ class PurchaseRequestController extends Controller
         }
         abort(403, "That Purchase Request does not belong to you.");
     }
-
-    /**
-     * Handles GET request from API for
-     * all available PRs
-     *
-     * @return mixed
-     */
-    public function apiGetAvailable()
-    {
-        if (($unfinishedPO = Auth::user()->purchaseOrders()->whereSubmitted(0)->first()) && Gate::allows('po_submit')) {
-            $addedPRIds = $unfinishedPO->lineItems->pluck('purchase_request_id')->toArray();
-            return $this->purchaseRequests->where('project_id', $unfinishedPO->project_id)->where('state', 'open')->reject(function ($item) use ($addedPRIds) {
-                return in_array($item->id, $addedPRIds) || $item->quantity <= 0;
-            })->load('item.photos');
-        }
-        abort(403, 'No created but unsubmitted purchase order or not allowed to submit purchase order');
-
-        /*
-         * TODO :: Find a better way to create PO / Line items.
-         * Then, refactor finding available PR to add to Line Item.
-         * The current way of caching using DB is not very clean.
-         */
-    }
+    
 
     /**
      * POST request to cancel a PR

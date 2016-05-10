@@ -28,6 +28,9 @@ class PurchaseOrdersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('api.only', [
+            'only' => ['apiGetAll', 'apiPostSubmit']
+        ]);
     }
 
     /**
@@ -53,7 +56,6 @@ class PurchaseOrdersController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-        if(! $request->ajax()) return response("Wrong way, go back!", 500);
         return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)
                                               ->whereStatus($request->status)
                                               ->filterIntegerField('number', $request->number)
@@ -92,7 +94,7 @@ class PurchaseOrdersController extends Controller
      * @param SubmitPurchaseOrderRequest $request
      * @return static
      */
-    public function postSubmit(SubmitPurchaseOrderRequest $request)
+    public function apiPostSubmit(SubmitPurchaseOrderRequest $request)
     {
 
         // Create our purchase orders
@@ -104,6 +106,7 @@ class PurchaseOrdersController extends Controller
             'user_id' => Auth::user()->id,
             'company_id' => Auth::user()->company_id
         ]);
+
 
         // IF billing was not same as company
         $billingAddress = Auth::user()->company->address;
@@ -145,6 +148,7 @@ class PurchaseOrdersController extends Controller
             ]);
         }
 
+
         // IF any Additional Costs - add them
         if ($additionalCosts = $request->input('additional_costs')) {
             foreach ($additionalCosts as $cost) {
@@ -155,6 +159,8 @@ class PurchaseOrdersController extends Controller
                 ]);
             }
         }
+
+
 
         // Process our PO
         $purchaseOrder->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)// Attach addresses
