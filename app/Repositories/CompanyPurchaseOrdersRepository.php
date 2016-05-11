@@ -7,10 +7,10 @@ namespace App\Repositories;
 use App\Company;
 use App\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
+use ReflectionMethod;
 
 class CompanyPurchaseOrdersRepository extends apiRepository
 {
-
     /**
      * Sortable fields for our results. First
      * value will be the default sort field
@@ -132,6 +132,36 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                   ->join('line_items', 'purchase_requests.id', '=', 'line_items.purchase_request_id')
                   ->whereRaw('purchase_orders.id = line_items.purchase_order_id');
         });
+        return $this;
+    }
+
+    /**
+     * Only brings back Orders that have LineItems -> PurchaseRequest -> Item
+     * with a given name.
+     * 
+     * TODO ::: Find faster way w/o joins
+     * 
+     * @param null $itemBrand
+     * @param null $itemName
+     * @return $this
+     */
+    public function filterByItem($brand = null, $name = null, $sku = null)
+    {
+        $ref = new ReflectionMethod($this, 'filterByItem');
+        foreach ($ref->getParameters() as $param) {
+            $column = $argName = $param->name;
+            if($term = $$argName){
+                $this->{'item_' . $column} = $term;
+                $this->query->whereExists(function ($query) use ($column, $term) {
+                    $query->select(DB::raw(1))
+                          ->from('purchase_requests')
+                          ->join('items', 'purchase_requests.item_id', '=', 'items.id')
+                          ->join('line_items', 'purchase_requests.id', '=', 'line_items.purchase_request_id')
+                          ->where('items.' . $column, $term)
+                          ->whereRaw('purchase_orders.id = line_items.purchase_order_id');
+                });
+            }
+        }
         return $this;
     }
 

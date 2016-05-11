@@ -12,7 +12,6 @@
 */
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -56,7 +55,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::put('/api/address/{address}/set_primary', 'AddressesController@apiPutSetPrimary');
     Route::delete('/api/address/{address}', 'AddressesController@apiDeleteAddress');
 
-    
+
     /*
      * Company
      */
@@ -140,11 +139,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_orders', ['as' => 'showAllPurchaseOrders', 'uses' => 'PurchaseOrdersController@getAll']);
     Route::get('/purchase_orders/submit', ['as' => 'getSubmitPOForm', 'uses' => 'PurchaseOrdersController@getSubmitForm']);
     Route::get('/purchase_orders/single/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@single']);
-    Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder' , 'uses' => 'PurchaseOrdersController@approve']);
-    Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder' , 'uses' => 'PurchaseOrdersController@reject']);
+    Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder', 'uses' => 'PurchaseOrdersController@approve']);
+    Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder', 'uses' => 'PurchaseOrdersController@reject']);
     Route::post('/api/purchase_orders/submit', 'PurchaseOrdersController@apiPostSubmit');
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiGetAll');
-    
+
     /*
      * Line Items
      */
@@ -200,7 +199,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('test', function () {
 
         return \App\Repositories\CompanyPurchaseOrdersRepository::forCompany(\App\Company::find(1))
-                                              ->getWithoutQueryProperties();
+                                                                ->filterByItem(null, null, 'Mr. Adonis Feeney')
+                                                                ->get();
     });
 
 });

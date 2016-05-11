@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use ReflectionMethod;
 
 /**
  * A Repo that helps us retrieve the
@@ -140,25 +141,14 @@ class UserPurchaseRequestsRepository extends apiRepository
      * @param null $itemName
      * @return $this
      */
-    public function filterByItem($itemBrand = null, $itemName = null)
+    public function filterByItem($brand = null, $name = null, $sku = null)
     {
-        foreach (func_get_args() as $index => $term) {
-
-            switch ($index) {
-                case 0:
-                    if ($term) $this->{'item_brand'} = $term;
-                    $column = 'brand';
-                    break;
-                case 1:
-                    if ($term) $this->{'item_name'} = $term;
-                    $column = 'name';
-                    break;
-                default:
-                    break;
-            }
-
-            if ($term) {
-                $this->query->whereExists(function ($query) use ($term, $column) {
+        $ref = new ReflectionMethod($this, 'filterByItem');
+        foreach ($ref->getParameters() as $param) {
+            $column = $argName = $param->name;
+            if($term = $$argName){
+                $this->{'item_' . $column} = $term;
+                $this->query->whereExists(function ($query) use ($column, $term) {
                     $query->select(DB::raw(1))
                           ->from('items')
                           ->where($column, $term)
