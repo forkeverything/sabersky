@@ -10,7 +10,7 @@ var apiRequestAllBaseComponent = Vue.extend({
             filter: '',
             filterValue: '',
             minFilterValue: ' ',
-            maxFilterValue: ' ',
+            maxFilterValue: ' '
         };
     },
     props: [],

@@ -29,7 +29,7 @@ class PurchaseOrdersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('api.only', [
-            'only' => ['apiPostSubmit']
+            'only' => ['apiGetAll', 'apiPostSubmit']
         ]);
     }
 
