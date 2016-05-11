@@ -123,6 +123,26 @@ class ItemsController extends Controller
         return response("No search term given", 500);
     }
 
+    /**
+     * Search item sku
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function apiGetSearchSKU($query)
+    {
+        if ($query) {
+            $results = CompanyItemsRepository::forCompany(Auth::user()->company)
+                                             ->searchFor($query, ['sku'])
+                                             ->select(['sku', 'name'])
+                                             ->getWithoutQueryProperties();
+            return $results;
+        }
+
+        return response("No search term given", 500);
+    }
+
+
 
     /**
      * Receives a Query and performs a DB search on:

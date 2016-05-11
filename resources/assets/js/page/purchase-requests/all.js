@@ -22,6 +22,10 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                     label: 'Quantity'
                 },
                 {
+                    value: 'item_sku',
+                    label: 'Item - SKU'
+                },
+                {
                     value: 'item_brand',
                     label: 'Item - Brand'
                 },

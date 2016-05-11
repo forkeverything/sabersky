@@ -12,6 +12,9 @@
                         removeFilter('quantity')">
     <span class="field">Quantity: </span><span v-if="params.quantity_filter_integer[0]">@{{ params.quantity_filter_integer[0] }}</span><span v-else>~ </span><span v-if="params.quantity_filter_integer[0] && params.quantity_filter_integer[1]"> - </span><span v-if="params.quantity_filter_integer[1]">@{{ params.quantity_filter_integer[1] }}</span><span v-else> ~</span></button>
 
+    <button type="button" v-if="params.item_sku" class="btn button-remove-filter" @click="
+                        removeFilter('item_sku')"><span
+            class="field">Item SKU: </span>@{{ params.item_sku }}</button>
 
     <button type="button" v-if="params.item_brand" class="btn button-remove-filter" @click="
                         removeFilter('item_brand')"><span

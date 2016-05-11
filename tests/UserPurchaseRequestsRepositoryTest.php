@@ -264,6 +264,7 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group driven
      */
     public function it_filters_on_item_brand_and_or_name()
     {

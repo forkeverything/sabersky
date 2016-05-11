@@ -60,7 +60,7 @@ class PurchaseRequestController extends Controller
                                                   ->filterIntegerField('number', $request->number)
                                                   ->forProject($request->project_id)
                                                   ->filterIntegerField('quantity', $request->quantity)
-                                                  ->filterByItem($request->item_brand, $request->item_name)
+                                                  ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
                                                   ->filterDateField('due', $request->due)
                                                   ->filterDateField('purchase_requests.created_at', $request->requested)
                                                   ->byUser($request->user_id)
