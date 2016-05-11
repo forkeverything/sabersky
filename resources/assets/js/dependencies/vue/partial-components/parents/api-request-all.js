@@ -97,7 +97,6 @@ var apiRequestAllBaseComponent = Vue.extend({
                 page: 1
             };
             queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
-            console.log(queryObj);
             this.makeRequest(updateQueryString(queryObj));
             this.resetFilterInput();
             this.showFiltersDropdown = false;

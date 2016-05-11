@@ -58,10 +58,16 @@
                                     <user-projects-selecter :name.sync="filterValue"></user-projects-selecter>
                                 </div>
 
-                                <!-- Quantity Filter -->
-                                <div class="quantity filter" v-show="filter === 'quantity' ">
-                                    <p>is</p>
+                                <!-- Total Cost Filter -->
+                                <div class="total filter" v-show="filter === 'total'">
+                                    <p>is between</p>
                                     <integer-range-field :min.sync="minFilterValue" :max.sync="maxFilterValue"></integer-range-field>
+                                </div>
+
+                                <!-- Item SKU Filter -->
+                                <div class="item-brand filter" v-show="filter === 'item_sku'">
+                                    <p>is</p>
+                                    <item-sku-selecter :name.sync="filterValue"></item-sku-selecter>
                                 </div>
 
                                 <!-- Item Brand Filter -->
@@ -76,22 +82,16 @@
                                     <item-name-selecter :name.sync="filterValue"></item-name-selecter>
                                 </div>
 
-                                <!-- Due (Date) Filter -->
-                                <div class="due filter" v-show="filter === 'due'">
+                                <!-- Submitted (Date) Filter -->
+                                <div class="submitted filter" v-show="filter === 'submitted'">
                                     <p>is from</p>
                                     <date-range-field :min.sync="minFilterValue" :max.sync="maxFilterValue"></date-range-field>
                                 </div>
 
-                                <!-- Requested (Date) Filter -->
-                                <div class="requested filter" v-show="filter === 'requested'">
-                                    <p>is from</p>
-                                    <date-range-field :min.sync="minFilterValue" :max.sync="maxFilterValue"></date-range-field>
-                                </div>
-
-                                <!-- Requester (User) Filter -->
-                                <div class="requester filter" v-show="filter === 'user_id'">
-                                    <p>is</p>
-                                    <team-member-selecter :name.sync="filterValue"></team-member-selecter>
+                                <!-- Made By (User) Filter -->
+                                <div class="made_by filter" v-show="filter === 'user_id'">
+                                    <p>Employee Name</p>
+                                    <company-employee-search-selecter :name.sync="filterValue"></company-employee-search-selecter>
                                 </div>
 
 
@@ -99,6 +99,41 @@
                                         v-show="filter && (filterValue || minFilterValue || maxFiltervalue)"
                                         @click.stop.prevent="addFilter">Add Filter
                                 </button>
+                            </div>
+                            <div class="active-filters">
+
+                                <button type="button" v-if="params.number_filter_integer" class="btn button-remove-filter" @click="
+                        removeFilter('number')">
+                                <span class="field">Number: </span><span v-if="params.number_filter_integer[0]">@{{ params.number_filter_integer[0] }}</span><span v-else>~ </span><span v-if="params.number_filter_integer[0] && params.number_filter_integer[1]"> - </span><span v-if="params.number_filter_integer[1]">@{{ params.number_filter_integer[1] }}</span><span v-else> ~</span></button>
+
+                                <button type="button" v-if="params.project" class="btn button-remove-filter" @click="
+                        removeFilter('project_id')">
+                                <span class="field">Project: </span>@{{ params.project.name }}</button>
+
+                                <button type="button" v-if="params.total_query_filter_aggregate_integer" class="btn button-remove-filter" @click="
+                        removeFilter('total')">
+                                <span class="field">Total Cost: </span><span v-if="params.total_query_filter_aggregate_integer[0]">@{{ params.total_query_filter_aggregate_integer[0] }}</span><span v-else>~ </span><span v-if="params.total_query_filter_aggregate_integer[0] && params.total_query_filter_aggregate_integer[1]"> - </span><span v-if="params.total_query_filter_aggregate_integer[1]">@{{ params.total_query_filter_aggregate_integer[1] }}</span><span v-else> ~</span></button>
+
+                                <button type="button" v-if="params.item_sku" class="btn button-remove-filter" @click="
+                        removeFilter('item_sku')"><span
+                                        class="field">Item SKU: </span>@{{ params.item_sku }}</button>
+
+                                <button type="button" v-if="params.item_brand" class="btn button-remove-filter" @click="
+                        removeFilter('item_brand')"><span
+                                        class="field">Item Brand: </span>@{{ params.item_brand }}</button>
+
+                                <button type="button" v-if="params.item_name" class="btn button-remove-filter" @click="
+                        removeFilter('item_name')"><span
+                                        class="field">Item Name: </span>@{{ params.item_name }}</button>
+
+                                <button type="button" v-if="params['purchase_orders.created_at_filter_date']" class="btn button-remove-filter" @click="
+                        removeFilter('submitted')"><span
+                                        class="field">Submitted: </span><span v-if="params['purchase_orders.created_at_filter_date'][0]">@{{ params['purchase_orders.created_at_filter_date'][0] | date }}</span><span v-else>~ </span><span v-if="params['purchase_orders.created_at_filter_date'][0] && params['purchase_orders.created_at_filter_date'][1]"> - </span><span v-if="params['purchase_orders.created_at_filter_date'][1]">@{{ params['purchase_orders.created_at_filter_date'][1] | date }}</span><span v-else> ~</span></button>
+
+                                <button type="button" v-if="params.user" class="btn button-remove-filter" @click="
+                        removeFilter('user_id')">
+                                <span class="field">Made by: </span>@{{ params.user.name }}</button>
+
                             </div>
                         </div>
                     </div>

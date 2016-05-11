@@ -7,9 +7,10 @@ namespace App\Repositories;
 use App\Company;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use ReflectionProperty;
@@ -122,6 +123,22 @@ abstract class apiRepository
 
 
     /**
+     * Wrapper - for having() on Query Builder. Just in case I forget, having can be used
+     * on aggregates (SUM, COUNT, etc...) - WHERE can't be used on those.
+     *
+     * @param $column
+     * @param $operator
+     * @param $value
+     * @return $this
+     */
+    public function having($column, $operator, $value)
+    {
+        $this->query->having($column, $operator, $value);
+        return $this;
+    }
+
+
+    /**
      * Attaches this object's properties
      * to the results object that is
      * returned to Client
@@ -157,6 +174,39 @@ abstract class apiRepository
         // add our custom properties
         $this->addPropertiesToResults($paginatedObject);
         return $this->paginated;
+    }
+
+    /**
+     * The usual paginator doesn't take into account aggregates, we need to make our
+     * paginator AFTER doing our SELECT(s)
+     *
+     * @param $perPage
+     * @param $currentPage
+     * @return LengthAwarePaginator
+     */
+    public function paginateWithAggregate($perPage, $currentPage)
+    {
+        $perPage = $perPage ?: 8;
+        $currentPage = $currentPage ?: 1;
+
+        // To calculate the total amount of queries - we duplicate it and just select the id
+        // TODO ::: Find faster way of determining COUNT, is there a faster field than 'id'?
+        $queryForCount = clone $this->query;
+        $countTotal = $queryForCount->select(['purchase_orders.id'])->get()->count();
+
+        // We retrieve only a portion of our results here - using whichever page we are
+        // currently at
+        $this->query->forPage($currentPage, $perPage);
+
+        $items = $this->getWithoutQueryProperties();
+
+        // Create our Paginator instance - we use LengthAwarePaginator to see how many pages, otherwise
+        // we would be creating a simple pagination
+        $paginator = new LengthAwarePaginator($items, $countTotal, $perPage);
+
+        // Add our params / properties
+        $this->addPropertiesToResults($paginator);
+        return $paginator;
     }
 
 
@@ -226,6 +276,28 @@ abstract class apiRepository
         // Create property dynamically with {} !
         $rangeArray = $range ? $this->{$column . '_filter_integer'} = explode(' ', $range) : null;
         $this->queryColumnRange($column, $rangeArray);
+        return $this;
+    }
+
+    /**
+     * Similar to filterIntegerField() except we're doing this for a aggregate
+     * column, using HAVING...
+     *
+     * @param $column
+     * @param $range
+     * @return $this
+     */
+    public function filterAggregateIntegerColumn($column, $range)
+    {
+        if(!$range) return $this;
+        $rangeArray = $this->{$column . '_filter_aggregate_integer'} = explode(' ', $range);
+        if(count($rangeArray) < 1) return $this;
+
+        $min = $rangeArray[0] ?: null;
+        $max = $rangeArray[1] ?: null;
+        if($min) $this->query->having($column, '>=', $min);
+        if($max) $this->query->having($column, '<=', $max);
+
         return $this;
     }
 
@@ -355,6 +427,7 @@ abstract class apiRepository
         }
         return $this;
     }
+    
 
 
 }

@@ -1,16 +1,16 @@
-Vue.component('team-member-selecter', {
-    name: 'teamMemberSelecter',
-    template: '<select class="team-member-search-selecter">' +
+Vue.component('company-employee-search-selecter', {
+    name: 'companyEmployeeSearchSelecter',
+    template: '<select class="company-employee-search-selecter">' +
     '<option></option>' +
     '</select>',
     props: ['name'],
     ready: function() {
         var self = this;
-        $('.team-member-search-selecter').selectize({
+        $('.company-employee-search-selecter').selectize({
             valueField: 'id',
             searchField: 'name',
             create: false,
-            placeholder: 'Search for Team Member',
+            placeholder: 'Search for Company Employee',
             render: {
                 option: function(item, escape) {
                     return '<div class="single-name-option">' + escape(item.name) + '</div>'
@@ -22,7 +22,7 @@ Vue.component('team-member-selecter', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/users/team/members/search/' + encodeURI(query),
+                    url: '/api/users/company/search/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();

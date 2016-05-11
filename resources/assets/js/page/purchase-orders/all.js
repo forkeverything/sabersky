@@ -6,7 +6,42 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     data: function () {
         return {
             requestUrl: '/api/purchase_orders',
-            statuses: ['pending', 'approved', 'rejected', 'all']
+            statuses: ['pending', 'approved', 'rejected', 'all'],
+            hasFilters: true,
+            filterOptions: [
+                {
+                    value: 'number',
+                    label: '# Number'
+                },
+                {
+                    value: 'project_id',
+                    label: 'Project'
+                },
+                {
+                    value: 'total',
+                    label: 'Total Cost'
+                },
+                {
+                    value: 'item_sku',
+                    label: 'Item - SKU'
+                },
+                {
+                    value: 'item_brand',
+                    label: 'Item - Brand'
+                },
+                {
+                    value: 'item_name',
+                    label: 'Item - Name'
+                },
+                {
+                    value: 'submitted',
+                    label: 'Submitted Date'
+                },
+                {
+                    value: 'user_id',
+                    label: 'Made by'
+                }
+            ]
         };
     },
     computed: {

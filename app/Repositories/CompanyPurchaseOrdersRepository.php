@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Company;
+use App\Project;
 use App\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
 use ReflectionMethod;
@@ -39,7 +40,6 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         'total'
     ];
 
-
     /**
      * Initiate our query
      *
@@ -64,8 +64,6 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                                 countries.currency_code,
                                 countries.currency_symbol,
                                 COUNT(DISTINCT line_items.id) AS num_line_items,
-                                COUNT(*) / COUNT(DISTINCT line_items.id) AS num_additional_costs,
-                                SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) AS subtotal_query,
                                 SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) + 
                                     IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", line_items.quantity * line_items.price * purchase_order_additional_costs.amount / 100, 0)), 0) +
                                     IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", 0, purchase_order_additional_costs.amount)) / COUNT(DISTINCT line_items.id), 0)
@@ -82,6 +80,10 @@ class CompanyPurchaseOrdersRepository extends apiRepository
          * => To calculate n(additional_costs) = count(*) / COUNT(DISTINCT line_items.id)
          * => Percentages - price * quantity * percent (cost) - Will not be over by any factor because our duplicate records will have 0 when multiplied and won't affect the sum
          * => Just in case someone sees this and wonders: 'why all the trouble?' - It's because, totals needed to be sortable, also the tables would be joined anyway if we used a Append & Accessor in the model
+         *
+         * Few things we calculated but left out until needed:
+         * COUNT(*) / COUNT(DISTINCT line_items.id) AS num_additional_costs
+         * SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) AS subtotal_query
          */
     }
 
@@ -124,7 +126,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
     public function hasRequestForProject($projectID)
     {
         if (!$projectID) return $this;
-        $this->{'project_id'} = $projectID;
+        $this->{'project'} = Project::find($projectID);
         $this->query->whereExists(function ($query) use ($projectID) {
             $query->select(DB::raw(1))
                   ->from('purchase_requests')
@@ -138,9 +140,9 @@ class CompanyPurchaseOrdersRepository extends apiRepository
     /**
      * Only brings back Orders that have LineItems -> PurchaseRequest -> Item
      * with a given name.
-     * 
+     *
      * TODO ::: Find faster way w/o joins
-     * 
+     *
      * @param null $itemBrand
      * @param null $itemName
      * @return $this
@@ -150,7 +152,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         $ref = new ReflectionMethod($this, 'filterByItem');
         foreach ($ref->getParameters() as $param) {
             $column = $argName = $param->name;
-            if($term = $$argName){
+            if ($term = $$argName) {
                 $this->{'item_' . $column} = $term;
                 $this->query->whereExists(function ($query) use ($column, $term) {
                     $query->select(DB::raw(1))
@@ -164,5 +166,6 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         }
         return $this;
     }
+
 
 }

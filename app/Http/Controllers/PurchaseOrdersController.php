@@ -29,7 +29,7 @@ class PurchaseOrdersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('api.only', [
-            'only' => ['apiGetAll', 'apiPostSubmit']
+            'only' => ['apiPostSubmit']
         ]);
     }
 
@@ -58,16 +58,16 @@ class PurchaseOrdersController extends Controller
     {
         return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)
                                               ->whereStatus($request->status)
-                                              ->hasRequestForProject($request->project_id)
-                                              ->filterIntegerField('number', $request->number)
-                                              ->filterDateField('created_at', $request->submitted)
-                                              ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
-                                              ->byUser($request->user_id)
-                                              ->filterIntegerField('total_query', $request->total)
+            ->filterIntegerField('number', $request->number)
+            ->hasRequestForProject($request->project_id)
+            ->filterAggregateIntegerColumn('total_query', $request->total)
+            ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
+            ->filterDateField('created_at', $request->submitted)
+            ->byUser($request->user_id)
                                               ->sortOn($request->sort, $request->order)
                                               ->searchFor($request->search)
                                               ->with(['lineItems', 'vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'billingAddress', 'shippingAddress'])
-                                              ->paginate($request->per_page);
+                                              ->paginateWithAggregate($request->per_page, $request->page);
     }
 
     /**

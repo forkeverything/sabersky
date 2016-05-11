@@ -43,7 +43,7 @@ Vue.component('team-all', {
     ready: function() {
         var self = this;
         $.ajax({
-            url: '/api/team',
+            url: '/api/users/team',
             method: 'GET',
             success: function(data) {
                // success

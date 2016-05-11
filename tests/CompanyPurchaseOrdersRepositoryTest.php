@@ -143,7 +143,6 @@ class CompanyPurchaseOrdersRepositoryTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_filters_orders_on_item_brand_or_name_or_sku()
     {

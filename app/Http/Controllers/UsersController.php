@@ -29,7 +29,7 @@ class UsersController extends Controller
         ]);
         
         $this->middleware('api.only', [
-            'only' => ['apiGetTeam', 'apiGetSearchTeamMembers', 'apiGetAllProjects']
+            'only' => ['apiGetTeam', 'apiGetSearchTeamMembers', 'apiGetSearchCompanyEmployees', 'apiGetAllProjects']
         ]);
     }
 
@@ -117,6 +117,21 @@ class UsersController extends Controller
     }
 
     /**
+     * Search for Users who are from the same Company as the logged-user. In other
+     * words we're looking for other Employees from the Client's Company.
+     * 
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function apiGetSearchCompanyEmployees($query)
+    {
+        if(!$query) return response("No search term given", 500);
+        return User::where('company_id', Auth::user()->company_id)
+            ->where('name', 'LIKE', '%' . $query . '%')
+            ->select(['id', 'name'])->get();
+    }
+
+    /**
      * Search for Team Members (Users from same Project)
      * by their name.
      *
@@ -127,7 +142,7 @@ class UsersController extends Controller
     {
         if ($query) {
             $projectIDs = Auth::user()->projects->pluck('id');
-            $users = User::where('company_id', Auth::user()->company->id)
+            $users = User::where('company_id', Auth::user()->company_id)
                          ->whereExists(function ($query) use ($projectIDs) {
                              $query->select(DB::raw(1))
                                    ->from('project_user')
@@ -140,6 +155,7 @@ class UsersController extends Controller
         }
         return response("No search term given", 500);
     }
+
 
 
     /**
