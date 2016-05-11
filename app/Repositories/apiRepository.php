@@ -178,7 +178,7 @@ abstract class apiRepository
 
     /**
      * The usual paginator doesn't take into account aggregates, we need to make our
-     * paginator AFTER doing our SELECT(s)
+     * own paginator AFTER doing our SELECT(s) & JOIN(s).
      *
      * @param $perPage
      * @param $currentPage
@@ -189,24 +189,33 @@ abstract class apiRepository
         $perPage = $perPage ?: 8;
         $currentPage = $currentPage ?: 1;
 
-        // To calculate the total amount of queries - we duplicate it and just select the id
-        // TODO ::: Find faster way of determining COUNT, is there a faster field than 'id'?
-        $queryForCount = clone $this->query;
-        $countTotal = $queryForCount->select(['purchase_orders.id'])->get()->count();
+        $items = $this->query->get();
+        $itemsArray = $items->toArray();
+        $itemsForCurrentPage = array_splice($itemsArray, ($currentPage - 1) * $perPage, $perPage);
 
-        // We retrieve only a portion of our results here - using whichever page we are
-        // currently at
-        $this->query->forPage($currentPage, $perPage);
-
-        $items = $this->getWithoutQueryProperties();
-
-        // Create our Paginator instance - we use LengthAwarePaginator to see how many pages, otherwise
-        // we would be creating a simple pagination
-        $paginator = new LengthAwarePaginator($items, $countTotal, $perPage);
+        // Create our Paginator instance - we use LengthAwarePaginator to see how many pages total; otherwise
+        // we would be creating a simple pagination (prev/next only)
+        $paginator = new LengthAwarePaginator($itemsForCurrentPage, $items->count(), $perPage);
 
         // Add our params / properties
         $this->addPropertiesToResults($paginator);
         return $paginator;
+
+        /**
+         * - We can't use $query->forPage() here because then we wouldn't know how many records match our select
+         * - We can't run a separate query just to get the count because then our SELECT(s) & JOIN(s) wouldn't exist
+         * - If we did use the same selects/joins, then we'd just be running 2 queries anyway, one to retrieve the whole set
+         *   and once again to retrieve a subset using forPage()
+         *
+         * Reasoning: Since we're filtering (hopefully) the data set won't be THAT large.
+         *
+         * Considerations: Maybe if queries are slow then we need to settle for simple pagination (not length aware)
+         * where we'll just have previous and next. Meaning we won't need to know the count.
+         *
+         * TODO ::: Find better way to be able to filter aggregates using HAVING and still be able to paginate
+         * the results.
+         */
+
     }
 
 
