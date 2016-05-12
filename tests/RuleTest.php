@@ -75,6 +75,7 @@ class RuleTest extends TestCase
             'price' => 10,
             'purchase_order_id' => $underPO->id
         ]);
+        $underPO->setTotal();
 
         // PO that is over total, 120
         $overPO = factory(PurchaseOrder::class)->create();
@@ -83,6 +84,7 @@ class RuleTest extends TestCase
             'price' => 10,
             'purchase_order_id' => $overPO->id
         ]);
+        $overPO->setTotal();
 
         // No rules for both
         $this->assertCount(0, $underPO->rules);

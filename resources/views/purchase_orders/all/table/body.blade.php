@@ -23,7 +23,7 @@
 
         <!-- Total -->
         <td class="no-wrap col-total content-right fit-to-content">
-             @{{ formatNumber(order.total_query, currencyDecimalPoints) }}
+             @{{ formatNumber(order.total, currencyDecimalPoints) }}
         </td>
 
         <!-- Submitted (Date) -->

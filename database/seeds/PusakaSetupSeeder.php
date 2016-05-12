@@ -201,7 +201,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
     protected function createPurchaseOrders()
     {
         // how many to make?
-        $numberOfOrders = $this->faker->numberBetween(1, 10);
+        $numberOfOrders = $this->faker->numberBetween(1, 50);
         // For each PO
         for ($i = 0; $i < $numberOfOrders; $i++) {
             // Select a random vendor
@@ -264,10 +264,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 ]);
             }
 
-            $order->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)
-                  ->updatePurchaseRequests()
-                  ->attachRules()
-                  ->tryAutoApprove();
+            $order->callCreateMethods($billingAddress, $shippingAddress);
         }
     }
 

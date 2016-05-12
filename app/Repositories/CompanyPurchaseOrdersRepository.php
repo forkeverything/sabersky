@@ -22,7 +22,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         'number',
         'vendor_name',
         'num_line_items',
-        'total_query',
+        'total',
         'created_at',
         'user_name'
     ];
@@ -53,8 +53,6 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                             ->join('vendors', 'purchase_orders.vendor_id', '=', 'vendors.id')
                             ->join('users', 'purchase_orders.user_id', '=', 'users.id')
                             ->join('countries', 'purchase_orders.currency_id', '=', 'countries.id')
-                            ->join('line_items', 'purchase_orders.id', '=', 'line_items.purchase_order_id')
-                            ->leftJoin('purchase_order_additional_costs', 'purchase_orders.id', '=', 'purchase_order_additional_costs.purchase_order_id')
                             ->select(DB::raw('
                                 purchase_orders.*,
                                 vendors.name AS vendor_name,
@@ -62,16 +60,12 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                                 countries.name AS currency_country_name,
                                 countries.currency AS currency_name,
                                 countries.currency_code,
-                                countries.currency_symbol,
-                                COUNT(DISTINCT line_items.id) AS num_line_items,
-                                SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) + 
-                                    IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", line_items.quantity * line_items.price * purchase_order_additional_costs.amount / 100, 0)), 0) +
-                                    IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", 0, purchase_order_additional_costs.amount)) / COUNT(DISTINCT line_items.id), 0)
-                                    AS total_query 
-                            '))
-                            ->groupBy('purchase_orders.id');
+                                countries.currency_symbol
+                            '));
 
         /**
+         * DEPRACATED - Store calculated values in DB instead.
+         *
          * Because we're joining tables 'line_items' and 'purchase_orders_additional_costs', we multiply the amount of records we get by
          * => amount of records retrieved will be duplicated by = n(line_items) * n(additional_costs)
          * => That means our sums (with additional costs) will be over by a factor of n(additional_costs) OR n(line_items)
@@ -84,6 +78,11 @@ class CompanyPurchaseOrdersRepository extends apiRepository
          * Few things we calculated but left out until needed:
          * COUNT(*) / COUNT(DISTINCT line_items.id) AS num_additional_costs
          * SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) AS subtotal_query
+         * COUNT(DISTINCT line_items.id) AS num_line_items,
+         * SUM(line_items.quantity * line_items.price) / IF(purchase_order_additional_costs.id, (COUNT(*) / COUNT(DISTINCT line_items.id)), 1) +
+                IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", line_items.quantity * line_items.price * purchase_order_additional_costs.amount / 100, 0)), 0) +
+                IF(purchase_order_additional_costs.id, SUM(IF(purchase_order_additional_costs.type = "%", 0, purchase_order_additional_costs.amount)) / COUNT(DISTINCT line_items.id), 0)
+                AS total_query
          */
     }
 

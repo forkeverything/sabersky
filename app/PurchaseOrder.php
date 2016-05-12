@@ -45,61 +45,19 @@ class PurchaseOrder extends Model
     
     protected $fillable = [
         'status',
+        'number',
         'vendor_id',
         'vendor_address_id',
         'vendor_bank_account_id',
         'currency_id',
         'billing_address_id',
         'shipping_address_id',
+        'num_line_items',
+        'subtotal',
+        'total',
         'user_id',
         'company_id'
     ];
-
-    /**
-     * Automatically append these to all Orders. Since subtotal and total both
-     * rely on LineItems, they will get eager-loaded automatically too.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'subtotal',
-        'total'
-    ];
-
-    /**
-     * Returns the subtotal calculated from each Line Item
-     *
-     * @return int
-     */
-    public function getSubtotalAttribute()
-    {
-        $subtotal = 0;
-        foreach ($this->lineItems as $lineItem) {
-            $subtotal += ($lineItem->quantity * $lineItem->price);
-        }
-        return $subtotal;
-    }
-
-    /**
-     * Dynamically generated Total Attribute which takes into
-     * account each Line Item as well as any Additional Costs
-     * that have been added to the Order
-     *
-     * @return int|string
-     */
-    public function getTotalAttribute()
-    {
-
-        $total = $this->subtotal;
-        foreach ($this->additionalCosts as $additionalCost) {
-            if ($additionalCost->type == '%') {
-                $total += ($this->subtotal * ($additionalCost->amount / 100));
-            } else {
-                $total += $additionalCost->amount;
-            }
-        }
-        return $total;
-    }
 
     /**
      * A Purchase Order belongs to a single Company
@@ -158,6 +116,78 @@ class PurchaseOrder extends Model
         return $this;
     }
 
+
+    /**
+     * Call this to automatically re-calculate all the fields that
+     * need to be calculated and save them in the DB.
+     *
+     * @return $this
+     */
+    public function setCalculatedFields()
+    {
+        $this->setNumLineItems()
+             ->setSubtotal()
+             ->setTotal();
+        return $this;
+    }
+
+    /**
+     * Gets the count of how many LineItems this PurchaseOrder
+     * has and then saves it.
+     *
+     * @return $this
+     */
+    public function setNumLineItems()
+    {
+        $this->num_line_items = $this->lineItems->count();
+        $this->save();
+        return $this;
+    }
+
+
+    /**
+     * Calculates the subtotal and then saves it as the 'subtotal'
+     * field in the database
+     *
+     * @return int
+     */
+    public function setSubtotal()
+    {
+        $subtotal = 0;
+        foreach ($this->lineItems as $lineItem) {
+            $subtotal += ($lineItem->quantity * $lineItem->price);
+        }
+        $this->subtotal = $subtotal;
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * Calculate the 'total' field which takes into account each
+     * Line Item as well as any Additional Costs that have
+     * been added to the Order.
+     *
+     * @return int|string
+     */
+    public function setTotal()
+    {
+        if(! $this->subtotal) $this->setSubtotal();
+        $total = $this->subtotal;
+        foreach ($this->additionalCosts as $additionalCost) {
+            if ($additionalCost->type == '%') {
+                $total += ($this->subtotal * ($additionalCost->amount / 100));
+            } else {
+                $total += $additionalCost->amount;
+            }
+        }
+
+        $this->total = $total;
+        $this->save();
+
+        return $this;
+    }
+
+
     /**
      * Mark this PO as approvied
      * @return $this
@@ -202,6 +232,49 @@ class PurchaseOrder extends Model
     public function hasStatus($status)
     {
         return $this->status === $status;
+    }
+
+    /**
+     * Wrapper function so we only need to call one method whenever we create a
+     * Purchase Order and need to call the individual methods afterwards.
+     *
+     * @param $billingAddress
+     * @param $shippingAddress
+     * @return $this
+     */
+    public function callCreateMethods($billingAddress, $shippingAddress)
+    {
+        $this->setCalculatedFields()
+             ->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)
+             ->updatePurchaseRequests()
+             ->attachRules()
+             ->tryAutoApprove();
+
+        return $this;
+    }
+
+    /**
+     * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach
+     * billing_address_id and shipping_address_id - so it allows them to both reference different
+     * Address models. If an Address has no owner, we will also attach this PO as the owner.
+     *
+     * @param Address $billingAddress
+     * @param Address $shippingAddress
+     * @return $this
+     */
+    public function attachBillingAndShippingAddresses(Address $billingAddress, Address $shippingAddress)
+    {
+
+        // Attach IDs
+        $this->billing_address_id = $billingAddress->id;
+        $this->shipping_address_id = $shippingAddress->id;
+
+        // Save as parent IF the address does not already belong to another parent (ie. Company)
+        if (! $billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
+        if (! $shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
+
+        $this->save();
+        return $this;
     }
 
     /**
@@ -281,29 +354,6 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Address::class, 'shipping_address_id');
     }
 
-    /**
-     * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach
-     * billing_address_id and shipping_address_id - so it allows them to both reference different
-     * Address models. If an Address has no owner, we will also attach this PO as the owner.
-     *
-     * @param Address $billingAddress
-     * @param Address $shippingAddress
-     * @return $this
-     */
-    public function attachBillingAndShippingAddresses(Address $billingAddress, Address $shippingAddress)
-    {
-
-        // Attach IDs
-        $this->billing_address_id = $billingAddress->id;
-        $this->shipping_address_id = $shippingAddress->id;
-
-        // Save as parent IF the address does not already belong to another parent (ie. Company)
-        if (! $billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
-        if (! $shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
-
-        $this->save();
-        return $this;
-    }
 
     /**
      * A PO can have many other Additional Costs (or Discounts), such

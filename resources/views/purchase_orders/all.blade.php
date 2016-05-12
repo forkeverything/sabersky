@@ -37,6 +37,12 @@
                             <paginator :response="response" :req-function="makeRequest"></paginator>
                         </div>
                     </div>
+                    <div class="no-purchase-orders empty-stage" v-else>
+                        <i class="fa fa-clipboard"></i>
+                        <h4>No orders were found</h4>
+                        <p>Try changing filters, <a class="dotted clickable" @click="removeAllFilters">removing all</a> filters or
+                            <a @click="changeStatus('all')" class="dotted clickable">view all</a> requests to see more.</p>
+                    </div>
 
                 </div>
 

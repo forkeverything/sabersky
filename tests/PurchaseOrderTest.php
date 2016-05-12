@@ -203,6 +203,8 @@ class PurchaseOrderTest extends TestCase
             'purchase_order_id' => static::$purchaseOrder->id
         ]);
 
+        static::$purchaseOrder->setSubtotal();
+
         $this->assertEquals(131.62, static::$purchaseOrder->subtotal);
     }
 
@@ -217,6 +219,8 @@ class PurchaseOrderTest extends TestCase
             'price' => 10,
             'purchase_order_id' => static::$purchaseOrder->id
         ]);
+
+
 
         // Create our costs / discount
             // tax = 30% = (0.3 * 100) = 30
@@ -243,6 +247,8 @@ class PurchaseOrderTest extends TestCase
                 'amount' => '-5',
                 'purchase_order_id' => static::$purchaseOrder->id
             ]);
+
+        static::$purchaseOrder->setTotal();
 
         // Total Cost should be 100 + 30 + 20 - 10 - 5= 140
         $this->assertEquals(135, static::$purchaseOrder->total);

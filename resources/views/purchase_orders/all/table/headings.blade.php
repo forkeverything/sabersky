@@ -39,10 +39,10 @@ Line Items
 
 <!-- Total -->
 <th class="clickable heading-right"
-@click="changeSort('total_query')"
+@click="changeSort('total')"
 :class="{
-                                            'current_asc': params.sort === 'total_query' && params.order === 'asc',
-                                            'current_desc': params.sort === 'total_query' && params.order === 'desc'
+                                            'current_asc': params.sort === 'total' && params.order === 'asc',
+                                            'current_desc': params.sort === 'total' && params.order === 'desc'
                                         }"
 >
 Total

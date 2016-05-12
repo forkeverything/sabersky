@@ -6,9 +6,9 @@
                         removeFilter('project_id')">
 <span class="field">Project: </span>@{{ params.project.name }}</button>
 
-<button type="button" v-if="params.total_query_filter_aggregate_integer" class="btn button-remove-filter" @click="
+<button type="button" v-if="params.total_filter_integer" class="btn button-remove-filter" @click="
                         removeFilter('total')">
-<span class="field">Total Cost: </span><span v-if="params.total_query_filter_aggregate_integer[0]">@{{ params.total_query_filter_aggregate_integer[0] }}</span><span v-else>~ </span><span v-if="params.total_query_filter_aggregate_integer[0] && params.total_query_filter_aggregate_integer[1]"> - </span><span v-if="params.total_query_filter_aggregate_integer[1]">@{{ params.total_query_filter_aggregate_integer[1] }}</span><span v-else> ~</span></button>
+<span class="field">Total Cost: </span><span v-if="params.total_filter_integer[0]">@{{ params.total_filter_integer[0] }}</span><span v-else>~ </span><span v-if="params.total_filter_integer[0] && params.total_filter_integer[1]"> - </span><span v-if="params.total_filter_integer[1]">@{{ params.total_filter_integer[1] }}</span><span v-else> ~</span></button>
 
 <button type="button" v-if="params.item_sku" class="btn button-remove-filter" @click="
                         removeFilter('item_sku')"><span

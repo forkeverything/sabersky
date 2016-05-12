@@ -62,14 +62,15 @@ class PurchaseOrdersController extends Controller
                                               ->whereStatus($request->status)
                                               ->filterIntegerField('number', $request->number)
                                               ->hasRequestForProject($request->project_id)
-                                              ->filterAggregateIntegerColumn('total_query', $request->total)
+                                              ->filterIntegerField('total', $request->total)
                                               ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
                                               ->filterDateField('purchase_orders.created_at', $request->submitted)
                                               ->byUser($request->user_id)
                                               ->sortOn($request->sort, $request->order)
                                               ->searchFor($request->search)
                                               ->with(['lineItems', 'vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'billingAddress', 'shippingAddress'])
-                                              ->paginateWithAggregate($request->per_page, $request->page);
+                                              ->paginate($request->per_page);
+
     }
 
     /**
@@ -166,10 +167,7 @@ class PurchaseOrdersController extends Controller
 
 
         // Process our PO
-        $purchaseOrder->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)// Attach addresses
-                      ->updatePurchaseRequests()// Update Purchase Requests
-                      ->attachRules()// Attach rules to Purchase Orders
-                      ->tryAutoApprove();                                                       // Try to approve
+        $purchaseOrder->callCreateMethods($billingAddress, $shippingAddress);                                                     // Try to approve
 
         return $purchaseOrder;
     }
