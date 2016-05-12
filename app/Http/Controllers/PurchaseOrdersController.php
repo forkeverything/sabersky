@@ -45,6 +45,8 @@ class PurchaseOrdersController extends Controller
             ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '#'],
         ];
         return view('purchase_orders.all', compact('breadcrumbs'));
+
+
     }
 
     /**
@@ -62,7 +64,7 @@ class PurchaseOrdersController extends Controller
                                               ->hasRequestForProject($request->project_id)
                                               ->filterAggregateIntegerColumn('total_query', $request->total)
                                               ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
-                                              ->filterDateField('created_at', $request->submitted)
+                                              ->filterDateField('purchase_orders.created_at', $request->submitted)
                                               ->byUser($request->user_id)
                                               ->sortOn($request->sort, $request->order)
                                               ->searchFor($request->search)

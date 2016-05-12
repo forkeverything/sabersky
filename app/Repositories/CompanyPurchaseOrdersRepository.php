@@ -20,11 +20,11 @@ class CompanyPurchaseOrdersRepository extends apiRepository
      */
     protected $sortableFields = [
         'number',
-        'created_at',
         'vendor_name',
-        'user_name',
-        'total',
-        'num_line_items'
+        'num_line_items',
+        'total_query',
+        'created_at',
+        'user_name'
     ];
 
     /**

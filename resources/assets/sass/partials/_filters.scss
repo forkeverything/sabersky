@@ -54,26 +54,28 @@
   flex: 100%;
 
   .button-remove-filter {
-
-    margin: 5px 10px 5px 0;
+    position: relative;
+    margin: 10px 30px 0 0;
     padding: 0;
+    border-bottom: 1px dotted $black;
 
-    &:not(:last-child) {
-      padding: 0 10px 0 0;
-      border-right: 1px solid $grey;
+    &:after {
+      content: "\f00d";
+      font-family: FontAwesome;
+      opacity: 0.4;
+      position: absolute;
+      font-size: 0.75em;
+      margin-left: 5px;
     }
 
     &:hover {
-      color: $red;
-      text-decoration: line-through;
-
-      .field {
-        color: $red;
+      &:after {
+        opacity: 1;
       }
     }
 
     .field {
-      color: $text-muted;
+      //color: $text-muted;
     }
   }
 }

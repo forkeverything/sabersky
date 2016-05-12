@@ -1,0 +1,24 @@
+#purchase-orders-all {
+  display: block;
+
+  .top {
+    margin: 0 0 15px;
+
+    .link-create-order {
+      width: 100%;
+
+      @media screen and (min-width: $screen-sm-min) {
+        width: initial;
+      }
+
+      #button-submit-purchase-order {
+        width: 100%;
+      }
+    }
+  }
+
+  .col-currency {
+    text-align: center;
+  }
+
+}

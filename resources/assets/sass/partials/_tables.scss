@@ -92,9 +92,16 @@
           border-right: 1px solid $blue;
         }
 
-        &.heading-center {
+        &.padding-even {
           padding: 10px;
+        }
+
+        &.heading-center {
           text-align: center;
+        }
+
+        &.heading-right {
+          text-align: right;
         }
 
         &.current_asc, &.current_desc {
@@ -147,7 +154,26 @@
         &:last-child {
           border-right: 1px solid $border-light;
         }
+
+        &.content-right {
+          text-align: right;
+          padding: 10px 26px 10px 10px;
+        }
+
+        &.content-center {
+          text-align: center;
+          padding: 10px 26px 10px 10px;
+        }
+
+        &.fit-to-content {
+          width: 1%;
+        }
       }
     }
   }
+}
+
+
+.table-controls {
+  margin: 0 0 15px 0;
 }

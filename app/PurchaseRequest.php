@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
+use App\Utilities\FormatNumberPropertyTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,6 +42,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PurchaseRequest extends Model
 {
+
+    use FormatNumberPropertyTrait;
+
     /**
      * Fillable (mass-assignable) DB Fields
      * for a Purchase Request entry.
@@ -121,28 +125,6 @@ class PurchaseRequest extends Model
     public function setDueAttribute($value)
     {
         $this->attributes['due'] = Carbon::createFromFormat('d/m/Y', $value);
-    }
-
-    /**
-     * Some easy formatting so that the sequential
-     * Purchase Request Number of a Company has
-     * at least 3 digits.
-     *
-     * @param $value
-     * @return string
-     */
-    public function getNumberAttribute($value)
-    {
-        switch (strlen($value)) {
-            case 1:
-                return '00' . $value;
-                break;
-            case 2:
-                return '0' . $value;
-                break;
-            default:
-                return $value;
-        }
     }
 
     /**

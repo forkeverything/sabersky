@@ -44,7 +44,17 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             ]
         };
     },
+    props: ['user'],
     computed: {
+        currency: function() {
+            return this.user.company.settings.currency;
+        },
+        currencySymbol: function() {
+          return this.currency.currency_symbol;
+        },
+        currencyDecimalPoints: function() {
+            return this.user.company.settings.currency_decimal_points;
+        },
         purchaseOrders: function () {
             return _.omit(this.response.data, 'query_parameters');
         }
@@ -81,6 +91,7 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             }
         }
     },
+    mixins: [numberFormatter],
     ready: function () {
     }
 }));

@@ -9,8 +9,8 @@ var apiRequestAllBaseComponent = Vue.extend({
             showFiltersDropdown: false,
             filter: '',
             filterValue: '',
-            minFilterValue: ' ',
-            maxFilterValue: ' '
+            minFilterValue: '',
+            maxFilterValue: ''
         };
     },
     props: [],
@@ -89,8 +89,8 @@ var apiRequestAllBaseComponent = Vue.extend({
         resetFilterInput: function() {
             this.filter = '';
             this.filterValue = '';
-            this.minFilterValue = ' ';
-            this.maxFilterValue = ' ';
+            this.minFilterValue = '';
+            this.maxFilterValue = '';
         },
         addFilter: function () {
             var queryObj = {

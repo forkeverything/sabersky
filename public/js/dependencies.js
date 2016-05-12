@@ -637,25 +637,6 @@ Vue.directive('selectoption', {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints) {
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -778,6 +759,32 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -807,7 +814,7 @@ Vue.component('form-errors', {
     }
 });
 Vue.component('paginator', {
-    name: 'paginatoe',
+    name: 'paginator',
     template: '<div class="api-paginator">' +
     '<ul class="list-unstyled list-inline">' +
     '   <li class="paginate-nav to-first"' +
@@ -1824,8 +1831,8 @@ var apiRequestAllBaseComponent = Vue.extend({
             showFiltersDropdown: false,
             filter: '',
             filterValue: '',
-            minFilterValue: ' ',
-            maxFilterValue: ' '
+            minFilterValue: '',
+            maxFilterValue: ''
         };
     },
     props: [],
@@ -1904,8 +1911,8 @@ var apiRequestAllBaseComponent = Vue.extend({
         resetFilterInput: function() {
             this.filter = '';
             this.filterValue = '';
-            this.minFilterValue = ' ';
-            this.maxFilterValue = ' ';
+            this.minFilterValue = '';
+            this.maxFilterValue = '';
         },
         addFilter: function () {
             var queryObj = {

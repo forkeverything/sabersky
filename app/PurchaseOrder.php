@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utilities\FormatNumberPropertyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -39,6 +40,9 @@ use Illuminate\Support\Facades\DB;
  */
 class PurchaseOrder extends Model
 {
+    use FormatNumberPropertyTrait;
+
+    
     protected $fillable = [
         'status',
         'vendor_id',

@@ -1,5 +1,5 @@
 Vue.component('paginator', {
-    name: 'paginatoe',
+    name: 'paginator',
     template: '<div class="api-paginator">' +
     '<ul class="list-unstyled list-inline">' +
     '   <li class="paginate-nav to-first"' +

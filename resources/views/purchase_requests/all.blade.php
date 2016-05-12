@@ -32,7 +32,7 @@
                 </ul>
 
                 <div class="tab-content">
-                        <div class="pr-controls">
+                        <div class="pr-controls table-controls">
                             <div class="controls-left">
                                 @include('purchase_requests.partials.all.filters')
                             </div>
@@ -52,20 +52,27 @@
                         </div>
                         <div class="has-purchase-requests" v-if="response.total > 0">
                             <div class="pr-bag table-responsive">
-                                <table class="table table-bordered table-hover table-standard table-purchase-requests-all">
+                                <table class="table table-hover table-standard table-purchase-requests-all">
                                     @include('purchase_requests.partials.all.table-head')
                                     <tbody>
                                     <template v-for="purchaseRequest in purchaseRequests">
                                         <tr class="row-single-pr">
-                                            <td class="no-wrap col-number"><a :href="'/purchase_requests/' + purchaseRequest.id"
-                                                                              alt="Link to single PR"
-                                                                              class="underline">#@{{ purchaseRequest.number }}</a><span
-                                                        v-if="purchaseRequest.urgent" class="badge-urgent"> <i
-                                                            class="fa fa-warning"></i></span></td>
+                                            <td class="no-wrap col-number fit-to-content">
+                                                <a :href="'/purchase_requests/' + purchaseRequest.id"
+                                                  alt="Link to single PR"
+                                                  class="underline"
+                                                >
+                                                    #@{{ purchaseRequest.number }}
+                                                </a>
+                                                <span v-if="purchaseRequest.urgent"
+                                                      class="badge-urgent">
+                                                    <i class="fa fa-warning"></i>
+                                                </span>
+                                            </td>
                                             <td class="col-project"><a :href="'/projects/' + purchaseRequest.project.id"
                                                                        alt="project link">@{{ purchaseRequest.project.name }}</a>
                                             </td>
-                                            <td class="col-quantity">@{{ purchaseRequest.quantity }}</td>
+                                            <td class="col-quantity content-center">@{{ purchaseRequest.quantity }}</td>
                                             <td class="col-item">
                                                 <div class="item-sku"
                                                      v-if="purchaseRequest.item.sku && purchaseRequest.item.sku.length > 0">@{{ purchaseRequest.item.sku }}</div>
@@ -100,8 +107,8 @@
                                 </table>
                             </div>
                             <div class="page-controls">
-                                <per-page-picker :response="response" :req-function="fetchPurchaseRequests"></per-page-picker>
-                                <paginator :response="response" :req-function="fetchPurchaseRequests"></paginator>
+                                <per-page-picker :response="response" :req-function="makeRequest"></per-page-picker>
+                                <paginator :response="response" :req-function="makeRequest"></paginator>
                             </div>
                         </div>
                         <div class="no-purchase-requests empty-stage" v-else>

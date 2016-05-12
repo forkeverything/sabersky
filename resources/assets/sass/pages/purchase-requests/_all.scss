@@ -20,7 +20,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 15px 0;
     flex-wrap: wrap;
 
     .controls-right {
@@ -40,16 +39,7 @@
     }
 
     .active-filters {
-      margin-top: 10px;
       flex: 100%;
-    }
-  }
-
-  .pr-bag {
-    margin: 15px 0;
-
-    @media screen and (min-width: $screen-sm-min) {
-      margin: 30px 0;
     }
   }
 
@@ -59,4 +49,5 @@
     }
   }
 }
+
 

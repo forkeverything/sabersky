@@ -138,8 +138,8 @@
                         </table>
                     </div>
                     <div class="page-controls">
-                        <per-page-picker :response="response" :req-function="getCompanyItems"></per-page-picker>
-                        <paginator :response="response" :req-function="getCompanyItems"></paginator>
+                        <per-page-picker :response="response" :req-function="makeRequest"></per-page-picker>
+                        <paginator :response="response" :req-function="makeRequest"></paginator>
                     </div>
                 </div>
                 <div class="empty-stage" v-else>

@@ -308,6 +308,301 @@ Vue.component('project-single', {
         });
     }
 });
+Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
+    name: 'allPurchaseOrders',
+    el: function () {
+        return '#purchase-orders-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/purchase_orders',
+            statuses: ['pending', 'approved', 'rejected', 'all'],
+            hasFilters: true,
+            filterOptions: [
+                {
+                    value: 'number',
+                    label: '# Number'
+                },
+                {
+                    value: 'project_id',
+                    label: 'Project'
+                },
+                {
+                    value: 'total',
+                    label: 'Total Cost'
+                },
+                {
+                    value: 'item_sku',
+                    label: 'Item - SKU'
+                },
+                {
+                    value: 'item_brand',
+                    label: 'Item - Brand'
+                },
+                {
+                    value: 'item_name',
+                    label: 'Item - Name'
+                },
+                {
+                    value: 'submitted',
+                    label: 'Submitted Date'
+                },
+                {
+                    value: 'user_id',
+                    label: 'Made by'
+                }
+            ]
+        };
+    },
+    props: ['user'],
+    computed: {
+        currency: function() {
+            return this.user.company.settings.currency;
+        },
+        currencySymbol: function() {
+          return this.currency.currency_symbol;
+        },
+        currencyDecimalPoints: function() {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        purchaseOrders: function () {
+            return _.omit(this.response.data, 'query_parameters');
+        }
+    },
+    methods: {
+        changeStatus: function (status) {
+            this.makeRequest(updateQueryString({
+                status: status,
+                page: 1
+            }));
+        },
+        checkUrgent: function (purchaseOrder) {
+            // takes a purchaseOrder and sees
+            // if there are any PR's with urgent tags
+            var urgent = false;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                if (item.purchase_request.urgent) {
+                    urgent = true;
+                }
+            });
+            return urgent;
+        },
+        loadSinglePO: function (POID) {
+            window.document.location = '/purchase_orders/single/' + POID;
+        },
+        checkProperty: function (purchaseOrder, property) {
+            var numLineItems = purchaseOrder.line_items.length;
+            var numTrueForProperty = 0;
+            _.forEach(purchaseOrder.line_items, function (item) {
+                item[property] ? numTrueForProperty++ : '';
+            });
+            if (numLineItems == numTrueForProperty) {
+                return true;
+            }
+        }
+    },
+    mixins: [numberFormatter],
+    ready: function () {
+    }
+}));
+Vue.component('purchase-orders-submit', {
+    el: function () {
+        return '#purchase-orders-submit';
+    },
+    data: function () {
+        return {
+            step: 1,
+            ajaxReady: true,
+            lineItems: [],
+            vendor: {
+                linked_company: {},
+                addresses: [],
+                bank_accounts: []
+            },
+            selectedVendorAddress: '',
+            selectedVendorBankAccount: '',
+            currency: '',
+            billingAddressSameAsCompany: 1,
+            billingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
+            shippingAddressSameAsBilling: 1,
+            shippingAddress: {
+                contact_person: '',
+                phone: '',
+                address_1: '',
+                address_2: '',
+                city: '',
+                zip: '',
+                country_id: '',
+                state: ''
+            },
+            additionalCosts: []
+        };
+    },
+    props: ['user'],
+    computed: {
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        userCurrency: function () {
+            return this.user.company.settings.currency;
+        },
+        currencySymbol: function () {
+            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
+        },
+        company: function () {
+            return this.user.company;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        hasLineItems: function () {
+            return this.lineItems.length > 0;
+        },
+        vendorAddresses: function () {
+            // Only if we have a vendor
+            if (!this.vendor.id) return [];
+            // Grab the addresses associated with Vendor model
+            var vendorAddresses = this.vendor.addresses || [];
+            // If we have addresses and a linked company - add the Company's address
+            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
+            return vendorAddresses;
+        },
+        validBillingAddress: function () {
+            return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
+        },
+        validShippingAddress: function () {
+            return !!this.shippingAddress.phone && !!this.shippingAddress.address_1 && !!this.shippingAddress.city && !!this.shippingAddress.zip && !!this.shippingAddress.country_id && !!this.shippingAddress.state;
+        },
+        canCreateOrder: function () {
+            var validVendor = true,
+                validOrder = true,
+                validItems = true;
+
+            // Vendor
+            // one selected
+            if (!this.vendor.id) validVendor = false;
+            // if we need address and no address
+            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
+            // if we need bank account and no bank account selected
+            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
+
+            // Order
+            // currency set!
+            if (!this.currency) validOrder = false;
+            // Billing address required fields valid
+            if (!this.billingAddressSameAsCompany && !this.validBillingAddress) validOrder = false;
+            // If shipping NOT the same &&  Shipping address required fields not valid
+            if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
+
+            // Items
+            // Make sure we have some items
+            if (!this.lineItems.length > 0) validItems = false;
+            // for each line item...
+            _.forEach(this.lineItems, function (item) {
+                // quantity and price is filled
+                if (!item.order_quantity || !item.order_price) validItems = false;
+                // quantity to order <= quantity requested
+                if (item.order_quantity > item.quantity) validItems = false;
+            });
+
+            // Create away if all valid
+            return validVendor && validOrder && validItems
+        }
+    },
+    methods: {
+        removeLineItem: function (lineItem) {
+            this.lineItems = _.reject(this.lineItems, lineItem);
+        },
+        clearAllLineItems: function () {
+            this.lineItems = [];
+        },
+        goStep: function (step) {
+            this.step = step;
+        },
+        selectAddress: function (address) {
+            this.selectedVendorAddress = this.selectedVendorAddress ? null : address;
+        },
+        visibleAddress: function (address) {
+            if (_.isEmpty(this.selectedVendorAddress)) return true;
+            return this.selectedVendorAddress == address;
+        },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            var currencySymbol = this.currencySymbol || '$';
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
+        },
+        createOrder: function () {
+            var self = this;
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/purchase_orders/submit',
+                method: 'POST',
+                data: {
+                    "vendor_id": self.vendor.id,
+                    "vendor_address_id": self.selectedVendorAddress.id,
+                    "vendor_bank_account_id": self.selectedVendorBankAccount.id,
+                    "currency_id": self.currency.id,
+                    "billing_address_same_as_company": self.billingAddressSameAsCompany,
+                    "billing_contact_person": self.billingAddress.contact_person,
+                    "billing_phone": self.billingAddress.phone,
+                    "billing_address_1": self.billingAddress.address_1,
+                    "billing_address_2": self.billingAddress.address_2,
+                    "billing_city": self.billingAddress.city,
+                    "billing_zip": self.billingAddress.zip,
+                    "billing_country_id": self.billingAddress.country_id,
+                    "billing_state": self.billingAddress.state,
+                    "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
+                    "shipping_contact_person": self.shippingAddress.contact_person,
+                    "shipping_phone": self.shippingAddress.phone,
+                    "shipping_address_1": self.shippingAddress.address_1,
+                    "shipping_address_2": self.shippingAddress.address_2,
+                    "shipping_city": self.shippingAddress.city,
+                    "shipping_zip": self.shippingAddress.zip,
+                    "shipping_country_id": self.shippingAddress.country_id,
+                    "shipping_state": self.shippingAddress.state,
+                    "line_items": self.lineItems,
+                    "additional_costs": self.additionalCosts
+                },
+                success: function (data) {
+                    // success
+                    flashNotifyNextRequest('success', 'Submitted Purchase Order');
+                    location = "/purchase_orders";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    console.log(response);
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    mixins: [modalSinglePR],
+    ready: function () {
+        vueEventBus.$on('po-submit-selected-vendor', function() {
+            this.selectedVendorAddress = '';
+            this.selectedVendorBankAccount = '';
+        }.bind(this));
+    }
+});
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseRequests',
     el: function () {
@@ -517,290 +812,6 @@ Vue.component('purchase-requests-make', {
 });
 
 
-Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
-    name: 'allPurchaseOrders',
-    el: function () {
-        return '#purchase-orders-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/purchase_orders',
-            statuses: ['pending', 'approved', 'rejected', 'all'],
-            hasFilters: true,
-            filterOptions: [
-                {
-                    value: 'number',
-                    label: '# Number'
-                },
-                {
-                    value: 'project_id',
-                    label: 'Project'
-                },
-                {
-                    value: 'total',
-                    label: 'Total Cost'
-                },
-                {
-                    value: 'item_sku',
-                    label: 'Item - SKU'
-                },
-                {
-                    value: 'item_brand',
-                    label: 'Item - Brand'
-                },
-                {
-                    value: 'item_name',
-                    label: 'Item - Name'
-                },
-                {
-                    value: 'submitted',
-                    label: 'Submitted Date'
-                },
-                {
-                    value: 'user_id',
-                    label: 'Made by'
-                }
-            ]
-        };
-    },
-    computed: {
-        purchaseOrders: function () {
-            return _.omit(this.response.data, 'query_parameters');
-        }
-    },
-    methods: {
-        changeStatus: function (status) {
-            this.makeRequest(updateQueryString({
-                status: status,
-                page: 1
-            }));
-        },
-        checkUrgent: function (purchaseOrder) {
-            // takes a purchaseOrder and sees
-            // if there are any PR's with urgent tags
-            var urgent = false;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                if (item.purchase_request.urgent) {
-                    urgent = true;
-                }
-            });
-            return urgent;
-        },
-        loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
-        },
-        checkProperty: function (purchaseOrder, property) {
-            var numLineItems = purchaseOrder.line_items.length;
-            var numTrueForProperty = 0;
-            _.forEach(purchaseOrder.line_items, function (item) {
-                item[property] ? numTrueForProperty++ : '';
-            });
-            if (numLineItems == numTrueForProperty) {
-                return true;
-            }
-        }
-    },
-    ready: function () {
-    }
-}));
-Vue.component('purchase-orders-submit', {
-    el: function () {
-        return '#purchase-orders-submit';
-    },
-    data: function () {
-        return {
-            step: 1,
-            ajaxReady: true,
-            lineItems: [],
-            vendor: {
-                linked_company: {},
-                addresses: [],
-                bank_accounts: []
-            },
-            selectedVendorAddress: '',
-            selectedVendorBankAccount: '',
-            currency: '',
-            billingAddressSameAsCompany: 1,
-            billingAddress: {
-                contact_person: '',
-                phone: '',
-                address_1: '',
-                address_2: '',
-                city: '',
-                zip: '',
-                country_id: '',
-                state: ''
-            },
-            shippingAddressSameAsBilling: 1,
-            shippingAddress: {
-                contact_person: '',
-                phone: '',
-                address_1: '',
-                address_2: '',
-                city: '',
-                zip: '',
-                country_id: '',
-                state: ''
-            },
-            additionalCosts: []
-        };
-    },
-    props: ['user'],
-    computed: {
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        userCurrency: function () {
-            return this.user.company.settings.currency;
-        },
-        currencySymbol: function () {
-            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
-        },
-        company: function () {
-            return this.user.company;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        hasLineItems: function () {
-            return this.lineItems.length > 0;
-        },
-        vendorAddresses: function () {
-            // Only if we have a vendor
-            if (!this.vendor.id) return [];
-            // Grab the addresses associated with Vendor model
-            var vendorAddresses = this.vendor.addresses || [];
-            // If we have addresses and a linked company - add the Company's address
-            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
-            return vendorAddresses;
-        },
-        validBillingAddress: function () {
-            return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
-        },
-        validShippingAddress: function () {
-            return !!this.shippingAddress.phone && !!this.shippingAddress.address_1 && !!this.shippingAddress.city && !!this.shippingAddress.zip && !!this.shippingAddress.country_id && !!this.shippingAddress.state;
-        },
-        canCreateOrder: function () {
-            var validVendor = true,
-                validOrder = true,
-                validItems = true;
-
-            // Vendor
-            // one selected
-            if (!this.vendor.id) validVendor = false;
-            // if we need address and no address
-            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
-            // if we need bank account and no bank account selected
-            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
-
-            // Order
-            // currency set!
-            if (!this.currency) validOrder = false;
-            // Billing address required fields valid
-            if (!this.billingAddressSameAsCompany && !this.validBillingAddress) validOrder = false;
-            // If shipping NOT the same &&  Shipping address required fields not valid
-            if (!this.shippingAddressSameAsBilling && !this.validShippingAddress) validOrder = false;
-
-            // Items
-            // Make sure we have some items
-            if (!this.lineItems.length > 0) validItems = false;
-            // for each line item...
-            _.forEach(this.lineItems, function (item) {
-                // quantity and price is filled
-                if (!item.order_quantity || !item.order_price) validItems = false;
-                // quantity to order <= quantity requested
-                if (item.order_quantity > item.quantity) validItems = false;
-            });
-
-            // Create away if all valid
-            return validVendor && validOrder && validItems
-        }
-    },
-    methods: {
-        removeLineItem: function (lineItem) {
-            this.lineItems = _.reject(this.lineItems, lineItem);
-        },
-        clearAllLineItems: function () {
-            this.lineItems = [];
-        },
-        goStep: function (step) {
-            this.step = step;
-        },
-        selectAddress: function (address) {
-            this.selectedVendorAddress = this.selectedVendorAddress ? null : address;
-        },
-        visibleAddress: function (address) {
-            if (_.isEmpty(this.selectedVendorAddress)) return true;
-            return this.selectedVendorAddress == address;
-        },
-        calculateTotal: function (lineItem) {
-            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
-            var currencySymbol = this.currencySymbol || '$';
-            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
-        },
-        createOrder: function () {
-            var self = this;
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/purchase_orders/submit',
-                method: 'POST',
-                data: {
-                    "vendor_id": self.vendor.id,
-                    "vendor_address_id": self.selectedVendorAddress.id,
-                    "vendor_bank_account_id": self.selectedVendorBankAccount.id,
-                    "currency_id": self.currency.id,
-                    "billing_address_same_as_company": self.billingAddressSameAsCompany,
-                    "billing_contact_person": self.billingAddress.contact_person,
-                    "billing_phone": self.billingAddress.phone,
-                    "billing_address_1": self.billingAddress.address_1,
-                    "billing_address_2": self.billingAddress.address_2,
-                    "billing_city": self.billingAddress.city,
-                    "billing_zip": self.billingAddress.zip,
-                    "billing_country_id": self.billingAddress.country_id,
-                    "billing_state": self.billingAddress.state,
-                    "shipping_address_same_as_billing": self.shippingAddressSameAsBilling,
-                    "shipping_contact_person": self.shippingAddress.contact_person,
-                    "shipping_phone": self.shippingAddress.phone,
-                    "shipping_address_1": self.shippingAddress.address_1,
-                    "shipping_address_2": self.shippingAddress.address_2,
-                    "shipping_city": self.shippingAddress.city,
-                    "shipping_zip": self.shippingAddress.zip,
-                    "shipping_country_id": self.shippingAddress.country_id,
-                    "shipping_state": self.shippingAddress.state,
-                    "line_items": self.lineItems,
-                    "additional_costs": self.additionalCosts
-                },
-                success: function (data) {
-                    // success
-                    flashNotifyNextRequest('success', 'Submitted Purchase Order');
-                    location = "/purchase_orders";
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    mixins: [modalSinglePR],
-    ready: function () {
-        vueEventBus.$on('po-submit-selected-vendor', function() {
-            this.selectedVendorAddress = '';
-            this.selectedVendorBankAccount = '';
-        }.bind(this));
-    }
-});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -1414,26 +1425,26 @@ Vue.component('select-line-items', {
     '<user-projects-selecter :name.sync="projectID"></user-projects-selecter>'+
     '</div>'+
     '<div class="purchase_requests"'+
-':class="{'+
-"'inactive': ! projectID"+
-'}"'+
-'>'+
-'<div class="overlay"></div>'+
+    ':class="{'+
+    "'inactive': ! projectID"+
+    '}"'+
+    '>'+
+    '<div class="overlay"></div>'+
     '<h5>Purchase Requests</h5>'+
-'<div class="pr-controls">'+
+    '<div class="pr-controls">'+
     '<form class="form-pr-search" @submit.prevent="searchPurchaseRequests">'+
     '<input class="form-control input-item-search"'+
-'type="text"'+
-'placeholder="Search by # Number, Item (Brand or Name) or Requester"'+
-'@keyup="searchPurchaseRequests"'+
-'v-model="searchTerm"'+
-':class="{'+
-"'active': searchTerm && searchTerm.length > 0"+
-'}"'+
-'>'+
-'</form>'+
-'</div>'+
-'<div class="pr-bag" v-show="hasPurchaseRequests">'+
+    'type="text"'+
+    'placeholder="Search by # Number, Item (Brand or Name) or Requester"'+
+    '@keyup="searchPurchaseRequests"'+
+    'v-model="searchTerm"'+
+    ':class="{'+
+    "'active': searchTerm && searchTerm.length > 0"+
+    '}"'+
+    '>'+
+    '</form>'+
+    '</div>'+
+    '<div class="pr-bag" v-show="hasPurchaseRequests">'+
     '<div class="table-responsive">'+
     '<table class="table table-hover table-standard table-purchase-requests-po-submit">'+
     '<thead>'+
@@ -1443,94 +1454,94 @@ Vue.component('select-line-items', {
     '<label>'+
     '<i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>'+
     '<i class="fa fa-square-o empty" v-else></i>'+
-'<input class="clickable hidden"'+
-'type="checkbox"'+
-'@change="selectAllPR"'+
-':checked="allPurchaseRequestsChecked"'+
+    '<input class="clickable hidden"'+
+    'type="checkbox"'+
+    '@change="selectAllPR"'+
+    ':checked="allPurchaseRequestsChecked"'+
     '>'+
     '</label>'+
     '</div>'+
     '</th>'+
     '<th class="clickable"'+
-'@click="changeSort(' + "'number'" +')"'+
-':class="{'+
-"'current_asc': sort === 'number' && order === 'asc',"+
+    '@click="changeSort(' + "'number'" +')"'+
+    ':class="{'+
+    "'current_asc': sort === 'number' && order === 'asc',"+
     "'current_desc': sort === 'number' && order === 'desc'"+
-'}"'+
-'>'+
-'PR'+
-'</th>'+
-'<th class="clickable"'+
-'@click="changeSort(' + "'item_name'" + ')"'+
-':class="{'+
-"'current_asc': sort === 'item_name' && order === 'asc',"+
+    '}"'+
+    '>'+
+    'PR'+
+    '</th>'+
+    '<th class="clickable"'+
+    '@click="changeSort(' + "'item_name'" + ')"'+
+    ':class="{'+
+    "'current_asc': sort === 'item_name' && order === 'asc',"+
     "'current_desc': sort === 'item_name' && order === 'desc'"+
-'}"'+
-'>'+
-'Item'+
-'</th>'+
-'<th class="clickable"'+
-'@click="changeSort(' + "'due'" + ')"'+
-':class="{'+
-"'current_asc': sort === 'due' && order === 'asc',"+
+    '}"'+
+    '>'+
+    'Item'+
+    '</th>'+
+    '<th class="clickable"'+
+    '@click="changeSort(' + "'due'" + ')"'+
+    ':class="{'+
+    "'current_asc': sort === 'due' && order === 'asc',"+
     "'current_desc': sort === 'due' && order === 'desc'"+
-'}"'+
-'>'+
-'Due</th>'+
-'</tr>'+
-'</thead>'+
-'<tbody>'+
-'<template v-for="purchaseRequest in purchaseRequests">'+
+    '}"'+
+    '>'+
+    'Due</th>'+
+    '</tr>'+
+    '</thead>'+
+    '<tbody>'+
+    '<template v-for="purchaseRequest in purchaseRequests">'+
     '<tr class="row-single-pr">'+
     '<td class="col-checkbox">'+
     '<div class="checkbox styled">'+
     '<label>'+
     '<i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>'+
     '<i class="fa fa-square-o empty" v-else></i>'+
-'<input class="clickable hidden"'+
-'type="checkbox"'+
-'@change="selectPR(purchaseRequest)"'+
-':checked="alreadySelectedPR(purchaseRequest)"'+
+    '<input class="clickable hidden"'+
+    'type="checkbox"'+
+    '@change="selectPR(purchaseRequest)"'+
+    ':checked="alreadySelectedPR(purchaseRequest)"'+
     '>'+
     '</label>'+
     '</div>'+
     '</td>'+
     '<td class="no-wrap col-number">'+
     '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">#{{ purchaseRequest.number }}</a>'+
-'</td>'+
-'<td class="col-item">'+
+    '</td>'+
+    '<td class="col-item">'+
     '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">'+
     '<span class="item-brand"'+
-'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
-'<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
-'</a>'+
-'<div class="bottom">'+
+    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
+    '<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
+    '</a>'+
+    '<div class="bottom">'+
     '<span '+
-'v-if="purchaseRequest.urgent" class="badge-urgent with-tooltip" v-tooltip title="Urgent Request" data-placement="bottom"> <i '+
-'class="fa fa-warning"></i></span>'+
+    'v-if="purchaseRequest.urgent" class="badge-urgent with-tooltip" v-tooltip title="Urgent Request" data-placement="bottom"> <i '+
+    'class="fa fa-warning"></i></span>'+
     '<div class="quantity"><label>QTY:</label> {{ purchaseRequest.quantity }}</div>'+
-'</div>'+
-'</td>'+
-'<td class="col-due no-wrap">'+
-'<span class="pr-due">{{ purchaseRequest.due | date }}</span>'+
-'</td>'+
-'</tr>'+
-'</template>'+
-'</tbody>'+
-'</table>'+
-'</div>'+
-'<div class="page-controls bottom">'+
+    '</div>'+
+    '</td>'+
+    '<td class="col-due no-wrap">'+
+    '<span class="pr-due">{{ purchaseRequest.due | date }}</span>'+
+    '</td>'+
+    '</tr>'+
+    '</template>'+
+    '</tbody>'+
+    '</table>'+
+    '</div>'+
+    '<div class="page-controls bottom">'+
     '<per-page-picker :response="response" :req-function="fetchPurchaseRequests"></per-page-picker>'+
     '<paginator :response="response" :event-name="' + "'po-submit-pr-page'" + '"></paginator>'+
     '</div>'+
     '</div>'+
     '<div class="empty-stage" v-else>'+
-'<i class="fa  fa-hand-rock-o"></i>'+
+    '<i class="fa  fa-hand-rock-o"></i>'+
     '<h4>No Purchase Requests</h4>'+
-'<p>We couldn\'t find any requests to fulfill. Try selecting a different Project or <a '+
-'class="dotted clickable" @click="clearSearch">clear</a> the search.</p>'+
-'</div>'+
-'</div>',
+    '<p>We couldn\'t find any requests to fulfill. Try selecting a different Project or <a '+
+    'class="dotted clickable" @click="clearSearch">clear</a> the search.</p>'+
+    '</div>'+
+    '</div>',
     data: function() {
         return {
             ajaxReady: true,
@@ -1643,7 +1654,7 @@ Vue.component('select-line-items', {
                 _.forEach(self.purchaseRequests, function (request) {
                     if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
                 });
-            } 
+            }
         }
     },
     mixins: [modalSinglePR],
