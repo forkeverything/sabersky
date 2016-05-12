@@ -7310,18 +7310,16 @@ label.required {
   .table-purchase-requests-all .col-project, .table-purchase-requests-po-submit .col-project {
     text-transform: capitalize; }
   .table-purchase-requests-all .col-quantity, .table-purchase-requests-po-submit .col-quantity {
-    text-align: center;
-    font-weight: bold; }
+    text-align: center; }
   .table-purchase-requests-all .col-item .item-sku, .table-purchase-requests-po-submit .col-item .item-sku {
     font-style: italic;
-    margin: 0 0 5px 0;
-    color: #93989F; }
+    color: #93989F;
+    text-transform: uppercase; }
   .table-purchase-requests-all .col-item .item-brand, .table-purchase-requests-all .col-item .item-name, .table-purchase-requests-po-submit .col-item .item-brand, .table-purchase-requests-po-submit .col-item .item-name {
-    display: block;
     text-transform: capitalize; }
-  .table-purchase-requests-all .col-item .item-name, .table-purchase-requests-po-submit .col-item .item-name {
-    font-weight: bold;
-    margin: 0 0 5px 0; }
+  .table-purchase-requests-all .col-item .item-brand:after, .table-purchase-requests-po-submit .col-item .item-brand:after {
+    content: "-";
+    margin: 0 3px 0 6px; }
   .table-purchase-requests-all .col-item .item-image-gallery, .table-purchase-requests-po-submit .col-item .item-image-gallery {
     margin-bottom: -5px;
     display: -webkit-flex;
@@ -8851,6 +8849,10 @@ label.required {
 
 .power-table tbody tr:hover {
   background: #EFF9FD; }
+
+@media screen and (min-width: 768px) {
+  .table-standard {
+    margin: 0 0 15px; } }
 
 .table-standard thead tr {
   background: #3498DB; }

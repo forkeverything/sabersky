@@ -1,4 +1,3 @@
-<thead>
 <tr>
     <th class="clickable"
     @click="changeSort('number')"
@@ -18,7 +17,7 @@
     >
     Project
     </th>
-    <th class="clickable"
+    <th class="clickable heading-center"
     @click="changeSort('quantity')"
     :class="{
                                             'current_asc': params.sort === 'quantity' && params.order === 'asc',
@@ -63,4 +62,3 @@
     By
     </th>
 </tr>
-</thead>

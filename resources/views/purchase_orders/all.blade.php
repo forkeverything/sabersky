@@ -13,29 +13,32 @@
             <div class="custom-tabs">
 
                 <ul class="nav nav-tabs" role="tablist" v-autofit-tabs>
-                    @include('purchase_orders.all.tab-nav')
+                    @include('purchase_orders.partials.all.tab-nav')
                 </ul>
 
                 <div class="tab-content">
                     <div class="table-controls">
                         <div class="controls-left">
                             <div class="po-filters dropdown" v-dropdown-toggle="showFiltersDropdown">
-                                @include('purchase_orders.all.filters')
+                                @include('purchase_orders.partials.all.filters')
                             </div>
                         </div>
                         <div class="active-filters">
-                            @include('purchase_orders.all.active-filters')
+                            @include('purchase_orders.partials.all.active-filters')
                         </div>
                     </div>
 
                     <div class="has-purchase-orders" v-if="response.total > 0">
+
                         <div class="table-responsive">
-                            @include('purchase_orders.all.table-orders')
+                            @include('purchase_orders.partials.all.table-orders')
                         </div>
+
                         <div class="page-controls">
                             <per-page-picker :response="response" :req-function="makeRequest"></per-page-picker>
                             <paginator :response="response" :req-function="makeRequest"></paginator>
                         </div>
+
                     </div>
                     <div class="no-purchase-orders empty-stage" v-else>
                         <i class="fa fa-clipboard"></i>

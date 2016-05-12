@@ -6,19 +6,19 @@
     <div class="row flexing">
         <div class="col-md-4">
             <div class="page-body vendor-details">
-                @include('purchase_orders.submit.step-2.vendor')
+                @include('purchase_orders.partials.submit.step-2.vendor')
             </div>
         </div>
         <div class="col-md-8">
             <div class="page-body order-details">
-                @include('purchase_orders.submit.step-2.order')
+                @include('purchase_orders.partials.submit.step-2.order')
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="item-details page-body">
-                @include('purchase_orders.submit.step-2.items')
+                @include('purchase_orders.partials.submit.step-2.items')
             </div>
         </div>
     </div>

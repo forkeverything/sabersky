@@ -24,7 +24,7 @@ Vue.component('select-line-items', {
     '>'+
     '</form>'+
     '</div>'+
-    '<div class="pr-bag" v-show="hasPurchaseRequests">'+
+    '<div v-show="hasPurchaseRequests">'+
     '<div class="table-responsive">'+
     '<table class="table table-hover table-standard table-purchase-requests-po-submit">'+
     '<thead>'+
@@ -92,7 +92,7 @@ Vue.component('select-line-items', {
     '<td class="col-item">'+
     '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">'+
     '<span class="item-brand"'+
-    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
+    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }}</span>'+
     '<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
     '</a>'+
     '<div class="bottom">'+

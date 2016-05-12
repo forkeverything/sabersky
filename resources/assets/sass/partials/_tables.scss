@@ -59,6 +59,10 @@
 }
 
 .table-standard {
+  
+  @media screen and (min-width: $screen-sm-min) {
+    margin: 0 0 15px;
+  }
 
   thead {
     tr {

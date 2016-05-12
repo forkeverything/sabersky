@@ -7,26 +7,27 @@
 
   .col-quantity {
     text-align: center;
-    font-weight: bold;
   }
 
   .col-item {
 
     .item-sku {
       font-style: italic;
-      margin: 0 0 5px 0;
       color: $text-muted;
+      text-transform: uppercase;
     }
 
     .item-brand, .item-name {
-      display: block;
       text-transform: capitalize;
     }
 
-    .item-name {
-      font-weight: bold;
-      margin: 0 0 5px 0;
+    .item-brand {
+      &:after {
+        content: "-";
+        margin: 0 3px 0 6px;
+      }
     }
+    
 
     .item-image-gallery {
       margin-bottom: -5px;

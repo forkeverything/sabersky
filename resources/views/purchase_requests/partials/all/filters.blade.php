@@ -1,4 +1,4 @@
-<div class="pr-filters dropdown" v-dropdown-toggle="showFiltersDropdown">
+
     <button type="button"
             class="btn button-show-filters-dropdown filter-button-toggle-dropdown"
             v-if="response.data"
@@ -71,4 +71,3 @@
                 @click.stop.prevent="addFilter">Add Filter
         </button>
     </div>
-</div>

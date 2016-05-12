@@ -1,7 +1,7 @@
 <div id="po-submit-1" v-show="step === 1" class="submit-step row animated" transition="slide">
     <div class="col-md-8">
         <div class="page-body select-vendor visible-xs">
-            @include('purchase_orders.submit.select-vendor')
+            @include('purchase_orders.partials.submit.select-vendor')
         </div>
         <div class="page-body select-pr">
             <h3>Search For Requests</h3>
@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-4">
         <div class="page-body vendor hidden-xs">
-            @include('purchase_orders.submit.select-vendor')
+            @include('purchase_orders.partials.submit.select-vendor')
         </div>
         <div class="page-body line-items">
             <h3>Selected Items</h3>
