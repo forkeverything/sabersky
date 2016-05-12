@@ -44,7 +44,6 @@ class CreatePurchaseOrdersTable extends Migration
                 $table->foreign('shipping_address_id')->references('id')->on('addresses');
 
             // Summary - fields we calculate and store so they can be retrieved, sorted, and filtered faster than calculating dynamically
-            $table->integer('num_line_items')->nullable();
             $table->float('subtotal', 15, 2);
             $table->float('total', 15, 2);
 

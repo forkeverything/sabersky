@@ -17,8 +17,35 @@
     }
   }
 
-  .col-currency {
-    text-align: center;
-  }
+  .table-purchase-orders-all {
+    .col-status {
+      text-transform: capitalize;
 
+      span {
+        padding: 5px 10px;
+        @include border-radius(3px);
+        width: 80px;
+        display: block;
+        text-align: center;
+      }
+
+      .approved {
+        background: $light-green;
+        color: $extra-dark-green;
+      }
+
+      .rejected {
+        background: $extra-light-red;
+        color: $dark-red;
+      }
+
+      .pending {
+        background: $yellow;
+        color: $brown;
+      }
+    }
+    .col-currency {
+      text-align: center;
+    }
+  }
 }

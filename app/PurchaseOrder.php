@@ -52,7 +52,6 @@ class PurchaseOrder extends Model
         'currency_id',
         'billing_address_id',
         'shipping_address_id',
-        'num_line_items',
         'subtotal',
         'total',
         'user_id',
@@ -116,35 +115,7 @@ class PurchaseOrder extends Model
         return $this;
     }
 
-
-    /**
-     * Call this to automatically re-calculate all the fields that
-     * need to be calculated and save them in the DB.
-     *
-     * @return $this
-     */
-    public function setCalculatedFields()
-    {
-        $this->setNumLineItems()
-             ->setSubtotal()
-             ->setTotal();
-        return $this;
-    }
-
-    /**
-     * Gets the count of how many LineItems this PurchaseOrder
-     * has and then saves it.
-     *
-     * @return $this
-     */
-    public function setNumLineItems()
-    {
-        $this->num_line_items = $this->lineItems->count();
-        $this->save();
-        return $this;
-    }
-
-
+    
     /**
      * Calculates the subtotal and then saves it as the 'subtotal'
      * field in the database
@@ -244,7 +215,7 @@ class PurchaseOrder extends Model
      */
     public function callCreateMethods($billingAddress, $shippingAddress)
     {
-        $this->setCalculatedFields()
+        $this->setTotal()
              ->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)
              ->updatePurchaseRequests()
              ->attachRules()

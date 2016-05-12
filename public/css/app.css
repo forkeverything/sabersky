@@ -7798,7 +7798,24 @@ label.required {
           width: initial; } }
       #purchase-orders-all .top .link-create-order #button-submit-purchase-order {
         width: 100%; }
-  #purchase-orders-all .col-currency {
+  #purchase-orders-all .table-purchase-orders-all .col-status {
+    text-transform: capitalize; }
+    #purchase-orders-all .table-purchase-orders-all .col-status span {
+      padding: 5px 10px;
+      border-radius: 3px;
+      width: 80px;
+      display: block;
+      text-align: center; }
+    #purchase-orders-all .table-purchase-orders-all .col-status .approved {
+      background: #9CFFA8;
+      color: #1C6F3D; }
+    #purchase-orders-all .table-purchase-orders-all .col-status .rejected {
+      background: #FAE5E5;
+      color: #C0392B; }
+    #purchase-orders-all .table-purchase-orders-all .col-status .pending {
+      background: #FFD93E;
+      color: #5A410C; }
+  #purchase-orders-all .table-purchase-orders-all .col-currency {
     text-align: center; }
 
 #add-line-item .filter-urgent {

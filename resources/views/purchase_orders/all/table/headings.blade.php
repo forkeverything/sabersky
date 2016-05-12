@@ -6,7 +6,30 @@
                                             'current_desc': params.sort === 'number' && params.order === 'desc'
                                         }"
 >
-PO
+Order
+</th>
+
+<!-- Submitted (Date)-->
+<th class="clickable"
+@click="changeSort('created_at')"
+:class="{
+                                            'current_asc': params.sort === 'created_at' && params.order === 'asc',
+                                            'current_desc': params.sort === 'created_at' && params.order === 'desc'
+                                        }"
+>
+Submitted
+</th>
+
+
+<!-- Made by (User) -->
+<th class="clickable"
+@click="changeSort('user_name')"
+:class="{
+                                            'current_asc': params.sort === 'user_name' && params.order === 'asc',
+                                            'current_desc': params.sort === 'user_name' && params.order === 'desc'
+                                        }"
+>
+by
 </th>
 
 <!-- Vendor -->
@@ -20,17 +43,18 @@ PO
 Vendor
 </th>
 
-<!-- No. Line Items -->
-<th class="clickable heading-center"
-@click="changeSort('num_line_items')"
-:class="{
-                                            'current_asc': params.sort === 'num_line_items' && params.order === 'asc',
-                                            'current_desc': params.sort === 'num_line_items' && params.order === 'desc'
+
+
+<!-- Status -->
+<th class="clickable"
+    @click="changeSort('status')"
+    :class="{
+                                            'current_asc': params.sort === 'status' && params.order === 'asc',
+                                            'current_desc': params.sort === 'status' && params.order === 'desc'
                                         }"
 >
-Line Items
+Approval
 </th>
-
 
 <!-- Currency (heading spacer) -->
 <th class="padding-even">
@@ -48,24 +72,3 @@ Line Items
 Total
 </th>
 
-<!-- Submitted (Date)-->
-<th class="clickable heading-center"
-@click="changeSort('created_at')"
-:class="{
-                                            'current_asc': params.sort === 'created_at' && params.order === 'asc',
-                                            'current_desc': params.sort === 'created_at' && params.order === 'desc'
-                                        }"
->
-Submitted
-</th>
-
-<!-- Made by (User) -->
-<th class="clickable"
-@click="changeSort('user_name')"
-:class="{
-                                            'current_asc': params.sort === 'user_name' && params.order === 'asc',
-                                            'current_desc': params.sort === 'user_name' && params.order === 'desc'
-                                        }"
->
-by
-</th>

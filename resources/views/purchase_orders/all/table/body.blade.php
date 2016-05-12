@@ -6,14 +6,25 @@
             #@{{ order.number }}
         </td>
 
+        <!-- Submitted (Date) -->
+        <td class="no-wrap col-submitted-date">
+            @{{ order.created_at | dateTime }}
+        </td>
+
+        <!-- Made by (user) -->
+        <td>
+            @{{ order.user_name | capitalize }}
+        </td>
+
         <!-- Vendor -->
         <td class="col-vendor">
             @{{ order.vendor.name }}
         </td>
 
-        <!-- No. Line Items -->
-        <td class="no-wrap col-num-line-items content-center fit-to-content">
-            @{{ order.num_line_items }}
+
+        <!-- Status -->
+        <td class="col-status">
+            <span :class="order.status">@{{ order.status }}</span>
         </td>
 
         <!-- Currency -->
@@ -24,16 +35,6 @@
         <!-- Total -->
         <td class="no-wrap col-total content-right fit-to-content">
              @{{ formatNumber(order.total, currencyDecimalPoints) }}
-        </td>
-
-        <!-- Submitted (Date) -->
-        <td class="no-wrap col-submitted-date fit-to-content">
-            @{{ order.created_at | diffHuman }}
-        </td>
-
-        <!-- Made by (user) -->
-        <td class="no-wrap fit-to-content">
-            @{{ order.user_name | capitalize }}
         </td>
 
     </tr>

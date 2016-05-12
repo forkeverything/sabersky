@@ -637,6 +637,32 @@ Vue.directive('selectoption', {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -680,6 +706,13 @@ Vue.filter('properDateModel', {
         return val;
     }
 });
+Vue.filter('dateTime', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
+    }
+    return value;
+});
+
 Vue.filter('date', function (value) {
     if (value !== '0000-00-00 00:00:00') {
         return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
@@ -759,32 +792,6 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
