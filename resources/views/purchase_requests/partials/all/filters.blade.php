@@ -1,10 +1,4 @@
-
-    <button type="button"
-            class="btn button-show-filters-dropdown filter-button-toggle-dropdown"
-            v-if="response.data"
-    >Filters <i
-                class="fa fa-caret-down"></i>
-    </button>
+ @include('layouts.partials.button-filters')
     <div class="filter-dropdown dropdown-container left"
          v-show="showFiltersDropdown"
     >

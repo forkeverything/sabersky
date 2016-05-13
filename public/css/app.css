@@ -7032,6 +7032,7 @@ label {
         width: initial; } }
 
 #purchase-requests-all .pr-controls {
+  margin: -10px 0 15px 0;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -7044,13 +7045,22 @@ label {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
+  #purchase-requests-all .pr-controls .controls-left {
+    margin: 10px 0 0 0;
+    -webkit-flex: 1000 0 300px;
+    -ms-flex: 1000 0 300px;
+    flex: 1000 0 300px; }
   #purchase-requests-all .pr-controls .controls-right {
+    margin: 10px 0 0 30px;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
+    -webkit-flex: 1 0 120px;
+    -ms-flex: 1 0 120px;
+    flex: 1 0 120px;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
@@ -8246,36 +8256,6 @@ label {
         -ms-flex: 0 1 125px;
         flex: 0 1 125px; } }
 
-#items-all .items-control {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0 0 25px 0;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
-  #items-all .items-control .filter, #items-all .items-control .form-item-search {
-    margin: 0 0 10px 0; }
-  #items-all .items-control .filter .button-show-filter-dropdown {
-    color: #93989F;
-    border: 1px solid #D2D2D2;
-    border-right: none;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px; }
-    #items-all .items-control .filter .button-show-filter-dropdown:hover, #items-all .items-control .filter .button-show-filter-dropdown:focus, #items-all .items-control .filter .button-show-filter-dropdown:active {
-      color: #3498DB; }
-  #items-all .items-control .filter .brands-list, #items-all .items-control .filter .names-list {
-    margin: 0 0 10px 0; }
-  #items-all .items-control .form-item-search {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1; }
-    #items-all .items-control .form-item-search .input-item-search {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0; }
-      #items-all .items-control .form-item-search .input-item-search.active {
-        border-color: #3498DB; }
-
 #items-all .table-items th, #items-all .table-items td {
   padding: 10px 15px; }
 
@@ -9316,7 +9296,7 @@ label {
     .api-paginator ul li.paginate-nav i {
       font-weight: bold; }
 
-.filter-button-toggle-dropdown {
+.filters .filter-button-toggle-dropdown {
   color: #93989F;
   border: 1px solid #D2D2D2;
   border-radius: 4px;
@@ -9330,11 +9310,12 @@ label {
   -ms-flex-line-pack: center;
   align-content: center;
   line-height: 1;
-  width: 80px; }
-  .filter-button-toggle-dropdown:hover, .filter-button-toggle-dropdown:focus, .filter-button-toggle-dropdown:active {
+  width: 80px;
+  height: 34px; }
+  .filters .filter-button-toggle-dropdown:hover, .filters .filter-button-toggle-dropdown:focus, .filters .filter-button-toggle-dropdown:active {
     color: #3498DB; }
 
-.filter-dropdown .integer-range-field, .filter-dropdown .date-range-field {
+.filters .filter-dropdown .integer-range-field, .filters .filter-dropdown .date-range-field {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -9345,25 +9326,45 @@ label {
   -ms-flex-align: center;
   align-items: center;
   margin: 0 0 10px; }
-  .filter-dropdown .integer-range-field input, .filter-dropdown .date-range-field input {
+  .filters .filter-dropdown .integer-range-field input, .filters .filter-dropdown .date-range-field input {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
     text-align: center; }
-  .filter-dropdown .integer-range-field .dash, .filter-dropdown .date-range-field .dash {
+  .filters .filter-dropdown .integer-range-field .dash, .filters .filter-dropdown .date-range-field .dash {
     font-size: 1.5em;
     color: #93989F;
     margin: 0 10px; }
 
-.filter-dropdown .date-range-field input {
+.filters .filter-dropdown .date-range-field input {
   height: 34px;
   padding: 6px 12px;
   border: 1px solid #E6E9EB;
   border-radius: 4px;
   width: 100%; }
-  .filter-dropdown .date-range-field input:focus {
+  .filters .filter-dropdown .date-range-field input:focus {
     border: 1px solid #3498DB;
     outline: 0; }
+
+.filters.with-search .filter-button-toggle-dropdown {
+  border-right: none;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0; }
+
+.controls-filter-search {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+.form-search {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+  .form-search .input-search {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+    .form-search .input-search.active {
+      border-color: #3498DB; }
 
 .active-filters {
   -webkit-flex: 100%;

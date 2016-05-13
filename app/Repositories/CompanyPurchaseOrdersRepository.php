@@ -35,8 +35,8 @@ class CompanyPurchaseOrdersRepository extends apiRepository
      */
     protected $searchableFields = [
         'number',
-        'vendor_name',
-        'user_name',
+        'purchase_orders.vendor_id.vendors.name',
+        'purchase_orders.user_id.users.name',
         'total'
     ];
 

@@ -18,10 +18,13 @@
 
                 <div class="tab-content">
                     <div class="table-controls">
-                        <div class="controls-left">
-                            <div class="po-filters dropdown" v-dropdown-toggle="showFiltersDropdown">
-                                @include('purchase_orders.partials.all.filters')
+                        <div class="controls-left controls-filter-search">
+                            <div class="filters with-search" v-dropdown-toggle="showFiltersDropdown">
+                                <div class="dropdown">
+                                    @include('purchase_orders.partials.all.filters')
+                                </div>
                             </div>
+                            @include('layouts.partials.form-search-repository')
                         </div>
                         <div class="active-filters">
                             @include('purchase_orders.partials.all.active-filters')

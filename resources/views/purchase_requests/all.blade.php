@@ -17,11 +17,16 @@
                 </ul>
 
                 <div class="tab-content">
+
+                    <!-- Controls -->
                     <div class="pr-controls table-controls">
-                        <div class="controls-left">
-                            <div class="pr-filters dropdown" v-dropdown-toggle="showFiltersDropdown">
-                                @include('purchase_requests.partials.all.filters')
+                        <div class="controls-left controls-filter-search">
+                            <div class="filters with-search" v-dropdown-toggle="showFiltersDropdown">
+                                <div class="dropdown">
+                                    @include('purchase_requests.partials.all.filters')
+                                </div>
                             </div>
+                                @include('layouts.partials.form-search-repository')
                         </div>
                         <div class="controls-right">
                             <div class="control-urgent">
@@ -32,6 +37,8 @@
                             @include('purchase_requests.partials.all.filters_active')
                         </div>
                     </div>
+
+                    <!-- Has Requests -->
                     <div class="has-purchase-requests" v-if="response.total > 0">
 
                         <div class="table-responsive">
@@ -44,6 +51,8 @@
                         </div>
 
                     </div>
+
+                    <!-- Empty Stage -->
                     <div class="no-purchase-requests empty-stage" v-else>
                         <i class="fa fa-shopping-basket"></i>
                         <h4>Could not find any Purchase Requests</h4>
