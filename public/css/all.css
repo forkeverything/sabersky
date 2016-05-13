@@ -6512,6 +6512,9 @@ label {
       font-size: 1.75em; }
       .checkbox.styled label i.checked {
         color: #3498DB; }
+  .checkbox.styled .disabled {
+    color: #E9E9E9;
+    cursor: not-allowed; }
 
 .bootstrap-select.themed-select button {
   border-radius: 3px;
@@ -8801,36 +8804,6 @@ label {
   .validation-errors .errors-list {
     margin: 0; }
 
-.power-table thead tr th {
-  font-weight: normal;
-  padding: 1.25em 0.5em;
-  border-bottom: 1px solid #E6E9EB; }
-  .power-table thead tr th.active {
-    background-color: #fff !important; }
-  .power-table thead tr th.active.asc:after, .power-table thead tr th.active.desc:after {
-    font-family: FontAwesome; }
-  .power-table thead tr th.active.asc:after {
-    content: "\f0d8";
-    margin-left: 5px; }
-  .power-table thead tr th.active.desc:after {
-    content: "\f0d7";
-    margin-left: 5px; }
-  .power-table thead tr th:hover {
-    color: #3498DB;
-    background: #EFF9FD !important; }
-
-.power-table tbody tr td {
-  border-bottom: 1px solid #E6E9EB;
-  padding: 0.75em 0.5em; }
-  .power-table tbody tr td a {
-    border-bottom: 1px dotted #353535; }
-    .power-table tbody tr td a:hover {
-      color: #3498DB;
-      border-bottom: 1px solid #3498DB; }
-
-.power-table tbody tr:hover {
-  background: #EFF9FD; }
-
 @media screen and (min-width: 768px) {
   .table-standard {
     margin: 0 0 15px; } }
@@ -8838,7 +8811,7 @@ label {
 .table-standard thead tr {
   background: #3498DB; }
   .table-standard thead tr th {
-    height: 45px;
+    height: 60px;
     border: 0;
     padding: 10px 26px 10px 10px;
     color: #fff !important;
@@ -8876,6 +8849,39 @@ label {
       content: '\f0d8'; }
     .table-standard thead tr th.current_desc:after {
       content: '\f0d7'; }
+    .table-standard thead tr th.heading-select {
+      position: relative; }
+      .table-standard thead tr th.heading-select .checkbox {
+        border: 1px solid #67BAFF;
+        padding: 5px; }
+        .table-standard thead tr th.heading-select .checkbox label {
+          text-align: center;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-justify-content: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          -webkit-align-items: center;
+          -ms-flex-align: center;
+          align-items: center;
+          width: 20px;
+          height: 20px; }
+          .table-standard thead tr th.heading-select .checkbox label i {
+            color: #fff; }
+            .table-standard thead tr th.heading-select .checkbox label i.checked {
+              color: #fff; }
+      .table-standard thead tr th.heading-select .bulk-actions {
+        z-index: 4;
+        position: absolute;
+        right: 0;
+        white-space: nowrap;
+        border: 1px solid #67BAFF;
+        top: 14px;
+        height: 32px;
+        left: 41px;
+        width: 801px;
+        background: #3498DB; }
 
 .table-standard tbody tr:first-child td {
   border-top: 0; }

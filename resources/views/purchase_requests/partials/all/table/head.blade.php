@@ -1,3 +1,22 @@
+<!-- Select All -->
+<th class="heading-center heading-select padding-even">
+        <div class="checkbox styled">
+            <label>
+                <i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>
+                <i class="fa fa-square-o empty" v-else></i>
+                <input class="clickable hidden"
+                       type="checkbox"
+                @change="selectAll"
+                :checked="allPurchaseRequestsChecked"
+                >
+            </label>
+        </div>
+
+    <div class="bulk-actions" v-show="selectedRequests.length > 0">
+        woo
+    </div>
+</th>
+
 <!-- Number -->
 <th class="clickable"
 @click="changeSort('number')"
