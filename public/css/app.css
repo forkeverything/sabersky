@@ -7057,6 +7057,7 @@ label {
     #purchase-requests-all .pr-controls .controls-right .control-urgent input {
       margin: 0 5px 0 0; }
     #purchase-requests-all .pr-controls .controls-right .control-urgent label {
+      display: inline-block;
       margin: 0; }
   #purchase-requests-all .pr-controls .active-filters {
     -webkit-flex: 100%;
@@ -7344,8 +7345,9 @@ label {
         width: 100%; }
   .table-purchase-requests-all .col-item .item-specification, .table-purchase-requests-po-submit .col-item .item-specification {
     margin: 5px 0 0 0;
-    display: block;
-    min-width: 350px; }
+    display: block; }
+  .table-purchase-requests-all .col-state .badge, .table-purchase-requests-po-submit .col-state .badge {
+    width: 80px; }
 
 .badge-urgent {
   color: #FFB400; }
@@ -8595,7 +8597,7 @@ label {
   margin: 0 0 30px; }
   .custom-tabs .nav-tabs {
     border: 0;
-    background-color: #f5f6f7;
+    background-color: #E9E9E9;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
@@ -8938,6 +8940,10 @@ label {
 .badge-danger {
   background: #FACACD;
   color: #8A1C18; }
+
+.badge-disabled {
+  background: #E9E9E9;
+  color: #5A5A5A; }
 
 .modal-item-add .form-item-add .brand-name-wrap {
   display: -webkit-flex;

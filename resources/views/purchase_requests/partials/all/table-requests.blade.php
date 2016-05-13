@@ -1,6 +1,8 @@
 <table class="table table-hover table-standard table-purchase-requests-all">
     <thead>
-    @include('purchase_requests.partials.all.table.head')
+    <tr>
+        @include('purchase_requests.partials.all.table.head')
+    </tr>
     </thead>
     <tbody>
     @include('purchase_requests.partials.all.table.body')

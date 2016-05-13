@@ -36,7 +36,8 @@ class UserPurchaseRequestsRepository extends apiRepository
         'created_at',
         'quantity',
         'project_name',
-        'requester_name'
+        'requester_name',
+        'state'
     ];
 
     /**
@@ -66,6 +67,7 @@ class UserPurchaseRequestsRepository extends apiRepository
                               ->join('users', 'purchase_requests.user_id', '=', 'users.id')
                               ->select(DB::raw('
                                 purchase_requests.*,
+                                IF(purchase_requests.quantity = 0, "fulfilled", purchase_requests.state) AS state,
                                 items.name as item_name,
                                 items.id as item_id,
                                 projects.name as project_name,

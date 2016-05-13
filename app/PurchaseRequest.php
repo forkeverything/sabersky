@@ -127,19 +127,19 @@ class PurchaseRequest extends Model
         $this->attributes['due'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    /**
-     * This allows us to attach a pseudo-state of 'fulfilled'
-     * to Purchase Requests that have an outstanding
-     * quantity of 0
-     *
-     * @param $value
-     * @return string
-     */
-    public function getStateAttribute($value)
-    {
-        if($this->quantity === 0) return 'fulfilled';
-        return $value;
-    }
+//    /**
+//     * This allows us to attach a pseudo-state of 'fulfilled'
+//     * to Purchase Requests that have an outstanding
+//     * quantity of 0
+//     *
+//     * @param $value
+//     * @return string
+//     */
+//    public function getStateAttribute($value)
+//    {
+//        if($this->quantity === 0) return 'fulfilled';
+//        return $value;
+//    }
 
     /**
      * Quick checker to see if a PR
