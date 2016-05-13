@@ -2,6 +2,7 @@
   padding: 5px 10px;
   border-radius: 3px;
   font-weight: normal;
+  text-align: center;
 }
 
 .badge-warning {
@@ -12,4 +13,9 @@
 .badge-success {
   background: $light-green;
   color: $extra-dark-green;
+}
+
+.badge-danger {
+  background: $light-red;
+  color: $extra-dark-red;
 }

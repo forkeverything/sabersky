@@ -6056,9 +6056,9 @@ button.close {
   color: #FFB400;
   border: 1px solid #FFB400; }
   .btn-outline-yellow:hover {
-    color: #FFD93E;
-    box-shadow: 0 0 0 3px #FFD93E !important;
-    fill: #FFD93E; }
+    color: #FFED87;
+    box-shadow: 0 0 0 3px #FFED87 !important;
+    fill: #FFED87; }
   .btn-outline-yellow:focus {
     color: #FFB400; }
 
@@ -6115,8 +6115,8 @@ button.close {
     border-color: #27AE60; }
 
 .btn-solid-yellow {
-  border-color: #FFD93E;
-  background-color: #FFD93E; }
+  border-color: #FFED87;
+  background-color: #FFED87; }
   .btn-solid-yellow:hover, .btn-solid-yellow:focus, .btn-solid-yellow:active, .btn-solid-yellow.active {
     background-color: #FFB400;
     border-color: #FFB400; }
@@ -6797,9 +6797,9 @@ label {
   background: #FFFFFF; }
   #dashboard-nav .dashboard-link:hover {
     text-decoration: none;
-    background: #FFD93E;
+    background: #FFED87;
     color: #fff;
-    border-color: #FFD93E; }
+    border-color: #FFED87; }
   @media screen and (max-width: 991px) {
     #dashboard-nav .dashboard-link {
       margin-bottom: 15px; } }
@@ -7074,9 +7074,9 @@ label {
     color: #93989F;
     box-shadow: none; }
     #purchase-requests-make .page-body .urgent-button.active {
-      background: #FFD93E;
+      background: #FFED87;
       color: #fff;
-      border: 2px solid #FFD93E; }
+      border: 2px solid #FFED87; }
   #purchase-requests-make .page-body .project-selection {
     margin: 0 0 30px; }
   #purchase-requests-make .page-body .item-selection {
@@ -7808,21 +7808,9 @@ label {
         width: 100%; }
   #purchase-orders-all .table-purchase-orders-all .col-status {
     text-transform: capitalize; }
-    #purchase-orders-all .table-purchase-orders-all .col-status span {
-      padding: 5px 10px;
-      border-radius: 3px;
+    #purchase-orders-all .table-purchase-orders-all .col-status .badge {
       width: 80px;
-      display: block;
-      text-align: center; }
-    #purchase-orders-all .table-purchase-orders-all .col-status .approved {
-      background: #9CFFA8;
-      color: #1C6F3D; }
-    #purchase-orders-all .table-purchase-orders-all .col-status .rejected {
-      background: #FAE5E5;
-      color: #C0392B; }
-    #purchase-orders-all .table-purchase-orders-all .col-status .pending {
-      background: #FFD93E;
-      color: #5A410C; }
+      display: block; }
   #purchase-orders-all .table-purchase-orders-all .col-currency {
     text-align: center; }
 
@@ -8470,7 +8458,7 @@ label {
         position: absolute;
         top: 5px;
         right: 5px;
-        color: #F59898; }
+        color: #FACACD; }
       #system-settings .wrap-table-roles .table-roles th.removable:hover .overlay {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -8553,7 +8541,7 @@ label {
 
 #settings-rules .table-existing-rules tr .button-remove {
   display: none;
-  color: #F59898;
+  color: #FACACD;
   font-size: 1.3em; }
 
 #settings-rules .table-existing-rules tr:hover .button-remove {
@@ -8936,15 +8924,20 @@ label {
 .badge {
   padding: 5px 10px;
   border-radius: 3px;
-  font-weight: normal; }
+  font-weight: normal;
+  text-align: center; }
 
 .badge-warning {
-  background: #FFD93E;
+  background: #FFED87;
   color: #5A410C; }
 
 .badge-success {
   background: #9CFFA8;
   color: #1C6F3D; }
+
+.badge-danger {
+  background: #FACACD;
+  color: #8A1C18; }
 
 .modal-item-add .form-item-add .brand-name-wrap {
   display: -webkit-flex;

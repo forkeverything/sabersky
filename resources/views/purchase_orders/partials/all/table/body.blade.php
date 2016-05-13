@@ -24,7 +24,12 @@
 
         <!-- Status -->
         <td class="col-status">
-            <span :class="order.status">@{{ order.status }}</span>
+            <span class="badge"
+                  :class="{
+                'badge-warning': order.status === 'pending',
+                'badge-success': order.status === 'approved',
+                'badge-danger': order.status === 'rejected'
+            }">@{{ order.status }}</span>
         </td>
 
         <!-- Currency -->
