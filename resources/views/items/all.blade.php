@@ -109,16 +109,16 @@
                                         </div>
                                     </td>
                                     <td class="col-details">
-                                        <a class="link-item-single" :href="'/items/' + item.id" alt="single item link">
-                                            <div class="brand" v-if="item.brand"><span>@{{ item.brand }}</span></div>
-                                            <div class="name"><span>@{{ item.name }}</span></div>
+                                        <a class="link-item dotted" :href="'/items/' + item.id" alt="single item link">
+                                            <div class="item-brand" v-if="item.brand"><span>@{{ item.brand }}</span></div>
+                                            <div class="item-name"><span>@{{ item.name }}</span></div>
                                         </a>
                                     <span class="item-specification">
                                         <text-clipper :text="item.specification"></text-clipper></span>
                                     </td>
                                     <td class="col-sku no-wrap">
                                         <a :href="'/items/' + item.id" alt="single item link" v-if="item.sku">
-                                            <span class="has-sku">@{{ item.sku }}</span>
+                                            <span class="item-sku">@{{ item.sku }}</span>
                                         </a>
                                         <span v-else>-</span>
                                     </td>

@@ -16,17 +16,6 @@
       color: $text-muted;
       text-transform: uppercase;
     }
-
-    .item-brand, .item-name {
-      text-transform: capitalize;
-    }
-
-    .item-brand {
-      &:after {
-        content: "-";
-        margin: 0 3px 0 6px;
-      }
-    }
     
 
     .item-image-gallery {
@@ -44,7 +33,8 @@
     }
 
     .item-specification {
-      display: inline-block;
+      margin: 5px 0 0 0;
+      display: block;
       min-width: 350px;
     }
 

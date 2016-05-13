@@ -72,9 +72,9 @@ Vue.component('purchase-requests-make', {
                                     image +
                         '       </div>' +
                         '       <div class="details">' +
-                        '           <span class="brand">' + brand + '</span>' +
-                        '           <span class="name">' + escape(item.name) + '</span>' +
-                        '           <span class="sku">' + sku + '</span>' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
                         '       </div>' +
                         '</div>';
                 },
@@ -97,10 +97,10 @@ Vue.component('purchase-requests-make', {
                                     image +
                         '       </div>' +
                         '       <div class="details">' +
-                        '           <span class="brand">' + brand + '</span>' +
-                        '           <span class="name">' + escape(item.name) + '</span>' +
-                        '           <span class="sku">' + sku + '</span>' +
-                        '           <span class="specification">' + escape(item.specification) + '</span>' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
+                        '           <span class="item-specification">' + escape(item.specification) + '</span>' +
                         '       </div>' +
                                 imageGallery +
                         '</div>'

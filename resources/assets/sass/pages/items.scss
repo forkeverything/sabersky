@@ -1,82 +1,20 @@
-#items-all {
+@import "items/all";
 
-  @import "items/control";
+.item-brand, .item-name {
+  text-transform: capitalize;
+}
 
-  .table-items {
-
-    th, td {
-      padding: 10px 15px;
-    }
-
-    .item-row {
-
-      .item-thumbnail {
-        width: 75px;
-        height: 75px;
-        border: 1px solid $grey;
-
-        img {
-          width: 100%;
-        }
-      }
-
-      td {
-        vertical-align: middle;
-
-        &.col-thumbnail {
-          width: 100px;
-          text-align: center;
-          padding: 39px 0;
-
-          .item-thumbnail {
-            display: inline-block;
-          }
-        }
-
-        &.col-details {
-
-          .item-sku {
-            margin: 0 0 5px 0;
-          }
-
-          .link-item-single {
-
-            &:hover {
-
-              .brand, .name {
-                span {
-                  color: $blue;
-                  border-bottom: 1px solid $blue;
-                }
-              }
-            }
-
-            .brand, .name {
-              display: block;
-              font-size: 1.2em;
-              text-transform: capitalize;
-              span {
-                border-bottom: 1px dotted $black;
-              }
-            }
-
-            .name {
-              font-weight: bold;
-              white-space: nowrap;
-              margin: 0 0 5px 0;
-            }
-          }
-
-
-          .item-specification {
-            display: inline-block;
-            overflow: hidden;
-          }
-        }
-      }
+.link-item {
+  .item-brand {
+    &:after {
+      content: "-";
+      margin: 0 3px 0 6px;
     }
   }
+}
 
+.item-sku {
+  text-transform: uppercase;
 }
 
 #item-single {

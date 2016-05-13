@@ -50,18 +50,19 @@
 
         .details {
           flex: 1;
+          
+          .item-sku {
+            display: block;
+            color: $text-muted;
+          }
 
-          .brand {
+          .item-brand, .item-name {
             font-weight: bold;
           }
 
-          .name {
-
-          }
-
           .sku {
-            color: $text-muted;
             display: block;
+            color: $text-muted;
           }
         }
 
@@ -70,6 +71,20 @@
           .item-single-option {
             display: flex;
             padding: 10px 15px !important;
+
+            .details {
+              display: inline-block;
+
+              .item-sku {
+                display: block;
+                font-size: 0.8em;
+                margin: 0 5px 0 0;
+              }
+
+              .item-brand, .item-name {
+                font-weight: normal;
+              }
+            }
           }
         }
 
@@ -88,14 +103,8 @@
           }
 
           .details {
-            margin: 0 0 10px 0;
-
-            .brand, .name {
-              font-size: 1.5em;
-            }
-
-            .specification {
-              margin: 5px 0 0 0;
+            margin: 5px 0 0 0;
+            .item-specification {
               display: block;
             }
           }

@@ -1,0 +1,60 @@
+#items-all {
+
+  @import "control";
+
+  .table-items {
+
+    th, td {
+      padding: 10px 15px;
+    }
+
+    .item-row {
+
+      .item-thumbnail {
+        width: 75px;
+        height: 75px;
+        border: 1px solid $grey;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      td {
+        vertical-align: middle;
+
+        &.col-thumbnail {
+          width: 100px;
+          text-align: center;
+          padding: 39px 0;
+
+          .item-thumbnail {
+            display: inline-block;
+          }
+        }
+
+        &.col-details {
+
+          .item-sku {
+            margin: 0 0 5px 0;
+          }
+
+          .link-item {
+            .item-brand, .item-name {
+              display: inline-block;
+              font-size: 1.2em;
+            }
+          }
+
+
+          .item-specification {
+            margin: 5px 0 0 0;
+            display: block;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+
+}
