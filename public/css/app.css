@@ -7821,13 +7821,14 @@ label {
           width: initial; } }
       #purchase-orders-all .top .link-create-order #button-submit-purchase-order {
         width: 100%; }
-  #purchase-orders-all .table-purchase-orders-all .col-status {
-    text-transform: capitalize; }
-    #purchase-orders-all .table-purchase-orders-all .col-status .badge {
-      width: 80px;
-      display: block; }
+  #purchase-orders-all .table-purchase-orders-all .col-status .badge {
+    width: 80px;
+    display: block; }
   #purchase-orders-all .table-purchase-orders-all .col-currency {
     text-align: center; }
+
+.po-badge {
+  text-transform: capitalize; }
 
 #add-line-item .filter-urgent {
   margin: 0 0 15px;

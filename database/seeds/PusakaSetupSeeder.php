@@ -3,6 +3,7 @@
 use App\Address;
 use App\BankAccount;
 use App\Company;
+use App\Factories\PurchaseOrderFactory;
 use App\Item;
 use App\Project;
 use App\PurchaseOrder;
@@ -264,7 +265,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 ]);
             }
 
-            $order->callCreateMethods($billingAddress, $shippingAddress);
+            PurchaseOrderFactory::change($order)->processNewPurchaseOrder($billingAddress, $shippingAddress);
         }
     }
 

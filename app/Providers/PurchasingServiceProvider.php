@@ -46,6 +46,7 @@ class PurchasingServiceProvider extends ServiceProvider
 
         // Same thing as PR for Orders
         PurchaseOrder::creating(function ($purchaseOrder) {
+            
             // We can assume all POs MUST belong to a company
             $stats = Company::findOrFail($purchaseOrder->company_id)->statistics;
 

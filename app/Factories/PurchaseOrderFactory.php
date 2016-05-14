@@ -53,7 +53,7 @@ class PurchaseOrderFactory
      * @param User|null $user
      * @param PurchaseOrder|null $purchaseOrder
      */
-    public function __construct(SubmitPurchaseOrderRequest $request, User $user = null, PurchaseOrder $purchaseOrder = null)
+    public function __construct(SubmitPurchaseOrderRequest $request = null, User $user = null, PurchaseOrder $purchaseOrder = null)
     {
         $this->request = $request;
         $this->user = $user;
@@ -78,6 +78,18 @@ class PurchaseOrderFactory
                 ->processNewPurchaseOrder();
 
         return $factory->purchaseOrder;
+    }
+
+    /**
+     * Make changes to an existing Order
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param User|null $user (User making changes)
+     * @return static
+     */
+    public static function change(PurchaseOrder $purchaseOrder, User $user = null)
+    {
+        return new static(null, $user, $purchaseOrder);
     }
 
     /**
@@ -196,10 +208,15 @@ class PurchaseOrderFactory
     /**
      * Call the necessary methods for a new PurchaseOrder
      *
+     * @param Address $billingAddress
+     * @param Address $shippingAddress
      * @return PurchaseOrder|null
      */
-    protected function processNewPurchaseOrder()
+    public function processNewPurchaseOrder(Address $billingAddress = null, Address $shippingAddress = null)
     {
+        if($billingAddress) $this->billingAddress = $billingAddress;
+        if($shippingAddress) $this->shippingAddress = $shippingAddress;
+        
         $this->purchaseOrder->setTotal()
                             ->attachBillingAndShippingAddresses($this->billingAddress, $this->shippingAddress)
                             ->updatePurchaseRequests()

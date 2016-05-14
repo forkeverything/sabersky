@@ -5,7 +5,7 @@ namespace App;
 use App\Utilities\FormatNumberPropertyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Country;
+use \Country;
 
 /**
  * App\PurchaseOrder
@@ -75,6 +75,15 @@ class PurchaseOrder extends Model
         'currency_symbol'
     ];
 
+    /**
+     * Default attribute values
+     * 
+     * @var array
+     */
+    protected $attributes = [
+        'status' => 'pending'
+    ];
+
 
     /**
      * A Purchase Order belongs to a single Company
@@ -123,12 +132,12 @@ class PurchaseOrder extends Model
      */
     public function currency()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
      * Currency Accessor (appended)
-     *
+     * 
      * @return mixed
      */
     public function getCurrencyCountryNameAttribute()
@@ -272,25 +281,7 @@ class PurchaseOrder extends Model
     {
         return $this->status === $status;
     }
-
-    /**
-     * Wrapper function so we only need to call one method whenever we create a
-     * Purchase Order and need to call the individual methods afterwards.
-     *
-     * @param $billingAddress
-     * @param $shippingAddress
-     * @return $this
-     */
-    public function callCreateMethods($billingAddress, $shippingAddress)
-    {
-        $this->setTotal()
-             ->attachBillingAndShippingAddresses($billingAddress, $shippingAddress)
-             ->updatePurchaseRequests()
-             ->attachRules()
-             ->tryAutoApprove();
-
-        return $this;
-    }
+    
 
     /**
      * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach

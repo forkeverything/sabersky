@@ -24,7 +24,7 @@
 
         <!-- Status -->
         <td class="col-status">
-            <span class="badge"
+            <span class="badge po-badge"
                   :class="{
                 'badge-warning': order.status === 'pending',
                 'badge-success': order.status === 'approved',
