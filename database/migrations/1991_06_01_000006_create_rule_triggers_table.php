@@ -20,6 +20,8 @@ class CreateRuleTriggersTable extends Migration
 
             $table->boolean('has_limit')->default(0);
             $table->string('limit_type')->nullable();
+            
+            $table->boolean('has_currency')->default(0);
 
             $table->integer('rule_property_id')->unsigned();
             $table->foreign('rule_property_id')->references('id')->on('rule_properties')->onDelete('cascade');

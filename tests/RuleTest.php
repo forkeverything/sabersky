@@ -59,17 +59,31 @@ class RuleTest extends TestCase
 
     /**
      * @test
+     * @group driven
      */
     public function it_checks_po_order_total_exceeds()
     {
-        $rule = factory(Rule::class)->create([
-            'rule_property_id' => 1,
-            'rule_trigger_id' => 1,
-            'limit' => 100
-        ]);
+
+        // we have 2 rules for 2 different currencies
+        $rules = [
+            factory(Rule::class)->create([
+                'rule_property_id' => 1,
+                'rule_trigger_id' => 1,
+                'limit' => 100,
+                'currency_id' => 840
+            ]),
+            factory(Rule::class)->create([
+                'rule_property_id' => 1,
+                'rule_trigger_id' => 1,
+                'limit' => 50,
+                'currency_id' => 360
+            ])
+        ];
+
+        
 
         // Create PO with total = 80
-        $underPO = factory(PurchaseOrder::class)->create();
+        $underPO = factory(PurchaseOrder::class)->create(['currency_id' => 840]);
         factory(LineItem::class, 4)->create([
             'quantity' => 2,
             'price' => 10,
@@ -78,7 +92,7 @@ class RuleTest extends TestCase
         $underPO->setTotal();
 
         // PO that is over total, 120
-        $overPO = factory(PurchaseOrder::class)->create();
+        $overPO = factory(PurchaseOrder::class)->create(['currency_id' => 840]);
         factory(LineItem::class, 6)->create([
             'quantity' => 2,
             'price' => 10,
@@ -91,12 +105,15 @@ class RuleTest extends TestCase
         $this->assertCount(0, $overPO->rules);
 
         // check both purchase orders
-        $rule->checkOrderTotal($underPO);
-        $rule->checkOrderTotal($overPO);
+
+        foreach ($rules as $rule) {
+            $rule->checkOrderTotal($underPO);
+            $rule->checkOrderTotal($overPO);
+        }
 
         // Doesn't trip -> not attached
         $this->assertCount(0, PurchaseOrder::find($underPO->id)->rules);
-        // Trips -> attached
+        // Trips -> attached only 1 relevant rule
         $this->assertCount(1, PurchaseOrder::find($overPO->id)->rules);
     }
 

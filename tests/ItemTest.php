@@ -139,7 +139,7 @@ class ItemTest extends TestCase
     /**
      * @test
      */
-    public function it_calculates_the_correct_mean()
+    public function it_calculates_the_correct_means()
     {
         $item = factory(Item::class)->create();
 
@@ -156,27 +156,47 @@ class ItemTest extends TestCase
             'quantity' => 30
         ]);
 
-        factory(\App\LineItem::class)->create([
-            'purchase_request_id' => $pr->id,
-            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
-            'quantity' => 10,
-            'price' => 5.5
-        ]);
+        // USD Line items
 
-        factory(\App\LineItem::class)->create([
-            'purchase_request_id' => $pr->id,
-            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
-            'quantity' => 10,
-            'price' => 13
-        ]);
+            factory(\App\LineItem::class)->create([
+                'purchase_request_id' => $pr->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'quantity' => 10,
+                'price' => 5.5
+            ]);
 
-        factory(\App\LineItem::class)->create([
-            'purchase_request_id' => $pr->id,
-            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
-            'quantity' => 10,
-            'price' => 32.28
-        ]);
+            factory(\App\LineItem::class)->create([
+                'purchase_request_id' => $pr->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'quantity' => 10,
+                'price' => 13
+            ]);
 
-        $this->assertEquals(16.67, Item::find($item->id)->mean);
+            factory(\App\LineItem::class)->create([
+                'purchase_request_id' => $pr->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'quantity' => 10,
+                'price' => 32.28
+            ]);
+
+        // JPY Line Items
+            factory(\App\LineItem::class)->create([
+                'purchase_request_id' => $pr->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 392])->id,
+                'quantity' => 10,
+                'price' => 10
+            ]);
+            factory(\App\LineItem::class)->create([
+                'purchase_request_id' => $pr->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 392])->id,
+                'quantity' => 10,
+                'price' => 20
+            ]);
+
+        // USD mean
+        $this->assertEquals(16.67, Item::find($item->id)->getMean(840));
+
+        // JPY Mean
+        $this->assertEquals(15, Item::find($item->id)->getMean('JPY'));
     }
 }

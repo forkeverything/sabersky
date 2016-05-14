@@ -1,149 +1,3 @@
-Vue.component('items-all', apiRequestAllBaseComponent.extend({
-    name: 'allItems',
-    el: function () {
-        return '#items-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/items',
-            hasFilter: true,
-            filterOptions: [
-                {
-                    value: 'brand',
-                    label: 'Brand'
-                },
-                {
-                    value: 'name',
-                    label: 'Name'
-                },
-                {
-                    value: 'project',
-                    label: 'Project'
-                }
-            ]
-        };
-    },
-    computed: {
-        items: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        hasItems: function() {
-            return !_.isEmpty(this.items);
-        }
-    },
-    methods: {
-        getItemProjects: function (item) {
-            // Parses out project names from an Item's Purchase Requests
-            var projects = [];
-            _.forEach(item.purchase_requests, function (pr) {
-                projects.push(pr.project);
-            });
-            return _.uniqBy(projects, 'id');
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-}));
-Vue.component('item-single', {
-    name: 'itemSingle',
-    el: function () {
-        return '#item-single'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            photos: [],
-            fileErrors: []
-        };
-    },
-    props: ['itemId'],
-    computed: {},
-    methods: {
-        deletePhoto: function(photo) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                    console.log(data);
-                   self.photos = _.reject(self.photos, photo);
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearErrors: function() {
-            this.fileErrors = [];
-        }
-    },
-    events: {},
-    ready: function () {
-
-        var self = this;
-
-        // Fetch item photos
-        $.ajax({
-            url: '/api/items/' + self.itemId,
-            method: 'GET',
-            success: function(data) {
-               // success
-                self.photos = data.photos
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-
-        new Dropzone("#item-photo-uploader", {
-            autoProcessQueue: true,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            previewTemplate: '<div class="dz-image-row">' +
-            '                       <div class="dz-image">' +
-            '                           <img data-dz-thumbnail>' +
-            '                       </div>' +
-            '                       <div class="dz-file-details">' +
-            '                           <div class="name-status">' +
-            '                               <span data-dz-name class="file-name"></span>' +
-            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
-            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
-            '                           </div>' +
-            '                           <span class="file-size" data-dz-size></span>' +
-            '                           <div class="dz-progress progress">' +
-            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                </div>',
-            init: function () {
-                this.on("complete", function (file) {
-                    setTimeout(function () {
-                        this.removeFile(file);
-                    }.bind(this), 5000);
-                });
-                this.on("success", function (files, response) {
-                    // Upload was successful, receive response
-                    // of Photo Model back from the server.
-                    self.photos.push(response);
-                });
-                this.on("error", function (file, err) {
-                    if(typeof err === 'object') {
-                        _.forEach(err.file, function (error) {
-                            self.fileErrors.push(file.name + ': ' + error);
-                        });
-                    } else {
-                        self.fileErrors.push(file.name + ': ' + err);
-                    }
-                });
-            }
-        });
-    }
-});
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -614,6 +468,152 @@ Vue.component('purchase-orders-submit', {
             $.get('/api/purchase_requests/' + id, function (request) {
                 if(request.state === 'open') self.lineItems.push(request);
             });
+        });
+    }
+});
+Vue.component('items-all', apiRequestAllBaseComponent.extend({
+    name: 'allItems',
+    el: function () {
+        return '#items-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/items',
+            hasFilter: true,
+            filterOptions: [
+                {
+                    value: 'brand',
+                    label: 'Brand'
+                },
+                {
+                    value: 'name',
+                    label: 'Name'
+                },
+                {
+                    value: 'project',
+                    label: 'Project'
+                }
+            ]
+        };
+    },
+    computed: {
+        items: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
+    methods: {
+        getItemProjects: function (item) {
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                projects.push(pr.project);
+            });
+            return _.uniqBy(projects, 'id');
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+}));
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            photos: [],
+            fileErrors: []
+        };
+    },
+    props: ['itemId'],
+    computed: {},
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.photos = _.reject(self.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
+    events: {},
+    ready: function () {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.itemId,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
+                    } else {
+                        self.fileErrors.push(file.name + ': ' + err);
+                    }
+                });
+            }
         });
     }
 });
@@ -2192,6 +2192,7 @@ Vue.component('settings-rules', {
             selectedTrigger: false,
             selectedRuleRoles: [],
             ruleLimit: '',
+            currency: '',
             ruleToRemove: false
         };
     },
@@ -2201,20 +2202,29 @@ Vue.component('settings-rules', {
         'settingsView'
     ],
     computed: {
-        currencySymbol: function() {
-          return this.user.company.settings.currency.currency_symbol;  
+        currencySymbol: function () {
+            if (this.currency) return this.currency.currency_symbol
+            return this.user.company.settings.currency.currency_symbol;
         },
         ruleHasLimit: function () {
             return (this.selectedTrigger && this.selectedTrigger.has_limit);
         },
         canSubmitRule: function () {
-            if (this.ruleHasLimit) {
-                if (this.selectedRuleRoles) {
-                    return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
-                }
-                return false;
-            }
-            return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
+
+            var valid = true;
+
+            if (!this.selectedProperty) valid = false;
+
+            if (!this.selectedTrigger) valid = false;
+
+            if(! this.selectedRuleRoles || ! this.selectedRuleRoles.length > 0) valid = false;
+
+            if (this.ruleHasLimit && !this.ruleLimit > 0) valid = false;
+
+            if (this.selectedTrigger.has_currency && !this.currency.id) valid = false;
+
+            return valid;
+
         },
         hasRules: function () {
             return !_.isEmpty(this.rules);
@@ -2226,10 +2236,14 @@ Vue.component('settings-rules', {
         },
         addRule: function () {
             var self = this;
+            vueClearValidationErrors(self);
             var postData = {
                 rule_property_id: self.selectedProperty.id,
                 rule_trigger_id: self.selectedTrigger.id,
+                has_limit: self.selectedTrigger.has_limit,
                 limit: self.ruleLimit,
+                has_currency: self.selectedTrigger.has_currency,
+                currency_id: self.currency.id,
                 roles: self.selectedRuleRoles
             };
             $.ajax({
@@ -2245,6 +2259,7 @@ Vue.component('settings-rules', {
                 error: function (response) {
                     console.log('Request Error!');
                     console.log(response);
+                    vueValidation(response, self);
                     self.resetRuleValues();
                     if (response.status === 409) {
                         flashNotify('error', 'Rule already exists');

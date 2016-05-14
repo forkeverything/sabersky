@@ -26,7 +26,8 @@ class MakeRuleRequest extends Request
         return [
             'rule_property_id' => 'required|integer',
             'rule_trigger_id' => 'required|integer',
-            'limit' => 'numeric',
+            'limit' => 'required_if:has_limit,1|numeric',
+            'currency_id' => 'required_if:has_currency,1|integer',
             'roles' => 'required|array'
         ];
     }

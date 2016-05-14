@@ -41,6 +41,7 @@ class Rule extends Model
      */
     protected $fillable = [
         'limit',
+        'currency_id',
         'rule_property_id',
         'rule_trigger_id',
         'company_id'
@@ -55,7 +56,8 @@ class Rule extends Model
      */
     protected $appends = [
         'property',
-        'trigger'
+        'trigger',
+        'currency'
     ];
 
     /**
@@ -66,6 +68,16 @@ class Rule extends Model
     protected $with = [
         'roles'
     ];
+
+    /**
+     * Fetch the Country model and return it as currency
+     * 
+     * @return array
+     */
+    public function getCurrencyAttribute()
+    {
+        return \App\Country::find($this->currency_id)->getCurrencyOnly();
+    }
 
     /**
      * Rule can belong to many roles (m2m)
@@ -179,7 +191,7 @@ class Rule extends Model
      */
     protected function checkOrderTotalExceeds(PurchaseOrder $purchaseOrder)
     {
-        if ($purchaseOrder->totalExceeds($this->limit)) $this->attachToPO($purchaseOrder);
+        if ($purchaseOrder->totalExceeds($this->limit, $this->currency_id)) $this->attachToPO($purchaseOrder);
     }
 
     /**

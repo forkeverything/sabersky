@@ -62,7 +62,7 @@ class Item extends Model
      */
     protected $appends = [
         'new',
-        'mean'
+        'means'
     ];
 
     /**
@@ -190,7 +190,7 @@ class Item extends Model
         if( ! array_key_exists('approved_line_items', $this->relations)) {
             $approvedLineItems = $this->lineItems()->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
                               ->where('purchase_orders.status', 'approved')
-                              ->get(['line_items.*']);
+                              ->get(['line_items.*', 'purchase_orders.currency_id']);
             $this->setRelation('approved_line_items', $approvedLineItems);
         }
     }
@@ -202,18 +202,58 @@ class Item extends Model
      *
      * @return float|null
      */
-    public function getMeanAttribute()
+    public function getMeansAttribute()
     {
-        $numOrdered = array_sum($this->approved_line_items->pluck('quantity')->toArray());
+        $approvedLineItems = $this->approved_line_items;
 
-        if ($numOrdered) {
-            $sumOrderedValue = 0;
-            foreach ($this->approved_line_items->pluck('quantity', 'price') as $quantity => $price) {
-                $sumOrderedValue += ($quantity * $price);
+        // array that will hold our various means
+        $means = [];
+
+        $currencyIDs = array_unique($approvedLineItems->pluck('currency_id')->toArray());
+
+        foreach ($currencyIDs as $currencyID) {
+            $currencyCode = \App\Country::find($currencyID)->getCurrencyOnly()->code;
+            $relevantLineItems = array_filter($approvedLineItems->toArray(), function ($lineItem) use ($currencyID) {
+                return $lineItem["currency_id"] === $currencyID;
+            });
+            $numOrdered = array_sum(array_pluck($relevantLineItems, 'quantity'));
+
+
+            if ($numOrdered) {
+                $sumOrderedValue = 0;
+
+                foreach (array_pluck($relevantLineItems, 'quantity', 'price') as $quantity => $price) {
+                    $sumOrderedValue += ($quantity * $price);
+                }
+                $meanForCurrency = number_format($sumOrderedValue / $numOrdered, 2);
+                $means[$currencyID] = [
+                    $currencyCode,
+                    $meanForCurrency
+                ];
             }
-            return number_format($sumOrderedValue / $numOrdered, 2);
+
         }
-        return 0;
+        return $means;
+    }
+
+    /**
+     * Accepts either a currency_id or currency_code and tries to find
+     * the relevant mean for the currency.
+     *
+     * @return mixed
+     */
+    public function getMean()
+    {
+        $arg = func_get_arg(0);
+
+        if(is_int($arg)) {
+            if(array_key_exists ($arg,$this->means)) return $this->means[$arg][1];
+        } else {
+            $matchedCurrency = array_filter($this->means, function ($currencyMean) use ($arg){
+                return $currencyMean[0] === $arg;
+            });
+            if($matchedCurrency)return array_values($matchedCurrency)[0][1];
+        }
     }
 
     /**

@@ -12,6 +12,7 @@ Vue.component('settings-rules', {
             selectedTrigger: false,
             selectedRuleRoles: [],
             ruleLimit: '',
+            currency: '',
             ruleToRemove: false
         };
     },
@@ -21,20 +22,29 @@ Vue.component('settings-rules', {
         'settingsView'
     ],
     computed: {
-        currencySymbol: function() {
-          return this.user.company.settings.currency.currency_symbol;  
+        currencySymbol: function () {
+            if (this.currency) return this.currency.currency_symbol
+            return this.user.company.settings.currency.currency_symbol;
         },
         ruleHasLimit: function () {
             return (this.selectedTrigger && this.selectedTrigger.has_limit);
         },
         canSubmitRule: function () {
-            if (this.ruleHasLimit) {
-                if (this.selectedRuleRoles) {
-                    return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0 && this.ruleLimit > 0;
-                }
-                return false;
-            }
-            return this.selectedProperty && this.selectedTrigger && this.selectedRuleRoles.length > 0;
+
+            var valid = true;
+
+            if (!this.selectedProperty) valid = false;
+
+            if (!this.selectedTrigger) valid = false;
+
+            if(! this.selectedRuleRoles || ! this.selectedRuleRoles.length > 0) valid = false;
+
+            if (this.ruleHasLimit && !this.ruleLimit > 0) valid = false;
+
+            if (this.selectedTrigger.has_currency && !this.currency.id) valid = false;
+
+            return valid;
+
         },
         hasRules: function () {
             return !_.isEmpty(this.rules);
@@ -46,10 +56,14 @@ Vue.component('settings-rules', {
         },
         addRule: function () {
             var self = this;
+            vueClearValidationErrors(self);
             var postData = {
                 rule_property_id: self.selectedProperty.id,
                 rule_trigger_id: self.selectedTrigger.id,
+                has_limit: self.selectedTrigger.has_limit,
                 limit: self.ruleLimit,
+                has_currency: self.selectedTrigger.has_currency,
+                currency_id: self.currency.id,
                 roles: self.selectedRuleRoles
             };
             $.ajax({
@@ -65,6 +79,7 @@ Vue.component('settings-rules', {
                 error: function (response) {
                     console.log('Request Error!');
                     console.log(response);
+                    vueValidation(response, self);
                     self.resetRuleValues();
                     if (response.status === 409) {
                         flashNotify('error', 'Rule already exists');

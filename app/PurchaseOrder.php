@@ -77,7 +77,7 @@ class PurchaseOrder extends Model
 
     /**
      * Default attribute values
-     * 
+     *
      * @var array
      */
     protected $attributes = [
@@ -137,7 +137,7 @@ class PurchaseOrder extends Model
 
     /**
      * Currency Accessor (appended)
-     * 
+     *
      * @return mixed
      */
     public function getCurrencyCountryNameAttribute()
@@ -192,7 +192,7 @@ class PurchaseOrder extends Model
         return $this;
     }
 
-    
+
     /**
      * Calculates the subtotal and then saves it as the 'subtotal'
      * field in the database
@@ -219,7 +219,7 @@ class PurchaseOrder extends Model
      */
     public function setTotal()
     {
-        if(! $this->subtotal) $this->setSubtotal();
+        if (!$this->subtotal) $this->setSubtotal();
         $total = $this->subtotal;
         foreach ($this->additionalCosts as $additionalCost) {
             if ($additionalCost->type == '%') {
@@ -281,7 +281,7 @@ class PurchaseOrder extends Model
     {
         return $this->status === $status;
     }
-    
+
 
     /**
      * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach
@@ -300,8 +300,8 @@ class PurchaseOrder extends Model
         $this->shipping_address_id = $shippingAddress->id;
 
         // Save as parent IF the address does not already belong to another parent (ie. Company)
-        if (! $billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
-        if (! $shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
+        if (!$billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
+        if (!$shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
 
         $this->save();
         return $this;
@@ -397,16 +397,19 @@ class PurchaseOrder extends Model
     }
 
     /**
-     * Checks if this PO is over a given limit.
+     * Checks if this PO is over a given limit, for a
+     * given Currency
      *
      * Tested within RuleTest
      *
      * @param $limit
+     * @param $currencyID
      * @return bool
      */
-    public function totalExceeds($limit)
+    public function totalExceeds($limit, $currencyID)
     {
-        return $this->total > $limit;
+        if ($this->currency_id === $currencyID) return $this->total > $limit;
+        return false;
     }
 
     /**
@@ -414,7 +417,7 @@ class PurchaseOrder extends Model
      * that is also to the same Vendor that is approved?
      *
      * Tested within RuleTest
-     * 
+     *
      * @return bool
      */
     public function newVendor()

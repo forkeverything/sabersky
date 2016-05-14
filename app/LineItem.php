@@ -118,7 +118,8 @@ class LineItem extends Model
      */
     public function itemPriceIsOverMeanBy($percentage)
     {
-        if(! $itemMean = $this->purchaseRequest->item->mean) return false;
+        $orderCurrencyID = $this->purchaseOrder->currency_id;
+        if(! $itemMean = $this->purchaseRequest->item->getMean($orderCurrencyID)) return false;
         $meanDiff = ($this->price - $itemMean) / $itemMean;
         return $meanDiff > ($percentage / 100);
     }

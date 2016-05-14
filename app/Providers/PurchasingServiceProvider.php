@@ -30,7 +30,7 @@ class PurchasingServiceProvider extends ServiceProvider
         PurchaseRequest::creating(function ($purchaseRequest) {
 
             // Get the statistics for the PR's Project's Company
-            $stats  = Project::find($purchaseRequest->project_id)->company->statistics;
+            $stats = Project::find($purchaseRequest->project_id)->company->statistics;
 
             // Fetch the current number of PRs within the company
             $counter = $stats->pr_count;
@@ -46,7 +46,7 @@ class PurchasingServiceProvider extends ServiceProvider
 
         // Same thing as PR for Orders
         PurchaseOrder::creating(function ($purchaseOrder) {
-            
+
             // We can assume all POs MUST belong to a company
             $stats = Company::findOrFail($purchaseOrder->company_id)->statistics;
 
@@ -64,18 +64,21 @@ class PurchasingServiceProvider extends ServiceProvider
 
 
         // Custom validation Rules for purchasing
-        Validator::extend('line_item_quantity_valid', function($attribute, $value, $parameters, $validator) {
-            return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
-        });
 
-        Validator::extend('pr_state_open', function($attribute, $value, $parameters, $validator) {
-            return $value['state'] === 'open';
-        });
+            // PR & Line Items
 
-         Validator::extend('pr_can_fulfill', function($attribute, $value, $parameters, $validator) {
-             return Gate::allows('fulfill', PurchaseRequest::find($value['id']));
-         });
-        
+                Validator::extend('line_item_quantity_valid', function ($attribute, $value, $parameters, $validator) {
+                    return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
+                });
+
+                Validator::extend('pr_state_open', function ($attribute, $value, $parameters, $validator) {
+                    return $value['state'] === 'open';
+                });
+
+                Validator::extend('pr_can_fulfill', function ($attribute, $value, $parameters, $validator) {
+                    return Gate::allows('fulfill', PurchaseRequest::find($value['id']));
+                });
+
     }
 
     /**

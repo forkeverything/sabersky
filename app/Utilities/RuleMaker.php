@@ -43,6 +43,7 @@ class RuleMaker
     protected $propertyId;
     protected $triggerId;
     protected $selectedRoles;
+    protected $currencyID;
 
 
     /**
@@ -116,7 +117,7 @@ class RuleMaker
     protected function duplicateChecker()
     {
         foreach($this->user->company->rules as $rule) {
-            if($rule->rule_property_id == $this->propertyId && $rule->rule_trigger_id == $this->triggerId) abort(409, 'Rule already exists');
+            if($rule->rule_property_id == $this->propertyId && $rule->rule_trigger_id == $this->triggerId && $rule->currency_id == $this->request->currency_id) abort(409, 'Rule already exists');
         }
         return $this;
     }
@@ -124,7 +125,8 @@ class RuleMaker
     protected function saveDB()
     {
         $rule = Rule::create([
-            'limit' => $this->request->input('limit'),
+            'limit' => $this->request->limit,
+            'currency_id' => $this->request->currency_id,
             'rule_property_id' => $this->propertyId,
             'rule_trigger_id' => $this->triggerId,
             'company_id' => $this->user->company->id

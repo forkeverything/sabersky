@@ -52,7 +52,7 @@ class Country extends Model
      */
     public function getCurrencyOnly()
     {
-        return [
+        return (object) [
             "country_name" => $this->name,
             "name" => $this->currency,
             "code" => $this->currency_code,

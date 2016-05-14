@@ -45,6 +45,12 @@
                         </select>
                     </td>
                 <tr>
+                <tr v-show="selectedTrigger.has_currency">
+                    <th>Currency</th>
+                    <td>
+                        <currency-selecter :name.sync="currency"></currency-selecter>
+                    </td>
+                </tr>
                 <tr>
                     <th>Limit</th>
                     <td>
@@ -80,8 +86,8 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-8">
+            <form-errors></form-errors>
+                <div class="align-end">
                     <button class="btn btn-outline-blue"
                             type="button"
                             :disabled="! canSubmitRule"
@@ -90,7 +96,6 @@
                     Add Rule
                     </button>
                 </div>
-            </div>
         </div>
 
         <div class="existing-rules">
@@ -102,6 +107,7 @@
                     <tr>
                         <th>Property</th>
                         <th>Trigger</th>
+                        <th>Currency</th>
                         <th>Limit</th>
                         <th>Approval by (Roles)</th>
                     <tr>
@@ -116,6 +122,9 @@
                                 <td v-else></td>
                                 <td class="property">
                                     @{{ rule.trigger.label }}
+                                </td>
+                                <td>
+                                    @{{ rule.currency.symbol }}
                                 </td>
                                 <td v-if="rule.limit">
                                     @{{ rule.limit | numberFormat }}

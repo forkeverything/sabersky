@@ -11,6 +11,7 @@ Vue.component('currency-selecter', {
             searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
             create: false,
             placeholder: 'Search for a currency',
+            maxItems: 1,
             render: {
                 option: function(item, escape) {
                     return '<div class="option-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol) + '</div>'
@@ -34,7 +35,7 @@ Vue.component('currency-selecter', {
             },
             onChange: function(value) {
                 self.id = value;
-                
+
                 if(! value) {
                     self.name = '';
                     return;
