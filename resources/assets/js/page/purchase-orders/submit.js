@@ -197,12 +197,15 @@ Vue.component('purchase-orders-submit', {
             self.selectedVendorAddress = '';
             self.selectedVendorBankAccount = '';
         });
-        
-        var preSelectedRequestIDs = getParameterByName('request').split(',');
-        _.forEach(preSelectedRequestIDs, function (id) {
-            $.get('/api/purchase_requests/' + id, function (request) {
-                if(request.state === 'open') self.lineItems.push(request);
+
+        var requestParam = getParameterByName('request');
+        if(requestParam) {
+            var preSelectedRequestIDs = getParameterByName('request').split(',');
+            _.forEach(preSelectedRequestIDs, function (id) {
+                $.get('/api/purchase_requests/' + id, function (request) {
+                    if(request.state === 'open') self.lineItems.push(request);
+                });
             });
-        });
+        }
     }
 });

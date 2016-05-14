@@ -69,6 +69,7 @@ class PurchaseOrder extends Model
      * @var array
      */
     protected $appends = [
+        'currency',
         'currency_country_name',
         'currency_name',
         'currency_code',
@@ -126,14 +127,25 @@ class PurchaseOrder extends Model
     }
 
     /**
+     * The country model we'll use to retrieve currency information
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currencyCountry()
+    {
+        return $this->belongsTo(\App\Country::class, 'currency_id');
+    }
+
+    /**
      * Every Order has a  single currency (Country)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function currency()
+    public function getCurrencyAttribute()
     {
-        return $this->belongsTo(\App\Country::class);
+        return $this->currencyCountry->getCurrencyOnly();
     }
+
 
     /**
      * Currency Accessor (appended)
@@ -142,7 +154,7 @@ class PurchaseOrder extends Model
      */
     public function getCurrencyCountryNameAttribute()
     {
-        return $this->currency->name;
+        return $this->currency->country_name;
     }
 
     /**
@@ -152,7 +164,7 @@ class PurchaseOrder extends Model
      */
     public function getCurrencyNameAttribute()
     {
-        return $this->currency->currency;
+        return $this->currency->name;
     }
 
     /**
@@ -162,7 +174,7 @@ class PurchaseOrder extends Model
      */
     public function getCurrencyCodeAttribute()
     {
-        return $this->currency->currency_code;
+        return $this->currency->code;
     }
 
     /**
@@ -172,7 +184,7 @@ class PurchaseOrder extends Model
      */
     public function getCurrencySymbolAttribute()
     {
-        return $this->currency->currency_symbol;
+        return $this->currency->symbol;
     }
 
     /**
@@ -423,6 +435,25 @@ class PurchaseOrder extends Model
     public function newVendor()
     {
         return count($this->vendor->purchaseOrders()->where('status', 'approved')->get()) < 1;
+    }
+
+    /**
+     * Check if Order billing address same as Company's address
+     *
+     * @return bool
+     */
+    public function billingAddressSameAsCompany()
+    {
+        return $this->billingAddress->id === $this->company->address->id;
+    }
+
+    /**
+     * Check if Order shipping address same as billing
+     * @return bool
+     */
+    public function shippingAddressSameAsBilling()
+    {
+        return $this->shippingAddress->id === $this->billingAddress->id;
     }
 
 }

@@ -32,6 +32,9 @@ class PurchaseOrdersController extends Controller
         $this->middleware('api.only', [
             'only' => ['apiGetAll', 'apiPostSubmit']
         ]);
+
+        // Call base Controller class's constructor to get access to shared view $variables
+        parent::__construct();
     }
 
     /**
@@ -118,7 +121,7 @@ class PurchaseOrdersController extends Controller
                 ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
                 ['#' . $purchaseOrder->number, '#']
             ];
-            $purchaseOrder = $purchaseOrder->load('vendor', 'user', 'lineItems', 'rules');
+            $purchaseOrder = $purchaseOrder->load('vendor', 'user', 'lineItems', 'rules', 'billingAddress', 'shippingAddress');
             return view('purchase_orders.single', compact('purchaseOrder', 'breadcrumbs'));
         }
         flash()->error('Not allowed to view that Order');

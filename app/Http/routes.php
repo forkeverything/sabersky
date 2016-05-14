@@ -64,7 +64,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::put('/company', 'CompanyController@putUpdate');
     // api
     Route::get('/api/company', 'CompanyController@apiGetOwn');
-    Route::get('/api/company/currency', 'CompanyController@apiGetCurrency');
     Route::get('/api/company/profile/{term}', 'CompanyController@apiGetPublicProfile');
     Route::get('/api/company/search/{query}', 'CompanyController@apiGetSearchCompany');
 

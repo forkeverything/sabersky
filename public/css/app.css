@@ -7335,6 +7335,8 @@ label {
 
 .table-purchase-requests-all, .table-purchase-requests-po-submit {
   margin: 0; }
+  .table-purchase-requests-all label, .table-purchase-requests-po-submit label {
+    display: inline-block; }
   .table-purchase-requests-all .col-project, .table-purchase-requests-po-submit .col-project {
     text-transform: capitalize; }
   .table-purchase-requests-all .col-quantity, .table-purchase-requests-po-submit .col-quantity {
@@ -7826,6 +7828,26 @@ label {
     display: block; }
   #purchase-orders-all .table-purchase-orders-all .col-currency {
     text-align: center; }
+
+#purchase-order-single .approvals {
+  margin: 0 0 20px 0; }
+  #purchase-order-single .approvals .po-badge {
+    font-size: 1.5em;
+    padding: 15px;
+    width: 255px;
+    margin: 0 0 15px 0; }
+  #purchase-order-single .approvals .approval-controls {
+    margin: 0 0 10px; }
+    #purchase-order-single .approvals .approval-controls .btn {
+      height: 30px;
+      width: 120px; }
+    #purchase-order-single .approvals .approval-controls .btn-approve {
+      margin-right: 15px; }
+  #purchase-order-single .approvals .attached-rules .rule {
+    font-size: 0.9em; }
+
+#purchase-order-single .order .address {
+  margin: 0 0 15px; }
 
 .po-badge {
   text-transform: capitalize; }
@@ -9576,6 +9598,10 @@ label {
   #ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-unselectable, #ui-datepicker-div .ui-datepicker-calendar .ui-state-disabled {
     color: #93989F; }
 
+.single-address .contact_person, .single-address .company_name, address .contact_person, address .company_name, .address .contact_person, .address .company_name {
+  font-weight: bold;
+  font-size: 1.2em; }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }
@@ -9655,7 +9681,15 @@ h4, h5 {
 
 h5 {
   font-size: 1.1em;
-  font-weight: bold; }
+  font-weight: bold;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  h5 small {
+    margin-left: 5px; }
 
 h1.required, h2.required, h3.required, h4.required, h5.required {
   display: -webkit-flex;
@@ -9834,9 +9868,5 @@ li.active {
   -o-filter: blur(7px) grayscale(0.6) opacity(0.9);
   -ms-filter: blur(7px) grayscale(0.6) opacity(0.9);
   filter: blur(7px) grayscale(0.6) opacity(0.9); }
-
-.single-address .contact_person, .single-address .company_name, address .contact_person, address .company_name {
-  font-weight: bold;
-  font-size: 1.2em; }
 
 /*# sourceMappingURL=app.css.map */

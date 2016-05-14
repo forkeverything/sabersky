@@ -59,7 +59,6 @@ class RuleTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_checks_po_order_total_exceeds()
     {
@@ -80,7 +79,7 @@ class RuleTest extends TestCase
             ])
         ];
 
-        
+
 
         // Create PO with total = 80
         $underPO = factory(PurchaseOrder::class)->create(['currency_id' => 840]);

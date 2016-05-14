@@ -68,17 +68,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Gets the company's set currency
-     *
-     * @return mixed
-     */
-    public function apiGetCurrency()
-    {
-        if($company = Auth::user()->company) return $company->currency->currency_symbol;
-        return response("Could not find user company", 404);
-    }
-
-    /**
      * PUT req. to update a user's company
      * information.
      * 

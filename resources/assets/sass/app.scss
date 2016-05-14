@@ -36,6 +36,7 @@
 @import "partials/headers";
 @import "partials/tooltips";
 @import "partials/datepicker";
+@import "partials/addresses";
 
 
 body {
@@ -145,6 +146,14 @@ h4, h5 {
 h5 {
   font-size: 1.1em;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  small {
+    margin-left: 5px;
+  }
+
+  // TODO ::: Find out if this is ok or does it mess up headings?
 }
 
 h1, h2, h3, h4, h5 {
@@ -368,9 +377,3 @@ li.active {
   @include filter(blur(7px) grayscale(0.6) opacity(0.9));
 }
 
-.single-address, address {
-  .contact_person, .company_name {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-}

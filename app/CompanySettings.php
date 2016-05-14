@@ -65,8 +65,7 @@ class CompanySettings extends Model
      */
     public function getCurrencyAttribute()
     {
-        return $this->currencyCountry()
-                    ->select(['id', 'name', 'currency', 'currency_code', 'currency_symbol'])
-                    ->first();
+        return $this->currencyCountry->getCurrencyOnly();
+
     }
 }
