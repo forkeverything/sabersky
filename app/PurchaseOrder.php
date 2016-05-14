@@ -408,7 +408,7 @@ class PurchaseOrder extends Model
      */
     public function totalExceeds($limit, $currencyID)
     {
-        if ($this->currency_id === $currencyID) return $this->total > $limit;
+        if ($this->currency_id == $currencyID) return $this->total > $limit;
         return false;
     }
 

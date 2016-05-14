@@ -8,6 +8,7 @@ use App\Item;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
+use App\Rule;
 use App\User;
 use App\Vendor;
 use Faker\Factory as Faker;
@@ -60,6 +61,7 @@ class PusakaSetupSeeder extends Seeder
              ->createUserMike()
              ->makeProject()
              ->createVendors()
+            ->makeRules()
              ->createPurchaseOrders();
 
 
@@ -280,5 +282,17 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'payable' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
             'delivery' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
         ]);
+    }
+
+    protected function makeRules()
+    {
+        Rule::create([
+            'rule_property_id' => 1,
+            'rule_trigger_id' => 1,
+            'limit' => 1000,
+            'currency_id' => 840,
+            'company_id' => $this->company->id
+        ]);
+        return $this;
     }
 }

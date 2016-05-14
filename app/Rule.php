@@ -71,7 +71,7 @@ class Rule extends Model
 
     /**
      * Fetch the Country model and return it as currency
-     * 
+     *
      * @return array
      */
     public function getCurrencyAttribute()

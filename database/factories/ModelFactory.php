@@ -39,11 +39,14 @@ $factory->define(Rule::class, function (Faker\Generator $faker) {
     $associatedTriggers =  DB::table('rule_triggers')->select('*')->where('rule_property_id', $selectedProperty->id)->get();
     $selectedTrigger = $faker->randomElement($associatedTriggers);
     $limit = null;
+    $currencyID = null;
     if ($selectedTrigger->has_limit) $limit = $selectedTrigger->limit_type == 'percentage' ? $faker->numberBetween(0, 100) : $faker->randomFloat(2, 0, 10000);
+    if($selectedTrigger->has_currency) $currencyID = 840;
     return [
         'rule_property_id' => $selectedProperty->id,
         'rule_trigger_id' => $selectedTrigger->id,
         'limit' => $limit,
+        'currency_id' => $currencyID,
         'company_id' => factory(\App\Company::class)->create()->id
     ];
 });

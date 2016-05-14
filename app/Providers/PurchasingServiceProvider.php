@@ -6,6 +6,8 @@ use App\Company;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
+use App\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Validator;
@@ -79,6 +81,38 @@ class PurchasingServiceProvider extends ServiceProvider
                     return Gate::allows('fulfill', PurchaseRequest::find($value['id']));
                 });
 
+            // Rules
+
+                Validator::extend('rule_property', function ($attribute, $value, $parameters, $validator) {
+                    $properties = getRuleProperties();
+                    $propertyIDs = $properties->pluck('id')->toArray();
+                    return in_array($value, $propertyIDs);
+                });
+
+
+                Validator::extend('rule_trigger', function ($attribute, $value, $parameters, $validator) {
+                    $propertyID = array_get($validator->getData(), "rule_property_id");
+                    $properties = getRuleProperties();
+                    $triggerIDs = collect($properties->where('id', (int)$propertyID)->first()->triggers)->pluck('id')->all();
+                    return in_array($value, $triggerIDs);
+                });
+
+                Validator::extend('rule_roles', function ($attribute, $value, $parameters, $validator) {
+                    $validRoles = true;
+
+                    foreach ($value as $roleCollection) {
+                        $role = Role::find($roleCollection['id']);
+                        if(! Auth::user()->company->roles->contains($role)) {
+                            $validRoles = false;
+                            break;
+                        }
+                    }
+
+                    return $validRoles;
+
+                });
+        
+        
     }
 
     /**

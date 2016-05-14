@@ -5,27 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/Utilities/RuleMaker.php" afterPath="$PROJECT_DIR$/app/Factories/RuleFactory.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Country.php" afterPath="$PROJECT_DIR$/app/Country.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Item.php" afterPath="$PROJECT_DIR$/app/Item.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/LineItem.php" afterPath="$PROJECT_DIR$/app/LineItem.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseOrder.php" afterPath="$PROJECT_DIR$/app/PurchaseOrder.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Rule.php" afterPath="$PROJECT_DIR$/app/Rule.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/RuleMaker.php" afterPath="$PROJECT_DIR$/app/Utilities/RuleMaker.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/1991_06_01_000006_create_rule_triggers_table.php" afterPath="$PROJECT_DIR$/database/migrations/1991_06_01_000006_create_rule_triggers_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_03_11_080049_create_rules_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_03_11_080049_create_rules_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/PropertiesTriggersTableSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/PropertiesTriggersTableSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js" afterPath="$PROJECT_DIR$/public/js/dependencies.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js.map" afterPath="$PROJECT_DIR$/public/js/dependencies.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js" afterPath="$PROJECT_DIR$/public/js/page.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js.map" afterPath="$PROJECT_DIR$/public/js/page.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/currency-selecter.js" afterPath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/currency-selecter.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/page/settings/partials/rules.js" afterPath="$PROJECT_DIR$/resources/assets/js/page/settings/partials/rules.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/settings/partials/rules.blade.php" afterPath="$PROJECT_DIR$/resources/views/settings/partials/rules.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/ItemTest.php" afterPath="$PROJECT_DIR$/tests/ItemTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/RuleTest.php" afterPath="$PROJECT_DIR$/tests/RuleTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,8 +43,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/assets/sass/pages/items/control.scss" />
-        <option value="$PROJECT_DIR$/resources/views/items/all.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/purchase_requests/partials/all/filters.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/items/partials/all/filters.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/inputs.scss" />
@@ -83,9 +70,7 @@
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders/all.scss" />
         <option value="$PROJECT_DIR$/resources/views/purchase_orders/partials/all/table/body.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
-        <option value="$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php" />
         <option value="$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php" />
-        <option value="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" />
         <option value="$PROJECT_DIR$/tests/CompanyPurchaseOrdersRepositoryTest.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrdersControllerTest.php" />
         <option value="$PROJECT_DIR$/app/Country.php" />
@@ -94,17 +79,21 @@
         <option value="$PROJECT_DIR$/app/LineItem.php" />
         <option value="$PROJECT_DIR$/database/migrations/1991_06_01_000006_create_rule_triggers_table.php" />
         <option value="$PROJECT_DIR$/database/seeds/PropertiesTriggersTableSeeder.php" />
-        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/tests/RuleTest.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_03_11_080049_create_rules_table.php" />
-        <option value="$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/currency-selecter.js" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php" />
         <option value="$PROJECT_DIR$/app/Utilities/RuleMaker.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/settings/partials/rules.js" />
         <option value="$PROJECT_DIR$/resources/views/settings/partials/rules.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
+        <option value="$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php" />
+        <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+        <option value="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" />
         <option value="$PROJECT_DIR$/app/Rule.php" />
+        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
+        <option value="$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php" />
+        <option value="$PROJECT_DIR$/app/Factories/RuleFactory.php" />
       </list>
     </option>
   </component>
@@ -176,148 +165,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase_orders" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase_orders" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="partials" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase_orders" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="partials" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="single" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
+        <subPane />
       </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
@@ -502,19 +350,19 @@
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Factories" />
+      <recent name="$PROJECT_DIR$/public/images/icons" />
+      <recent name="$PROJECT_DIR$/app/Repositories" />
+      <recent name="$PROJECT_DIR$/public/js" />
+      <recent name="$PROJECT_DIR$/public/img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Factories" />
       <recent name="$PROJECT_DIR$/resources/views/purchase_orders/partials" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/public/images/css/images" />
       <recent name="$PROJECT_DIR$/public/images/css" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public/images/icons" />
-      <recent name="$PROJECT_DIR$/app/Repositories" />
-      <recent name="$PROJECT_DIR$/public/js" />
-      <recent name="$PROJECT_DIR$/public/img" />
-      <recent name="$PROJECT_DIR$/resources/views/layouts/partials" />
     </key>
   </component>
   <component name="RunManager">
@@ -667,12 +515,12 @@
       <workItem from="1463037459446" duration="15803000" />
       <workItem from="1463066069954" duration="2193000" />
       <workItem from="1463141880948" duration="19009000" />
-      <workItem from="1463200399375" duration="20950000" />
+      <workItem from="1463200399375" duration="24356000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="996385000" />
+    <option name="totallyTimeSpent" value="999791000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1361" extended-state="6" />
@@ -713,145 +561,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="99" />
+      <option name="time" value="101" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/helpers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-          <folding>
-            <marker date="1462637414000" expanded="true" signature="47:269" placeholder=" Helper function that returns an instance of the ..." />
-            <marker date="1462637414000" expanded="true" signature="303:546" placeholder="{...}" />
-            <marker date="1462637414000" expanded="true" signature="359:445" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="479:507" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="551:627" placeholder=" Encodes an id using Hashids package. ..." />
-            <marker date="1462637414000" expanded="true" signature="651:685" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="691:765" placeholder=" Decodes id using Hashids package. ..." />
-            <marker date="1462637414000" expanded="true" signature="789:823" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="829:1056" placeholder=" Returns a collection of system rules' properties &amp; triggers ..." />
-            <marker date="1462637414000" expanded="true" signature="1087:1664" placeholder="{...}" />
-            <marker date="1462637414000" expanded="true" signature="1116:1199" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1175:1178" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1295:1334" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1361:1442" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1418:1421" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1484:1635" placeholder="..." />
-            <marker date="1462637414000" expanded="true" signature="1669:1780" placeholder=" Checks whether given String is a Date ..." />
-            <marker date="1462637414000" expanded="true" signature="1807:1905" placeholder="{...}" />
-            <marker date="1462637414000" expanded="true" signature="1910:2045" placeholder=" takes a snake_case_string and turns it into a CamelCaseString ..." />
-            <marker date="1462637414000" expanded="true" signature="2081:2156" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Policies/PurchaseOrderPolicy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
-          <folding>
-            <marker date="1463211180000" expanded="false" signature="36:117" placeholder="..." />
-            <marker date="1463211180000" expanded="true" signature="144:874" placeholder="{...}" />
-            <marker date="1463211180000" expanded="true" signature="185:255" placeholder=" Create a new policy instance. ..." />
-            <marker date="1463211180000" expanded="true" signature="291:314" placeholder="{...}" />
-            <marker date="1463211180000" expanded="true" signature="323:512" placeholder=" User is only allowed to view an order if they belong to the ..." />
-            <marker date="1463211180000" expanded="true" signature="581:658" placeholder="{...}" />
-            <marker date="1463211180000" expanded="true" signature="734:872" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/partials/all/table-orders.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" column="55" selection-start-line="8" selection-start-column="55" selection-end-line="8" selection-end-column="55" />
-          <folding>
-            <marker date="1463067840000" expanded="true" signature="104:314" placeholder="..." />
-            <marker date="1463067840000" expanded="true" signature="116:220" placeholder="..." />
-            <marker date="1463067840000" expanded="true" signature="129:207" placeholder="..." />
-            <marker date="1463067840000" expanded="true" signature="232:305" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="156" column="15" selection-start-line="156" selection-start-column="15" selection-end-line="156" selection-end-column="15" />
-          <folding>
-            <marker date="1463211209000" expanded="false" signature="9:383" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="390:767" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="784:10091" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="822:10090" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="839:895" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="857:894" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="926:949" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="1137:1160" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="1569:1590" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="1861:1882" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="2403:2431" placeholder=" Project - Main ..." />
-            <marker date="1463211209000" expanded="true" signature="3176:3215" placeholder=" Project - Team Management ..." />
-            <marker date="1463211209000" expanded="true" signature="3577:3595" placeholder=" User ..." />
-            <marker date="1463211209000" expanded="true" signature="4715:4746" placeholder=" Purchase Requests ..." />
-            <marker date="1463211209000" expanded="true" signature="5553:5572" placeholder=" Items ..." />
-            <marker date="1463211209000" expanded="true" signature="6579:6608" placeholder=" Purchase Orders ..." />
-            <marker date="1463211209000" expanded="true" signature="7406:7430" placeholder="..." />
-            <marker date="1463211209000" expanded="true" signature="7676:7698" placeholder=" Settings ..." />
-            <marker date="1463211209000" expanded="true" signature="7861:7880" placeholder=" Roles ..." />
-            <marker date="1463211209000" expanded="true" signature="8344:8363" placeholder=" Rules ..." />
-            <marker date="1463211209000" expanded="true" signature="8668:8689" placeholder=" Vendors ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="138" column="9" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
-          <folding>
-            <marker date="1463209280000" expanded="false" signature="44:479" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="531:5488" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="601:790" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="707:782" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="720:781" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="799:957" placeholder=" Handle GET request to view all ..." />
-            <marker date="1463209280000" expanded="true" signature="988:1288" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="1019:1105" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="1297:1422" placeholder=" GET All PRs that belongs to the Users ..." />
-            <marker date="1463209280000" expanded="true" signature="1472:2769" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="1615:1630" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="1703:1729" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="1794:1814" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="1887:1917" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="1984:2045" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2115:2135" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2205:2256" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2317:2334" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2398:2414" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2479:2495" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2556:2587" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2646:2680" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2743:2761" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="2778:2924" placeholder=" Request to get a single Purchase Request as JSON ..." />
-            <marker date="1463209280000" expanded="true" signature="2993:3196" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="3205:3296" placeholder=" Shows the form to make a ..." />
-            <marker date="1463209280000" expanded="true" signature="3334:3702" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="3379:3636" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="3408:3550" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="3711:3854" placeholder=" POST request to save a new ..." />
-            <marker date="1463209280000" expanded="true" signature="3924:4332" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="4341:4498" placeholder=" Fetches PR by id and loads view ..." />
-            <marker date="1463209280000" expanded="true" signature="4564:5101" placeholder="{...}" />
-            <marker date="1463209280000" expanded="true" signature="4624:5025" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="4653:4819" placeholder="..." />
-            <marker date="1463209280000" expanded="true" signature="5115:5236" placeholder=" POST request to cancel a PR ..." />
-            <marker date="1463209280000" expanded="true" signature="5308:5484" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/page/purchase-orders/all.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
@@ -1076,72 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="15" column="10" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="103" column="25" selection-start-line="103" selection-start-column="25" selection-end-line="103" selection-end-column="25" />
-          <folding>
-            <marker date="1463214190000" expanded="false" signature="44:680" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="731:4735" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="768:920" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="836:912" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="849:911" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="929:1016" placeholder=" Shows Purchase Order view for ..." />
-            <marker date="1463214190000" expanded="true" signature="1047:1241" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="1078:1163" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="1250:1397" placeholder=" API Endpoint that retrieves all POs which ..." />
-            <marker date="1463214190000" expanded="true" signature="1447:2699" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="1596:1612" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="1681:1707" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="1778:1798" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="1861:1882" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="1951:1975" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2038:2099" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2165:2214" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2271:2288" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2345:2376" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2436:2452" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2507:2613" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2672:2690" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2708:2801" placeholder=" Fetches the view that lets Users ..." />
-            <marker date="1463214190000" expanded="true" signature="2839:3214" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="2886:3150" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="2915:3055" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="3223:3374" placeholder=" Handle POST req. from form to submit a new Purchase Order. ..." />
-            <marker date="1463214190000" expanded="true" signature="3447:3526" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="3536:3656" placeholder=" Show the single Purchase Order view ..." />
-            <marker date="1463214190000" expanded="true" signature="3718:4269" placeholder="{...}" />
-            <marker date="1463214190000" expanded="true" signature="3776:4159" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="3805:3965" placeholder="..." />
-            <marker date="1463214190000" expanded="true" signature="4271:4731" placeholder="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="783">
-          <caret line="84" column="6" selection-start-line="84" selection-start-column="6" selection-end-line="84" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
-          <caret line="265" column="13" selection-start-line="265" selection-start-column="13" selection-end-line="265" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/CompanyPurchaseOrdersRepositoryTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
@@ -1241,23 +889,6 @@
             <marker date="1463215753000" expanded="true" signature="3648:4568" placeholder="..." />
             <marker date="1463215753000" expanded="true" signature="4675:4768" placeholder="..." />
             <marker date="1463215753000" expanded="true" signature="4799:4802" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1991_06_01_000005_create_rule_properties_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding>
-            <marker date="1457947009000" expanded="false" signature="11:94" placeholder="..." />
-            <marker date="1457947009000" expanded="true" signature="145:606" placeholder="{...}" />
-            <marker date="1457947009000" expanded="true" signature="155:215" placeholder=" Run the migrations. ..." />
-            <marker date="1457947009000" expanded="true" signature="242:449" placeholder="{...}" />
-            <marker date="1457947009000" expanded="true" signature="272:441" placeholder="..." />
-            <marker date="1457947009000" expanded="true" signature="320:440" placeholder="..." />
-            <marker date="1457947009000" expanded="true" signature="458:522" placeholder=" Reverse the migrations. ..." />
-            <marker date="1457947009000" expanded="true" signature="551:604" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1676,24 +1307,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/SubmitPurchaseOrderRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="53" column="56" selection-start-line="53" selection-start-column="56" selection-end-line="53" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
-          <folding>
-            <element signature="e#33#49#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/partials/all/filters.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
@@ -1733,50 +1346,6 @@
             <marker date="1463224329000" expanded="true" signature="1532:1615" placeholder="{...}" />
             <marker date="1463224329000" expanded="true" signature="1678:1735" placeholder="{...}" />
             <marker date="1463224329000" expanded="true" signature="1948:2202" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/RuleMaker.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1022">
-          <caret line="130" column="50" selection-start-line="130" selection-start-column="50" selection-end-line="130" selection-end-column="50" />
-          <folding>
-            <marker date="1463224768000" expanded="false" signature="38:178" placeholder="..." />
-            <marker date="1463224768000" expanded="true" signature="183:407" placeholder=" Helper Class to help us make a new Rule object. Will handles thing's like ..." />
-            <marker date="1463224768000" expanded="true" signature="425:4148" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="435:461" placeholder=" @var Request ..." />
-            <marker date="1463224768000" expanded="true" signature="496:555" placeholder=" User who is making the rule. ..." />
-            <marker date="1463224768000" expanded="true" signature="587:687" placeholder=" Defined set of properties and triggers ..." />
-            <marker date="1463224768000" expanded="true" signature="729:778" placeholder=" User supplied variables ..." />
-            <marker date="1463224768000" expanded="true" signature="900:1068" placeholder=" Build our RuleMaker, we need a request, as well as the user ..." />
-            <marker date="1463224768000" expanded="true" signature="1140:1530" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="1410:1523" placeholder="..." />
-            <marker date="1463224768000" expanded="true" signature="1558:1910" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="1953:2403" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="2445:2936" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="2976:3298" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="3039:3237" placeholder="..." />
-            <marker date="1463224768000" expanded="true" signature="3341:3636" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="3403:3607" placeholder="..." />
-            <marker date="1463224768000" expanded="true" signature="3669:4145" placeholder="{...}" />
-            <marker date="1463224768000" expanded="true" signature="3705:3977" placeholder="..." />
-            <marker date="1463224768000" expanded="true" signature="3706:3976" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
-          <folding>
-            <marker date="1463224413000" expanded="true" signature="106:727" placeholder="{...}" />
-            <marker date="1463224413000" expanded="true" signature="116:214" placeholder=" Determine if the user is authorized to make this request. ..." />
-            <marker date="1463224413000" expanded="true" signature="248:281" placeholder="{...}" />
-            <marker date="1463224413000" expanded="true" signature="290:383" placeholder=" Get the validation rules that apply to the request. ..." />
-            <marker date="1463224413000" expanded="true" signature="413:725" placeholder="{...}" />
-            <marker date="1463224413000" expanded="true" signature="436:717" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1823,32 +1392,6 @@
             <marker date="1463225640000" expanded="true" signature="5006:5092" placeholder="{...}" />
             <marker date="1463225640000" expanded="true" signature="5133:5234" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="31" column="6" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
-          <folding>
-            <element signature="e#23#67#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Rule.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="73" column="7" selection-start-line="73" selection-start-column="7" selection-end-line="73" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="729">
-          <caret line="37" column="7" selection-start-line="37" selection-start-column="7" selection-end-line="37" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1941,6 +1484,662 @@
         <state relative-caret-position="725">
           <caret line="121" column="48" selection-start-line="121" selection-start-column="48" selection-end-line="121" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="752">
+          <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
+          <folding>
+            <marker date="1463214190000" expanded="false" signature="44:680" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="731:4735" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="768:920" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="836:912" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="849:911" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="929:1016" placeholder=" Shows Purchase Order view for ..." />
+            <marker date="1463214190000" expanded="true" signature="1047:1241" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="1078:1163" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="1250:1397" placeholder=" API Endpoint that retrieves all POs which ..." />
+            <marker date="1463214190000" expanded="true" signature="1447:2699" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="1596:1612" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="1681:1707" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="1778:1798" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="1861:1882" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="1951:1975" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2038:2099" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2165:2214" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2271:2288" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2345:2376" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2436:2452" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2507:2613" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2672:2690" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2708:2801" placeholder=" Fetches the view that lets Users ..." />
+            <marker date="1463214190000" expanded="true" signature="2839:3214" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="2886:3150" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="2915:3055" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="3223:3374" placeholder=" Handle POST req. from form to submit a new Purchase Order. ..." />
+            <marker date="1463214190000" expanded="true" signature="3447:3526" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="3536:3656" placeholder=" Show the single Purchase Order view ..." />
+            <marker date="1463214190000" expanded="true" signature="3718:4269" placeholder="{...}" />
+            <marker date="1463214190000" expanded="true" signature="3776:4159" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="3805:3965" placeholder="..." />
+            <marker date="1463214190000" expanded="true" signature="4271:4731" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/items/single.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
+          <folding>
+            <marker date="1460766752000" expanded="true" signature="43:4160" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="105:4158" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="154:4139" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="190:4124" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="224:4105" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="274:2218" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="323:704" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="424:517" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="429:513" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="578:673" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="794:1316" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="851:1286" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="935:1059" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="1179:1252" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="1401:1813" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="1640:1778" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="1934:2191" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2034:2159" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2269:4082" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2413:4055" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2449:4022" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2482:2619" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2652:2793" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2826:2965" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="2998:3155" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="3188:3984" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="3275:3950" placeholder="..." />
+            <marker date="1460766752000" expanded="true" signature="3424:3782" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1991_06_01_000005_create_rule_properties_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <marker date="1457947009000" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1457947009000" expanded="true" signature="145:606" placeholder="{...}" />
+            <marker date="1457947009000" expanded="true" signature="155:215" placeholder=" Run the migrations. ..." />
+            <marker date="1457947009000" expanded="true" signature="242:449" placeholder="{...}" />
+            <marker date="1457947009000" expanded="true" signature="272:441" placeholder="..." />
+            <marker date="1457947009000" expanded="true" signature="320:440" placeholder="..." />
+            <marker date="1457947009000" expanded="true" signature="458:522" placeholder=" Reverse the migrations. ..." />
+            <marker date="1457947009000" expanded="true" signature="551:604" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/purchase_orders/partials/single/approvals.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <marker date="1463227350000" expanded="true" signature="422:547" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+          <folding>
+            <element signature="e#396#412#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1085">
+          <caret line="269" column="64" selection-start-line="269" selection-start-column="64" selection-end-line="269" selection-end-column="64" />
+          <folding>
+            <marker date="1463227632000" expanded="false" signature="11:284" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="324:10118" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="334:400" placeholder=" List of table names that we affect ..." />
+            <marker date="1463227632000" expanded="true" signature="428:667" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="799:851" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="860:924" placeholder=" Run the database seeds. ..." />
+            <marker date="1463227632000" expanded="true" signature="952:1509" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="1550:1681" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="1600:1652" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="1690:1744" placeholder=" Set up the main Company and related info ..." />
+            <marker date="1463227632000" expanded="true" signature="1784:2554" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="1826:1968" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="1827:1967" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2009:2097" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2010:2096" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2171:2487" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2172:2486" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2595:2806" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="2637:2775" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2638:2774" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2844:3645" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="2911:3615" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="2912:3614" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="3685:5582" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="3781:3856" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="3782:3855" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="3906:4189" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="3951:4066" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="3952:4065" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4120:4178" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4121:4177" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4279:4355" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4280:4354" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4404:4791" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4449:4506" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4450:4505" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4553:4668" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4554:4667" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4722:4780" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4723:4779" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4874:4961" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="4875:4960" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5007:5062" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5008:5061" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5113:5169" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5114:5168" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5254:5551" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5255:5550" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5372:5421" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5373:5420" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5487:5536" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5488:5535" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="5629:9251" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="5800:9244" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="6773:7196" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="6774:7195" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7338:8721" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7603:8091" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7667:8072" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7668:8071" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7821:7894" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7822:7893" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7972:8045" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="7973:8044" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8294:8447" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8455:8707" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8525:8689" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8796:9123" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8847:9108" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="8848:9107" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="9306:9828" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="9396:9820" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="9397:9819" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="9864:10116" placeholder="{...}" />
+            <marker date="1463227632000" expanded="true" signature="9892:10086" placeholder="..." />
+            <marker date="1463227632000" expanded="true" signature="9893:10085" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Rule.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="887">
+          <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
+          <folding>
+            <marker date="1463227758000" expanded="false" signature="27:128" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="133:1293" placeholder=" App\Rule ..." />
+            <marker date="1463227758000" expanded="true" signature="1320:7480" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="1332:1390" placeholder=" Fillable fields for a rule ..." />
+            <marker date="1463227758000" expanded="true" signature="1420:1541" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="1552:1791" placeholder=" Automatically append these properties. We didn't create model's for these ..." />
+            <marker date="1463227758000" expanded="true" signature="1820:1883" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="1894:1970" placeholder=" Always eager load these relationships ..." />
+            <marker date="1463227758000" expanded="true" signature="1996:2017" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="2028:2119" placeholder=" Fetch the Country model and return it as currency ..." />
+            <marker date="1463227758000" expanded="true" signature="2164:2250" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="2259:2377" placeholder=" Rule can belong to many roles (m2m) ..." />
+            <marker date="1463227758000" expanded="true" signature="2407:2469" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="2478:2595" placeholder=" Rule can belong to many PO's (m2m) ..." />
+            <marker date="1463227758000" expanded="true" signature="2634:2705" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="2714:2848" placeholder=" All rules can only belong to one single company. ..." />
+            <marker date="1463227758000" expanded="true" signature="2880:2941" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="2950:3044" placeholder=" Fetches the property that the rule ..." />
+            <marker date="1463227758000" expanded="true" signature="3089:3260" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="3166:3169" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="3196:3225" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="3269:3352" placeholder=" Gets the trigger for a given ..." />
+            <marker date="1463227758000" expanded="true" signature="3396:3564" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="3471:3474" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="3501:3529" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="3573:3753" placeholder=" Process a Purchase Order by applying the relevant ..." />
+            <marker date="1463227758000" expanded="true" signature="3844:4007" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="4016:4149" placeholder=" Returns this Rule's Trigger's name or check if this Rule's Trigger ..." />
+            <marker date="1463227758000" expanded="true" signature="4203:4315" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="4324:4426" placeholder=" Attaches this Rule to a Purchase Order ..." />
+            <marker date="1463227758000" expanded="true" signature="4492:4568" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="4577:4727" placeholder=" Check the property 'order_total' for any triggers that might ..." />
+            <marker date="1463227758000" expanded="true" signature="4795:4926" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="4935:5050" placeholder=" Check ..." />
+            <marker date="1463227758000" expanded="true" signature="5128:5251" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="5260:5358" placeholder=" Checks 'vendor' property triggers. ..." />
+            <marker date="1463227758000" expanded="true" signature="5422:5549" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="5558:5664" placeholder=" Check ..." />
+            <marker date="1463227758000" expanded="true" signature="5734:5822" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="5831:5937" placeholder=" Check for 'single_item' property triggers. ..." />
+            <marker date="1463227758000" expanded="true" signature="6005:6224" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="6070:6217" placeholder="..." />
+            <marker date="1463227758000" expanded="true" signature="6233:6388" placeholder=" Check ..." />
+            <marker date="1463227758000" expanded="true" signature="6486:6641" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="6650:6801" placeholder=" Check ..." />
+            <marker date="1463227758000" expanded="true" signature="6895:7085" placeholder="{...}" />
+            <marker date="1463227758000" expanded="true" signature="7094:7262" placeholder=" Check ..." />
+            <marker date="1463227758000" expanded="true" signature="7371:7477" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="664">
+          <caret line="409" column="5" selection-start-line="409" selection-start-column="5" selection-end-line="409" selection-end-column="5" />
+          <folding>
+            <marker date="1463227871000" expanded="false" signature="27:156" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="161:1845" placeholder=" App\PurchaseOrder ..." />
+            <marker date="1463227871000" expanded="true" signature="1881:11307" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="1927:2001" placeholder=" Mass-Assignable fields for an Order ..." />
+            <marker date="1463227871000" expanded="true" signature="2031:2317" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="2328:2420" placeholder=" Dynamically determine these and append to every Order ..." />
+            <marker date="1463227871000" expanded="true" signature="2449:2563" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="2574:2637" placeholder=" Default attribute values ..." />
+            <marker date="1463227871000" expanded="true" signature="2669:2704" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="2716:2846" placeholder=" A Purchase Order belongs to a single Company ..." />
+            <marker date="1463227871000" expanded="true" signature="2878:2939" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="2948:3065" placeholder=" A PO is made to a single Vendor ..." />
+            <marker date="1463227871000" expanded="true" signature="3096:3156" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="3165:3282" placeholder=" A PO can contain many Line Items. ..." />
+            <marker date="1463227871000" expanded="true" signature="3316:3376" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="3385:3504" placeholder=" The User that submitted the Order ..." />
+            <marker date="1463227871000" expanded="true" signature="3533:3591" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="3600:3730" placeholder=" Every Order has a  single currency (Country) ..." />
+            <marker date="1463227871000" expanded="true" signature="3763:3829" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="3838:3908" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1463227871000" expanded="true" signature="3964:4014" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="4023:4093" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1463227871000" expanded="true" signature="4142:4196" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="4205:4275" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1463227871000" expanded="true" signature="4324:4383" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="4392:4462" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1463227871000" expanded="true" signature="4513:4574" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="4583:4739" placeholder=" Will update the quantities for any PRs that are ..." />
+            <marker date="1463227871000" expanded="true" signature="4786:5034" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="4842:5005" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="4890:4994" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="4891:4993" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="5044:5172" placeholder=" Calculates the subtotal and then saves it as the 'subtotal' ..." />
+            <marker date="1463227871000" expanded="true" signature="5208:5452" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="5287:5363" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="5461:5656" placeholder=" Calculate the 'total' field which takes into account each ..." />
+            <marker date="1463227871000" expanded="true" signature="5689:6150" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="5843:6065" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="5891:5983" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="5991:6055" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="6160:6220" placeholder=" Mark this PO as approvied ..." />
+            <marker date="1463227871000" expanded="true" signature="6257:6350" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="6359:6413" placeholder=" Mark PO as rejected ..." />
+            <marker date="1463227871000" expanded="true" signature="6450:6543" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="6553:6798" placeholder=" A purchase order can have many rules which apply. ..." />
+            <marker date="1463227871000" expanded="true" signature="6828:6890" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="6899:7006" placeholder=" Quick 'string' checker wrapper for PO status ..." />
+            <marker date="1463227871000" expanded="true" signature="7047:7101" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="7111:7514" placeholder=" Attaches Address models as Billing and Shipping Addresses respectively. We will always attach ..." />
+            <marker date="1463227871000" expanded="true" signature="7621:8110" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="8119:8238" placeholder=" Wrapper function that delegates out rule assignment ..." />
+            <marker date="1463227871000" expanded="true" signature="8304:8723" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="8598:8655" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="8732:8843" placeholder=" Approves a PO if it does not have any ..." />
+            <marker date="1463227871000" expanded="true" signature="8882:9100" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="9027:9071" placeholder="..." />
+            <marker date="1463227871000" expanded="true" signature="9110:9301" placeholder=" A PO Could be made out to an address that belongs to ..." />
+            <marker date="1463227871000" expanded="true" signature="9339:9421" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="9430:9561" placeholder=" PO made out to a single Vendor's Bank Account ..." />
+            <marker date="1463227871000" expanded="true" signature="9603:9694" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="9703:9828" placeholder=" PO Made out to a single Billing Address ..." />
+            <marker date="1463227871000" expanded="true" signature="9867:9950" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="9959:10143" placeholder=" Optionally, PO can be made out to a Shipping Address that differs ..." />
+            <marker date="1463227871000" expanded="true" signature="10183:10267" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="10277:10463" placeholder=" A PO can have many other Additional Costs (or Discounts), such ..." />
+            <marker date="1463227871000" expanded="true" signature="10503:10582" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="10591:10784" placeholder=" Checks if this PO is over a given limit, for a ..." />
+            <marker date="1463227871000" expanded="true" signature="10840:10951" placeholder="{...}" />
+            <marker date="1463227871000" expanded="true" signature="10960:11163" placeholder=" Checks whether this PO's vendor is 'new', ie. is there a previous PO ..." />
+            <marker date="1463227871000" expanded="true" signature="11197:11304" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/helpers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="743">
+          <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
+          <folding>
+            <marker date="1462637414000" expanded="true" signature="47:269" placeholder=" Helper function that returns an instance of the ..." />
+            <marker date="1462637414000" expanded="true" signature="303:546" placeholder="{...}" />
+            <marker date="1462637414000" expanded="true" signature="359:445" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="479:507" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="551:627" placeholder=" Encodes an id using Hashids package. ..." />
+            <marker date="1462637414000" expanded="true" signature="651:685" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="691:765" placeholder=" Decodes id using Hashids package. ..." />
+            <marker date="1462637414000" expanded="true" signature="789:823" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="829:1056" placeholder=" Returns a collection of system rules' properties &amp; triggers ..." />
+            <marker date="1462637414000" expanded="true" signature="1087:1664" placeholder="{...}" />
+            <marker date="1462637414000" expanded="true" signature="1116:1199" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1175:1178" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1295:1334" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1361:1442" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1418:1421" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1484:1635" placeholder="..." />
+            <marker date="1462637414000" expanded="true" signature="1669:1780" placeholder=" Checks whether given String is a Date ..." />
+            <marker date="1462637414000" expanded="true" signature="1807:1905" placeholder="{...}" />
+            <marker date="1462637414000" expanded="true" signature="1910:2045" placeholder=" takes a snake_case_string and turns it into a CamelCaseString ..." />
+            <marker date="1462637414000" expanded="true" signature="2081:2156" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="101" column="31" selection-start-line="101" selection-start-column="31" selection-end-line="101" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/helpers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="226" column="13" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="13" />
+          <folding>
+            <marker date="1461093138000" expanded="false" signature="11:177" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="220:653" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="228:359" placeholder=" Assign high numeric IDs to a config item to force appending. ..." />
+            <marker date="1461093138000" expanded="true" signature="402:652" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="477:621" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="513:611" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="693:1006" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="701:899" placeholder=" Add an element to an array using &quot;dot&quot; notation if it doesn't exist. ..." />
+            <marker date="1461093138000" expanded="true" signature="946:1005" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="1048:1356" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="1056:1242" placeholder=" Build a new array using a callback. ..." />
+            <marker date="1461093138000" expanded="true" signature="1297:1355" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="1401:1617" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="1409:1528" placeholder=" Collapse an array of arrays into a single array. ..." />
+            <marker date="1461093138000" expanded="true" signature="1566:1616" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="1660:1897" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="1668:1812" placeholder=" Divide an array into two arrays. One with keys and the other with values. ..." />
+            <marker date="1461093138000" expanded="true" signature="1848:1896" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="1937:2209" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="1945:2105" placeholder=" Flatten a multi-dimensional associative array with dots. ..." />
+            <marker date="1461093138000" expanded="true" signature="2153:2208" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="2252:2530" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="2260:2431" placeholder=" Get all of the given array except for a specified array of items. ..." />
+            <marker date="1461093138000" expanded="true" signature="2474:2529" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="2572:2934" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="2580:2786" placeholder=" Return the first element in an array passing a given truth test. ..." />
+            <marker date="1461093138000" expanded="true" signature="2865:2933" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="2978:3247" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="2986:3138" placeholder=" Flatten a multi-dimensional array into a single level. ..." />
+            <marker date="1461093138000" expanded="true" signature="3189:3246" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="3290:3574" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="3298:3474" placeholder=" Remove one or many array items from a given array using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="3518:3573" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="3614:3931" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="3622:3813" placeholder=" Get an item from an array using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="3869:3930" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="3971:4238" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="3979:4147" placeholder=" Check if an item exists in an array using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="4186:4237" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="4279:4638" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="4287:4492" placeholder=" Return the last element in an array passing a given truth test. ..." />
+            <marker date="1461093138000" expanded="true" signature="4570:4637" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="4679:4935" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="4687:4840" placeholder=" Get a subset of the items from the given array. ..." />
+            <marker date="1461093138000" expanded="true" signature="4881:4934" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="4977:5289" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="4985:5171" placeholder=" Pluck an array of values from an array. ..." />
+            <marker date="1461093138000" expanded="true" signature="5227:5288" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="5333:5634" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="5341:5512" placeholder=" Push an item onto the beginning of an array. ..." />
+            <marker date="1461093138000" expanded="true" signature="5570:5633" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="5675:5978" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="5683:5857" placeholder=" Get a value from the array, and remove it. ..." />
+            <marker date="1461093138000" expanded="true" signature="5915:5977" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="6018:6403" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="6026:6295" placeholder=" Set an array item to a given value using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="6343:6402" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="6444:6710" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="6452:6598" placeholder=" Sort the array using the given callback. ..." />
+            <marker date="1461093138000" expanded="true" signature="6652:6709" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="6761:6985" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="6769:6885" placeholder=" Recursively sort an array by keys and values. ..." />
+            <marker date="1461093138000" expanded="true" signature="6929:6984" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="7027:7297" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="7035:7183" placeholder=" Filter the array using the given callback. ..." />
+            <marker date="1461093138000" expanded="true" signature="7238:7296" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="7338:7531" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="7346:7449" placeholder=" Convert a value to camel case. ..." />
+            <marker date="1461093138000" expanded="true" signature="7483:7530" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="7576:7891" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="7584:7717" placeholder=" Get the class &quot;basename&quot; of the given object / class. ..." />
+            <marker date="1461093138000" expanded="true" signature="7755:7890" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="7942:8369" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="7950:8099" placeholder=" Returns all traits used by a class, its subclasses and trait of their traits. ..." />
+            <marker date="1461093138000" expanded="true" signature="8143:8368" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="8258:8321" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="8407:8642" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="8415:8552" placeholder=" Create a collection from the given value. ..." />
+            <marker date="1461093138000" expanded="true" signature="8590:8641" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="8682:8975" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="8690:8858" placeholder=" Fill in data where it's missing. ..." />
+            <marker date="1461093138000" expanded="true" signature="8907:8974" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="9014:10222" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9022:9218" placeholder=" Get an item from an array or object using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="9274:10221" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="9309:9346" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9466:10189" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9502:9859" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9555:9618" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9650:9711" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="9939:9997" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10058:10118" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10126:10179" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10261:11926" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10269:10489" placeholder=" Set an item on an array or object using dot notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="10556:11925" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="10686:11101" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10732:10775" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10806:10953" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10853:10939" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="10976:11091" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11023:11077" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11138:11501" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11167:11375" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11223:11284" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11434:11491" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11532:11893" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11561:11769" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11613:11676" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11824:11883" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11959:12223" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="11967:12074" placeholder=" Dump the passed variables and end the script. ..." />
+            <marker date="1461093138000" expanded="true" signature="12094:12222" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="12119:12197" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12134:12179" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12255:12601" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12263:12408" placeholder=" Escape HTML entities in a string. ..." />
+            <marker date="1461093138000" expanded="true" signature="12433:12600" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="12481:12527" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12641:12927" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12649:12817" placeholder=" Determine if a given string ends with a given substring. ..." />
+            <marker date="1461093138000" expanded="true" signature="12863:12926" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="12962:13174" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="12970:13103" placeholder=" Get the first element of an array. Useful for method chaining. ..." />
+            <marker date="1461093138000" expanded="true" signature="13131:13173" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="13209:13392" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="13217:13323" placeholder=" Get the last element from an array. ..." />
+            <marker date="1461093138000" expanded="true" signature="13351:13391" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="13433:14037" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="13441:13622" placeholder=" Get an item from an object using &quot;dot&quot; notation. ..." />
+            <marker date="1461093138000" expanded="true" signature="13680:14036" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="13735:13772" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="13825:14004" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="13897:13950" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14084:14618" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14092:14305" placeholder=" Replace a given pattern with each value in the array in sequentially. ..." />
+            <marker date="1461093138000" expanded="true" signature="14373:14617" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="14417:14609" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14467:14598" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14523:14587" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14659:14917" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14667:14805" placeholder=" Convert a string to snake case. ..." />
+            <marker date="1461093138000" expanded="true" signature="14857:14916" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="14959:15251" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="14967:15137" placeholder=" Determine if a given string starts with a given substring. ..." />
+            <marker date="1461093138000" expanded="true" signature="15185:15250" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="15294:15582" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="15302:15469" placeholder=" Determine if a given string contains a given substring. ..." />
+            <marker date="1461093138000" expanded="true" signature="15518:15581" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="15623:15880" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="15631:15785" placeholder=" Cap a string with a single instance of a given value. ..." />
+            <marker date="1461093138000" expanded="true" signature="15825:15879" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="15917:16175" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="15925:16080" placeholder=" Determine if a given string matches a given pattern. ..." />
+            <marker date="1461093138000" expanded="true" signature="16120:16174" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="16215:16520" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="16223:16397" placeholder=" Limit the number of characters in a string. ..." />
+            <marker date="1461093138000" expanded="true" signature="16458:16519" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="16561:16814" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="16569:16711" placeholder=" Get the plural form of an English word. ..." />
+            <marker date="1461093138000" expanded="true" signature="16757:16813" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="16855:17116" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="16863:17026" placeholder=" Generate a more truly &quot;random&quot; alpha-numeric string. ..." />
+            <marker date="1461093138000" expanded="true" signature="17066:17115" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="17164:17604" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="17172:17373" placeholder=" Replace a given value in the string sequentially with an array. ..." />
+            <marker date="1461093138000" expanded="true" signature="17441:17603" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="17486:17570" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="17652:17996" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="17660:17858" placeholder=" Replace the first occurrence of a given value in the string. ..." />
+            <marker date="1461093138000" expanded="true" signature="17920:17995" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="18043:18384" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="18051:18248" placeholder=" Replace the last occurrence of a given value in the string. ..." />
+            <marker date="1461093138000" expanded="true" signature="18309:18383" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="18427:18636" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="18435:18549" placeholder=" Get the singular form of an English word. ..." />
+            <marker date="1461093138000" expanded="true" signature="18585:18635" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="18675:18950" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="18683:18841" placeholder=" Generate a URL friendly &quot;slug&quot; from a given string. ..." />
+            <marker date="1461093138000" expanded="true" signature="18891:18949" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="18992:19193" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="19000:19109" placeholder=" Convert a value to studly caps case. ..." />
+            <marker date="1461093138000" expanded="true" signature="19144:19192" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="19234:19427" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="19242:19345" placeholder=" Convert a value to title case. ..." />
+            <marker date="1461093138000" expanded="true" signature="19379:19426" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="19478:19830" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="19486:19608" placeholder=" Returns all traits used by a trait and its traits. ..." />
+            <marker date="1461093138000" expanded="true" signature="19652:19829" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="19735:19797" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="19866:20093" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="19874:19989" placeholder=" Return the default value of the given value. ..." />
+            <marker date="1461093138000" expanded="true" signature="20018:20092" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="20134:20342" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="20142:20242" placeholder=" Determine whether the current environment is Windows based. ..." />
+            <marker date="1461093138000" expanded="true" signature="20270:20341" placeholder="{...}" />
+            <marker date="1461093138000" expanded="true" signature="20377:20568" placeholder="..." />
+            <marker date="1461093138000" expanded="true" signature="20385:20502" placeholder=" Return the given object. Useful for chaining. ..." />
+            <marker date="1461093138000" expanded="true" signature="20531:20567" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <marker date="1463229534000" expanded="true" signature="44:362" placeholder="..." />
+            <marker date="1463229534000" expanded="true" signature="404:2104" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="440:610" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="619:719" placeholder=" GET all the rules for the logged-in ..." />
+            <marker date="1463229534000" expanded="true" signature="752:836" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="845:1000" placeholder=" Handles GET request and fetches the list of ..." />
+            <marker date="1463229534000" expanded="true" signature="1046:1094" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="1103:1306" placeholder=" Handles POST request to create a new rule ..." />
+            <marker date="1463229534000" expanded="true" signature="1366:1474" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="1483:1606" placeholder=" Deletes a rule the rule found at ..." />
+            <marker date="1463229534000" expanded="true" signature="1647:2100" placeholder="{...}" />
+            <marker date="1463229534000" expanded="true" signature="1713:2041" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/RuleMaker.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="653">
+          <caret line="30" column="7" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/MakeRuleRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+          <folding>
+            <marker date="1463229785000" expanded="true" signature="106:1691" placeholder="{...}" />
+            <marker date="1463229785000" expanded="true" signature="116:214" placeholder=" Determine if the user is authorized to make this request. ..." />
+            <marker date="1463229785000" expanded="true" signature="248:281" placeholder="{...}" />
+            <marker date="1463229785000" expanded="true" signature="290:383" placeholder=" Get the validation rules that apply to the request. ..." />
+            <marker date="1463229785000" expanded="true" signature="413:763" placeholder="{...}" />
+            <marker date="1463229785000" expanded="true" signature="436:755" placeholder="..." />
+            <marker date="1463229785000" expanded="true" signature="795:1689" placeholder="{...}" />
+            <marker date="1463229785000" expanded="true" signature="818:1681" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/SubmitPurchaseOrderRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="887">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="853">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding>
+            <element signature="e#33#49#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Factories/RuleFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="842">
+          <caret line="88" column="57" selection-start-line="88" selection-start-column="57" selection-end-line="88" selection-end-column="57" />
+          <folding>
+            <element signature="e#34#72#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
