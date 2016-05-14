@@ -597,10 +597,20 @@ Vue.component('purchase-orders-submit', {
     },
     mixins: [modalSinglePR],
     ready: function () {
+
+        var self = this;
+
         vueEventBus.$on('po-submit-selected-vendor', function() {
-            this.selectedVendorAddress = '';
-            this.selectedVendorBankAccount = '';
-        }.bind(this));
+            self.selectedVendorAddress = '';
+            self.selectedVendorBankAccount = '';
+        });
+        
+        var preSelectedRequestIDs = getParameterByName('request').split(',');
+        _.forEach(preSelectedRequestIDs, function (id) {
+            $.get('/api/purchase_requests/' + id, function (request) {
+                if(request.state === 'open') self.lineItems.push(request);
+            });
+        });
     }
 });
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
@@ -652,7 +662,8 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                 }
             ],
             states: ['open', 'fulfilled', 'cancelled', 'all'],
-            selectedRequests: []
+            selectedRequests: [],
+            showBulkActionsMenu: false,
         };
     },
     computed: {
@@ -706,6 +717,13 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                     if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
                 });
             }
+        },
+        createPurchaseOrder: function() {
+            var url = '/purchase_orders/submit?request=';
+            _.forEach(this.selectedRequests, function (request) {
+                url += request.id + ',';
+            });
+            location.href = url.substring(0, url.length - 1);
         }
     },
     ready: function () {

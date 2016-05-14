@@ -118,6 +118,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/purchase_requests/cancel', ['as' => 'cancelPurchaseRequest', 'uses' => 'PurchaseRequestController@postCancel']);
     //api
     Route::get('/api/purchase_requests', 'PurchaseRequestController@apiGetAll');
+    Route::get('/api/purchase_requests/{purchaseRequest}', 'PurchaseRequestController@apiGetSingle');
 
     /**
      * Items

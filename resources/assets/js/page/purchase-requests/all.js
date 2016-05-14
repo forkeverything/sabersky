@@ -47,7 +47,8 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                 }
             ],
             states: ['open', 'fulfilled', 'cancelled', 'all'],
-            selectedRequests: []
+            selectedRequests: [],
+            showBulkActionsMenu: false,
         };
     },
     computed: {
@@ -101,6 +102,13 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                     if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
                 });
             }
+        },
+        createPurchaseOrder: function() {
+            var url = '/purchase_orders/submit?request=';
+            _.forEach(this.selectedRequests, function (request) {
+                url += request.id + ',';
+            });
+            location.href = url.substring(0, url.length - 1);
         }
     },
     ready: function () {

@@ -49,7 +49,7 @@ class SubmitPurchaseOrderRequest extends Request
             // Line Items
                 'line_items.*.order_quantity' => 'required',
                 'line_items.*.order_price' => 'required',
-                'line_items.*' => 'required|line_item_quantity_valid|pr_can_fulfill|pr_state_open|',
+                'line_items.*' => 'required|line_item_quantity_valid|pr_can_fulfill|pr_state_open',
             // Additional costs
                 'additional_costs.*.name' => 'required',
                 'additional_costs.*.type' => 'required',

@@ -1,3 +1,7 @@
+.table-controls {
+  margin: 0 0 15px 0;
+}
+
 .table-standard {
 
   @media screen and (min-width: $screen-sm-min) {
@@ -69,12 +73,17 @@
         }
 
         &.heading-select {
+
           position: relative;
+
           .checkbox {
-            border: 1px solid $light-blue;
+            display: flex;
+            align-items: center;
+            border: 1px solid #fff;
             padding: 5px;
 
             label {
+              z-index: 3;
               text-align: center;
               display: flex;
               justify-content: center;
@@ -93,16 +102,47 @@
           }
 
           .bulk-actions {
-            z-index: 4;
+            z-index: 2;
             position: absolute;
             right: 0;
             white-space: nowrap;
-            border: 1px solid $light-blue;
             top: 14px;
             height: 32px;
-            left: 41px;
-            width: 801px;
+            left: -1px;
             background: $blue;
+            text-align: left;
+
+            .btn-bulk {
+              height: 100%;
+              border: 1px solid #fff;
+              padding: 0 12px 3px 30px;
+              margin-left: 10px;
+              border-radius: 0;
+              position: relative;
+              color: #fff!important;
+
+              .fa-caret-down {
+                margin-left: 5px;
+              }
+
+              .bulk-dropdown-list {
+                color: #000;
+                margin: 0;
+                border: 0;
+
+                .bulk-single-action {
+                  height: 30px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+                  &:hover {
+                    cursor: pointer;
+                    background: $extra-light-grey;
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -122,6 +162,10 @@
         td {
           border-bottom: 1px solid $border-light;
         }
+      }
+
+      &.is-selected {
+        background: $extra-light-yellow;
       }
 
       td {
@@ -153,8 +197,14 @@
       }
     }
   }
-}
 
-.table-controls {
-  margin: 0 0 15px 0;
+  &.table-hover {
+    tbody {
+      tr {
+        &:hover {
+          background: $extra-light-blue;
+        }
+      }
+    }
+  }
 }

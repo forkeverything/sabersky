@@ -1,5 +1,9 @@
 <template v-for="purchaseRequest in purchaseRequests">
-    <tr class="row-single-pr">
+    <tr class="row-single-pr"
+        :class="{
+            'is-selected': alreadySelectedPR(purchaseRequest)
+        }"
+    >
 
         <!-- Checkbox -->
         <td class="col-checkbox">
@@ -8,16 +12,16 @@
                     <i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>
                     <i class="fa fa-square-o empty" v-else></i>
                     <input class="clickable hidden"
-                        type="checkbox"
-                        @change="selectPR(purchaseRequest)"
-                        :checked="alreadySelectedPR(purchaseRequest)"
+                           type="checkbox"
+                    @change="selectPR(purchaseRequest)"
+                    :checked="alreadySelectedPR(purchaseRequest)"
                     >
                 </label>
                 <label v-else>
                     <i class="fa fa-square-o empty disabled"></i>
                 </label>
-                </div>
-            </td>
+            </div>
+        </td>
 
         <!-- Number -->
         <td class="no-wrap col-number fit-to-content">

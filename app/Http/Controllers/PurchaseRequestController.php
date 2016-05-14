@@ -26,7 +26,7 @@ class PurchaseRequestController extends Controller
         $this->middleware('auth');
         $this->middleware('company');
         $this->middleware('api.only', [
-            'only' => ['apiGetAll']
+            'only' => ['apiGetAll', 'apiGetSingle']
         ]);
     }
 
@@ -54,7 +54,6 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-        if ($request->ajax()) {
             return UserPurchaseRequestsRepository::forUser(Auth::user())
                                                   ->whereState($request->state)
                                                   ->filterIntegerField('number', $request->number)
@@ -69,9 +68,18 @@ class PurchaseRequestController extends Controller
                                                   ->sortOn($request->sort, $request->order)
                                                   ->with(['item.photos', 'project', 'user'])
                                                   ->paginate($request->per_page);
-        } else {
-            abort('501', 'Oops..can\'t get in that way.');
-        }
+    }
+
+    /**
+     * Request to get a single Purchase Request as JSON
+     *
+     * @param PurchaseRequest $purchaseRequest
+     * @return $this|Response
+     */
+    public function apiGetSingle(PurchaseRequest $purchaseRequest)
+    {
+        if(Gate::allows('view', $purchaseRequest)) return $purchaseRequest->load('item.photos', 'project', 'user');
+        return response("Not allowed to view that Purchase Request", 403);
     }
 
     /**

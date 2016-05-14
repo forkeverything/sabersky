@@ -145,7 +145,7 @@ Vue.directive('autofit-tabs', {
             optimizeTabWidths();
         });
 
-        $(window).on('resize', _.debounce(optimizeTabWidths, 50, {
+        $(window).on('resize.setAutoTabSizes', _.debounce(optimizeTabWidths, 50, {
             leading: true
         }));
 
