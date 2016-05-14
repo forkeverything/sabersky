@@ -1,5 +1,5 @@
 <template v-for="order in purchaseOrders">
-    <tr class="row-single-po">
+    <tr class="row-single-po clickable" @click="loadSinglePO(order.id)">
 
         <!-- Number -->
         <td class="no-wrap col-number fit-to-content">

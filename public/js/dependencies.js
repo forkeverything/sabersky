@@ -2186,7 +2186,7 @@ Vue.component('currency-selecter', {
     template: '<select class="currency-selecter">' +
     '<option></option>' +
     '</select>',
-    props: ['name', 'default'],
+    props: ['name', 'default', 'id'],
     ready: function() {
         var self = this;
         var selecter = $('.currency-selecter').selectize({
@@ -2216,6 +2216,8 @@ Vue.component('currency-selecter', {
                 });
             },
             onChange: function(value) {
+                self.id = value;
+                
                 if(! value) {
                     self.name = '';
                     return;

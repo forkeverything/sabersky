@@ -18,6 +18,10 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
                     label: 'Project'
                 },
                 {
+                    value: 'currency_id',
+                    label: 'Currency'
+                },
+                {
                     value: 'total',
                     label: 'Total Cost'
                 },
@@ -78,7 +82,7 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             return urgent;
         },
         loadSinglePO: function (POID) {
-            window.document.location = '/purchase_orders/single/' + POID;
+            location.href = '/purchase_orders/' + POID;
         },
         checkProperty: function (purchaseOrder, property) {
             var numLineItems = purchaseOrder.line_items.length;

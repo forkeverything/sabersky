@@ -45,5 +45,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Country extends Model
 {
-    //
+    /**
+     * Return only the relevant fields for Currency
+     *
+     * @return array
+     */
+    public function getCurrencyOnly()
+    {
+        return [
+            "country_name" => $this->name,
+            "name" => $this->currency,
+            "code" => $this->currency_code,
+            "symbol" => $this->currency_symbol
+        ];
+    }
 }

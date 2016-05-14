@@ -63,6 +63,7 @@ class PurchaseOrdersController extends Controller
                                               ->whereStatus($request->status)
                                               ->filterIntegerField('number', $request->number)
                                               ->hasRequestForProject($request->project_id)
+                                ->withCurrency($request->currency_id)
                                               ->filterIntegerField('total', $request->total)
                                               ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
                                               ->filterDateField('purchase_orders.created_at', $request->submitted)
@@ -103,11 +104,27 @@ class PurchaseOrdersController extends Controller
         return PurchaseOrderFactory::make($request, Auth::user());
     }
 
-//
-//    public function single(PurchaseOrder $purchaseOrder)
-//    {
-//        return view('purchase_orders.single', compact('purchaseOrder'));
-//    }
+
+    /**
+     * Show the single Purchase Order view
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @return mixed
+     */
+    public function getSingle(PurchaseOrder $purchaseOrder)
+    {
+        if(Gate::allows('view', $purchaseOrder)) {
+            $breadcrumbs = [
+                ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
+                ['#' . $purchaseOrder->number, '#']
+            ];
+            $purchaseOrder = $purchaseOrder->load('vendor', 'user', 'lineItems');
+            return view('purchase_orders.single', compact('purchaseOrder', 'breadcrumbs'));
+        }
+        flash()->error('Not allowed to view that Order');
+        return redirect('/purchase_orders');
+    }
+
 //
 //    public function approve(ApprovePurchaseOrderRequest $request)
 //    {

@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Company;
+use App\Country;
 use App\Project;
 use App\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                                 purchase_orders.*,
                                 vendors.name AS vendor_name,
                                 users.name AS user_name,
+                                countries.id AS currency_id,
                                 countries.name AS currency_country_name,
                                 countries.currency AS currency_name,
                                 countries.currency_code,
@@ -133,6 +135,15 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                   ->join('line_items', 'purchase_requests.id', '=', 'line_items.purchase_request_id')
                   ->whereRaw('purchase_orders.id = line_items.purchase_order_id');
         });
+        return $this;
+    }
+
+    public function withCurrency($currencyID)
+    {
+        if (!$currencyID) return $this;
+
+        $this->{'currency'} = Country::find($currencyID)->getCurrencyOnly();
+        $this->query->where('currency_id', $currencyID);
         return $this;
     }
 

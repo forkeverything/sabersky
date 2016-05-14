@@ -5,6 +5,7 @@ namespace App;
 use App\Utilities\FormatNumberPropertyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Country;
 
 /**
  * App\PurchaseOrder
@@ -42,7 +43,11 @@ class PurchaseOrder extends Model
 {
     use FormatNumberPropertyTrait;
 
-    
+    /**
+     * Mass-Assignable fields for an Order
+     *
+     * @var array
+     */
     protected $fillable = [
         'status',
         'number',
@@ -57,6 +62,19 @@ class PurchaseOrder extends Model
         'user_id',
         'company_id'
     ];
+
+    /**
+     * Dynamically determine these and append to every Order
+     *
+     * @var array
+     */
+    protected $appends = [
+        'currency_country_name',
+        'currency_name',
+        'currency_code',
+        'currency_symbol'
+    ];
+
 
     /**
      * A Purchase Order belongs to a single Company
@@ -88,14 +106,64 @@ class PurchaseOrder extends Model
         return $this->hasMany(LineItem::class);
     }
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
-
+    /**
+     * The User that submitted the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Every Order has a  single currency (Country)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Currency Accessor (appended)
+     *
+     * @return mixed
+     */
+    public function getCurrencyCountryNameAttribute()
+    {
+        return $this->currency->name;
+    }
+
+    /**
+     * Currency Accessor (appended)
+     *
+     * @return mixed
+     */
+    public function getCurrencyNameAttribute()
+    {
+        return $this->currency->currency;
+    }
+
+    /**
+     * Currency Accessor (appended)
+     *
+     * @return mixed
+     */
+    public function getCurrencyCodeAttribute()
+    {
+        return $this->currency->currency_code;
+    }
+
+    /**
+     * Currency Accessor (appended)
+     *
+     * @return mixed
+     */
+    public function getCurrencySymbolAttribute()
+    {
+        return $this->currency->currency_symbol;
     }
 
     /**
