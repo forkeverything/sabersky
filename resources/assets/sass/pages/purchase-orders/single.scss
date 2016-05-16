@@ -1,8 +1,14 @@
 #purchase-order-single {
 
-  .approvals {
+  .subheading {
+    color: $text-muted;
+    margin: 0 0 5px;
+    display: block;
+  }
 
-    margin: 0 0 20px 0;
+  .approvals {
+    margin: 0 0 20px;
+    text-align: right;
 
     .po-badge {
       font-size: 1.5em;
@@ -33,16 +39,33 @@
 
   }
 
-  .order {
+  .meta {
+    margin: 0 0 30px 0;
+    text-align: right;
+
+    .po-number, .submitted-date, .by-user {
+      display: block;
+    }
+  }
+
+
+  .vendor {
+
+    .name {
+      font-weight: bold;
+    }
 
     .address {
       margin: 0 0 15px;
     }
-  }
-
-  .vendor {
 
   }
+
+  .order {
+
+
+  }
+
 
   .line-items {
 

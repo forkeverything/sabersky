@@ -2,7 +2,7 @@
     @if($address->contact_person)
         <span class="contact_person display-block">{{ $address->contact_person }}</span>
     @endif
-    @if($company)
+    @if(isset($company))
         <span class="company_name display-block">{{ $company->name }}</span>
     @endif
     <span class="address_1 display-block">{{ $address->address_1 }}</span>

@@ -37,6 +37,7 @@
 @import "partials/tooltips";
 @import "partials/datepicker";
 @import "partials/addresses";
+@import "partials/bank_accounts";
 
 
 body {
@@ -283,6 +284,10 @@ li.active {
 
 .display-block {
   display: block;
+}
+
+.display-inline {
+  display: inline;
 }
 
 .page-error {

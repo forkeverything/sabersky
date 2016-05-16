@@ -1,4 +1,4 @@
-<nav id="top-nav" class="navbar navbar-default user-nav">
+<nav id="top-nav" class="navbar navbar-default user-nav no-print">
     <button type="button"
             class="button-show-side-menu"
             @click.prevent.stop="toggleSideMenu"><i class="fa fa-bars"></i>
