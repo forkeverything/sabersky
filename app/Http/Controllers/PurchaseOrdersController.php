@@ -116,24 +116,6 @@ class PurchaseOrdersController extends Controller
      */
     public function getSingle(PurchaseOrder $purchaseOrder)
     {
-
-        $prIDs = $purchaseOrder->lineItems->pluck('purchase_request_id');
-
-        
-        $prIDs = [3];
-
-        $uniqueItems = \App\Item::where('company_id', Auth::user()->company->id)
-                                ->join('purchase_requests', 'items.id', '=', 'purchase_requests.item_id')
-            ->join('line_items', 'purchase_requests.id', '=', 'line_items.purchase_request_id')
-                                ->whereIn('purchase_requests.id', $prIDs)
-            ->select(\DB::raw('
-                                items.*,
-                                SUM(line_items.quantity) as ordered_quantity
-                               '))
-        ->groupBy('items.id');
-
-        dd($uniqueItems->get()->toArray());
-
         if (Gate::allows('view', $purchaseOrder)) {
             $breadcrumbs = [
                 ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],

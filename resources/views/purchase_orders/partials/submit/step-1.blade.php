@@ -23,7 +23,7 @@
                     <tr>
                     </thead>
                     <tbody>
-                    <template v-for="(index, lineItem) in lineItems">
+                    <template v-for="(index, lineItem) in sortedLineItems">
                         <tr>
                             <td class="col-item">
                                 <div class="brand-name display-block">

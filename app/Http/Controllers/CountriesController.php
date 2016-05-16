@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use DB;
 use DougSisk\CountryState\CountryState;
 use Illuminate\Http\Request;
 
@@ -73,12 +74,18 @@ class CountriesController extends Controller
      */
     public function getSearchCurrency($query)
     {
-        if (! $query) return response("Could not fing currency", 500);
+        if (! $query) return response("Could not find currency", 500);
         return Country::where('name', 'LIKE', '%' . $query . '%')
            ->orWhere('currency', 'LIKE', '%' . $query . '%')
            ->orWhere('currency_code', 'LIKE', '%' . $query . '%')
            ->orWhere('currency_symbol', 'LIKE', '%' . $query . '%')
-            ->select(['id', 'name', 'currency', 'currency_code', 'currency_symbol'])
+            ->select(DB::raw('
+                id,
+                name as country_name,
+                currency as name,
+                currency_code as code,
+                currency_symbol as symbol
+            '))
             ->take(5)
            ->get();
     }

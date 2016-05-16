@@ -17,7 +17,7 @@ Vue.component('form-errors', {
             var self = this;
             var newErrors = [];
             _.forEach(errors, function (error) {
-                newErrors.push(error);
+                if(newErrors.indexOf(error[0]) == -1) newErrors.push(error[0]);
             });
             self.errors = newErrors;
         },

@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <template v-for="(index, lineItem) in lineItems">
+        <template v-for="(index, lineItem) in sortedLineItems">
             <tr>
                 <td>
                     <a class="dotted clickable" @click="showSinglePR(lineItem)">
@@ -60,7 +60,11 @@
                 <td>
                     <number-input :model.sync="lineItem.order_price" :placeholder="'price'"
                                   :class="['input-price', 'form-control']"
-                                  :decimal="currencyDecimalPoints"></number-input>
+                                  :decimal="currencyDecimalPoints"
+                                  :on-change-event-name="'update-line-item-price'"
+                                  :on-change-event-data="lineItem"
+                                  :disabled="! firstLineItemWithItem(lineItem)"
+                    ></number-input>
                 </td>
                 <td>
                     <strong>@{{ calculateTotal(lineItem) }}</strong>

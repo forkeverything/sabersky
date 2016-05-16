@@ -456,4 +456,38 @@ class PurchaseOrder extends Model
         return $this->shippingAddress->id === $this->billingAddress->id;
     }
 
+    /**
+     * Mutator to get the Items that were ordered from a Purchase Order
+     *
+     * @return mixed
+     */
+    public function getItemsAttribute()
+    {
+        if (!array_key_exists('items', $this->relations)) $this->loadItems();
+        return $this->getRelation('items');
+    }
+
+    /**
+     * Loads Items for the PO and sets it as a relation, to be returned
+     * by the mutator function
+     */
+    protected function loadItems()
+    {
+        $items = Item::where('company_id', $this->company_id)
+                     ->join('purchase_requests', 'items.id', '=', 'purchase_requests.item_id')
+                     ->join('line_items', 'purchase_requests.id', '=', 'line_items.purchase_request_id')
+                     ->whereIn('purchase_requests.id', $this->lineItems->pluck('purchase_request_id'))
+                     ->where('line_items.purchase_order_id', '=', $this->id)
+                     ->select(\DB::raw('
+                                items.*,
+                                SUM(line_items.quantity) as order_quantity,
+                                line_items.price as order_unit_price
+                               '))
+                     ->groupBy('items.id')
+                     ->get();
+
+        $this->setRelation('items', $items);
+    }
+
+
 }

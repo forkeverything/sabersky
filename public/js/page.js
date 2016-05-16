@@ -466,7 +466,7 @@ Vue.component('purchase-orders-submit', {
             return this.user.company.settings.currency;
         },
         currencySymbol: function () {
-            return this.currency ?  this.currency.currency_symbol : this.userCurrency.currency_symbol;
+            return this.currency ? this.currency.currency_symbol : this.userCurrency.currency_symbol;
         },
         company: function () {
             return this.user.company;
@@ -477,6 +477,9 @@ Vue.component('purchase-orders-submit', {
         },
         hasLineItems: function () {
             return this.lineItems.length > 0;
+        },
+        sortedLineItems: function () {
+            return _.orderBy(this.lineItems, 'item.id');
         },
         vendorAddresses: function () {
             // Only if we have a vendor
@@ -520,7 +523,7 @@ Vue.component('purchase-orders-submit', {
             // for each line item...
             _.forEach(this.lineItems, function (item) {
                 // quantity and price is filled
-                if (!item.order_quantity || !item.order_price) validItems = false;
+                if (!item.order_quantity || item.order_quantity < 1 || !item.order_price) validItems = false;
                 // quantity to order <= quantity requested
                 if (item.order_quantity > item.quantity) validItems = false;
             });
@@ -588,7 +591,7 @@ Vue.component('purchase-orders-submit', {
                 success: function (data) {
                     // success
                     flashNotifyNextRequest('success', 'Submitted Purchase Order');
-                    location = "/purchase_orders";
+                    location.href = "/purchase_orders";
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -597,6 +600,25 @@ Vue.component('purchase-orders-submit', {
                     self.ajaxReady = true;
                 }
             });
+        },
+        updateOtherLineItemPrices: function (changedLineItem) {
+            var self = this;
+
+            var otherLineItemsWithSameItem = _.filter(self.lineItems, function (lineItem) {
+                return lineItem.item.id === changedLineItem.item.id;
+            });
+
+            _.forEach(otherLineItemsWithSameItem, function (lineItem) {
+                if(lineItem.id === changedLineItem.id) return;
+                var index = _.indexOf(self.lineItems, lineItem);
+                Vue.set(self.lineItems[index], 'order_price', changedLineItem.order_price);
+            });
+        },
+        firstLineItemWithItem: function(lineItem) {
+            var firstLineItem = _.find(this.lineItems, function (l) {
+                return l.item.id === lineItem.item.id;
+            });
+            return firstLineItem.id == lineItem.id;
         }
     },
     mixins: [modalSinglePR],
@@ -604,20 +626,25 @@ Vue.component('purchase-orders-submit', {
 
         var self = this;
 
-        vueEventBus.$on('po-submit-selected-vendor', function() {
+        vueEventBus.$on('po-submit-selected-vendor', function () {
             self.selectedVendorAddress = '';
             self.selectedVendorBankAccount = '';
         });
 
         var requestParam = getParameterByName('request');
-        if(requestParam) {
+        if (requestParam) {
             var preSelectedRequestIDs = getParameterByName('request').split(',');
             _.forEach(preSelectedRequestIDs, function (id) {
                 $.get('/api/purchase_requests/' + id, function (request) {
-                    if(request.state === 'open') self.lineItems.push(request);
+                    if (request.state === 'open') self.lineItems.push(request);
                 });
             });
         }
+
+        vueEventBus.$on('update-line-item-price', function (data) {
+            self.updateOtherLineItemPrices(data.attached);
+        });
+
     }
 });
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
@@ -1570,8 +1597,8 @@ Vue.component('select-line-items', {
     '<td class="col-item">'+
     '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">'+
     '<span class="item-brand"'+
-    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }}</span>'+
-    '<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
+    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
+    ' <span class="item-name">{{ purchaseRequest.item.name }}</span>'+
     '</a>'+
     '<div class="bottom">'+
     '<span '+
@@ -1695,7 +1722,18 @@ Vue.component('select-line-items', {
             this.searchPurchaseRequests();
         },
         selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
+            if(this.alreadySelectedPR(purchaseRequest)) {
+                this.lineItems = _.reject(this.lineItems, {id: purchaseRequest.id});
+            } else {
+                var self = this;
+
+                var sameItemLineItem = _.find(self.lineItems, function (lineItem) {
+                    return lineItem.item.id === purchaseRequest.item.id;
+                });
+                this.lineItems.push(purchaseRequest);
+                var index = _.indexOf(self.lineItems, purchaseRequest);
+                if(sameItemLineItem) Vue.set(self.lineItems[index], 'order_price', sameItemLineItem.order_price);
+            }
         },
         alreadySelectedPR: function (purchaseRequest) {
             return _.find(this.lineItems, function (pr) {
@@ -1710,7 +1748,7 @@ Vue.component('select-line-items', {
                 });
             } else {
                 _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
+                    if (!self.alreadySelectedPR(request)) self.selectPR(request);
                 });
             }
         }

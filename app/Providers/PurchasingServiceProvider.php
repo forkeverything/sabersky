@@ -69,8 +69,28 @@ class PurchasingServiceProvider extends ServiceProvider
 
             // PR & Line Items
 
-                Validator::extend('line_item_quantity_valid', function ($attribute, $value, $parameters, $validator) {
+                // Line Item - Can't have quantities greater than their Request's quantity (can't order more than we need)
+                Validator::extend('line_item_quantity', function ($attribute, $value, $parameters, $validator) {
+                    if($value['order_quantity'] < 1) return false;
                     return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
+                });
+
+                // Line Item - Can't have different price for same item in the same (single) order
+                Validator::extend('line_item_price', function ($attribute, $value, $parameters, $validator) {
+
+                    $currentLineItem = $value;
+                    $currentItem = PurchaseRequest::find($currentLineItem["id"])->item;
+
+                    $allLineItems = collect(array_get($validator->getData(), "line_items"));
+
+                    $lineItemsWithSameItem = $allLineItems->filter(function ($lineItem) use ($currentItem) {
+                        $item = PurchaseRequest::find($lineItem["id"])->item;
+                        return $currentItem->id == $item->id;
+                    });
+
+                    $samePrice = $lineItemsWithSameItem->unique('order_price');
+
+                    return count($samePrice) === 1;
                 });
 
                 Validator::extend('pr_state_open', function ($attribute, $value, $parameters, $validator) {
@@ -111,8 +131,8 @@ class PurchasingServiceProvider extends ServiceProvider
                     return $validRoles;
 
                 });
-        
-        
+
+
     }
 
     /**

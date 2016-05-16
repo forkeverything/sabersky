@@ -663,32 +663,6 @@ Vue.directive('table-bulk-actions', function () {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -818,6 +792,83 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
+            }
+        }
+    },
+    ready: function() {
+    }
+});
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -837,7 +888,7 @@ Vue.component('form-errors', {
             var self = this;
             var newErrors = [];
             _.forEach(errors, function (error) {
-                newErrors.push(error);
+                if(newErrors.indexOf(error[0]) == -1) newErrors.push(error[0]);
             });
             self.errors = newErrors;
         },
@@ -1812,47 +1863,6 @@ Vue.component('single-pr-modal', {
 });
 
 
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
-    '<span class="dash">-</span>'+
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-            }
-        }
-    }
-});
 var apiRequestAllBaseComponent = Vue.extend({
     name: 'APIRequestall',
     data: function () {
@@ -2191,16 +2201,16 @@ Vue.component('currency-selecter', {
         var self = this;
         var selecter = $('.currency-selecter').selectize({
             valueField: 'id',
-            searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
+            searchField: ['country_name', 'name', 'code', 'symbol'],
             create: false,
             placeholder: 'Search for a currency',
             maxItems: 1,
             render: {
                 option: function(item, escape) {
-                    return '<div class="option-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol) + '</div>'
+                    return '<div class="option-currency">' + escape(item.country_name) + ' - ' + escape(item.symbol) + '</div>'
                 },
                 item: function(item, escape) {
-                    return '<div class="selected-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol)  + '</div>'
+                    return '<div class="selected-currency">' + escape(item.country_name) + ' - ' + escape(item.symbol)  + '</div>'
                 }
             },
             load: function(query, callback) {
@@ -2361,6 +2371,58 @@ Vue.component('item-sku-selecter', {
                 self.name = value;
             }
         });
+    }
+});
+Vue.component('line-item-price-input', {
+    name: 'lineItemPriceInput',
+    template: '<input type="text" class="input-price form-control" v-model="inputVal" placeholder="price" @change="updateOtherLineItemPrices()">',
+    props: ['model', 'line-items', 'current-line-item', 'decimal'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+            }
+        }
+    },
+    methods: {
+        updateOtherLineItemPrices: function () {
+            console.log('changed!');
+
+            var self = this;
+
+            var otherLineItemsWithSameItem = _.filter(self.lineItems, function (lineItem) {
+                return lineItem.item.id === self.currentLineItem.item.id;
+            });
+
+            console.log(otherLineItemsWithSameItem);
+
+            _.forEach(otherLineItemsWithSameItem, function (lineItem) {
+
+                if(lineItem.id === self.currentLineItem.id) return;
+
+                var index = _.indexOf(self.lineItems, lineItem);
+                console.log('index is: ' + index);
+
+                var updatedLineItem = lineItem;
+                updatedLineItem.order_price = self.currentLineItem.order_price;
+                console.log('updated price is: ' + updatedLineItem.order_price);
+
+                self.lineItems.splice(index, 1, updatedLineItem);
+
+            });
+        }
+    },
+    ready: function() {
     }
 });
 Vue.component('modal-select-address', {

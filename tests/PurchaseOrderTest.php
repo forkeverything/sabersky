@@ -174,8 +174,8 @@ class PurchaseOrderTest extends TestCase
         $rule1 = m::mock(Rule::class);
         $rule2 = m::mock(Rule::class);
         $company->shouldReceive('getRules')
-        ->once()
-        ->andReturn([$rule1, $rule2]);
+                ->once()
+                ->andReturn([$rule1, $rule2]);
         $rule1->shouldReceive('processPurchaseOrder')->once()->with(static::$purchaseOrder);
         $rule2->shouldReceive('processPurchaseOrder')->once()->with(static::$purchaseOrder);
         static::$purchaseOrder->attachRules($company);
@@ -221,32 +221,31 @@ class PurchaseOrderTest extends TestCase
         ]);
 
 
-
         // Create our costs / discount
-            // tax = 30% = (0.3 * 100) = 30
-            factory(\App\PurchaseOrderAdditionalCost::class)->create([
-                'type' => '%',
-                'amount' => '30',
-                'purchase_order_id' => static::$purchaseOrder->id
-            ]);
-            // Shipping = 20 (fixed)
-            factory(\App\PurchaseOrderAdditionalCost::class)->create([
-                'type' => 'fixed',
-                'amount' => '20',
-                'purchase_order_id' => static::$purchaseOrder->id
-            ]);
-            // discount = -10% = - (0.1) * 100 = -10
-            factory(\App\PurchaseOrderAdditionalCost::class)->create([
-                'type' => '%',
-                'amount' => '-10',
-                'purchase_order_id' => static::$purchaseOrder->id
-            ]);
-            // Gift voucher = -5
-            factory(\App\PurchaseOrderAdditionalCost::class)->create([
-                'type' => 'fixed',
-                'amount' => '-5',
-                'purchase_order_id' => static::$purchaseOrder->id
-            ]);
+        // tax = 30% = (0.3 * 100) = 30
+        factory(\App\PurchaseOrderAdditionalCost::class)->create([
+            'type' => '%',
+            'amount' => '30',
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+        // Shipping = 20 (fixed)
+        factory(\App\PurchaseOrderAdditionalCost::class)->create([
+            'type' => 'fixed',
+            'amount' => '20',
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+        // discount = -10% = - (0.1) * 100 = -10
+        factory(\App\PurchaseOrderAdditionalCost::class)->create([
+            'type' => '%',
+            'amount' => '-10',
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
+        // Gift voucher = -5
+        factory(\App\PurchaseOrderAdditionalCost::class)->create([
+            'type' => 'fixed',
+            'amount' => '-5',
+            'purchase_order_id' => static::$purchaseOrder->id
+        ]);
 
         static::$purchaseOrder->setTotal();
 
@@ -281,8 +280,75 @@ class PurchaseOrderTest extends TestCase
 
         $this->assertEquals('pending', PurchaseOrder::find($invalidPO->id)->status);
         $this->assertEquals('approved', PurchaseOrder::find($validPO->id)->status);
+    }
+
+    /**
+     * @test
+     */
+    public function it_finds_the_orders_items_with_correct_quantities()
+    {
+        $differentPO = factory(PurchaseOrder::class)->create([
+            'company_id' => static::$purchaseOrder->company_id
+        ]);
+
+        $itemAndRequests = [
+            "A" => 2,
+            "B" => 1,
+            "C" => 1
+        ];
+
+        foreach ($itemAndRequests as $item => $numRequests) {
+            $itemName = 'item_' . $item;
+            $$itemName = factory(Item::class)->create([
+                'company_id' => static::$purchaseOrder->company_id
+            ]);
+
+            for ($i = 0; $i < $numRequests; $i++) {
+                $requestName = 'PR_' . $item . '_' . ($i + 1);
+
+                $$requestName = factory(\App\PurchaseRequest::class)->create([
+                    'item_id' => $$itemName->id
+                ]);
+            }
+        }
+
+        $orders = [
+            "target" => [
+                'PR_A_1' => 10,
+                'PR_A_2' => 15,
+                'PR_B_1' => 30,
+                "PR_C_1" => 8
+            ],
+            "different" => [
+                'PR_B_1' => 5
+            ]
+        ];
 
 
+        foreach ($orders as $orderIdentifier => $lineItems) {
+            $po = static::$purchaseOrder;
+            if($orderIdentifier === "different") $po = $differentPO;
+            foreach ($lineItems as $PR => $quantity) {
+                factory(LineItem::class)->create([
+                    'purchase_order_id' => $po->id,
+                    'purchase_request_id' => $$PR->id,
+                    'quantity' => $quantity
+                ]);
+            }
+        }
+
+
+        $this->assertCount(3, static::$purchaseOrder->items);
+
+        $itemsAndQuantities = [
+            'item_A' => 25,     // 1 Item -> 2 Requests -> 1 Order
+            'item_B' => 30,     // 1 Item -> 1 Request -> 2 Orders
+            'item_C' => 8       // 1 Item -> 1 Request -> 1 ORder
+        ];
+
+        foreach ($itemsAndQuantities as $item => $quantity) {
+            $this->assertEquals($quantity, static::$purchaseOrder->items->where('id', $$item->id)->first()->order_quantity);
+        }
     }
 
 }

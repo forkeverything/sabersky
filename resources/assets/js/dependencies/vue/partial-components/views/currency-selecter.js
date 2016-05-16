@@ -8,16 +8,16 @@ Vue.component('currency-selecter', {
         var self = this;
         var selecter = $('.currency-selecter').selectize({
             valueField: 'id',
-            searchField: ['name', 'currency', 'currency_code', 'currency_symbol'],
+            searchField: ['country_name', 'name', 'code', 'symbol'],
             create: false,
             placeholder: 'Search for a currency',
             maxItems: 1,
             render: {
                 option: function(item, escape) {
-                    return '<div class="option-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol) + '</div>'
+                    return '<div class="option-currency">' + escape(item.country_name) + ' - ' + escape(item.symbol) + '</div>'
                 },
                 item: function(item, escape) {
-                    return '<div class="selected-currency">' + escape(item.name) + ' - ' + escape(item.currency_symbol)  + '</div>'
+                    return '<div class="selected-currency">' + escape(item.country_name) + ' - ' + escape(item.symbol)  + '</div>'
                 }
             },
             load: function(query, callback) {

@@ -92,8 +92,8 @@ Vue.component('select-line-items', {
     '<td class="col-item">'+
     '<a class="dotted clickable" @click="showSinglePR(purchaseRequest)">'+
     '<span class="item-brand"'+
-    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }}</span>'+
-    '<span class="item-name">{{ purchaseRequest.item.name }}</span>'+
+    'v-if="purchaseRequest.item.brand.length > 0">{{ purchaseRequest.item.brand }} - </span>'+
+    ' <span class="item-name">{{ purchaseRequest.item.name }}</span>'+
     '</a>'+
     '<div class="bottom">'+
     '<span '+
@@ -217,7 +217,18 @@ Vue.component('select-line-items', {
             this.searchPurchaseRequests();
         },
         selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.lineItems = _.reject(this.lineItems, purchaseRequest) : this.lineItems.push(purchaseRequest);
+            if(this.alreadySelectedPR(purchaseRequest)) {
+                this.lineItems = _.reject(this.lineItems, {id: purchaseRequest.id});
+            } else {
+                var self = this;
+
+                var sameItemLineItem = _.find(self.lineItems, function (lineItem) {
+                    return lineItem.item.id === purchaseRequest.item.id;
+                });
+                this.lineItems.push(purchaseRequest);
+                var index = _.indexOf(self.lineItems, purchaseRequest);
+                if(sameItemLineItem) Vue.set(self.lineItems[index], 'order_price', sameItemLineItem.order_price);
+            }
         },
         alreadySelectedPR: function (purchaseRequest) {
             return _.find(this.lineItems, function (pr) {
@@ -232,7 +243,7 @@ Vue.component('select-line-items', {
                 });
             } else {
                 _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request)) self.lineItems.push(request);
+                    if (!self.alreadySelectedPR(request)) self.selectPR(request);
                 });
             }
         }

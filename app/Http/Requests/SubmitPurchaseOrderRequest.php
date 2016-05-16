@@ -49,7 +49,7 @@ class SubmitPurchaseOrderRequest extends Request
             // Line Items
                 'line_items.*.order_quantity' => 'required',
                 'line_items.*.order_price' => 'required',
-                'line_items.*' => 'required|line_item_quantity_valid|pr_can_fulfill|pr_state_open',
+                'line_items.*' => 'required|line_item_quantity|line_item_price|pr_can_fulfill|pr_state_open',
             // Additional costs
                 'additional_costs.*.name' => 'required',
                 'additional_costs.*.type' => 'required',
@@ -82,7 +82,8 @@ class SubmitPurchaseOrderRequest extends Request
             'shipping_state.required_if' => 'Shipping State required',
             'shipping_country_id.required_if' => 'Shipping Country not selected',
             // Line Items
-            'line_items.*.line_item_quantity_valid' => 'Line Item QTY exceeds Request QTY',
+            'line_items.*.line_item_quantity' => 'Line Item QTY must be greater than 0 and less than requested amount',
+            'line_items.*.line_item_price' => 'Line Items for a single item must have the same price',
             'line_items.*.pr_can_fulfill' => 'Not authorized to fulfill this Request',
             'line_items.*.pr_state_open' => 'Request is not open for fulfillment',
             'line_items.*.order_quantity.required' => 'Line Item QTY required',

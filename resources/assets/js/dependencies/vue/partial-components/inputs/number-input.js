@@ -1,7 +1,7 @@
 Vue.component('number-input', {
     name: 'numberInput',
     template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled'],
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
     computed: {
         precision: function() {
             return this.decimal || 0;
@@ -17,7 +17,17 @@ Vue.component('number-input', {
                 // Acts like a 2 way filter
                 var decimal = this.decimal || 0;
                 this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
             }
         }
+    },
+    ready: function() {
     }
 });
