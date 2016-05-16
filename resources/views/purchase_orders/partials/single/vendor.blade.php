@@ -1,6 +1,6 @@
-<span class="subheading">Vendor</span>
-<h2 class="name">{{ $purchaseOrder->vendor->name }}</h2>
-<span class="subheading">Address</span>
-    @include('layouts.partials.address', ['address' => $purchaseOrder->vendorAddress])
-<span class="subheading">Bank Account</span>
-@include('layouts.partials.bank_account', ['bankAccount' => $purchaseOrder->vendorBankAccount])
+<h3>Vendor</h3>
+<h2 class="name">@{{ purchaseOrder.vendor.name }}</h2>
+<h5>Address</h5>
+<address :address="purchaseOrder.vendor_address"></address>
+<h5>Bank Account</h5>
+<bank-account :bank-account="purchaseOrder.vendor_bank_account"></bank-account>

@@ -240,7 +240,7 @@ class Rule extends Model
     protected function checkSingleItemExceeds(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
         // Do any items exceed the single item limit?
-        if ($lineItem->subtotalExceeds($this->limit)) $this->attachToPO($purchaseOrder);
+        if ($lineItem->totalExceeds($this->limit)) $this->attachToPO($purchaseOrder);
     }
 
     /**

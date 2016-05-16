@@ -54,6 +54,10 @@ class LineItem extends Model
         'delivery'
     ];
 
+    protected $appends = [
+        'total'
+    ];
+
 
     /**
      * Set 'payable' field as Carbon Date
@@ -96,17 +100,27 @@ class LineItem extends Model
     }
 
     /**
-     * Takes a limit and sees if this Line Item's subtotal, price * quantity
+     * Calculated total for Line Item
+     * 
+     * @return float
+     */
+    public function getTotalAttribute()
+    {
+        return $this->price * $this->quantity;
+    }
+
+    /**
+     * Takes a limit and sees if this Line Item's total (price * quantity)
      * is over the limit.
      *
      * Tested in RuleTest
-     * 
+     *
      * @param $limit
      * @return bool
      */
-    public function subtotalExceeds($limit)
+    public function totalExceeds($limit)
     {
-        return ($this->price * $this->quantity) > $limit;
+        return $this->total > $limit;
     }
 
     /**

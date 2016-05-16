@@ -1,13 +1,15 @@
-<h5>Purchase</h5>
-<table class="line-items table-responsive">
+<h3>Items</h3>
+<div class="line-items table-responsive">
     <!-- PO Single - Items Table -->
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
             <th>#</th>
+            <th>PR</th>
             <th>SKU</th>
             <th>Description</th>
-            <th>Required Date</th>
+            <th>Payable</th>
+            <th>Delivery</th>
             <th>Qty</th>
             <th>Unit Price</th>
             <th>Total</th>
@@ -15,18 +17,37 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($purchaseOrder->lineItems as $index => $lineItem)
+        <template v-for="(index, lineItem) in purchaseOrder.line_items">
             <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>@if($lineItem->purchaseRequest->item->sku){{ $lineItem->purchaseRequest->item->sku }}@else-@endif</td>
+                <td>@{{ index + 1 }}</td>
+                <td>#@{{ lineItem.purchase_request.number }}</td>
+                <td><span v-if="lineItem.purchase_request.item.sku"></span>@{{ lineItem.purchase_request.item.sku }}<span v-else>-</span></td>
                 <td>
                     <span class="item-brand-name">
-                        @if($lineItem->purchaseRequest->item->brand)<span class="brand">{{ $lineItem->purchaseRequest->item->brand }}</span> - @endif
-                        <span class="name">{{ $lineItem->purchaseRequest->item->name }}</span>
+                        <span class="brand" v-if="lineItem.purchase_request.item.brand">@{{ lineItem.purchase_request.item.brand }} - </span>
+                        <span class="name">@{{ lineItem.purchase_request.item.name }}</span>
+                    </span>
+                    <span class="item-specification">
+                        @{{ lineItem.purchase_request.item.specification }}
                     </span>
                 </td>
+                <td>
+                    @{{ lineItem.payable | easyDate }}
+                </td>
+                <td>
+                    @{{ lineItem.delivery | easyDate }}
+                </td>
+                <td>
+                    @{{ lineItem.quantity }}
+                </td>
+                <td>
+                    @{{ lineItem.price }}
+                </td>
+                <td>
+                    @{{ lineItem.total }}
+                </td>
             </tr>
-        @endforeach
+        </template>
         </tbody>
     </table>
-</table>
+</div>

@@ -42,28 +42,6 @@ Vue.component('purchase-orders-submit', {
     },
     props: ['user'],
     computed: {
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        userCurrency: function () {
-            return this.user.company.settings.currency;
-        },
-        currencySymbol: function () {
-            return this.currency ? this.currency.currency_symbol : this.userCurrency.currency_symbol;
-        },
-        company: function () {
-            return this.user.company;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
         hasLineItems: function () {
             return this.lineItems.length > 0;
         },
@@ -94,9 +72,9 @@ Vue.component('purchase-orders-submit', {
             // one selected
             if (!this.vendor.id) validVendor = false;
             // if we need address and no address
-            if (this.user.company.settings.po_requires_address && !this.selectedVendorAddress) validVendor = false;
+            if (this.PORequiresAddress && !this.selectedVendorAddress) validVendor = false;
             // if we need bank account and no bank account selected
-            if (this.user.company.settings.po_requires_bank_account && !this.selectedVendorBankAccount) validVendor = false;
+            if (this.PORequiresBankAccount && !this.selectedVendorBankAccount) validVendor = false;
 
             // Order
             // currency set!
@@ -141,7 +119,7 @@ Vue.component('purchase-orders-submit', {
         calculateTotal: function (lineItem) {
             if (!lineItem.order_quantity || !lineItem.order_price) return '-';
             var currencySymbol = this.currencySymbol || '$';
-            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.user.company.settings.currency_decimal_points);
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.currencyDecimalPoints);
         },
         createOrder: function () {
             var self = this;
@@ -210,7 +188,7 @@ Vue.component('purchase-orders-submit', {
             return firstLineItem.id == lineItem.id;
         }
     },
-    mixins: [modalSinglePR],
+    mixins: [userCompany, modalSinglePR],
     ready: function () {
 
         var self = this;

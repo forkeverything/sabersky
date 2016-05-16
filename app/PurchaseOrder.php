@@ -73,7 +73,9 @@ class PurchaseOrder extends Model
         'currency_country_name',
         'currency_name',
         'currency_code',
-        'currency_symbol'
+        'currency_symbol',
+        'billing_address_same_as_company',
+        'shipping_address_same_as_billing'
     ];
 
     /**
@@ -442,7 +444,7 @@ class PurchaseOrder extends Model
      *
      * @return bool
      */
-    public function billingAddressSameAsCompany()
+    public function getBillingAddressSameAsCompanyAttribute()
     {
         return $this->billingAddress->id === $this->company->address->id;
     }
@@ -451,7 +453,7 @@ class PurchaseOrder extends Model
      * Check if Order shipping address same as billing
      * @return bool
      */
-    public function shippingAddressSameAsBilling()
+    public function getShippingAddressSameAsBillingAttribute()
     {
         return $this->shippingAddress->id === $this->billingAddress->id;
     }

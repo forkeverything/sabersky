@@ -145,6 +145,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder', 'uses' => 'PurchaseOrdersController@reject']);
     Route::post('/api/purchase_orders/submit', 'PurchaseOrdersController@apiPostSubmit');
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiGetAll');
+    Route::get('/api/purchase_orders/{purchaseOrder}', 'PurchaseOrdersController@apiGetSingle');
 
     /*
      * Line Items

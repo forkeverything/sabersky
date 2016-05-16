@@ -61,7 +61,7 @@ class PusakaSetupSeeder extends Seeder
              ->createUserMike()
              ->makeProject()
              ->createVendors()
-            ->makeRules()
+             ->makeRules()
              ->createPurchaseOrders();
 
 
@@ -274,11 +274,22 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
     protected function makeLineItem($order, $request)
     {
         if (!$request->quantity) return;
+
+        $previousOrderedLineItemsForSameItem = $request->item->lineItems;
+        $price = null;
+
+        foreach ($previousOrderedLineItemsForSameItem as $lineItem) {
+            if ($lineItem->purchase_order_id === $order->id) {
+                $price = $lineItem->price;
+                break;
+            }
+        }
+
         $lineItem = \App\LineItem::create([
             'quantity' => $this->faker->numberBetween(1, $request->quantity),
             'purchase_request_id' => $request->id,
             'purchase_order_id' => $order->id,
-            'price' => $this->faker->randomNumber(3),
+            'price' => $price ?: $this->faker->randomNumber(3),
             'payable' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
             'delivery' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
         ]);

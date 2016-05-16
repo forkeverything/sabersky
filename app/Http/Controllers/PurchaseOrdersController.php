@@ -30,7 +30,7 @@ class PurchaseOrdersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('api.only', [
-            'only' => ['apiGetAll', 'apiPostSubmit']
+            'only' => ['apiGetAll', 'apiPostSubmit', 'apiGetSingle']
         ]);
 
         // Call base Controller class's constructor to get access to shared view $variables
@@ -126,6 +126,20 @@ class PurchaseOrdersController extends Controller
         }
         flash()->error('Not allowed to view that Order');
         return redirect('/purchase_orders');
+    }
+
+    /**
+     * Get req. to get a single PO as json
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @return $this
+     */
+    public function apiGetSingle(PurchaseOrder $purchaseOrder)
+    {
+        if (Gate::allows('view', $purchaseOrder)) {
+            return $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems','lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress');
+        }
+        abort(403, "Not allowed to view that order");
     }
 
 //

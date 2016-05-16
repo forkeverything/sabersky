@@ -1,26 +1,28 @@
-@if($purchaseOrder->status === 'pending')
-    <span class="badge badge-warning po-badge">{{ $purchaseOrder->status }}</span>
-@elseif($purchaseOrder->status === 'approved')
-    <span class="badge badge-success po-badge">{{ $purchaseOrder->status }}</span>
-@else
-    <span class="badge badge-danger po-badge">{{ $purchaseOrder->status }}</span>
-@endif
+<span class="badge po-badge"
+       :class="{
+            'badge-warning': purchaseOrder.status === 'pending',
+            'badge-success': purchaseOrder.status === 'approved',
+            'badge-danger': purchaseOrder.status === 'rejected'
+       }"
+ >@{{ purchaseOrder.status }}
+</span>
 
-@if($purchaseOrder->status === 'pending')
-    <div class="approval-controls">
+
+ <div class="approval-controls" v-if="purchaseOrder.status === 'pending'">
         <button class="btn-approve btn btn-small btn-solid-green">Approve</button>
         <button class="btn-reject btn btn-small btn-outline-red">Reject</button>
     </div>
-@endif
 
 
-@if($purchaseOrder->rules)
-    <ul class="attached-rules list-unstyled">
-        @foreach($purchaseOrder->rules as $rule)
-            <li class="rule">* {{ $rule->property->label }}
-                - {{ $rule->trigger->label }}@if($rule->trigger->has_limit)@if($rule->trigger->has_currency) {{ $rule->currency->symbol }}@endif{{ number_format($rule->limit, $companyCurrencyDecimalPoints ) }}@endif</li>
-        @endforeach
+
+
+    <ul class="attached-rules list-unstyled" v-if="purchaseOrder.rules.length > 0">
+
+            <li class="rule"
+                v-for="rule in purchaseOrder.rules"
+            >* @{{ rule.property.label }}
+                - @{{ rule.trigger.label }} <span v-if="rule.trigger.has_limit">@{{ formatRuleLimit(rule) }}</span></li>
+
     </ul>
-@else
-    <em>none</em>
-@endif
+
+
