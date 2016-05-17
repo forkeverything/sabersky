@@ -265,21 +265,34 @@ class PurchaseOrderTest extends TestCase
             'limit' => 100
         ]);
 
+        $orders = [
+            "noRulesPO" => "approved",
+            "pendingPO" => "pending",
+            "approvedPO" => "approved"
+        ];
 
-        // pending, rules - still pending
-        $invalidPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
-        // Manually attach a rule * Only for testing, usually we only want the Rule Model to do all the
-        // attaching / detaching for consistency's stake
-        $invalidPO->rules()->attach($rule);
+        foreach ($orders as $order => $status) {
+            $$order = factory(PurchaseOrder::class)->create(['status' => 'pending']);
 
-        // pending, no rules  - approve
-        $validPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+            // Order with a rule that's pending SHOULDN'T be approved
+            if ($order === "pendingPO") {
+                // Manually attach a rule * Only for testing, usually we only want the Rule Model to do all the
+                // attaching / detaching for consistency's stake
+                $$order->rules()->attach($rule);
+            }
 
-        $invalidPO->tryAutoApprove();
-        $validPO->tryAutoApprove();
+            // Order with approved rule SHOULD be approved
+            if ($order === "approvedPO") {
+                // Attach Rule to PO
+                $$order->rules()->attach($rule);
+                // Then approve the rule first (manually)
+                $$order->rules->first()->setPurchaseOrderApproved(1);
+            }
 
-        $this->assertEquals('pending', PurchaseOrder::find($invalidPO->id)->status);
-        $this->assertEquals('approved', PurchaseOrder::find($validPO->id)->status);
+            $$order->updateStatus();
+
+            $this->assertEquals($status, PurchaseOrder::find($$order->id)->status);
+        }
     }
 
     /**
@@ -349,6 +362,54 @@ class PurchaseOrderTest extends TestCase
         foreach ($itemsAndQuantities as $item => $quantity) {
             $this->assertEquals($quantity, static::$purchaseOrder->items->where('id', $$item->id)->first()->order_quantity);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function it_handles_given_rule()
+    {
+
+        $rule = factory(Rule::class)->create();
+        $user = factory(User::class)->create();
+        $rule->attachUserRole($user);
+
+        static::$purchaseOrder->rules()->attach($rule);
+
+        $this->assertNull(static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        static::$purchaseOrder->handleRule('reject', $rule, $user);
+        $this->assertEquals(0, static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        static::$purchaseOrder->handleRule('approve', $rule, $user);
+        $this->assertEquals(1, static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
+
+    }
+
+    /**
+     * @test
+     */
+    public function it_finds_out_whether_an_order_has_a_rejected_rule()
+    {
+        // No rules - no rejected rule
+        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+        // Add a pending rule
+        $rule = factory(Rule::class)->create();
+        static::$purchaseOrder->rules()->attach($rule);
+        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+
+        /**
+         * The order here is important because you can approve a rejected Rule but you can't
+         * un-approve a rule
+         */
+
+        // Reject rule
+        static::$purchaseOrder->rules->first()->setPurchaseOrderApproved(0);
+        $this->assertTrue(static::$purchaseOrder->hasRejectedRule());
+
+        // Approve rule
+        static::$purchaseOrder->rules->first()->setPurchaseOrderApproved(1);
+        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
     }
 
 }

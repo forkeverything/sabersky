@@ -6153,6 +6153,9 @@ button.close {
 .btn-danger {
   color: #E74C3C; }
 
+.btn-success {
+  color: #27AE60; }
+
 .btn-remove {
   font-size: 18px;
   font-weight: bold;
@@ -7842,15 +7845,28 @@ label {
     padding: 15px;
     width: 255px;
     margin: 0 0 15px 0; }
-  #purchase-order-single .approvals .approval-controls {
-    margin: 0 0 10px; }
-    #purchase-order-single .approvals .approval-controls .btn {
-      height: 30px;
-      width: 120px; }
-    #purchase-order-single .approvals .approval-controls .btn-approve {
-      margin-right: 15px; }
-  #purchase-order-single .approvals .attached-rules .rule {
-    font-size: 0.9em; }
+  #purchase-order-single .approvals .po-single-rules .table-rules {
+    background: #fff;
+    margin: 0; }
+    #purchase-order-single .approvals .po-single-rules .table-rules tr td {
+      height: 45px;
+      vertical-align: middle; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-description {
+      padding: 0.5em 1em;
+      text-align: left; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-status {
+      text-align: center; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-buttons, #purchase-order-single .approvals .po-single-rules .table-rules .col-warning {
+      width: 90px; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-buttons {
+      padding: 0; }
+      #purchase-order-single .approvals .po-single-rules .table-rules .col-buttons .btn {
+        padding: 10px 16px;
+        height: initial; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-warning {
+      text-align: center;
+      color: #93989F;
+      padding: 10px 16px; }
 
 #purchase-order-single .meta {
   margin: 0 0 15px 0;
@@ -7889,13 +7905,16 @@ label {
     display: block;
     margin: 0 0 5px; }
   #purchase-order-single .line-items .col-details {
-    min-width: 250px; }
+    min-width: 300px; }
   #purchase-order-single .line-items .col-payable, #purchase-order-single .line-items .col-delivery, #purchase-order-single .line-items .col-quantity, #purchase-order-single .line-items .col-price, #purchase-order-single .line-items .col-total {
     text-align: center; }
+  @media screen and (min-width: 1200px) {
+    #purchase-order-single .line-items .col-quantity, #purchase-order-single .line-items .col-price, #purchase-order-single .line-items .col-total {
+      min-width: 100px; } }
   #purchase-order-single .line-items .po-single-request-table .btn-mark-paid, #purchase-order-single .line-items .po-single-request-table .btn-mark-received {
     display: block;
     width: 100px;
-    margin: 5px 0 0 0; }
+    margin: 5px auto 0 auto; }
   #purchase-order-single .line-items table tr td {
     vertical-align: middle; }
 
@@ -8898,6 +8917,17 @@ table thead th.heading-center {
 table thead th.heading-right {
   text-align: right; }
 
+table tbody tr td.content-right {
+  text-align: right;
+  padding: 10px 26px 10px 10px; }
+
+table tbody tr td.content-center {
+  text-align: center;
+  padding: 10px 26px 10px 10px; }
+
+table tbody tr td.fit-to-content {
+  width: 1%; }
+
 .table-controls {
   margin: 0 0 15px 0; }
 
@@ -9027,14 +9057,6 @@ table thead th.heading-right {
     border-left: 1px solid #E6E9EB; }
   .table-standard tbody tr td:last-child {
     border-right: 1px solid #E6E9EB; }
-  .table-standard tbody tr td.content-right {
-    text-align: right;
-    padding: 10px 26px 10px 10px; }
-  .table-standard tbody tr td.content-center {
-    text-align: center;
-    padding: 10px 26px 10px 10px; }
-  .table-standard tbody tr td.fit-to-content {
-    width: 1%; }
 
 .table-standard.table-hover tbody tr:hover {
   background: #eff9fd; }
@@ -9758,6 +9780,12 @@ a {
     a.underline:hover {
       color: #3498DB;
       border-bottom: 1px solid #3498DB; }
+
+.icon-tick {
+  color: #2ECC71; }
+
+.icon-close {
+  color: #E74C3C; }
 
 h1 {
   margin: 0 0 30px; }

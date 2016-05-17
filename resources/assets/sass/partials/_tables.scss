@@ -11,6 +11,26 @@ table {
       }
     }
   }
+
+  tbody {
+    tr {
+      td {
+        &.content-right {
+          text-align: right;
+          padding: 10px 26px 10px 10px;
+        }
+
+        &.content-center {
+          text-align: center;
+          padding: 10px 26px 10px 10px;
+        }
+
+        &.fit-to-content {
+          width: 1%;
+        }
+      }
+    }
+  }
 }
 
 
@@ -187,20 +207,6 @@ table {
 
         &:last-child {
           border-right: 1px solid $border-light;
-        }
-
-        &.content-right {
-          text-align: right;
-          padding: 10px 26px 10px 10px;
-        }
-
-        &.content-center {
-          text-align: center;
-          padding: 10px 26px 10px 10px;
-        }
-
-        &.fit-to-content {
-          width: 1%;
         }
       }
     }

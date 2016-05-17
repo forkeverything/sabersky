@@ -32,10 +32,4 @@ class PurchaseOrderPolicy
     {
         return $user->company_id === $purchaseOrder->company_id;
     }
-
-    
-    public function approve(User $user, PurchaseOrder $purchaseOrder)
-    {
-        return (($user->role->position == 'director') || ($user->role->position == 'manager' && !$purchaseOrder->over_high));
-    }
 }

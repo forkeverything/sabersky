@@ -141,8 +141,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_orders', ['as' => 'showAllPurchaseOrders', 'uses' => 'PurchaseOrdersController@getAll']);
     Route::get('/purchase_orders/submit', ['as' => 'getSubmitPOForm', 'uses' => 'PurchaseOrdersController@getSubmitForm']);
     Route::get('/purchase_orders/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@getSingle']);
-    Route::post('/purchase_orders/approve', ['as' => 'approvePurchaseOrder', 'uses' => 'PurchaseOrdersController@approve']);
-    Route::post('/purchase_orders/reject', ['as' => 'rejectPurchaseOrder', 'uses' => 'PurchaseOrdersController@reject']);
+    Route::get('/purchase_orders/{purchaseOrder}/rule/{rule}/approve', 'PurchaseOrdersController@getApproveRule');
+    Route::get('/purchase_orders/{purchaseOrder}/rule/{rule}/reject', 'PurchaseOrdersController@getRejectRule');
     Route::post('/api/purchase_orders/submit', 'PurchaseOrdersController@apiPostSubmit');
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiGetAll');
     Route::get('/api/purchase_orders/{purchaseOrder}', 'PurchaseOrdersController@apiGetSingle');

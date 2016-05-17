@@ -76,7 +76,7 @@ class Rule extends Model
      */
     public function getCurrencyAttribute()
     {
-        return \App\Country::find($this->currency_id)->getCurrencyOnly();
+        if($this->trigger->has_currency) return \App\Country::find($this->currency_id)->getCurrencyOnly();
     }
 
     /**
@@ -94,7 +94,8 @@ class Rule extends Model
      */
     public function purchaseOrders()
     {
-        return $this->belongsToMany(PurchaseOrder::class);
+        return $this->belongsToMany(PurchaseOrder::class)
+                    ->withPivot('approved'); // get the approval status of the rule
     }
 
     /**
@@ -267,7 +268,45 @@ class Rule extends Model
      */
     protected function checkSingleItemPercentageOverMean(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
-        if($lineItem->itemPriceIsOverMeanBy($this->limit)) $this->attachToPO($purchaseOrder);
+        if ($lineItem->itemPriceIsOverMeanBy($this->limit)) $this->attachToPO($purchaseOrder);
+    }
+
+    /**
+     * Grabs the given User's role and attaches it to the
+     * Rule
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function attachUserRole(User $user)
+    {
+        return $this->roles()->attach($user->role->id);
+    }
+
+    /**
+     * Checks whether the given User is allowed to approve / reject
+     * the Rule
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function allowsUser(User $user)
+    {
+        return $this->roles->contains($user->role);
+    }
+
+    /**
+     * Mark the pivot table (for Purchase Order)'s
+     * approved column
+     * 
+     * @param $val
+     * @return mixed
+     */
+    public function setPurchaseOrderApproved($val)
+    {
+        if($val !== 1 && $val !== 0 || $this->pivot->approved === 1) return;
+        $this->pivot->approved = $val;
+        return $this->pivot->save();
     }
 
 }

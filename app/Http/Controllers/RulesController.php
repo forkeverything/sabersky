@@ -74,7 +74,7 @@ class RulesController extends Controller
             $affectedPOs = $rule->purchaseOrders;
             $rule->delete();
             // Re-check each PO for rules
-            foreach($affectedPOs as $affectedPO) $affectedPO->tryAutoApprove();
+            foreach($affectedPOs as $affectedPO) $affectedPO->updateStatus();
             return response('Successfully removed Rule');
         }
         abort(403, 'Rule does not belong to user');

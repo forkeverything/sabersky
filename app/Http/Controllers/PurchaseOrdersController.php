@@ -14,6 +14,7 @@ use App\PurchaseOrder;
 use App\Factories\PurchaseOrderFactory;
 use App\PurchaseRequest;
 use App\Repositories\CompanyPurchaseOrdersRepository;
+use App\Rule;
 use App\User;
 use App\Vendor;
 use Illuminate\Http\Request;
@@ -136,23 +137,46 @@ class PurchaseOrdersController extends Controller
     public function apiGetSingle(PurchaseOrder $purchaseOrder)
     {
         if (Gate::allows('view', $purchaseOrder)) {
-            return $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems','lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts');
+            return $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems', 'lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts');
         }
-        abort(403, "Not allowed to view that order");
+        return response("Not allowed to view that order", 403);
     }
 
-//
-//    public function approve(ApprovePurchaseOrderRequest $request)
-//    {
-//        PurchaseOrder::find($request->input('purchase_order_id'))->markApproved();
-//        return redirect(route('showAllPurchaseOrders'));
-//    }
-//
-//    public function reject(ApprovePurchaseOrderRequest $request)
-//    {
-//        PurchaseOrder::find($request->input('purchase_order_id'))->markRejected();
-//        return redirect(route('showAllPurchaseOrders'));
-//    }
+    /**
+     * Get Req. to approve a Rule on a PO
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param Rule $rule
+     * @return mixed
+     */
+    public function getApproveRule(PurchaseOrder $purchaseOrder, Rule $rule)
+    {
+        if (Gate::allows('view', $purchaseOrder)) {
+            if($purchaseOrder->handleRule('approve', $rule, Auth::user())) {
+                return $purchaseOrder->status;
+            }
+            return response("Could not approve rule", 500);
+        }
+        return response("Not allowed to view that order", 403);
+    }
+
+    /**
+     * Get Req. to reject a Rule on a PO
+     *
+     * @param PurchaseOrder $purchaseOrder
+     * @param Rule $rule
+     * @return mixed
+     */
+    public function getRejectRule(PurchaseOrder $purchaseOrder, Rule $rule)
+    {
+        if (Gate::allows('view', $purchaseOrder)) {
+            if($purchaseOrder->handleRule('reject', $rule, Auth::user())) {
+                return $purchaseOrder->status;
+            }
+            return response("Could not reject rule", 500);
+        }
+        return response("Not allowed to view that order", 403);
+    }
 
 
 }

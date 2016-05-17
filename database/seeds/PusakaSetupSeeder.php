@@ -63,17 +63,6 @@ class PusakaSetupSeeder extends Seeder
              ->createVendors()
              ->makeRules()
              ->createPurchaseOrders();
-
-
-        $this->company->employees()->save($this->user);
-
-        // Turn our user into an admin
-        $role = $this->company->createAdmin();
-        $role->giveAdminPermissions();
-        $this->user->setRole($role);
-
-
-        $this->user->projects()->save($this->project);
     }
 
     protected function truncateTables()
@@ -124,6 +113,14 @@ class PusakaSetupSeeder extends Seeder
             'password' => bcrypt('password')
         ]);
 
+
+        $this->company->employees()->save($this->user);
+
+        // Turn our user into an admin
+        $role = $this->company->createAdmin();
+        $role->giveAdminPermissions();
+        $this->user->setRole($role);
+
         return $this;
     }
 
@@ -135,6 +132,9 @@ class PusakaSetupSeeder extends Seeder
             'description' => 'Gallia est omnis divisa in partes tres, quarum. Ab illo tempore, ab est sed immemorabili. Nihil hic munitissimus habendi senatus locus, nihil horum? Quam diu etiam furor iste tuus nos eludet? Idque Caesaris facere voluntate liceret: sese habere. Magna pars studiorum, prodita quaerimus.
 A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Quae vero auctorem tractata ab fiducia dicuntur. Quam temere in vitiis, legem sancimus haerentia. Unam incolunt Belgae, aliam Aquitani, tertiam. Curabitur est gravida et libero vitae dictum.'
         ]);
+
+        $this->user->projects()->save($this->project);
+
         return $this;
     }
 
@@ -297,13 +297,25 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function makeRules()
     {
-        Rule::create([
+        $orderTotalExceeds = Rule::create([
             'rule_property_id' => 1,
             'rule_trigger_id' => 1,
             'limit' => 1000,
             'currency_id' => 840,
             'company_id' => $this->company->id
         ]);
+
+
+        $orderTotalExceeds->attachUserRole($this->user);
+
+        $newVendor = Rule::create([
+            'rule_property_id' => 2,
+            'rule_trigger_id' => 2,
+            'company_id' => $this->company->id
+        ]);
+
+        $newVendor->attachUserRole($this->user);
+
         return $this;
     }
 }

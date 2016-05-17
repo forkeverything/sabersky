@@ -49,7 +49,6 @@ class PurchaseOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'status',
         'number',
         'vendor_id',
         'vendor_address_id',
@@ -87,7 +86,6 @@ class PurchaseOrder extends Model
     protected $attributes = [
         'status' => 'pending'
     ];
-
 
 
     /**
@@ -284,7 +282,8 @@ class PurchaseOrder extends Model
      */
     public function rules()
     {
-        return $this->belongsToMany(Rule::class);
+        return $this->belongsToMany(Rule::class)
+                    ->withPivot('approved'); // get the approval status of the rule
     }
 
     /**
@@ -341,20 +340,48 @@ class PurchaseOrder extends Model
         // All done attaching rules...
         return $this;
     }
+    
 
     /**
-     * Approves a PO if it does not have any
-     * active rules that apply.
-     *
-     * @return $this
+     * Updates the Order's status if necessary
+     * 
+     * @return $this|void
      */
-    public function tryAutoApprove()
+    public function updateStatus()
     {
-        // If PO is 'pending' and DOES NOT have any attached rules
-        if ($this->hasStatus('pending') && count($this->rules) === 0) {
-            $this->markApproved();
-        }
+        // Can't un-approve a status
+        if($this->hasStatus('approved')) return;
+
+        // If this order has ANY rule rejected - then it is rejected. A rejected Order can be approved but not vice-versa.
+        if($this->hasRejectedRule()) $this->markRejected();
+
+        // If we don't have any rules or all rules are approved - then we can consider Order approved
+        if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved();
+
         return $this;
+    }
+
+    /**
+     * Quick checker to see if all the attached rules to this PO is
+     * marked approved
+     *
+     * @return bool
+     */
+    public function attachedRulesAllApproved()
+    {
+        $numApprovedRules = $this->rules->pluck('pivot')->where('approved', 1)->count();
+        $numTotalRules = $this->rules->count();
+        return $numApprovedRules === $numTotalRules;
+    }
+
+    /**
+     * Check whether Order has a rule that is 'rejected'
+     *
+     * @return mixed
+     */
+    public function hasRejectedRule()
+    {
+        return !! $this->rules()->wherePivot('approved', '=', 0)->first();
     }
 
 
@@ -492,6 +519,28 @@ class PurchaseOrder extends Model
                      ->get();
 
         $this->setRelation('items', $items);
+    }
+
+    /**
+     * Handles a Rule attached to this Order. We need to know the User
+     * trying to make the change so we can check their Role.
+     * 
+     * @param $action
+     * @param Rule $rule
+     * @param User $user
+     * @return mixed
+     */
+    public function handleRule($action, Rule $rule, User $user)
+    {
+        // Is User's Role defined within collection Roles?
+        if(! $rule->allowsUser($user)) abort(403, "User not authorized to approve that rule");
+
+        if($action === 'approve') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
+        if($action === 'reject') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
+
+        $this->updateStatus();
+
+        return $this->rules->where('id', $rule->id)->first()->pivot->save();
     }
 
 

@@ -18,6 +18,8 @@ class CreatePurchaseOrderRuleTable extends Migration
 
             $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
             $table->foreign('rule_id')->references('id')->on('rules')->onDelete('cascade');
+
+            $table->boolean('approved')->nullable();        // NULL = pending, 1 = approved, 0 = rejected
         });
     }
 

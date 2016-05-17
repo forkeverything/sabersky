@@ -336,6 +336,65 @@ class RuleTest extends TestCase
         $this->assertCount(0, PurchaseOrder::find($PO_4->id)->rules);
     }
 
+    /**
+     * @test
+     */
+    public function it_checks_whether_a_user_is_allowed_to_approve_or_reject()
+    {
+        $rule = factory(Rule::class)->create();
+        $allowedUser = factory(User::class)->create();
+        $notAllowedUser = factory(User::class)->create();
+
+        $rule->roles()->attach([$allowedUser->role->id]);
+
+        $this->assertTrue($rule->allowsUser($allowedUser));
+        $this->assertFalse($rule->allowsUser($notAllowedUser));
+    }
+
+    /**
+     * @test
+     */
+    public function it_attaches_given_users_role()
+    {
+        $rule = factory(Rule::class)->create();
+        $user = factory(User::class)->create();
+        $this->assertEmpty(Rule::find($rule->id)->roles);
+        $rule->attachUserRole($user);
+        $this->assertNotEmpty(Rule::find($rule->id)->roles);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_the_pivot_table_approved_property()
+    {
+        $rule = factory(Rule::class)->create();
+        $po = factory(PurchaseOrder::class)->create();
+        $po->rules()->attach($rule);
+
+        $this->assertNull($po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        // Reject a pending rule -> 0
+        $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
+        $this->assertEquals(0, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        // Approve a rejected rule -> 1
+        $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
+        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        // Reject an approved rule !! not allowed .. still 1
+        $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
+        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+
+        // Other values won't get set
+        $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved('foo');
+        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+
+    }
+
+
 
 
 

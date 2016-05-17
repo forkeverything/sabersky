@@ -221,7 +221,7 @@ class PurchaseOrderFactory
                             ->attachBillingAndShippingAddresses($this->billingAddress, $this->shippingAddress)
                             ->updatePurchaseRequests()
                             ->attachRules()
-                            ->tryAutoApprove();
+                            ->updateStatus();
 
         return $this->purchaseOrder;
     }
