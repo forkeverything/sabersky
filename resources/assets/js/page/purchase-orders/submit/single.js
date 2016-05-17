@@ -5,11 +5,13 @@ Vue.component('purchase-order-single', {
     },
     data: function() {
         return {
+            purchaseOrderID: '',
             purchaseOrder: {
                 vendor: {},
                 user: {},
                 rules: []
-            }
+            },
+            tableView: 'requests'
         };
     },
     props: [],
@@ -18,8 +20,11 @@ Vue.component('purchase-order-single', {
     },
     methods: {
         formatRuleLimit: function(rule) {
-            var currencySymbol = rule.trigger.has_currency ? this.userCurrency.symbol : null;
+            var currencySymbol = rule.trigger.has_currency ? rule.currency.symbol : null;
             return this.formatNumber(rule.limit, this.currencyDecimalPoints, currencySymbol);
+        },
+        changeTable: function(view) {
+            this.tableView = view;
         }
     },
     events: {
@@ -27,9 +32,7 @@ Vue.component('purchase-order-single', {
     },
     mixins: [userCompany, numberFormatter],
     ready: function() {
-        var url = window.location.href;
-        var purchaseOrderID = url.split('purchase_orders/')[1];
-        $.get('/api/purchase_orders/' + purchaseOrderID, function (data) {
+        $.get('/api/purchase_orders/' + this.purchaseOrderID, function (data) {
             this.purchaseOrder = data;
         }.bind(this));
     }

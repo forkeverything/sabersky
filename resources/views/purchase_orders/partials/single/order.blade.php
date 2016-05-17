@@ -1,9 +1,9 @@
 <!-- PO Single - Order -->
-
+<div class="meta hidden-xs">
+    @include('purchase_orders.partials.single.meta')
+</div>
 <div class="purchaser-addresses">
-    <div class="meta hidden-xs">
-        @include('purchase_orders.partials.single.meta')
-    </div>
+    <h3 class="hidden-xs">Order</h3>
     <div class="row">
         <div class="col-sm-6">
             <div class="billing-address">

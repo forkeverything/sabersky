@@ -40,7 +40,7 @@
   }
 
   .meta {
-    margin: 0 0 30px 0;
+    margin: 0 0 15px 0;
     text-align: right;
 
     .po-number, .submitted-date, .by-user {
@@ -48,10 +48,10 @@
     }
   }
 
-
   .vendor {
     border: 1px solid $grey;
     padding: 15px;
+    margin: 0 0 30px;
 
     .name {
       font-weight: bold;
@@ -64,21 +64,97 @@
   }
 
   .order {
+    margin: 0 0 30px;
 
-
+    .billing-address {
+      margin: 0 0 15px;
+    }
   }
 
 
   .line-items {
+    margin: 0 0 30px;
 
-  }
+    .table-view-select {
+      text-align: right;
 
-  .additional-costs {
+      .active {
+        border-bottom: 1px solid $blue;
+        color: $blue;
+      }
 
+      .requests, .items {
+        display: inline-block;
+      }
+
+      .requests {
+        border-right: 1px solid $border-dark;
+        padding-right: 8px;
+        margin-right: 5px;
+      }
+    }
+
+
+    .item-brand-name {
+      display: block;
+      margin: 0 0 5px;
+    }
+
+    .col-details {
+      min-width: 250px;
+    }
+
+    .col-payable, .col-delivery, .col-quantity, .col-price, .col-total {
+      text-align: center;
+    }
+
+
+    .po-single-request-table {
+
+      .btn-mark-paid, .btn-mark-received {
+        display: block;
+        width: 100px;
+        margin: 5px 0 0 0;
+      }
+    }
+
+    table {
+      tr {
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
   }
 
   .summary {
+    .table-summary {
+      font-size: 1.2em;
 
+      tr {
+        td {
+          border: 0;
+          padding: 5px;
+        }
+      }
+
+      .col-currency {
+        text-align: center;
+      }
+
+      .col-amount {
+        text-align: right;
+      }
+
+      .row-title, .row-total {
+        td {
+          padding: 10px 5px;
+          border-top: 1px solid #A1A4AA;
+          font-weight: bold;
+          font-size: 1.6em;
+        }
+      }
+    }
   }
 
 }

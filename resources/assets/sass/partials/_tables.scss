@@ -1,3 +1,19 @@
+
+table {
+  thead {
+    th {
+      &.heading-center {
+        text-align: center;
+      }
+
+      &.heading-right {
+        text-align: right;
+      }
+    }
+  }
+}
+
+
 .table-controls {
   margin: 0 0 15px 0;
 }
@@ -42,14 +58,6 @@
 
         &.padding-even {
           padding: 10px;
-        }
-
-        &.heading-center {
-          text-align: center;
-        }
-
-        &.heading-right {
-          text-align: right;
         }
 
         &.current_asc, &.current_desc {

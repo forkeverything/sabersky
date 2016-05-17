@@ -69,6 +69,7 @@ class PurchaseOrder extends Model
      * @var array
      */
     protected $appends = [
+        'items',
         'currency',
         'currency_country_name',
         'currency_name',
@@ -86,6 +87,7 @@ class PurchaseOrder extends Model
     protected $attributes = [
         'status' => 'pending'
     ];
+
 
 
     /**
@@ -483,7 +485,8 @@ class PurchaseOrder extends Model
                      ->select(\DB::raw('
                                 items.*,
                                 SUM(line_items.quantity) as order_quantity,
-                                line_items.price as order_unit_price
+                                line_items.price as order_unit_price,
+                                SUM(line_items.quantity) * line_items.price as order_total
                                '))
                      ->groupBy('items.id')
                      ->get();

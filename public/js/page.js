@@ -1,3 +1,167 @@
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
+    }
+});
 Vue.component('items-all', apiRequestAllBaseComponent.extend({
     name: 'allItems',
     el: function () {
@@ -461,170 +625,6 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: [],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
-            }
-        });
-    }
-});
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseRequests',
     el: function () {
@@ -875,6 +875,44 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -991,44 +1029,6 @@ Vue.component('team-single-user', {
         var self = this;
     }
 });
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('vendors-add-new', {
     name: 'addNewVendor',
     el: function() {
@@ -1753,11 +1753,13 @@ Vue.component('purchase-order-single', {
     },
     data: function() {
         return {
+            purchaseOrderID: '',
             purchaseOrder: {
                 vendor: {},
                 user: {},
                 rules: []
-            }
+            },
+            tableView: 'requests'
         };
     },
     props: [],
@@ -1766,8 +1768,11 @@ Vue.component('purchase-order-single', {
     },
     methods: {
         formatRuleLimit: function(rule) {
-            var currencySymbol = rule.trigger.has_currency ? this.userCurrency.symbol : null;
+            var currencySymbol = rule.trigger.has_currency ? rule.currency.symbol : null;
             return this.formatNumber(rule.limit, this.currencyDecimalPoints, currencySymbol);
+        },
+        changeTable: function(view) {
+            this.tableView = view;
         }
     },
     events: {
@@ -1775,9 +1780,7 @@ Vue.component('purchase-order-single', {
     },
     mixins: [userCompany, numberFormatter],
     ready: function() {
-        var url = window.location.href;
-        var purchaseOrderID = url.split('purchase_orders/')[1];
-        $.get('/api/purchase_orders/' + purchaseOrderID, function (data) {
+        $.get('/api/purchase_orders/' + this.purchaseOrderID, function (data) {
             this.purchaseOrder = data;
         }.bind(this));
     }

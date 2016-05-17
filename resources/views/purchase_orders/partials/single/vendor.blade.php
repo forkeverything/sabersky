@@ -1,4 +1,3 @@
-<h3>Vendor</h3>
 <h2 class="name">@{{ purchaseOrder.vendor.name }}</h2>
 <h5>Address</h5>
 <address :address="purchaseOrder.vendor_address"></address>

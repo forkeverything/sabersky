@@ -121,7 +121,6 @@ class PurchaseOrdersController extends Controller
                 ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
                 ['#' . $purchaseOrder->number, '#']
             ];
-            $purchaseOrder = $purchaseOrder->load('vendor', 'user', 'lineItems', 'rules', 'billingAddress', 'shippingAddress');
             return view('purchase_orders.single', compact('purchaseOrder', 'breadcrumbs'));
         }
         flash()->error('Not allowed to view that Order');
@@ -137,7 +136,7 @@ class PurchaseOrdersController extends Controller
     public function apiGetSingle(PurchaseOrder $purchaseOrder)
     {
         if (Gate::allows('view', $purchaseOrder)) {
-            return $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems','lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress');
+            return $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems','lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts');
         }
         abort(403, "Not allowed to view that order");
     }
