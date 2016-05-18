@@ -152,9 +152,7 @@ class PurchaseOrdersController extends Controller
     public function getApproveRule(PurchaseOrder $purchaseOrder, Rule $rule)
     {
         if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule('approve', $rule, Auth::user())) {
-                return $purchaseOrder->status;
-            }
+            if($purchaseOrder->handleRule('approve', $rule, Auth::user())) return $purchaseOrder->status;
             return response("Could not approve rule", 500);
         }
         return response("Not allowed to view that order", 403);
@@ -170,12 +168,35 @@ class PurchaseOrdersController extends Controller
     public function getRejectRule(PurchaseOrder $purchaseOrder, Rule $rule)
     {
         if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule('reject', $rule, Auth::user())) {
-                return $purchaseOrder->status;
-            }
+            if($purchaseOrder->handleRule('reject', $rule, Auth::user())) return $purchaseOrder->status;
             return response("Could not reject rule", 500);
         }
         return response("Not allowed to view that order", 403);
+    }
+
+    /**
+     * Req. to mark a specific line item as paid
+     * 
+     * @param PurchaseOrder $purchaseOrder
+     * @param LineItem $lineItem
+     * @return LineItem
+     */
+    public function getMarkLineItemPaid(PurchaseOrder $purchaseOrder, LineItem $lineItem)
+    {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments')) {
+            if($lineItem->markPaid()) return 1;;
+            return response("Could not mark line item as paid");
+        }
+        return response("Can't change that Line Item", 403);
+    }
+
+    public function getMarkLineItemReceived(PurchaseOrder $purchaseOrder, LineItem $lineItem, $status)
+    {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments')) {
+            if($lineItem->markReceived($status)) return $lineItem->status;
+            return response("Could not mark line item as delivered");
+        }
+        return response("Can't change that Line Item", 403);
     }
 
 

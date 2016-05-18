@@ -21,7 +21,7 @@ class CreateLineItemsTable extends Migration
             $table->dateTime('payable')->nullable();
             $table->dateTime('delivery')->nullable();
             $table->boolean('paid')->default(0);
-            $table->string('status')->default('unreceived'); // 'unreceived', 'accepted', 'rejected'
+            $table->string('status')->default('unreceived'); // 'unreceived', 'accepted', 'returned'
 
             // Orders
             $table->integer('purchase_order_id')->unsigned();

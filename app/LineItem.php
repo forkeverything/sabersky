@@ -43,7 +43,7 @@ class LineItem extends Model
         'price',
         'payable',
         'delivery',
-        'delivered',
+        'paid',
         'status',
         'purchase_order_id',
         'purchase_request_id'
@@ -136,6 +136,34 @@ class LineItem extends Model
         if(! $itemMean = $this->purchaseRequest->item->getMean($orderCurrencyID)) return false;
         $meanDiff = ($this->price - $itemMean) / $itemMean;
         return $meanDiff > ($percentage / 100);
+    }
+
+    /**
+     * Mark Line Item as paid
+     * 
+     * @return $this
+     */
+    public function markPaid()
+    {
+        $this->paid = 1;
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * Mark Line Item delivered and with a status that indicates
+     * whether the item received was all good.
+     * 
+     * @param $status
+     * @return $this
+     */
+    public function markReceived($status)
+    {
+        $allowedStatuses = ['accepted', 'returned'];
+        if(! in_array($status, $allowedStatuses)) abort(500, "Invalid line item status");
+        $this->status = $status;
+        $this->save();
+        return $this;
     }
 
 }

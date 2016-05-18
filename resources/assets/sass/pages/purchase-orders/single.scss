@@ -24,8 +24,8 @@
 
           tr {
             td {
-              height: 45px;
               vertical-align: middle;
+              height: 60px;
             }
           }
 
@@ -34,28 +34,99 @@
             text-align: left;
           }
 
-          .col-status {
+          .col-approve, .col-reject {
             text-align: center;
-          }
+            width: 60px;
 
-          .col-buttons, .col-warning {
-            width: 90px;
-          }
+            .icon-warning {
+              color: $grey;
+            }
 
-          .col-buttons {
-            padding: 0;
+            .fa-check {
+              color: $green;
+            }
 
-            .btn {
-              padding: 10px 16px;
-              height: initial;
+            .fa-close {
+              color: $red;
             }
           }
 
-          .col-warning {
-            text-align: center;
-            color: $text-muted;
-            padding: 10px 16px;
+          .col-approve {
+            .btn-approve {
+              display: none;
+            }
+
+            &:hover {
+              .btn-approve {
+                display: block;
+              }
+            }
           }
+
+          .col-reject {
+            .btn-reject {
+              display: none;
+            }
+
+            &:hover {
+              .btn-reject {
+                display: block;
+              }
+            }
+          }
+
+          //.col-status {
+          //  text-align: center;
+          //  font-size: 1.5em;
+          //  width: 60px;
+          //
+          //  &.rejected {
+          //    .btn-approve {
+          //      display: none;
+          //    }
+          //
+          //    &:hover {
+          //      .icon-close {
+          //        display: none;
+          //      }
+          //
+          //      .btn-approve {
+          //        display: block;
+          //        margin: 0 auto;
+          //        color: $green;
+          //        background: #fff;
+          //        padding: 0;
+          //        font-size: 1.5em;
+          //      }
+          //    }
+          //  }
+          //
+          //}
+          //
+          //.col-buttons, .col-warning {
+          //  width: 90px;
+          //}
+          //
+          //.col-buttons {
+          //  padding: 10px;
+          //
+          //  .btn {
+          //    padding: 10px 16px;
+          //    height: initial;
+          //  }
+          //
+          //  .btn-approve {
+          //    margin-right: 10px;
+          //  }
+          //
+          //}
+          //
+          //
+          //.col-warning {
+          //  text-align: center;
+          //  color: $text-muted;
+          //  padding: 10px 16px;
+          //}
         }
     }
 
@@ -143,6 +214,71 @@
         display: block;
         width: 100px;
         margin: 5px auto 0 auto;
+      }
+
+      .col-payable {
+        .paid, .unpaid {
+          display: block;
+        }
+
+        .paid {
+          color: $blue;
+        }
+
+        .unpaid {
+          color: $text-muted;
+        }
+      }
+
+      .col-delivery {
+
+        .mark-received-popup {
+          position: relative;
+
+          &:hover, &:focus, &:active {
+            .popup-container {
+              display: block;
+            }
+          }
+
+          .popup-container {
+            display: none;
+            position: absolute;
+            left: calc(100% - 5px);
+            top: calc(-50% - 20px);
+            padding-left: 20px;
+
+            &:hover {
+              display: block;
+            }
+
+            .popup-bg {
+              background: #fff;
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+              border: 1px solid $border-light;
+              @include box-shadow(2px 1px 3px rgba(0, 0, 0, 0.3));
+              @include border-radius(3px);
+
+              .btn-accept {
+                margin: 0 0 10px;
+              }
+            }
+          }
+        }
+
+        .accepted, .returned {
+          display: block;
+        }
+
+        .accepted {
+          color: $green;
+        }
+
+        .returned {
+          color: $red;
+        }
       }
     }
 

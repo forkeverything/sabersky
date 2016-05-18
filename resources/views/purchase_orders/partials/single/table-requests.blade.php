@@ -34,15 +34,38 @@
                 @{{ lineItem.payable | easyDate }}
 
                 @can('po_payments')
-                    <button v-if="! lineItem.paid" type="button" class="btn-mark-paid btn btn-small btn-solid-blue" :disabled="! (purchaseOrder.status === 'approved')">Paid</button>
+                    <button v-if="! lineItem.paid"
+                            type="button"
+                            class="btn-mark-paid btn btn-small btn-solid-blue"
+                            :disabled="! (purchaseOrder.status === 'approved')"
+                            @click="markPaid(lineItem)"
+                    >
+                        Paid
+                </button>
+                <span v-else class="paid">Paid</span>
+                @else
+                    <span v-if="lineItem.paid" class="paid">Paid</span>
+                    <span v-else class="unpaid">Unpaid</span>
                 @endcan
+
 
             </td>
             <td class="col-delivery no-wrap">
                 @{{ lineItem.delivery | easyDate }}
 
                 @can('po_warehousing')
-                <button v-if="lineItem.status === 'unreceived'" type="button" class="btn-mark-received btn btn-small btn-solid-green" :disabled="! (purchaseOrder.status === 'approved')">Received</button>
+                <div v-if="lineItem.status === 'unreceived'" class="mark-received-popup">
+                    <button type="button" class="btn-mark-received btn btn-small btn-solid-green" :disabled="! (purchaseOrder.status === 'approved')">Received</button>
+                    <div class="popup-container">
+                        <div class="popup-bg">
+                            <button type="button" class="btn btn-accept btn-outline-green btn-small" @click="markReceived(lineItem, 'accepted')">Accept</button>
+                            <button type="button" class="btn btn-return btn-outline-red btn-small"  @click="markReceived(lineItem, 'returned')">Return</button>
+                        </div>
+                    </div>
+                </div>
+                <span v-else :class="lineItem.status">@{{ lineItem.status | capitalize }}</span>
+                @else
+                <span :class="lineItem.status">@{{ lineItem.status | capitalize }}</span>
                 @endcan
 
             </td>

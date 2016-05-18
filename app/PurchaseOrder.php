@@ -349,15 +349,27 @@ class PurchaseOrder extends Model
      */
     public function updateStatus()
     {
-        // Can't un-approve a status
+        // Can't un-approve a status - a rejected Order can be approved but not vice-versa.
         if($this->hasStatus('approved')) return;
 
-        // If this order has ANY rule rejected - then it is rejected. A rejected Order can be approved but not vice-versa.
-        if($this->hasRejectedRule()) $this->markRejected();
+        // If this order has ANY rule rejected - then it is rejected.
+        $this->hasRejectedRule() ? $this->markRejected() : $this->markPending();
 
         // If we don't have any rules or all rules are approved - then we can consider Order approved
         if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved();
 
+        return $this;
+    }
+
+    /**
+     * Set Order status to pending...
+     *
+     * @return $this
+     */
+    public function markPending()
+    {
+        $this->status = 'pending';
+        $this->save();
         return $this;
     }
 

@@ -143,6 +143,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_orders/{purchaseOrder}', ['as' => 'singlePurchaseOrder', 'uses' => 'PurchaseOrdersController@getSingle']);
     Route::get('/purchase_orders/{purchaseOrder}/rule/{rule}/approve', 'PurchaseOrdersController@getApproveRule');
     Route::get('/purchase_orders/{purchaseOrder}/rule/{rule}/reject', 'PurchaseOrdersController@getRejectRule');
+    Route::get('/purchase_orders/{purchaseOrder}/line_item/{lineItem}/paid', 'PurchaseOrdersController@getMarkLineItemPaid');
+    Route::get('/purchase_orders/{purchaseOrder}/line_item/{lineItem}/received/{status}', 'PurchaseOrdersController@getMarkLineItemReceived');
     Route::post('/api/purchase_orders/submit', 'PurchaseOrdersController@apiPostSubmit');
     Route::get('/api/purchase_orders', 'PurchaseOrdersController@apiGetAll');
     Route::get('/api/purchase_orders/{purchaseOrder}', 'PurchaseOrdersController@apiGetSingle');
