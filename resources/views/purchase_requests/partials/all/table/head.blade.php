@@ -16,15 +16,25 @@
         </label>
     </div>
 
-    <div class="bulk-actions dropdown" v-show="selectedRequests.length > 0" v-table-bulk-actions
-         v-dropdown-toggle="showBulkActionsMenu">
-        <button class="btn-selected btn-bulk btn btn-small">@{{ selectedRequests.length }} Request(s) selected <i class="fa fa-caret-down"></i>
-            <ul class="bulk-dropdown-list dropdown-container right list-unstyled"
-                v-show="showBulkActionsMenu"
+    <div class="bulk-actions"
+         v-show="selectedRequests.length > 0"
+         v-table-bulk-actions
+         v-dropdown-toggle="showBulkActionsMenu"
+    >
+        <div class="popover-container">
+            <button class="btn-selected btn-bulk btn btn-small">@{{ selectedRequests.length }} Request(s) selected <i class="fa fa-caret-down"></i></button>
+            <div class="popover-content popover bottom"
+                 v-show="showBulkActionsMenu"
             >
-                <li class="bulk-single-action" @click="createPurchaseOrder">Create Order</li>
-            </ul>
-        </button>
+                <div class="arrow"></div>
+                <ul class="bulk-dropdown-list right list-unstyled"
+                >
+                    <li class="bulk-single-action" @click="createPurchaseOrder">
+                    Create Order
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </th>
 

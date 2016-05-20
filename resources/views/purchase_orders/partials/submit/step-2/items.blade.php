@@ -1,4 +1,7 @@
 <h3>Items</h3>
+<div class="quick-actions">
+    <button class="btn btn-small btn-outline-blue" @click="fillAllLineItemQuantities">Fill All Quantities</button>
+</div>
 <div class="table-responsive">
     <!-- Line Items Table -->
     <table class="table table-standard table-items">
@@ -27,8 +30,7 @@
                     <span class="item-name">@{{ lineItem.item.name }}</span>
                     </a>
                     <div class="line-item-details">
-                        <span class="project">@{{ lineItem.project.name | capitalize }}</span><label>QTY: </label><span
-                                class="quantity">@{{ lineItem.quantity }}</span>
+                        <span class="project">@{{ lineItem.project.name | capitalize }}</span>
                     </div>
                     <div class="dates">
                         <div class="payable">
@@ -53,9 +55,11 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <number-input :model.sync="lineItem.order_quantity" :placeholder="'qty'"
-                                  :class="['input-qty', 'form-control']"></number-input>
+                <td class="col-quantity">
+                        <number-input :model.sync="lineItem.order_quantity" :placeholder="'qty'"
+                                      :class="['input-qty', 'form-control']"></number-input>
+
+                        <span class="total-quantity">/ @{{ lineItem.quantity }}</span>
                 </td>
                 <td>
                     <number-input :model.sync="lineItem.order_price" :placeholder="'price'"

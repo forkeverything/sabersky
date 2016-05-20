@@ -6,14 +6,14 @@ Vue.component('po-single-rule', {
     '</td>' +
     '<td class="col-approve col-controls">' +
     '<i v-if="approved" class="fa fa-check icon-check"></i>' +
-    '<button type="button" class="btn btn-approve" v-if="! approved && allowedUser"  @click="processRule(' + "'approve'" + ', rule)"><i class="fa fa-check"></i></button>' +
-    '<i v-if="! approved && allowedUser" class="fa fa-check placeholder"></i></button>' +
+    '<button type="button" class="btn btn-approve" v-if="! set && allowedUser"  @click="processRule(' + "'approve'" + ', rule)"><i class="fa fa-check"></i></button>' +
+    '<i v-if="! set && allowedUser" class="fa fa-check placeholder"></i></button>' +
     '<i v-if="! approved && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
     '<td class="col-reject col-controls">' +
     '<i v-if="rejected" class="fa fa-close icon-close"></i>' +
-    '<button type="button" class="btn btn-reject" v-if="!approved && !rejected && allowedUser"  @click="processRule(' + "'reject'" + ', rule)"><i class="fa fa-close"></i></button>' +
-    '<i v-if="! rejected && allowedUser && ! approved" class="fa fa-close placeholder"></i></button>' +
+    '<button type="button" class="btn btn-reject" v-if="!set && allowedUser"  @click="processRule(' + "'reject'" + ', rule)"><i class="fa fa-close"></i></button>' +
+    '<i v-if="!set && allowedUser" class="fa fa-close placeholder"></i></button>' +
     '<i v-if="! rejected && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
     '</tr>',
@@ -23,6 +23,9 @@ Vue.component('po-single-rule', {
     },
     props: ['purchase-order', 'rule'],
     computed: {
+        set: function() {
+            return this.rule.pivot.approved !== null;
+        },
         approved: function() {
             return this.rule.pivot.approved;
         },

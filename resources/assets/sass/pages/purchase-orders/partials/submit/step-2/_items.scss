@@ -1,5 +1,9 @@
 .item-details {
 
+  .quick-actions {
+    margin: 0 0 15px;
+  }
+
   .table-items {
 
     .col-item {
@@ -27,8 +31,17 @@
       padding: 0.5em;
     }
 
-    .input-qty {
-      width: 80px;
+    .col-quantity {
+      .input-qty {
+        width: 65px;
+        display: inline-block;
+      }
+
+      .total-quantity {
+        margin-left: 8px;
+        color: $text-muted;
+        font-size: 1.5em;
+      }
     }
 
     .input-price {

@@ -527,11 +527,6 @@ Vue.component('purchase-orders-submit', {
             if (_.isEmpty(this.selectedVendorAddress)) return true;
             return this.selectedVendorAddress == address;
         },
-        calculateTotal: function (lineItem) {
-            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
-            var currencySymbol = this.currencySymbol || '$';
-            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.currencyDecimalPoints);
-        },
         createOrder: function () {
             var self = this;
             vueClearValidationErrors(self);
@@ -579,6 +574,11 @@ Vue.component('purchase-orders-submit', {
                 }
             });
         },
+        calculateTotal: function (lineItem) {
+            if (!lineItem.order_quantity || !lineItem.order_price) return '-';
+            var currencySymbol = this.currencySymbol || '$';
+            return accounting.formatMoney(lineItem.order_quantity * lineItem.order_price, currencySymbol + ' ', this.currencyDecimalPoints);
+        },
         updateOtherLineItemPrices: function (changedLineItem) {
             var self = this;
 
@@ -597,6 +597,12 @@ Vue.component('purchase-orders-submit', {
                 return l.item.id === lineItem.item.id;
             });
             return firstLineItem.id == lineItem.id;
+        },
+        fillAllLineItemQuantities: function() {
+            _.forEach(this.lineItems, function (lineItem) {
+                Vue.set(lineItem, 'order_quantity', lineItem.quantity);
+                // lineItem.order_quantity = lineItem.quantity;
+            });
         }
     },
     mixins: [userCompany, modalSinglePR],
@@ -1512,7 +1518,7 @@ Vue.component('select-line-items', {
     '<table class="table table-hover table-standard table-purchase-requests-po-submit">'+
     '<thead>'+
     '<tr>'+
-    '<th class="heading-center heading-select-all">'+
+    '<th class="heading-center heading-select-all padding-even">'+
     '<div class="checkbox styled">'+
     '<label>'+
     '<i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>'+
@@ -1520,7 +1526,7 @@ Vue.component('select-line-items', {
     '<input class="clickable hidden"'+
     'type="checkbox"'+
     '@change="selectAllPR"'+
-    ':checked="allPurchaseRequestsChecked"'+
+    ':checked.sync="allPurchaseRequestsChecked"'+
     '>'+
     '</label>'+
     '</div>'+

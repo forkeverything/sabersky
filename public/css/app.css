@@ -7340,6 +7340,8 @@ label {
   margin: 0; }
   .table-purchase-requests-all label, .table-purchase-requests-po-submit label {
     display: inline-block; }
+  .table-purchase-requests-all .col-checkbox, .table-purchase-requests-po-submit .col-checkbox {
+    text-align: center; }
   .table-purchase-requests-all .col-project, .table-purchase-requests-po-submit .col-project {
     text-transform: capitalize; }
   .table-purchase-requests-all .col-quantity, .table-purchase-requests-po-submit .col-quantity {
@@ -7417,9 +7419,7 @@ label {
   #purchase-orders-submit .line-item-details label {
     margin: 0 3px 0 0; }
   #purchase-orders-submit .line-item-details .project {
-    padding-right: 5px;
-    margin-right: 5px;
-    border-right: 1px solid #D2D2D2; }
+    margin-right: 5px; }
 
 #purchase-orders-submit #po-submit-1 .project-selecter {
   margin: 0 0 15px; }
@@ -7698,6 +7698,8 @@ label {
       #purchase-orders-submit #po-submit-2 .order-details .billing-address .checkbox label i, #purchase-orders-submit #po-submit-2 .order-details .shipping-address .checkbox label i {
         width: 20px;
         margin: 0 5px 0 0; }
+  #purchase-orders-submit #po-submit-2 .item-details .quick-actions {
+    margin: 0 0 15px; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates {
     font-size: 0.9em; }
     #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .payable, #purchase-orders-submit #po-submit-2 .item-details .table-items .col-item .dates .delivery {
@@ -7710,8 +7712,13 @@ label {
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty, #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
     text-align: center;
     padding: 0.5em; }
-  #purchase-orders-submit #po-submit-2 .item-details .table-items .input-qty {
-    width: 80px; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .col-quantity .input-qty {
+    width: 65px;
+    display: inline-block; }
+  #purchase-orders-submit #po-submit-2 .item-details .table-items .col-quantity .total-quantity {
+    margin-left: 8px;
+    color: #93989F;
+    font-size: 1.5em; }
   #purchase-orders-submit #po-submit-2 .item-details .table-items .input-price {
     width: 120px; }
   #purchase-orders-submit #po-submit-2 .table-summary {
@@ -9068,18 +9075,21 @@ table tbody tr td.fit-to-content {
         .table-standard thead tr th.heading-select .bulk-actions .btn-bulk {
           height: 100%;
           border: 1px solid #fff;
-          padding: 0 12px 3px 30px;
+          padding: 3px 12px 3px 30px;
           margin-left: 10px;
           border-radius: 0;
-          position: relative;
           color: #fff !important; }
           .table-standard thead tr th.heading-select .bulk-actions .btn-bulk .fa-caret-down {
             margin-left: 5px; }
-          .table-standard thead tr th.heading-select .bulk-actions .btn-bulk .bulk-dropdown-list {
+        .table-standard thead tr th.heading-select .bulk-actions .popover-content {
+          top: calc(100%);
+          left: 50px;
+          padding: 0; }
+          .table-standard thead tr th.heading-select .bulk-actions .popover-content .bulk-dropdown-list {
             color: #000;
             margin: 0;
             border: 0; }
-            .table-standard thead tr th.heading-select .bulk-actions .btn-bulk .bulk-dropdown-list .bulk-single-action {
+            .table-standard thead tr th.heading-select .bulk-actions .popover-content .bulk-dropdown-list .bulk-single-action {
               height: 30px;
               display: -webkit-flex;
               display: -ms-flexbox;
@@ -9089,10 +9099,11 @@ table tbody tr td.fit-to-content {
               justify-content: center;
               -webkit-align-items: center;
               -ms-flex-align: center;
-              align-items: center; }
-              .table-standard thead tr th.heading-select .bulk-actions .btn-bulk .bulk-dropdown-list .bulk-single-action:hover {
+              align-items: center;
+              padding: 0 10px; }
+              .table-standard thead tr th.heading-select .bulk-actions .popover-content .bulk-dropdown-list .bulk-single-action:hover {
                 cursor: pointer;
-                background: #F5F5F5; }
+                color: #3498DB; }
 
 .table-standard tbody tr:first-child td {
   border-top: 0; }

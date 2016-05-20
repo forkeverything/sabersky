@@ -29,7 +29,7 @@ Vue.component('select-line-items', {
     '<table class="table table-hover table-standard table-purchase-requests-po-submit">'+
     '<thead>'+
     '<tr>'+
-    '<th class="heading-center heading-select-all">'+
+    '<th class="heading-center heading-select-all padding-even">'+
     '<div class="checkbox styled">'+
     '<label>'+
     '<i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>'+
@@ -37,7 +37,7 @@ Vue.component('select-line-items', {
     '<input class="clickable hidden"'+
     'type="checkbox"'+
     '@change="selectAllPR"'+
-    ':checked="allPurchaseRequestsChecked"'+
+    ':checked.sync="allPurchaseRequestsChecked"'+
     '>'+
     '</label>'+
     '</div>'+

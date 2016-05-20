@@ -862,6 +862,57 @@ var userCompany = {
         }
     }
 };
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
+            }
+        }
+    },
+    ready: function() {
+    }
+});
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -1337,57 +1388,6 @@ Vue.component('toast-alert', {
         make the jump to Vue for handling all client-side. Which
         includes routing, auth etc.
          */
-    }
-});
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
-    '<span class="dash">-</span>'+
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-
-                if(this.onChangeEventName) {
-                    var data = this.onChangeEventData || null;
-                    vueEventBus.$emit(this.onChangeEventName, {
-                        newVal: newVal,
-                        attached: data
-                    });
-                }
-            }
-        }
-    },
-    ready: function() {
     }
 });
 Vue.component('add-address-modal', {
@@ -2699,14 +2699,14 @@ Vue.component('po-single-rule', {
     '</td>' +
     '<td class="col-approve col-controls">' +
     '<i v-if="approved" class="fa fa-check icon-check"></i>' +
-    '<button type="button" class="btn btn-approve" v-if="! approved && allowedUser"  @click="processRule(' + "'approve'" + ', rule)"><i class="fa fa-check"></i></button>' +
-    '<i v-if="! approved && allowedUser" class="fa fa-check placeholder"></i></button>' +
+    '<button type="button" class="btn btn-approve" v-if="! set && allowedUser"  @click="processRule(' + "'approve'" + ', rule)"><i class="fa fa-check"></i></button>' +
+    '<i v-if="! set && allowedUser" class="fa fa-check placeholder"></i></button>' +
     '<i v-if="! approved && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
     '<td class="col-reject col-controls">' +
     '<i v-if="rejected" class="fa fa-close icon-close"></i>' +
-    '<button type="button" class="btn btn-reject" v-if="!approved && !rejected && allowedUser"  @click="processRule(' + "'reject'" + ', rule)"><i class="fa fa-close"></i></button>' +
-    '<i v-if="! rejected && allowedUser && ! approved" class="fa fa-close placeholder"></i></button>' +
+    '<button type="button" class="btn btn-reject" v-if="!set && allowedUser"  @click="processRule(' + "'reject'" + ', rule)"><i class="fa fa-close"></i></button>' +
+    '<i v-if="!set && allowedUser" class="fa fa-close placeholder"></i></button>' +
     '<i v-if="! rejected && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
     '</tr>',
@@ -2716,6 +2716,9 @@ Vue.component('po-single-rule', {
     },
     props: ['purchase-order', 'rule'],
     computed: {
+        set: function() {
+            return this.rule.pivot.approved !== null;
+        },
         approved: function() {
             return this.rule.pivot.approved;
         },

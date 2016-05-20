@@ -304,7 +304,8 @@ class Rule extends Model
      */
     public function setPurchaseOrderApproved($val)
     {
-        if($val !== 1 && $val !== 0 || $this->pivot->approved === 1) return;
+        // If we've already approved / rejected - then don't allow anymore changes
+        if($val !== 1 && $val !== 0 || $this->pivot->approved !== null) return;
         $this->pivot->approved = $val;
         return $this->pivot->save();
     }

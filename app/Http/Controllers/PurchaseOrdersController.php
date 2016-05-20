@@ -142,34 +142,21 @@ class PurchaseOrdersController extends Controller
         return response("Not allowed to view that order", 403);
     }
 
-    /**
-     * Get Req. to approve a Rule on a PO
-     *
-     * @param PurchaseOrder $purchaseOrder
-     * @param Rule $rule
-     * @return mixed
-     */
-    public function getApproveRule(PurchaseOrder $purchaseOrder, Rule $rule)
-    {
-        if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule('approve', $rule, Auth::user())) return $purchaseOrder->status;
-            return response("Could not approve rule", 500);
-        }
-        return response("Not allowed to view that order", 403);
-    }
 
     /**
-     * Get Req. to reject a Rule on a PO
+     * Get Req. to approve / reject a Rule on a PO
      *
      * @param PurchaseOrder $purchaseOrder
      * @param Rule $rule
-     * @return mixed
+     * @param $action
+     * @return string
      */
-    public function getRejectRule(PurchaseOrder $purchaseOrder, Rule $rule)
+    public function getHandleRule(PurchaseOrder $purchaseOrder, Rule $rule, $action)
     {
+        if($action !== 'reject' && $action !== 'approve') return response("Rules can only be approved or rejected.", 500);
         if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule('reject', $rule, Auth::user())) return $purchaseOrder->status;
-            return response("Could not reject rule", 500);
+            if($purchaseOrder->handleRule($action, $rule, Auth::user())) return $purchaseOrder->status;
+            return response("Could not check that rule", 500);
         }
         return response("Not allowed to view that order", 403);
     }

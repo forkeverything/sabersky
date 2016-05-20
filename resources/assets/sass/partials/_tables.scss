@@ -142,16 +142,20 @@ table {
             .btn-bulk {
               height: 100%;
               border: 1px solid #fff;
-              padding: 0 12px 3px 30px;
+              padding:  3px 12px 3px 30px;
               margin-left: 10px;
               border-radius: 0;
-              position: relative;
               color: #fff!important;
 
               .fa-caret-down {
                 margin-left: 5px;
               }
+            }
 
+            .popover-content {
+              top: calc(100%);
+              left: 50px;
+              padding: 0;
               .bulk-dropdown-list {
                 color: #000;
                 margin: 0;
@@ -162,14 +166,16 @@ table {
                   display: flex;
                   justify-content: center;
                   align-items: center;
+                  padding: 0 10px;
 
                   &:hover {
                     cursor: pointer;
-                    background: $extra-light-grey;
+                    color: $blue;
                   }
                 }
               }
             }
+
           }
         }
       }

@@ -6,7 +6,7 @@
     >
 
         <!-- Checkbox -->
-        <td class="col-checkbox">
+        <td class="col-checkbox fit-to-content">
             <div class="checkbox styled">
                 <label v-if="purchaseRequest.state === 'open'">
                     <i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>
