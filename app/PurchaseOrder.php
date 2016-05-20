@@ -199,8 +199,11 @@ class PurchaseOrder extends Model
     public function updatePurchaseRequests()
     {
         foreach ($this->lineItems as $lineItem) {
+            $lineItemQuantity = $lineItem->quantity;
+            if($this->hasStatus('rejected')) $lineItemQuantity = -$lineItemQuantity;
+
             $lineItem->purchaseRequest->update([
-                'quantity' => $lineItem->purchaseRequest->quantity - $lineItem->quantity
+                'quantity' => $lineItem->purchaseRequest->quantity - $lineItemQuantity
             ]);
         }
         return $this;
@@ -269,6 +272,7 @@ class PurchaseOrder extends Model
     {
         $this->status = 'rejected';
         $this->save();
+        $this->updatePurchaseRequests();
         return $this;
     }
 
