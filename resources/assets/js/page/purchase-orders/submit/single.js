@@ -15,7 +15,34 @@ Vue.component('purchase-order-single', {
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        numItems: function() {
+            return this.purchaseOrder.items.length;
+        },
+        numLineItems: function() {
+            return this.purchaseOrder.line_items.length;
+        },
+        numPaidLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.paid;
+            }).length;
+        },
+        numReceivedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.received;
+            }).length;
+        },
+        numAcceptedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.accepted;
+            }).length;
+        },
+        numReturnedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.returned;
+            }).length;
+        }
+    },
     methods: {
         changeTable: function (view) {
             this.tableView = view;
@@ -23,12 +50,6 @@ Vue.component('purchase-order-single', {
         markPaid: function(lineItem) {
             $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/paid', function(data) {
                 lineItem.paid = data;
-            });
-        },
-        markReceived: function(lineItem, status) {
-            if(status !== 'accepted' && status !== 'returned') return;
-            $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/received/' + status, function(data) {
-                lineItem.status = data;
             });
         }
     },
@@ -39,4 +60,4 @@ Vue.component('purchase-order-single', {
             this.purchaseOrder = data;
         }.bind(this));
     }
-}); 
+});

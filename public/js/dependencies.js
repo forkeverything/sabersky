@@ -330,136 +330,6 @@ Vue.transition('slide-down', {
     enterClass: 'slideInDown',
     leaveClass: 'slideOutUp'
 });
-Vue.filter('capitalize', function (str) {
-    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    if(! array) return;
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('properDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value.replace(/\s/g, "").length > 0) {
-            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        if(val.replace(/\s/g, "").length > 0) {
-            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
-        }
-        return val;
-    }
-});
-Vue.filter('dateTime', function (value) {
-    if(! value || value == '') return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
-    }
-    return value;
-});
-
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
-    }
-    return value;
-});
-
-Vue.filter('easyDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        console.log(value);
-        var date = moment(value, "DD-MM-YYYY");
-        if (value && date) {
-            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        return val;
-    }
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val && val.length > limit) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    if(isNaN(parseFloat(val))) return val;
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
-        }
-    },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        // Trim invalid characters, and round to 2 decimal places
-        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
-    },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
-    }
-});
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -669,6 +539,21 @@ Vue.directive('fancybox', function() {
     // Init fancy box on elements that may be loaded dynamically using Vue
     $(this.el).fancybox();
 });
+/**
+ * Bootstrap popover
+ */
+Vue.directive('popover', function () {
+    var self = this;
+    $(self.el).popover({
+        html: true,
+        content: function() {
+            return $(this).siblings('.popover-content').html();
+        }
+    });
+});
+
+
+
 Vue.directive('rule-property-select', {
     twoWay: true,
     bind: function () {
@@ -792,6 +677,136 @@ Vue.directive('table-bulk-actions', function () {
 });
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
+});
+Vue.filter('capitalize', function (str) {
+    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    if(! array) return;
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
+Vue.filter('diffHuman', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
+    }
+});
+Vue.filter('dateTime', function (value) {
+    if(! value || value == '') return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
+    }
+    return value;
+});
+
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+    }
+    return value;
+});
+
+Vue.filter('easyDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        console.log(value);
+        var date = moment(value, "DD-MM-YYYY");
+        if (value && date) {
+            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        return val;
+    }
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val && val.length > limit) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    if(isNaN(parseFloat(val))) return val;
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
+    }
 });
 var modalSinglePR = {
     created: function () {
@@ -2633,21 +2648,65 @@ Vue.component('modal-select-bank-account', {
 
     }
 });
+Vue.component('po-mark-received-popover', {
+    name: 'purchaseOrderMarkReceivedPopover',
+    template: '<div class="popover-container">' +
+    '<button type="button" class="btn-popup btn-mark-received btn btn-small btn-solid-green" :disabled="! (purchaseOrder.status === ' + "'approved'" + ')" @click="togglePopover">Received</button>'+
+    '<div class="popover-content popover right" v-show="showPopover">' +
+    '<div class="arrow"></div>'+
+    '<button type="button" class="btn btn-accept btn-outline-green btn-small" @click="markReceived(lineItem, ' + "'accepted'" + ')">Accept</button>'+
+    '<button type="button" class="btn btn-return btn-outline-red btn-small"  @click="markReceived(lineItem, ' + "'returned'" + ')">Return</button>'+
+    '</div>' +
+    '</div>',
+    data: function() {
+        return {
+            showPopover: false
+        };
+    },
+    props: ['purchase-order', 'line-item'],
+    computed: {
+        
+    },
+    methods: {
+        togglePopover: function() {
+            this.showPopover = !this.showPopover;
+        },
+        markReceived: function(lineItem, status) {
+            if(status !== 'accepted' && status !== 'returned') return;
+            $.get('/purchase_orders/' + this.purchaseOrder.id + '/line_item/' + lineItem.id + '/received/' + status, function(data) {
+                lineItem.status = data;
+            });
+        }
+    },
+    events: {
+        
+    },
+    ready: function() {
+        var self = this;
+        $(document).on('click.hidePopovers', function (event) {
+            if (!$(event.target).closest('.btn-popup').length && !$(event.target).closest('.popover-container').length && !$(event.target).is('.popover-container')) {
+                self.showPopover = false;
+            }
+        })
+    }
+});
 Vue.component('po-single-rule', {
     template: '<tr>' +
     '<td class="col-description">' +
     '{{ rule.property.label }} - {{ rule.trigger.label }} <span ' +
     'v-if="rule.trigger.has_limit">{{ formatRuleLimit(rule) }}</span>' +
     '</td>' +
-    '<td class="col-approve">' +
+    '<td class="col-approve col-controls">' +
     '<i v-if="approved" class="fa fa-check icon-check"></i>' +
     '<button type="button" class="btn btn-approve" v-if="! approved && allowedUser"  @click="processRule(' + "'approve'" + ', rule)"><i class="fa fa-check"></i></button>' +
-    '<i v-if="! approved && ! allowedUser" class="icon-warning fa fa-warning"></i>' +
+    '<i v-if="! approved && allowedUser" class="fa fa-check placeholder"></i></button>' +
+    '<i v-if="! approved && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
-    '<td class="col-reject">' +
+    '<td class="col-reject col-controls">' +
     '<i v-if="rejected" class="fa fa-close icon-close"></i>' +
     '<button type="button" class="btn btn-reject" v-if="!approved && !rejected && allowedUser"  @click="processRule(' + "'reject'" + ', rule)"><i class="fa fa-close"></i></button>' +
-    '<i v-if="! rejected && ! allowedUser" class="icon-warning fa fa-warning"></i>' +
+    '<i v-if="! rejected && allowedUser && ! approved" class="fa fa-close placeholder"></i></button>' +
+    '<i v-if="! rejected && ! allowedUser" class="fa fa-warning"></i>' +
     '</td>' +
     '</tr>',
     name: 'purchaseOrderSingleRule',

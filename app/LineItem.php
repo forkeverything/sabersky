@@ -55,7 +55,10 @@ class LineItem extends Model
     ];
 
     protected $appends = [
-        'total'
+        'total',
+        'received',
+        'accepted',
+        'returned'
     ];
 
 
@@ -164,6 +167,36 @@ class LineItem extends Model
         $this->status = $status;
         $this->save();
         return $this;
+    }
+
+    /**
+     * Dynamic Attribute - Has the item been delivered?
+     *
+     * @return bool
+     */
+    public function getReceivedAttribute()
+    {
+        return $this->status !== 'unreceived';
+    }
+
+    /**
+     * Dynamic Attribute - is status Accepted?
+     *
+     * @return bool
+     */
+    public function getAcceptedAttribute()
+    {
+        return $this->status === 'accepted';
+    }
+
+    /**
+     * Dynamic Attribute - is status Returned?
+     *
+     * @return bool
+     */
+    public function getReturnedAttribute()
+    {
+        return $this->status === 'returned';
     }
 
 }

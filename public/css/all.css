@@ -7850,27 +7850,65 @@ label {
     margin: 0; }
     #purchase-order-single .approvals .po-single-rules .table-rules tr td {
       vertical-align: middle;
-      height: 60px; }
+      padding: 0;
+      height: 46px; }
     #purchase-order-single .approvals .po-single-rules .table-rules .col-description {
       padding: 0.5em 1em;
       text-align: left; }
     #purchase-order-single .approvals .po-single-rules .table-rules .col-approve, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject {
       text-align: center;
       width: 60px; }
-      #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .icon-warning, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .icon-warning {
-        color: #D2D2D2; }
-      #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa-check, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa-check {
+      #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa {
+        font-size: 1.4em; }
+        #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa.fa-check, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa.fa-check {
+          color: #2ECC71; }
+        #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa.fa-close, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa.fa-close {
+          color: #E74C3C; }
+        #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa.fa-warning, #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa.placeholder, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa.fa-warning, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa.placeholder {
+          color: #D2D2D2; }
+      #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .btn, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .btn {
+        height: 45px;
+        width: 100%; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-controls .btn {
+      display: none; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-controls:hover .btn {
+      display: block; }
+    #purchase-order-single .approvals .po-single-rules .table-rules .col-controls:hover .placeholder {
+      display: none; }
+
+#purchase-order-single .stats {
+  margin: 0 0 20px; }
+  #purchase-order-single .stats .stats-body {
+    padding: 30px;
+    margin: 15px 0 0 0;
+    background: #fff; }
+    #purchase-order-single .stats .stats-body .table {
+      margin: 0 0 15px; }
+      #purchase-order-single .stats .stats-body .table tr:first-child td {
+        border-top: 0; }
+      #purchase-order-single .stats .stats-body .table tr.row-paid {
+        color: #3498DB; }
+      #purchase-order-single .stats .stats-body .table tr.row-accepted {
         color: #2ECC71; }
-      #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .fa-close, #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .fa-close {
+      #purchase-order-single .stats .stats-body .table tr.row-returned {
         color: #E74C3C; }
-    #purchase-order-single .approvals .po-single-rules .table-rules .col-approve .btn-approve {
-      display: none; }
-    #purchase-order-single .approvals .po-single-rules .table-rules .col-approve:hover .btn-approve {
-      display: block; }
-    #purchase-order-single .approvals .po-single-rules .table-rules .col-reject .btn-reject {
-      display: none; }
-    #purchase-order-single .approvals .po-single-rules .table-rules .col-reject:hover .btn-reject {
-      display: block; }
+      #purchase-order-single .stats .stats-body .table tr td {
+        padding: 5px 0;
+        vertical-align: middle; }
+        #purchase-order-single .stats .stats-body .table tr td.number {
+          text-align: right; }
+        #purchase-order-single .stats .stats-body .table tr td h3 {
+          margin-bottom: 10px; }
+        #purchase-order-single .stats .stats-body .table tr td h5 {
+          margin-bottom: 0; }
+        #purchase-order-single .stats .stats-body .table tr td h3, #purchase-order-single .stats .stats-body .table tr td h5 {
+          display: inline-block; }
+        #purchase-order-single .stats .stats-body .table tr td.col-heading {
+          padding: 0 0 0 40px; }
+          #purchase-order-single .stats .stats-body .table tr td.col-heading h3 {
+            margin: 0 0 0 -40px; }
+          #purchase-order-single .stats .stats-body .table tr td.col-heading h5 {
+            margin: 0 0 0 -20px; }
 
 #purchase-order-single .meta {
   margin: 0 0 15px 0;
@@ -7915,42 +7953,24 @@ label {
   @media screen and (min-width: 1200px) {
     #purchase-order-single .line-items .col-quantity, #purchase-order-single .line-items .col-price, #purchase-order-single .line-items .col-total {
       min-width: 100px; } }
+  #purchase-order-single .line-items .po-single-request-table .payable-date, #purchase-order-single .line-items .po-single-request-table .delivery-date {
+    display: block; }
   #purchase-order-single .line-items .po-single-request-table .btn-mark-paid, #purchase-order-single .line-items .po-single-request-table .btn-mark-received {
-    display: block;
+    display: inline-block;
     width: 100px;
-    margin: 5px auto 0 auto; }
+    margin: 5px; }
   #purchase-order-single .line-items .po-single-request-table .col-payable .paid, #purchase-order-single .line-items .po-single-request-table .col-payable .unpaid {
     display: block; }
   #purchase-order-single .line-items .po-single-request-table .col-payable .paid {
     color: #3498DB; }
   #purchase-order-single .line-items .po-single-request-table .col-payable .unpaid {
     color: #93989F; }
-  #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup {
-    position: relative; }
-    #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup:hover .popup-container, #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup:focus .popup-container, #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup:active .popup-container {
-      display: block; }
-    #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup .popup-container {
-      display: none;
-      position: absolute;
-      left: calc(100% - 5px);
-      top: calc(-50% - 20px);
-      padding-left: 20px; }
-      #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup .popup-container:hover {
-        display: block; }
-      #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup .popup-container .popup-bg {
-        background: #fff;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        padding: 10px;
-        border: 1px solid #E6E9EB;
-        box-shadow: 2px 1px 3px rgba(0, 0, 0, 0.3);
-        border-radius: 3px; }
-        #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received-popup .popup-container .popup-bg .btn-accept {
-          margin: 0 0 10px; }
+  #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received {
+    display: inline-block; }
+    #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received .popover-content {
+      top: -29px; }
+      #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received .popover-content .btn-accept {
+        margin: 0 0 10px; }
   #purchase-order-single .line-items .po-single-request-table .col-delivery .accepted, #purchase-order-single .line-items .po-single-request-table .col-delivery .returned {
     display: block; }
   #purchase-order-single .line-items .po-single-request-table .col-delivery .accepted {
@@ -7977,14 +7997,6 @@ label {
 
 .po-badge {
   text-transform: capitalize; }
-
-#add-line-item .filter-urgent {
-  margin: 0 0 15px;
-  display: block;
-  text-align: right; }
-
-#add-line-item section {
-  margin: 0 0 30px; }
 
 #vendor-add-search .vendor-connection {
   margin: 0 0 0 10px; }
@@ -8436,16 +8448,6 @@ label {
     display: block;
     overflow: hidden; }
 
-.item-brand, .item-name {
-  text-transform: capitalize; }
-
-.link-item .item-brand:after {
-  content: "-";
-  margin: 0 3px 0 6px; }
-
-.item-sku {
-  text-transform: uppercase; }
-
 #item-single .photos {
   margin: 0 0 15px 0; }
   #item-single .photos .main-image {
@@ -8533,6 +8535,16 @@ label {
 
 #item-single .details .table tr:first-child th, #item-single .details .table tr:first-child td {
   border-top: none; }
+
+.item-brand, .item-name {
+  text-transform: capitalize; }
+
+.link-item .item-brand:after {
+  content: "-";
+  margin: 0 3px 0 6px; }
+
+.item-sku {
+  text-transform: uppercase; }
 
 #system-settings #settings-nav {
   font-size: 1.1em;
@@ -9757,6 +9769,19 @@ table tbody tr td.fit-to-content {
     margin: 0 10px 0 0; }
   .bank_account .phone_swift .swift span {
     text-transform: uppercase; }
+
+.popover-container {
+  position: relative; }
+  .popover-container .popover-content {
+    position: absolute;
+    background: #fff;
+    top: 0;
+    display: block;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 3px; }
+    .popover-container .popover-content.right {
+      left: calc(100% + 5px); }
 
 body {
   font-family: 'helvetica';

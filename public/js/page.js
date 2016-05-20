@@ -1,163 +1,145 @@
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
+Vue.component('items-all', apiRequestAllBaseComponent.extend({
+    name: 'allItems',
     el: function () {
-        return '#projects-all'
+        return '#items-all';
     },
     data: function () {
         return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
+            requestUrl: '/api/items',
+            hasFilter: true,
+            filterOptions: [
                 {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
+                    value: 'brand',
+                    label: 'Brand'
                 },
                 {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
+                    value: 'name',
+                    label: 'Name'
                 },
                 {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
+                    value: 'project',
+                    label: 'Project'
                 }
             ]
         };
     },
-    props: [],
     computed: {
+        items: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
     },
     methods: {
+        getItemProjects: function (item) {
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                projects.push(pr.project);
+            });
+            return _.uniqBy(projects, 'id');
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+}));
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            photos: [],
+            fileErrors: []
+        };
+    },
+    props: ['itemId'],
+    computed: {},
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.photos = _.reject(self.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
+    events: {},
+    ready: function () {
 
-    },
-    events: {
-    },
-    ready: function() {
         var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
+
+        // Fetch item photos
         $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
+            url: '/api/items/' + self.itemId,
+            method: 'GET',
             success: function(data) {
                // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
+                self.photos = data.photos
             },
             error: function(response) {
                 console.log(response);
-                self.ajaxReady = true;
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
+                    } else {
+                        self.fileErrors.push(file.name + ': ' + err);
+                    }
+                });
             }
         });
     }
@@ -477,6 +459,170 @@ Vue.component('purchase-orders-submit', {
             self.updateOtherLineItemPrices(data.attached);
         });
 
+    }
+});
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: [],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+        $.ajax({
+            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
+            method: '',
+            success: function(data) {
+               // success
+               self.teamMembers = data;
+               self.ajaxReady = true;
+            },
+            error: function(response) {
+                console.log(response);
+                self.ajaxReady = true;
+            }
+        });
     }
 });
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
@@ -1159,152 +1305,6 @@ Vue.component('vendor-single', {
         });
     }
 });
-Vue.component('items-all', apiRequestAllBaseComponent.extend({
-    name: 'allItems',
-    el: function () {
-        return '#items-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/items',
-            hasFilter: true,
-            filterOptions: [
-                {
-                    value: 'brand',
-                    label: 'Brand'
-                },
-                {
-                    value: 'name',
-                    label: 'Name'
-                },
-                {
-                    value: 'project',
-                    label: 'Project'
-                }
-            ]
-        };
-    },
-    computed: {
-        items: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        hasItems: function() {
-            return !_.isEmpty(this.items);
-        }
-    },
-    methods: {
-        getItemProjects: function (item) {
-            // Parses out project names from an Item's Purchase Requests
-            var projects = [];
-            _.forEach(item.purchase_requests, function (pr) {
-                projects.push(pr.project);
-            });
-            return _.uniqBy(projects, 'id');
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-}));
-Vue.component('item-single', {
-    name: 'itemSingle',
-    el: function () {
-        return '#item-single'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-            photos: [],
-            fileErrors: []
-        };
-    },
-    props: ['itemId'],
-    computed: {},
-    methods: {
-        deletePhoto: function(photo) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                    console.log(data);
-                   self.photos = _.reject(self.photos, photo);
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearErrors: function() {
-            this.fileErrors = [];
-        }
-    },
-    events: {},
-    ready: function () {
-
-        var self = this;
-
-        // Fetch item photos
-        $.ajax({
-            url: '/api/items/' + self.itemId,
-            method: 'GET',
-            success: function(data) {
-               // success
-                self.photos = data.photos
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-
-        new Dropzone("#item-photo-uploader", {
-            autoProcessQueue: true,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            previewTemplate: '<div class="dz-image-row">' +
-            '                       <div class="dz-image">' +
-            '                           <img data-dz-thumbnail>' +
-            '                       </div>' +
-            '                       <div class="dz-file-details">' +
-            '                           <div class="name-status">' +
-            '                               <span data-dz-name class="file-name"></span>' +
-            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
-            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
-            '                           </div>' +
-            '                           <span class="file-size" data-dz-size></span>' +
-            '                           <div class="dz-progress progress">' +
-            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                </div>',
-            init: function () {
-                this.on("complete", function (file) {
-                    setTimeout(function () {
-                        this.removeFile(file);
-                    }.bind(this), 5000);
-                });
-                this.on("success", function (files, response) {
-                    // Upload was successful, receive response
-                    // of Photo Model back from the server.
-                    self.photos.push(response);
-                });
-                this.on("error", function (file, err) {
-                    if(typeof err === 'object') {
-                        _.forEach(err.file, function (error) {
-                            self.fileErrors.push(file.name + ': ' + error);
-                        });
-                    } else {
-                        self.fileErrors.push(file.name + ': ' + err);
-                    }
-                });
-            }
-        });
-    }
-});
 Vue.component('po-billing-address', {
     name: 'purchaseOrderSubmitBillingAddress',
     data: function () {
@@ -1763,7 +1763,34 @@ Vue.component('purchase-order-single', {
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        numItems: function() {
+            return this.purchaseOrder.items.length;
+        },
+        numLineItems: function() {
+            return this.purchaseOrder.line_items.length;
+        },
+        numPaidLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.paid;
+            }).length;
+        },
+        numReceivedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.received;
+            }).length;
+        },
+        numAcceptedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.accepted;
+            }).length;
+        },
+        numReturnedLineItems: function() {
+            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+                return lineItem.returned;
+            }).length;
+        }
+    },
     methods: {
         changeTable: function (view) {
             this.tableView = view;
@@ -1771,12 +1798,6 @@ Vue.component('purchase-order-single', {
         markPaid: function(lineItem) {
             $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/paid', function(data) {
                 lineItem.paid = data;
-            });
-        },
-        markReceived: function(lineItem, status) {
-            if(status !== 'accepted' && status !== 'returned') return;
-            $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/received/' + status, function(data) {
-                lineItem.status = data;
             });
         }
     },
@@ -1787,7 +1808,7 @@ Vue.component('purchase-order-single', {
             this.purchaseOrder = data;
         }.bind(this));
     }
-}); 
+});
 Vue.component('po-submit-summary', {
     name: 'summary',
     template: '<div class="summary table-responsive">' +

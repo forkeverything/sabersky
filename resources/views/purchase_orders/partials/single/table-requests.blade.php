@@ -16,8 +16,8 @@
     <tbody>
     <template v-for="(index, lineItem) in purchaseOrder.line_items">
         <tr>
-            <td>@{{ index + 1 }}</td>
-            <td>#@{{ lineItem.purchase_request.number }}</td>
+            <td class="text-center">@{{ index + 1 }}</td>
+            <td class="fit-to-content">#@{{ lineItem.purchase_request.number }}</td>
             <td><span v-if="lineItem.purchase_request.item.sku"></span>@{{ lineItem.purchase_request.item.sku }}
                 <span v-else>-</span></td>
             <td class="col-details">
@@ -31,42 +31,46 @@
                     </span>
             </td>
             <td class="col-payable no-wrap">
-                @{{ lineItem.payable | easyDate }}
-
+                <span class="payable-date"
+                      :class="{
+                        'paid': lineItem.paid
+                      }"
+                >
+                    @{{ lineItem.payable | easyDate }}
+                </span>
                 @can('po_payments')
-                    <button v-if="! lineItem.paid"
-                            type="button"
-                            class="btn-mark-paid btn btn-small btn-solid-blue"
-                            :disabled="! (purchaseOrder.status === 'approved')"
-                            @click="markPaid(lineItem)"
-                    >
-                        Paid
+                <button v-if="! lineItem.paid"
+                        type="button"
+                        class="btn-mark-paid btn btn-small btn-solid-blue"
+                        :disabled="! (purchaseOrder.status === 'approved')"
+                @click="markPaid(lineItem)"
+                >
+                Paid
                 </button>
                 <span v-else class="paid">Paid</span>
                 @else
                     <span v-if="lineItem.paid" class="paid">Paid</span>
                     <span v-else class="unpaid">Unpaid</span>
-                @endcan
+                    @endcan
 
 
             </td>
             <td class="col-delivery no-wrap">
-                @{{ lineItem.delivery | easyDate }}
+                 <span class="delivery-date"
+                       :class="lineItem.status"
+                 >
+                    @{{ lineItem.delivery | easyDate }}
+                </span>
 
                 @can('po_warehousing')
-                <div v-if="lineItem.status === 'unreceived'" class="mark-received-popup">
-                    <button type="button" class="btn-mark-received btn btn-small btn-solid-green" :disabled="! (purchaseOrder.status === 'approved')">Received</button>
-                    <div class="popup-container">
-                        <div class="popup-bg">
-                            <button type="button" class="btn btn-accept btn-outline-green btn-small" @click="markReceived(lineItem, 'accepted')">Accept</button>
-                            <button type="button" class="btn btn-return btn-outline-red btn-small"  @click="markReceived(lineItem, 'returned')">Return</button>
-                        </div>
-                    </div>
+                <div v-if="lineItem.status === 'unreceived'" class="mark-received">
+                    <po-mark-received-popover :purchase-order.sync="purchaseOrder"
+                                              :line-item.sync="lineItem"></po-mark-received-popover>
                 </div>
                 <span v-else :class="lineItem.status">@{{ lineItem.status | capitalize }}</span>
                 @else
-                <span :class="lineItem.status">@{{ lineItem.status | capitalize }}</span>
-                @endcan
+                    <span :class="lineItem.status">@{{ lineItem.status | capitalize }}</span>
+                    @endcan
 
             </td>
             <td class="col-quantity no-wrap fit-to-content">

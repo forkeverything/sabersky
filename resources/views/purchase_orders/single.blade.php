@@ -9,6 +9,19 @@
                 @include('purchase_orders.partials.single.approvals')
             </div>
 
+
+            <div class="stats">
+                <div class="align-end">
+                    <a class="link-show-stats dotted" role="button" data-toggle="collapse" href="#po-stats-collapse" aria-expanded="false" aria-controls="po-stats-collapse">
+                        View Stats
+                    </a>
+                </div>
+                <div class="collapse" id="po-stats-collapse">
+                        @include('purchase_orders.partials.single.stats')
+                </div>
+
+            </div>
+
             <div class="page-body">
 
                 <div class="meta visible-xs">

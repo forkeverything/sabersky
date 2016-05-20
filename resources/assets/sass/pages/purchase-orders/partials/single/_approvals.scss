@@ -1,0 +1,74 @@
+.approvals {
+  margin: 0 0 20px;
+  text-align: right;
+
+  .po-badge {
+    font-size: 1.5em;
+    padding: 15px;
+    width: 255px;
+    margin: 0 0 15px 0;
+  }
+
+  .po-single-rules {
+    .table-rules {
+      background: #fff;
+      margin: 0;
+
+      tr {
+        td {
+          vertical-align: middle;
+          padding: 0;
+          height: 46px;
+        }
+      }
+
+      .col-description {
+        padding: 0.5em 1em;
+        text-align: left;
+      }
+
+      .col-approve, .col-reject {
+        text-align: center;
+        width: 60px;
+
+        .fa {
+          font-size: 1.4em;
+
+          &.fa-check {
+            color: $green;
+          }
+
+          &.fa-close {
+            color: $red;
+          }
+
+          &.fa-warning, &.placeholder {
+            color: $grey;
+          }
+        }
+
+        .btn {
+          height: 45px;
+          width: 100%;
+        }
+      }
+
+      .col-controls {
+        .btn {
+          display: none;
+        }
+
+        &:hover {
+          .btn {
+            display: block;
+          }
+
+          .placeholder {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+}

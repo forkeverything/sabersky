@@ -1,0 +1,103 @@
+.line-items {
+  margin: 0 0 30px;
+
+  .table-view-select {
+    text-align: right;
+
+    .active {
+      border-bottom: 1px solid $blue;
+      color: $blue;
+    }
+
+    .requests, .items {
+      display: inline-block;
+    }
+
+    .requests {
+      border-right: 1px solid $border-dark;
+      padding-right: 8px;
+      margin-right: 5px;
+    }
+  }
+
+  .item-brand-name {
+    display: block;
+    margin: 0 0 5px;
+  }
+
+  .col-details {
+    min-width: 300px;
+  }
+
+  .col-payable, .col-delivery, .col-quantity, .col-price, .col-total {
+    text-align: center;
+  }
+
+  @media screen and (min-width: $screen-lg-min) {
+    .col-quantity, .col-price, .col-total {
+      min-width: 100px;
+    }
+  }
+
+  .po-single-request-table {
+
+    .payable-date, .delivery-date {
+      display: block;
+    }
+
+    .btn-mark-paid, .btn-mark-received {
+      display: inline-block;
+      width: 100px;
+      margin: 5px;
+    }
+
+    .col-payable {
+
+      .paid, .unpaid {
+        display: block;
+      }
+
+      .paid {
+        color: $blue;
+      }
+
+      .unpaid {
+        color: $text-muted;
+      }
+    }
+
+    .col-delivery {
+
+      .mark-received {
+        display: inline-block;
+        .popover-content {
+          top: -29px;
+
+          .btn-accept {
+            margin: 0 0 10px;
+          }
+        }
+      }
+
+      .accepted, .returned {
+        display: block;
+      }
+
+      .accepted {
+        color: $green;
+      }
+
+      .returned {
+        color: $red;
+      }
+    }
+  }
+
+  table {
+    tr {
+      td {
+        vertical-align: middle;
+      }
+    }
+  }
+}

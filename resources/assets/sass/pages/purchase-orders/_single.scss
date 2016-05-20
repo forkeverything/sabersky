@@ -1,0 +1,16 @@
+#purchase-order-single {
+
+  .subheading {
+    color: $text-muted;
+    margin: 0 0 5px;
+    display: block;
+  }
+
+  @import "partials/single/approvals";
+  @import "partials/single/stats";
+  @import "partials/single/meta";
+  @import "partials/single/vendor";
+  @import "partials/single/order";
+  @import "partials/single/line-items";
+  @import "partials/single/summary";
+}
