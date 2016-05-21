@@ -5,42 +5,34 @@ Vue.component('purchase-order-single', {
     },
     data: function () {
         return {
-            purchaseOrderID: '',
-            purchaseOrder: {
-                vendor: {},
-                user: {},
-                rules: [],
-                line_items: [],
-                items: []
-            },
             tableView: 'requests'
         };
     },
-    props: [],
+    props: ['purchase-order'],
     computed: {
-        numItems: function() {
+        numItems: function () {
             return this.purchaseOrder.items.length;
         },
-        numLineItems: function() {
+        numLineItems: function () {
             return this.purchaseOrder.line_items.length;
         },
-        numPaidLineItems: function() {
-            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+        numPaidLineItems: function () {
+            return _.filter(this.purchaseOrder.line_items, function (lineItem) {
                 return lineItem.paid;
             }).length;
         },
-        numReceivedLineItems: function() {
-            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+        numReceivedLineItems: function () {
+            return _.filter(this.purchaseOrder.line_items, function (lineItem) {
                 return lineItem.received;
             }).length;
         },
-        numAcceptedLineItems: function() {
-            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+        numAcceptedLineItems: function () {
+            return _.filter(this.purchaseOrder.line_items, function (lineItem) {
                 return lineItem.accepted;
             }).length;
         },
-        numReturnedLineItems: function() {
-            return _.filter(this.purchaseOrder.line_items, function(lineItem) {
+        numReturnedLineItems: function () {
+            return _.filter(this.purchaseOrder.line_items, function (lineItem) {
                 return lineItem.returned;
             }).length;
         }
@@ -49,12 +41,12 @@ Vue.component('purchase-order-single', {
         changeTable: function (view) {
             this.tableView = view;
         },
-        markPaid: function(lineItem) {
-            $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/paid', function(data) {
+        markPaid: function (lineItem) {
+            $.get('/purchase_orders/' + this.purchaseOrder.id + '/line_item/' + lineItem.id + '/paid', function (data) {
                 lineItem.paid = data;
             });
         },
-        markAllPaid: function() {
+        markAllPaid: function () {
             var self = this;
             _.forEach(self.purchaseOrder.line_items, function (lineItem) {
                 self.markPaid(lineItem);
@@ -64,8 +56,5 @@ Vue.component('purchase-order-single', {
     events: {},
     mixins: [userCompany, numberFormatter],
     ready: function () {
-        $.get('/api/purchase_orders/' + this.purchaseOrderID, function (data) {
-            this.purchaseOrder = data;
-        }.bind(this));
     }
 });

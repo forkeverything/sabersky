@@ -195,15 +195,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::delete('/vendors/{vendor}/bank_accounts/{bank_account_id}', 'VendorsController@deleteBankAccount');
     Route::post('/vendors/{vendor}/bank_accounts/{bank_account_id}/set_primary', 'VendorsController@postBankAccountSetPrimary');
     Route::post('/vendors/{vendor}/request/{action}', 'VendorsController@postVerifyVendor');
+
+    /**
+     * Reports
+     */
+
+    Route::get('/reports/spendings/{models}', 'ReportsController@getSpendings');
+
     // api
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
-
-    Route::get('test', function () {
-        return \App\Repositories\CompanyPurchaseOrdersRepository::forCompany(\App\Company::find(1))
-            ->whereStatus('approved')
-            ->getWithoutQueryProperties()
-            ->where('id', 37);
-    });
 });

@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <project-single inline-template>
+    <project-single inline-template :project="{{ $project }}">
         <div class="container" id="project-single-view">
-            <input id="hidden-project-id" type="hidden" value="{{ $project->id }}">
             <div class="page-body">
                 <section class="project-header">
                     <h5>Status</h5>
@@ -28,8 +27,8 @@
                         </a>
                         @endcan
                     </div>
-                    <div class="table-team" v-if="teamMembers.length > 0">
-                        <power-table :headers="tableHeaders" :data="teamMembers" :sort="true" :hover="true"></power-table>
+                    <div class="table-team" v-if="project.team_members.length > 0">
+                        <power-table :headers="tableHeaders" :data="project.team_members" :sort="true" :hover="true"></power-table>
                     </div>
                     <p class="text-muted" v-else><em>No team members currently working on this Project</em></p>
                 </section>

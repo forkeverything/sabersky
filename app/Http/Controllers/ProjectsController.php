@@ -103,6 +103,7 @@ class ProjectsController extends Controller
             ['<i class="fa fa-flash"></i> Projects', '/projects'],
             [$project->name, '#']
         ];
+        $project = $project->load('teamMembers', 'teamMembers.role');
         if (Gate::allows('view', $project)) return view('projects.single', compact('project', 'breadcrumbs'));
         return redirect('/projects');
     }

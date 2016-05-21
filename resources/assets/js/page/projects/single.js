@@ -26,7 +26,7 @@ Vue.component('project-single', {
             ]
         };
     },
-    props: [],
+    props: ['project'],
     computed: {
     },
     methods: {
@@ -38,18 +38,5 @@ Vue.component('project-single', {
         var self = this;
         if(!self.ajaxReady) return;
         self.ajaxReady = false;
-        $.ajax({
-            url: '/api/projects/' + $('#hidden-project-id').val() +'/team',
-            method: '',
-            success: function(data) {
-               // success
-               self.teamMembers = data;
-               self.ajaxReady = true;
-            },
-            error: function(response) {
-                console.log(response);
-                self.ajaxReady = true;
-            }
-        });
     }
 });

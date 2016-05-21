@@ -1,10 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <purchase-order-single inline-template :user="user">
+    <purchase-order-single inline-template :user="user" :purchase-order="{{ $purchaseOrder }}">
 
         <div id="purchase-order-single" class="container">
-            <input type="hidden" value="{{ $purchaseOrder->id }}" v-model="purchaseOrderID">
-
             <div class="approvals no-print">
                 @include('purchase_orders.partials.single.approvals')
             </div>

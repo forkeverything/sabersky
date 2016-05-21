@@ -30,9 +30,6 @@ class PurchaseOrdersController extends Controller
         $this->middleware('api.only', [
             'only' => ['apiGetAll', 'apiPostSubmit', 'apiGetSingle']
         ]);
-
-        // Call base Controller class's constructor to get access to shared view $variables
-        parent::__construct();
     }
 
     /**
@@ -115,6 +112,7 @@ class PurchaseOrdersController extends Controller
     public function getSingle(PurchaseOrder $purchaseOrder)
     {
         if (Gate::allows('view', $purchaseOrder)) {
+            $purchaseOrder = $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems', 'lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts');
             $breadcrumbs = [
                 ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
                 ['#' . $purchaseOrder->number, '#']

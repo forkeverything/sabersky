@@ -6,18 +6,13 @@ Vue.component('vendor-single', {
     data: function () {
         return {
             ajaxReady: true,
-            vendorID: '',
-            vendor: {
-                bank_accounts: [],
-                addresses: []
-            },
             description: '',
             editDescription: false,
             savedDescription: '',
             companyIDToLink: ''
         };
     },
-    props: [],
+    props: ['vendor'],
     computed: {
         vendorLink: function () {
             if (this.vendor.linked_company_id) {
@@ -46,7 +41,7 @@ Vue.component('vendor-single', {
             }
             self.ajaxReady = false;
             $.ajax({
-                url: '/vendors/' + self.vendorID + '/description',
+                url: '/vendors/' + self.vendor.id + '/description',
                 method: 'POST',
                 data: {
                     "description": self.description
@@ -112,7 +107,7 @@ Vue.component('vendor-single', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/vendors/' + self.vendorID + '/bank_accounts/' + account.id + '/set_primary',
+                url: '/vendors/' + self.vendor.id + '/bank_accounts/' + account.id + '/set_primary',
                 method: 'POST',
                 success: function (data) {
                     self.vendor.bank_accounts = _.map(self.vendor.bank_accounts, function (bankAccount) {
@@ -181,15 +176,5 @@ Vue.component('vendor-single', {
     },
     ready: function () {
         var self = this;
-        $.ajax({
-            url: '/api/vendors/' + self.vendorID,
-            method: 'GET',
-            success: function (data) {
-                self.vendor = data;
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
     }
 });

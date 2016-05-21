@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <vendor-single inline-template>
+    <vendor-single inline-template :vendor="{{ $vendor }}">
         <div class="container" id="vendor-single">
-            <input type="hidden" value="{{ $vendor->id }}" v-model="vendorID">
             <div class="row flexing">
                 <div class="col-sm-4">
                     <div class="description page-body">
