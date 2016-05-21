@@ -47,7 +47,7 @@
                     <div class="col-xs-12">
                         <h3>Items</h3>
                         <div class="quick-actions">
-                            <button class="btn btn-small btn-outline-blue" @click="markAllPaid" :disabled="! purchaseOrder.approved">Mark All Paid</button>
+                            <button class="btn btn-small btn-outline-blue" @click="markAllPaid" :disabled="! purchaseOrder.approved || numPaidLineItems == numLineItems">Mark All Paid</button>
                         </div>
                         <div class="line-items">
                             @include('purchase_orders.partials.single.line-items')
