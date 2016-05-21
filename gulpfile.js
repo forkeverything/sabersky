@@ -54,7 +54,8 @@ elixir(function(mix) {
         'blueimp-file-upload/js/jquery.fileupload.js',
         'js-cookie/src/js.cookie.js',
         'toastr/toastr.js',
-        'accounting.js/accounting.min.js'
+        'accounting.js/accounting.min.js',
+        'Chart.js/dist/Chart.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

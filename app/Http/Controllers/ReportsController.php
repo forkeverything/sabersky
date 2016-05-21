@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Country;
+use App\Utilities\ReportGenerator;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class ReportsController extends Controller
 {
@@ -12,5 +16,19 @@ class ReportsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+    }
+
+    public function getSpendings()
+    {
+        $breadcrumbs = [
+            ['<i class="fa fa-cogs"></i> Reports', '#'],
+            ['Spendings', '#']
+        ];
+        return view('reports.spendings', compact('breadcrumbs'));
+    }
+
+    public function getSpendingsData($models, Country $currency)
+    {
+        return ReportGenerator::spendings(Auth::user()->company, $currency, $models);
     }
 }

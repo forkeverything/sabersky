@@ -22,7 +22,7 @@
         class="btn button-remove-filter"
         @click="removeFilter('currency_id')"
 >
-<span class="field">Currency: </span>@{{ params.currency.code }} @{{ params.currency.symbol }}
+<span class="field">Currency: </span>@{{ params.currency.code }} - @{{ params.currency.symbol }}
 </button>
 
 <!-- Total -->
