@@ -1,9 +1,14 @@
 <template v-for="order in purchaseOrders">
-    <tr class="row-single-po clickable" @click="loadSinglePO(order.id)">
+    <tr class="row-single-po">
 
         <!-- Number -->
         <td class="no-wrap col-number fit-to-content">
+            <a :href="'/purchase_orders/' + order.id"
+               alt="Link to single POs"
+               class="underline"
+            >
             #@{{ order.number }}
+            </a>
         </td>
 
         <!-- Submitted (Date) -->

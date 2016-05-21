@@ -81,9 +81,6 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             });
             return urgent;
         },
-        loadSinglePO: function (POID) {
-            location.href = '/purchase_orders/' + POID;
-        },
         checkProperty: function (purchaseOrder, property) {
             var numLineItems = purchaseOrder.line_items.length;
             var numTrueForProperty = 0;

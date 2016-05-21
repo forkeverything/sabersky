@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Http\Requests\ApprovePurchaseOrderRequest;
-use App\Http\Requests\CreatePurchaseOrderRequest;
-use App\Http\Requests\POStep1Request;
-use App\Http\Requests\POStep2Request;
 use App\Http\Requests\SaveLineItemRequest;
 use App\Http\Requests\SubmitPurchaseOrderRequest;
 use App\LineItem;
@@ -180,7 +177,7 @@ class PurchaseOrdersController extends Controller
     public function getMarkLineItemReceived(PurchaseOrder $purchaseOrder, LineItem $lineItem, $status)
     {
         if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments')) {
-            if($lineItem->markReceived($status)) return $lineItem->status;
+            if($lineItem->markReceived($status)) return $lineItem;
             return response("Could not mark line item as delivered");
         }
         return response("Can't change that Line Item", 403);

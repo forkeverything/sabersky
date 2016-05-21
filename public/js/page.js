@@ -391,9 +391,6 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             });
             return urgent;
         },
-        loadSinglePO: function (POID) {
-            location.href = '/purchase_orders/' + POID;
-        },
         checkProperty: function (purchaseOrder, property) {
             var numLineItems = purchaseOrder.line_items.length;
             var numTrueForProperty = 0;
@@ -631,6 +628,44 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
+
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseRequests',
     el: function () {
@@ -880,44 +915,6 @@ Vue.component('purchase-requests-make', {
     }
 });
 
-
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
 
 Vue.component('team-all', {
     name: 'teamAll',

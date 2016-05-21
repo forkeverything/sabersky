@@ -24,7 +24,10 @@ Vue.component('po-mark-received-popover', {
         markReceived: function(lineItem, status) {
             if(status !== 'accepted' && status !== 'returned') return;
             $.get('/purchase_orders/' + this.purchaseOrder.id + '/line_item/' + lineItem.id + '/received/' + status, function(data) {
-                lineItem.status = data;
+                lineItem.status = data.status;
+                lineItem.received = data.received;
+                lineItem.accepted = data.accepted;
+                lineItem.returned = data.returned;
             });
         }
     },
