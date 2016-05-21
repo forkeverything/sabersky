@@ -152,7 +152,7 @@ class PurchaseOrdersController extends Controller
     {
         if($action !== 'reject' && $action !== 'approve') return response("Rules can only be approved or rejected.", 500);
         if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule($action, $rule, Auth::user())) return $purchaseOrder->status;
+            if($purchaseOrder->handleRule($action, $rule, Auth::user())) return $purchaseOrder;
             return response("Could not check that rule", 500);
         }
         return response("Not allowed to view that order", 403);
@@ -167,7 +167,7 @@ class PurchaseOrdersController extends Controller
      */
     public function getMarkLineItemPaid(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
-        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments')) {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
             if($lineItem->markPaid()) return 1;;
             return response("Could not mark line item as paid");
         }
@@ -176,7 +176,7 @@ class PurchaseOrdersController extends Controller
 
     public function getMarkLineItemReceived(PurchaseOrder $purchaseOrder, LineItem $lineItem, $status)
     {
-        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments')) {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
             if($lineItem->markReceived($status)) return $lineItem;
             return response("Could not mark line item as delivered");
         }

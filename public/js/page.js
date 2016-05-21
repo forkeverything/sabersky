@@ -628,44 +628,6 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
-Vue.component('settings', {
-    name: 'Settings',
-    el: function () {
-        return '#system-settings';
-    },
-    data: function () {
-        return {
-            settingsView: 'company',
-            navLinks: [
-                {
-                    label: 'Company',
-                    section: 'company'
-                },
-                {
-                    label: 'Permissions',
-                    section: 'permissions'
-                },
-                {
-                    label: 'Rules',
-                    section: 'rules'
-                }
-            ],
-            roles: []   // shared with Permissions, Rules
-        }
-    },
-    props: ['user'],
-    methods: {
-        changeView: function (view) {
-            this.settingsView = view;
-        }
-    },
-    components: {
-        settingsCompany: 'settings-company',
-        settingsPermissions: 'settings-permissions',
-        settingsRules: 'settings-rules'
-    }
-});
-
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseRequests',
     el: function () {
@@ -915,6 +877,44 @@ Vue.component('purchase-requests-make', {
     }
 });
 
+
+Vue.component('settings', {
+    name: 'Settings',
+    el: function () {
+        return '#system-settings';
+    },
+    data: function () {
+        return {
+            settingsView: 'company',
+            navLinks: [
+                {
+                    label: 'Company',
+                    section: 'company'
+                },
+                {
+                    label: 'Permissions',
+                    section: 'permissions'
+                },
+                {
+                    label: 'Rules',
+                    section: 'rules'
+                }
+            ],
+            roles: []   // shared with Permissions, Rules
+        }
+    },
+    props: ['user'],
+    methods: {
+        changeView: function (view) {
+            this.settingsView = view;
+        }
+    },
+    components: {
+        settingsCompany: 'settings-company',
+        settingsPermissions: 'settings-permissions',
+        settingsRules: 'settings-rules'
+    }
+});
 
 Vue.component('team-all', {
     name: 'teamAll',
@@ -1760,7 +1760,9 @@ Vue.component('purchase-order-single', {
             purchaseOrder: {
                 vendor: {},
                 user: {},
-                rules: []
+                rules: [],
+                line_items: [],
+                items: []
             },
             tableView: 'requests'
         };
@@ -1801,6 +1803,12 @@ Vue.component('purchase-order-single', {
         markPaid: function(lineItem) {
             $.get('/purchase_orders/' + this.purchaseOrderID + '/line_item/' + lineItem.id + '/paid', function(data) {
                 lineItem.paid = data;
+            });
+        },
+        markAllPaid: function() {
+            var self = this;
+            _.forEach(self.purchaseOrder.line_items, function (lineItem) {
+                self.markPaid(lineItem);
             });
         }
     },

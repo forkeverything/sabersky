@@ -56,6 +56,31 @@ Vendor
 Approval
 </th>
 
+<!-- Paid (Approved only) -->
+<th v-show="params.status === 'approved'"
+    class="clickable"
+    @click="changeSort('percentage_paid_line_items')"
+    :class="{
+                                            'current_asc': params.sort === 'percentage_paid_line_items' && params.order === 'asc',
+                                            'current_desc': params.sort === 'percentage_paid_line_items' && params.order === 'desc'
+                                        }"
+>
+Paid
+</th>
+
+<!-- Received (Approved Only) -->
+<th v-show="params.status === 'approved'"
+    class="clickable"
+@click="changeSort('percentage_received_line_items')"
+:class="{
+                                            'current_asc': params.sort === 'percentage_received_line_items' && params.order === 'asc',
+                                            'current_desc': params.sort === 'percentage_received_line_items' && params.order === 'desc'
+                                        }"
+>
+Received
+</th>
+
+
 <!-- Currency (heading spacer) -->
 <th class="padding-even">
 </th>

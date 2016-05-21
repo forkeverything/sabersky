@@ -75,7 +75,10 @@ class PurchaseOrder extends Model
         'currency_code',
         'currency_symbol',
         'billing_address_same_as_company',
-        'shipping_address_same_as_billing'
+        'shipping_address_same_as_billing',
+        'pending',
+        'approved',
+        'rejected'
     ];
 
     /**
@@ -86,6 +89,37 @@ class PurchaseOrder extends Model
     protected $attributes = [
         'status' => 'pending'
     ];
+
+    /**
+     * Accessor - Check if PO has status: pending
+     *
+     * @return bool
+     */
+    public function getPendingAttribute()
+    {
+        return $this->hasStatus('pending');
+    }
+
+    /**
+     * Accessor - Check if PO has status: approved
+     *
+     * @return bool
+     */
+    public function getApprovedAttribute()
+    {
+        return $this->hasStatus('approved');
+    }
+
+    /**
+     * Accessor - Check if PO has status: successs
+     *
+     * @return bool
+     */
+    public function getRejectedAttribute()
+    {
+        return $this->hasStatus('rejected');
+    }
+
 
 
     /**

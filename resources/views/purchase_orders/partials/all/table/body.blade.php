@@ -37,6 +37,30 @@
             }">@{{ order.status }}</span>
         </td>
 
+        <!-- Paid (Approved only) -->
+        <td v-show="params.status === 'approved'"
+            class="col-paid"
+            :class="{
+                'success': order.percentage_paid_line_items == 1,
+                'warning': 0 < order.percentage_paid_line_items && order.percentage_paid_line_items < 1,
+                'danger': order.num_paid_line_items == 0
+            }"
+        >
+            @{{ order.num_paid_line_items }} / @{{ order.num_line_items }}
+        </td>
+
+        <!-- Received (Approved Only) -->
+        <td v-show="params.status === 'approved'"
+            class="col-received"
+            :class="{
+                'success': order.percentage_received_line_items == 1,
+                'warning': 0 < order.percentage_received_line_items && order.percentage_received_line_items < 1,
+                'danger': order.num_received_line_items == 0
+            }"
+        >
+            @{{ order.num_received_line_items }} / @{{ order.num_line_items }}
+        </td>
+
         <!-- Currency -->
         <td class="no-wrap col-currency fit-to-content">
             @{{ order.currency_symbol }}

@@ -6040,7 +6040,8 @@ button.close {
   .btn-outline-blue:disabled:active,
   .btn-outline-blue:disabled:focus {
     color: #757575;
-    box-shadow: none !important; }
+    box-shadow: none !important;
+    border-color: #757575; }
 
 .btn-outline-green {
   color: #27AE60;
@@ -8988,6 +8989,18 @@ table tbody tr td.content-center {
 
 table tbody tr td.fit-to-content {
   width: 1%; }
+
+table tbody tr td.success, table tbody tr td.warning, table tbody tr td.danger {
+  background-color: #fff !important; }
+
+table tbody tr td.success {
+  color: #2ECC71; }
+
+table tbody tr td.warning {
+  color: #FFA339; }
+
+table tbody tr td.danger {
+  color: #C0392B; }
 
 .table-controls {
   margin: 0 0 15px 0; }

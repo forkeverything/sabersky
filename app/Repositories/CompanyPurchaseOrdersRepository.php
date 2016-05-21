@@ -25,7 +25,9 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         'total',
         'status',
         'created_at',
-        'user_name'
+        'user_name',
+        'percentage_paid_line_items',
+        'percentage_received_line_items'
     ];
 
     /**
@@ -50,10 +52,10 @@ class CompanyPurchaseOrdersRepository extends apiRepository
     protected function setQuery(Company $company)
     {
         return PurchaseOrder::where('purchase_orders.company_id', $company->id)
-//            ->where('purchase_orders.id', 2)
                             ->join('vendors', 'purchase_orders.vendor_id', '=', 'vendors.id')
                             ->join('users', 'purchase_orders.user_id', '=', 'users.id')
                             ->join('countries', 'purchase_orders.currency_id', '=', 'countries.id')
+                            ->join('line_items', 'purchase_orders.id', '=', 'line_items.purchase_order_id')
                             ->select(DB::raw('
                                 purchase_orders.*,
                                 vendors.name AS vendor_name,
@@ -62,8 +64,14 @@ class CompanyPurchaseOrdersRepository extends apiRepository
                                 countries.name AS currency_country_name,
                                 countries.currency AS currency_name,
                                 countries.currency_code,
-                                countries.currency_symbol
-                            '));
+                                countries.currency_symbol,
+                                COUNT(line_items.id) AS num_line_items,
+                                SUM(line_items.paid) AS num_paid_line_items,
+                                SUM(if(line_items.status = "unreceived", 0, 1)) AS num_received_line_items,
+                                SUM(line_items.paid) / COUNT(line_items.id) AS percentage_paid_line_items,
+                                SUM(if(line_items.status = "unreceived", 0, 1)) / COUNT(line_items.id) AS percentage_received_line_items
+                            '))
+            ->groupBy('purchase_orders.id');
 
         /**
          * DEPRACATED - Store calculated values in DB instead.

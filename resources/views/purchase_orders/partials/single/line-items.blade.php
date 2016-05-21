@@ -1,6 +1,4 @@
-<h3>Items</h3>
-<div class="line-items">
-    <div class="table-controls table-view-select">
+ <div class="table-controls table-view-select">
         View:
         <div class="requests">
             <a class="clickable dotted"
@@ -24,4 +22,3 @@
         <!-- PO Single - Items Table -->
         @include('purchase_orders.partials.single.table-items')
     </div>
-</div>

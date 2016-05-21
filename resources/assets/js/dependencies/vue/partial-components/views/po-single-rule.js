@@ -44,15 +44,23 @@ Vue.component('po-single-rule', {
         },
         processRule: function (action, rule) {
             var self = this;
+
+            function updatePOStatus(data) {
+                self.purchaseOrder.status = data.status;
+                self.purchaseOrder.pending = data.pending;
+                self.purchaseOrder.approved = data.approved;
+                self.purchaseOrder.rejected = data.rejected;
+            }
+
             if (action === 'approve') {
                 $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/approve', function (data) {
                     rule.pivot.approved = 1;
-                    self.purchaseOrder.status = data;
+                    updatePOStatus(data);
                 })
             } else {
                 $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/reject', function (data) {
                     rule.pivot.approved = 0;
-                    self.purchaseOrder.status = data;
+                    updatePOStatus(data);
                 })
             }
         }
