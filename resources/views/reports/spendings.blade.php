@@ -4,7 +4,7 @@
     <report-spendings inline-template :user="user">
         <div id="report-spendings" class="container">
             <div class="page-body">
-                <h2>Spendings Report</h2>
+                <date-range-field :min.sync="dateMin" :max.sync="dateMax"></date-range-field>
                 <ul class="list-categories list-unstyled">
                     <li class=clickable" v-for="category in categories" @click="changeCategory(category)">@{{ category }}</li>
                 </ul>

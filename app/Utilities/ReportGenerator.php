@@ -7,10 +7,13 @@ namespace App\Utilities;
 use App\Company;
 use App\Country;
 use App\PurchaseOrder;
+use App\Utilities\Traits\DBIntegerDateFilters;
 
 class ReportGenerator
 {
 
+    use DBIntegerDateFilters;
+    
     protected $company;
     protected $currency;
     protected $query;
@@ -19,10 +22,8 @@ class ReportGenerator
         'projects', 'employees', 'vendors', 'items'
     ];
 
-    public static function spendings(Company $company, Country $currency, $category)
+    public static function spendings(Company $company, Country $currency)
     {
-        if (!in_array($category, self::$spendingCategories)) return response("Report does not exist", 404);
-
         $generator = new static($company, $currency);
 
         $generator->query = PurchaseOrder::where('purchase_orders.company_id', '=', $company->id)
@@ -30,13 +31,19 @@ class ReportGenerator
                                          ->join('line_items', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
                                          ->join('purchase_requests', 'purchase_requests.id', '=', 'line_items.purchase_request_id');
 
-        return $generator->{'spendings' . ucfirst($category)}();
+        return $generator;
     }
 
     public function __construct(Company $company, Country $currency)
     {
         $this->company = $company;
         $this->currency = $currency;
+    }
+
+    public function getCategory($category)
+    {
+        if (!in_array($category, self::$spendingCategories)) return response("Report does not exist", 404);
+        return $this->{'spendings' . ucfirst($category)}();
     }
 
     public function spendingsProjects()

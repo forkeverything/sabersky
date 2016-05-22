@@ -15,11 +15,19 @@ Vue.component('report-spendings', {
             currencyID: 840,
             chart: '',
             showZeroValues:false,
-            chartType: 'bar'
+            chartType: 'bar',
+            dateMin: '',
+            dateMax:''
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        url: function() {
+            var url = '/reports/spendings/' + this.category + '/currency/' + this.currencyID;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        }
+    },
     methods: {
         load: function() {
             var self = this;
@@ -34,7 +42,7 @@ Vue.component('report-spendings', {
             });
         },
         fetchData: function() {
-           return $.get('/reports/spendings/' + this.category + '/currency/' + this.currencyID);
+           return $.get(this.url);
         },
         changeCategory: function(category) {
             if(this.category === category) return;
@@ -69,13 +77,8 @@ Vue.component('report-spendings', {
 
         self.load();
 
-        self.$watch('currencyID', function () {
+        self.$watch('url', function () {
             self.reload();
         });
-
-        self.$watch('category', function () {
-            self.reload();
-        });
-
     }
 });

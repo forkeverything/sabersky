@@ -27,8 +27,10 @@ class ReportsController extends Controller
         return view('reports.spendings', compact('breadcrumbs'));
     }
 
-    public function getSpendingsData($models, Country $currency)
+    public function getSpendingsData($category, Country $currency)
     {
-        return ReportGenerator::spendings(Auth::user()->company, $currency, $models);
+        return ReportGenerator::spendings(Auth::user()->company, $currency)
+                              ->filterDateField('purchase_orders.created_at', request('date'))
+                              ->getCategory($category);
     }
 }
