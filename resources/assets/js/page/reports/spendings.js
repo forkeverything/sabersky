@@ -13,28 +13,13 @@ Vue.component('report-spendings', {
                 'items'
             ],
             currencyID: 840,
-            spendingsData: {},
             chart: '',
             showZeroValues:false,
             chartType: 'bar'
         };
     },
     props: [],
-    computed: {
-        chartData: function() {
-            return {
-                labels: Object.keys(this.spendingsData),
-                datasets: [
-                    {
-                        data: _.map(this.spendingsData, function(data){
-                            return data;
-                        }),
-                        label: "Spendings"
-                    }
-                ]
-            }
-        }
-    },
+    computed: {},
     methods: {
         load: function() {
             var self = this;
