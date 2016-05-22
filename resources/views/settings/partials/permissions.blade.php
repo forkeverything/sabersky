@@ -1,5 +1,5 @@
 <settings-permissions inline-template :roles.sync="roles" :settings-view.sync="settingsView">
-    <div id="settings-permissions" v-show="settingsView === 'permissions'">
+    <div id="settings-permissions">
         <h2>Staff Roles & Permissions</h2>
         <p>Add new roles, then set or modify permissions for what each role can do. Changes are saved
             automatically and reflected immediately.</p>

@@ -1,5 +1,5 @@
 <settings-rules inline-template :roles.sync="roles" :settings-view.sync="settingsView" :user.sync="user">
-    <div id="settings-rules" v-show="settingsView === 'rules'">
+    <div id="settings-rules">
         <h2>Purchase Order Rules</h2>
         <p>
             Control precisely when a Purchase Order needs approval and who can clear each rule.When there are

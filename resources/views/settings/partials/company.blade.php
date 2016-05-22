@@ -1,5 +1,5 @@
 <settings-company inline-template :settings-view.sync="settingsView" :user.sync="user">
-    <div id="settings-company"  v-show="settingsView === 'company'">
+    <div id="settings-company">
         <h2>Company Information</h2>
         <p>
             View and update your company information as well as define system-wide company settings for your team.

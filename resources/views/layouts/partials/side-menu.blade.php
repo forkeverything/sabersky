@@ -54,7 +54,7 @@
             @endcan
             @can('settings_change')
             <li class="single-list-item">
-                <a href="/settings">
+                <a href="/settings/company">
                     <i class="fa fa-gears icon-dashboard"></i>
                     Settings
                 </a>
