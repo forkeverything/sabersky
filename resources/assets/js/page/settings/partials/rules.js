@@ -140,6 +140,7 @@ Vue.component('settings-rules', {
             this.removeRule();
         }
     },
+    mixins: [userCompany],
     ready: function () {
         var self = this;
 

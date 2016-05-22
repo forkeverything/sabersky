@@ -92,7 +92,7 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
             }
         }
     },
-    mixins: [numberFormatter],
+    mixins: [numberFormatter, userCompany],
     ready: function () {
     }
 }));

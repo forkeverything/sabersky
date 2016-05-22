@@ -48,7 +48,7 @@
                 <tr v-show="selectedTrigger.has_currency">
                     <th>Currency</th>
                     <td>
-                        <company-currency-selecter :currency-object.sync="currency"  :user="user"></company-currency-selecter>
+                        <company-currency-selecter :currency-object.sync="currency"  :currencies="availableCurrencies"></company-currency-selecter>
                     </td>
                 </tr>
                 <tr>

@@ -1,12 +1,12 @@
 Vue.component('company-currency-selecter', {
     template: '<select v-model="id" class="themed-select" v-el:select>' +
-    '<option :value="currency.id" v-for="currency in companyCurrencies">{{ currency.code }} - {{ currency.symbol }}</option>' +
+    '<option :value="currency.id" v-for="currency in currencies">{{ currency.code }} - {{ currency.symbol }}</option>' +
     '</select>',
     name: 'selectpicker',
-    props: ['currency-object', 'id'],
+    props: ['currencies', 'currency-object', 'id'],
     methods: {
         getCurrency: function(currencyID) {
-            return _.find(this.companyCurrencies, function(currency) {
+            return _.find(this.currencies, function(currency) {
                 return currency.id == currencyID;
             });
         },
@@ -20,7 +20,6 @@ Vue.component('company-currency-selecter', {
             });
         }
     },
-    mixins: [userCompany],
     ready: function () {
         var self = this;
         $(self.$els.select).selectpicker({
@@ -30,7 +29,7 @@ Vue.component('company-currency-selecter', {
             self.currencyObject = self.getCurrency($(self.$els.select).selectpicker('val'));
         });
 
-        self.$watch('user', this.refresh);
+        self.$watch('currencies', this.refresh);
 
         vueEventBus.$on('updated-company-currency', this.refresh);
     }

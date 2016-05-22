@@ -20,10 +20,10 @@
             <div class="form-group">
                 <h5>Available Currencies</h5>
                 <div class="form-group available-currencies">
-                    <ul v-if="companyCurrencies.length > 0" class="list-currencies list-unstyled">
-                        <li v-for="currency in companyCurrencies" class="single-currency">
+                    <ul v-if="availableCurrencies.length > 0" class="list-currencies list-unstyled">
+                        <li v-for="currency in availableCurrencies" class="single-currency">
                             @{{ currency.country_name }} - @{{ currency.symbol }}
-                            <span class="close" @click="removeCurrency(currency)" v-show="companyCurrencies.length > 1 && canRemoveCurrency(currency)"><i class="fa fa-close"></i></span>
+                            <span class="close" @click="removeCurrency(currency)" v-show="availableCurrencies.length > 1"><i class="fa fa-close"></i></span>
                         </li>
                     </ul>
                     <em v-else>None</em>

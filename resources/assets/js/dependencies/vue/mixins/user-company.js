@@ -4,6 +4,10 @@ var userCompany = {
         company: function () {
             return this.user.company;
         },
+        availableCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.settings.currencies;
+        },
         companyCurrencies: function() {
             if(! this.user.id) return [];
             return this.user.company.currencies;

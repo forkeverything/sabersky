@@ -23,7 +23,7 @@ Vue.component('settings-company', {
             return this.user.company.settings.currency_decimal_points;
         },
         canAddCurrency: function () {
-            return this.selectedCurrency && !_.find(this.companyCurrencies, {id: this.selectedCurrency.id});
+            return this.selectedCurrency && !_.find(this.availableCurrencies, {id: this.selectedCurrency.id});
         }
     },
     methods: {
@@ -75,9 +75,6 @@ Vue.component('settings-company', {
                     self.ajaxReady = true;
                 }
             });
-        },
-        canRemoveCurrency: function(currency) {
-          return !! _.find(this.user.company.settings.currencies, {id: currency.id});
         },
         removeCurrency: function(currency) {
             var self = this;

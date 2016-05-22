@@ -376,13 +376,17 @@ class PurchaseOrderTest extends TestCase
 
         static::$purchaseOrder->rules()->attach($rule);
 
+        $approvedPO = factory(PurchaseOrder::class)->create();
+        $approvedPO->rules()->attach($rule);
+
         $this->assertNull(static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
+        $this->assertNull($approvedPO->rules->where('id', $rule->id)->first()->pivot->approved);
 
         static::$purchaseOrder->handleRule('reject', $rule, $user);
         $this->assertEquals(0, static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
 
-        static::$purchaseOrder->handleRule('approve', $rule, $user);
-        $this->assertEquals(1, static::$purchaseOrder->rules->where('id', $rule->id)->first()->pivot->approved);
+        $approvedPO->handleRule('approve', $rule, $user);
+        $this->assertEquals(1, $approvedPO->rules->where('id', $rule->id)->first()->pivot->approved);
 
     }
 
@@ -391,25 +395,29 @@ class PurchaseOrderTest extends TestCase
      */
     public function it_finds_out_whether_an_order_has_a_rejected_rule()
     {
+
+
+
+        $approvedPO = factory(PurchaseOrder::class)->create();
+
         // No rules - no rejected rule
         $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+        $this->assertFalse($approvedPO->hasRejectedRule());
         // Add a pending rule
         $rule = factory(Rule::class)->create();
         static::$purchaseOrder->rules()->attach($rule);
-        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+        $approvedPO->rules()->attach($rule);
 
-        /**
-         * The order here is important because you can approve a rejected Rule but you can't
-         * un-approve a rule
-         */
+        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+        $this->assertFalse($approvedPO->hasRejectedRule());
 
         // Reject rule
         static::$purchaseOrder->rules->first()->setPurchaseOrderApproved(0);
         $this->assertTrue(static::$purchaseOrder->hasRejectedRule());
 
         // Approve rule
-        static::$purchaseOrder->rules->first()->setPurchaseOrderApproved(1);
-        $this->assertFalse(static::$purchaseOrder->hasRejectedRule());
+        $approvedPO->rules->first()->setPurchaseOrderApproved(1);
+        $this->assertFalse($approvedPO->hasRejectedRule());
     }
 
 }

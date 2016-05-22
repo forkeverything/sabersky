@@ -330,6 +330,192 @@ Vue.transition('slide-down', {
     enterClass: 'slideInDown',
     leaveClass: 'slideOutUp'
 });
+Vue.filter('capitalize', function (str) {
+    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    if(! array) return;
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
+Vue.filter('diffHuman', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
+    }
+});
+Vue.filter('dateTime', function (value) {
+    if(! value || value == '') return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
+    }
+    return value;
+});
+
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if(!value) return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+    }
+    return value;
+});
+
+Vue.filter('easyDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        console.log(value);
+        var date = moment(value, "DD-MM-YYYY");
+        if (value && date) {
+            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        return val;
+    }
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val && val.length > limit) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    if(isNaN(parseFloat(val))) return val;
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
+    }
+});
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
+var userCompany = {
+    props: ['user'],
+    computed: {
+        company: function () {
+            return this.user.company;
+        },
+        availableCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.settings.currencies;
+        },
+        companyCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.currencies;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        }
+    }
+};
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -677,188 +863,6 @@ Vue.directive('table-bulk-actions', function () {
 });
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
-});
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
-var userCompany = {
-    props: ['user'],
-    computed: {
-        company: function () {
-            return this.user.company;
-        },
-        companyCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.currencies;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        }
-    }
-};
-Vue.filter('capitalize', function (str) {
-    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    if(! array) return;
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('properDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value.replace(/\s/g, "").length > 0) {
-            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        if(val.replace(/\s/g, "").length > 0) {
-            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
-        }
-        return val;
-    }
-});
-Vue.filter('dateTime', function (value) {
-    if(! value || value == '') return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
-    }
-    return value;
-});
-
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if(!value) return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
-    }
-    return value;
-});
-
-Vue.filter('easyDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        console.log(value);
-        var date = moment(value, "DD-MM-YYYY");
-        if (value && date) {
-            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        return val;
-    }
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val && val.length > limit) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    if(isNaN(parseFloat(val))) return val;
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
-        }
-    },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        // Trim invalid characters, and round to 2 decimal places
-        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
-    },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
-    }
 });
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
@@ -1335,6 +1339,57 @@ Vue.component('toast-alert', {
         make the jump to Vue for handling all client-side. Which
         includes routing, auth etc.
          */
+    }
+});
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
+    '<span class="dash">-</span>'+
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
+            }
+        }
+    },
+    ready: function() {
     }
 });
 Vue.component('add-address-modal', {
@@ -1854,57 +1909,6 @@ Vue.component('single-pr-modal', {
 });
 
 
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel">'+
-    '<span class="dash">-</span>'+
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel">' +
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-
-                if(this.onChangeEventName) {
-                    var data = this.onChangeEventData || null;
-                    vueEventBus.$emit(this.onChangeEventName, {
-                        newVal: newVal,
-                        attached: data
-                    });
-                }
-            }
-        }
-    },
-    ready: function() {
-    }
-});
 var apiRequestAllBaseComponent = Vue.extend({
     name: 'APIRequestall',
     data: function () {
@@ -2088,13 +2092,13 @@ Vue.component('bank-account', {
 });
 Vue.component('company-currency-selecter', {
     template: '<select v-model="id" class="themed-select" v-el:select>' +
-    '<option :value="currency.id" v-for="currency in companyCurrencies">{{ currency.code }} - {{ currency.symbol }}</option>' +
+    '<option :value="currency.id" v-for="currency in currencies">{{ currency.code }} - {{ currency.symbol }}</option>' +
     '</select>',
     name: 'selectpicker',
-    props: ['currency-object', 'id'],
+    props: ['currencies', 'currency-object', 'id'],
     methods: {
         getCurrency: function(currencyID) {
-            return _.find(this.companyCurrencies, function(currency) {
+            return _.find(this.currencies, function(currency) {
                 return currency.id == currencyID;
             });
         },
@@ -2108,7 +2112,6 @@ Vue.component('company-currency-selecter', {
             });
         }
     },
-    mixins: [userCompany],
     ready: function () {
         var self = this;
         $(self.$els.select).selectpicker({
@@ -2118,7 +2121,7 @@ Vue.component('company-currency-selecter', {
             self.currencyObject = self.getCurrency($(self.$els.select).selectpicker('val'));
         });
 
-        self.$watch('user', this.refresh);
+        self.$watch('currencies', this.refresh);
 
         vueEventBus.$on('updated-company-currency', this.refresh);
     }

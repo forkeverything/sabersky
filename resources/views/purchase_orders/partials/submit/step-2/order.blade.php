@@ -4,7 +4,7 @@
     <h5 class="required">
         Currency
     </h5>
-    <company-currency-selecter :currency-object.sync="currency"  :user="user"></company-currency-selecter>
+    <company-currency-selecter :currency-object.sync="currency"  :currencies="availableCurrencies"></company-currency-selecter>
 </div>
 <div class="billing-address section">
     <h5 class="required">Billing Address</h5>

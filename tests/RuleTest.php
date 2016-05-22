@@ -370,7 +370,9 @@ class RuleTest extends TestCase
     {
         $rule = factory(Rule::class)->create();
         $po = factory(PurchaseOrder::class)->create();
+        $approvedPO = factory(PurchaseOrder::class)->create();
         $po->rules()->attach($rule);
+        $approvedPO->rules()->attach($rule);
 
         $this->assertNull($po->rules->where('id', $rule->id)->first()->pivot->approved);
 
@@ -378,18 +380,21 @@ class RuleTest extends TestCase
         $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
         $this->assertEquals(0, $po->rules->where('id', $rule->id)->first()->pivot->approved);
 
-        // Approve a rejected rule -> 1
+        // Try approve rejected rule !! not allowed... still 0
         $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
-        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+        $this->assertEquals(0, $po->rules->where('id', $rule->id)->first()->pivot->approved);
 
-        // Reject an approved rule !! not allowed .. still 1
+        // Reject an approved rule !! not allowed .. still 0
         $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
-        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
-
+        $this->assertEquals(0, $po->rules->where('id', $rule->id)->first()->pivot->approved);
 
         // Other values won't get set
         $po->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved('foo');
-        $this->assertEquals(1, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+        $this->assertEquals(0, $po->rules->where('id', $rule->id)->first()->pivot->approved);
+
+        // approves rule
+        $approvedPO->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
+        $this->assertEquals(1, $approvedPO->rules->where('id', $rule->id)->first()->pivot->approved);
 
 
     }
