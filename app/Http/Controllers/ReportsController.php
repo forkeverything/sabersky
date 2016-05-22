@@ -16,6 +16,7 @@ class ReportsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('company');
+        $this->middleware('reports.view');
     }
 
     public function getSpendings()
@@ -27,6 +28,21 @@ class ReportsController extends Controller
         return view('reports.spendings', compact('breadcrumbs'));
     }
 
+    public function getSpendingsProjects()
+    {
+        $breadcrumbs = [
+            ['<i class="fa fa-cogs"></i> Reports', '#'],
+            ['Spendings - Projects', '#']
+        ];
+        return view('reports.spendings.projects', compact('breadcrumbs'));
+    }
+
+
+    /**
+     * @param $category
+     * @param Country $currency
+     * @return mixed
+     */
     public function getSpendingsData($category, Country $currency)
     {
         return ReportGenerator::spendings(Auth::user()->company, $currency)

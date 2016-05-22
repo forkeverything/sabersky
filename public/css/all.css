@@ -6520,6 +6520,35 @@ label {
     color: #E9E9E9;
     cursor: not-allowed; }
 
+.integer-range-field, .date-range-field {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 0 10px; }
+  .integer-range-field input, .date-range-field input {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    text-align: center;
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #E6E9EB;
+    border-radius: 4px;
+    width: 100%; }
+    .integer-range-field input:focus, .date-range-field input:focus {
+      border: 1px solid #3498DB;
+      outline: 0; }
+  .integer-range-field .dash, .date-range-field .dash {
+    font-size: 1.5em;
+    color: #93989F;
+    margin: 0 10px; }
+
 .bootstrap-select.themed-select button {
   border-radius: 3px;
   background: transparent;
@@ -9569,37 +9598,6 @@ table tbody tr td.danger {
   height: 34px; }
   .filters .filter-button-toggle-dropdown:hover, .filters .filter-button-toggle-dropdown:focus, .filters .filter-button-toggle-dropdown:active {
     color: #3498DB; }
-
-.filters .filter-dropdown .integer-range-field, .filters .filter-dropdown .date-range-field {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin: 0 0 10px; }
-  .filters .filter-dropdown .integer-range-field input, .filters .filter-dropdown .date-range-field input {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    text-align: center; }
-  .filters .filter-dropdown .integer-range-field .dash, .filters .filter-dropdown .date-range-field .dash {
-    font-size: 1.5em;
-    color: #93989F;
-    margin: 0 10px; }
-
-.filters .filter-dropdown .date-range-field input {
-  height: 34px;
-  padding: 6px 12px;
-  border: 1px solid #E6E9EB;
-  border-radius: 4px;
-  width: 100%; }
-  .filters .filter-dropdown .date-range-field input:focus {
-    border: 1px solid #3498DB;
-    outline: 0; }
 
 .filters.with-search .filter-button-toggle-dropdown {
   border-right: none;

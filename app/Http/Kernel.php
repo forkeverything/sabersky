@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\APIOnly;
 use App\Http\Middleware\ChangeSettings;
 use App\Http\Middleware\HasCompany;
+use App\Http\Middleware\ViewReports;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -55,5 +56,6 @@ class Kernel extends HttpKernel
         'company' => HasCompany::class,
         'settings.change' => ChangeSettings::class,
         'api.only' => APIOnly::class,
+        'reports.view' => ViewReports::class
     ];
 }

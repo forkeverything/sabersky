@@ -219,3 +219,31 @@ label {
     }
   }
 }
+
+.integer-range-field, .date-range-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 10px;
+
+  input {
+    flex: 1;
+    text-align: center;
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid $border-light;
+    border-radius: 4px;
+    width: 100%;
+
+    &:focus {
+      border: 1px solid $blue;
+      outline: 0;
+    }
+  }
+
+  .dash {
+    font-size: 1.5em;
+    color: $text-muted;
+    margin: 0 10px;
+  }
+}

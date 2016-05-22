@@ -205,6 +205,7 @@ Route::group(['middleware' => 'web'], function () {
      */
 
     Route::get('/reports/spendings', 'ReportsController@getSpendings');
+    Route::get('/reports/spendings/projects', 'ReportsController@getSpendingsProjects');
     Route::get('/reports/spendings/{models}/currency/{currency}', 'ReportsController@getSpendingsData');
 
     // api
