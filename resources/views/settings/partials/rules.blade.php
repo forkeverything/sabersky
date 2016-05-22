@@ -48,7 +48,7 @@
                 <tr v-show="selectedTrigger.has_currency">
                     <th>Currency</th>
                     <td>
-                        <currency-selecter :name.sync="currency"></currency-selecter>
+                        <company-currency-selecter :currency-object.sync="currency"  :user="user"></company-currency-selecter>
                     </td>
                 </tr>
                 <tr>
@@ -64,7 +64,7 @@
                         <div class="input-group"
                              v-else
                         >
-                            <span class="input-group-addon" v-cloak>@{{ currencySymbol }}</span>
+                            <span class="input-group-addon" v-cloak>@{{ currency.symbol }}</span>
                             <number-input :model.sync="ruleLimit" :placeholder="'limit'" :class="['form-control', 'input-rule-limit']" :disabled="! ruleHasLimit"></number-input>
                         </div>
 
@@ -124,7 +124,8 @@
                                     @{{ rule.trigger.label }}
                                 </td>
                                 <td>
-                                    @{{ rule.currency.symbol }}
+                                    <span v-if="rule.trigger.has_currency">@{{ rule.currency.symbol }}</span>
+                                    <em v-else>-</em>
                                 </td>
                                 <td v-if="rule.limit">
                                     @{{ rule.limit | numberFormat }}

@@ -4,11 +4,9 @@ var userCompany = {
         company: function () {
             return this.user.company;
         },
-        userCurrency: function () {
-            return this.user.company.settings.currency;
-        },
-        currencySymbol: function () {
-            return this.currency ? this.currency.currency_symbol : this.userCurrency.currency_symbol;
+        companyCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.currencies;
         },
         currencyDecimalPoints: function () {
             return this.user.company.settings.currency_decimal_points;

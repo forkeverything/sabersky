@@ -62,6 +62,8 @@ Route::group(['middleware' => 'web'], function () {
     // You can't create / update a Company externally
     Route::post('/company', 'CompanyController@postRegisterCompany');
     Route::put('/company', 'CompanyController@putUpdate');
+    Route::post('/company/currencies', 'CompanyController@postAddCurrency');
+    Route::delete('/company/currencies/{currency_id}', 'CompanyController@deleteRemoveCurrency');
     // api
     Route::get('/api/company', 'CompanyController@apiGetOwn');
     Route::get('/api/company/profile/{term}', 'CompanyController@apiGetPublicProfile');

@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\DB;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $employees
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Project[] $projects
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
- * @property string $currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rule[] $rules
  * @property-read mixed $connection
  * @property-read \App\Address $address
@@ -55,7 +54,8 @@ class Company extends Model
     ];
 
     protected $appends = [
-        'connection'
+        'connection',
+        'currencies'
     ];
 
     /**
@@ -70,12 +70,12 @@ class Company extends Model
             $userCompany = Auth::user()->company;
 
             $vendor = DB::table('vendors')->select(DB::raw(1))
-                ->where('base_company_id', $userCompany->id)
-                ->where('linked_company_id', $this->id)
-                ->select(['verified'])
-                ->first();
-            
-            if($vendor) return $vendor->verified ?  'verified' : 'pending';
+                        ->where('base_company_id', $userCompany->id)
+                        ->where('linked_company_id', $this->id)
+                        ->select(['verified'])
+                        ->first();
+
+            if ($vendor) return $vendor->verified ? 'verified' : 'pending';
 
             return 'No connection to this company';
         }
@@ -85,7 +85,7 @@ class Company extends Model
 
     /**
      * A Company can only have one address
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function address()
@@ -111,7 +111,7 @@ class Company extends Model
     /**
      * Company has one record from the statistics
      * table which hold many different stats
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function statistics()
@@ -188,8 +188,8 @@ class Company extends Model
     }
 
     /**
-     * A Company can have many Purchase Orders 
-     * 
+     * A Company can have many Purchase Orders
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function purchaseOrders()
@@ -203,19 +203,20 @@ class Company extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function roles() {
+    public function roles()
+    {
         return $this->hasMany(Role::class);
     }
 
     /**
      * Returns all Company's roles, removing
      * Admin
-     * 
+     *
      * @return static
      */
     public function getRolesNotAdmin()
     {
-        return $this->roles->reject(function($role) {
+        return $this->roles->reject(function ($role) {
             return $role->position === 'admin';
         });
     }
@@ -226,8 +227,9 @@ class Company extends Model
      *
      * @return Model
      */
-    public function createAdmin() {
-        if(! $this->roles->contains('position', 'admin')) {
+    public function createAdmin()
+    {
+        if (!$this->roles->contains('position', 'admin')) {
             return $this->roles()->create([
                 'position' => 'admin',
             ]);
@@ -248,7 +250,7 @@ class Company extends Model
 
     /**
      * Returns alls the Rules that exist for this Company
-     * 
+     *
      * @return Rule[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getRules()
@@ -310,7 +312,7 @@ class Company extends Model
     public function customerVendors($verifiedOnly = 1)
     {
         return $this->hasMany(Vendor::class, 'linked_company_id')
-            ->where('verified', $verifiedOnly);
+                    ->where('verified', $verifiedOnly);
     }
 
 
@@ -324,8 +326,8 @@ class Company extends Model
     public function customerCompanies($verifiedOnly = 1)
     {
         return $this->belongsToMany(Company::class, 'vendors', 'linked_company_id', 'base_company_id')
-            ->wherePivot('verified', '=', $verifiedOnly)
-            ->withPivot('verified');
+                    ->wherePivot('verified', '=', $verifiedOnly)
+                    ->withPivot('verified');
     }
 
     /**
@@ -337,7 +339,7 @@ class Company extends Model
     public function supplierCompanies($verifiedOnly = 1)
     {
         return $this->belongsToMany(Company::class, 'vendors', 'base_company_id', 'linked_company_id')
-                    ->wherePivot('verified' , '=', $verifiedOnly)
+                    ->wherePivot('verified', '=', $verifiedOnly)
                     ->withPivot('verified');
     }
 
@@ -357,7 +359,7 @@ class Company extends Model
          */
 
         // If we haven't loaded our connects - load it up
-        if( ! array_key_exists('connects', $this->relations)) $this->loadConnects();
+        if (!array_key_exists('connects', $this->relations)) $this->loadConnects();
         // And return it
         return $this->getRelation("connects");
     }
@@ -390,7 +392,19 @@ class Company extends Model
         return $this->customerCompanies->merge($this->supplierCompanies);
     }
 
+    public function getCurrenciesAttribute()
+    {
+        $companyCurrencies = $this->settings->currencies;
 
+        $purchaseOrderCurrencies = Country::currencyOnly()->join('purchase_orders', 'countries.id', '=', 'purchase_orders.currency_id')
+            ->where('purchase_orders.company_id', '=', $this->id)
+            ->groupBy('countries.id')
+            ->get();
+
+
+
+        return $companyCurrencies->merge($purchaseOrderCurrencies);
+    }
 
 
 }

@@ -45,19 +45,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Country extends Model
 {
-    /**
-     * Return only the relevant fields for Currency
-     *
-     * @return array
-     */
-    public function getCurrencyOnly()
+    
+    public function scopeCurrencyOnly($query)
     {
-        return (object) [
-            "id" => $this->id,
-            "country_name" => $this->name,
-            "name" => $this->currency,
-            "code" => $this->currency_code,
-            "symbol" => $this->currency_symbol
-        ];
+        return $query->selectRaw('countries.id as id, countries.name as country_name, countries.currency as name, countries.currency_code as code, countries.currency_symbol as symbol');
     }
 }

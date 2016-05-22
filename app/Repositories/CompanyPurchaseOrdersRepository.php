@@ -150,7 +150,7 @@ class CompanyPurchaseOrdersRepository extends apiRepository
     {
         if (!$currencyID) return $this;
 
-        $this->{'currency'} = Country::find($currencyID)->getCurrencyOnly();
+        $this->{'currency'} = Country::CurrencyOnly()->find($currencyID);
         $this->query->where('currency_id', $currencyID);
         return $this;
     }

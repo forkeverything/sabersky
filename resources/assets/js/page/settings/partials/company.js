@@ -7,34 +7,23 @@ Vue.component('settings-company', {
     data: function () {
         return {
             ajaxReady: true,
-            company: false
+            company: false,
+            selectedCurrency: ''
         }
     },
     props: [
-        'settingsView',
-        'user'
+        'settingsView'
     ],
     computed: {
         canUpdateCompany: function () {
             if (this.user) return this.user.company.name;
             return false;
         },
-        userCurrency: {
-            get: function () {
-                return this.user.company.settings.currency;
-            },
-            set: function (newValue) {
-                // if we get a object
-                if (newValue !== null && typeof newValue === 'object') {
-                    // Update currency ID property (server persistence)
-                    this.user.company.settings.currency_id = newValue.id;
-                    // Update currency object (client)
-                    this.user.company.settings.currency = newValue;
-                }
-            }
-        },
         currencyDecimalPoints: function () {
             return this.user.company.settings.currency_decimal_points;
+        },
+        canAddCurrency: function () {
+            return this.selectedCurrency && !_.find(this.companyCurrencies, {id: this.selectedCurrency.id});
         }
     },
     methods: {
@@ -64,8 +53,52 @@ Vue.component('settings-company', {
                     self.ajaxReady = true;
                 }
             });
+        },
+        addCurrency: function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/company/currencies',
+                method: 'POST',
+                data: {
+                    "currency_id": self.selectedCurrency.id
+                },
+                success: function (data) {
+                    self.selectedCurrency = '';
+                    self.user.company = data;
+                    self.ajaxReady = true;
+                    vueEventBus.$emit('updated-company-currency');
+                },
+                error: function (response) {
+                    self.selectedCurrency = '';
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        canRemoveCurrency: function(currency) {
+          return !! _.find(this.user.company.settings.currencies, {id: currency.id});
+        },
+        removeCurrency: function(currency) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/company/currencies/' + currency.id,
+                method: 'DELETE',
+                success: function(data) {
+                    self.user.company = data;
+                   self.ajaxReady = true;
+                    vueEventBus.$emit('updated-company-currency');
+                },
+                error: function(response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
+    mixins: [userCompany],
     ready: function () {
         var self = this;
     }

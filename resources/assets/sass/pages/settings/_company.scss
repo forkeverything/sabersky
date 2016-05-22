@@ -1,0 +1,35 @@
+#settings-company {
+
+  .available-currencies {
+    padding-left: 15px;
+
+    .list-currencies {
+      .single-currency {
+        padding: 5px 0;
+        position: relative;
+
+        .close {
+          position: absolute;
+          margin-left: 5px;
+          top: 0;
+          font-size: 1em;
+          color: $text-muted;
+          display: none;
+          opacity: .8;
+
+          &:hover {
+            color: $red;
+            opacity: 1;
+          }
+        }
+
+        &:hover {
+          .close {
+            display: initial;
+          }
+        }
+      }
+    }
+  }
+
+}

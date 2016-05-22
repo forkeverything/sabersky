@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\CompanySettings;
+use App\Country;
+use App\Http\Requests\CompanyAddCurrencyRequest;
 use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\SaveCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Permission;
+use App\PurchaseOrder;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -21,14 +25,14 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['postRegisterCompany','getPublicProfile']
+            'except' => ['postRegisterCompany', 'getPublicProfile']
         ]);
         $this->middleware('api.only', [
             'only' => ['apiGetOwn', 'apiGetCurrency', 'apiGetPublicProfile', 'apiGetSearchCompany']
         ]);
     }
 
-    
+
     /**
      * POST request to register a new Company.
      * Will create a company as well as a
@@ -51,7 +55,7 @@ class CompanyController extends Controller
         Auth::logout();
         Auth::login($user);
 
-        if(Auth::user())return response("Registered new Company", 200);
+        if (Auth::user()) return response("Registered new Company", 200);
 
         return response("Could not register Company or User", 500);
     }
@@ -64,19 +68,19 @@ class CompanyController extends Controller
      */
     public function apiGetOwn()
     {
-        if($company = Auth::user()->company) return $company;
+        if ($company = Auth::user()->company) return $company;
     }
 
     /**
      * PUT req. to update a user's company
      * information.
-     * 
+     *
      * @param UpdateCompanyRequest $request
      * @return mixed
      */
     public function putUpdate(UpdateCompanyRequest $request)
     {
-        if(Gate::allows('settings_change')){
+        if (Gate::allows('settings_change')) {
             $company = Auth::user()->company;
             $company->update([
                 'name' => $request->input('name'),
@@ -87,6 +91,35 @@ class CompanyController extends Controller
                 'currency_decimal_points' => $request->input('currency_decimal_points')
             ]);
             return response("Updated User Company", 200);
+        }
+        return response('Not authorized to change settings', 500);
+    }
+    
+
+    /**
+     * Add a currency to Company's list of selectable currencies
+     *
+     * @param CompanyAddCurrencyRequest $request
+     * @return mixed
+     */
+    public function postAddCurrency(CompanyAddCurrencyRequest $request)
+    {
+        Auth::user()->company->settings->currencyCountries()->attach($request->input('currency_id'));
+        return Auth::user()->company;
+    }
+
+    /**
+     * Remove currency from Company's list of currencies
+     *
+     * @param $currencyId
+     * @return mixed
+     */
+    public function deleteRemoveCurrency($currencyId)
+    {
+        if (Gate::allows('settings_change')) {
+            if(! Auth::user()->company->settings->currencyCountries->count() > 1) return response("Can't remove only currency", 500);
+            Auth::user()->company->settings->currencyCountries()->detach($currencyId);
+            return Auth::user()->company;
         }
         return response('Not authorized to change settings', 500);
     }
@@ -114,8 +147,8 @@ class CompanyController extends Controller
     {
         if ($query) {
             $companies = Company::where('id', '!=', Auth::user()->company->id)
-            ->where('name', 'LIKE', '%' . $query . '%')
-            ->with('address');
+                                ->where('name', 'LIKE', '%' . $query . '%')
+                                ->with('address');
             /*
              * TODO ::: Add ability for more search parameters: address, industry etc.
              */

@@ -21,7 +21,7 @@
     <!-- Currency -->
     <div class="currency filter" v-show="filter === 'currency_id'">
         <p>is</p>
-        <currency-selecter :id.sync="filterValue"></currency-selecter>
+        <company-currency-selecter :id.sync="filterValue"  :user="user"></company-currency-selecter>
     </div>
 
     <!-- Total Cost -->

@@ -44,17 +44,18 @@ class CompanySettings extends Model
     ];
 
     protected $appends = [
-        'currency'
+        'currencies'
     ];
 
+
     /**
-     * A Company's Settings contains a currency that belongs to a Country
+     * A Company's Settings contains available Currencies for the Company
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function currencyCountry()
+    public function currencyCountries()
     {
-        return $this->belongsTo(Country::class, 'currency_id');
+        return $this->belongsToMany(Country::class, 'company_currency', 'company_id', 'currency_id');
     }
 
     /**
@@ -63,9 +64,10 @@ class CompanySettings extends Model
      * 
      * @return mixed
      */
-    public function getCurrencyAttribute()
+    public function getCurrenciesAttribute()
     {
-        return $this->currencyCountry->getCurrencyOnly();
-
+        return $this->currencyCountries()
+                    ->selectRaw('countries.id as id, countries.name as country_name, countries.currency as name, countries.currency_code as code, countries.currency_symbol as symbol')
+                    ->get();
     }
 }

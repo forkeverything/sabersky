@@ -212,7 +212,7 @@ class Item extends Model
         $currencyIDs = array_unique($approvedLineItems->pluck('currency_id')->toArray());
 
         foreach ($currencyIDs as $currencyID) {
-            $currencyCode = \App\Country::find($currencyID)->getCurrencyOnly()->code;
+            $currencyCode = \App\Country::currencyOnly()->find($currencyID)->code;
             $relevantLineItems = array_filter($approvedLineItems->toArray(), function ($lineItem) use ($currencyID) {
                 return $lineItem["currency_id"] === $currencyID;
             });

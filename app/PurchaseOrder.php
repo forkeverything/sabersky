@@ -2,10 +2,11 @@
 
 namespace App;
 
+use App\Country;
 use App\Utilities\FormatNumberPropertyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use \Country;
+
 
 /**
  * App\PurchaseOrder
@@ -169,7 +170,7 @@ class PurchaseOrder extends Model
      */
     public function currencyCountry()
     {
-        return $this->belongsTo(\App\Country::class, 'currency_id');
+        return $this->belongsTo(Country::class, 'currency_id');
     }
 
     /**
@@ -179,7 +180,7 @@ class PurchaseOrder extends Model
      */
     public function getCurrencyAttribute()
     {
-        return $this->currencyCountry->getCurrencyOnly();
+        return Country::currencyOnly()->find($this->currency_id);
     }
 
 
@@ -378,11 +379,11 @@ class PurchaseOrder extends Model
         // All done attaching rules...
         return $this;
     }
-    
+
 
     /**
      * Updates the Order's status if necessary
-     * 
+     *
      * @return $this|void
      */
     public function updateStatus()
@@ -574,7 +575,7 @@ class PurchaseOrder extends Model
     /**
      * Handles a Rule attached to this Order. We need to know the User
      * trying to make the change so we can check their Role.
-     * 
+     *
      * @param $action
      * @param Rule $rule
      * @param User $user

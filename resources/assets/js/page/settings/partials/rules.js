@@ -22,10 +22,6 @@ Vue.component('settings-rules', {
         'settingsView'
     ],
     computed: {
-        currencySymbol: function () {
-            if (this.currency) return this.currency.currency_symbol
-            return this.user.company.settings.currency.currency_symbol;
-        },
         ruleHasLimit: function () {
             return (this.selectedTrigger && this.selectedTrigger.has_limit);
         },

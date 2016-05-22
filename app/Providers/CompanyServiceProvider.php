@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Company;
+use App\CompanySettings;
 use App\CompanyStatistics;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,11 @@ class CompanyServiceProvider extends ServiceProvider
             // We also want to create it's statistics & settings table
             $company->statistics()->create([]);
             $company->settings()->create([]);
+        });
+
+        CompanySettings::created(function ($settings) {
+            // set USD as default currency
+            $settings->currencyCountries()->attach(['840']);
         });
     }
 

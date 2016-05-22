@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Company;
+use App\Country;
 use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -76,7 +77,7 @@ class Rule extends Model
      */
     public function getCurrencyAttribute()
     {
-        if($this->trigger->has_currency) return \App\Country::find($this->currency_id)->getCurrencyOnly();
+        if($this->trigger->has_currency) return Country::currencyOnly()->find($this->currency_id);
     }
 
     /**
