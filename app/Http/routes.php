@@ -162,7 +162,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/settings/company', 'SettingsController@getCompany');
     Route::get('/settings/permissions', 'SettingsController@getPermissions');
     Route::get('/settings/rules', 'SettingsController@getRules');
-    Route::get('/settings', 'SettingsController@getShow');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
 
     /**

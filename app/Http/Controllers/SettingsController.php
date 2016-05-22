@@ -21,19 +21,10 @@ class SettingsController extends Controller
     }
 
     /**
-     * GET req. to show the User's settings
-     * page for the company.
+     * GET Settings - Company view
      *
      * @return mixed
      */
-    public function getShow()
-    {
-        if (Gate::allows('settings_change')) {
-            return view('settings.show', compact('permissions', 'roles'));
-        }
-        return redirect('/dashboard');
-    }
-
     public function getCompany()
     {
         $breadcrumbs = [
@@ -42,6 +33,11 @@ class SettingsController extends Controller
         return view('settings.company', compact('breadcrumbs'));
     }
 
+    /**
+     * GET Settings - Permissions view
+     *
+     * @return mixed
+     */
     public function getPermissions()
     {
         $permissions = Permission::all(); // System-wide defined permissions, shared by all Users
@@ -52,6 +48,11 @@ class SettingsController extends Controller
         return view('settings.permissions', compact('breadcrumbs', 'permissions', 'roles'));
     }
 
+    /**
+     * GET Settings - Rules view
+     *
+     * @return mixed
+     */
     public function getRules()
     {
         $breadcrumbs = [
