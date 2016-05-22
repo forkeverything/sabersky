@@ -295,256 +295,6 @@ Vue.component('project-single', {
         self.ajaxReady = false;
     }
 });
-Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
-    name: 'allPurchaseRequests',
-    el: function () {
-        return '#purchase-requests-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/purchase_requests',
-            finishLoading: false,
-            hasFilters: true,
-            filterOptions: [
-                {
-                    value: 'number',
-                    label: '# Number'
-                },
-                {
-                    value: 'project_id',
-                    label: 'Project'
-                },
-                {
-                    value: 'quantity',
-                    label: 'Quantity'
-                },
-                {
-                    value: 'item_sku',
-                    label: 'Item - SKU'
-                },
-                {
-                    value: 'item_brand',
-                    label: 'Item - Brand'
-                },
-                {
-                    value: 'item_name',
-                    label: 'Item - Name'
-                },
-                {
-                    value: 'due',
-                    label: 'Due Date'
-                },
-                {
-                    value: 'requested',
-                    label: 'Requested Date'
-                },
-                {
-                    value: 'user_id',
-                    label: 'Requester'
-                }
-            ],
-            states: ['open', 'fulfilled', 'cancelled', 'all'],
-            selectedRequests: [],
-            showBulkActionsMenu: false,
-        };
-    },
-    computed: {
-        purchaseRequests: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        allPurchaseRequestsChecked: function () {
-            var purchaseRequestIDs = _.map(_.filter(this.purchaseRequests, function(request) {
-                return request.state === 'open';
-            }), function (request) {
-                return request.id;
-            });
-
-            var selectedRequestIDs = _.map(this.selectedRequests, function (request) {
-                return request.id
-            });
-            return _.intersection(selectedRequestIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
-        }
-    },
-    methods: {
-        changeState: function (state) {
-            this.makeRequest(updateQueryString({
-                state: state,
-                page: 1
-            }));
-        },
-        toggleUrgentOnly: function () {
-            var urgent = this.params.urgent ? 0 : 1;
-            this.makeRequest(updateQueryString({
-                state: this.params.state, // use same state
-                page: 1, // Reset to page 1
-                urgent: urgent
-            }));
-        },
-        selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.selectedRequests = _.reject(this.selectedRequests, purchaseRequest) : this.selectedRequests.push(purchaseRequest);
-        },
-        alreadySelectedPR: function (purchaseRequest) {
-            return _.find(this.selectedRequests, function (pr) {
-                return pr.id === purchaseRequest.id;
-            });
-        },
-        selectAll: function() {
-            var self = this;
-            if (self.allPurchaseRequestsChecked) {
-                _.forEach(self.purchaseRequests, function (request) {
-                    self.selectedRequests = _.reject(self.selectedRequests, request);
-                });
-            } else {
-                _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
-                });
-            }
-        },
-        createPurchaseOrder: function() {
-            var url = '/purchase_orders/submit?request=';
-            _.forEach(this.selectedRequests, function (request) {
-                url += request.id + ',';
-            });
-            location.href = url.substring(0, url.length - 1);
-        }
-    },
-    ready: function () {
-    }
-}));
-Vue.component('purchase-requests-make', {
-    name: 'makePurchaseRequest',
-    el: function () {
-        return '#purchase-requests-add';
-    },
-    data: function () {
-        return {
-            pageReady: false,
-            ajaxReady: true,
-            projectID: '',
-            itemID: '',
-            quantity: '',
-            due: '',
-            urgent: ''
-        };
-    },
-    methods: {
-        submitMakePRForm: function () {
-            var self = this;
-
-
-            // Send Req. via Ajax
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/purchase_requests/make',
-                method: 'POST',
-                data: {
-                    'project_id': self.projectID,
-                    'item_id': self.itemID,
-                    'quantity': self.quantity,
-                    'due': self.due,
-                    'urgent': (self.urgent) ? 1 : 0
-                },
-                success: function (data) {
-                    // success
-                    console.log(data);
-                    console.log('success!');
-                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
-                    window.location.href = "/purchase_requests";
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    computed: {
-
-    },
-    ready: function () {
-        var self = this;
-
-        $('#pr-item-selection').selectize({
-            valueField: 'id',
-            searchField: ['sku', 'brand', 'name'],
-            create: false,
-            placeholder: 'Search by SKU, Brand or Name',
-            render: {
-                option: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-
-                    return '<div class="item-single-option">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="item-sku">' + sku + '</span>' +
-                        '           <span class="item-brand">' + brand + '</span>' +
-                        '           <span class="item-name">' + escape(item.name) + '</span>' +
-                        '       </div>' +
-                        '</div>';
-                },
-                item: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-                    var imageGallery =  '';
-                    if(item.photos.length > 0) {
-                        imageGallery += '<ul class="item-images list-unstyled">';
-                        for(var i = 0 ; i < item.photos.length; i++) {
-                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
-                        }
-                        imageGallery += '</ul>';
-                    }
-
-                    return '<div class="item-selected">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="item-sku">' + sku + '</span>' +
-                        '           <span class="item-brand">' + brand + '</span>' +
-                        '           <span class="item-name">' + escape(item.name) + '</span>' +
-                        '           <span class="item-specification">' + escape(item.specification) + '</span>' +
-                        '       </div>' +
-                                imageGallery +
-                        '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        console.log(res);
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                self.itemID = value;
-            }
-    });
-
-        self.$nextTick(function () {
-            self.pageReady = true;
-        });
-    }
-});
-
-
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
     el: function () {
@@ -865,6 +615,256 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
+Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
+    name: 'allPurchaseRequests',
+    el: function () {
+        return '#purchase-requests-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/purchase_requests',
+            finishLoading: false,
+            hasFilters: true,
+            filterOptions: [
+                {
+                    value: 'number',
+                    label: '# Number'
+                },
+                {
+                    value: 'project_id',
+                    label: 'Project'
+                },
+                {
+                    value: 'quantity',
+                    label: 'Quantity'
+                },
+                {
+                    value: 'item_sku',
+                    label: 'Item - SKU'
+                },
+                {
+                    value: 'item_brand',
+                    label: 'Item - Brand'
+                },
+                {
+                    value: 'item_name',
+                    label: 'Item - Name'
+                },
+                {
+                    value: 'due',
+                    label: 'Due Date'
+                },
+                {
+                    value: 'requested',
+                    label: 'Requested Date'
+                },
+                {
+                    value: 'user_id',
+                    label: 'Requester'
+                }
+            ],
+            states: ['open', 'fulfilled', 'cancelled', 'all'],
+            selectedRequests: [],
+            showBulkActionsMenu: false,
+        };
+    },
+    computed: {
+        purchaseRequests: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        allPurchaseRequestsChecked: function () {
+            var purchaseRequestIDs = _.map(_.filter(this.purchaseRequests, function(request) {
+                return request.state === 'open';
+            }), function (request) {
+                return request.id;
+            });
+
+            var selectedRequestIDs = _.map(this.selectedRequests, function (request) {
+                return request.id
+            });
+            return _.intersection(selectedRequestIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        }
+    },
+    methods: {
+        changeState: function (state) {
+            this.makeRequest(updateQueryString({
+                state: state,
+                page: 1
+            }));
+        },
+        toggleUrgentOnly: function () {
+            var urgent = this.params.urgent ? 0 : 1;
+            this.makeRequest(updateQueryString({
+                state: this.params.state, // use same state
+                page: 1, // Reset to page 1
+                urgent: urgent
+            }));
+        },
+        selectPR: function (purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.selectedRequests = _.reject(this.selectedRequests, purchaseRequest) : this.selectedRequests.push(purchaseRequest);
+        },
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.selectedRequests, function (pr) {
+                return pr.id === purchaseRequest.id;
+            });
+        },
+        selectAll: function() {
+            var self = this;
+            if (self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.selectedRequests = _.reject(self.selectedRequests, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
+                });
+            }
+        },
+        createPurchaseOrder: function() {
+            var url = '/purchase_orders/submit?request=';
+            _.forEach(this.selectedRequests, function (request) {
+                url += request.id + ',';
+            });
+            location.href = url.substring(0, url.length - 1);
+        }
+    },
+    ready: function () {
+    }
+}));
+Vue.component('purchase-requests-make', {
+    name: 'makePurchaseRequest',
+    el: function () {
+        return '#purchase-requests-add';
+    },
+    data: function () {
+        return {
+            pageReady: false,
+            ajaxReady: true,
+            projectID: '',
+            itemID: '',
+            quantity: '',
+            due: '',
+            urgent: ''
+        };
+    },
+    methods: {
+        submitMakePRForm: function () {
+            var self = this;
+
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/purchase_requests/make',
+                method: 'POST',
+                data: {
+                    'project_id': self.projectID,
+                    'item_id': self.itemID,
+                    'quantity': self.quantity,
+                    'due': self.due,
+                    'urgent': (self.urgent) ? 1 : 0
+                },
+                success: function (data) {
+                    // success
+                    console.log(data);
+                    console.log('success!');
+                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
+                    window.location.href = "/purchase_requests";
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    computed: {
+
+    },
+    ready: function () {
+        var self = this;
+
+        $('#pr-item-selection').selectize({
+            valueField: 'id',
+            searchField: ['sku', 'brand', 'name'],
+            create: false,
+            placeholder: 'Search by SKU, Brand or Name',
+            render: {
+                option: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+
+                    return '<div class="item-single-option">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
+                        '       </div>' +
+                        '</div>';
+                },
+                item: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+                    var imageGallery =  '';
+                    if(item.photos.length > 0) {
+                        imageGallery += '<ul class="item-images list-unstyled">';
+                        for(var i = 0 ; i < item.photos.length; i++) {
+                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
+                        }
+                        imageGallery += '</ul>';
+                    }
+
+                    return '<div class="item-selected">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
+                        '           <span class="item-specification">' + escape(item.specification) + '</span>' +
+                        '       </div>' +
+                                imageGallery +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                self.itemID = value;
+            }
+    });
+
+        self.$nextTick(function () {
+            self.pageReady = true;
+        });
+    }
+});
+
+
 Vue.component('report-spendings', {
     name: 'reportsSpendings',
     el: function () {
@@ -944,6 +944,7 @@ Vue.component('report-spendings', {
         }
     },
     events: {},
+    mixins: [userCompany],
     ready: function () {
 
         var self = this;

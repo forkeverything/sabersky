@@ -77,6 +77,7 @@ Vue.component('report-spendings', {
         }
     },
     events: {},
+    mixins: [userCompany],
     ready: function () {
 
         var self = this;
