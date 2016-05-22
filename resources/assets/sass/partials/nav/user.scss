@@ -26,13 +26,15 @@
     overflow: hidden;
     text-transform: capitalize;
 
-    .breadcrumb-link {
+    span, a {
       color: $midnight-light;
       white-space: nowrap;
 
-      &:hover, &:focus, &:active {
-        color: $midnight;
-        text-decoration: underline;
+      &.breadcrumb-link {
+        &:hover, &:focus, &:active {
+          color: $midnight;
+          text-decoration: underline;
+        }
       }
 
       &.current {

@@ -144,6 +144,157 @@ Vue.component('item-single', {
         });
     }
 });
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+        };
+    },
+    props: [],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: ['project'],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+    }
+});
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
     el: function () {
@@ -462,157 +613,6 @@ Vue.component('purchase-orders-submit', {
             self.updateOtherLineItemPrices(data.attached);
         });
 
-    }
-});
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-        };
-    },
-    props: [],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: ['project'],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
     }
 });
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
@@ -1970,6 +1970,84 @@ Vue.component('po-submit-summary', {
     ready: function () {
     }
 });
+Vue.component('report-spendings-employees', {
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-employees'
+    },
+    data: function() {
+        return {
+            currencyId: 840,
+            dateMin: '',
+            dateMax:'',
+            spendingsData: ''
+        };
+    },
+    props: [],
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/employees/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        }
+    },
+    methods: {
+        fetchSpendingsData: function() {
+            $.get(this.dataURL).then(function (data) {
+                this.spendingsData = data;
+            }.bind(this));
+        }
+    },
+    events: {
+
+    },
+    mixins: [userCompany],
+    ready: function() {
+        this.fetchSpendingsData();
+        // Use direct watcher because the inputs are in separate, shared
+        // components so we can't bind events directly on them
+        this.$watch('dataURL', this.fetchSpendingsData);
+    }
+});
+Vue.component('report-spendings-items', {
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-items'
+    },
+    data: function() {
+        return {
+            currencyId: 840,
+            dateMin: '',
+            dateMax:'',
+            spendingsData: ''
+        };
+    },
+    props: [],
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/items/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        }
+    },
+    methods: {
+        fetchSpendingsData: function() {
+            $.get(this.dataURL).then(function (data) {
+                this.spendingsData = data;
+            }.bind(this));
+        }
+    },
+    events: {
+
+    },
+    mixins: [userCompany],
+    ready: function() {
+        this.fetchSpendingsData();
+        // Use direct watcher because the inputs are in separate, shared
+        // components so we can't bind events directly on them
+        this.$watch('dataURL', this.fetchSpendingsData);
+    }
+});
 Vue.component('report-spendings-projects', {
     name: 'ReportSpendingsForProjects',
     el: function() {
@@ -1979,22 +2057,73 @@ Vue.component('report-spendings-projects', {
         return {
             currencyId: 840,
             dateMin: '',
-            dateMax:''
+            dateMax:'',
+            spendingsData: ''
         };
     },
     props: [],
     computed: {
-
+        dataURL: function() {
+            var url = '/reports/spendings/projects/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        }
     },
     methods: {
-
+        fetchSpendingsData: function() {
+            $.get(this.dataURL).then(function (data) {
+                this.spendingsData = data;
+            }.bind(this));
+        }
     },
     events: {
 
     },
     mixins: [userCompany],
     ready: function() {
+        this.fetchSpendingsData();
+        // Use direct watcher because the inputs are in separate, shared
+        // components so we can't bind events directly on them
+        this.$watch('dataURL', this.fetchSpendingsData);
+    }
+});
+Vue.component('report-spendings-vendors', {
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-vendors'
+    },
+    data: function() {
+        return {
+            currencyId: 840,
+            dateMin: '',
+            dateMax:'',
+            spendingsData: ''
+        };
+    },
+    props: [],
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        }
+    },
+    methods: {
+        fetchSpendingsData: function() {
+            $.get(this.dataURL).then(function (data) {
+                this.spendingsData = data;
+            }.bind(this));
+        }
+    },
+    events: {
 
+    },
+    mixins: [userCompany],
+    ready: function() {
+        this.fetchSpendingsData();
+        // Use direct watcher because the inputs are in separate, shared
+        // components so we can't bind events directly on them
+        this.$watch('dataURL', this.fetchSpendingsData);
     }
 });
 Vue.component('settings-company', {
@@ -2833,33 +2962,48 @@ Vue.component('vendor-single-link-company', {
 
     }
 });
-Vue.component('spendings-projects-chart', baseChart.extend({
-    name: '',
-    el: function() {
-        return ''
-    },
+Vue.component('spendings-employees-chart', baseChart.extend({
+    name: 'spendingsChartForEmployees',
     data: function() {
         return {
+            mode: 'data',
+            chartLabel: 'Employees',
+            theme: 'green'
+        };
+    },
+    props: ['chart-data']
+}));
+Vue.component('spendings-items-chart', baseChart.extend({
+    name: 'spendingsChartForItems',
+    data: function() {
+        return {
+            mode: 'data',
+            chartLabel: 'Items',
+            theme: 'blue'
+        };
+    },
+    props: ['chart-data']
+}));
+Vue.component('spendings-projects-chart', baseChart.extend({
+    name: 'spendingsChartForProjects',
+    data: function() {
+        return {
+            mode: 'data',
             chartLabel: 'Projects',
             theme: 'blue'
         };
     },
-    props: ['currency-id', 'date-min', 'date-max'],
-    computed: {
-        chartDataURL: function() {
-            var url = '/reports/spendings/projects/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        }
+    props: ['chart-data']
+}));
+Vue.component('spendings-vendors-chart', baseChart.extend({
+    name: 'spendingsChartForVendors',
+    data: function() {
+        return {
+            mode: 'data',
+            chartLabel: 'Vendors',
+            theme: 'red'
+        };
     },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-
-    }
+    props: ['chart-data']
 }));
 //# sourceMappingURL=page.js.map

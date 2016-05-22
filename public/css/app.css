@@ -6340,13 +6340,13 @@ button.close {
     align-items: center;
     overflow: hidden;
     text-transform: capitalize; }
-    .user-nav .breadcrumbs .breadcrumb-link {
+    .user-nav .breadcrumbs span, .user-nav .breadcrumbs a {
       color: #AEBAC7;
       white-space: nowrap; }
-      .user-nav .breadcrumbs .breadcrumb-link:hover, .user-nav .breadcrumbs .breadcrumb-link:focus, .user-nav .breadcrumbs .breadcrumb-link:active {
+      .user-nav .breadcrumbs span.breadcrumb-link:hover, .user-nav .breadcrumbs span.breadcrumb-link:focus, .user-nav .breadcrumbs span.breadcrumb-link:active, .user-nav .breadcrumbs a.breadcrumb-link:hover, .user-nav .breadcrumbs a.breadcrumb-link:focus, .user-nav .breadcrumbs a.breadcrumb-link:active {
         color: #3A424B;
         text-decoration: underline; }
-      .user-nav .breadcrumbs .breadcrumb-link.current {
+      .user-nav .breadcrumbs span.current, .user-nav .breadcrumbs a.current {
         color: #3A424B;
         text-decoration: none; }
     .user-nav .breadcrumbs .breadcrumb-separator {
@@ -6531,23 +6531,26 @@ label {
   -ms-flex-align: center;
   align-items: center;
   margin: 0 0 10px; }
-  .integer-range-field input, .date-range-field input {
+  .integer-range-field .starting, .integer-range-field .ending, .date-range-field .starting, .date-range-field .ending {
     -webkit-flex: 1;
     -ms-flex: 1;
-    flex: 1;
-    text-align: center;
-    height: 34px;
-    padding: 6px 12px;
-    border: 1px solid #E6E9EB;
-    border-radius: 4px;
-    width: 100%; }
-    .integer-range-field input:focus, .date-range-field input:focus {
-      border: 1px solid #3498DB;
-      outline: 0; }
+    flex: 1; }
+    .integer-range-field .starting label, .integer-range-field .ending label, .date-range-field .starting label, .date-range-field .ending label {
+      margin: 0 0 3px; }
+    .integer-range-field .starting input, .integer-range-field .ending input, .date-range-field .starting input, .date-range-field .ending input {
+      text-align: center;
+      height: 34px;
+      padding: 6px 12px;
+      border: 1px solid #E6E9EB;
+      border-radius: 4px;
+      width: 100%; }
+      .integer-range-field .starting input:focus, .integer-range-field .ending input:focus, .date-range-field .starting input:focus, .date-range-field .ending input:focus {
+        border: 1px solid #3498DB;
+        outline: 0; }
   .integer-range-field .dash, .date-range-field .dash {
     font-size: 1.5em;
     color: #93989F;
-    margin: 0 10px; }
+    margin: 15px 10px 0 10px; }
 
 .bootstrap-select.themed-select button {
   border-radius: 3px;
@@ -9732,6 +9735,7 @@ table tbody tr td.danger {
   cursor: pointer; }
 
 #ui-datepicker-div {
+  margin-top: 10px;
   padding: 0.5em;
   background: #fff;
   border: 1px solid #3498DB;
@@ -9823,6 +9827,12 @@ table tbody tr td.danger {
     border-radius: 3px; }
     .popover-container .popover-content.right {
       left: calc(100% + 5px); }
+
+#reports-menu h3 {
+  margin: 0 0 10px; }
+
+#reports-menu .list-types .list-categories {
+  padding-left: 20px; }
 
 body {
   font-family: 'helvetica';

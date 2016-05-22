@@ -204,9 +204,9 @@ Route::group(['middleware' => 'web'], function () {
      * Reports
      */
 
-    Route::get('/reports/spendings', 'ReportsController@getSpendings');
-    Route::get('/reports/spendings/projects', 'ReportsController@getSpendingsProjects');
-    Route::get('/reports/spendings/{models}/currency/{currency}', 'ReportsController@getSpendingsData');
+    Route::get('/reports', 'ReportsController@getMenu');
+    Route::get('/reports/spendings/{category}', 'ReportsController@getSpendingsReport');
+    Route::get('/reports/spendings/{category}/currency/{currency}', 'ReportsController@getSpendingsData');
 
     // api
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');

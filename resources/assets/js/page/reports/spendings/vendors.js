@@ -1,7 +1,7 @@
-Vue.component('report-spendings-projects', {
-    name: 'ReportSpendingsForProjects',
+Vue.component('report-spendings-vendors', {
+    name: 'ReportSpendingsForVendors',
     el: function() {
-        return '#report-spendings-projects'
+        return '#report-spendings-vendors'
     },
     data: function() {
         return {
@@ -14,7 +14,7 @@ Vue.component('report-spendings-projects', {
     props: [],
     computed: {
         dataURL: function() {
-            var url = '/reports/spendings/projects/currency/' + this.currencyId;
+            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
             if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
             return url;
         }

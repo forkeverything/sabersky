@@ -46,7 +46,7 @@
             </li>
             @can('report_view')
             <li class="single-list-item">
-                <a href="/reports/spendings">
+                <a href="/reports">
                     <i class="fa fa-bar-chart icon-dashboard"></i>
                     Reports
                 </a>

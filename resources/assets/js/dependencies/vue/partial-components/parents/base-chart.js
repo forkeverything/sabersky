@@ -3,6 +3,7 @@ var baseChart = Vue.extend({
     template: '<canvas v-el:canvas class="canvas-chart"></canvas>',
     data: function () {
         return {
+            mode: 'url',
             chartLabel: '',
             showZeroValues: false,
             chartType: 'bar',
@@ -57,22 +58,24 @@ var baseChart = Vue.extend({
         }
     },
     methods: {
-        fetchData: function () {
-            return $.get(this.chartDataURL);
-        },
         load: function () {
             var self = this;
-            this.fetchData().done(function (data) {
 
-                // Remove 0 values from our data
-                if (!self.showZeroValues) data = _.pickBy(data, function (value) {
-                    return value > 0
+            if(this.mode === 'url') {
+                this.fetchData().done(function (data) {
+                    self.render(data);
                 });
-
-                self.render(data);
-            });
+            }
+            self.render(this.chartData);
+        },
+        fetchData: function () {
+            return $.get(this.chartURL);
         },
         render: function (data) {
+
+            // Remove 0 values from our data
+            if (!this.showZeroValues) data = this.removeZeroValues(data);
+
             this.chart = new Chart(this.$els.canvas.getContext('2d'), {
                 type: this.chartType,
                 data: {
@@ -93,6 +96,11 @@ var baseChart = Vue.extend({
                 }
             });
         },
+        removeZeroValues: function(data) {
+            return _.pickBy(data, function (value) {
+                return value > 0
+            });
+        },
         reload: function () {
             if (!_.isEmpty(this.chart)) this.chart.destroy();
             this.load();
@@ -100,12 +108,16 @@ var baseChart = Vue.extend({
     },
     events: {},
     ready: function () {
-        if (!this.chartDataURL) throw new Error("No URL to retrieve chart data");
+        if(this.mode === 'url' && !this.chartURL) throw new Error("Chart Mode: url - no URL to retrieve chart data");
+
+        var watchVariable = this.mode === 'url' ? 'chartURL' : 'chartData';
+
+        this.$watch(watchVariable, function () {
+            this.reload();
+        }.bind(this));
 
         this.load();
 
-        this.$watch('chartDataURL', function () {
-            this.reload();
-        }.bind(this));
+
     }
 });

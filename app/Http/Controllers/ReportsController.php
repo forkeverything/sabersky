@@ -19,25 +19,37 @@ class ReportsController extends Controller
         $this->middleware('reports.view');
     }
 
-    public function getSpendings()
+    /**
+     * Show the Reports Menu
+     *
+     * @return mixed
+     */
+    public function getMenu()
     {
         $breadcrumbs = [
-            ['<i class="fa fa-cogs"></i> Reports', '#'],
-            ['Spendings', '#']
+            ['<i class="fa fa-cogs"></i> Reports', '#']
         ];
-        return view('reports.spendings', compact('breadcrumbs'));
+        return view('reports.menu', compact('breadcrumbs'));
     }
 
-    public function getSpendingsProjects()
+    /**
+     * Get Spendings Report for a specific category
+     *
+     * @param $category
+     * @return mixed
+     */
+    public function getSpendingsReport($category)
     {
+
         $breadcrumbs = [
-            ['<i class="fa fa-cogs"></i> Reports', '#'],
-            ['Spendings - Projects', '#']
+            ['<i class="fa fa-cogs"></i> Reports', '/reports'],
+            ['Spendings', '#'],
+            [ucfirst($category), '#']
         ];
-        return view('reports.spendings.projects', compact('breadcrumbs'));
+        return view('reports.spendings.' . strtolower($category), compact('breadcrumbs'));
     }
 
-
+    
     /**
      * @param $category
      * @param Country $currency
