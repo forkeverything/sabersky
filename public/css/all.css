@@ -9834,6 +9834,47 @@ table tbody tr td.danger {
 #reports-menu .list-types .list-categories {
   padding-left: 20px; }
 
+.spendings-report .controls {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 0 30px;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  .spendings-report .controls .currency-selecter {
+    width: 120px;
+    margin: 0 0 15px; }
+    .spendings-report .controls .currency-selecter .bootstrap-select {
+      max-width: 100%; }
+  .spendings-report .controls .date-range-filter {
+    width: 300px;
+    border: 1px solid #E6E9EB;
+    padding: 15px; }
+    .spendings-report .controls .date-range-filter .clear-range {
+      margin: 0 0 10px;
+      text-align: right; }
+    .spendings-report .controls .date-range-filter .date-range-field {
+      margin: 0; }
+
+.spendings-report .title {
+  text-align: center;
+  margin: 0 0 30px; }
+  .spendings-report .title .main {
+    margin: 0 0 10px; }
+
+.spendings-report .disclaimer {
+  margin: 15px 0 0 0; }
+  .spendings-report .disclaimer p {
+    text-align: right;
+    margin: 0; }
+
 body {
   font-family: 'helvetica';
   background: #ebeef0; }

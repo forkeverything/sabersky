@@ -12,3 +12,55 @@
     }
   }
 }
+
+.spendings-report {
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 30px;
+    flex-wrap: wrap;
+
+    .currency-selecter {
+      width: 120px;
+      margin: 0 0 15px;
+
+      .bootstrap-select {
+        max-width: 100%;
+      }
+    }
+
+    .date-range-filter {
+      width: 300px;
+      border: 1px solid $border-light;
+      padding: 15px;
+
+      .clear-range {
+        margin: 0 0 10px;
+        text-align: right;
+      }
+
+      .date-range-field {
+        margin: 0;
+      }
+    }
+  }
+
+  .title {
+    text-align: center;
+    margin: 0 0 30px;
+    .main {
+      margin: 0 0 10px;
+    }
+  }
+
+  .disclaimer {
+    margin: 15px 0 0 0;
+
+     p{
+       text-align: right;
+       margin: 0;
+     }
+  }
+}

@@ -2,10 +2,10 @@
 
 @section('content')
     <report-spendings-projects inline-template :user="user">
-        <div id="report-spendings-projects" class="container">
+        <div id="report-spendings-projects" class="container spendings-report">
             <div class="page-body">
-                <date-range-field :min.sync="dateMin" :max.sync="dateMax"></date-range-field>
-                <company-currency-selecter :id.sync="currencyId" :currencies="companyCurrencies"></company-currency-selecter>
+                @include('reports.spendings.partials.controls')
+                @include('reports.spendings.partials.title')
                 <spendings-projects-chart :chart-data="spendingsData"></spendings-projects-chart>
             </div>
             @include('reports.spendings.partials.disclaimer-costs')
