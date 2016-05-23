@@ -47,8 +47,7 @@
                     </div>
                     <div class="form-group">
                         <h5>Money Decimal Places</h5>
-                        <number-input :model.sync="currencyDecimalPoints" :placeholder="'Decimals'"
-                                      :class="['form-control']"></number-input>
+                        <select-picker :name.sync="user.company.settings.currency_decimal_points" :options="currencyDecimalPointsOptions"></select-picker>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 align-end">

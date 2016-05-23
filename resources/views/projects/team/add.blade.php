@@ -1,23 +1,16 @@
 @extends('layouts.app')
 @section('content')
-    <projects-add-team inline-template>
+    <projects-add-team inline-template :project="{{ $project }}">
         <div class="container" id="projects-team-add">
-            <form action="{{ route('saveTeamMember', $project->id) }}" id="form-add-user"
-                  method="POST">
+            <form id="form-add-user"
+                  @submit.prevent="addTeamMember"
+            >
                 <div class="page-body">
-                    @include('errors.list')
-                    {{ csrf_field() }}
+                    <form-errors></form-errors>
                     <section class="add-existing-user">
                         <h5>Existing User</h5>
                         <div class="form-group">
-                            <select name="existing_user_id" id="field-existing-user" class="form-control">
-                                <option disabled value="" selected>Please select a user</option>
-                                @foreach($project->company->employees as $employee)
-                                    @if(! $project->teamMembers->contains($employee))
-                                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <company-employee-search-selecter :name.sync="existingUserId"></company-employee-search-selecter>
                         </div>
                     </section>
                     <section class="add-new-user">
