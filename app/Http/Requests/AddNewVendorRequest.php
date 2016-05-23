@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AddNewVendorRequest extends Request
@@ -25,15 +26,17 @@ class AddNewVendorRequest extends Request
      */
     public function rules()
     {
+        $companyID = Auth::user()->company_id;
         return [
-            'name' => 'required'
+            'name' => 'required|unique:vendors,name,NULL,id,base_company_id,' . $companyID
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Vendor name cannot be blank'
+            'name.required' => 'Vendor name cannot be blank',
+            'name.unique' => 'A vendor with that name already exists'
         ];
     }
 }

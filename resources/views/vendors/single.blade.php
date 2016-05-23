@@ -31,23 +31,6 @@
                             <span v-else class="no-description">None</span>
                             @endcan
                     </div>
-                    <div class="link-company page-body">
-                        <div class="link-top">
-                            <h5>Company Link</h5>
-                            <span class="link-badge" :class="vendorLink">@{{ vendorLink }}</span>
-                        </div>
-                        <div class="linked-company-info" v-if="vendor.linked_company_id">
-                            <span class="company-name">@{{ vendor.linked_company.name }}</span>
-                            <p class="description">@{{ vendor.linked_company.description }}</p>
-                        </div>
-                        <vendor-single-link-company :vendor.sync="vendor"></vendor-single-link-company>
-                        @can('vendor_manage')
-                        <div class="link-bottom align-end" v-if="vendor.linked_company_id">
-                            <button type="button" class="btn btn-small btn-outline-grey" @click="unlinkCompany">Unlink
-                            Company</button>
-                        </div>
-                        @endcan
-                    </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="bank-accounts page-body"

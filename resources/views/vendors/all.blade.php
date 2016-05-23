@@ -3,7 +3,6 @@
     <div class="container" id="vendors-all">
         @can('vendor_manage')
         <section class="top align-end">
-            <add-vendor-modal></add-vendor-modal>
             <a href="{{ route('addVendor') }}">
                 <button type="button" class="btn-add-vendor btn btn-solid-green">Add Vendor</button>
             </a>

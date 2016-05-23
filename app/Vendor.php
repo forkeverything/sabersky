@@ -91,33 +91,28 @@ class Vendor extends Model
     }
 
     /**
-     * Accessor to return linked Company Name if
-     * one exists.
+     * Lots of Purchase Orders can be made to the same
+     * Vendor.
      *
-     * @param $val
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getNameAttribute($val)
+    public function purchaseOrders()
     {
-        if ($this->linkedCompany) {
-            return $this->linkedCompany->name;
-        }
-        return $val;
+        return $this->hasMany(PurchaseOrder::class);
     }
 
     /**
-     * Set the 'linked_company_id' which will link a
-     * Company to this Vendor profile.
+     * Vendor can have many Bank Accounts. This returns all of
+     * them - including the inactive ones (the ones that
+     * have been removed but have POs linked to them)
      *
-     * @param Company $company
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function linkCompany(Company $company)
+    public function allBankAccounts()
     {
-        $this->linked_company_id = $company->id;
-        $this->save();
-        return $this;
+        return $this->hasMany(BankAccount::class);
     }
+
 
     /**
      * Takes a base Company (usually owned by the logged User) and
@@ -149,29 +144,6 @@ class Vendor extends Model
         return $this->save();
     }
 
-    /**
-     * Unlinks Company (if any) that is
-     * linked to this Vendor
-     *
-     * @return bool
-     */
-    public function unlinkCompany()
-    {
-        $this->linked_company_id = null;
-        return $this->save();
-    }
-
-    /**
-     * Vendor can have many Bank Accounts. This returns all of
-     * them - including the inactive ones (the ones that
-     * have been removed but have POs linked to them)
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function allBankAccounts()
-    {
-        return $this->hasMany(BankAccount::class);
-    }
 
     /**
      * When we only want to retrieve Active Bank accounts. Set an accessor
@@ -192,17 +164,6 @@ class Vendor extends Model
         return $this->getRelation('bank_accounts');
     }
 
-
-    /**
-     * Lots of Purchase Orders can be made to the same
-     * Vendor.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function purchaseOrders()
-    {
-        return $this->hasMany(PurchaseOrder::class);
-    }
 
     /**
      * Number of Purchase Orders made to this Vendor
