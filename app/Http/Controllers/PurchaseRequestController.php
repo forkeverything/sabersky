@@ -157,44 +157,4 @@ class PurchaseRequestController extends Controller
         return redirect(route('showAllPurchaseRequests'));
     }
 
-    /**
-     * Get all the Notes for a specific Request
-     * 
-     * @param PurchaseRequest $purchaseRequest
-     * @return mixed
-     */
-    public function getNotes(PurchaseRequest $purchaseRequest)
-    {
-        $this->authorize('view', $purchaseRequest);
-        return $purchaseRequest->notes()->latest();
-    }
-
-    /**
-     * Post to save a Note to a Request
-     * @param PurchaseRequest $purchaseRequest
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function postAddNote(PurchaseRequest $purchaseRequest, AddNoteRequest $request)
-    {
-        $this->authorize('view', $purchaseRequest);
-        return $purchaseRequest->addNote($request->input('content'), Auth::user());
-    }
-
-    /**
-     * Deletes a Note attached to a Purchase Request
-     * 
-     * @param PurchaseRequest $purchaseRequest
-     * @param Note $note
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function deleteNote(PurchaseRequest $purchaseRequest, Note $note)
-    {
-        $this->authorize('view', $purchaseRequest);
-        $this->authorize('delete', $note);
-        if($note->delete())return response("Deleted a note");
-        return response("Could not delete note", 500);
-    }
-
-
 }

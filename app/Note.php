@@ -44,7 +44,7 @@ class Note extends Model
      */
     public function scopeLatest($query)
     {
-        return $query->orderBy('created_at', 'desc')->get();
+        return $query->orderBy('created_at', 'desc');
     }
 
 }

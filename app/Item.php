@@ -6,6 +6,7 @@ use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Project;
 use App\Utilities\BuildPhoto;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

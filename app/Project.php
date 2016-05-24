@@ -4,6 +4,7 @@ namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\BuildPhoto;
+use App\Utilities\Traits\RecordsActivity;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class Project extends Model
 {
+    
     protected $fillable = [
         'name',
         'location',

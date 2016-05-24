@@ -183,44 +183,4 @@ class PurchaseOrdersController extends Controller
         return response("Can't change that Line Item", 403);
     }
 
-    /**
-     * Get all the Notes for a specific Order
-     *
-     * @param PurchaseOrder $purchaseOrder
-     * @return mixed
-     */
-    public function getNotes(PurchaseOrder $purchaseOrder)
-    {
-        $this->authorize('view', $purchaseOrder);
-        return $purchaseOrder->notes()->latest();
-    }
-
-    /**
-     * Post to save a Note to a Order
-     * @param PurchaseOrder $purchaseOrder
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function postAddNote(PurchaseOrder $purchaseOrder, AddNoteRequest $request)
-    {
-        $this->authorize('view', $purchaseOrder);
-        return $purchaseOrder->addNote($request->input('content'), Auth::user());
-    }
-
-    /**
-     * Deletes a Note attached to a Purchase Order
-     *
-     * @param PurchaseOrder $purchaseOrder
-     * @param Note $note
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function deleteNote(PurchaseOrder $purchaseOrder, Note $note)
-    {
-        $this->authorize('view', $purchaseOrder);
-        $this->authorize('delete', $note);
-        if($note->delete())return response("Deleted a note");
-        return response("Could not delete note", 500);
-    }
-
-
 }

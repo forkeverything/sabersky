@@ -198,5 +198,25 @@ class User extends Authenticatable
         return $this->role->position === $role;
     }
 
+    /**
+     * Records an activity for a related Model by this User. This is a wrapper
+     * that defers the the method on the trait. But by calling it through User
+     * we get access to the User's ID.
+     *
+     * @param $name
+     * @param $related
+     * @return mixed
+     * @throws \Exception
+     */
+    public function recordActivity($name, $related)
+    {
+        // Make sure the model we want to record has recordActivity() from RecordsActivity traits
+        if (! method_exists($related, 'recordActivity')) {
+            throw new \Exception('Trying to record activity for an invalid model');
+        }
+        
+        return $related->recordActivity($name, $this);
+    }
+
 
 }

@@ -49,7 +49,7 @@ class NotesController extends Controller
     public function getNotes($subject, $subjectId)
     {
         $model = $this->fetchModel($subject, $subjectId);
-        return $model->notes()->latest();
+        return $model->notes()->latest()->get();
     }
 
 
