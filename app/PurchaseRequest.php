@@ -4,6 +4,7 @@ namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\FormatNumberPropertyTrait;
+use App\Utilities\Traits\HasNotes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,7 +44,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseRequest extends Model
 {
 
-    use FormatNumberPropertyTrait;
+    use FormatNumberPropertyTrait, HasNotes;
 
     /**
      * Fillable (mass-assignable) DB Fields
@@ -115,6 +116,7 @@ class PurchaseRequest extends Model
     {
         return $this->hasMany(LineItem::class);
     }
+
 
     /**
      * Mutator that formats the due Date
@@ -214,6 +216,7 @@ class PurchaseRequest extends Model
     {
         return $this->quantity + $this->fulfilledQuantity;
     }
+
 
 
 }

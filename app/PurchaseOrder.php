@@ -4,6 +4,7 @@ namespace App;
 
 use App\Country;
 use App\Utilities\FormatNumberPropertyTrait;
+use App\Utilities\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -42,7 +43,7 @@ use Illuminate\Support\Facades\DB;
  */
 class PurchaseOrder extends Model
 {
-    use FormatNumberPropertyTrait;
+    use FormatNumberPropertyTrait, HasNotes;
 
     /**
      * Mass-Assignable fields for an Order

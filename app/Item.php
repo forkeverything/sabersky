@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Project;
 use App\Utilities\BuildPhoto;
+use App\Utilities\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -38,6 +39,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Item extends Model
 {
+    
+    use HasNotes;
+    
     protected $maxNumberOfPhotos = 12;
 
     /**

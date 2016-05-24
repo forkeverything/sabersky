@@ -187,5 +187,16 @@ class User extends Authenticatable
         return $this;
     }
 
+    /**
+     * Check if a User has the given role
+     *
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->role->position === $role;
+    }
+
 
 }

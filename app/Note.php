@@ -1,0 +1,35 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Note extends Model
+{
+
+    protected $fillable = [
+        'content',
+        'user_id'
+    ];
+
+    /**
+     * The subject the note is referring to: Item, Vendor etc..
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function subject()
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * The user that posted the note
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function poster()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+}

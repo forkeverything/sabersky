@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Address;
+use App\Utilities\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -37,6 +38,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vendor extends Model
 {
+
+    use HasNotes;
+
     protected $fillable = [
         'name',
         'description',
@@ -112,8 +116,7 @@ class Vendor extends Model
     {
         return $this->hasMany(BankAccount::class);
     }
-
-
+    
     /**
      * Takes a base Company (usually owned by the logged User) and
      * a link Company and creates a new Vendor while linking the

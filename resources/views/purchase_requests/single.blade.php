@@ -60,6 +60,7 @@
                 </div>
                 <div class="card-messages">
                     <h4 class="card-title">Notes</h4>
+                    <notes subject="purchase_requests" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
                 </div>
             </div>
         </div>

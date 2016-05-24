@@ -116,7 +116,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/purchase_requests/make', ['as' => 'makePurchaseRequest', 'uses' => 'PurchaseRequestController@getMakePRForm']);
     Route::post('/purchase_requests/make', ['as' => 'savePurchaseRequest', 'uses' => 'PurchaseRequestController@postMakePR']);
     Route::get('/purchase_requests/{purchaseRequest}', 'PurchaseRequestController@getSingle');
-    Route::post('/purchase_requests/cancel', ['as' => 'cancelPurchaseRequest', 'uses' => 'PurchaseRequestController@postCancel']);
+    Route::get('/purchase_requests/{purchaseRequest}/cancel', 'PurchaseRequestController@postCancel');
+    Route::get('/purchase_requests/{purchaseRequest}/notes', 'PurchaseRequestController@getNotes');
+    Route::post('/purchase_requests/{purchaseRequest}/notes', 'PurchaseRequestController@postAddNote');
+    Route::delete('/purchase_requests/{purchaseRequest}/notes/{note}', 'PurchaseRequestController@deleteNote');
     //api
     Route::get('/api/purchase_requests', 'PurchaseRequestController@apiGetAll');
     Route::get('/api/purchase_requests/{purchaseRequest}', 'PurchaseRequestController@apiGetSingle');
@@ -207,6 +210,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/reports', 'ReportsController@getMenu');
     Route::get('/reports/spendings/{category}', 'ReportsController@getSpendingsReport');
     Route::get('/reports/spendings/{category}/currency/{currency}', 'ReportsController@getSpendingsData');
+
+    /**
+     * Notes
+     */
+    Route::post('/notes/{subject_type}/{subject_id}');
 
     // api
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');

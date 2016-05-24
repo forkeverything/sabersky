@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddNoteRequest;
 use App\Http\Requests\CancelPurchaseRequestRequest;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
+use App\Note;
 use App\Project;
 use App\PurchaseRequest;
 use App\Repositories\UserPurchaseRequestsRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,7 +22,8 @@ use Illuminate\Support\Facades\Gate;
 
 class PurchaseRequestController extends Controller
 {
-    protected $purchaseRequests;
+
+    use AuthorizesRequests;
 
     public function __construct()
     {
@@ -54,20 +58,20 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetAll(Request $request)
     {
-            return UserPurchaseRequestsRepository::forUser(Auth::user())
-                                                  ->whereState($request->state)
-                                                  ->filterIntegerField('number', $request->number)
-                                                  ->forProject($request->project_id)
-                                                  ->filterIntegerField('quantity', $request->quantity)
-                                                  ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
-                                                  ->filterDateField('due', $request->due)
-                                                  ->filterDateField('purchase_requests.created_at', $request->requested)
-                                                  ->byUser($request->user_id)
-                                                  ->searchFor($request->search)
-                                                  ->onlyUrgent($request->urgent)
-                                                  ->sortOn($request->sort, $request->order)
-                                                  ->with(['item.photos', 'project', 'user'])
-                                                  ->paginate($request->per_page);
+        return UserPurchaseRequestsRepository::forUser(Auth::user())
+                                             ->whereState($request->state)
+                                             ->filterIntegerField('number', $request->number)
+                                             ->forProject($request->project_id)
+                                             ->filterIntegerField('quantity', $request->quantity)
+                                             ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
+                                             ->filterDateField('due', $request->due)
+                                             ->filterDateField('purchase_requests.created_at', $request->requested)
+                                             ->byUser($request->user_id)
+                                             ->searchFor($request->search)
+                                             ->onlyUrgent($request->urgent)
+                                             ->sortOn($request->sort, $request->order)
+                                             ->with(['item.photos', 'project', 'user'])
+                                             ->paginate($request->per_page);
     }
 
     /**
@@ -78,7 +82,7 @@ class PurchaseRequestController extends Controller
      */
     public function apiGetSingle(PurchaseRequest $purchaseRequest)
     {
-        if(Gate::allows('view', $purchaseRequest)) return $purchaseRequest->load('item.photos', 'project', 'user');
+        if (Gate::allows('view', $purchaseRequest)) return $purchaseRequest->load('item.photos', 'project', 'user');
         return response("Not allowed to view that Purchase Request", 403);
     }
 
@@ -139,19 +143,57 @@ class PurchaseRequestController extends Controller
         }
         abort(403, "That Purchase Request does not belong to you.");
     }
-    
 
     /**
-     * POST request to cancel a PR
+     * Cancel a Request at a given route
      *
-     * @param CancelPurchaseRequestRequest $request
+     * @param PurchaseRequest $purchaseRequest
      * @return mixed
      */
-    public function postCancel(CancelPurchaseRequestRequest $request)
+    public function getCancel(PurchaseRequest $purchaseRequest)
     {
-        PurchaseRequest::find($request->input('purchase_request_id'))
-                       ->cancel();
+        $this->authorize('view', $purchaseRequest);
+        $purchaseRequest->cancel();
         return redirect(route('showAllPurchaseRequests'));
+    }
+
+    /**
+     * Get all the Notes for a specific Request
+     * 
+     * @param PurchaseRequest $purchaseRequest
+     * @return mixed
+     */
+    public function getNotes(PurchaseRequest $purchaseRequest)
+    {
+        $this->authorize('view', $purchaseRequest);
+        return $purchaseRequest->notes;
+    }
+
+    /**
+     * Post to save a Note to a Request
+     * @param PurchaseRequest $purchaseRequest
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function postAddNote(PurchaseRequest $purchaseRequest, AddNoteRequest $request)
+    {
+        $this->authorize('view', $purchaseRequest);
+        return $purchaseRequest->addNote($request->input('content'), Auth::user());
+    }
+
+    /**
+     * Deletes a Note attached to a Purchase Request
+     * 
+     * @param PurchaseRequest $purchaseRequest
+     * @param Note $note
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function deleteNote(PurchaseRequest $purchaseRequest, Note $note)
+    {
+        $this->authorize('view', $purchaseRequest);
+        $this->authorize('delete', $note);
+        if($note->delete())return response("Deleted a note");
+        return response("Could not delete note", 500);
     }
 
 

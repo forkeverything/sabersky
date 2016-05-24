@@ -43,13 +43,18 @@ class CompanyController extends Controller
      */
     public function postRegisterCompany(RegisterCompanyRequest $request)
     {
+        // Create Company
         $company = Company::register($request->input('company_name'));
+        // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));
+        // Add User as employee of company
         $company->addEmployee($user);
 
+        // Create admin role for company
         $adminRole = $company->createAdmin();
         $adminRole->giveAdminPermissions();
 
+        // Set user as admin
         $user->setRole($adminRole);
 
         Auth::logout();
