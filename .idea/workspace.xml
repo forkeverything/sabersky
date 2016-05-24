@@ -6,31 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/sass/partials/notes.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Note.php" afterPath="$PROJECT_DIR$/app/Note.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Policies/ItemPolicy.php" afterPath="$PROJECT_DIR$/app/Policies/ItemPolicy.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js" afterPath="$PROJECT_DIR$/public/js/dependencies.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dependencies.js.map" afterPath="$PROJECT_DIR$/public/js/dependencies.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js" afterPath="$PROJECT_DIR$/public/js/page.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js.map" afterPath="$PROJECT_DIR$/public/js/page.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/filters/date-diff-human.js" afterPath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/filters/date-diff-human.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/notes.js" afterPath="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/notes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/page/items/single.js" afterPath="$PROJECT_DIR$/resources/assets/js/page/items/single.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/page/vendors/single.js" afterPath="$PROJECT_DIR$/resources/assets/js/page/vendors/single.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders/_single.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-orders/_single.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/items/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/items/single.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_orders/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_orders/single.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/vendors/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/vendors/single.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="single.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/items/single.blade.php">
+      <file leaf-file-name="2016_05_24_042506_create_notes_table.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="737">
-              <caret line="70" column="37" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="37" />
+            <state relative-caret-position="621">
+              <caret line="24" column="88" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="88" />
               <folding />
             </state>
           </provider>
@@ -101,7 +77,6 @@
         <option value="$PROJECT_DIR$/app/Policies/NotePolicy.php" />
         <option value="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CompanyController.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php" />
         <option value="$PROJECT_DIR$/app/Utilities/Traits/HasNotes.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/partials/_buttons.scss" />
         <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
@@ -121,6 +96,7 @@
         <option value="$PROJECT_DIR$/resources/assets/js/dependencies/vue/partial-components/views/notes.js" />
         <option value="$PROJECT_DIR$/resources/views/items/single.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/items/single.js" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php" />
       </list>
     </option>
   </component>
@@ -641,12 +617,12 @@
       <workItem from="1464005301492" duration="2523000" />
       <workItem from="1464008593522" duration="2000" />
       <workItem from="1464062127301" duration="7978000" />
-      <workItem from="1464079885013" duration="4166000" />
+      <workItem from="1464079885013" duration="4241000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1148281000" />
+    <option name="totallyTimeSpent" value="1148356000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
@@ -1123,13 +1099,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="891">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="24" column="70" selection-start-line="24" selection-start-column="70" selection-end-line="24" selection-end-column="70" />
         </state>
       </provider>
     </entry>
@@ -1939,6 +1908,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="737">
           <caret line="70" column="37" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="37" />
+          <folding>
+            <marker date="1464084331000" expanded="true" signature="43:4367" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="118:4365" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="167:4346" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="203:4330" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="237:4118" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="287:2231" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="336:717" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="437:530" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="442:526" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="591:686" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="807:1329" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="864:1299" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="948:1072" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="1192:1265" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="1414:1826" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="1653:1791" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="1947:2204" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2047:2172" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2282:4095" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2426:4068" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2462:4035" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2495:2632" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2665:2806" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="2839:2978" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="3011:3168" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="3201:3997" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="3288:3963" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="3437:3795" placeholder="..." />
+            <marker date="1464084331000" expanded="true" signature="4160:4311" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_05_24_042506_create_notes_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="24" column="88" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="88" />
           <folding />
         </state>
       </provider>
