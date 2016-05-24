@@ -5,6 +5,7 @@ namespace App;
 use App\Country;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -43,7 +44,7 @@ use Illuminate\Support\Facades\DB;
  */
 class PurchaseOrder extends Model
 {
-    use FormatNumberPropertyTrait, HasNotes;
+    use FormatNumberPropertyTrait, HasNotes, RecordsActivity;
 
     /**
      * Mass-Assignable fields for an Order
@@ -93,6 +94,15 @@ class PurchaseOrder extends Model
     ];
 
     /**
+     * Model events to record as Activity
+     *
+     * @var array
+     */
+    protected static $recordEvents = [
+        'created'
+    ];
+
+    /**
      * Accessor - Check if PO has status: pending
      *
      * @return bool
@@ -121,7 +131,6 @@ class PurchaseOrder extends Model
     {
         return $this->hasStatus('rejected');
     }
-
 
 
     /**
@@ -236,8 +245,7 @@ class PurchaseOrder extends Model
     {
         foreach ($this->lineItems as $lineItem) {
             $lineItemQuantity = $lineItem->quantity;
-            if($this->hasStatus('rejected')) $lineItemQuantity = -$lineItemQuantity;
-
+            if ($this->hasStatus('rejected')) $lineItemQuantity = -$lineItemQuantity;
             $lineItem->purchaseRequest->update([
                 'quantity' => $lineItem->purchaseRequest->quantity - $lineItemQuantity
             ]);
@@ -308,7 +316,6 @@ class PurchaseOrder extends Model
     {
         $this->status = 'rejected';
         $this->save();
-        $this->updatePurchaseRequests();
         return $this;
     }
 
@@ -390,10 +397,15 @@ class PurchaseOrder extends Model
     public function updateStatus()
     {
         // Can't un-approve a status - a rejected Order can be approved but not vice-versa.
-        if($this->hasStatus('approved')) return;
+        if ($this->hasStatus('approved')) return;
 
         // If this order has ANY rule rejected - then it is rejected.
-        $this->hasRejectedRule() ? $this->markRejected() : $this->markPending();
+        if ($this->hasRejectedRule()) {
+            $this->markRejected()
+                 ->updatePurchaseRequests();
+        } else {
+            $this->markPending();
+        }
 
         // If we don't have any rules or all rules are approved - then we can consider Order approved
         if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved();
@@ -433,7 +445,7 @@ class PurchaseOrder extends Model
      */
     public function hasRejectedRule()
     {
-        return !! $this->rules()->wherePivot('approved', '=', 0)->first();
+        return !!$this->rules()->wherePivot('approved', '=', 0)->first();
     }
 
 
@@ -585,14 +597,36 @@ class PurchaseOrder extends Model
     public function handleRule($action, Rule $rule, User $user)
     {
         // Is User's Role defined within collection Roles?
-        if(! $rule->allowsUser($user)) abort(403, "User not authorized to approve that rule");
+        if (!$rule->allowsUser($user)) abort(403, "User not authorized to approve that rule");
 
-        if($action === 'approve') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
-        if($action === 'reject') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
+        if ($action === 'approve') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
+        if ($action === 'reject') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
+
+        $oldStatus = $this->status;
 
         $this->updateStatus();
 
+        $newStatus = $this->status;
+
+        if ($newStatus !== $oldStatus) $user->recordActivity($this->status, $this);
+
+        if($newStatus === 'rejected') $this->recordLineItemActivityAsCancelled($user);
+
         return $this->rules->where('id', $rule->id)->first()->pivot->save();
+    }
+
+    /**
+     * Records all the ordered Line Item's activities as cancelled by
+     * the given User
+     *
+     * @param User $user
+     * @throws \Exception
+     */
+    public function recordLineItemActivityAsCancelled(User $user)
+    {
+        foreach ($this->lineItems as $lineItem) {
+            $user->recordActivity('cancelled', $lineItem);
+        }
     }
 
 

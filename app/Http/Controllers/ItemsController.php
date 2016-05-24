@@ -176,13 +176,9 @@ class ItemsController extends Controller
      */
     public function postAddNew(AddItemRequest $request)
     {
-        $item = Item::create([
-            'sku' => $request->input('sku'),
-            'brand' => $request->input('brand'),
-            'name' => $request->input('name'),
-            'specification' => $request->input('specification'),
-            'company_id' => Auth::user()->company->id
-        ]);
+
+        $item = Item::add($request, Auth::user());
+        
         if ($files = $request->file('item_photos')) $item->handleFiles($files);
         if ($item) return $item->load(['photos']);
         return response("Could not create item", 500);

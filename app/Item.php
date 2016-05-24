@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Http\Requests\AddItemRequest;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Project;
 use App\Utilities\BuildPhoto;
 use App\Utilities\Traits\HasNotes;
 use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -41,7 +43,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Item extends Model
 {
     
-    use HasNotes;
+    use HasNotes, RecordsActivity;
     
     protected $maxNumberOfPhotos = 12;
 
@@ -69,6 +71,33 @@ class Item extends Model
         'new',
         'means'
     ];
+
+    /**
+     * Static wrapper to create an Item model from a request, as well as
+     * record the activity for given User
+     * 
+     * @param AddItemRequest $request
+     * @param User $user
+     * @return static
+     * @throws \Exception
+     */
+    public static function add(AddItemRequest $request, User $user)
+    {
+        // Create Item
+        $item = static::create([
+            'sku' => $request->input('sku'),
+            'brand' => $request->input('brand'),
+            'name' => $request->input('name'),
+            'specification' => $request->input('specification'),
+            'company_id' => $user->company_id
+        ]);
+
+        // Record activity
+        $user->recordActivity('add', $item);
+
+        return $item;
+        
+    }
 
     /**
      * Sets SKU as NULL when empty (avoid unique collision)

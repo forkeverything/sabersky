@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,7 +45,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseRequest extends Model
 {
 
-    use FormatNumberPropertyTrait, HasNotes;
+    use FormatNumberPropertyTrait, HasNotes, RecordsActivity;
 
     /**
      * Fillable (mass-assignable) DB Fields
@@ -71,6 +72,15 @@ class PurchaseRequest extends Model
      */
     protected $dates = [
         'due'
+    ];
+
+    /**
+     * Model events to record as Activity
+     *
+     * @var array
+     */
+    protected static $recordEvents = [
+        'created'
     ];
 
     

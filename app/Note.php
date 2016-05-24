@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
+
+    use RecordsActivity;
 
     protected $fillable = [
         'content',

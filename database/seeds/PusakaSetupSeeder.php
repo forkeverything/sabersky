@@ -5,6 +5,7 @@ use App\BankAccount;
 use App\Company;
 use App\Factories\PurchaseOrderFactory;
 use App\Item;
+use App\LineItem;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
@@ -126,14 +127,14 @@ class PusakaSetupSeeder extends Seeder
 
     protected function makeProject()
     {
-        $this->project = $this->company->projects()->create([
+        $request = new \App\Http\Requests\StartProjectRequest([
             'name' => 'Tanjung Selor 7MW',
             'location' => 'Jawa Tengah',
             'description' => 'Gallia est omnis divisa in partes tres, quarum. Ab illo tempore, ab est sed immemorabili. Nihil hic munitissimus habendi senatus locus, nihil horum? Quam diu etiam furor iste tuus nos eludet? Idque Caesaris facere voluntate liceret: sese habere. Magna pars studiorum, prodita quaerimus.
 A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Quae vero auctorem tractata ab fiducia dicuntur. Quam temere in vitiis, legem sancimus haerentia. Unam incolunt Belgae, aliam Aquitani, tertiam. Curabitur est gravida et libero vitae dictum.'
         ]);
 
-        $this->user->projects()->save($this->project);
+        Project::start($request, $this->company, $this->user);
 
         return $this;
     }
@@ -146,6 +147,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'verified' => 1
         ]);
         foreach ($verifiedVendors as $vendor) {
+            $this->user->recordActivity('add', $vendor);
             factory(Address::class)->create([
                 'owner_id' => $vendor->linkedCompany->id,
                 'owner_type' => 'company'
@@ -161,6 +163,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'verified' => 0,
         ]);
         foreach ($pendingVendors as $vendor) {
+            $this->user->recordActivity('add', $vendor);
             factory(Address::class)->create([
                 'owner_id' => $vendor->id
             ]);
@@ -178,6 +181,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'base_company_id' => 1,
             'linked_company_id' => null
         ]);
+        $this->user->recordActivity('add', $customVendor);
         factory(Address::class, 3)->create([
             'owner_id' => $customVendor->id
         ]);
@@ -285,7 +289,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             }
         }
 
-        $lineItem = \App\LineItem::create([
+        $lineItem = LineItem::create([
             'quantity' => $this->faker->numberBetween(1, $request->quantity),
             'purchase_request_id' => $request->id,
             'purchase_order_id' => $order->id,
@@ -293,6 +297,8 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'payable' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
             'delivery' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
         ]);
+
+        User::find($order->user_id)->recordActivity('created', $lineItem);
     }
 
     protected function makeRules()

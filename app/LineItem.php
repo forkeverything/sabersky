@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Utilities\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class LineItem extends Model
 {
+    use RecordsActivity;
+            
     protected $fillable = [
         'quantity',
         'price',

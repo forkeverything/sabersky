@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
+use App\Http\Requests\StartProjectRequest;
 use App\Utilities\BuildPhoto;
 use App\Utilities\Traits\RecordsActivity;
 use DB;
@@ -36,7 +37,9 @@ use Illuminate\Support\Facades\Auth;
  */
 class Project extends Model
 {
-    
+
+    use RecordsActivity;
+
     protected $fillable = [
         'name',
         'location',
@@ -76,6 +79,28 @@ class Project extends Model
     public function purchaseRequests()
     {
         return $this->hasMany(PurchaseRequest::class);
+    }
+
+    /**
+     * Start a new Project for a given Company by a User (employee)
+     *
+     * @param StartProjectRequest $request
+     * @param Company $company
+     * @param User $user
+     * @return static
+     * @throws \Exception
+     */
+    public static function start(StartProjectRequest $request, Company $company, User $user)
+    {
+        // Create record
+        $project = static::create($request->all());
+        // record activity
+        $user->recordActivity('started', $project);
+        // Save to related models
+        $company->projects()->save($project);
+        $user->projects()->save($project);
+
+        return $project;
     }
 
     /**

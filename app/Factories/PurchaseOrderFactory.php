@@ -27,7 +27,7 @@ class PurchaseOrderFactory
     protected $request;
 
     /**
-     * The user performing the request
+     * The user making the Purchase Order
      *
      * @var User
      */
@@ -170,14 +170,16 @@ class PurchaseOrderFactory
     public function createLineItems()
     {
         // Create Line Items
-        foreach ($this->request->input('line_items') as $lineItem) {
-            $this->purchaseOrder->lineItems()->create([
-                'quantity' => $lineItem['order_quantity'],
-                'price' => $lineItem['order_price'],
-                'payable' => array_key_exists('order_payable', $lineItem) ? $lineItem['order_payable'] : null,
-                'delivery' => array_key_exists('order_delivery', $lineItem) ? $lineItem['order_delivery'] : null,
-                'purchase_request_id' => $lineItem['id']
+        foreach ($this->request->input('line_items') as $lineItemInfo) {
+            $lineItem = $this->purchaseOrder->lineItems()->create([
+                'quantity' => $lineItemInfo['order_quantity'],
+                'price' => $lineItemInfo['order_price'],
+                'payable' => array_key_exists('order_payable', $lineItemInfo) ? $lineItemInfo['order_payable'] : null,
+                'delivery' => array_key_exists('order_delivery', $lineItemInfo) ? $lineItemInfo['order_delivery'] : null,
+                'purchase_request_id' => $lineItemInfo['id']
             ]);
+            // Record activity - creating line item
+            $this->user->recordActivity('created', $lineItem);
         }
 
         return $this;

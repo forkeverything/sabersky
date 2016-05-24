@@ -3,7 +3,10 @@
 namespace App;
 
 use App\Address;
+use App\Company;
+use App\Http\Requests\AddNewVendorRequest;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -18,8 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $base_company_id
  * @property boolean $verified
  * @property integer $linked_company_id
- * @property-read \App\Company $baseCompany
- * @property-read \App\Company $linkedCompany
+ * @property-read Company $baseCompany
+ * @property-read Company $linkedCompany
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BankAccount[] $allBankAccounts
  * @property-read mixed $bank_accounts
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseOrder[] $purchaseOrders
@@ -39,7 +42,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
 
-    use HasNotes;
+    use HasNotes, RecordsActivity;
 
     protected $fillable = [
         'name',
@@ -116,7 +119,32 @@ class Vendor extends Model
     {
         return $this->hasMany(BankAccount::class);
     }
-    
+
+    /**
+     * Add a new Vendor from a request to a Company by a User. The user is only
+     * used to record the activity and has no direct relation to Vendor model
+     *
+     * @param AddNewVendorRequest $request
+     * @param \App\Company $company
+     * @param User $user
+     * @return static
+     * @throws \Exception
+     */
+    public static function add(AddNewVendorRequest $request, Company $company, User $user)
+    {
+        // Create our model
+        $vendor = static::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'base_company_id' => $company->id
+        ]);
+
+        // record activity
+        $user->recordActivity('add', $vendor);
+
+        return $vendor;
+    }
+
     /**
      * Takes a base Company (usually owned by the logged User) and
      * a link Company and creates a new Vendor while linking the
@@ -124,15 +152,21 @@ class Vendor extends Model
      *
      * @param Company $baseCompany
      * @param Company $linkCompany
+     * @param User $user
      * @return static
+     * @throws \Exception
      */
-    public static function createAndLinkFromCompany(Company $baseCompany, Company $linkCompany)
+    public static function createAndLinkFromCompany(Company $baseCompany, Company $linkCompany, User $user)
     {
-        return static::create([
+        $vendor = static::create([
             'name' => $linkCompany->name,
             'base_company_id' => $baseCompany->id,
             'linked_company_id' => $linkCompany->id
         ]);
+
+        $user->recordActivity('add', $vendor);
+
+        return $vendor;
     }
 
     /**

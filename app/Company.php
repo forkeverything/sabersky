@@ -269,6 +269,7 @@ class Company extends Model
     public function startProject(StartProjectRequest $request, $user)
     {
         $project = $this->projects()->create($request->all());
+        
         $user->projects()->save($project);  // Add project to user projects
         return $this;
     }
