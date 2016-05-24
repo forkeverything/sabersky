@@ -7952,90 +7952,88 @@ label {
           #purchase-order-single .stats .stats-body .table tr td.col-heading h5 {
             margin: 0 0 0 -20px; }
 
-#purchase-order-single .meta {
-  margin: 0 0 30px 0;
-  text-align: right; }
-  #purchase-order-single .meta .po-number, #purchase-order-single .meta .submitted-date, #purchase-order-single .meta .by-user {
-    display: block; }
-
-#purchase-order-single .vendor {
-  border: 1px solid #D2D2D2;
-  padding: 15px;
+#purchase-order-single .order-main {
   margin: 0 0 30px; }
-  #purchase-order-single .vendor .name {
-    font-weight: bold; }
-  #purchase-order-single .vendor .address {
-    margin: 0 0 15px; }
-
-#purchase-order-single .order {
-  margin: 0 0 30px; }
-  #purchase-order-single .order .billing-address {
-    margin: 0 0 15px; }
-
-#purchase-order-single .line-items {
-  margin: 0 0 30px; }
-  #purchase-order-single .line-items .table-view-select {
+  #purchase-order-single .order-main .meta {
+    margin: 0 0 30px 0;
     text-align: right; }
-    #purchase-order-single .line-items .table-view-select .active {
-      border-bottom: 1px solid #3498DB;
+    #purchase-order-single .order-main .meta .po-number, #purchase-order-single .order-main .meta .submitted-date, #purchase-order-single .order-main .meta .by-user {
+      display: block; }
+  #purchase-order-single .order-main .vendor {
+    border: 1px solid #D2D2D2;
+    padding: 15px;
+    margin: 0 0 30px; }
+    #purchase-order-single .order-main .vendor .name {
+      font-weight: bold; }
+    #purchase-order-single .order-main .vendor .address {
+      margin: 0 0 15px; }
+  #purchase-order-single .order-main .order {
+    margin: 0 0 30px; }
+    #purchase-order-single .order-main .order .billing-address {
+      margin: 0 0 15px; }
+  #purchase-order-single .order-main .line-items {
+    margin: 0 0 30px; }
+    #purchase-order-single .order-main .line-items .table-view-select {
+      text-align: right; }
+      #purchase-order-single .order-main .line-items .table-view-select .active {
+        border-bottom: 1px solid #3498DB;
+        color: #3498DB; }
+      #purchase-order-single .order-main .line-items .table-view-select .requests, #purchase-order-single .order-main .line-items .table-view-select .items {
+        display: inline-block; }
+      #purchase-order-single .order-main .line-items .table-view-select .requests {
+        border-right: 1px solid #A1A4AA;
+        padding-right: 8px;
+        margin-right: 5px; }
+    #purchase-order-single .order-main .line-items .item-brand-name {
+      display: block;
+      margin: 0 0 5px; }
+    #purchase-order-single .order-main .line-items .col-details {
+      min-width: 300px; }
+    #purchase-order-single .order-main .line-items .col-payable, #purchase-order-single .order-main .line-items .col-delivery, #purchase-order-single .order-main .line-items .col-quantity, #purchase-order-single .order-main .line-items .col-price, #purchase-order-single .order-main .line-items .col-total {
+      text-align: center; }
+    @media screen and (min-width: 1200px) {
+      #purchase-order-single .order-main .line-items .col-quantity, #purchase-order-single .order-main .line-items .col-price, #purchase-order-single .order-main .line-items .col-total {
+        min-width: 100px; } }
+    #purchase-order-single .order-main .line-items .po-single-request-table .payable-date, #purchase-order-single .order-main .line-items .po-single-request-table .delivery-date {
+      display: block; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .btn-mark-paid, #purchase-order-single .order-main .line-items .po-single-request-table .btn-mark-received {
+      display: inline-block;
+      width: 100px;
+      margin: 5px; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-payable .paid, #purchase-order-single .order-main .line-items .po-single-request-table .col-payable .unpaid {
+      display: block; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-payable .paid {
       color: #3498DB; }
-    #purchase-order-single .line-items .table-view-select .requests, #purchase-order-single .line-items .table-view-select .items {
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-payable .unpaid {
+      color: #93989F; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .mark-received {
       display: inline-block; }
-    #purchase-order-single .line-items .table-view-select .requests {
-      border-right: 1px solid #A1A4AA;
-      padding-right: 8px;
-      margin-right: 5px; }
-  #purchase-order-single .line-items .item-brand-name {
-    display: block;
-    margin: 0 0 5px; }
-  #purchase-order-single .line-items .col-details {
-    min-width: 300px; }
-  #purchase-order-single .line-items .col-payable, #purchase-order-single .line-items .col-delivery, #purchase-order-single .line-items .col-quantity, #purchase-order-single .line-items .col-price, #purchase-order-single .line-items .col-total {
-    text-align: center; }
-  @media screen and (min-width: 1200px) {
-    #purchase-order-single .line-items .col-quantity, #purchase-order-single .line-items .col-price, #purchase-order-single .line-items .col-total {
-      min-width: 100px; } }
-  #purchase-order-single .line-items .po-single-request-table .payable-date, #purchase-order-single .line-items .po-single-request-table .delivery-date {
-    display: block; }
-  #purchase-order-single .line-items .po-single-request-table .btn-mark-paid, #purchase-order-single .line-items .po-single-request-table .btn-mark-received {
-    display: inline-block;
-    width: 100px;
-    margin: 5px; }
-  #purchase-order-single .line-items .po-single-request-table .col-payable .paid, #purchase-order-single .line-items .po-single-request-table .col-payable .unpaid {
-    display: block; }
-  #purchase-order-single .line-items .po-single-request-table .col-payable .paid {
-    color: #3498DB; }
-  #purchase-order-single .line-items .po-single-request-table .col-payable .unpaid {
-    color: #93989F; }
-  #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received {
-    display: inline-block; }
-    #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received .popover-content {
-      top: -29px; }
-      #purchase-order-single .line-items .po-single-request-table .col-delivery .mark-received .popover-content .btn-accept {
-        margin: 0 0 10px; }
-  #purchase-order-single .line-items .po-single-request-table .col-delivery .accepted, #purchase-order-single .line-items .po-single-request-table .col-delivery .returned {
-    display: block; }
-  #purchase-order-single .line-items .po-single-request-table .col-delivery .accepted {
-    color: #2ECC71; }
-  #purchase-order-single .line-items .po-single-request-table .col-delivery .returned {
-    color: #E74C3C; }
-  #purchase-order-single .line-items table tr td {
-    vertical-align: middle; }
-
-#purchase-order-single .summary .table-summary {
-  font-size: 1.2em; }
-  #purchase-order-single .summary .table-summary tr td {
-    border: 0;
-    padding: 5px; }
-  #purchase-order-single .summary .table-summary .col-currency {
-    text-align: center; }
-  #purchase-order-single .summary .table-summary .col-amount {
-    text-align: right; }
-  #purchase-order-single .summary .table-summary .row-title td, #purchase-order-single .summary .table-summary .row-total td {
-    padding: 10px 5px;
-    border-top: 1px solid #A1A4AA;
-    font-weight: bold;
-    font-size: 1.6em; }
+      #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .mark-received .popover-content {
+        top: -29px; }
+        #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .mark-received .popover-content .btn-accept {
+          margin: 0 0 10px; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .accepted, #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .returned {
+      display: block; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .accepted {
+      color: #2ECC71; }
+    #purchase-order-single .order-main .line-items .po-single-request-table .col-delivery .returned {
+      color: #E74C3C; }
+    #purchase-order-single .order-main .line-items table tr td {
+      vertical-align: middle; }
+  #purchase-order-single .order-main .summary .table-summary {
+    font-size: 1.2em; }
+    #purchase-order-single .order-main .summary .table-summary tr td {
+      border: 0;
+      padding: 5px; }
+    #purchase-order-single .order-main .summary .table-summary .col-currency {
+      text-align: center; }
+    #purchase-order-single .order-main .summary .table-summary .col-amount {
+      text-align: right; }
+    #purchase-order-single .order-main .summary .table-summary .row-title td, #purchase-order-single .order-main .summary .table-summary .row-total td {
+      padding: 10px 5px;
+      border-top: 1px solid #A1A4AA;
+      font-weight: bold;
+      font-size: 1.6em; }
 
 .po-badge {
   text-transform: capitalize; }
@@ -9876,6 +9874,32 @@ table tbody tr td.danger {
   .spendings-report .disclaimer p {
     text-align: right;
     margin: 0; }
+
+.notes .list-notes {
+  border-top: 1px solid #E6E9EB;
+  padding-top: 15px;
+  margin: 15px 0 -10px;
+  max-height: 450px;
+  overflow-y: scroll; }
+  .notes .list-notes .single-note {
+    border: 1px solid #E6E9EB;
+    padding: 15px;
+    margin: 0 0 10px; }
+    .notes .list-notes .single-note .btn-close {
+      display: none; }
+    .notes .list-notes .single-note:hover {
+      background: #eff9fd; }
+      .notes .list-notes .single-note:hover .btn-close {
+        display: block; }
+    .notes .list-notes .single-note .notes-meta {
+      margin: 0 0 5px;
+      font-size: 0.9em; }
+      .notes .list-notes .single-note .notes-meta .poster {
+        margin: 0 5px 0 0; }
+      .notes .list-notes .single-note .notes-meta .posted {
+        color: #93989F; }
+    .notes .list-notes .single-note .content {
+      margin: 0; }
 
 body {
   font-family: 'helvetica';

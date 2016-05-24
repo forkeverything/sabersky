@@ -12,6 +12,10 @@ class Note extends Model
         'user_id'
     ];
 
+    protected $with = [
+        'poster'
+    ];
+
     /**
      * The subject the note is referring to: Item, Vendor etc..
      *
@@ -29,7 +33,18 @@ class Note extends Model
      */
     public function poster()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Query scope that retrieves notes from latest -> oldest
+     * 
+     * @param $query
+     * @return mixed
+     */
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('created_at', 'desc')->get();
     }
 
 }

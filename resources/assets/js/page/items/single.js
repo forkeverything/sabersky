@@ -36,6 +36,7 @@ Vue.component('item-single', {
         }
     },
     events: {},
+    mixins: [userCompany],
     ready: function () {
 
         var self = this;

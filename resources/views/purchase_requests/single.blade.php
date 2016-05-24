@@ -58,9 +58,9 @@
                 <div class="card-history page-body">
                     <h4 class="card-title">Order History / Actions Feed</h4>
                 </div>
-                <div class="card-messages">
+                <div class="card-notes page-body">
                     <h4 class="card-title">Notes</h4>
-                    <notes subject="purchase_requests" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
+                    <notes subject="purchase_request" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
                 </div>
             </div>
         </div>

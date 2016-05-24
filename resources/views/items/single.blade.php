@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <item-single inline-template :item-id="'{{ $item->id }}'">
+    <item-single inline-template :item-id="'{{ $item->id }}'" :user="user">
         <div class="container" id="item-single">
             <div class="page-body">
                 <div class="row">
@@ -75,7 +75,13 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="item-notes">
+                    <h5>Notes</h5>
+                    <notes subject="item" subject_id="{{ $item->id }}" :user="user"></notes>
+                </div>
             </div>
+
         </div>
     </item-single>
 @endsection

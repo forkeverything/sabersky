@@ -174,6 +174,7 @@ Vue.component('vendor-single', {
             this.vendor.addresses.push(address);
         }
     },
+    mixins: [userCompany],
     ready: function () {
         var self = this;
     }

@@ -166,7 +166,7 @@ class PurchaseRequestController extends Controller
     public function getNotes(PurchaseRequest $purchaseRequest)
     {
         $this->authorize('view', $purchaseRequest);
-        return $purchaseRequest->notes;
+        return $purchaseRequest->notes()->latest();
     }
 
     /**

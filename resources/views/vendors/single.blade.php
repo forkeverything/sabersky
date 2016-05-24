@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <vendor-single inline-template :vendor="{{ $vendor }}">
+    <vendor-single inline-template :vendor="{{ $vendor }}" :user="user">
         <div class="container" id="vendor-single">
             <div class="row flexing">
                 <div class="col-sm-4">
@@ -30,6 +30,10 @@
                             </p>
                             <span v-else class="no-description">None</span>
                             @endcan
+                    </div>
+                    <div class="vendor-notes page-body">
+                        <h5>Notes</h5>
+                        <notes subject="vendor" subject_id="{{ $vendor->id }}" :user="user"></notes>
                     </div>
                 </div>
                 <div class="col-sm-8">

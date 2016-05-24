@@ -20,7 +20,7 @@
 
             </div>
 
-            <div class="page-body">
+            <div class="order-main page-body">
 
                 <div class="meta visible-xs">
                     @include('purchase_orders.partials.single.meta')
@@ -70,6 +70,11 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div class="po-notes page-body">
+                <h3>Notes</h3>
+                <notes subject="purchase_order" subject_id="{{ $purchaseOrder->id }}" :user="user"></notes>
             </div>
 
         </div>

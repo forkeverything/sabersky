@@ -8,9 +8,14 @@
 
   @import "partials/single/approvals";
   @import "partials/single/stats";
-  @import "partials/single/meta";
-  @import "partials/single/vendor";
-  @import "partials/single/order";
-  @import "partials/single/line-items";
-  @import "partials/single/summary";
+
+  .order-main {
+    margin: 0 0 30px;
+
+    @import "partials/single/meta";
+    @import "partials/single/vendor";
+    @import "partials/single/order";
+    @import "partials/single/line-items";
+    @import "partials/single/summary";
+  }
 }
