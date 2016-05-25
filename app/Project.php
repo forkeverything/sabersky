@@ -102,6 +102,7 @@ class Project extends Model
 
         return $project;
     }
+    
 
     /**
      * Project can have many items ordered for it. Likewise,

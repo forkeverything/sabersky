@@ -169,7 +169,7 @@ class PurchaseOrdersController extends Controller
     {
         if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
             if($lineItem->markPaid()){
-                Auth::user()->recordActivity('paid', $lineItem);
+                $lineItem->recordPaidBy(Auth::user());
                 return 1;
             }
             return response("Could not mark line item as paid");
@@ -181,7 +181,7 @@ class PurchaseOrdersController extends Controller
     {
         if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
             if($lineItem->markReceived($status)){
-                Auth::user()->recordActivity('received', $lineItem);
+                $lineItem->recordReceivedBy(Auth::user());
                 return $lineItem;
             }
             return response("Could not mark line item as delivered");

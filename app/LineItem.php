@@ -40,7 +40,7 @@ use Illuminate\Database\Eloquent\Model;
 class LineItem extends Model
 {
     use RecordsActivity;
-            
+
     protected $fillable = [
         'quantity',
         'price',
@@ -107,7 +107,7 @@ class LineItem extends Model
 
     /**
      * Calculated total for Line Item
-     * 
+     *
      * @return float
      */
     public function getTotalAttribute()
@@ -146,7 +146,7 @@ class LineItem extends Model
 
     /**
      * Mark Line Item as paid
-     * 
+     *
      * @return $this
      */
     public function markPaid()
@@ -159,7 +159,7 @@ class LineItem extends Model
     /**
      * Mark Line Item delivered and with a status that indicates
      * whether the item received was all good.
-     * 
+     *
      * @param $status
      * @return $this
      */
@@ -201,5 +201,51 @@ class LineItem extends Model
     {
         return $this->status === 'returned';
     }
+
+
+    /**
+     * Record this Line Item as 'created' by a User
+     *
+     * @param User $user
+     * @throws \Exception
+     */
+    public function recordCreatedBy(User $user)
+    {
+        $user->recordActivity('created', $this);
+    }
+
+    /**
+     * Record this Line Item as 'paid' by a User
+     *
+     * @param User $user
+     * @throws \Exception
+     */
+    public function recordPaidBy(User $user)
+    {
+        $user->recordActivity('paid', $this);
+    }
+
+    /**
+     * Record this Line Item as 'received' by a User
+     *
+     * @param User $user
+     * @throws \Exception
+     */
+    public function recordReceivedBy(User $user)
+    {
+        $user->recordActivity('received', $this);
+    }
+
+    /**
+     * Record this Line Item as 'rejected' by a User
+     *
+     * @param User $user
+     * @throws \Exception
+     */
+    public function recordRejectedBy(User $user)
+    {
+        $user->recordActivity('rejected', $this);
+    }
+
 
 }

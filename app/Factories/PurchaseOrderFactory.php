@@ -179,7 +179,7 @@ class PurchaseOrderFactory
                 'purchase_request_id' => $lineItemInfo['id']
             ]);
             // Record activity - creating line item
-            $this->user->recordActivity('created', $lineItem);
+            $lineItem->recordCreatedBy($this->user);
         }
 
         return $this;

@@ -610,7 +610,7 @@ class PurchaseOrder extends Model
 
         if ($newStatus !== $oldStatus) $user->recordActivity($this->status, $this);
 
-        if($newStatus === 'rejected') $this->recordLineItemActivityAsCancelled($user);
+        if($newStatus === 'rejected') $this->recordLineItemRejectedActivity($user);
 
         return $this->rules->where('id', $rule->id)->first()->pivot->save();
     }
@@ -622,10 +622,10 @@ class PurchaseOrder extends Model
      * @param User $user
      * @throws \Exception
      */
-    public function recordLineItemActivityAsCancelled(User $user)
+    public function recordLineItemRejectedActivity(User $user)
     {
         foreach ($this->lineItems as $lineItem) {
-            $user->recordActivity('cancelled', $lineItem);
+            $lineItem->recordRejectedBy($user);
         }
     }
 
