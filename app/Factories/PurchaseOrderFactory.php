@@ -223,7 +223,7 @@ class PurchaseOrderFactory
                             ->attachBillingAndShippingAddresses($this->billingAddress, $this->shippingAddress)
                             ->updatePurchaseRequests()
                             ->attachRules()
-                            ->updateStatus();
+                            ->updateStatus($this->user);
 
         return $this->purchaseOrder;
     }

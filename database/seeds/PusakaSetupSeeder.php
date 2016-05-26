@@ -4,6 +4,8 @@ use App\Address;
 use App\BankAccount;
 use App\Company;
 use App\Factories\PurchaseOrderFactory;
+use App\Http\Requests\AddNewVendorRequest;
+use App\Http\Requests\StartProjectRequest;
 use App\Item;
 use App\LineItem;
 use App\Project;
@@ -61,9 +63,10 @@ class PusakaSetupSeeder extends Seeder
              ->setUpCompany()
              ->createUserMike()
              ->makeProject()
-//             ->createVendors()
-//             ->makeRules()
-//             ->createPurchaseOrders()
+             ->createVendors()
+            ->createPurchaseRequests()
+             ->makeRules()
+             ->createPurchaseOrders()
         ;
     }
 
@@ -128,7 +131,7 @@ class PusakaSetupSeeder extends Seeder
 
     protected function makeProject()
     {
-        $request = new \App\Http\Requests\StartProjectRequest([
+        $request = new StartProjectRequest([
             'name' => 'Tanjung Selor 7MW',
             'location' => 'Jawa Tengah',
             'description' => 'Gallia est omnis divisa in partes tres, quarum. Ab illo tempore, ab est sed immemorabili. Nihil hic munitissimus habendi senatus locus, nihil horum? Quam diu etiam furor iste tuus nos eludet? Idque Caesaris facere voluntate liceret: sese habere. Magna pars studiorum, prodita quaerimus.
@@ -142,55 +145,56 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function createVendors()
     {
-        // Verified vendors
-        $verifiedVendors = factory(Vendor::class, 3)->create([
-            'base_company_id' => 1,
-            'verified' => 1
-        ]);
-        foreach ($verifiedVendors as $vendor) {
-            $this->user->recordActivity('add', $vendor);
+        // Create 3 Verified Vendors
+        for ($i = 0; $i < 3; $i++) {
+            $company = factory(Company::class)->create();
             factory(Address::class)->create([
-                'owner_id' => $vendor->linkedCompany->id,
+                'owner_id' => $company->id,
                 'owner_type' => 'company'
             ]);
+            $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
+            $vendor->verify();
             factory(BankAccount::class, 3)->create([
                 'vendor_id' => $vendor->id
             ]);
         }
 
         // Pending Vendors
-        $pendingVendors = factory(Vendor::class, 2)->create([
-            'base_company_id' => 1,
-            'verified' => 0,
-        ]);
-        foreach ($pendingVendors as $vendor) {
-            $this->user->recordActivity('add', $vendor);
+        for ($i = 0; $i < 2; $i++) {
+            $company = factory(Company::class)->create();
             factory(Address::class)->create([
-                'owner_id' => $vendor->id
-            ]);
-            factory(Address::class)->create([
-                'owner_id' => $vendor->linkedCompany->id,
+                'owner_id' => $company->id,
                 'owner_type' => 'company'
             ]);
-            factory(BankAccount::class, 2)->create([
+            $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
+            factory(BankAccount::class, 3)->create([
                 'vendor_id' => $vendor->id
             ]);
         }
 
-        // Custom Vendor
-        $customVendor = factory(Vendor::class)->create([
-            'base_company_id' => 1,
-            'linked_company_id' => null
+        // Custom Vendors
+        $request = new AddNewVendorRequest([
+            'name' => 'PT.' . $this->faker->company,
+            'description' => $this->faker->paragraph(3),
+            'base_company_id' => $this->company->id
         ]);
-        $this->user->recordActivity('add', $customVendor);
+        $vendor = Vendor::add($request, $this->user);
+
         factory(Address::class, 3)->create([
-            'owner_id' => $customVendor->id
+            'owner_id' => $vendor->id,
+            'owner_type' => 'vendor'
         ]);
 
-        factory(BankAccount::class, 1)->create([
-            'vendor_id' => $customVendor->id
+        factory(BankAccount::class)->create([
+            'vendor_id' => $vendor->id
         ]);
 
+
+        return $this;
+    }
+
+    protected function createPurchaseRequests()
+    {
         // Purchase Requests
         factory(PurchaseRequest::class, 10)->create([
             'state' => 'open',
@@ -205,6 +209,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
         return $this;
     }
+
 
     protected function createPurchaseOrders()
     {
@@ -225,12 +230,13 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             $shippingAddressSameAsBilling = $this->faker->boolean(50);
             $shippingAddress = $shippingAddressSameAsBilling ? $billingAddress : factory(Address::class)->create(['owner_id' => 0, 'owner_type' => '']);
             // Make our PO
+            $userMakingOrder = factory(User::class)->create(['company_id' => $this->company->id]);
             $order = PurchaseOrder::create([
                 'vendor_id' => $vendor->id,
                 'vendor_address_id' => $vendorAddress->id,
                 'vendor_bank_account_id' => $vendorBankAccount->id,
                 'currency_id' => $this->faker->randomElement(['360', '840', '392']),
-                'user_id' => factory(User::class)->create(['company_id' => $this->company->id])->id,
+                'user_id' => $userMakingOrder->id,
                 'company_id' => $this->company->id
             ]);
 
@@ -259,7 +265,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 } else {
                     foreach ($purchaseRequests as $purchaseRequest) {
                         $request = PurchaseRequest::find($purchaseRequest->id);
-                        $this->makeLineItem($order, $request);
+                            $this->makeLineItem($order, $request);
                     }
                 }
             }
@@ -272,7 +278,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 ]);
             }
 
-            PurchaseOrderFactory::change($order)->processNewPurchaseOrder($billingAddress, $shippingAddress);
+            PurchaseOrderFactory::change($order, $userMakingOrder)->processNewPurchaseOrder($billingAddress, $shippingAddress);
         }
     }
 
@@ -290,16 +296,14 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             }
         }
 
-        $lineItem = LineItem::create([
+        $lineItem = LineItem::add([
             'quantity' => $this->faker->numberBetween(1, $request->quantity),
             'purchase_request_id' => $request->id,
             'purchase_order_id' => $order->id,
             'price' => $price ?: $this->faker->randomNumber(3),
             'payable' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
             'delivery' => $this->faker->dateTimeBetween('now', '+1 year')->format('d/m/Y'),
-        ]);
-
-        User::find($order->user_id)->recordActivity('created', $lineItem);
+        ], User::find($order->user_id));
     }
 
     protected function makeRules()

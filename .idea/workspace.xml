@@ -7,26 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Company.php" afterPath="$PROJECT_DIR$/app/Company.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php" afterPath="$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/VendorsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/VendorsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Item.php" afterPath="$PROJECT_DIR$/app/Item.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/LineItem.php" afterPath="$PROJECT_DIR$/app/LineItem.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Project.php" afterPath="$PROJECT_DIR$/app/Project.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseOrder.php" afterPath="$PROJECT_DIR$/app/PurchaseOrder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Rule.php" afterPath="$PROJECT_DIR$/app/Rule.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Vendor.php" afterPath="$PROJECT_DIR$/app/Vendor.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/CompanyTest.php" afterPath="$PROJECT_DIR$/tests/CompanyTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/ItemTest.php" afterPath="$PROJECT_DIR$/tests/ItemTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/ProjectTest.php" afterPath="$PROJECT_DIR$/tests/ProjectTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseOrderFactoryTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseOrderFactoryTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseOrderTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseRequestTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseRequestTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/RuleTest.php" afterPath="$PROJECT_DIR$/tests/RuleTest.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,18 +29,36 @@
     <favorites_list name="procure" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="PusakaSetupSeeder.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="999">
-              <caret line="63" column="32" selection-start-line="63" selection-start-column="32" selection-end-line="63" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5667969">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="PusakaSetupSeeder.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="413">
+                  <caret line="305" column="40" selection-start-line="305" selection-start-column="40" selection-end-line="305" selection-end-column="40" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="LineItem.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/LineItem.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="953">
+                  <caret line="145" column="1" selection-start-line="145" selection-start-column="1" selection-end-line="145" selection-end-column="1" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -98,7 +98,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php" />
         <option value="$PROJECT_DIR$/tests/ProjectTest.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/VendorsController.php" />
-        <option value="$PROJECT_DIR$/app/Vendor.php" />
         <option value="$PROJECT_DIR$/tests/VendorTest.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ItemsController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/NotesController.php" />
@@ -107,15 +106,16 @@
         <option value="$PROJECT_DIR$/tests/PurchaseRequestTest.php" />
         <option value="$PROJECT_DIR$/app/Item.php" />
         <option value="$PROJECT_DIR$/app/Rule.php" />
-        <option value="$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php" />
         <option value="$PROJECT_DIR$/app/LineItem.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseOrdersController.php" />
-        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/tests/CompanyTest.php" />
         <option value="$PROJECT_DIR$/tests/LineItemTest.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
         <option value="$PROJECT_DIR$/tests/RuleTest.php" />
         <option value="$PROJECT_DIR$/tests/ItemTest.php" />
+        <option value="$PROJECT_DIR$/app/Vendor.php" />
+        <option value="$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php" />
+        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php" />
       </list>
     </option>
@@ -136,7 +136,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1280" />
+    <option name="width" value="2560" />
     <option name="height" value="1353" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -400,7 +400,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="js-jscs-nodeInterpreter" value="$USER_HOME$/.nvm/versions/node/v5.3.0/bin/node" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/Mike-Personal/Dropbox/Code/pusaka-group/resources/assets/js/page/purchase-orders/submit.js&#10;firstorfail&#9;null&#9;null&#10;uniquese&#9;null&#9;null&#10;hydrate&#9;null&#9;null&#10;belongstoma&#9;null&#9;null&#10;addeager&#9;null&#9;null&#10;getModels&#9;null&#9;null&#10;addSelect&#9;null&#9;null&#10;with&#9;null&#9;null&#10;addeagercon&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="updateStatus&#9;null&#9;null&#10;firstorfail&#9;null&#9;null&#10;uniquese&#9;null&#9;null&#10;hydrate&#9;null&#9;null&#10;belongstoma&#9;null&#9;null&#10;addeager&#9;null&#9;null&#10;getModels&#9;null&#9;null&#10;addSelect&#9;null&#9;null&#10;with&#9;null&#9;null&#10;addeagercon&#9;null&#9;null" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
   </component>
   <component name="RecentsManager">
@@ -601,15 +601,15 @@
       <workItem from="1464090520399" duration="7661000" />
       <workItem from="1464134629619" duration="1942000" />
       <workItem from="1464212347286" duration="3441000" />
-      <workItem from="1464216155209" duration="6212000" />
+      <workItem from="1464216155209" duration="7527000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1167683000" />
+    <option name="totallyTimeSpent" value="1168998000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="1353" extended-state="0" />
+    <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -647,7 +647,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="122" />
+      <option name="time" value="123" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1073,16 +1073,6 @@
             <marker date="1464216165000" expanded="true" signature="1534:1678" placeholder="{...}" />
             <marker date="1464216165000" expanded="true" signature="1687:1937" placeholder=" Delete a Note at given route. We also check to see if user is allowed ..." />
             <marker date="1464216165000" expanded="true" signature="2004:2225" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="183" column="6" selection-start-line="183" selection-start-column="6" selection-end-line="183" selection-end-column="6" />
-          <folding>
-            <element signature="e#396#412#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1660,56 +1650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="188" column="43" selection-start-line="188" selection-start-column="43" selection-end-line="188" selection-end-column="43" />
-          <folding>
-            <marker date="1464219207000" expanded="false" signature="39:156" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="184:7036" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="194:319" placeholder=" The PurchaseOrder model either created or we receive to ..." />
-            <marker date="1464219207000" expanded="true" signature="357:453" placeholder=" The form request containing our data ..." />
-            <marker date="1464219207000" expanded="true" signature="488:560" placeholder=" The user making the Purchase Order ..." />
-            <marker date="1464219207000" expanded="true" signature="592:641" placeholder=" Billing - Address Model ..." />
-            <marker date="1464219207000" expanded="true" signature="680:737" placeholder=" Shipping - Address Model ..." />
-            <marker date="1464219207000" expanded="true" signature="777:959" placeholder=" PurchaseOrderFactory constructor. ..." />
-            <marker date="1464219207000" expanded="true" signature="1093:1216" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="1225:1366" placeholder=" Make a new PurchaseOrder ..." />
-            <marker date="1464219207000" expanded="true" signature="1449:1796" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="1805:1976" placeholder=" Make changes to an existing Order ..." />
-            <marker date="1464219207000" expanded="true" signature="2061:2129" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="2138:2219" placeholder=" Create the model from the given request ..." />
-            <marker date="1464219207000" expanded="true" signature="2263:2757" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="2323:2726" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="2324:2725" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="2766:2899" placeholder=" Set Billing Address to the same as the given User's Company or ..." />
-            <marker date="1464219207000" expanded="true" signature="2944:3814" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="3132:3784" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="3185:3773" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="3186:3772" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="3823:3959" placeholder=" Set Shipping Address to same as Billing or create ..." />
-            <marker date="1464219207000" expanded="true" signature="4005:4833" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="4142:4803" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="4196:4792" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="4197:4791" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="4842:4910" placeholder=" Create our LineItem models ..." />
-            <marker date="1464219207000" expanded="true" signature="4950:5641" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="5058:5611" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="5085:5600" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="5086:5586" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="5650:5733" placeholder=" Create PurchaseOrderAdditionalCost Models ..." />
-            <marker date="1464219207000" expanded="true" signature="5779:6234" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="5907:6204" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="5957:6194" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="6022:6179" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="6023:6178" placeholder="..." />
-            <marker date="1464219207000" expanded="true" signature="6244:6426" placeholder=" Call the necessary methods for a new PurchaseOrder ..." />
-            <marker date="1464219207000" expanded="true" signature="6537:7034" placeholder="{...}" />
-            <marker date="1464219207000" expanded="true" signature="6799:6844" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_02_02_074346_create_line_items_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
@@ -1724,49 +1664,6 @@
             <marker date="1463540904000" expanded="true" signature="1100:1386" placeholder="..." />
             <marker date="1463540904000" expanded="true" signature="1522:1586" placeholder=" Reverse the migrations. ..." />
             <marker date="1463540904000" expanded="true" signature="1615:1663" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/LineItem.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="926">
-          <caret line="231" column="36" selection-start-line="231" selection-start-column="20" selection-end-line="231" selection-end-column="36" />
-          <folding>
-            <marker date="1464219751000" expanded="false" signature="27:123" placeholder="..." />
-            <marker date="1464219751000" expanded="true" signature="128:1754" placeholder=" App\LineItem ..." />
-            <marker date="1464219751000" expanded="true" signature="1785:6233" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="1841:2015" placeholder="..." />
-            <marker date="1464219751000" expanded="true" signature="2043:2086" placeholder="..." />
-            <marker date="1464219751000" expanded="true" signature="2116:2197" placeholder="..." />
-            <marker date="1464219751000" expanded="true" signature="2208:2284" placeholder=" Set 'payable' field as Carbon Date ..." />
-            <marker date="1464219751000" expanded="true" signature="2334:2439" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="2448:2519" placeholder=" Set 'delivery' as Carbon Date ..." />
-            <marker date="1464219751000" expanded="true" signature="2570:2676" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="2685:2820" placeholder=" Line Item is fulfilling a single Purchase Request ..." />
-            <marker date="1464219751000" expanded="true" signature="2860:2929" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="2938:3076" placeholder=" Line Item can only also belong to one Purcahse Order ..." />
-            <marker date="1464219751000" expanded="true" signature="3114:3181" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="3190:3262" placeholder=" Calculated total for Line Item ..." />
-            <marker date="1464219751000" expanded="true" signature="3304:3363" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="3372:3521" placeholder=" Create and record a Line Item ..." />
-            <marker date="1464219751000" expanded="true" signature="3579:3717" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="3726:3914" placeholder=" Takes a limit and sees if this Line Item's total (price * quantity) ..." />
-            <marker date="1464219751000" expanded="true" signature="3957:4007" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="4016:4193" placeholder=" Check if the Item this Line Item is servicing's price is over the Item's mean ..." />
-            <marker date="1464219751000" expanded="true" signature="4265:4543" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="4552:4667" placeholder=" Mark Line Item as paid ..." />
-            <marker date="1464219751000" expanded="true" signature="4710:4838" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="4847:5066" placeholder=" Mark Line Item delivered and with a status that indicates ..." />
-            <marker date="1464219751000" expanded="true" signature="5122:5405" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="5414:5503" placeholder=" Dynamic Attribute - Has the item been delivered? ..." />
-            <marker date="1464219751000" expanded="true" signature="5548:5607" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="5616:5696" placeholder=" Dynamic Attribute - is status Accepted? ..." />
-            <marker date="1464219751000" expanded="true" signature="5741:5798" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="5807:5887" placeholder=" Dynamic Attribute - is status Returned? ..." />
-            <marker date="1464219751000" expanded="true" signature="5932:5989" placeholder="{...}" />
-            <marker date="1464219751000" expanded="true" signature="5999:6116" placeholder=" Record this Line Item as 'rejected' by a User ..." />
-            <marker date="1464219751000" expanded="true" signature="6167:6229" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1877,52 +1774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Vendor.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="872">
-          <caret line="231" column="19" selection-start-line="231" selection-start-column="19" selection-end-line="231" selection-end-column="19" />
-          <folding>
-            <marker date="1464215818000" expanded="false" signature="27:216" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="222:1705" placeholder=" App\Vendor ..." />
-            <marker date="1464215818000" expanded="true" signature="1734:6772" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="1801:1920" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="1950:2022" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="2034:2158" placeholder=" Mutator to save linked_company_id field as NULL ..." />
-            <marker date="1464215818000" expanded="true" signature="2216:2404" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="2251:2319" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="2327:2397" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="2414:2562" placeholder=" A Vendor is always owned as a record of a base ..." />
-            <marker date="1464215818000" expanded="true" signature="2598:2678" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="2687:2852" placeholder=" A Vendor can also be optionally linked to another Company ..." />
-            <marker date="1464215818000" expanded="true" signature="2890:2972" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="2981:3127" placeholder=" Lots of Purchase Orders can be made to the same ..." />
-            <marker date="1464215818000" expanded="true" signature="3166:3231" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="3240:3490" placeholder=" Vendor can have many Bank Accounts. This returns all of ..." />
-            <marker date="1464215818000" expanded="true" signature="3530:3593" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="3602:3729" placeholder=" A Vendor can have many records of addresses ..." />
-            <marker date="1464215818000" expanded="true" signature="3763:3833" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="3842:4129" placeholder=" Add a new Vendor from a request to a Company by a User. The user is only ..." />
-            <marker date="1464215818000" expanded="true" signature="4204:4552" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="4272:4442" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="4273:4441" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="4561:4850" placeholder=" Takes a base Company (usually owned by the logged User) and ..." />
-            <marker date="1464215818000" expanded="true" signature="4938:5218" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="4978:5135" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="4979:5134" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="5227:5314" placeholder=" Verify the Vendor Link to Company ..." />
-            <marker date="1464215818000" expanded="true" signature="5345:5416" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="5426:5673" placeholder=" When we only want to retrieve Active Bank accounts. Set an accessor ..." />
-            <marker date="1464215818000" expanded="true" signature="5722:6166" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="5852:6040" placeholder="..." />
-            <marker date="1464215818000" expanded="true" signature="6176:6263" placeholder=" Number of Purchase Orders made to this Vendor ..." />
-            <marker date="1464215818000" expanded="true" signature="6308:6369" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="6378:6479" placeholder=" Calculate the average Price / PO for this ..." />
-            <marker date="1464215818000" expanded="true" signature="6525:6767" placeholder="{...}" />
-            <marker date="1464215818000" expanded="true" signature="6659:6713" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/VendorTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
@@ -1930,14 +1781,6 @@
           <folding>
             <element signature="e#7#27#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="250" column="15" selection-start-line="250" selection-start-column="15" selection-end-line="250" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2356,10 +2199,242 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="668">
+          <caret line="85" column="21" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
+          <folding>
+            <element signature="e#396#412#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Vendor.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1046">
+          <caret line="188" column="29" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
+          <folding>
+            <marker date="1464215818000" expanded="false" signature="27:216" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="222:1705" placeholder=" App\Vendor ..." />
+            <marker date="1464215818000" expanded="true" signature="1734:6772" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="1801:1920" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="1950:2022" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="2034:2158" placeholder=" Mutator to save linked_company_id field as NULL ..." />
+            <marker date="1464215818000" expanded="true" signature="2216:2404" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="2251:2319" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="2327:2397" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="2414:2562" placeholder=" A Vendor is always owned as a record of a base ..." />
+            <marker date="1464215818000" expanded="true" signature="2598:2678" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="2687:2852" placeholder=" A Vendor can also be optionally linked to another Company ..." />
+            <marker date="1464215818000" expanded="true" signature="2890:2972" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="2981:3127" placeholder=" Lots of Purchase Orders can be made to the same ..." />
+            <marker date="1464215818000" expanded="true" signature="3166:3231" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="3240:3490" placeholder=" Vendor can have many Bank Accounts. This returns all of ..." />
+            <marker date="1464215818000" expanded="true" signature="3530:3593" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="3602:3729" placeholder=" A Vendor can have many records of addresses ..." />
+            <marker date="1464215818000" expanded="true" signature="3763:3833" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="3842:4129" placeholder=" Add a new Vendor from a request to a Company by a User. The user is only ..." />
+            <marker date="1464215818000" expanded="true" signature="4204:4552" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="4272:4442" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="4273:4441" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="4561:4850" placeholder=" Takes a base Company (usually owned by the logged User) and ..." />
+            <marker date="1464215818000" expanded="true" signature="4938:5218" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="4978:5135" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="4979:5134" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="5227:5314" placeholder=" Verify the Vendor Link to Company ..." />
+            <marker date="1464215818000" expanded="true" signature="5345:5416" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="5426:5673" placeholder=" When we only want to retrieve Active Bank accounts. Set an accessor ..." />
+            <marker date="1464215818000" expanded="true" signature="5722:6166" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="5852:6040" placeholder="..." />
+            <marker date="1464215818000" expanded="true" signature="6176:6263" placeholder=" Number of Purchase Orders made to this Vendor ..." />
+            <marker date="1464215818000" expanded="true" signature="6308:6369" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="6378:6479" placeholder=" Calculate the average Price / PO for this ..." />
+            <marker date="1464215818000" expanded="true" signature="6525:6767" placeholder="{...}" />
+            <marker date="1464215818000" expanded="true" signature="6659:6713" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Factories/PurchaseOrderFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1034">
+          <caret line="225" column="31" selection-start-line="225" selection-start-column="31" selection-end-line="225" selection-end-column="31" />
+          <folding>
+            <marker date="1464236198000" expanded="false" signature="39:156" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="184:7047" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="194:319" placeholder=" The PurchaseOrder model either created or we receive to ..." />
+            <marker date="1464236198000" expanded="true" signature="357:453" placeholder=" The form request containing our data ..." />
+            <marker date="1464236198000" expanded="true" signature="488:560" placeholder=" The user making the Purchase Order ..." />
+            <marker date="1464236198000" expanded="true" signature="592:641" placeholder=" Billing - Address Model ..." />
+            <marker date="1464236198000" expanded="true" signature="680:737" placeholder=" Shipping - Address Model ..." />
+            <marker date="1464236198000" expanded="true" signature="777:959" placeholder=" PurchaseOrderFactory constructor. ..." />
+            <marker date="1464236198000" expanded="true" signature="1093:1216" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="1225:1366" placeholder=" Make a new PurchaseOrder ..." />
+            <marker date="1464236198000" expanded="true" signature="1449:1796" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="1805:1976" placeholder=" Make changes to an existing Order ..." />
+            <marker date="1464236198000" expanded="true" signature="2061:2129" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="2138:2219" placeholder=" Create the model from the given request ..." />
+            <marker date="1464236198000" expanded="true" signature="2263:2757" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="2323:2726" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="2324:2725" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="2766:2899" placeholder=" Set Billing Address to the same as the given User's Company or ..." />
+            <marker date="1464236198000" expanded="true" signature="2944:3814" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="3132:3784" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="3185:3773" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="3186:3772" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="3823:3959" placeholder=" Set Shipping Address to same as Billing or create ..." />
+            <marker date="1464236198000" expanded="true" signature="4005:4833" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="4142:4803" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="4196:4792" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="4197:4791" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="4842:4910" placeholder=" Create our LineItem models ..." />
+            <marker date="1464236198000" expanded="true" signature="4950:5641" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="5058:5611" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="5085:5600" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="5086:5586" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="5650:5733" placeholder=" Create PurchaseOrderAdditionalCost Models ..." />
+            <marker date="1464236198000" expanded="true" signature="5779:6234" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="5907:6204" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="5957:6194" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="6022:6179" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="6023:6178" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="6244:6426" placeholder=" Call the necessary methods for a new PurchaseOrder ..." />
+            <marker date="1464236198000" expanded="true" signature="6537:7045" placeholder="{...}" />
+            <marker date="1464236198000" expanded="true" signature="6799:6844" placeholder="..." />
+            <marker date="1464236198000" expanded="true" signature="6988:6999" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="602">
+          <caret line="396" column="24" selection-start-line="396" selection-start-column="24" selection-end-line="396" selection-end-column="24" />
+          <folding>
+            <marker date="1464236357000" expanded="false" signature="27:236" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="242:1926" placeholder=" App\PurchaseOrder ..." />
+            <marker date="1464236357000" expanded="true" signature="1962:17489" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="2035:2109" placeholder=" Mass-Assignable fields for an Order ..." />
+            <marker date="1464236357000" expanded="true" signature="2139:2407" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="2418:2510" placeholder=" Dynamically determine these and append to every Order ..." />
+            <marker date="1464236357000" expanded="true" signature="2539:2836" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="2847:2910" placeholder=" Default attribute values ..." />
+            <marker date="1464236357000" expanded="true" signature="2942:2977" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="2988:3061" placeholder=" Model events to record as Activity ..." />
+            <marker date="1464236357000" expanded="true" signature="3102:3125" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="3136:3219" placeholder=" Accessor - Check if PO has status: pending ..." />
+            <marker date="1464236357000" expanded="true" signature="3263:3319" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="3328:3412" placeholder=" Accessor - Check if PO has status: approved ..." />
+            <marker date="1464236357000" expanded="true" signature="3457:3514" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="3523:3607" placeholder=" Accessor - Check if PO has status: successs ..." />
+            <marker date="1464236357000" expanded="true" signature="3652:3709" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="3719:3849" placeholder=" A Purchase Order belongs to a single Company ..." />
+            <marker date="1464236357000" expanded="true" signature="3881:3942" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="3951:4068" placeholder=" A PO is made to a single Vendor ..." />
+            <marker date="1464236357000" expanded="true" signature="4099:4159" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="4168:4285" placeholder=" A PO can contain many Line Items. ..." />
+            <marker date="1464236357000" expanded="true" signature="4319:4379" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="4388:4507" placeholder=" The User that submitted the Order ..." />
+            <marker date="1464236357000" expanded="true" signature="4536:4594" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="4603:4749" placeholder=" The country model we'll use to retrieve currency information ..." />
+            <marker date="1464236357000" expanded="true" signature="4789:4865" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="4874:5004" placeholder=" Every Order has a  single currency (Country) ..." />
+            <marker date="1464236357000" expanded="true" signature="5049:5127" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="5137:5207" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1464236357000" expanded="true" signature="5263:5321" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="5330:5400" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1464236357000" expanded="true" signature="5449:5499" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="5508:5578" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1464236357000" expanded="true" signature="5627:5677" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="5686:5756" placeholder=" Currency Accessor (appended) ..." />
+            <marker date="1464236357000" expanded="true" signature="5807:5859" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="5868:6024" placeholder=" Will update the quantities for any PRs that are ..." />
+            <marker date="1464236357000" expanded="true" signature="6071:6456" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="6127:6427" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="6314:6416" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="6315:6415" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="6466:6594" placeholder=" Calculates the subtotal and then saves it as the 'subtotal' ..." />
+            <marker date="1464236357000" expanded="true" signature="6630:6874" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="6709:6785" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="6883:7078" placeholder=" Calculate the 'total' field which takes into account each ..." />
+            <marker date="1464236357000" expanded="true" signature="7111:7572" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="7265:7487" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="7313:7405" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="7413:7477" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="7582:7693" placeholder=" Mark this PO as approvied ..." />
+            <marker date="1464236357000" expanded="true" signature="7740:7922" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="7931:8036" placeholder=" Mark PO as rejected ..." />
+            <marker date="1464236357000" expanded="true" signature="8083:8354" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="8364:8609" placeholder=" A purchase order can have many rules which apply. ..." />
+            <marker date="1464236357000" expanded="true" signature="8639:8784" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="8727:8737" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="8793:8900" placeholder=" Quick 'string' checker wrapper for PO status ..." />
+            <marker date="1464236357000" expanded="true" signature="8941:8995" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="9005:9408" placeholder=" Attaches Address models as Billing and Shipping Addresses respectively. We will always attach ..." />
+            <marker date="1464236357000" expanded="true" signature="9515:10004" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="10013:10132" placeholder=" Wrapper function that delegates out rule assignment ..." />
+            <marker date="1464236357000" expanded="true" signature="10198:10617" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="10492:10549" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="10627:10738" placeholder=" Updates the Order's status if necessary ..." />
+            <marker date="1464236357000" expanded="true" signature="10785:11427" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="11044:11137" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="11145:11188" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="11436:11508" placeholder=" Set Order status to pending... ..." />
+            <marker date="1464236357000" expanded="true" signature="11544:11636" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="11645:11769" placeholder=" Quick checker to see if all the attached rules to this PO is ..." />
+            <marker date="1464236357000" expanded="true" signature="11818:12020" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="12029:12120" placeholder=" Check whether Order has a rule that is 'rejected' ..." />
+            <marker date="1464236357000" expanded="true" signature="12160:12246" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="12256:12447" placeholder=" A PO Could be made out to an address that belongs to ..." />
+            <marker date="1464236357000" expanded="true" signature="12485:12567" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="12576:12707" placeholder=" PO made out to a single Vendor's Bank Account ..." />
+            <marker date="1464236357000" expanded="true" signature="12749:12840" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="12849:12974" placeholder=" PO Made out to a single Billing Address ..." />
+            <marker date="1464236357000" expanded="true" signature="13013:13096" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="13105:13289" placeholder=" Optionally, PO can be made out to a Shipping Address that differs ..." />
+            <marker date="1464236357000" expanded="true" signature="13329:13413" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="13423:13609" placeholder=" A PO can have many other Additional Costs (or Discounts), such ..." />
+            <marker date="1464236357000" expanded="true" signature="13649:13728" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="13737:13930" placeholder=" Checks if this PO is over a given limit, for a ..." />
+            <marker date="1464236357000" expanded="true" signature="13986:14097" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="14106:14309" placeholder=" Checks whether this PO's vendor is 'new', ie. is there a previous PO ..." />
+            <marker date="1464236357000" expanded="true" signature="14343:14450" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="14459:14556" placeholder=" Check if Order billing address same as Company's address ..." />
+            <marker date="1464236357000" expanded="true" signature="14620:14706" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="14715:14796" placeholder=" Check if Order shipping address same as billing ..." />
+            <marker date="1464236357000" expanded="true" signature="14861:14946" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="14955:15061" placeholder=" Mutator to get the Items that were ordered from a Purchase Order ..." />
+            <marker date="1464236357000" expanded="true" signature="15103:15237" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="15246:15355" placeholder=" Loads Items for the PO and sets it as a relation, to be returned ..." />
+            <marker date="1464236357000" expanded="true" signature="15392:16319" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="15489:15554" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="15584:15659" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="15692:15762" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="15793:15839" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="15871:16193" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="15880:16192" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="16226:16236" placeholder="..." />
+            <marker date="1464236357000" expanded="true" signature="16328:16566" placeholder=" Handles a Rule attached to this Order. We need to know the User ..." />
+            <marker date="1464236357000" expanded="true" signature="16632:17135" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="17144:17300" placeholder=" Records all the ordered Line Item's activities as cancelled by ..." />
+            <marker date="1464236357000" expanded="true" signature="17365:17485" placeholder="{...}" />
+            <marker date="1464236357000" expanded="true" signature="17421:17478" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/LineItem.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="953">
+          <caret line="145" column="1" selection-start-line="145" selection-start-column="1" selection-end-line="145" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="999">
-          <caret line="63" column="32" selection-start-line="63" selection-start-column="32" selection-end-line="63" selection-end-column="32" />
+        <state relative-caret-position="413">
+          <caret line="305" column="40" selection-start-line="305" selection-start-column="40" selection-end-line="305" selection-end-column="40" />
           <folding />
         </state>
       </provider>
