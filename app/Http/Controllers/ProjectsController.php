@@ -86,8 +86,7 @@ class ProjectsController extends Controller
      */
     public function postStartProject(StartProjectRequest $request)
     {
-        if(! Gate::allows('project_manage')) return response("Are you sure you're allowed to do that?", 403);
-        $this->company->startProject($request, Auth::user());
+        Project::start($request, Auth::user());
         return redirect('/projects');
     }
 

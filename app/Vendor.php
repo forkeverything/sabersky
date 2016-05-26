@@ -121,26 +121,35 @@ class Vendor extends Model
     }
 
     /**
+     * A Vendor can have many records of addresses
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'owner');
+    }
+
+    /**
      * Add a new Vendor from a request to a Company by a User. The user is only
      * used to record the activity and has no direct relation to Vendor model
      *
      * @param AddNewVendorRequest $request
-     * @param \App\Company $company
      * @param User $user
      * @return static
      * @throws \Exception
      */
-    public static function add(AddNewVendorRequest $request, Company $company, User $user)
+    public static function add(AddNewVendorRequest $request, User $user)
     {
         // Create our model
         $vendor = static::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'base_company_id' => $company->id
+            'base_company_id' => $user->company_id
         ]);
 
         // record activity
-        $user->recordActivity('add', $vendor);
+        $user->recordActivity('added', $vendor);
 
         return $vendor;
     }
@@ -150,21 +159,20 @@ class Vendor extends Model
      * a link Company and creates a new Vendor while linking the
      * Link Company in one process.
      *
-     * @param Company $baseCompany
      * @param Company $linkCompany
      * @param User $user
      * @return static
      * @throws \Exception
      */
-    public static function createAndLinkFromCompany(Company $baseCompany, Company $linkCompany, User $user)
+    public static function createAndLinkFromCompany(User $user, Company $linkCompany)
     {
         $vendor = static::create([
             'name' => $linkCompany->name,
-            'base_company_id' => $baseCompany->id,
+            'base_company_id' => $user->company_id,
             'linked_company_id' => $linkCompany->id
         ]);
 
-        $user->recordActivity('add', $vendor);
+        $user->recordActivity('added', $vendor);
 
         return $vendor;
     }
@@ -228,14 +236,6 @@ class Vendor extends Model
         return ($numPO) ? $sumPO / $numPO : 0;
     }
 
-    /**
-     * A Vendor can have many records of addresses
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function addresses()
-    {
-        return $this->morphMany(Address::class, 'owner');
-    }
+
 
 }

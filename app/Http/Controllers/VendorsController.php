@@ -66,7 +66,7 @@ class VendorsController extends Controller
      */
     public function postAddCustomVendor(AddNewVendorRequest $request)
     {
-        $vendor = Vendor::add($request, Auth::user()->company, Auth::user());
+        $vendor = Vendor::add($request, Auth::user());
 
         flash()->success('Created a new custom vendor');
 
@@ -83,7 +83,7 @@ class VendorsController extends Controller
     public function postLinkCompanyToVendor(LinkCompanyToVendorRequest $request)
     {
         $companyToAddAsVendor = Company::find($request->input('linked_company_id'));
-        return Vendor::createAndLinkFromCompany(Auth::user()->company, $companyToAddAsVendor, Auth::user());
+        return Vendor::createAndLinkFromCompany(Auth::user(), $companyToAddAsVendor);
     }
 
     /**

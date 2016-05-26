@@ -93,7 +93,7 @@ class Item extends Model
         ]);
 
         // Record activity
-        $user->recordActivity('add', $item);
+        $user->recordActivity('added', $item);
 
         return $item;
         
@@ -259,7 +259,7 @@ class Item extends Model
                 foreach (array_pluck($relevantLineItems, 'quantity', 'price') as $quantity => $price) {
                     $sumOrderedValue += ($quantity * $price);
                 }
-                $meanForCurrency = number_format($sumOrderedValue / $numOrdered, 2);
+                $meanForCurrency = round($sumOrderedValue / $numOrdered, 5);
                 $means[$currencyID] = [
                     $currencyCode,
                     $meanForCurrency

@@ -64,7 +64,6 @@ class LineItem extends Model
         'returned'
     ];
 
-
     /**
      * Set 'payable' field as Carbon Date
      *
@@ -116,6 +115,21 @@ class LineItem extends Model
     }
 
     /**
+     * Create and record a Line Item
+     *
+     * @param $attributes
+     * @param User $user
+     * @return static
+     * @throws \Exception
+     */
+    public static function add($attributes, User $user)
+    {
+        $lineItem = static::create($attributes);
+        $user->recordActivity('added', $lineItem);
+        return $lineItem;
+    }
+
+    /**
      * Takes a limit and sees if this Line Item's total (price * quantity)
      * is over the limit.
      *
@@ -136,7 +150,7 @@ class LineItem extends Model
      * @param $percentage
      * @return bool
      */
-    public function itemPriceIsOverMeanBy($percentage)
+    public function priceOverMeanPercentageIsGreaterThan($percentage)
     {
         $orderCurrencyID = $this->purchaseOrder->currency_id;
         if(! $itemMean = $this->purchaseRequest->item->getMean($orderCurrencyID)) return false;
@@ -147,12 +161,15 @@ class LineItem extends Model
     /**
      * Mark Line Item as paid
      *
+     * @param User $user
      * @return $this
+     * @throws \Exception
      */
-    public function markPaid()
+    public function markPaid(User $user)
     {
         $this->paid = 1;
         $this->save();
+        $user->recordActivity('paid', $this);
         return $this;
     }
 
@@ -161,14 +178,17 @@ class LineItem extends Model
      * whether the item received was all good.
      *
      * @param $status
+     * @param User $user
      * @return $this
+     * @throws \Exception
      */
-    public function markReceived($status)
+    public function markReceived($status, User $user)
     {
         $allowedStatuses = ['accepted', 'returned'];
         if(! in_array($status, $allowedStatuses)) abort(500, "Invalid line item status");
         $this->status = $status;
         $this->save();
+        $user->recordActivity('received', $this);
         return $this;
     }
 
@@ -202,39 +222,6 @@ class LineItem extends Model
         return $this->status === 'returned';
     }
 
-
-    /**
-     * Record this Line Item as 'created' by a User
-     *
-     * @param User $user
-     * @throws \Exception
-     */
-    public function recordCreatedBy(User $user)
-    {
-        $user->recordActivity('created', $this);
-    }
-
-    /**
-     * Record this Line Item as 'paid' by a User
-     *
-     * @param User $user
-     * @throws \Exception
-     */
-    public function recordPaidBy(User $user)
-    {
-        $user->recordActivity('paid', $this);
-    }
-
-    /**
-     * Record this Line Item as 'received' by a User
-     *
-     * @param User $user
-     * @throws \Exception
-     */
-    public function recordReceivedBy(User $user)
-    {
-        $user->recordActivity('received', $this);
-    }
 
     /**
      * Record this Line Item as 'rejected' by a User

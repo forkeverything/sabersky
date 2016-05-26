@@ -252,6 +252,7 @@ class RuleTest extends TestCase
      */
     public function it_checks_single_item_percentage_over_mean()
     {
+        $user = factory(User::class)->create();
         // Trip if 10% over mean
         $rule = factory(Rule::class)->create([
             'rule_property_id' => 3,
@@ -287,7 +288,7 @@ class RuleTest extends TestCase
         // With no mean (ie. 0) - we're not going to attach the PO
         $this->assertCount(0, PurchaseOrder::find($PO_1->id)->rules);
 
-        $PO_1->markApproved();
+        $PO_1->markApproved($user);
         // Mean = 20: 10% over mean is $22
 
 
@@ -303,7 +304,7 @@ class RuleTest extends TestCase
         $rule->checkSingleItem($PO_2);
         $this->assertCount(0, PurchaseOrder::find($PO_2->id)->rules);
 
-        $PO_2->markApproved();
+        $PO_2->markApproved($user);
         // Mean = 17.5 (10% over = 19.25)
 
         // PO_3 = $19.50 (over)
@@ -319,7 +320,7 @@ class RuleTest extends TestCase
         $rule->checkSingleItem($PO_3);
         $this->assertCount(1, PurchaseOrder::find($PO_3->id)->rules);
 
-        $PO_3->markApproved();
+        $PO_3->markApproved($user);
 
         // Mean = 18 (10% over = 19.8)
 

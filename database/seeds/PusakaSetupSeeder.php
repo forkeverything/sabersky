@@ -61,9 +61,10 @@ class PusakaSetupSeeder extends Seeder
              ->setUpCompany()
              ->createUserMike()
              ->makeProject()
-             ->createVendors()
-             ->makeRules()
-             ->createPurchaseOrders();
+//             ->createVendors()
+//             ->makeRules()
+//             ->createPurchaseOrders()
+        ;
     }
 
     protected function truncateTables()
@@ -134,7 +135,7 @@ class PusakaSetupSeeder extends Seeder
 A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Quae vero auctorem tractata ab fiducia dicuntur. Quam temere in vitiis, legem sancimus haerentia. Unam incolunt Belgae, aliam Aquitani, tertiam. Curabitur est gravida et libero vitae dictum.'
         ]);
 
-        Project::start($request, $this->company, $this->user);
+        Project::start($request, $this->user);
 
         return $this;
     }

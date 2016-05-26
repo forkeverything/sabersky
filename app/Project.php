@@ -90,14 +90,16 @@ class Project extends Model
      * @return static
      * @throws \Exception
      */
-    public static function start(StartProjectRequest $request, Company $company, User $user)
+    public static function start(StartProjectRequest $request, User $user)
     {
+
+        $attributes = array_merge($request->all(), ['company_id' => $user->company_id]);
+
         // Create record
-        $project = static::create($request->all());
+        $project = static::create($attributes);
         // record activity
         $user->recordActivity('started', $project);
         // Save to related models
-        $company->projects()->save($project);
         $user->projects()->save($project);
 
         return $project;

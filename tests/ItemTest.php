@@ -16,6 +16,28 @@ class ItemTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * @test
+     */
+    public function it_adds_a_new_item()
+    {
+        $request = m::mock(\App\Http\Requests\AddItemRequest::class);
+        $request->shouldReceive('input')->with('sku')->once()->andReturn('abcd1234');
+        $request->shouldReceive('input')->with('brand')->once()->andReturn('foo');
+        $request->shouldReceive('input')->with('name')->once()->andReturn('bar');
+        $request->shouldReceive('input')->with('specification')->once()->andReturn('best foobar in the world');
+
+        $user = factory(User::class)->create();
+
+        $this->dontSeeInDatabase('activities', ['name' => 'added_item', 'user_id' => $user->id]);
+        $this->assertEmpty(User::find($user->id)->company->items);
+        
+        Item::add($request, $user);
+
+        $this->assertEquals('abcd1234', User::find($user->id)->company->items->first()->sku);
+        $this->seeInDatabase('activities', ['name' => 'added_item', 'user_id' => $user->id]);
+    }
+
     /** @test */
     public function it_finds_an_existing_item()
     {
@@ -194,7 +216,7 @@ class ItemTest extends TestCase
             ]);
 
         // USD mean
-        $this->assertEquals(16.67, Item::find($item->id)->getMean(840));
+        $this->assertEquals(16.67, round(Item::find($item->id)->getMean(840), 2));
 
         // JPY Mean
         $this->assertEquals(15, Item::find($item->id)->getMean('JPY'));

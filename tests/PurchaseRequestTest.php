@@ -1,6 +1,7 @@
 <?php
 
 use App\PurchaseRequest;
+use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,5 +22,22 @@ class PurchaseRequestTest extends TestCase
         $pr->cancel();
 
         $this->assertEquals('cancelled', $pr->state);
+    }
+
+    /**
+     * @test
+     */
+    public function it_records_PR_created_activity()
+    {
+        $user = factory(User::class)->create();
+
+        $this->dontSeeInDatabase('activities', ['name' => 'created_purchaserequest', 'user_id' => $user->id]);
+
+        factory(PurchaseRequest::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->seeInDatabase('activities', ['name' => 'created_purchaserequest', 'user_id' => $user->id]);
+        
     }
 }

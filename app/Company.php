@@ -257,23 +257,7 @@ class Company extends Model
     {
         return $this->rules;
     }
-
-    /**
-     * Creates a new project for the company. The user
-     * is the logged user who created the project.
-     *
-     * @param StartProjectRequest $request
-     * @param $user
-     * @return $this
-     */
-    public function startProject(StartProjectRequest $request, $user)
-    {
-        $project = $this->projects()->create($request->all());
-        
-        $user->projects()->save($project);  // Add project to user projects
-        return $this;
-    }
-
+    
     /**
      * Retrieves Public Profile for a company.
      * Can be called using id or name.

@@ -269,7 +269,7 @@ class Rule extends Model
      */
     protected function checkSingleItemPercentageOverMean(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
-        if ($lineItem->itemPriceIsOverMeanBy($this->limit)) $this->attachToPO($purchaseOrder);
+        if ($lineItem->priceOverMeanPercentageIsGreaterThan($this->limit)) $this->attachToPO($purchaseOrder);
     }
 
     /**

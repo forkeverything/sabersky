@@ -6,6 +6,7 @@ namespace App\Factories;
 
 use App\Address;
 use App\Http\Requests\SubmitPurchaseOrderRequest;
+use App\LineItem;
 use App\PurchaseOrder;
 use App\User;
 
@@ -171,15 +172,14 @@ class PurchaseOrderFactory
     {
         // Create Line Items
         foreach ($this->request->input('line_items') as $lineItemInfo) {
-            $lineItem = $this->purchaseOrder->lineItems()->create([
+            LineItem::add([
                 'quantity' => $lineItemInfo['order_quantity'],
                 'price' => $lineItemInfo['order_price'],
                 'payable' => array_key_exists('order_payable', $lineItemInfo) ? $lineItemInfo['order_payable'] : null,
                 'delivery' => array_key_exists('order_delivery', $lineItemInfo) ? $lineItemInfo['order_delivery'] : null,
-                'purchase_request_id' => $lineItemInfo['id']
-            ]);
-            // Record activity - creating line item
-            $lineItem->recordCreatedBy($this->user);
+                'purchase_request_id' => $lineItemInfo['id'],
+                'purchase_order_id' => $this->purchaseOrder->id
+            ], $this->user);
         }
 
         return $this;

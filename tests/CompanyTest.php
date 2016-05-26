@@ -28,40 +28,7 @@ class CompanyTest extends TestCase
         $company->createAdmin();
         $this->assertEquals('admin', $company->roles()->first()->position);
     }
-
-    /** @test */
-    public function it_starts_a_project_for_a_company()
-    {
-        $companyID = factory(Company::class)->create()->id;
-
-        $user = factory(User::class)->create([
-            'company_id' => $companyID
-        ]);
-
-        $startRequest = (new StartProjectRequest([
-            'name' => 'foo',
-            'location' => 'bar',
-            'description' => 'baz'
-        ]));
-
-        $this->assertEmpty(Company::find($companyID)->projects->all());
-        $this->assertEmpty(User::find($user->id)->projects->all());
-
-        Company::find($companyID)->startProject($startRequest,  $user);
-
-        $parentModels = [
-            User::find($user->id),
-            Company::find($companyID)
-        ];
-
-        foreach ($parentModels as $parentModel) {
-            $this->assertNotEmpty($parentModel->projects->all());
-            $this->assertEquals('foo', $parentModel->projects->first()->name);
-            $this->assertEquals('bar', $parentModel->projects->first()->location);
-            $this->assertEquals('baz', $parentModel->projects->first()->description);
-        }
-    }
-
+    
     /** @test */
     public function it_adds_a_user_as_an_employee()
     {

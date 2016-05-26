@@ -166,7 +166,7 @@ class PurchaseOrderFactoryTest extends TestCase
         }
 
         static::$request->shouldReceive('input')->with('line_items')->andReturn($lineItems);
-        $factory = new PurchaseOrderFactory(static::$request);
+        $factory = new PurchaseOrderFactory(static::$request, static::$user);
         $factory->purchaseOrder = factory(PurchaseOrder::class)->create();
 
         $this->assertEmpty(PurchaseOrder::find($factory->purchaseOrder->id)->lineItems);

@@ -256,8 +256,10 @@ class PurchaseOrderTest extends TestCase
     /**
      * @test
      */
-    public function it_auto_approves_the_right_purchase_order()
+        public function it_auto_approves_the_right_purchase_order()
     {
+        $user = factory(User::class)->create();
+
         // Some rule
         $rule = factory(Rule::class)->create([
             'rule_property_id' => 1,
@@ -289,7 +291,7 @@ class PurchaseOrderTest extends TestCase
                 $$order->rules->first()->setPurchaseOrderApproved(1);
             }
 
-            $$order->updateStatus();
+            $$order->updateStatus($user);
 
             $this->assertEquals($status, PurchaseOrder::find($$order->id)->status);
         }
@@ -396,8 +398,6 @@ class PurchaseOrderTest extends TestCase
     public function it_finds_out_whether_an_order_has_a_rejected_rule()
     {
 
-
-
         $approvedPO = factory(PurchaseOrder::class)->create();
 
         // No rules - no rejected rule
@@ -419,5 +419,63 @@ class PurchaseOrderTest extends TestCase
         $approvedPO->rules->first()->setPurchaseOrderApproved(1);
         $this->assertFalse($approvedPO->hasRejectedRule());
     }
+
+    /**
+     * @test
+     */
+    public function it_records_PO_created_activity()
+    {
+        $user = factory(User::class)->create();
+
+        $this->dontSeeInDatabase('activities', ['name' => 'created_purchaseorder', 'user_id' => $user->id]);
+
+        factory(PurchaseOrder::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->seeInDatabase('activities', ['name' => 'created_purchaseorder', 'user_id' => $user->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_approves_a_rule_and_po()
+    {
+        $rule = factory(Rule::class)->create();
+        $user = factory(User::class)->create();
+        $rule->roles()->attach($user->role);
+
+        static::$purchaseOrder->rules()->attach($rule);
+
+        $this->assertEquals('pending', PurchaseOrder::find(static::$purchaseOrder->id)->status);
+        $this->dontSeeInDatabase('activities', ['name' => 'approved_purchaseorder', 'user_id' => $user->id]);
+
+        static::$purchaseOrder->handleRule('approve', $rule, $user);
+
+        $this->assertEquals('approved', PurchaseOrder::find(static::$purchaseOrder->id)->status);
+        $this->seeInDatabase('activities', ['name' => 'approved_purchaseorder', 'user_id' => $user->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_rejects_a_rule_and_po()
+    {
+        $rule = factory(Rule::class)->create();
+        $user = factory(User::class)->create();
+        $rule->roles()->attach($user->role);
+
+        static::$purchaseOrder->rules()->attach($rule);
+
+        $this->assertEquals('pending', PurchaseOrder::find(static::$purchaseOrder->id)->status);
+        $this->dontSeeInDatabase('activities', ['name' => 'rejected_purchaseorder', 'user_id' => $user->id]);
+
+        static::$purchaseOrder->handleRule('reject', $rule, $user);
+
+        $this->assertEquals('rejected', PurchaseOrder::find(static::$purchaseOrder->id)->status);
+        $this->seeInDatabase('activities', ['name' => 'rejected_purchaseorder', 'user_id' => $user->id]);
+    }
+
+
 
 }

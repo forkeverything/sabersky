@@ -16,6 +16,7 @@ use App\BankAccount;
 use \App\Company;
 use \App\Item;
 use App\LineItem;
+use App\Note;
 use App\Photo;
 use \App\Project;
 use App\PurchaseOrder;
@@ -193,4 +194,13 @@ $factory->define(Photo::class, function (Faker\Generator $faker) {
         'thumbnail_path' => 'uploads/test/tn_' . $name . '.jpg'
     ];
 });
+
+$factory->define(Note::class, function (Faker\Generator $faker) {
+    return [
+        'content' => $faker->paragraph(2, true),
+        'user_id' => factory(User::class)->create()->id
+    ];
+});
+
+
 

@@ -299,23 +299,33 @@ class PurchaseOrder extends Model
 
     /**
      * Mark this PO as approvied
+     * @param User $user
      * @return $this
+     * @throws \Exception
      */
-    public function markApproved()
+    public function markApproved(User $user)
     {
         $this->status = 'approved';
         $this->save();
+        // record activity approved
+        $user->recordActivity($this->status, $this);
         return $this;
     }
 
     /**
      * Mark PO as rejected
+     * @param User $user
      * @return $this
+     * @throws \Exception
      */
-    public function markRejected()
+    public function markRejected(User $user)
     {
         $this->status = 'rejected';
         $this->save();
+        // record activity - rejected
+        $user->recordActivity($this->status, $this);
+        // reject all line items
+        $this->recordLineItemRejectedActivity($user);
         return $this;
     }
 
@@ -392,23 +402,24 @@ class PurchaseOrder extends Model
     /**
      * Updates the Order's status if necessary
      *
+     * @param User $user
      * @return $this|void
      */
-    public function updateStatus()
+    public function updateStatus(User $user)
     {
         // Can't un-approve a status - a rejected Order can be approved but not vice-versa.
         if ($this->hasStatus('approved')) return;
 
         // If this order has ANY rule rejected - then it is rejected.
         if ($this->hasRejectedRule()) {
-            $this->markRejected()
+            $this->markRejected($user)
                  ->updatePurchaseRequests();
         } else {
             $this->markPending();
         }
 
         // If we don't have any rules or all rules are approved - then we can consider Order approved
-        if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved();
+        if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved($user);
 
         return $this;
     }
@@ -602,15 +613,7 @@ class PurchaseOrder extends Model
         if ($action === 'approve') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(1);
         if ($action === 'reject') $this->rules->where('id', $rule->id)->first()->setPurchaseOrderApproved(0);
 
-        $oldStatus = $this->status;
-
-        $this->updateStatus();
-
-        $newStatus = $this->status;
-
-        if ($newStatus !== $oldStatus) $user->recordActivity($this->status, $this);
-
-        if($newStatus === 'rejected') $this->recordLineItemRejectedActivity($user);
+        $this->updateStatus($user);
 
         return $this->rules->where('id', $rule->id)->first()->pivot->save();
     }
