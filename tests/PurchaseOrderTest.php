@@ -427,13 +427,13 @@ class PurchaseOrderTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->dontSeeInDatabase('activities', ['name' => 'created_purchaseorder', 'user_id' => $user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'created_purchase_order', 'user_id' => $user->id]);
 
         factory(PurchaseOrder::class)->create([
             'user_id' => $user->id
         ]);
 
-        $this->seeInDatabase('activities', ['name' => 'created_purchaseorder', 'user_id' => $user->id]);
+        $this->seeInDatabase('activities', ['name' => 'created_purchase_order', 'user_id' => $user->id]);
     }
 
     /**
@@ -448,12 +448,12 @@ class PurchaseOrderTest extends TestCase
         static::$purchaseOrder->rules()->attach($rule);
 
         $this->assertEquals('pending', PurchaseOrder::find(static::$purchaseOrder->id)->status);
-        $this->dontSeeInDatabase('activities', ['name' => 'approved_purchaseorder', 'user_id' => $user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'approved_purchase_order', 'user_id' => $user->id]);
 
         static::$purchaseOrder->handleRule('approve', $rule, $user);
 
         $this->assertEquals('approved', PurchaseOrder::find(static::$purchaseOrder->id)->status);
-        $this->seeInDatabase('activities', ['name' => 'approved_purchaseorder', 'user_id' => $user->id]);
+        $this->seeInDatabase('activities', ['name' => 'approved_purchase_order', 'user_id' => $user->id]);
     }
 
     /**
@@ -468,12 +468,12 @@ class PurchaseOrderTest extends TestCase
         static::$purchaseOrder->rules()->attach($rule);
 
         $this->assertEquals('pending', PurchaseOrder::find(static::$purchaseOrder->id)->status);
-        $this->dontSeeInDatabase('activities', ['name' => 'rejected_purchaseorder', 'user_id' => $user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'rejected_purchase_order', 'user_id' => $user->id]);
 
         static::$purchaseOrder->handleRule('reject', $rule, $user);
 
         $this->assertEquals('rejected', PurchaseOrder::find(static::$purchaseOrder->id)->status);
-        $this->seeInDatabase('activities', ['name' => 'rejected_purchaseorder', 'user_id' => $user->id]);
+        $this->seeInDatabase('activities', ['name' => 'rejected_purchase_order', 'user_id' => $user->id]);
     }
 
 

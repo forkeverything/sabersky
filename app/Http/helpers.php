@@ -102,3 +102,15 @@ function str_snake_to_camel($str)
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
 }
 
+/**
+ * Takes any 'string' and convert it to snake_case
+ *
+ * UNTESTED
+ * 
+ * @param $string
+ * @return string
+ */
+function str_to_snake($string) {
+    return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $string));
+}
+

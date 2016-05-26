@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LineItemTest extends TestCase
 {
+    
+    use DatabaseTransactions;
 
     protected static $user;
     protected static $lineItem;
@@ -91,12 +93,12 @@ class LineItemTest extends TestCase
     public function it_marks_as_paid()
     {
         $this->assertEquals(0, LineItem::find(static::$lineItem->id)->paid);
-        $this->dontSeeInDatabase('activities', ['name' => 'paid_lineitem', 'user_id' => static::$user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'paid_line_item', 'user_id' => static::$user->id]);
 
         static::$lineItem->markPaid(static::$user);
 
         $this->assertEquals(1, LineItem::find(static::$lineItem->id)->paid);
-        $this->seeInDatabase('activities', ['name' => 'paid_lineitem', 'user_id' => static::$user->id]);
+        $this->seeInDatabase('activities', ['name' => 'paid_line_item', 'user_id' => static::$user->id]);
     }
 
     /**
@@ -115,10 +117,10 @@ class LineItemTest extends TestCase
     public function it_marks_accepted()
     {
         $this->assertEquals('unreceived', LineItem::find(static::$lineItem->id)->status);
-        $this->dontSeeInDatabase('activities', ['name' => 'received_lineitem', 'user_id' => static::$user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'received_line_item', 'user_id' => static::$user->id]);
         static::$lineItem->markReceived('accepted', static::$user);
         $this->assertEquals('accepted', LineItem::find(static::$lineItem->id)->status);
-        $this->seeInDatabase('activities', ['name' => 'received_lineitem', 'user_id' => static::$user->id]);
+        $this->seeInDatabase('activities', ['name' => 'received_line_item', 'user_id' => static::$user->id]);
     }
 
     /**
@@ -127,10 +129,10 @@ class LineItemTest extends TestCase
     public function it_marks_returned()
     {
         $this->assertEquals('unreceived', LineItem::find(static::$lineItem->id)->status);
-        $this->dontSeeInDatabase('activities', ['name' => 'received_lineitem', 'user_id' => static::$user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'received_line_item', 'user_id' => static::$user->id]);
         static::$lineItem->markReceived('returned', static::$user);
         $this->assertEquals('returned', LineItem::find(static::$lineItem->id)->status);
-        $this->seeInDatabase('activities', ['name' => 'received_lineitem', 'user_id' => static::$user->id]);
+        $this->seeInDatabase('activities', ['name' => 'received_line_item', 'user_id' => static::$user->id]);
     }
 
     /**
@@ -141,7 +143,7 @@ class LineItemTest extends TestCase
         $po = factory(PurchaseOrder::class)->create();
 
         $this->assertEmpty(PurchaseOrder::find($po->id)->lineItems);
-        $this->dontSeeInDatabase('activities', ['name' => 'added_lineitem', 'user_id' => static::$user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'added_line_item', 'user_id' => static::$user->id]);
 
         LineItem::add([
             'quantity' => 10,
@@ -154,7 +156,7 @@ class LineItemTest extends TestCase
         $this->assertCount(1, PurchaseOrder::find($po->id)->lineItems);
 
         // recorded event
-        $this->seeInDatabase('activities', ['name' => 'added_lineitem', 'user_id' => static::$user->id]);
+        $this->seeInDatabase('activities', ['name' => 'added_line_item', 'user_id' => static::$user->id]);
     }
 
     /**
@@ -162,8 +164,8 @@ class LineItemTest extends TestCase
      */
     public function it_records_as_rejected()
     {
-        $this->dontSeeInDatabase('activities', ['name' => 'rejected_lineitem', 'user_id' => static::$user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'rejected_line_item', 'user_id' => static::$user->id]);
         static::$lineItem->recordRejectedBy(static::$user);
-        $this->seeInDatabase('activities', ['name' => 'rejected_lineitem', 'user_id' => static::$user->id]);
+        $this->seeInDatabase('activities', ['name' => 'rejected_line_item', 'user_id' => static::$user->id]);
     }
 }

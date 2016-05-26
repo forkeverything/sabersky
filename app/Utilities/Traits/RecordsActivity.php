@@ -12,6 +12,16 @@ trait RecordsActivity
 {
 
     /**
+     * Relationship to see activities for any model that records activities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activities()
+    {
+        return $this->morphMany(Activity::class, 'subject');
+    }
+
+    /**
      * Register our model events
      */
     protected static function bootRecordsActivity()
@@ -71,7 +81,8 @@ trait RecordsActivity
     protected function getActivityName($model, $action)
     {
         // Get the class name of the model
-        $name = strtolower((new ReflectionClass($model))->getShortName());
+        $name = str_to_snake((new ReflectionClass($model))->getShortName());
+
 
         // append our action and return
         return "{$action}_{$name}";

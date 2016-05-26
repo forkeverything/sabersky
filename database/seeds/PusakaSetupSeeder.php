@@ -148,12 +148,12 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         // Create 3 Verified Vendors
         for ($i = 0; $i < 3; $i++) {
             $company = factory(Company::class)->create();
-            factory(Address::class)->create([
-                'owner_id' => $company->id,
-                'owner_type' => 'company'
-            ]);
             $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
             $vendor->verify();
+            factory(Address::class)->create([
+                'owner_id' => $vendor->id,
+                'owner_type' => 'App\Vendor'
+            ]);
             factory(BankAccount::class, 3)->create([
                 'vendor_id' => $vendor->id
             ]);
@@ -162,11 +162,11 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         // Pending Vendors
         for ($i = 0; $i < 2; $i++) {
             $company = factory(Company::class)->create();
-            factory(Address::class)->create([
-                'owner_id' => $company->id,
-                'owner_type' => 'company'
-            ]);
             $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
+            factory(Address::class)->create([
+                'owner_id' => $vendor->id,
+                'owner_type' => 'App\Vendor'
+            ]);
             factory(BankAccount::class, 3)->create([
                 'vendor_id' => $vendor->id
             ]);
@@ -182,7 +182,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
         factory(Address::class, 3)->create([
             'owner_id' => $vendor->id,
-            'owner_type' => 'vendor'
+            'owner_type' => 'App\Vendor'
         ]);
 
         factory(BankAccount::class)->create([
@@ -220,7 +220,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             // Select a random vendor
             $vendor = $this->company->vendors->random();
             // select random address
-            $vendorAddress = $vendor->addresses->count() ? $vendor->addresses->random() : $vendor->linkedCompany->address;
+            $vendorAddress = $vendor->addresses->random();
             // select a random bank account
             $vendorBankAccount = $vendor->bank_accounts->random();
             // Billing address random yes / no

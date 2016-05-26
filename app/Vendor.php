@@ -172,9 +172,39 @@ class Vendor extends Model
             'linked_company_id' => $linkCompany->id
         ]);
 
+        $vendor->copyCompanyAddress($linkCompany);
+
         $user->recordActivity('added', $vendor);
 
         return $vendor;
+    }
+
+    /**
+     * Takes a Company and copies it's address over to this Vendor
+     *
+     * @param \App\Company $company
+     * @return $this
+     */
+    public function copyCompanyAddress(Company $company)
+    {
+        if($companyAddress = $company->address) {
+            $vendorAddress = $companyAddress->replicate();
+            $this->addAddress($vendorAddress);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds an Address model to this Vendor
+     *
+     * @param \App\Address $address
+     * @return $this
+     */
+    public function addAddress(Address $address)
+    {
+        $this->addresses()->save($address);
+        return $this;
     }
 
     /**

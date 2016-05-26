@@ -1,5 +1,6 @@
 <?php
 
+use App\Address;
 use App\BankAccount;
 use App\Company;
 use App\PurchaseOrder;
@@ -12,6 +13,8 @@ use Mockery as m;
 
 class VendorTest extends TestCase
 {
+
+    use DatabaseTransactions;
 
     protected static $user;
 
@@ -126,6 +129,42 @@ class VendorTest extends TestCase
         factory(PurchaseOrder::class)->create(['vendor_id' => static::$vendor->id, 'total' => 1000]);
 
         $this->assertEquals(3000, Vendor::find(static::$vendor->id)->average_p_o);
+    }
+
+    /**
+     * @test
+     */
+    public function it_adds_a_address_to_vendor()
+    {
+        $this->assertEmpty(Vendor::find(static::$vendor->id)->addresses);
+
+        $address = factory(Address::class)->create([
+            'owner_type' => '',
+            'owner_id' => ''
+        ]);
+
+        static::$vendor->addAddress($address);
+
+        $this->assertCount(1, Vendor::find(static::$vendor->id)->addresses);
+    }
+
+    /**
+     * @test
+     */
+    public function it_copies_company_address_to_vendor()
+    {
+        $company = factory(Company::class)->create();
+        $address = factory(Address::class)->create([
+            'address_1' => '17 Foobar Street',
+            'owner_type' => 'App\Company',
+            'owner_id' => $company->id
+        ]);
+
+        $this->assertEmpty(Vendor::find(static::$vendor->id)->addresses);
+
+        static::$vendor->copyCompanyAddress($company);
+
+        $this->assertEquals('17 Foobar Street', Vendor::find(static::$vendor->id)->addresses->first()->address_1);
     }
 
 }

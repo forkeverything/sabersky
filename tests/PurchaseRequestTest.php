@@ -31,13 +31,13 @@ class PurchaseRequestTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->dontSeeInDatabase('activities', ['name' => 'created_purchaserequest', 'user_id' => $user->id]);
+        $this->dontSeeInDatabase('activities', ['name' => 'created_purchase_request', 'user_id' => $user->id]);
 
         factory(PurchaseRequest::class)->create([
             'user_id' => $user->id
         ]);
 
-        $this->seeInDatabase('activities', ['name' => 'created_purchaserequest', 'user_id' => $user->id]);
+        $this->seeInDatabase('activities', ['name' => 'created_purchase_request', 'user_id' => $user->id]);
         
     }
 }

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NoteTest extends TestCase
 {
+    use DatabaseTransactions;
+    
     /**
      * Test for auto-recording Activities using Eloquent Model Events: 'created'
      *
