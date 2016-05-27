@@ -72,9 +72,12 @@
 
             </div>
 
-            <div class="po-notes page-body">
-                <h3>Notes</h3>
-                <notes subject="purchase_order" subject_id="{{ $purchaseOrder->id }}" :user="user"></notes>
+            <div class="page-body">
+                <div class="po-notes">
+                    <h3>Notes</h3>
+                    <notes subject="purchase_order" subject_id="{{ $purchaseOrder->id }}" :user="user"></notes>
+                </div>
+                @include('layouts.partials.activities_log', ['activities' => $purchaseOrder->activities])
             </div>
 
         </div>

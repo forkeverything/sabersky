@@ -114,7 +114,7 @@ class PurchaseOrdersController extends Controller
     public function getSingle(PurchaseOrder $purchaseOrder)
     {
         if (Gate::allows('view', $purchaseOrder)) {
-            $purchaseOrder = $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems', 'lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts');
+            $purchaseOrder->load('vendor', 'vendorAddress', 'vendorBankAccount', 'user', 'lineItems', 'lineItems.purchaseRequest.item', 'rules', 'billingAddress', 'shippingAddress', 'additionalCosts', 'activities');
             $breadcrumbs = [
                 ['<i class="fa fa-shopping-basket"></i> Purchase Orders', '/purchase_orders'],
                 ['#' . $purchaseOrder->number, '#']

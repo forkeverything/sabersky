@@ -118,7 +118,7 @@ class VendorsController extends Controller
                 ['<i class="fa fa-truck"></i> Vendors', '/vendors'],
                 [$vendor->name, '#']
             ];
-            $vendor->load('addresses', 'linkedCompany', 'linkedCompany.address');
+            $vendor->load('addresses', 'linkedCompany', 'linkedCompany.address', 'activities');
             return view('vendors.single', compact('breadcrumbs', 'vendor'));
         };
         return redirect('/vendors');

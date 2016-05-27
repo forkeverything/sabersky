@@ -54,7 +54,7 @@ class PurchaseOrderFactoryTest extends TestCase
         static::$request->shouldReceive('input')->with('billing_address_same_as_company')->andReturn(1);
 
         $companyAddress = factory(\App\Address::class)->create([
-            'owner_type' => 'company',
+            'owner_type' => 'App\Company',
             'owner_id' => static::$user->company_id
         ]);
 

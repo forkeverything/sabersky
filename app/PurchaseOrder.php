@@ -632,5 +632,55 @@ class PurchaseOrder extends Model
         }
     }
 
+    /**
+     * Over-write activities() so we can pull in relevant
+     * Line Item activities too
+     *
+     * @return mixed
+     */
+    public function getActivitiesAttribute()
+    {
+        $activites = $this->getAllActivities();
+        $this->setRelation('activities', $activites);
+        return $this->getRelation('activities');
+    }
+
+    /**
+     * Get all activities - including Line Item activities
+     *
+     * @return mixed
+     */
+    public function getAllActivities()
+    {
+        $PRActivities = $this->purchaseOrderActivities;
+        $LIActivities = $this->lineItemsActivities();
+        return $PRActivities->merge($LIActivities);
+    }
+
+    /**
+     * Renamed relationship to activities to get this PO's activities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function purchaseOrderActivities()
+    {
+        return $this->morphMany(Activity::class, 'subject');
+    }
+
+    /**
+     * Get all the relevent Line Item activities
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function lineItemsActivities()
+    {
+        $activities = [];
+        foreach ($this->lineItems as $lineItem) {
+            if ($added = $lineItem->activities->where('name', 'paid_line_item')->first()) array_push($activities, $added);
+            if ($rejected = $lineItem->activities->where('name', 'received_line_item')->first()) array_push($activities, $rejected);
+        }
+        return collect($activities)->sortBy('created_at');
+    }
+
 
 }

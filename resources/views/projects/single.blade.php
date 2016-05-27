@@ -32,6 +32,7 @@
                     </div>
                     <p class="text-muted" v-else><em>No team members currently working on this Project</em></p>
                 </section>
+                @include('layouts.partials.activities_log', ['activities' => $project->activities])
             </div>
         </div>
     </project-single>

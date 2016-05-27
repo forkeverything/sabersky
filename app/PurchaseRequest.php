@@ -209,8 +209,7 @@ class PurchaseRequest extends Model
         $fulfilledQuantities = 0;
         $lineItems = $this->lineItems;
         foreach ($lineItems as $lineItem) {
-            if ($lineItem->purchaseOrder->hasStatus('rejected')) break;
-            $fulfilledQuantities += $lineItem->quantity;
+            if (! $lineItem->purchaseOrder->hasStatus('rejected')) $fulfilledQuantities += $lineItem->quantity;
         }
         return $fulfilledQuantities;
     }
@@ -225,6 +224,57 @@ class PurchaseRequest extends Model
     public function getInitialQuantityAttribute()
     {
         return $this->quantity + $this->fulfilledQuantity;
+    }
+
+    /**
+     * Over-write activities() so we can pull in relevant
+     * Line Item activities too
+     *
+     * @return mixed
+     */
+    public function getActivitiesAttribute()
+    {
+        $activites = $this->getAllActivities();
+        $this->setRelation('activities', $activites);
+        return $this->getRelation('activities');
+    }
+
+    /**
+     * Get all activities - including Line Item ones so we know when quantities
+     * were fulfilled and by whom.
+     *
+     * @return mixed
+     */
+    public function getAllActivities()
+    {
+        $PRActivities = $this->purchaseRequestActivities;
+        $LIActivities = $this->lineItemsActivities();
+        return $PRActivities->merge($LIActivities);
+    }
+
+    /**
+     * Renamed relationship to activities to get this PR's activities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function purchaseRequestActivities()
+    {
+        return $this->morphMany(Activity::class, 'subject');
+    }
+
+    /**
+     * Get all the relevent Line Item activities
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function lineItemsActivities()
+    {
+        $activities = [];
+        foreach ($this->lineItems as $lineItem) {
+            if($added = $lineItem->activities->where('name', 'added_line_item')->first())array_push($activities,  $added);
+            if($rejected = $lineItem->activities->where('name', 'rejected_line_item')->first())array_push($activities, $rejected);
+        }
+        return collect($activities)->sortBy('created_at');
     }
 
 

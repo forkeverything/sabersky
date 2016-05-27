@@ -196,16 +196,25 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
     protected function createPurchaseRequests()
     {
         // Purchase Requests
-        factory(PurchaseRequest::class, 10)->create([
-            'state' => 'open',
-            'project_id' => 1,
-            'item_id' => factory(Item::class)->create([
+        for ($i = 0; $i < 10; $i++) {
+            $request = new \App\Http\Requests\AddItemRequest([
+                'sku' => str_random(10),
+                'brand' => $this->faker->name,
+                'name' => $this->faker->word,
+                'specification' => $this->faker->paragraph(2),
                 'company_id' => 1
-            ])->id,
-            'user_id' => factory(\App\User::class)->create([
+            ]);
+            $user = factory(\App\User::class)->create([
                 'company_id' => 1
-            ])->id
-        ]);
+            ]);
+            $item = Item::add($request, $user);
+            factory(PurchaseRequest::class)->create([
+                'state' => 'open',
+                'project_id' => 1,
+                'item_id' => $item->id,
+                'user_id' => $user->id
+            ]);
+        }
 
         return $this;
     }

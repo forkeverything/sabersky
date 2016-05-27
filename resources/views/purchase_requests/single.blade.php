@@ -58,9 +58,12 @@
                 <div class="card-history page-body">
                     <h4 class="card-title">Order History / Actions Feed</h4>
                 </div>
-                <div class="card-notes page-body">
-                    <h4 class="card-title">Notes</h4>
-                    <notes subject="purchase_request" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
+                <div class="page-body">
+                    <div class="card-notes">
+                        <h4 class="card-title">Notes</h4>
+                        <notes subject="purchase_request" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
+                    </div>
+                    @include('layouts.partials.activities_log', ['activities' => $purchaseRequest->activities])
                 </div>
             </div>
         </div>

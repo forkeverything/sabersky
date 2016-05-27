@@ -80,6 +80,8 @@
                     <h5>Notes</h5>
                     <notes subject="item" subject_id="{{ $item->id }}" :user="user"></notes>
                 </div>
+
+                @include('layouts.partials.activities_log', ['activities' => $item->activities])
             </div>
 
         </div>

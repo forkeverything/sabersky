@@ -212,7 +212,8 @@ class ItemsController extends Controller
             ['<i class="fa fa-legal"></i> Items', '/items'],
             [$item->brand . ' - ' . $item->name, '#']
         ];
-        if (Gate::allows('edit', $item)) {
+        if (Gate::allows('view', $item)) {
+            $item->load('activities');
             return view('items.single', compact('item', 'breadcrumbs'));
         }
 

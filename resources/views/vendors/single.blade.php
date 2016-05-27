@@ -6,30 +6,31 @@
                 <div class="col-sm-4">
                     <div class="description page-body">
                         @can('edit', $vendor)
-                        <h5 class="loading-header"
-                            :class="{
+                            <h5 class="loading-header"
+                                :class="{
                         'loading': savedDescription === 'saving',
                         'success': savedDescription === 'success',
                         'error': savedDescription === 'error'
                     }"
-                        >Description</h5>
-                        <div class="form-group">
-                            <p v-if="description" @click="startEditDescription" v-show="! editDescription"
-                            >@{{ vendor.description }}</p>
-                            <span v-else class="no-description" @click="startEditDescription" v-show="! editDescription"
-                            >
-                            None -
-                            click to write a description</span>
+                            >Description</h5>
+                            <div class="form-group">
+                                <p v-if="description" @click="startEditDescription" v-show="! editDescription"
+                                >@{{ vendor.description }}</p>
+                                <span v-else class="no-description" @click="startEditDescription" v-show="
+                                ! editDescription"
+                                >
+                                None -
+                                click to write a description</span>
                     <textarea class="autosize description-editor form-control live-editor" v-model="description"
                               v-show="editDescription" @blur="saveDescription">@{{ vendor.description }}</textarea>
-                        </div>
+                            </div>
                         @else
                             <h5>Description</h5>
                             <p v-if="vendor.description">
                                 @{{ vendor.description }}
                             </p>
                             <span v-else class="no-description">None</span>
-                            @endcan
+                        @endcan
                     </div>
                     <div class="vendor-notes page-body">
                         <h5>Notes</h5>
@@ -110,53 +111,55 @@
                     </div>
                 </div>
             </div>
-            <div class="addresses page-body">
-                <h5>Addresses</h5>
-                @can('edit', $vendor)
-                <add-address-modal :owner-id="{{ $vendor->id }}" :owner-type="'vendor'"></add-address-modal>
-                @endcan
-                <div class="addresses-collection" v-if="vendor.addresses.length > 0">
-                    <div class="address-row">
-                        <div class="single-address"
-                             v-for="address in vendor.addresses"
-                             :class="{
+            <div class="page-body">
+                <div class="addresses">
+                    <h5>Addresses</h5>
+                    @can('edit', $vendor)
+                        <add-address-modal :owner-id="{{ $vendor->id }}" :owner-type="'vendor'"></add-address-modal>
+                    @endcan
+                    <div class="addresses-collection" v-if="vendor.addresses.length > 0">
+                        <div class="address-row">
+                            <div class="single-address"
+                                 v-for="address in vendor.addresses"
+                                 :class="{
                                     'primary': address.primary
                                  }"
-                        >
-                            @can('edit', $vendor)
-                            <div class="controls">
-                                <a class="set-primary dotted clickable" v-if="! address.primary" @click="
+                            >
+                                @can('edit', $vendor)
+                                    <div class="controls">
+                                        <a class="set-primary dotted clickable" v-if="! address.primary" @click="
                                 addressSetPrimary(address)">Set primary</a>
-                                <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
-                                <a class="remove clickable" @click="removeAddress(address)"><i
-                                        class="fa fa-close"></i></a>
-                            </div>
-                            @endcan
-                            <div class="contact-person">
-                                <label>Contact Person</label>
+                                        <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
+                                        <a class="remove clickable" @click="removeAddress(address)"><i
+                                                class="fa fa-close"></i></a>
+                                    </div>
+                                @endcan
+                                <div class="contact-person">
+                                    <label>Contact Person</label>
                                     <span class="name">@{{ address.contact_person }}</span>
-                            </div>
-                            <div class="phone">
-                                <label>Phone</label>
-                                <span class="phone">@{{ address.phone }}</span>
-                            </div>
-                            <div class="address">
-                                <label>Address</label>
-                                <span class="address_1 block">@{{ address.address_1 }}</span>
+                                </div>
+                                <div class="phone">
+                                    <label>Phone</label>
+                                    <span class="phone">@{{ address.phone }}</span>
+                                </div>
+                                <div class="address">
+                                    <label>Address</label>
+                                    <span class="address_1 block">@{{ address.address_1 }}</span>
                                     <span class="address_2 block"
                                           v-if="address.address_2">@{{ address.address_2 }}</span>
-                                <span class="city">@{{ address.city }}</span>
-                                <span class="zip">@{{ address.zip }}</span>
-                                <div class="state-country block">
-                                    <span class="state">@{{ address.state }}</span>,
-                                    <span class="country">@{{ address.country }}</span>
+                                    <span class="city">@{{ address.city }}</span>
+                                    <span class="zip">@{{ address.zip }}</span>
+                                    <div class="state-country block">
+                                        <span class="state">@{{ address.state }}</span>,
+                                        <span class="country">@{{ address.country }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <em v-else>No addresses registered to vendor</em>
                 </div>
-
-                <em v-else>No addresses registered to vendor</em>
+                @include('layouts.partials.activities_log', ['activities' => $item->activities])
             </div>
         </div>
     </vendor-single>
