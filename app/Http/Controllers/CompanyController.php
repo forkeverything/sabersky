@@ -25,7 +25,7 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['postRegisterCompany', 'getPublicProfile']
+            'except' => ['postRegisterCompany', 'apiGetPublicProfile']
         ]);
         $this->middleware('api.only', [
             'only' => ['apiGetOwn', 'apiGetCurrency', 'apiGetPublicProfile', 'apiGetSearchCompany']
