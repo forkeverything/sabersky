@@ -150,11 +150,26 @@ class PurchaseRequestController extends Controller
      * @param PurchaseRequest $purchaseRequest
      * @return mixed
      */
-    public function getCancel(PurchaseRequest $purchaseRequest)
+    public function deleteCancel(PurchaseRequest $purchaseRequest)
     {
         $this->authorize('view', $purchaseRequest);
-        $purchaseRequest->cancel();
-        return redirect(route('showAllPurchaseRequests'));
+        if($purchaseRequest->cancel()) return response("Cancelled PR", 200);
+        return response("Could not cancel PR", 500);
+    }
+
+    /**
+     * GET route that re-opens a cancelled PR so that it can be
+     * fulfilled again
+     * 
+     * @param PurchaseRequest $purchaseRequest
+     * @return Response
+     * @throws \Exception
+     */
+    public function getReopen(PurchaseRequest $purchaseRequest)
+    {
+        $this->authorize('view', $purchaseRequest);
+        if($purchaseRequest->reopen()) return response("Reopened PR", 200);
+        return response("Could not reopen PR", 500);
     }
 
 }

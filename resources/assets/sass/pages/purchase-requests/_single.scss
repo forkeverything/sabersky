@@ -1,5 +1,28 @@
 #purchase-request-single {
 
+  .state-control {
+    margin: 0 0 30px;
+
+    .cancel-pr {
+      .btn-show-confirm-cancel {
+        width: 100px;
+      }
+
+      .confirm-cancel {
+        text-align: right;
+        p {
+          margin: 0 0 5px;
+          color: $text-muted;
+        }
+
+        .btn-return {
+          margin: 0 10px 0 0;
+        }
+      }
+    }
+
+  }
+
   .card-subheading {
     color: $text-muted;
     display: block;

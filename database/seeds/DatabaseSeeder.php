@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Seeded Rule Properties & Triggers');
 
         $this->command->info('...Seeding dev data');
-//        $this->call(PusakaSetupSeeder::class);
+        $this->call(PusakaSetupSeeder::class);
         $this->command->info('Seeded Dev: Company, Project, User');
 
         $this->command->info('...done seeding!');

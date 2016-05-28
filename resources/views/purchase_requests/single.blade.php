@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="purchase-request-single">
+        <div class="align-end">
+            <pr-single-cancel :purchase-request="{{ $purchaseRequest }}"></pr-single-cancel>
+        </div>
         <div class="row">
             <div class="col-sm-4">
                 <div class="card-item page-body hidden-xs">

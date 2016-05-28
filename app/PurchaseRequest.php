@@ -7,6 +7,7 @@ use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
 use App\Utilities\Traits\RecordsActivity;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -188,12 +189,27 @@ class PurchaseRequest extends Model
     /**
      * Change PR state to 'cancelled'
      * and persist in DB.
-     *
      * @return $this
+     * @throws Exception
      */
     public function cancel()
     {
+        if(! $this->state === 'open') throw new Exception("Cannot cancel PR unless it's open", 500);
         $this->state = 'cancelled';
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * Re-open a previously cancelled PR
+     * 
+     * @return $this
+     * @throws Exception
+     */
+    public function reopen()
+    {
+        if(! $this->state === 'cancelled') throw new Exception("Cannot reopen PR unless it's cancelled", 500);
+        $this->state = 'open';
         $this->save();
         return $this;
     }

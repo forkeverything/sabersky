@@ -7238,6 +7238,18 @@ label {
         #purchase-requests-make .page-body .request-specifics table tr td label {
           margin: 0; }
 
+#purchase-request-single .state-control {
+  margin: 0 0 30px; }
+  #purchase-request-single .state-control .cancel-pr .btn-show-confirm-cancel {
+    width: 100px; }
+  #purchase-request-single .state-control .cancel-pr .confirm-cancel {
+    text-align: right; }
+    #purchase-request-single .state-control .cancel-pr .confirm-cancel p {
+      margin: 0 0 5px;
+      color: #BCC1C8; }
+    #purchase-request-single .state-control .cancel-pr .confirm-cancel .btn-return {
+      margin: 0 10px 0 0; }
+
 #purchase-request-single .card-subheading {
   color: #BCC1C8;
   display: block;
