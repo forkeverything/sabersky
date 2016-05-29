@@ -95,13 +95,13 @@
         </td>
 
         <!-- State -->
-        <td class="col-state">
-                  <span class="badge"
-                        :class="{
-                'badge-success': purchaseRequest.state === 'open',
-                'badge-disabled': purchaseRequest.state === 'fulfilled',
-                'badge-danger': purchaseRequest.state === 'cancelled'
-            }">@{{ purchaseRequest.state }}</span>
+        <td class="col-state"
+            :class="{
+                'success': purchaseRequest.state === 'open',
+                'disabled': purchaseRequest.state === 'fulfilled',
+                'danger': purchaseRequest.state === 'cancelled'
+            }">
+                  @{{ purchaseRequest.state }}
         </td>
 
     </tr>

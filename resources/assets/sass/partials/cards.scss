@@ -1,0 +1,45 @@
+/*
+Card
+------------------------------------------------------------
+Like panelsIt uses standard-box
+properties but with background and padding.
+*/
+
+.card {
+  margin: 0 0 30px;
+  background: #fff;
+  padding: 15px;
+  @include border-radius($standard-border-radius);
+  @include box-shadow($standard-box-shadow);
+  border: $standard-border;
+
+  .card-title {
+    font-size: 1.5em;
+    font-family: $futura;
+    font-weight: $font-light;
+    line-height: 1.25em;
+    color: $midnight;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+
+  hr {
+    background: #F5F5F5;
+    height: 1px;
+    border: 0;
+    margin: 12px;
+  }
+
+  h3 {
+    font-size: 0.7em;
+    color: $text-muted;
+    line-height: 12px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  p, a, span {
+    font-size: 1em;
+  }
+}

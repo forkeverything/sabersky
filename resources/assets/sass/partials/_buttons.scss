@@ -2,12 +2,13 @@
 // Our parent btn class
 .btn {
   background: transparent;
+  padding: 0.8em 3.2em 0.7em;
 
   &:focus, :active, :hover {
     outline: 0 !important;
     @include box-shadow(none);
   }
-  @include border-radius(0);
+  @include border-radius(2px);
 }
 
 @import "buttons/outline";

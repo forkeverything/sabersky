@@ -1,10 +1,10 @@
 .custom-tabs {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: $standard-box-shadow;
   margin: 0 0 30px;
 
   .nav-tabs {
     border: 0;
-    background-color: $light-grey;
+    background-color: $extra-light-grey;
 
     display: flex;
 

@@ -3,12 +3,13 @@
     <items-all inline-template>
         <div id="items-all" class="container">
 
-            <!-- Add Item -->
-            <section class="top align-end">
-                <add-item-modal></add-item-modal>
-            </section>
+            <div class="title-with-buttons">
+                <h1>Items</h1>
+                <div class="buttons">
+                    <add-item-modal></add-item-modal>
+                </div>
+            </div>
 
-            <div class="page-body">
 
                 <!-- Control -->
                 <div class="table-controls">
@@ -40,10 +41,10 @@
                 <!-- Empty Stage -->
                 <div class="empty-stage" v-else>
                     <i class="fa  fa-legal"></i>
-                    <h3>No Items Found</h3>
+                    <h4>No Items Found</h4>
                     <p>There doesn't seem to be any items that match your criteria. Try <a class="dotted clickable" @click="removeAllFilters">removing</a> filters or <a class="dotted clickable" @click="clearSearch">clear</a> the search to see more Items.</p>
                 </div>
-            </div>
+
         </div>
     </items-all>
 @endsection

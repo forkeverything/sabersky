@@ -2,13 +2,19 @@
 @section('content')
     <purchase-requests-all inline-template>
         <div class="container" id="purchase-requests-all">
-            @can('pr_make')
-            <div class="top align-end">
-                <a href="{{ route('makePurchaseRequest') }}" class="link-make-pr">
-                    <button class="btn btn-solid-green" id="button-make-purchase-request">Make Purchase Request</button>
-                </a>
+
+
+            <div class="title-with-buttons">
+                <h1>Purchase Requests</h1>
+                @can('pr_make')
+                    <div class="buttons">
+                        <a href="{{ route('makePurchaseRequest') }}" class="link-make-pr">
+                            <button class="btn btn-solid-green" id="button-make-purchase-request">Make Request</button>
+                        </a>
+                    </div>
+                @endcan
             </div>
-            @endcan
+
 
             <div class="custom-tabs">
 
@@ -56,9 +62,9 @@
                     <div class="no-purchase-requests empty-stage" v-else>
                         <i class="fa fa-shopping-basket"></i>
                         <h4>Could not find any Purchase Requests</h4>
-                        <p>Try changing filters, <a class="dotted clickable" @click="removeAllFilters">removing all</a>
-                            filters or
-                            <a @click="changeState('all')" class="dotted clickable">view all</a> requests to see more.
+                        <p>Try changing filters, <a @click="removeAllFilters">removing all</a>
+                            filters, <a @click="clearSearch">clear</a> the search or
+                            <a @click="changeState('all')">view all</a> requests to see more.
                         </p>
                     </div>
                 </div>

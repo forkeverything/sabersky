@@ -29,10 +29,14 @@ trait HasNotes
      */
     public function addNote($content, User $user)
     {
-        return $this->notes()->create([
+         $note = $this->notes()->create([
             'content' => $content,
             'user_id' => $user->id
         ]);
+
+        $note->load('poster');
+
+        return $note;
     }
     
 }

@@ -53,24 +53,25 @@ Vue.component('item-single', {
     data: function () {
         return {
             ajaxReady: true,
-            photos: [],
+
             fileErrors: []
         };
     },
-    props: ['itemId'],
-    computed: {},
+    props: ['item'],
+    computed: {
+    },
     methods: {
         deletePhoto: function(photo) {
             var self = this;
             if(!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
                 method: 'DELETE',
                 success: function(data) {
                    // success
                     console.log(data);
-                   self.photos = _.reject(self.photos, photo);
+                   self.item.photos = _.reject(self.item.photos, photo);
                    self.ajaxReady = true;
                 },
                 error: function(response) {
@@ -90,11 +91,11 @@ Vue.component('item-single', {
 
         // Fetch item photos
         $.ajax({
-            url: '/api/items/' + self.itemId,
+            url: '/api/items/' + self.item.id,
             method: 'GET',
             success: function(data) {
                // success
-                self.photos = data.photos
+                self.item.photos = data.photos
             },
             error: function(response) {
                 console.log(response);
@@ -130,7 +131,7 @@ Vue.component('item-single', {
                 this.on("success", function (files, response) {
                     // Upload was successful, receive response
                     // of Photo Model back from the server.
-                    self.photos.push(response);
+                    self.item.photos.push(response);
                 });
                 this.on("error", function (file, err) {
                     if(typeof err === 'object') {
@@ -327,6 +328,256 @@ Vue.component('project-single', {
         self.ajaxReady = false;
     }
 });
+Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
+    name: 'allPurchaseRequests',
+    el: function () {
+        return '#purchase-requests-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/purchase_requests',
+            finishLoading: false,
+            hasFilters: true,
+            filterOptions: [
+                {
+                    value: 'number',
+                    label: '# Number'
+                },
+                {
+                    value: 'project_id',
+                    label: 'Project'
+                },
+                {
+                    value: 'quantity',
+                    label: 'Quantity'
+                },
+                {
+                    value: 'item_sku',
+                    label: 'Item - SKU'
+                },
+                {
+                    value: 'item_brand',
+                    label: 'Item - Brand'
+                },
+                {
+                    value: 'item_name',
+                    label: 'Item - Name'
+                },
+                {
+                    value: 'due',
+                    label: 'Due Date'
+                },
+                {
+                    value: 'requested',
+                    label: 'Requested Date'
+                },
+                {
+                    value: 'user_id',
+                    label: 'Requester'
+                }
+            ],
+            states: ['open', 'fulfilled', 'cancelled', 'all'],
+            selectedRequests: [],
+            showBulkActionsMenu: false,
+        };
+    },
+    computed: {
+        purchaseRequests: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        allPurchaseRequestsChecked: function () {
+            var purchaseRequestIDs = _.map(_.filter(this.purchaseRequests, function(request) {
+                return request.state === 'open';
+            }), function (request) {
+                return request.id;
+            });
+
+            var selectedRequestIDs = _.map(this.selectedRequests, function (request) {
+                return request.id
+            });
+            return _.intersection(selectedRequestIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
+        }
+    },
+    methods: {
+        changeState: function (state) {
+            this.makeRequest(updateQueryString({
+                state: state,
+                page: 1
+            }));
+        },
+        toggleUrgentOnly: function () {
+            var urgent = this.params.urgent ? 0 : 1;
+            this.makeRequest(updateQueryString({
+                state: this.params.state, // use same state
+                page: 1, // Reset to page 1
+                urgent: urgent
+            }));
+        },
+        selectPR: function (purchaseRequest) {
+            this.alreadySelectedPR(purchaseRequest) ? this.selectedRequests = _.reject(this.selectedRequests, purchaseRequest) : this.selectedRequests.push(purchaseRequest);
+        },
+        alreadySelectedPR: function (purchaseRequest) {
+            return _.find(this.selectedRequests, function (pr) {
+                return pr.id === purchaseRequest.id;
+            });
+        },
+        selectAll: function() {
+            var self = this;
+            if (self.allPurchaseRequestsChecked) {
+                _.forEach(self.purchaseRequests, function (request) {
+                    self.selectedRequests = _.reject(self.selectedRequests, request);
+                });
+            } else {
+                _.forEach(self.purchaseRequests, function (request) {
+                    if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
+                });
+            }
+        },
+        createPurchaseOrder: function() {
+            var url = '/purchase_orders/submit?request=';
+            _.forEach(this.selectedRequests, function (request) {
+                url += request.id + ',';
+            });
+            location.href = url.substring(0, url.length - 1);
+        }
+    },
+    ready: function () {
+    }
+}));
+Vue.component('purchase-requests-make', {
+    name: 'makePurchaseRequest',
+    el: function () {
+        return '#purchase-requests-add';
+    },
+    data: function () {
+        return {
+            pageReady: false,
+            ajaxReady: true,
+            projectID: '',
+            itemID: '',
+            quantity: '',
+            due: '',
+            urgent: ''
+        };
+    },
+    methods: {
+        submitMakePRForm: function () {
+            var self = this;
+
+
+            // Send Req. via Ajax
+            vueClearValidationErrors(self);
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/purchase_requests/make',
+                method: 'POST',
+                data: {
+                    'project_id': self.projectID,
+                    'item_id': self.itemID,
+                    'quantity': self.quantity,
+                    'due': self.due,
+                    'urgent': (self.urgent) ? 1 : 0
+                },
+                success: function (data) {
+                    // success
+                    console.log(data);
+                    console.log('success!');
+                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
+                    window.location.href = "/purchase_requests";
+                },
+                error: function (response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    computed: {
+
+    },
+    ready: function () {
+        var self = this;
+
+        $('#pr-item-selection').selectize({
+            valueField: 'id',
+            searchField: ['sku', 'brand', 'name'],
+            create: false,
+            placeholder: 'Search by SKU, Brand or Name',
+            render: {
+                option: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+
+                    return '<div class="item-single-option">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
+                        '       </div>' +
+                        '</div>';
+                },
+                item: function (item, escape) {
+
+                    var sku = (item.sku) ? escape(item.sku) : '';
+                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
+                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
+                    var imageGallery =  '';
+                    if(item.photos.length > 0) {
+                        imageGallery += '<ul class="item-images list-unstyled">';
+                        for(var i = 0 ; i < item.photos.length; i++) {
+                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
+                        }
+                        imageGallery += '</ul>';
+                    }
+
+                    return '<div class="item-selected">' +
+                        '       <div class="item-thumbnail">' +
+                                    image +
+                        '       </div>' +
+                        '       <div class="details">' +
+                        '           <span class="item-sku">' + sku + '</span>' +
+                        '           <span class="item-brand">' + brand + '</span>' +
+                        '           <span class="item-name">' + escape(item.name) + '</span>' +
+                        '           <span class="item-specification">' + escape(item.specification) + '</span>' +
+                        '       </div>' +
+                                imageGallery +
+                        '</div>'
+                }
+            },
+            load: function (query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/api/items/search/' + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        callback(res);
+                    }
+                });
+            },
+            onChange: function (value) {
+                self.itemID = value;
+            }
+    });
+
+        self.$nextTick(function () {
+            self.pageReady = true;
+        });
+    }
+});
+
+
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
     el: function () {
@@ -647,256 +898,6 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
-Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
-    name: 'allPurchaseRequests',
-    el: function () {
-        return '#purchase-requests-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/purchase_requests',
-            finishLoading: false,
-            hasFilters: true,
-            filterOptions: [
-                {
-                    value: 'number',
-                    label: '# Number'
-                },
-                {
-                    value: 'project_id',
-                    label: 'Project'
-                },
-                {
-                    value: 'quantity',
-                    label: 'Quantity'
-                },
-                {
-                    value: 'item_sku',
-                    label: 'Item - SKU'
-                },
-                {
-                    value: 'item_brand',
-                    label: 'Item - Brand'
-                },
-                {
-                    value: 'item_name',
-                    label: 'Item - Name'
-                },
-                {
-                    value: 'due',
-                    label: 'Due Date'
-                },
-                {
-                    value: 'requested',
-                    label: 'Requested Date'
-                },
-                {
-                    value: 'user_id',
-                    label: 'Requester'
-                }
-            ],
-            states: ['open', 'fulfilled', 'cancelled', 'all'],
-            selectedRequests: [],
-            showBulkActionsMenu: false,
-        };
-    },
-    computed: {
-        purchaseRequests: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        allPurchaseRequestsChecked: function () {
-            var purchaseRequestIDs = _.map(_.filter(this.purchaseRequests, function(request) {
-                return request.state === 'open';
-            }), function (request) {
-                return request.id;
-            });
-
-            var selectedRequestIDs = _.map(this.selectedRequests, function (request) {
-                return request.id
-            });
-            return _.intersection(selectedRequestIDs, purchaseRequestIDs).length === purchaseRequestIDs.length;
-        }
-    },
-    methods: {
-        changeState: function (state) {
-            this.makeRequest(updateQueryString({
-                state: state,
-                page: 1
-            }));
-        },
-        toggleUrgentOnly: function () {
-            var urgent = this.params.urgent ? 0 : 1;
-            this.makeRequest(updateQueryString({
-                state: this.params.state, // use same state
-                page: 1, // Reset to page 1
-                urgent: urgent
-            }));
-        },
-        selectPR: function (purchaseRequest) {
-            this.alreadySelectedPR(purchaseRequest) ? this.selectedRequests = _.reject(this.selectedRequests, purchaseRequest) : this.selectedRequests.push(purchaseRequest);
-        },
-        alreadySelectedPR: function (purchaseRequest) {
-            return _.find(this.selectedRequests, function (pr) {
-                return pr.id === purchaseRequest.id;
-            });
-        },
-        selectAll: function() {
-            var self = this;
-            if (self.allPurchaseRequestsChecked) {
-                _.forEach(self.purchaseRequests, function (request) {
-                    self.selectedRequests = _.reject(self.selectedRequests, request);
-                });
-            } else {
-                _.forEach(self.purchaseRequests, function (request) {
-                    if (!self.alreadySelectedPR(request) && request.state === 'open') self.selectedRequests.push(request);
-                });
-            }
-        },
-        createPurchaseOrder: function() {
-            var url = '/purchase_orders/submit?request=';
-            _.forEach(this.selectedRequests, function (request) {
-                url += request.id + ',';
-            });
-            location.href = url.substring(0, url.length - 1);
-        }
-    },
-    ready: function () {
-    }
-}));
-Vue.component('purchase-requests-make', {
-    name: 'makePurchaseRequest',
-    el: function () {
-        return '#purchase-requests-add';
-    },
-    data: function () {
-        return {
-            pageReady: false,
-            ajaxReady: true,
-            projectID: '',
-            itemID: '',
-            quantity: '',
-            due: '',
-            urgent: ''
-        };
-    },
-    methods: {
-        submitMakePRForm: function () {
-            var self = this;
-
-
-            // Send Req. via Ajax
-            vueClearValidationErrors(self);
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/purchase_requests/make',
-                method: 'POST',
-                data: {
-                    'project_id': self.projectID,
-                    'item_id': self.itemID,
-                    'quantity': self.quantity,
-                    'due': self.due,
-                    'urgent': (self.urgent) ? 1 : 0
-                },
-                success: function (data) {
-                    // success
-                    console.log(data);
-                    console.log('success!');
-                    flashNotifyNextRequest('success', 'Made a new Purchase Request');
-                    window.location.href = "/purchase_requests";
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    computed: {
-
-    },
-    ready: function () {
-        var self = this;
-
-        $('#pr-item-selection').selectize({
-            valueField: 'id',
-            searchField: ['sku', 'brand', 'name'],
-            create: false,
-            placeholder: 'Search by SKU, Brand or Name',
-            render: {
-                option: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-
-                    return '<div class="item-single-option">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="item-sku">' + sku + '</span>' +
-                        '           <span class="item-brand">' + brand + '</span>' +
-                        '           <span class="item-name">' + escape(item.name) + '</span>' +
-                        '       </div>' +
-                        '</div>';
-                },
-                item: function (item, escape) {
-
-                    var sku = (item.sku) ? escape(item.sku) : '';
-                    var brand = (item.brand) ? escape(item.brand) + ' - ' : '';
-                    var image = (item.photos[0]) ? ('<img src="' + escape(item.photos[0].thumbnail_path) + '">') : '<i class="fa fa-image"></i>';
-                    var imageGallery =  '';
-                    if(item.photos.length > 0) {
-                        imageGallery += '<ul class="item-images list-unstyled">';
-                        for(var i = 0 ; i < item.photos.length; i++) {
-                            imageGallery += '<li class="item-select-image"><a class="fancybox" rel="group" href="' + escape(item.photos[i].path) + '"><img src="' + escape(item.photos[i].thumbnail_path) + '" alt="" /></a></li>'
-                        }
-                        imageGallery += '</ul>';
-                    }
-
-                    return '<div class="item-selected">' +
-                        '       <div class="item-thumbnail">' +
-                                    image +
-                        '       </div>' +
-                        '       <div class="details">' +
-                        '           <span class="item-sku">' + sku + '</span>' +
-                        '           <span class="item-brand">' + brand + '</span>' +
-                        '           <span class="item-name">' + escape(item.name) + '</span>' +
-                        '           <span class="item-specification">' + escape(item.specification) + '</span>' +
-                        '       </div>' +
-                                imageGallery +
-                        '</div>'
-                }
-            },
-            load: function (query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/api/items/search/' + encodeURIComponent(query),
-                    type: 'GET',
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        console.log(res);
-                        callback(res);
-                    }
-                });
-            },
-            onChange: function (value) {
-                self.itemID = value;
-            }
-    });
-
-        self.$nextTick(function () {
-            self.pageReady = true;
-        });
-    }
-});
-
-
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -1023,7 +1024,7 @@ Vue.component('team-single-user', {
                 title: 'Confirm Permanently Delete ' + user.name,
                 body: 'Deleting a User is immediate and permanent. All data regarding the User will automatically be removed. This action is irreversible. Any pending actions may become incompletable.',
                 buttonText: 'Delete ' + user.name + ' and all corresponding data',
-                buttonClass: 'btn-danger',
+                buttonClass: 'btn-solid-red',
                 callbackEventName: 'delete-user'
             });
         }
@@ -1313,6 +1314,128 @@ Vue.component('vendor-single', {
         var self = this;
     }
 });
+Vue.component('pr-single-cancel', {
+    name: 'cancelPR',
+    template: '<div class="state-control">' +
+    '<div class="cancel-pr" v-if="purchaseRequest.state === ' + "'open'" + '">' +
+    '<button type="button" class="btn btn-outline-red btn-show-confirm-cancel" @click="toggleConfirm" v-show="! showConfirm">Cancel</button>' +
+    '<div class="confirm-cancel" v-show="showConfirm">' +
+    '<p>Cancelling this request will only apply to outstanding quantities only. Fulfilled amounts cannot be cancelled.</p>' +
+    '<button type="button" class="btn btn-outline-grey btn-return" @click="toggleConfirm">Return</button>' +
+    '<button type="button" class="btn btn-solid-red btn-cancel" @click="sendRequest(' + "'cancel'" + ')">Yes, cancel with {{ purchaseRequest.quantity }} quantities outstanding</button>' +
+    '</div>' +
+    '</div>' +
+    '<div class="uncancel-pr"  v-if="purchaseRequest.state === ' + "'cancelled'" + '">' +
+    '<button type="button" class="btn btn-solid-blue" @click="sendRequest(' + "'reopen'" + ')">Reopen Request</button>' +
+    '</div>'+
+    '</div>',
+    data: function () {
+        return {
+            ajaxReady: true,
+            showConfirm: false
+        };
+    },
+    props: ['purchase-request'],
+    computed: {},
+    methods: {
+        toggleConfirm: function() {
+            this.showConfirm = !this.showConfirm;
+        },
+        sendRequest: function(action) {
+
+            var method = 'DELETE';
+            var url = '/purchase_requests/' + this.purchaseRequest.id;
+
+            if(action === 'reopen') {
+                method = 'GET';
+                url += '/reopen';
+            }
+
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: url,
+                method: method,
+                success: function(data) {
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+
+    }
+});
+Vue.component('report-spendings-employees', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-employees'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/employees/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Employee Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-items', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-items'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/items/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Item Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-projects', spendingsReport.extend({
+    name: 'ReportSpendingsForProjects',
+    el: function() {
+        return '#report-spendings-projects'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/projects/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Project Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-vendors', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-vendors'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Vendor Spendings for ' + this.currency.code;
+        }
+    }
+}));
 Vue.component('po-billing-address', {
     name: 'purchaseOrderSubmitBillingAddress',
     data: function () {
@@ -1919,128 +2042,6 @@ Vue.component('po-submit-summary', {
     ready: function () {
     }
 });
-Vue.component('pr-single-cancel', {
-    name: 'cancelPR',
-    template: '<div class="state-control">' +
-    '<div class="cancel-pr" v-if="purchaseRequest.state === ' + "'open'" + '">' +
-    '<button type="button" class="btn btn-outline-red btn-show-confirm-cancel" @click="toggleConfirm" v-show="! showConfirm">Cancel</button>' +
-    '<div class="confirm-cancel" v-show="showConfirm">' +
-    '<p>Cancelling this request will only apply to outstanding quantities only. Fulfilled amounts cannot be cancelled.</p>' +
-    '<button type="button" class="btn btn-outline-grey btn-return" @click="toggleConfirm">Return</button>' +
-    '<button type="button" class="btn btn-solid-red btn-cancel" @click="sendRequest(' + "'cancel'" + ')">Yes, cancel with {{ purchaseRequest.quantity }} quantities outstanding</button>' +
-    '</div>' +
-    '</div>' +
-    '<div class="uncancel-pr"  v-if="purchaseRequest.state === ' + "'cancelled'" + '">' +
-    '<button type="button" class="btn btn-solid-blue" @click="sendRequest(' + "'reopen'" + ')">Reopen Request</button>' +
-    '</div>'+
-    '</div>',
-    data: function () {
-        return {
-            ajaxReady: true,
-            showConfirm: false
-        };
-    },
-    props: ['purchase-request'],
-    computed: {},
-    methods: {
-        toggleConfirm: function() {
-            this.showConfirm = !this.showConfirm;
-        },
-        sendRequest: function(action) {
-
-            var method = 'DELETE';
-            var url = '/purchase_requests/' + this.purchaseRequest.id;
-
-            if(action === 'reopen') {
-                method = 'GET';
-                url += '/reopen';
-            }
-
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: url,
-                method: method,
-                success: function(data) {
-                    location.reload();
-                },
-                error: function(response) {
-                    console.log(response);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-
-    }
-});
-Vue.component('report-spendings-employees', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-employees'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/employees/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Employee Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-items', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-items'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/items/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Item Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-projects', spendingsReport.extend({
-    name: 'ReportSpendingsForProjects',
-    el: function() {
-        return '#report-spendings-projects'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/projects/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Project Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-vendors', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-vendors'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Vendor Spendings for ' + this.currency.code;
-        }
-    }
-}));
 Vue.component('settings-company', {
     name: 'settingsCompany',
     template: '',
@@ -2600,15 +2601,15 @@ Vue.component('settings-rules', {
 Vue.component('add-bank-account-modal', {
     name: 'add-bank-account-modal',
     template: '<button type="button"' +
-    '               class="btn btn-add-modal btn-outline-blue"' +
+    '               class="btn btn-add-modal btn-outline-blue btn-add-bank-account"' +
     '               @click="showModal"' +
     '          >' +
     '           New Account' +
     '</button>' +
-    '          <div class="modal-bank-account-add modal-form" v-show="visible" @click="hideModal">' +
-    '               <form class="form-add-bank-account main-form" @click.stop="" @submit.prevent="addBankAccount">' +
+    '          <div class="modal-bank-account-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
+    '               <form class="form-add-bank-account main-form modal-body" @click.stop="" @submit.prevent="addBankAccount">' +
     '                   <form-errors></form-errors>' +
-    '                   <h4>Add New Bank Account</h4>'+
+    '                   <h2>Add Bank Account</h2>'+
     '                   <div class="account_info">'+
     '                       <label>Account Information</label>'+
     '                       <div class="row">'+
@@ -2699,7 +2700,7 @@ Vue.component('add-bank-account-modal', {
     '               </div>'+
     '           </div>'+
     '           <div class="align-end">'+
-    '               <button type="submit" class="btn btn-solid-blue"><i class="fa fa-plus"></i> Bank Account</button>'+
+    '               <button type="submit" class="btn btn-solid-blue">Save</button>'+
     '           </div>'+
     '       </form>' +
     ' </div>',

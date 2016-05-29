@@ -1,8 +1,5 @@
 .activities-log {
-
-  h5 {
-    margin: 0 0 10px;
-  }
+  padding: 16px;
 
   .list-activities {
     border: 1px solid $grey;
@@ -16,22 +13,16 @@
       }
 
       .header {
-        color: $text-muted;
+        color: $midnight-light;
         display: flex;
         justify-content: space-between;
       }
 
       .body {
-        color: $midnight-mid;
+        color: $faded-midnight;
 
         a {
-          color: $midnight-mid;
-          border-bottom: 1px dotted $midnight-mid;
-
-          &:hover {
-            color: $blue;
-            border-bottom: 1px solid $blue;
-          }
+          font-size: 1em;
         }
       }
     }

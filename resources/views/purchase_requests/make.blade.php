@@ -2,32 +2,33 @@
 @section('content')
     <purchase-requests-make inline-template>
         <div class="container" id="purchase-requests-make" v-show="pageReady">
+            <h1>
+                Make Purchase Request
+            </h1>
             <form-errors></form-errors>
             <form id="form-make-purchase-request"
-                @submit.prevent="submitMakePRForm"
+                  @submit.prevent="submitMakePRForm"
             >
-            <div class="page-body">
-                {{ csrf_field() }}
-                <div class="project-selection">
-                    <h5>Project</h5>
-                    <select v-selectize="projectID" class="form-group" name="project_id">
+                <div class="project-selection part">
+                    <h4>Project</h4>
+                    <select v-selectize="projectID" name="project_id">
                         <option></option>
                         @foreach(Auth::user()->projects as $project)
                             <option value="{{ $project->id }}" class="capitalize">{{ $project->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                <h5>Item</h5>
-                <div class="item-selection">
+                <div class="item-selection part">
+                    <h4>Item</h4>
                     <add-item-modal :button-type="'blue'"></add-item-modal>
                     <select id="pr-item-selection" class="select-item">
                         <option></option>
                     </select>
                 </div>
 
-                <h5>
+                <h4>
                     Requirements
-                </h5>
+                </h4>
                 <div class="table-responsive request-specifics">
                     <!--  Table -->
                     <table class="table table-bordered">
@@ -46,7 +47,8 @@
                         <tr>
                             <th>Date Needed By</th>
                             <td>
-                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)" v-model="due">
+                                <input type="text" name="due" class="datepicker" placeholder="Pick a date (dd/mm/yyyy)"
+                                       v-model="due">
                             </td>
                         </tr>
                         <tr>
@@ -56,22 +58,22 @@
                             <td>
                                 <label>
                                     <input type="checkbox"
-                                              name="urgent"
-                                              value="1"
-                                              id="checkbox-urgent"
-                                              v-model="urgent"
+                                           name="urgent"
+                                           value="1"
+                                           id="checkbox-urgent"
+                                           v-model="urgent"
                                     >
-                                    Urgent
+                                    <i class="fa fa-warning badge-urgent"></i> Urgent
                                 </label>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <section class="bottom align-end">
-                <button type="button" class="btn btn-solid-green" @click="submitMakePRForm">Make Request</button>
-            </section>
+
+                <div class="bottom align-end">
+                    <button type="button" class="btn btn-solid-green" @click="submitMakePRForm">Make Request</button>
+                </div>
             </form>
         </div>
     </purchase-requests-make>

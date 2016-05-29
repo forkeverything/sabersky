@@ -15,6 +15,8 @@
      -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
     <!-- Fonts -->
+    <script src="https://use.typekit.net/qkf3ndw.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
     {{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
 </head>
 
@@ -32,7 +34,7 @@
              }"
             @click="hideOverlays"
         >
-        @include('layouts.partials.nav')
+{{--        @include('layouts.partials.nav')--}}
         @yield('content')
         </div>
     @else

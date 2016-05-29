@@ -1,5 +1,5 @@
-<div class="activities-log">
-    <h5>Activity Log</h5>
+<div class="activities-log standard-box">
+    <h4>Activity Log</h4>
     @if(count($activities) > 0)
     <ul class="list-activities list-unstyled">
         @foreach($activities as $activity)
@@ -15,6 +15,8 @@
         @endforeach
     </ul>
         @else
-    <em>no activities record found</em>
+    <em>
+        None
+    </em>
     @endif
 </div>

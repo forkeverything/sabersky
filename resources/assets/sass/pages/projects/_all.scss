@@ -1,27 +1,20 @@
 #projects-all {
-  .top {
-    display: flex;
-    margin: 0 0 30px 0;
-    justify-content: flex-end;
-    text-align: right;
-
-    .link-new-project {
-      display: inline-block;
-    }
-  }
-
-  .page-body {
-    padding: 0;
 
     .project-list {
+
       .project-single {
-        border-bottom: 1px solid #c7c7c7;
         padding: 15px 10px;
         margin: 0;
         display: flex;
 
         &:last-child {
           border-bottom: none;
+        }
+
+        .project-single-link {
+          h2 {
+            color: inherit;
+          }
         }
 
         .left {
@@ -38,7 +31,7 @@
 
             .project-placeholder {
               font-size: 5em;
-              color: $body-background;
+              color: $faded-midnight;
             }
           }
         }
@@ -58,8 +51,6 @@
               display: inline-block;
 
               .project-name {
-                font-size: 1em;
-                text-transform: capitalize;
                 margin: 0;
               }
 
@@ -179,22 +170,25 @@
           }
 
           .project-details {
-            font-size: 0.8em;
 
             tr {
 
               th {
-                color: $text-muted;
-                font-weight: normal;
-                padding: 0 10px 0 0;
+                padding: 5px 10px 5px 0;
+                text-transform: uppercase;
+                color: $faded-midnight;
+                font-size: 0.8em;
+                font-weight: 800;
+                letter-spacing: 1px;
+                line-height: 1.1em;
               }
+
               td {
-                padding: 0 0 0 10px;
+                padding: 5px 0 5px 10px;
               }
             }
           }
         }
       }
     }
-  }
 }

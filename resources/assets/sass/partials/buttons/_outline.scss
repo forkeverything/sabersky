@@ -1,15 +1,8 @@
 .btn-outline {
   background: transparent;
-  height: 3em;
-  padding: 0.5em 1em;
   display: inline-block;
 
   @include transition(all 0.15s ease-out);
-
-  &:hover {
-    border-color: transparent;
-    outline: 0;
-  }
 }
 
 .btn-outline-yellow,
@@ -22,7 +15,6 @@
     border-color: $dark-grey;
     &:hover, &:active, &:focus {
       color: $dark-grey;
-      @include box-shadow(none !important);
       border-color: $dark-grey;
     }
   }
@@ -33,13 +25,9 @@
   color: $dark-green;
   border: 1px solid $dark-green;
 
-  &:hover {
-    color: $green;
-    fill: $green;
-    @include box-shadow(0 0 0 3px $green !important);
-  }
-  &:focus {
+  &:hover, &:focus, &:active {
     color: $dark-green;
+    background: $extra-light-green;
   }
 }
 
@@ -48,14 +36,9 @@
   color: $dark-yellow;
   border: 1px solid $dark-yellow;
 
-  &:hover {
-    color: $yellow;
-    @include box-shadow(0 0 0 3px $yellow !important);
-    fill: $yellow;
-  }
+  &:hover, &:focus, &:active {
+    color: $extra-light-yellow;
 
-  &:focus {
-    color: $dark-yellow;
   }
 }
 
@@ -64,14 +47,9 @@
   color: $dark-red;
   border: 1px solid $dark-red;
 
-  &:hover {
-    color: $red;
-    @include box-shadow(0 0 0 3px $red !important);
-    fill: $red;
-  }
-
-  &:focus {
+  &:hover, &:focus, &:active {
     color: $dark-red;
+    background: $extra-light-red;
   }
 }
 
@@ -80,15 +58,9 @@
   color: $dark-blue;
   border: 1px solid $dark-blue;
 
-  &:hover {
+  &:hover, &:focus, &:active {
     color: $blue;
-    border-color: transparent;
-    @include box-shadow(0 0 0 3px $blue !important);
-    fill: $blue;
-  }
-
-  &:focus {
-    color: $dark-blue;
+    background: $extra-light-blue;
   }
 }
 
@@ -97,7 +69,7 @@
   color: $dark-grey;
   border: 1px solid $dark-grey;
 
-  &:hover, &:focus {
-    border: 1px solid $dark-grey;
+  &:hover, &:focus, &:active {
+    background: $extra-light-grey;
   }
 }

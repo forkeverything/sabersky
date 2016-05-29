@@ -111,7 +111,7 @@ $factory->define(Address::class, function (Faker\Generator $faker) {
         'phone' => $faker->phoneNumber,
         'country_id' => $faker->randomElement(\App\Country::all()->toArray())['id'],
         'owner_id' => factory(Vendor::class)->create()->id,
-        'owner_type' => 'vendor'
+        'owner_type' => 'App\Vendor'
     ];
 });
 

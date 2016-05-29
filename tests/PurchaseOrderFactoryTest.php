@@ -83,7 +83,7 @@ class PurchaseOrderFactoryTest extends TestCase
 
 
         $companyAddress = factory(\App\Address::class)->create([
-            'owner_type' => 'company',
+            'owner_type' => 'App\Company',
             'owner_id' => static::$user->company_id
         ]);
 

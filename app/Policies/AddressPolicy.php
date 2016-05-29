@@ -28,10 +28,10 @@ class AddressPolicy
         $canEditModel = false;
         $type = $address->owner_type;
         switch ($type) {
-            case 'vendor':
+            case 'App\Vendor':
                 $canEditModel = Gate::allows('vendor_manage') && Gate::allows('edit', Vendor::find($address->owner_id));
                 break;
-            case 'company':
+            case 'App\Company':
                 $canEditModel = Auth::user()->company_id === $address->owner_id;
                 break;
         }

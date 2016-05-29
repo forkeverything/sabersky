@@ -1,17 +1,18 @@
 #purchase-request-single {
 
+  h1 {
+    margin: 0 0 10px;
+  }
+
   .state-control {
     margin: 0 0 30px;
 
     .cancel-pr {
-      .btn-show-confirm-cancel {
-        width: 100px;
-      }
 
       .confirm-cancel {
         text-align: right;
         p {
-          margin: 0 0 5px;
+          margin: 0 0 10px;
           color: $text-muted;
         }
 
@@ -23,13 +24,7 @@
 
   }
 
-  .card-subheading {
-    color: $text-muted;
-    display: block;
-    margin: 0 0 10px;
-  }
-
-  .card-item {
+  .item {
 
     .top {
       display: flex;
@@ -58,38 +53,6 @@
 
       .details-item {
         flex: 1;
-
-        .sku {
-          color: $text-muted;
-          display: block;
-          margin: 0 0 10px;
-        }
-
-        .item-link {
-
-          .brand, .name {
-            text-transform: capitalize;
-            display: block;
-
-            span {
-              border-bottom: 1px dotted $black;
-            }
-          }
-
-          &:hover {
-            span {
-              border-bottom: 1px solid $blue;
-              color: $blue;
-            }
-          }
-          .brand {
-            font-weight: bold;
-          }
-
-          .name {
-            margin: 0 0 10px;
-          }
-        }
       }
     }
 
@@ -115,20 +78,12 @@
     }
   }
 
-  .card-request {
-
-    .card-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0 0 5px;
-    }
-
+  .request {
 
     .requested-info {
       color: $text-muted;
-      padding: 0 0 10px;
-      border-bottom: 1px solid $border-light;
+      display: flex;
+      justify-content: space-between;
       margin: 0 0 15px;
     }
 
@@ -176,19 +131,16 @@
 
   }
 
-  .card-project {
+  .project {
 
     .name {
-      font-weight: bold;
-      display: block;
       margin: 0 0 5px;
       text-transform: capitalize;
+      font-size: 1.4em;
     }
 
     .location {
       display: block;
-      margin: 0 0 15px;
-      font-style: italic;
     }
 
     .started {

@@ -73,7 +73,7 @@ class BankAccount extends Model
      */
     public function purchaseOrders()
     {
-        return $this->hasMany(PurchaseOrder::class);
+        return $this->hasMany(PurchaseOrder::class, 'vendor_bank_account_id');
     }
 
     /**

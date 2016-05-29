@@ -1,4 +1,10 @@
 table {
+
+  font-size: 1em;
+  a {
+    font-size: 1em;
+  }
+
   thead {
     th {
       &.heading-center {
@@ -29,7 +35,7 @@ table {
         }
 
         &.success, &.warning, &.danger {
-          background-color: #fff!important;
+          background-color: inherit!important;
         }
 
         &.success {
@@ -59,19 +65,22 @@ table {
     margin: 0 0 15px;
   }
 
+  .padding-even {
+    padding: 10px;
+  }
+
   thead {
     tr {
-      background: $blue;
+
       th {
-        height: 60px;
         border: 0;
-        padding: 10px 26px 10px 10px;
-        color: #fff !important;
-        font-weight: normal;
+        padding: 11px 26px 8px 8px;
+        font-weight: $font-bold;
         text-transform: uppercase;
-        font-size: 0.8em;
+        font-size: 0.9em;
         vertical-align: middle;
         position: relative;
+        border-bottom: 2px solid $blue;
 
         &.required:after {
           position: absolute;
@@ -80,20 +89,9 @@ table {
           text-transform: lowercase;
           font-size: 1.5em;
           margin: 0 0 0 3px;
-          color: #fff;
+
         }
 
-        &:first-child {
-          border-left: 1px solid $blue;
-        }
-
-        &:last-child {
-          border-right: 1px solid $blue;
-        }
-
-        &.padding-even {
-          padding: 10px;
-        }
 
         &.current_asc, &.current_desc {
 
@@ -120,48 +118,34 @@ table {
           position: relative;
 
           .checkbox {
-            display: flex;
-            align-items: center;
-            border: 1px solid #fff;
             padding: 5px;
+            position: relative;
 
             label {
+              position: absolute;
+              top: -3px;
+              left: 3px;
               z-index: 3;
-              text-align: center;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 20px;
-              height: 20px;
-
-              i {
-                color: #fff;
-
-                &.checked {
-                  color: #fff;
-                }
-              }
             }
           }
 
           .bulk-actions {
+            background: #fff;
             z-index: 2;
             position: absolute;
             right: 0;
             white-space: nowrap;
-            top: 14px;
-            height: 32px;
+            top: 1px;
+            height: 35px;
             left: -1px;
-            background: $blue;
             text-align: left;
 
             .btn-bulk {
               height: 100%;
-              border: 1px solid #fff;
               padding:  3px 12px 3px 30px;
               margin-left: 10px;
               border-radius: 0;
-              color: #fff!important;
+              line-height: 1.8;
 
               .fa-caret-down {
                 margin-left: 5px;
@@ -173,7 +157,6 @@ table {
               left: 50px;
               padding: 0;
               .bulk-dropdown-list {
-                color: #000;
                 margin: 0;
                 border: 0;
 
@@ -221,14 +204,6 @@ table {
         border-top: 1px solid $border-light;
         padding: 10px;
         vertical-align: middle;
-
-        &:first-child {
-          border-left: 1px solid $border-light;
-        }
-
-        &:last-child {
-          border-right: 1px solid $border-light;
-        }
       }
     }
   }

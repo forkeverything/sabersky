@@ -6,24 +6,25 @@ Vue.component('item-single', {
     data: function () {
         return {
             ajaxReady: true,
-            photos: [],
+
             fileErrors: []
         };
     },
-    props: ['itemId'],
-    computed: {},
+    props: ['item'],
+    computed: {
+    },
     methods: {
         deletePhoto: function(photo) {
             var self = this;
             if(!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/items/' + self.itemId + '/photo/' + photo.id,
+                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
                 method: 'DELETE',
                 success: function(data) {
                    // success
                     console.log(data);
-                   self.photos = _.reject(self.photos, photo);
+                   self.item.photos = _.reject(self.item.photos, photo);
                    self.ajaxReady = true;
                 },
                 error: function(response) {
@@ -43,11 +44,11 @@ Vue.component('item-single', {
 
         // Fetch item photos
         $.ajax({
-            url: '/api/items/' + self.itemId,
+            url: '/api/items/' + self.item.id,
             method: 'GET',
             success: function(data) {
                // success
-                self.photos = data.photos
+                self.item.photos = data.photos
             },
             error: function(response) {
                 console.log(response);
@@ -83,7 +84,7 @@ Vue.component('item-single', {
                 this.on("success", function (files, response) {
                     // Upload was successful, receive response
                     // of Photo Model back from the server.
-                    self.photos.push(response);
+                    self.item.photos.push(response);
                 });
                 this.on("error", function (file, err) {
                     if(typeof err === 'object') {

@@ -17,12 +17,16 @@
 }
 
 label {
-  font-size: 0.8em;
-  font-weight: normal;
-  color: $text-muted;
+  font-size: 0.9em;
+  font-family: $proxima;
+  font-weight: $font-bold;
+  color: $midnight-mid;
   margin: 0 0 10px 0;
   text-transform: uppercase;
   display: block;
+  line-height: 2em;
+  letter-spacing: 1px;
+  white-space: nowrap;
 
   &.required {
     display: flex;
@@ -63,7 +67,8 @@ label {
     left: 1em;
     display: block;
     pointer-events: none;
-    line-height: 1em;
+    line-height: 0.8;
+    font-weight: 300;
   }
 
   label:before {

@@ -27,7 +27,7 @@
             <span v-else>-</span>
         </td>
         <td class="no-wrap">
-            <ul class="list-unstyled" v-if="getItemProjects(item).length > 0">
+            <ul class="list-unstyled no-margin" v-if="getItemProjects(item).length > 0">
                 <li v-for="project in getItemProjects(item)">
                     <a :href="'/projects/' + project.id" alt="Link to project" class="capitalize">
                         @{{ project.name }}

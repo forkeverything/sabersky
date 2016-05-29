@@ -85,7 +85,11 @@
     flex: 1 0 400px;
     overflow-y: scroll;
     min-height: 500px;
-    padding: 0 0 30px;
+    padding: 10px 0;
+
+    @media screen and (min-width: $screen-sm-min) {
+      padding: 25px 35px;
+    }
 
     // Remove if flex layout broken -----
     display: flex;

@@ -213,7 +213,7 @@ class ItemsController extends Controller
             [$item->brand . ' - ' . $item->name, '#']
         ];
         if (Gate::allows('view', $item)) {
-            $item->load('activities');
+            $item->load('activities', 'photos');
             return view('items.single', compact('item', 'breadcrumbs'));
         }
 

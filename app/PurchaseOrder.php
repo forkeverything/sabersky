@@ -372,8 +372,8 @@ class PurchaseOrder extends Model
         $this->shipping_address_id = $shippingAddress->id;
 
         // Save as parent IF the address does not already belong to another parent (ie. Company)
-        if (!$billingAddress->owner_id) $billingAddress->setOwner('purchase_order', $this->id);
-        if (!$shippingAddress->owner_id) $shippingAddress->setOwner('purchase_order', $this->id);
+        if (!$billingAddress->owner_id) $billingAddress->setOwner('App\PurchaseOrder', $this->id);
+        if (!$shippingAddress->owner_id) $shippingAddress->setOwner('App\PurchaseOrder', $this->id);
 
         $this->save();
         return $this;

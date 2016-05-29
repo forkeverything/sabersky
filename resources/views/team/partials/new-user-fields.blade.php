@@ -15,11 +15,14 @@
     >
 </div>
 <div class="form-group">
-    <label for="field-new-user-role">Staff Role <span class="small">(You can add more Roles from the <a href="/settings">Settings Page</a>)</span></label>
-    <select id="field-new-user-role" class="form-control" v-selectize="newUserRoleId">
+    <label for="field-new-user-role">Staff Role</label>
+    <select id="field-new-user-role"  v-selectize="newUserRoleId">
         <option disabled selected value="">Choose a position</option>
         @foreach($roles as $role)
             <option value="{{ $role->id }}">{{ ucwords($role->position) }}</option>
         @endforeach
     </select>
+    <span class="small">
+        You can add more Roles from the <a href="/settings">Settings Page</a>
+    </span>
 </div>

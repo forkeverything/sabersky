@@ -3,17 +3,19 @@
 @section('content')
     <projects-all inline-template>
         <div class="container" id="projects-all">
-            @can('project_manage')
-            <div class="top">
-                <a class="link-new-project" href="/projects/start">
-                    <button class="btn btn-solid-green button-start-project">New Project</button>
-                </a>
+            <div class="title-with-buttons">
+                <h1>Projects</h1>
+                @can('project_manage')
+                    <div class="buttons">
+                        <a class="link-new-project" href="/projects/start">
+                            <button class="btn btn-solid-green button-start-project">New Project</button>
+                        </a>
+                    </div>
+                @endcan
             </div>
-            @endcan
-            <div class="page-body">
                 <div class="project-list" v-if="projects">
                         <template v-for="project in projects">
-                            <div class="project-single">
+                            <div class="project-single standard-box">
                                 <div class="left">
                                     <div class="project-thumbnail">
                                             <img src="#" v-if="project.thumbnail">
@@ -24,9 +26,9 @@
                                     <div class="header">
                                         <a href="/projects/@{{ project.id }}"
                                            class="project-single-link">
-                                            <h5 class="project-name">
+                                            <h2 class="project-name">
                                                 @{{ project.name }}
-                                            </h5>
+                                            </h2>
                                         </a>
                                         <div class="project-actions">
                                             <span class="button-project-dropdown clickable"><i
@@ -63,7 +65,6 @@
                         </template>
                 </div>
                 <span class="page-error" v-else>There are currently no projects.</span>
-            </div>
             <modal></modal>
         </div>
     </projects-all>

@@ -3,21 +3,25 @@
   .list-notes {
     border-top: 1px solid $border-light;
     padding-top: 15px;
-    margin: 15px 0 -10px;
+    margin: 15px 0;
     max-height: 450px;
     overflow-y: scroll;
 
     .single-note {
       border: 1px solid $border-light;
       padding: 15px;
-      margin: 0 0 10px;
+
+
+      &:not(:first-child) {
+        border-top: 0;
+      }
 
       .btn-close {
         display: none;
       }
 
       &:hover {
-        background: $extra-light-blue;
+        background: $extra-light-yellow;
 
         .btn-close {
           display: block;

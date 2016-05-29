@@ -25,7 +25,7 @@ Vue.component('team-single-user', {
                 title: 'Confirm Permanently Delete ' + user.name,
                 body: 'Deleting a User is immediate and permanent. All data regarding the User will automatically be removed. This action is irreversible. Any pending actions may become incompletable.',
                 buttonText: 'Delete ' + user.name + ' and all corresponding data',
-                buttonClass: 'btn-danger',
+                buttonClass: 'btn-solid-red',
                 callbackEventName: 'delete-user'
             });
         }

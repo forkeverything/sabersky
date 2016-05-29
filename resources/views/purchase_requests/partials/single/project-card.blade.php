@@ -1,19 +1,23 @@
 <h4 class="card-title">Project</h4>
-<div class="name"><a class="dotted"
-                     href="{{ route('singleProject', $purchaseRequest->project->id) }}">{{ $purchaseRequest->project->name }}</a>
+<div class="name text-center">
+    <a class="dotted" href="{{ route('singleProject', $purchaseRequest->project->id) }}">
+        {{ $purchaseRequest->project->name }}
+    </a>
 </div>
-<span class="location">{{ $purchaseRequest->project->location }}</span>
-<div class="started">
-    <span class="card-subheading">Start Date</span>
+<div class="location text-center">{{ $purchaseRequest->project->location }}</div>
+<hr>
+<div class="started text-center">
+    <h3>Start Date</h3>
     {{ $purchaseRequest->project->created_at->format('d M Y') }}
 </div>
-<div class="team">
-    <span class="card-subheading">Team Members</span>
+<hr>
+<div class="team text-center">
+    <h3>Team Members</h3>
     {{ $purchaseRequest->project->teamMembers->count() }}
 </div>
-
+<hr>
 <div class="purchase-requests">
-    <span class="card-subheading">Purchase Requests</span>
+    <h3>Purchase Requests</h3>
     <!-- Project PR Details Table -->
     <table class="table">
         <tbody>

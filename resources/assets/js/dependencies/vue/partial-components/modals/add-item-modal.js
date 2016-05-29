@@ -14,7 +14,7 @@ Vue.component('add-item-modal', {
     '<form class="form-item-add main-form modal-body" v-show="loaded" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '<form-errors></form-errors>' +
-    '<h3>Add New Item</h3>' +
+    '<h2>Add New Item</h2>' +
     '   <div class="form-group">' +
     '       <label>SKU</label>' +
     '       <input class="form-control" type="text" v-model="sku">' +

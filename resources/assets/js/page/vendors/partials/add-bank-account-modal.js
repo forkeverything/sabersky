@@ -1,15 +1,15 @@
 Vue.component('add-bank-account-modal', {
     name: 'add-bank-account-modal',
     template: '<button type="button"' +
-    '               class="btn btn-add-modal btn-outline-blue"' +
+    '               class="btn btn-add-modal btn-outline-blue btn-add-bank-account"' +
     '               @click="showModal"' +
     '          >' +
     '           New Account' +
     '</button>' +
-    '          <div class="modal-bank-account-add modal-form" v-show="visible" @click="hideModal">' +
-    '               <form class="form-add-bank-account main-form" @click.stop="" @submit.prevent="addBankAccount">' +
+    '          <div class="modal-bank-account-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
+    '               <form class="form-add-bank-account main-form modal-body" @click.stop="" @submit.prevent="addBankAccount">' +
     '                   <form-errors></form-errors>' +
-    '                   <h4>Add New Bank Account</h4>'+
+    '                   <h2>Add Bank Account</h2>'+
     '                   <div class="account_info">'+
     '                       <label>Account Information</label>'+
     '                       <div class="row">'+
@@ -100,7 +100,7 @@ Vue.component('add-bank-account-modal', {
     '               </div>'+
     '           </div>'+
     '           <div class="align-end">'+
-    '               <button type="submit" class="btn btn-solid-blue"><i class="fa fa-plus"></i> Bank Account</button>'+
+    '               <button type="submit" class="btn btn-solid-blue">Save</button>'+
     '           </div>'+
     '       </form>' +
     ' </div>',

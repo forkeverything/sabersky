@@ -1,4 +1,5 @@
-<h4 class="card-title">Item</h4>
+<p class="card-title">Item</p>
+<hr>
 <div class="top">
     <div class="main-photo">
         @if($mainPhoto = $purchaseRequest->item->photos->first())
@@ -12,18 +13,21 @@
     </div>
     <div class="details-item">
         @if($sku = $purchaseRequest->item->sku)
-            <span class="sku">{{ $sku }}</span>
+            <div><span class="item-sku">{{ $sku }}</span></div>
         @endif
         <a class="dotted item-link" href="{{ route('getSingleItem', $purchaseRequest->item->id) }}">
-            <div class="brand"><span>{{ $purchaseRequest->item->brand }}</span></div>
-            <div class="name"><span>{{ $purchaseRequest->item->name }}</span></div>
+            @if($purchaseRequest->item->brand)
+            <span class="item-brand">{{ $purchaseRequest->item->brand }}</span> -
+            @endif
+            <span class="item-name">{{ $purchaseRequest->item->name }}</span>
         </a>
     </div>
 </div>
 <p class="specification">{{ $purchaseRequest->item->specification }}</p>
 @if($purchaseRequest->item->photos->count() > 1)
+    <hr>
     <div class="item-images">
-        <h5>Photos</h5>
+        <h3>Photos</h3>
         <ul class="image-gallery list-unstyled list-inline">
             @foreach($purchaseRequest->item->photos as $photo)
                 <li class="single-item-image"><a href="{{ $photo->path }}" class="fancybox"
@@ -34,25 +38,28 @@
     </div>
 @endif
 @if($purchaseRequest->item->lineItems->count() > 0)
+    <hr>
     <div class="order-history">
-        <h5>Recent Orders</h5>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>PO</th>
-                <th>Vendor</th>
-                <th>Quantity</th>
-            <tr>
-            </thead>
-            <tbody>
-            @foreach($purchaseRequest->item->lineItems->take(5) as $lineItem)
+        <h3>Recent Orders</h3>
+        <div class="table-responsive">
+            <table class="table table-hover table-standard">
+                <thead>
                 <tr>
-                    <td>{{ $lineItem->purchaseOrder->number }}</td>
-                    <td>{{ $lineItem->purchaseOrder->vendor->name }}</td>
-                    <td>{{ $lineItem->quantity }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+                    <th class="padding-even">PO</th>
+                    <th>Vendor</th>
+                    <th class="padding-even">Quantity</th>
+                <tr>
+                </thead>
+                <tbody>
+                @foreach($purchaseRequest->item->lineItems->take(5) as $lineItem)
+                    <tr>
+                        <td class="content-center padding-even"><a href="{{ route('singlePurchaseOrder', $lineItem->purchaseOrder->id) }}" alt="Single PO Link">#{{ $lineItem->purchaseOrder->number }}</a></td>
+                        <td>{{ $lineItem->purchaseOrder->vendor->name }}</td>
+                        <td class="content-center padding-even">{{ $lineItem->quantity }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @endif

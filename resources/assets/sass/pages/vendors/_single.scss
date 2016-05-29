@@ -15,51 +15,6 @@
     }
   }
 
-  .link-company {
-
-    .link-top {
-      margin: 0 0 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      h5 {
-        margin: 0;
-      }
-
-      .link-badge {
-        @include badge;
-        padding: 0 1.5em;
-
-        &.custom {
-          @include badge-style(info);
-        }
-
-        &.pending {
-          @include badge-style(warning);
-        }
-
-        &.verified {
-          @include badge-style(success);
-        }
-      }
-    }
-
-    .company-name {
-      display: block;
-      font-weight: bold;
-      margin: 0 0 10px;
-    }
-
-    .description {
-      margin: 0;
-    }
-
-    .link-bottom {
-      margin: 15px 0 0 0;
-    }
-
-  }
 
   .addresses {
     margin: 0 0 30px;
@@ -70,6 +25,7 @@
     }
 
     .addresses-collection {
+      margin: 0 0 30px;
 
       .address-row {
         margin: 0 -10px -20px -10px;
@@ -113,75 +69,48 @@
           .contact-person, .phone {
             margin: 0 0 10px 0;
           }
-
-          .address {
-            .address_1 {
-              font-weight: bold;
-            }
-          }
         }
       }
     }
   }
 
-  .bank-accounts  {
+  .bank-accounts {
 
-    .section-top {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      margin: 0 0 15px 0;
-
-      h5 {
-        margin: 0;
-      }
-    }
-
-    .add-form-wrap {
-      display: block;
-
-      #form_add_bank_account {
-        border: 1px solid $border-light;
-        padding: 30px;
-        margin: 0 0 15px 0;
-      }
-    }
-
-
-    &.no-accounts {
-      display: flex;
-      flex-wrap: wrap;
-
-      .section-top {
-        height: 42px;
-        flex: 100%;
-      }
-
-      .empty-stage {
-        flex: 100%;
-      }
+    .btn-add-bank-account {
+      margin: 0 0 15px;
     }
 
     .bank-accounts-collection {
-      margin: 0 0 -15px 0;
+      margin: 0 -10px 10px -10px;
+      display: flex;
+      flex-wrap: wrap;
 
       .single-bank-account {
-        margin: 0 0 15px 0;
+        @include flex-wrap-fix(500px, 2000px, 10px, 10px);
+        margin-bottom: 20px;
         border-radius: 3px;
-        border: 1px solid $blue;
+        border: 1px solid $border-light;
+        position: relative;
 
-        .header {
-          padding: 10px;
-          background: $blue;
-          color: #fff;
+        &.primary {
+          border-color: $green;
+          .card-title {
+            color: $green;
+          }
+        }
 
-          h5 {
-            margin: 0;
+        &:hover {
+          .account-controls {
+            display: flex;
           }
         }
 
         .account-controls {
-          display: flex;
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
           justify-content: space-between;
           padding: 10px 15px 0 15px;
 
@@ -197,69 +126,10 @@
           }
         }
 
-        .account-body {
-          display: flex;
-          padding: 10px 15px 0 15px;
-          flex-wrap: wrap;
-
-          .heading {
-            display: block;
-            color: $blue;
-            margin: 0 0 5px;
-          }
-
-          .account {
-            margin: 0 15px 0 0;
-            flex: 1 1 200px;
-
-            .table-account-info {
-              tr {
-                td:first-child {
-                  width: 10px;
-                  white-space: nowrap;
-                  padding: 0.25em 1em 0.25em 0;
-                  font-weight: normal;
-                  border-right: 1px solid $blue;
-                }
-
-                td {
-                  border: 0;
-                  padding: 0.25em 1em;
-                  font-weight: bold;
-                }
-
-              }
-            }
-          }
-
-          .bank {
-            flex: 1 0 300px;
-
-            .heading, .bank-name {
-              margin: 0 0 5px 0;
-            }
-
-            .extra-info {
-              display: flex;
-              margin: 0 -10px;
-
-              .bank-label {
-                display: block;
-                color: $text-muted;
-                text-align: left;
-                padding: 0;
-                font-size: 0.8em;
-                white-space: nowrap;
-              }
-
-              .bank-phone, .bank-address, .swift {
-                margin: 0 10px 10px 10px;
-              }
-            }
-          }
+        .account-number, .account-name {
+          font-size: 1.6em;
         }
       }
-
     }
   }
 }

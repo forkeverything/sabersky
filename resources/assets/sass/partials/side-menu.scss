@@ -1,5 +1,4 @@
 .button-show-side-menu {
-  
   @media screen and(min-width: $screen-sm-min + (2 * $side-menu-width)) {
     display: none;
   }
@@ -9,8 +8,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: $midnight;
-  color: $midnight-light;
+  background: $side-menu-background;
   overflow-y: scroll;
   -webkit-animation-duration: 0.1s;
   -moz-animation-duration: 0.1s;
@@ -32,22 +30,23 @@
     margin: 0 0 15px 0;
 
     .single-list-item {
-      margin: 0;
+      margin: 0 0 15px;
 
       a {
-        padding: 5px 10px;
+        padding: 0 0 0 26px;
         display: block;
-        color: $midnight-light;
+        color: $midnight;
+        opacity: 0.6;
 
         i {
           width: 20px;
           text-align: center;
-          margin: 0 3px 0 0;
+          margin: 0 10px 0 0;
+          font-size: 1.4em;
         }
 
         &:hover {
-          color: #fff;
-          background: $blue;
+          opacity: 0.8;
         }
       }
     }
