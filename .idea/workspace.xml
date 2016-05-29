@@ -6,20 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/page/purchase-requests/single/cancel.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Utilities/StringSimilarity.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseRequest.php" afterPath="$PROJECT_DIR$/app/PurchaseRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css" afterPath="$PROJECT_DIR$/public/css/all.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/all.css.map" afterPath="$PROJECT_DIR$/public/css/all.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js" afterPath="$PROJECT_DIR$/public/js/page.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/page.js.map" afterPath="$PROJECT_DIR$/public/js/page.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-requests/_single.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/pages/purchase-requests/_single.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" afterPath="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,18 +29,36 @@
     <favorites_list name="procure" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="cancel.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/assets/js/page/purchase-requests/single/cancel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="25" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1088">
+                  <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="StringSimilarity.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Utilities/StringSimilarity.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2160">
+                  <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,7 +66,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Project.php" />
         <option value="$PROJECT_DIR$/app/Http/helpers.php" />
         <option value="$PROJECT_DIR$/app/Utilities/Traits/RecordsActivity.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
@@ -105,11 +111,12 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/CompanyController.php" />
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/resources/views/purchase_requests/single.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/PurchaseRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/purchase-requests/_single.scss" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/purchase-requests/single/cancel.js" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Utilities/StringSimilarity.php" />
       </list>
     </option>
   </component>
@@ -208,7 +215,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="storage" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -222,206 +229,17 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="page" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="page" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase-requests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="page" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase-requests" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="single" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="page" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase-orders" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="page" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="purchase-orders" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="submit" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pusaka-group" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="Utilities" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -590,7 +408,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -811,12 +628,14 @@
       <workItem from="1464334358711" duration="84000" />
       <workItem from="1464334453321" duration="6484000" />
       <workItem from="1464350214740" duration="1817000" />
-      <workItem from="1464411229401" duration="2423000" />
+      <workItem from="1464411229401" duration="2545000" />
+      <workItem from="1464422356018" duration="106000" />
+      <workItem from="1464500025452" duration="3929000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1183221000" />
+    <option name="totallyTimeSpent" value="1187378000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
@@ -828,7 +647,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42749813" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -840,6 +658,7 @@
       <window_info id="Command Line Tools Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32682195" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42749813" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -857,25 +676,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="126" />
+      <option name="time" value="127" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProjectsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="105" column="83" selection-start-line="105" selection-start-column="83" selection-end-line="105" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Activity.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1134">
@@ -929,7 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="911">
           <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -958,50 +762,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="452">
           <caret line="229" column="46" selection-start-line="229" selection-start-column="46" selection-end-line="229" selection-end-column="46" />
-          <folding>
-            <marker date="1464288277000" expanded="false" signature="27:216" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="222:1705" ph=" App\Vendor ..." />
-            <marker date="1464288277000" expanded="true" signature="1734:7482" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="1801:1920" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="1950:2022" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="2034:2158" ph=" Mutator to save linked_company_id field as NULL ..." />
-            <marker date="1464288277000" expanded="true" signature="2216:2404" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="2251:2319" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="2327:2397" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="2414:2562" ph=" A Vendor is always owned as a record of a base ..." />
-            <marker date="1464288277000" expanded="true" signature="2598:2678" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="2687:2852" ph=" A Vendor can also be optionally linked to another Company ..." />
-            <marker date="1464288277000" expanded="true" signature="2890:2972" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="2981:3127" ph=" Lots of Purchase Orders can be made to the same ..." />
-            <marker date="1464288277000" expanded="true" signature="3166:3231" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="3240:3490" ph=" Vendor can have many Bank Accounts. This returns all of ..." />
-            <marker date="1464288277000" expanded="true" signature="3530:3593" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="3602:3729" ph=" A Vendor can have many records of addresses ..." />
-            <marker date="1464288277000" expanded="true" signature="3763:3833" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="3842:4129" ph=" Add a new Vendor from a request to a Company by a User. The user is only ..." />
-            <marker date="1464288277000" expanded="true" signature="4204:4552" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="4272:4442" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="4273:4441" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="4561:4850" ph=" Takes a base Company (usually owned by the logged User) and ..." />
-            <marker date="1464288277000" expanded="true" signature="4938:5270" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="4978:5135" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="4979:5134" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="5279:5416" ph=" Takes a Company and copies it's address over to this Vendor ..." />
-            <marker date="1464288277000" expanded="true" signature="5475:5676" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="5531:5646" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="5685:5799" ph=" Adds an Address model to this Vendor ..." />
-            <marker date="1464288277000" expanded="true" signature="5850:5928" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="5937:6024" ph=" Verify the Vendor Link to Company ..." />
-            <marker date="1464288277000" expanded="true" signature="6055:6126" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="6136:6383" ph=" When we only want to retrieve Active Bank accounts. Set an accessor ..." />
-            <marker date="1464288277000" expanded="true" signature="6432:6876" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="6562:6750" ph="..." />
-            <marker date="1464288277000" expanded="true" signature="6886:6973" ph=" Number of Purchase Orders made to this Vendor ..." />
-            <marker date="1464288277000" expanded="true" signature="7018:7079" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="7088:7189" ph=" Calculate the average Price / PO for this ..." />
-            <marker date="1464288277000" expanded="true" signature="7235:7477" ph="{...}" />
-            <marker date="1464288277000" expanded="true" signature="7369:7423" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1107,7 +867,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="926">
           <caret line="673" column="7" selection-start-line="673" selection-start-column="7" selection-end-line="673" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1193,12 +952,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
-          <folding>
-            <marker date="1464411287000" expanded="false" signature="11:78" ph="..." />
-            <marker date="1464411287000" expanded="true" signature="115:1001" ph="{...}" />
-            <marker date="1464411287000" expanded="true" signature="125:189" ph=" Run the database seeds. ..." />
-            <marker date="1464411287000" expanded="true" signature="217:999" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1206,24 +959,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1459737394000" expanded="true" signature="21:760" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="42:102" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="66:98" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="114:193" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="158:189" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="208:238" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="256:758" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="276:434" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="400:428" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="452:753" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="468:747" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="485:739" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="501:729" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="519:717" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="551:612" ph="{...}" />
-            <marker date="1459737394000" expanded="true" signature="643:703" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1231,50 +966,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/page.js.map">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="0" column="1006" selection-start-line="0" selection-start-column="1006" selection-end-line="0" selection-end-column="1006" />
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="sourcemapFileViewerProvider">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="119" column="98" selection-start-line="119" selection-start-column="89" selection-end-line="119" selection-end-column="98" />
-          <folding>
-            <marker date="1464413129000" expanded="false" signature="9:383" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="390:767" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="784:11213" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="822:11212" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="839:895" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="857:894" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="926:949" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="1137:1160" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="1569:1590" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="1861:1882" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="2501:2529" ph=" Project - Main ..." />
-            <marker date="1464413129000" expanded="true" signature="3274:3313" ph=" Project - Team Management ..." />
-            <marker date="1464413129000" expanded="true" signature="3675:3693" ph=" User ..." />
-            <marker date="1464413129000" expanded="true" signature="4813:4844" ph=" Purchase Requests ..." />
-            <marker date="1464413129000" expanded="true" signature="5723:5742" ph=" Items ..." />
-            <marker date="1464413129000" expanded="true" signature="6749:6778" ph=" Purchase Orders ..." />
-            <marker date="1464413129000" expanded="true" signature="7810:7834" ph="..." />
-            <marker date="1464413129000" expanded="true" signature="8080:8102" ph=" Settings ..." />
-            <marker date="1464413129000" expanded="true" signature="8420:8439" ph=" Roles ..." />
-            <marker date="1464413129000" expanded="true" signature="8903:8922" ph=" Rules ..." />
-            <marker date="1464413129000" expanded="true" signature="9227:9248" ph=" Vendors ..." />
-            <marker date="1464413129000" expanded="true" signature="10390:10411" ph=" Reports ..." />
-            <marker date="1464413129000" expanded="true" signature="10676:10695" ph=" Notes ..." />
-          </folding>
+        <state relative-caret-position="487">
+          <caret line="0" column="1006" selection-start-line="0" selection-start-column="1006" selection-end-line="0" selection-end-column="1006" />
         </state>
       </provider>
     </entry>
@@ -1282,84 +983,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
           <caret line="276" column="20" selection-start-line="276" selection-start-column="20" selection-end-line="276" selection-end-column="20" />
-          <folding>
-            <marker date="1464088732000" expanded="true" signature="48:142" ph=" Created by typecasting to object. ..." />
-            <marker date="1464088732000" expanded="true" signature="168:292" ph=" Interface to detect if a class is traversable using &amp;foreach;. ..." />
-            <marker date="1464088732000" expanded="true" signature="325:434" ph=" Interface to create an external Iterator. ..." />
-            <marker date="1464088732000" expanded="true" signature="486:778" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="495:740" ph=" Retrieve an external iterator ..." />
-            <marker date="1464088732000" expanded="true" signature="784:933" ph=" Interface for external iterators or objects that can be iterated ..." />
-            <marker date="1464088732000" expanded="true" signature="976:2140" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="985:1146" ph=" Return the current element ..." />
-            <marker date="1464088732000" expanded="true" signature="1188:1357" ph=" Move forward to next element ..." />
-            <marker date="1464088732000" expanded="true" signature="1396:1582" ph=" Return the key of the current element ..." />
-            <marker date="1464088732000" expanded="true" signature="1620:1884" ph=" Checks if current position is valid ..." />
-            <marker date="1464088732000" expanded="true" signature="1924:2107" ph=" Rewind the Iterator to the first element ..." />
-            <marker date="1464088732000" expanded="true" signature="2146:2257" ph=" Interface to provide accessing objects as arrays. ..." />
-            <marker date="1464088732000" expanded="true" signature="2283:3594" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="2292:2653" ph=" Whether a offset exists ..." />
-            <marker date="1464088732000" expanded="true" signature="2707:2947" ph=" Offset to retrieve ..." />
-            <marker date="1464088732000" expanded="true" signature="2998:3283" ph=" Offset to set ..." />
-            <marker date="1464088732000" expanded="true" signature="3342:3549" ph=" Offset to unset ..." />
-            <marker date="1464088732000" expanded="true" signature="3600:3700" ph=" Interface for customized serializing. ..." />
-            <marker date="1464088732000" expanded="true" signature="3727:4268" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="3736:3936" ph=" String representation of object ..." />
-            <marker date="1464088732000" expanded="true" signature="3980:4219" ph=" Constructs the object ..." />
-            <marker date="1464088732000" expanded="true" signature="4275:4480" ph=" Throwable is the base interface for any object that can be thrown via a throw statement in PHP 7, ..." />
-            <marker date="1464088732000" expanded="true" signature="4502:6683" ph="{...}" />
-            <marker date="1464088732000" expanded="true" signature="4513:4646" ph=" Gets the message ..." />
-            <marker date="1464088732000" expanded="true" signature="4691:5034" ph=" Gets the exception code ..." />
-            <marker date="1464088732000" expanded="true" signature="5076:5298" ph=" Gets the file in which the exception occurred ..." />
-            <marker date="1464088732000" expanded="true" signature="5340:5567" ph=" Gets the line on which the object was instantiated ..." />
-            <marker date="1464088732000" expanded="true" signature="5609:5857" ph=" Gets the stack trace ..." />
-            <marker date="1464088732000" expanded="true" signature="5900:6092" ph=" Gets the stack trace as a string ..." />
-            <marker date="1464088732000" expanded="true" signature="6143:6372" ph=" Returns the previous Throwable ..." />
-            <marker date="1464088732000" expanded="true" signature="6418:6645" ph=" Gets a string representation of the thrown object ..." />
-            <marker date="1464088732000" expanded="true" signature="6687:6797" ph=" Exception is the base class for ..." />
-            <marker date="1464088732000" expanded="true" signature="6838:9737" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="6935:7066" ph=" Clone the exception ..." />
-            <marker date="1464088732000" expanded="true" signature="7118:7517" ph=" Construct the exception. Note: The message is NOT binary safe. ..." />
-            <marker date="1464088732000" expanded="true" signature="7618:7798" ph=" Gets the Exception message ..." />
-            <marker date="1464088732000" expanded="true" signature="7852:8172" ph=" Gets the Exception code ..." />
-            <marker date="1464088732000" expanded="true" signature="8223:8433" ph=" Gets the file in which the exception occurred ..." />
-            <marker date="1464088732000" expanded="true" signature="8484:8691" ph=" Gets the line in which the exception occurred ..." />
-            <marker date="1464088732000" expanded="true" signature="8742:8917" ph=" Gets the stack trace ..." />
-            <marker date="1464088732000" expanded="true" signature="8969:9187" ph=" Returns previous Exception ..." />
-            <marker date="1464088732000" expanded="true" signature="9242:9438" ph=" Gets the stack trace as a string ..." />
-            <marker date="1464088732000" expanded="true" signature="9498:9697" ph=" String representation of the exception ..." />
-            <marker date="1464088732000" expanded="true" signature="9743:9875" ph=" Error is the base class for all internal PHP error exceptions. ..." />
-            <marker date="1464088732000" expanded="true" signature="9912:12112" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="9921:10055" ph=" Gets the message ..." />
-            <marker date="1464088732000" expanded="true" signature="10090:10102" ph="{...}" />
-            <marker date="1464088732000" expanded="true" signature="10111:10454" ph=" Gets the exception code ..." />
-            <marker date="1464088732000" expanded="true" signature="10498:10720" ph=" Gets the file in which the exception occurred ..." />
-            <marker date="1464088732000" expanded="true" signature="10764:10991" ph=" Gets the line on which the object was instantiated ..." />
-            <marker date="1464088732000" expanded="true" signature="11036:11284" ph=" Gets the stack trace ..." />
-            <marker date="1464088732000" expanded="true" signature="11328:11520" ph=" Gets the stack trace as a string ..." />
-            <marker date="1464088732000" expanded="true" signature="11572:11801" ph=" Returns the previous Throwable ..." />
-            <marker date="1464088732000" expanded="true" signature="11847:12074" ph=" Gets a string representation of the thrown object ..." />
-            <marker date="1464088732000" expanded="true" signature="12118:12598" ph=" There are three scenarios where a TypeError may be thrown. ..." />
-            <marker date="1464088732000" expanded="true" signature="12632:12634" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="12640:12818" ph=" ParseError is thrown when an error occurs while parsing PHP code, such as when {@see eval()} is called. ..." />
-            <marker date="1464088732000" expanded="true" signature="12853:12855" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="12861:13014" ph=" AssertionError is thrown when an assertion made via {@see assert()} fails. ..." />
-            <marker date="1464088732000" expanded="true" signature="13053:13055" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="13061:13427" ph=" ArithmeticError is thrown when an error occurs while performing mathematical operations. ..." />
-            <marker date="1464088732000" expanded="true" signature="13467:13469" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="13475:13640" ph=" DivisionByZeroError is thrown when an attempt is made to divide a number by zero. ..." />
-            <marker date="1464088732000" expanded="true" signature="13684:13686" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="13692:13776" ph=" An Error Exception. ..." />
-            <marker date="1464088732000" expanded="true" signature="13819:14829" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="13855:14455" ph=" Constructs the exception ..." />
-            <marker date="1464088732000" expanded="true" signature="14596:14782" ph=" Gets the exception severity ..." />
-            <marker date="1464088732000" expanded="true" signature="14835:15449" ph=" Class used to represent anonymous functions. ..." />
-            <marker date="1464088732000" expanded="true" signature="15473:18170" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="15482:15730" ph=" This method exists only to disallow instantiation of the Closure class. ..." />
-            <marker date="1464088732000" expanded="true" signature="15780:16041" ph=" This is for consistency with other classes that implement calling magic, ..." />
-            <marker date="1464088732000" expanded="true" signature="16092:16768" ph=" Closure::bindTo � Duplicates the closure with a new bound object and class scope ..." />
-            <marker date="1464088732000" expanded="true" signature="16835:17627" ph=" This method is a static version of Closure::bindTo(). ..." />
-            <marker date="1464088732000" expanded="true" signature="17717:18118" ph=" Temporarily binds the closure to newthis, and calls it with any given parameters. ..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1367,7 +990,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="803">
           <caret line="204" column="7" selection-start-line="204" selection-start-column="7" selection-end-line="204" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1375,10 +997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
           <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-          <folding>
-            <element signature="e#118#149#0" expanded="false" />
-            <element signature="e#173#351#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1386,14 +1004,84 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="656">
           <caret line="144" column="5" selection-start-line="144" selection-start-column="5" selection-end-line="144" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/page/purchase-requests/single/cancel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="25" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+        <state relative-caret-position="189">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+          <folding>
+            <marker date="1464413615000" expanded="true" signature="34:2144" ph="{&quot;name&quot;: 'cancelPR'...}" />
+            <marker date="1464413615000" expanded="true" signature="1103:1198" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1120:1191" ph="{&quot;ajaxReady&quot;: true...}" />
+            <marker date="1464413615000" expanded="true" signature="1264:2093" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1300:1361" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1401:2087" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1547:1628" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1754:2075" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1854:1912" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="1956:2061" ph="{...}" />
+            <marker date="1464413615000" expanded="true" signature="2134:2142" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/_types.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
+          <folding>
+            <marker date="1464088732000" expanded="true" signature="27:782" ph=" Creates an array. ..." />
+            <marker date="1464088732000" expanded="true" signature="842:1105" ph=" Assigns a list of variables in one operation. ..." />
+            <marker date="1464088732000" expanded="true" signature="1171:2029" ph=" &lt;p&gt;Terminates execution of the script. Shutdown functions and object destructors will always be executed even if exit is called.&lt;/p&gt; ..." />
+            <marker date="1464088732000" expanded="true" signature="2094:2954" ph=" &lt;p&gt;Terminates execution of the script. Shutdown functions and object destructors will always be executed even if exit is called.&lt;/p&gt; ..." />
+            <marker date="1464088732000" expanded="true" signature="3020:4354" ph=" Determine whether a variable is considered to be empty. A variable is considered empty if it does not exist or if its value ..." />
+            <marker date="1464088732000" expanded="true" signature="4413:5289" ph=" &lt;p&gt;Determine if a variable is set and is not &lt;b&gt;NULL&lt;/b&gt;.&lt;/p&gt; ..." />
+            <marker date="1464088732000" expanded="true" signature="5355:5747" ph=" &lt;p&gt;Destroys the specified variables.&lt;/p&gt; ..." />
+            <marker date="1464088732000" expanded="true" signature="5813:7755" ph=" &lt;p&gt;Evaluates the given code as PHP.&lt;/p&gt; ..." />
+            <marker date="1464088732000" expanded="true" signature="7814:8018" ph=" Generator objects are returned from generators, cannot be instantiated via new. ..." />
+            <marker date="1464088732000" expanded="true" signature="8068:9702" ph="..." />
+            <marker date="1464088732000" expanded="true" signature="8080:8198" ph=" Throws an exception if the generator is currently after the first yield. ..." />
+            <marker date="1464088732000" expanded="true" signature="8241:8350" ph=" Returns false if the generator has been closed, true otherwise. ..." />
+            <marker date="1464088732000" expanded="true" signature="8392:8541" ph=" Returns whatever was passed to yield or null if nothing was passed or the generator is already closed. ..." />
+            <marker date="1464088732000" expanded="true" signature="8585:8751" ph=" Returns the yielded key or, if none was specified, an auto-incrementing key or null if the generator is already closed. ..." />
+            <marker date="1464088732000" expanded="true" signature="8791:8900" ph=" Resumes the generator (unless the generator is already closed). ..." />
+            <marker date="1464088732000" expanded="true" signature="8942:9133" ph=" Sets the return value of the yield expression and resumes the generator (unless the generator is already closed). ..." />
+            <marker date="1464088732000" expanded="true" signature="9181:9336" ph=" Throws an exception at the current suspension point in the generator. ..." />
+            <marker date="1464088732000" expanded="true" signature="9419:9663" ph=" Returns whatever was passed to return or null if nothing. ..." />
+            <marker date="1464088732000" expanded="true" signature="9825:16190" ph="..." />
+            <marker date="1464088732000" expanded="true" signature="9831:10430" ph=" PHP 5 allows developers to declare constructor methods for classes. ..." />
+            <marker date="1464088732000" expanded="true" signature="10467:11395" ph=" PHP 5 introduces a destructor concept similar to that of other object-oriented languages, such as C++. ..." />
+            <marker date="1464088732000" expanded="true" signature="11431:11688" ph=" is triggered when invoking inaccessible methods in an object context. ..." />
+            <marker date="1464088732000" expanded="true" signature="11737:11993" ph=" is triggered when invoking inaccessible methods in a static context. ..." />
+            <marker date="1464088732000" expanded="true" signature="12062:12276" ph=" is utilized for reading data from inaccessible members. ..." />
+            <marker date="1464088732000" expanded="true" signature="12312:12541" ph=" run when writing data to inaccessible members. ..." />
+            <marker date="1464088732000" expanded="true" signature="12585:12810" ph=" is triggered by calling isset() or empty() on inaccessible members. ..." />
+            <marker date="1464088732000" expanded="true" signature="12847:13061" ph=" is invoked when unset() is used on inaccessible members. ..." />
+            <marker date="1464088732000" expanded="true" signature="13099:13798" ph=" serialize() checks if your class has a function with the magic name __sleep. ..." />
+            <marker date="1464088732000" expanded="true" signature="13831:14287" ph=" unserialize() checks for the presence of a function with the magic name __wakeup. ..." />
+            <marker date="1464088732000" expanded="true" signature="14321:14543" ph=" The __toString method allows a class to decide how it will react when it is converted to a string. ..." />
+            <marker date="1464088732000" expanded="true" signature="14579:14782" ph=" The __invoke method is called when a script tries to call an object as a function. ..." />
+            <marker date="1464088732000" expanded="true" signature="14818:15192" ph=" This method is called by var_dump() when dumping an object to get the properties that should be shown. ..." />
+            <marker date="1464088732000" expanded="true" signature="15230:15609" ph=" This static method is called for classes exported by var_export() since PHP 5.1.0. ..." />
+            <marker date="1464088732000" expanded="true" signature="15662:16162" ph=" When an object is cloned, PHP 5 will perform a shallow copy of all of the object's properties. ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/StringSimilarity.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2160">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
       </provider>

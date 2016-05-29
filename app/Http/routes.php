@@ -220,4 +220,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
+    
 });
