@@ -20,6 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('password', 60)->nullable();
             $table->rememberToken();
 
+            $table->dateTime('last_login');
+            $table->text('bio')->nullable();
+
             $table->string('invite_key')->unique()->nullable();
 
             $table->integer('company_id')->unsigned()->nullable();

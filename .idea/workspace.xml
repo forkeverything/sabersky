@@ -6,9 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Utilities/StringSimilarity.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Listeners/LogUserLastLogin.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/User.php" afterPath="$PROJECT_DIR$/app/User.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,36 +32,18 @@
     <favorites_list name="procure" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1088">
-                  <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="StringSimilarity.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/Utilities/StringSimilarity.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2160">
-                  <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="2016_01_31_154047_create_purchase_requests_table.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,14 +51,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/helpers.php" />
-        <option value="$PROJECT_DIR$/app/Utilities/Traits/RecordsActivity.php" />
-        <option value="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
-        <option value="$PROJECT_DIR$/tests/PurchaseRequestTest.php" />
-        <option value="$PROJECT_DIR$/config/app.php" />
-        <option value="$PROJECT_DIR$/tests/LineItemTest.php" />
-        <option value="$PROJECT_DIR$/tests/NoteTest.php" />
-        <option value="$PROJECT_DIR$/app/Vendor.php" />
         <option value="$PROJECT_DIR$/tests/VendorTest.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderFactoryTest.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/partials/activities.blade.php.vue" />
@@ -115,8 +92,16 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/PurchaseRequestController.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/purchase-requests/_single.scss" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/purchase-requests/single/cancel.js" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Utilities/StringSimilarity.php" />
+        <option value="$PROJECT_DIR$/app/Listeners/UserEventListener.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" />
+        <option value="$PROJECT_DIR$/app/Listeners/UserLoginEventListener.php" />
+        <option value="$PROJECT_DIR$/app/Listeners/LogUserLastLogin.php" />
+        <option value="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" />
+        <option value="$PROJECT_DIR$/database/seeds/PermissionsTableSeeder.php" />
+        <option value="$PROJECT_DIR$/app/User.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php" />
       </list>
     </option>
   </component>
@@ -137,7 +122,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="2560" />
+    <option name="width" value="1280" />
     <option name="height" value="1353" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -173,7 +158,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -187,6 +172,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,7 +225,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -261,7 +246,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="resources">
+            <PATH_ELEMENT USER_OBJECT="app">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -275,37 +260,11 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="resources">
+            <PATH_ELEMENT USER_OBJECT="app">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="assets">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="pusaka-group">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="resources">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="assets">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="js">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="page">
+            <PATH_ELEMENT USER_OBJECT="Mailers">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -319,23 +278,11 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="resources">
+            <PATH_ELEMENT USER_OBJECT="app">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="assets">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="js">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="page">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="purchase-orders">
+            <PATH_ELEMENT USER_OBJECT="Listeners">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -349,59 +296,11 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="resources">
+            <PATH_ELEMENT USER_OBJECT="app">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="assets">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="js">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="pusaka-group">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="public">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="pusaka-group">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="public">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="uploads">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="company">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="42ad3b23b9">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="items">
+            <PATH_ELEMENT USER_OBJECT="Events">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -631,14 +530,16 @@
       <workItem from="1464411229401" duration="2545000" />
       <workItem from="1464422356018" duration="106000" />
       <workItem from="1464500025452" duration="3929000" />
+      <workItem from="1464509644596" duration="3104000" />
+      <workItem from="1464516400284" duration="385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1187378000" />
+    <option name="totallyTimeSpent" value="1190867000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="1353" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -681,76 +582,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/partials/_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="40" column="20" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/VendorsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="111" column="20" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/pages/vendors/_single.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ItemsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="215" column="38" selection-start-line="215" selection-start-column="38" selection-end-line="215" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/vendors/single.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1034">
-          <caret line="161" column="53" selection-start-line="161" selection-start-column="53" selection-end-line="161" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="169" column="30" selection-start-line="169" selection-start-column="30" selection-end-line="169" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Item.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="911">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/PusakaSetupSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="178" column="51" selection-start-line="178" selection-start-column="51" selection-end-line="178" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/items/single.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Utilities/Traits/RecordsActivity.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -842,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/activities/types/created_purchase_request.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/activities/types/rejected_purchase_order.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -895,13 +719,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -970,13 +787,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/page.js.map">
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="487">
           <caret line="0" column="1006" selection-start-line="0" selection-start-column="1006" selection-end-line="0" selection-end-column="1006" />
         </state>
+      </provider>
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Core_c.php">
@@ -1011,19 +828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-          <folding>
-            <marker date="1464413615000" expanded="true" signature="34:2144" ph="{&quot;name&quot;: 'cancelPR'...}" />
-            <marker date="1464413615000" expanded="true" signature="1103:1198" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1120:1191" ph="{&quot;ajaxReady&quot;: true...}" />
-            <marker date="1464413615000" expanded="true" signature="1264:2093" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1300:1361" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1401:2087" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1547:1628" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1754:2075" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1854:1912" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="1956:2061" ph="{...}" />
-            <marker date="1464413615000" expanded="true" signature="2134:2142" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1031,57 +835,150 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
           <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
-          <folding>
-            <marker date="1464088732000" expanded="true" signature="27:782" ph=" Creates an array. ..." />
-            <marker date="1464088732000" expanded="true" signature="842:1105" ph=" Assigns a list of variables in one operation. ..." />
-            <marker date="1464088732000" expanded="true" signature="1171:2029" ph=" &lt;p&gt;Terminates execution of the script. Shutdown functions and object destructors will always be executed even if exit is called.&lt;/p&gt; ..." />
-            <marker date="1464088732000" expanded="true" signature="2094:2954" ph=" &lt;p&gt;Terminates execution of the script. Shutdown functions and object destructors will always be executed even if exit is called.&lt;/p&gt; ..." />
-            <marker date="1464088732000" expanded="true" signature="3020:4354" ph=" Determine whether a variable is considered to be empty. A variable is considered empty if it does not exist or if its value ..." />
-            <marker date="1464088732000" expanded="true" signature="4413:5289" ph=" &lt;p&gt;Determine if a variable is set and is not &lt;b&gt;NULL&lt;/b&gt;.&lt;/p&gt; ..." />
-            <marker date="1464088732000" expanded="true" signature="5355:5747" ph=" &lt;p&gt;Destroys the specified variables.&lt;/p&gt; ..." />
-            <marker date="1464088732000" expanded="true" signature="5813:7755" ph=" &lt;p&gt;Evaluates the given code as PHP.&lt;/p&gt; ..." />
-            <marker date="1464088732000" expanded="true" signature="7814:8018" ph=" Generator objects are returned from generators, cannot be instantiated via new. ..." />
-            <marker date="1464088732000" expanded="true" signature="8068:9702" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="8080:8198" ph=" Throws an exception if the generator is currently after the first yield. ..." />
-            <marker date="1464088732000" expanded="true" signature="8241:8350" ph=" Returns false if the generator has been closed, true otherwise. ..." />
-            <marker date="1464088732000" expanded="true" signature="8392:8541" ph=" Returns whatever was passed to yield or null if nothing was passed or the generator is already closed. ..." />
-            <marker date="1464088732000" expanded="true" signature="8585:8751" ph=" Returns the yielded key or, if none was specified, an auto-incrementing key or null if the generator is already closed. ..." />
-            <marker date="1464088732000" expanded="true" signature="8791:8900" ph=" Resumes the generator (unless the generator is already closed). ..." />
-            <marker date="1464088732000" expanded="true" signature="8942:9133" ph=" Sets the return value of the yield expression and resumes the generator (unless the generator is already closed). ..." />
-            <marker date="1464088732000" expanded="true" signature="9181:9336" ph=" Throws an exception at the current suspension point in the generator. ..." />
-            <marker date="1464088732000" expanded="true" signature="9419:9663" ph=" Returns whatever was passed to return or null if nothing. ..." />
-            <marker date="1464088732000" expanded="true" signature="9825:16190" ph="..." />
-            <marker date="1464088732000" expanded="true" signature="9831:10430" ph=" PHP 5 allows developers to declare constructor methods for classes. ..." />
-            <marker date="1464088732000" expanded="true" signature="10467:11395" ph=" PHP 5 introduces a destructor concept similar to that of other object-oriented languages, such as C++. ..." />
-            <marker date="1464088732000" expanded="true" signature="11431:11688" ph=" is triggered when invoking inaccessible methods in an object context. ..." />
-            <marker date="1464088732000" expanded="true" signature="11737:11993" ph=" is triggered when invoking inaccessible methods in a static context. ..." />
-            <marker date="1464088732000" expanded="true" signature="12062:12276" ph=" is utilized for reading data from inaccessible members. ..." />
-            <marker date="1464088732000" expanded="true" signature="12312:12541" ph=" run when writing data to inaccessible members. ..." />
-            <marker date="1464088732000" expanded="true" signature="12585:12810" ph=" is triggered by calling isset() or empty() on inaccessible members. ..." />
-            <marker date="1464088732000" expanded="true" signature="12847:13061" ph=" is invoked when unset() is used on inaccessible members. ..." />
-            <marker date="1464088732000" expanded="true" signature="13099:13798" ph=" serialize() checks if your class has a function with the magic name __sleep. ..." />
-            <marker date="1464088732000" expanded="true" signature="13831:14287" ph=" unserialize() checks for the presence of a function with the magic name __wakeup. ..." />
-            <marker date="1464088732000" expanded="true" signature="14321:14543" ph=" The __toString method allows a class to decide how it will react when it is converted to a string. ..." />
-            <marker date="1464088732000" expanded="true" signature="14579:14782" ph=" The __invoke method is called when a script tries to call an object as a function. ..." />
-            <marker date="1464088732000" expanded="true" signature="14818:15192" ph=" This method is called by var_dump() when dumping an object to get the properties that should be shown. ..." />
-            <marker date="1464088732000" expanded="true" signature="15230:15609" ph=" This static method is called for classes exported by var_export() since PHP 5.1.0. ..." />
-            <marker date="1464088732000" expanded="true" signature="15662:16162" ph=" When an object is cloned, PHP 5 will perform a shallow copy of all of the object's properties. ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Utilities/StringSimilarity.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+        <state relative-caret-position="899">
+          <caret line="67" column="15" selection-start-line="67" selection-start-column="15" selection-end-line="67" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Events/Event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Auth/Events/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Listeners/LogUserLastLogin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="155" column="22" selection-start-line="155" selection-start-column="22" selection-end-line="155" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/ServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Support/Providers/EventServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/EventServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/PermissionsTableSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="710">
+          <caret line="209" column="28" selection-start-line="209" selection-start-column="28" selection-end-line="209" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+          <folding>
+            <marker date="1464512127000" expanded="false" signature="27:109" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="114:1568" ph=" App\User ..." />
+            <marker date="1464512127000" expanded="true" signature="1605:6532" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="1615:1694" ph=" Mass-assignable fields for ..." />
+            <marker date="1464512127000" expanded="true" signature="1724:1866" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="1877:1961" ph=" Automatically append these dynamic attributes ..." />
+            <marker date="1464512127000" expanded="true" signature="1990:2040" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="2051:2196" ph=" If User has an invite_key we assume ..." />
+            <marker date="1464512127000" expanded="true" signature="2230:2276" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="2285:2352" ph=" Attribute - Number of PRs ..." />
+            <marker date="1464512127000" expanded="true" signature="2400:2461" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="2470:2528" ph=" Attribtue - Number of POs ..." />
+            <marker date="1464512127000" expanded="true" signature="2574:2633" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="2642:2755" ph=" A User can make many requests ..." />
+            <marker date="1464512127000" expanded="true" signature="2796:2863" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="2872:3055" ph=" Makes a new User from name(string), ..." />
+            <marker date="1464512127000" expanded="true" signature="3162:3509" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="3320:3501" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="3321:3500" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="3518:3608" ph=" The attributes excluded from the model's JSON form. ..." />
+            <marker date="1464512127000" expanded="true" signature="3636:3679" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="3690:3809" ph=" Every user has a role / position. ..." />
+            <marker date="1464512127000" expanded="true" signature="3838:3896" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="3905:4044" ph=" A user (employee) belongs to a single ..." />
+            <marker date="1464512127000" expanded="true" signature="4076:4137" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="4147:4222" ph=" @return \Illuminate\Database\Eloquent\Relations\BelongsToMany ..." />
+            <marker date="1464512127000" expanded="true" signature="4255:4320" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="4329:4454" ph=" Gets a user object from a the provided ..." />
+            <marker date="1464512127000" expanded="true" signature="4514:4584" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="4593:4703" ph=" A User can create many POs ..." />
+            <marker date="1464512127000" expanded="true" signature="4742:4807" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="4816:4934" ph=" Wrapper that sets a User's ..." />
+            <marker date="1464512127000" expanded="true" signature="4978:5064" ph="..." />
+            <marker date="1464512127000" expanded="true" signature="5074:5196" ph=" Takes a string and sets it ..." />
+            <marker date="1464512127000" expanded="true" signature="5244:5426" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="5435:5505" ph=" Clears the invite-key field. ..." />
+            <marker date="1464512127000" expanded="true" signature="5544:5635" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="5644:5739" ph=" Check if a User has the given role ..." />
+            <marker date="1464512127000" expanded="true" signature="5776:5836" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="5845:6145" ph=" Records an activity for a related Model by this User. This is a wrapper ..." />
+            <marker date="1464512127000" expanded="true" signature="6199:6526" ph="{...}" />
+            <marker date="1464512127000" expanded="true" signature="6362:6455" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/activities/types/created_purchase_request.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
           <folding />
         </state>
       </provider>

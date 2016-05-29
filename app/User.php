@@ -49,7 +49,18 @@ class User extends Authenticatable
         'password',
         'role_id',
         'invite_key',
-        'company_id'
+        'company_id',
+        'last_login'
+    ];
+
+    /**
+     * Automatically append these dynamic attributes
+     *
+     * @var array
+     */
+    protected $appends = [
+        'num_requests',
+        'num_orders'
     ];
 
     /**
@@ -63,6 +74,34 @@ class User extends Authenticatable
         return $this->invite_key;
     }
 
+    /**
+     * Attribute - Number of PRs
+     *
+     * @return mixed
+     */
+    public function getNumRequestsAttribute()
+    {
+        return $this->purchaseRequests->count();
+    }
+
+    /**
+     * Attribtue - Number of POs
+     * @return int
+     */
+    public function getNumOrdersAttribute()
+    {
+        return $this->purchaseOrders->count();
+    }
+
+    /**
+     * A User can make many requests
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseRequests()
+    {
+        return $this->hasMany(PurchaseRequest::class);
+    }
 
     /**
      * Makes a new User from name(string),
@@ -217,6 +256,8 @@ class User extends Authenticatable
         
         return $related->recordActivity($name, $this);
     }
+
+
 
 
 }
