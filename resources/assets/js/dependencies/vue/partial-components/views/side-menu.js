@@ -9,7 +9,8 @@ Vue.component('side-menu', {
             userPopup: false,
             userInitials: '',
             companyName: '',
-            finishedCompiling: false
+            finishedCompiling: false,
+            expandedSection: ''
         };
     },
     props: ['user'],
@@ -17,6 +18,9 @@ Vue.component('side-menu', {
     methods: {
         toggleUserPopup: function() {
             this.userPopup = !this.userPopup;
+        },
+        expand: function(section) {
+            this.expandedSection = (this.expandedSection ===  section) ? '' : section;
         }
     },
     events: {
