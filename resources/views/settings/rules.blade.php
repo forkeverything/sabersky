@@ -23,7 +23,7 @@
                         <tr>
                             <th>Property</th>
                             <td>
-                                <select class="form-control"
+                                <select class="form-control themed-select"
                                         v-rule-property-select="selectedProperty"
                                         v-model="selectedProperty"
                                         title="Select one"
@@ -38,7 +38,7 @@
                             <td>
                                 <select v-rule-trigger-select="selectedTrigger"
                                         v-model="selectedTrigger"
-                                        class="form-control"
+                                        class="form-control themed-select"
                                         title="Select one"
                                 >
                                     <option v-for="trigger in selectedProperty.triggers"
@@ -78,7 +78,7 @@
                         <tr>
                             <th>Approval by (Roles)</th>
                             <td>
-                                <select class="form-control"
+                                <select class="form-control themed-select"
                                         v-selectpicker="selectedRuleRoles"
                                         multiple
                                         v-model="selectedRuleRoles"

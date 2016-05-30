@@ -6,6 +6,7 @@ Vue.component('settings-rules', {
     data: function () {
         return {
             ajaxReady: true,
+            roles: [],
             rules: [],
             ruleProperties: [],
             selectedProperty: false,
@@ -17,9 +18,7 @@ Vue.component('settings-rules', {
         };
     },
     props: [
-        'user',
-        'roles',
-        'settingsView'
+        'user'
     ],
     computed: {
         ruleHasLimit: function () {
@@ -143,6 +142,18 @@ Vue.component('settings-rules', {
     mixins: [userCompany],
     ready: function () {
         var self = this;
+
+        // GET company roles
+        $.ajax({
+            url: '/api/roles',
+            method: 'GET',
+            success: function (data) {
+                self.roles = data;
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
 
         $.ajax({
             url: '/api/rules/properties_triggers',

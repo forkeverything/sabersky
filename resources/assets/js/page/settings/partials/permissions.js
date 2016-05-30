@@ -6,6 +6,7 @@ Vue.component('settings-permissions', {
     data: function () {
         return {
             ajaxReady: true,
+            roles: [],
             roleToRemove: false,
             roleSelect: '',
             selectedRole: false,
@@ -15,10 +16,6 @@ Vue.component('settings-permissions', {
             updatedRoleVal: ''
         };
     },
-    props: [
-        'roles',
-        'settingsView'
-    ],
     computed: {},
     methods: {
         hasPermission: function (permission, role) {
