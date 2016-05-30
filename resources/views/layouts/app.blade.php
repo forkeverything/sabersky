@@ -25,6 +25,7 @@
 <!--
 ========== Content ===========
  -->
+@include('layouts.partials.nav')
 <div id="main-stage" v-cloak>
     @if(Auth::user())
         @include('layouts.partials.side-menu')
@@ -34,14 +35,12 @@
              }"
             @click="hideOverlays"
         >
-{{--        @include('layouts.partials.nav')--}}
         @yield('content')
         </div>
     @else
         <div id="body-content"
         @click="hideOverlays"
         >
-        @include('layouts.partials.nav')
         @yield('content')
         </div>
     @endif

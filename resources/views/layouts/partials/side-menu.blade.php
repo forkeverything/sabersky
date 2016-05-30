@@ -5,9 +5,7 @@
          transition="slide"
     >
         <div class="side-menu-top">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <span class="navbar-name">SaberSky</span>
-            </a>
+
         </div>
         <ul class="nav-links">
             <li class="single-list-item">

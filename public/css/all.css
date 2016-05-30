@@ -6300,55 +6300,44 @@ button.close {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 0 10px; }
+  padding: 0 10px;
+  position: relative;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  border: 0;
+  background: #3498DB;
+  color: #fff; }
+  .user-nav a {
+    color: #fff; }
   .user-nav .button-show-side-menu {
     -webkit-flex: 0 0 40px;
     -ms-flex: 0 0 40px;
     flex: 0 0 40px;
     background: transparent;
     border: 0;
-    color: #AEBAC7;
+    color: #fff;
     font-size: 2em;
     margin: 0 10px 0 0;
-    padding: 0; }
+    padding: 0;
+    z-index: 2; }
     .user-nav .button-show-side-menu:active, .user-nav .button-show-side-menu:focus, .user-nav .button-show-side-menu:hover {
-      color: #294661;
       outline: 0; }
-  .user-nav .breadcrumbs {
-    font-size: 1em;
+  .user-nav .navbar-logo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
-    align-items: center;
-    overflow: hidden;
-    text-transform: capitalize; }
-    .user-nav .breadcrumbs span, .user-nav .breadcrumbs a {
-      color: #AEBAC7;
-      white-space: nowrap; }
-      .user-nav .breadcrumbs span.breadcrumb-link:hover, .user-nav .breadcrumbs span.breadcrumb-link:focus, .user-nav .breadcrumbs span.breadcrumb-link:active, .user-nav .breadcrumbs a.breadcrumb-link:hover, .user-nav .breadcrumbs a.breadcrumb-link:focus, .user-nav .breadcrumbs a.breadcrumb-link:active {
-        color: #294661;
-        text-decoration: underline; }
-      .user-nav .breadcrumbs span.current, .user-nav .breadcrumbs a.current {
-        color: #294661;
-        text-decoration: none; }
-    .user-nav .breadcrumbs .breadcrumb-separator {
-      margin: 0 5px;
-      font-size: 1.2em;
-      color: #AEBAC7; }
-  @media screen and (min-width: 768px) {
-    .user-nav {
-      padding: 0 15px; }
-      .user-nav .breadcrumbs {
-        font-size: 1.3em; }
-        .user-nav .breadcrumbs .breadcrumb-separator {
-          font-size: 1.5em; } }
-  @media screen and (min-width: 992px) {
-    .user-nav .breadcrumbs {
-      font-size: 1.5em; }
-      .user-nav .breadcrumbs .breadcrumb-separator {
-        font-size: 1.6em; } }
+    align-items: center; }
 
 .form-control {
   border-color: #D2D2D2;
@@ -6750,6 +6739,7 @@ label {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-animation-duration: 0.15s;
   color: #fff;
   -webkit-animation-duration: 0.15s;
   animation-duration: 0.15s; }
@@ -6771,11 +6761,12 @@ label {
       margin: 0 0 30px 0; }
       #registration-popup-overlay .popup-content .popup-header .popup-title {
         font-size: 36px;
-        margin: 0; }
+        margin: 0;
+        color: #fff; }
       #registration-popup-overlay .popup-content .popup-header .popup-subheading {
         display: block;
         font-size: 16px;
-        margin: 10px 0 0 0;
+        margin: 0;
         text-align: right; }
     #registration-popup-overlay .popup-content #form-registration .shift-label-input {
       margin: 0 0 20px; }

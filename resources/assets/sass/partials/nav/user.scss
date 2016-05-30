@@ -2,73 +2,46 @@
   display: flex;
   align-items: center;
   padding: 0 10px;
+  position: relative;
+  border-radius: 0;
+  margin: 0;
+  @include box-shadow(none);
+  border: 0;
+  background: $blue;
+  color: #fff;
+
+  a {
+    color: #fff;
+  }
 
   .button-show-side-menu {
     flex: 0 0 40px;
     background: transparent;
     border: 0;
-    color: $midnight-light;
+    color: #fff;
     font-size: 2em;
     margin: 0 10px 0 0;
     padding: 0;
+    z-index: $z-button-show-side-menu;
 
 
     &:active, &:focus, &:hover {
-      color: $midnight;
       outline: 0;
     }
   }
 
-  .breadcrumbs {
-    font-size: 1em;
+  .navbar-logo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
-    overflow: hidden;
-    text-transform: capitalize;
 
-    span, a {
-      color: $midnight-light;
-      white-space: nowrap;
 
-      &.breadcrumb-link {
-        &:hover, &:focus, &:active {
-          color: $midnight;
-          text-decoration: underline;
-        }
-      }
-
-      &.current {
-        color: $midnight;
-        text-decoration: none;
-      }
-    }
-
-    .breadcrumb-separator {
-      margin: 0 5px;
-      font-size: 1.2em;
-      color: $midnight-light;
-    }
   }
 
-  @media screen and (min-width: $screen-sm-min) {
-    padding: 0 15px;
-
-    .breadcrumbs {
-      font-size: 1.3em;
-
-      .breadcrumb-separator {
-        font-size: 1.5em;
-      }
-    }
-  }
-
-  @media screen and (min-width: $screen-md-min) {
-    .breadcrumbs {
-      font-size: 1.5em;
-
-      .breadcrumb-separator {
-        font-size: 1.6em;
-      }
-    }
-  }
+  //@import "partials/breadcrumbs";
 }

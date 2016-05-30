@@ -1,0 +1,52 @@
+.breadcrumbs {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-transform: capitalize;
+
+  span, a {
+    color: $midnight-light;
+    white-space: nowrap;
+
+    &.breadcrumb-link {
+      &:hover, &:focus, &:active {
+        color: $midnight;
+        text-decoration: underline;
+      }
+    }
+
+    &.current {
+      color: $midnight;
+      text-decoration: none;
+    }
+  }
+
+  .breadcrumb-separator {
+    margin: 0 5px;
+    font-size: 1.2em;
+    color: $midnight-light;
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  padding: 0 15px;
+
+  .breadcrumbs {
+    font-size: 1.3em;
+
+    .breadcrumb-separator {
+      font-size: 1.5em;
+    }
+  }
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .breadcrumbs {
+    font-size: 1.5em;
+
+    .breadcrumb-separator {
+      font-size: 1.6em;
+    }
+  }
+}

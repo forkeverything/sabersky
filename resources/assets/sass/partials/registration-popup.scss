@@ -10,8 +10,8 @@
   align-items: center;
   z-index: 8000;
   flex-wrap: wrap;
-  color: #fff;
   -webkit-animation-duration: 0.15s;
+  color: #fff;
   animation-duration: 0.15s;
 
   .popup-content {
@@ -33,12 +33,13 @@
       .popup-title {
         font-size: 36px;
         margin: 0;
+        color: #fff;
       }
 
       .popup-subheading {
         display: block;
         font-size: 16px;
-        margin: 10px 0 0 0;
+        margin: 0;
         text-align: right;
       }
     }
