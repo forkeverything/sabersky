@@ -61,10 +61,21 @@ class Photo extends Model
      * 
      * @return $this
      */
-    public function deletePhysicalFiles()
+    public function deleteFiles()
     {
         \File::delete(ltrim($this->path, '/'));
         \File::delete(ltrim($this->thumbnail_path, '/'));
         return $this;
+    }
+
+    /**
+     * Wrapper that deletes physical files as well as the
+     * Model / DB record
+     * 
+     * @throws \Exception
+     */
+    public function remove()
+    {
+        return $this->deleteFiles()->delete();
     }
 }

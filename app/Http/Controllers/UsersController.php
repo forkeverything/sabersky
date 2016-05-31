@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AcceptInvitationRequest;
 use App\Http\Requests\AddStaffRequest;
 use App\Http\Requests\ChangeUserRoleRequest;
+use App\Http\Requests\UpdateUserProfileRequest;
+use App\Http\Requests\UploadImageRequest;
 use App\Mailers\UserMailer;
 use App\Role;
 use App\User;
+use App\Utilities\BuildPhoto;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -89,6 +92,54 @@ class UsersController extends Controller
     {
         $user = Auth::user()->load('company', 'company.address', 'company.settings', 'role');
         return $user;
+    }
+
+    /**
+     * Get view for logged in User's profile
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getOwnProfile()
+    {
+        $user = Auth::user()->load('company', 'company.address', 'company.settings', 'role');
+        return view('user.profile', compact('user'));
+    }
+
+    /**
+     * Updates a User's profile (direct attributes) and returns the new User
+     *
+     * @param UpdateUserProfileRequest $request
+     * @return mixed
+     */
+    public function putUpdateProfile(UpdateUserProfileRequest $request)
+    {
+        if(Auth::user()->update($request->all())) return response("Updated user profile", 200);
+        return response("Could not update profile", 500);
+    }
+
+    /**
+     * Handle request to upload a Profile Photo
+     *
+     * @param UploadImageRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postProfilePhoto(UploadImageRequest $request)
+    {
+        $photo = BuildPhoto::profile($request->image, Auth::user());
+        if($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
+        Auth::user()->photo()->save($photo) ? flash()->success('Changed profile photo') : flash()->error('Could not change profile photo');
+        return redirect()->back();
+    }
+
+    /**
+     * Removes the profile photo for logged-in user
+     * 
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteProfilePhoto()
+    {
+        if($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
+        return response("Removed profile photo", 200);
     }
 
     /**

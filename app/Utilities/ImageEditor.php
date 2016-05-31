@@ -10,27 +10,29 @@ class ImageEditor
 {
 
     /**
-     * Accepts the path to an image and
-     * re-sizes it to be 640x640.
+     * Resize an image at a path to given dimensions
      *
+     * @param $width
+     * @param $height
      * @param $path
      */
-    public function resize640($path)
+    public function resize($width, $height, $path)
     {
         Image::make($path)
-            ->resize(640, 640, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })
-            ->save($path);
+             ->resize($width, $height, function ($constraint) {
+                 $constraint->upsize();
+                 $constraint->aspectRatio();
+             })
+             ->save($path);
     }
 
     public function thumbnailItem($src, $dest)
     {
         Image::make($src)
-            ->fit(250, 250, function ($constraint) {
+            ->fit(125, 125, function ($constraint) {
                 $constraint->upsize();
             })
             ->save($dest);
     }
+
 }

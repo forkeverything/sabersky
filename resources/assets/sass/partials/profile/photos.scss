@@ -1,0 +1,20 @@
+.profile-photo {
+  max-width: 125px;
+
+  .image-container {
+    img {
+      width: 100%;
+    }
+  }
+  .initials {
+    height: 100%;
+    background: $midnight-light;
+    border-radius: 50%;
+    color: #fff;
+    transition: 0.15s box-shadow;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

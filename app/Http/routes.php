@@ -95,8 +95,12 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/accept_invitation/{invite_key}', 'UsersController@getAcceptView');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@postAcceptInvitation']);
+    Route::get('/user', 'UsersController@getLoggedUser');
+    Route::get('/user/profile', 'UsersController@getOwnProfile');
+    Route::put('/user/profile', 'UsersController@putUpdateProfile');
+    Route::post('/user/profile/photo', 'UsersController@postProfilePhoto');
+    Route::delete('/user/profile/photo', 'UsersController@deleteProfilePhoto');
     Route::get('/user/email/{email}/check', 'UsersController@getCheckEmailAvailability');
-    Route::get('/me', 'UsersController@getLoggedUser');
     Route::get('/team', 'UsersController@getTeam');
     Route::get('/team/add', 'UsersController@getAddStaffForm');
     Route::post('/team/add', 'UsersController@postSaveStaff');

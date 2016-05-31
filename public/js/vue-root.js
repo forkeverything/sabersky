@@ -26,7 +26,7 @@ new Vue({
     methods: {
         getLoggedUser: function() {
           var self = this;
-            $.get('/me', function (data) {
+            $.get('/user', function (data) {
                 self.user = data;
             });
         },

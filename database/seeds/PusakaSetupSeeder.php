@@ -83,6 +83,7 @@ class PusakaSetupSeeder extends Seeder
      */
     protected function setUpCompany()
     {
+        $this->command->info('Company... ');
         $company = Company::create([
             'name' => 'Pusaka Jaya',
             'description' => 'EPC Contractor & Independent Power Producer for over 20 years.'
@@ -112,6 +113,7 @@ class PusakaSetupSeeder extends Seeder
 
     protected function createUserMike()
     {
+        $this->command->info('User - Mike... ');
         $this->user = User::create([
             'name' => 'Michael Sutono',
             'email' => 'mail@wumike.com',
@@ -131,6 +133,7 @@ class PusakaSetupSeeder extends Seeder
 
     protected function makeProject()
     {
+        $this->command->info('Project... ');
         $request = new StartProjectRequest([
             'name' => 'Tanjung Selor 7MW',
             'location' => 'Jawa Tengah',
@@ -145,6 +148,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function createVendors()
     {
+        $this->command->info('Vendors... ');
         // Create 3 Verified Vendors
         for ($i = 0; $i < 3; $i++) {
             $company = factory(Company::class)->create();
@@ -195,6 +199,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function createPurchaseRequests()
     {
+        $this->command->info('Purchase Requests... ');
         // Purchase Requests
         for ($i = 0; $i < 10; $i++) {
             $request = new \App\Http\Requests\AddItemRequest([
@@ -222,6 +227,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function createPurchaseOrders()
     {
+        $this->command->info('Purchase Orders... ');
         // how many to make?
         $numberOfOrders = $this->faker->numberBetween(1, 50);
         // For each PO
@@ -317,6 +323,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
 
     protected function makeRules()
     {
+        $this->command->info('Rules... ');
         $orderTotalExceeds = Rule::create([
             'rule_property_id' => 1,
             'rule_trigger_id' => 1,

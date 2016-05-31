@@ -252,7 +252,7 @@ class ItemsController extends Controller
     {
         if (!$request->ajax()) abort(400, "Sorry, wrong door");
         if (Gate::allows('edit', $item) && $item->photos->contains($photo)) {
-            return $photo->deletePhysicalFiles()->delete() ? response("Deleted Item Photo", 200) : abort(400, "Could not delete Photo");
+            return $photo->deleteFiles()->delete() ? response("Deleted Item Photo", 200) : abort(400, "Could not delete Photo");
         }
         return response("Not allowed to view that item", 403);
     }

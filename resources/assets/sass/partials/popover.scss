@@ -10,6 +10,13 @@
     border: 1px solid rgba(0, 0, 0, 0.25);
     @include box-shadow($dark-box-shadow);
     @include border-radius(3px);
+    @include animation-duration(0.25s);
+
+
+    &.center {
+      top: 50%;
+      left: 50%;
+    }
 
     &.right {
       left: calc(100% + 5px);
@@ -17,6 +24,10 @@
 
     &.bottom {
       top: calc(100% + 5px);
+    }
+
+    ul {
+      margin: 0;
     }
   }
 }

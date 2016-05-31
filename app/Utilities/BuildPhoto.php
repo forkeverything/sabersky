@@ -79,9 +79,26 @@ class BuildPhoto
         // Move the file
         $this->file->move($directory, $name);
         // resize it
-        $this->imageEditor->resize640($path);
+        $this->imageEditor->resize(640, 640, $path);
         // Make a thumbnail for it
         $this->imageEditor->thumbnailItem($path, $thumbnail_path);
+        // Return photo
+        return new Photo(['name' => $name, 'path' => $path, 'thumbnail_path' => $thumbnail_path]);
+    }
+
+    public static function profile(UploadedFile $file, User $user)
+    {
+        $builder = new static($file);
+        $directory = $builder->baseDir . '/company/' . encode($user->company_id) . '/profile_photo';
+        $name = $builder->makeFileName();
+        $path = $directory . '/' . $name;
+        $thumbnail_path = $directory . '/tn_' . $name;
+        // Move the file
+        $builder->file->move($directory, $name);
+        // resize it
+        $builder->imageEditor->resize(250, 250, $path);
+        // Make a thumbnail for it
+        $builder->imageEditor->thumbnailItem($path, $thumbnail_path);
         // Return photo
         return new Photo(['name' => $name, 'path' => $path, 'thumbnail_path' => $thumbnail_path]);
     }

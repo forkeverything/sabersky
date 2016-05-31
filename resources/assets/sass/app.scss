@@ -42,6 +42,8 @@
 @import "partials/notes";
 @import "partials/activities";
 @import "partials/cards";
+@import "pages/user/profile";
+@import "partials/profile/photos";
 
 body {
   font-family: $proxima;
@@ -104,11 +106,14 @@ body {
 section {
   clear: both;
   display: inline-block;
-  border-bottom: 2px solid $border-light;
   width: 100%;
   padding-bottom: 10px;
   position: relative;
   margin: 0 0 30px 0;
+
+  &:not(:last-child) {
+    border-bottom: 2px solid $border-light;
+  }
 }
 
 .align-end {

@@ -24,12 +24,14 @@
       position: relative;
 
       .company, .name {
-        display: block;
         color: $faded-midnight;
       }
 
       .company {
         font-size: 0.9em;
+        margin: 0 0 10px;
+        padding: 0 0 3px;
+        border-bottom: 1px solid $grey;
       }
 
       .button-user-popup {
@@ -37,27 +39,14 @@
         display: flex;
         align-items: center;
 
-        .user-avatar {
+        .profile-photo {
+          flex: 0 0 50px;
+          width: 50px;
           margin: 0 10px 0 0;
-          background: $blue;
-          border-radius: 50%;
-          padding: 7px;
-          color: #fff;
-          font-size: 1.5em;
-          -webkit-transition: 0.15s box-shadow;
-          -moz-transition: 0.15s box-shadow;
-          -ms-transition: 0.15s box-shadow;
-          -o-transition: 0.15s box-shadow;
-          transition: 0.15s box-shadow;
-          text-align: center;
         }
 
         &:hover {
           color: #fff;
-
-          .user-avatar {
-            box-shadow: 0 0 0 3px $light-blue;
-          }
         }
       }
 
@@ -66,7 +55,6 @@
         padding: 10px;
         width: 100%;
         z-index: $z-side-menu-user-popover;
-        @include animation-duration(0.25s);
 
         ul {
           margin: 0;

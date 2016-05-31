@@ -1,0 +1,33 @@
+#user-profile  {
+
+
+  .content {
+    display: flex;
+    flex-wrap: wrap;
+
+    .left {
+      flex: 0 1 125px;
+      margin: 0 30px 30px 0;
+    }
+    .right {
+      flex: 1 1 300px;
+    }
+  }
+
+  section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+
+    form, .info {
+      flex: 0 0 50%;
+      margin-right: 15px;
+    }
+
+    .edit-button-wrap {
+      padding: 15px 0;
+    }
+  }
+
+}

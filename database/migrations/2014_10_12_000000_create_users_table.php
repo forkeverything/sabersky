@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
 
             $table->dateTime('last_login');
             $table->text('bio')->nullable();
+            $table->string('phone')->nullable();
 
             $table->string('invite_key')->unique()->nullable();
 

@@ -6,24 +6,21 @@
     >
         <div class="side-menu-top">
             <div class="user popover-container">
+                <div class="company">@{{ companyName }}</div>
                 <a href="#"
                    class="button-user-popup"
                    @click.stop="toggleUserPopup"
                    v-show="finishedCompiling"
                 >
-                <span class="user-avatar">
-                    @{{ userInitials }}
-                </span>
-                    <div class="name-company">
-                        <span class="name">{{ Auth::user()->name }}</span>
-                        <span class="company">@{{ companyName }}</span>
-                    </div>
+                    <profile-photo :user="user"></profile-photo>
+                    <div class="name">@{{ user.name }}</div>
                 </a>
                 <div class="user-popup popover-content bottom animated"
                      v-show="userPopup"
                      transition="fade-slide"
                 >
                     <ul class="list-unstyled">
+                        <li><a href="{{ url('/user/profile') }}">Profile</a></li>
                         <li><a href="{{ url('/logout') }}">Logout</a></li>
                     </ul>
                 </div>

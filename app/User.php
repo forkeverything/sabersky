@@ -46,6 +46,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'bio',
         'password',
         'role_id',
         'invite_key',
@@ -61,6 +63,25 @@ class User extends Authenticatable
     protected $appends = [
         'num_requests',
         'num_orders'
+    ];
+
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token'
+    ];
+
+    /**
+     * Always eager-load these relationships
+     *
+     * @var array
+     */
+    protected $with = [
+        'photo'
     ];
 
     /**
@@ -103,6 +124,11 @@ class User extends Authenticatable
         return $this->hasMany(PurchaseRequest::class);
     }
 
+    public function photo()
+    {
+        return $this->morphOne(Photo::class, 'model');
+    }
+
     /**
      * Makes a new User from name(string),
      * email(string) & password(string)
@@ -124,15 +150,6 @@ class User extends Authenticatable
             'invite_key' => $inviteKey
         ]);
     }
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
     /**
      * Every user has a role / position.

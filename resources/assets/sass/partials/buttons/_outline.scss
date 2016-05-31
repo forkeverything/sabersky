@@ -12,64 +12,46 @@
 
   &:disabled {
     color: $dark-grey;
-    border-color: $dark-grey;
+    @include box-shadow(inset 0px 0px 0px 1px $dark-grey);
     &:hover, &:active, &:focus {
       color: $dark-grey;
-      border-color: $dark-grey;
+      @include box-shadow(inset 0px 0px 0px 1px $dark-grey);
     }
+  }
+}
+
+@mixin btn-outline-colors($color, $hover-color, $box-shadow, $background) {
+  color: $color;
+  @include box-shadow(inset 0px 0px 0px 1px $box-shadow);
+
+  &:hover, &:focus, &:active {
+    @include box-shadow(inset 0px 0px 0px 1px $box-shadow);
+    color: $hover-color;
+    background: $background;
   }
 }
 
 .btn-outline-green {
   @extend .btn-outline;
-  color: $dark-green;
-  border: 1px solid $dark-green;
-
-  &:hover, &:focus, &:active {
-    color: $dark-green;
-    background: $extra-light-green;
-  }
+  @include btn-outline-colors($green, $dark-green, $dark-green, $extra-light-green);
 }
 
 .btn-outline-yellow {
   @extend .btn-outline;
-  color: $dark-yellow;
-  border: 1px solid $dark-yellow;
-
-  &:hover, &:focus, &:active {
-    color: $extra-light-yellow;
-
-  }
+  @include btn-outline-colors($dark-yellow, $dark-yellow, $dark-yellow, $extra-light-yellow);
 }
 
 .btn-outline-red {
   @extend .btn-outline;
-  color: $dark-red;
-  border: 1px solid $dark-red;
-
-  &:hover, &:focus, &:active {
-    color: $dark-red;
-    background: $extra-light-red;
-  }
+  @include btn-outline-colors($dark-red, $dark-red, $dark-red, $extra-light-red);
 }
 
 .btn-outline-blue {
   @extend .btn-outline;
-  color: $dark-blue;
-  border: 1px solid $dark-blue;
-
-  &:hover, &:focus, &:active {
-    color: $blue;
-    background: $extra-light-blue;
-  }
+  @include btn-outline-colors($blue, $dark-blue, $dark-blue, $extra-light-blue);
 }
 
 .btn-outline-grey {
   @extend .btn-outline;
-  color: $dark-grey;
-  border: 1px solid $dark-grey;
-
-  &:hover, &:focus, &:active {
-    background: $extra-light-grey;
-  }
+  @include btn-outline-colors($dark-grey, $dark-grey, $dark-grey, $extra-light-grey);
 }

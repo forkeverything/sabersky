@@ -64,6 +64,8 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt('password'),
+        'bio' => $faker->paragraph(2),
+        'phone' => $faker->phoneNumber,
         'remember_token' => str_random(10),
         'company_id' => factory(Company::class)->create()->id,
         'role_id' => factory(Role::class)->create()->id
