@@ -8,6 +8,7 @@ use App\Http\Requests\AddNewVendorRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Item;
 use App\LineItem;
+use App\ProductSubcategory;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
@@ -65,8 +66,8 @@ class PusakaSetupSeeder extends Seeder
              ->makeProject()
              ->createVendors()
             ->createPurchaseRequests()
-             ->makeRules()
-             ->createPurchaseOrders()
+//             ->makeRules()
+//             ->createPurchaseOrders()
         ;
     }
 
@@ -207,7 +208,8 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 'brand' => $this->faker->name,
                 'name' => $this->faker->word,
                 'specification' => $this->faker->paragraph(2),
-                'company_id' => 1
+                'company_id' => 1,
+                'product_subcategory_id' => $this->faker->randomElement(ProductSubcategory::all()->pluck('id')->toArray())
             ]);
             $user = factory(\App\User::class)->create([
                 'company_id' => 1

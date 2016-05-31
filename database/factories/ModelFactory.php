@@ -18,6 +18,7 @@ use \App\Item;
 use App\LineItem;
 use App\Note;
 use App\Photo;
+use App\ProductSubcategory;
 use \App\Project;
 use App\PurchaseOrder;
 use App\PurchaseOrderAdditionalCost;
@@ -170,7 +171,8 @@ $factory->define(Item::class, function (Faker\Generator $faker) {
         'brand' => $faker->name,
         'name' => $faker->word,
         'specification' => $faker->paragraph(2),
-        'company_id' => factory(Company::class)->create()->id
+        'company_id' => factory(Company::class)->create()->id,
+        'product_subcategory_id' => $faker->randomElement(ProductSubcategory::all()->pluck('id')->toArray())
     ];
 });
 

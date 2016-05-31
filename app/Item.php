@@ -58,7 +58,8 @@ class Item extends Model
         'brand',
         'name',
         'specification',
-        'company_id'
+        'company_id',
+        'product_subcategory_id'
     ];
 
     /**
@@ -71,6 +72,16 @@ class Item extends Model
         'new',
         'means'
     ];
+
+    /**
+     * Every Item has to belong to a single Product Subcategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subcategory()
+    {
+        return $this->belongsTo(ProductSubcategory::class, 'product_subcategory_id');
+    }
 
     /**
      * Static wrapper to create an Item model from a request, as well as
@@ -89,7 +100,8 @@ class Item extends Model
             'brand' => $request->input('brand'),
             'name' => $request->input('name'),
             'specification' => $request->input('specification'),
-            'company_id' => $user->company_id
+            'company_id' => $user->company_id,
+            'product_subcategory_id' => $request->input('product_subcategory_id')
         ]);
 
         // Record activity

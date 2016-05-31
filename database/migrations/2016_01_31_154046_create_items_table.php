@@ -21,6 +21,9 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->text('specification');
 
+            $table->integer('product_subcategory_id')->unsigned();
+            $table->foreign('product_subcategory_id')->references('id')->on('product_subcategories')->onDelete('cascade');
+
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 

@@ -15,6 +15,9 @@ Vue.component('add-item-modal', {
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '<form-errors></form-errors>' +
     '<h2>Add New Item</h2>' +
+    '<div class="form-group">' +
+    '<product-category-selecter :name.sync="productSubcategoryId"></product-category-selecter>' +
+    '</div>' +
     '   <div class="form-group">' +
     '       <label>SKU</label>' +
     '       <input class="form-control" type="text" v-model="sku">' +
@@ -64,6 +67,7 @@ Vue.component('add-item-modal', {
             sku: '',
             brand: '',
             name: '',
+            productSubcategoryId: '',
             specification: '',
             uploadedFiles: [],
             fileErrors: [],
@@ -102,6 +106,7 @@ Vue.component('add-item-modal', {
             fd.append('brand', self.brand);
             fd.append('name', self.name);
             fd.append('specification', self.specification);
+            fd.append('product_subcategory_id', self.productSubcategoryId);
 
             // Send Req. via Ajax
             vueClearValidationErrors(self);

@@ -11,8 +11,8 @@ Vue.component('select-type', {
         };
     },
     props: [
-        'options',
         'name',
+        'options',
         'create',
         'unique',
         'placeholder'

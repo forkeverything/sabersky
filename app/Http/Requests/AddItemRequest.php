@@ -28,7 +28,8 @@ class AddItemRequest extends Request
         $rules = [
             'sku' => 'unique:items,sku,NULL,id,company_id,' . Auth::user()->company->id,
             'name' => 'required|unique:items,name,NULL,id,company_id,' . Auth::user()->company->id . ',brand,' . $this->input('brand'),
-            'specification' => 'required'
+            'specification' => 'required',
+            'product_subcategory_id' => 'required'
         ];
 
         // To handle item_photos array of files
@@ -47,7 +48,8 @@ class AddItemRequest extends Request
             'sku.unique' => 'SKU already exists',
             'name.required' => 'Item name is empty',
             'name.unique' => 'Item already exists',
-            'specification.required' => 'Specification is empty'
+            'specification.required' => 'Specification is empty',
+            'product_subcategory_id.required' => 'Item category not selected'
         ];
     }
 }

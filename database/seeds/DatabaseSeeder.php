@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Seeded Permissions!');
         $this->call(PropertiesTriggersTableSeeder::class);
         $this->command->info('Seeded Rule Properties & Triggers');
+        $this->call(ProductCategoriesTableSeeder::class);
 
         $this->command->info('...Seeding dev data');
         $this->call(PusakaSetupSeeder::class);
