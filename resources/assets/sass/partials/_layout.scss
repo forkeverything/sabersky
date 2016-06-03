@@ -71,7 +71,7 @@
 
 #main-stage {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - #{$topbar-height});
   overflow-x: hidden;
 
   #side-menu {

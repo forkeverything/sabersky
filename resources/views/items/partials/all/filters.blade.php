@@ -6,6 +6,11 @@
     <select-picker :options="filterOptions" :name.sync="filter"
                    :placeholder="'Select one...'"></select-picker>
 
+    <div class="categories-list" v-show="filter === 'category'">
+        <p>is</p>
+        <product-category-selecter :value.sync="filterValue"></product-category-selecter>
+    </div>
+
     <!-- Brands Filter -->
     <div class="brands-list" v-show="filter === 'brand'">
         <p>is</p>

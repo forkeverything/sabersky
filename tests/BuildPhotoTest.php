@@ -15,7 +15,9 @@ class BuildPhotoTest extends \TestCase
 {
     use DatabaseTransactions;
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_builds_an_item_photo()
     {
         $file = m::mock(UploadedFile::class, [
@@ -38,9 +40,9 @@ class BuildPhotoTest extends \TestCase
              ->once()
              ->with($directory, 'nowfoo.jpg');       // With what arguments
 
-        $editor->shouldReceive('resize640')
+        $editor->shouldReceive('resize')
                ->once()
-               ->with($directory . '/nowfoo.jpg');
+               ->with(640, 640, $directory . '/nowfoo.jpg');
 
         $editor->shouldReceive('thumbnailItem')
                ->once()

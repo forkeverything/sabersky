@@ -865,6 +865,63 @@ var userCompany = {
         }
     }
 };
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">' +
+    '<div class="starting">' +
+    '<label>starting</label>'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel" placeholder="date">'+
+    '</div>' +
+    '<span class="dash">-</span>' +
+    '<div class="ending">' +
+    '<label>Ending</label>' +
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel" placeholder="date">' +
+    '</div>'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
+            }
+        }
+    },
+    ready: function() {
+    }
+});
 Vue.component('form-errors', {
     template: '<div class="validation-errors" v-show="errors.length > 0">' +
     '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
@@ -1181,7 +1238,7 @@ Vue.component('select-type', {
     name: 'selectType',
     template: '<select class="select-type" v-show="receivedOptions">' +
     '<option></option>' +
-    '               <option value="{{ option }}" v-for="option in options">{{ option }}</option>' + '' +
+    '               <option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' + '' +
     '          </select>',
     data: function () {
         return {
@@ -1201,8 +1258,8 @@ Vue.component('select-type', {
 
         var self = this;
 
-        var unique = this.unique || true,
-            create = this.create || true,
+        var unique = this.unique !== false,
+            create = this.create !== false;
             placeholder = this.placeholder || 'Type to select...';
 
         this.$watch('name', function (value) {
@@ -1340,63 +1397,6 @@ Vue.component('toast-alert', {
         make the jump to Vue for handling all client-side. Which
         includes routing, auth etc.
          */
-    }
-});
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">' +
-    '<div class="starting">' +
-    '<label>starting</label>'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel" placeholder="date">'+
-    '</div>' +
-    '<span class="dash">-</span>' +
-    '<div class="ending">' +
-    '<label>Ending</label>' +
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel" placeholder="date">' +
-    '</div>'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-
-                if(this.onChangeEventName) {
-                    var data = this.onChangeEventData || null;
-                    vueEventBus.$emit(this.onChangeEventName, {
-                        newVal: newVal,
-                        attached: data
-                    });
-                }
-            }
-        }
-    },
-    ready: function() {
     }
 });
 Vue.component('add-address-modal', {
@@ -1562,7 +1562,8 @@ Vue.component('add-address-modal', {
 });
 Vue.component('add-item-modal', {
     name: 'addItemModal',
-    template: '<button type="button"' +
+    template: '<div class="add-item">' +
+    '<button type="button"' +
     '               class="btn button-add-item"' +
     '               :class="{' +
     "                   'btn-outline-blue': this.buttonType === 'blue'," +
@@ -1578,7 +1579,16 @@ Vue.component('add-item-modal', {
     '<form-errors></form-errors>' +
     '<h2>Add New Item</h2>' +
     '<div class="form-group">' +
-    '<product-category-selecter :name.sync="productSubcategoryId"></product-category-selecter>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '<label>Category</label>' +
+    '<product-category-selecter :value.sync="productCategoryId"></product-category-selecter>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '<label class="required">Subcategory</label>' +
+    '<product-subcategory-selecter :category="productCategoryId" :value.sync="productSubcategoryId"></product-subcategory-selecter>' +
+    '</div>' +
+    '</div>' +
     '</div>' +
     '   <div class="form-group">' +
     '       <label>SKU</label>' +
@@ -1619,6 +1629,7 @@ Vue.component('add-item-modal', {
     '   </button>' +
     '</div>' +
     '</form>' +
+    '</div>' +
     '</div>',
     data: function () {
         return {
@@ -1629,6 +1640,7 @@ Vue.component('add-item-modal', {
             sku: '',
             brand: '',
             name: '',
+            productCategoryId: '',
             productSubcategoryId: '',
             specification: '',
             uploadedFiles: [],
@@ -3038,31 +3050,92 @@ Vue.component('po-single-rule', {
 });
 Vue.component('product-category-selecter', {
     name: 'ProductCategorySelecter',
-    template: '<label>Category</label>' +
-    '<select-type :name.sync="name" :create="false"></select-type>',
-    data: function() {
-        return {
-
-        };
-    },
-    props: ['name'],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
+    template: '<div class="product-category-selecter">' +
+    '<select class="product-category-select" v-el:select>' +
+    '<option></option>' +
+    '</select>' +
+    '</div>',
+    props: ['value'],
     ready: function() {
+        var self = this,
+            $select,
+            select;
+
+        $select = $(self.$els.select).selectize({
+            valueField: 'id',
+            searchField: 'label',
+            labelField: 'label',
+            create: false,
+            placeholder: 'Category',
+            onChange: function (value) {
+                self.value = value;
+            }
+        });
+
+        select = $select[0].selectize;
+
+        select.load(function(callback) {
+            $.get('/product_categories', function (data) {
+                callback(data);
+            });
+        });
+    }
+});
+Vue.component('product-subcategory-selecter', {
+    name: 'productSubcategorySelecter',
+    template: '<div class="product-subcategory-selecter">' +
+    '<select class="product-subcategory-select" v-el:select>' +
+    '<option></option>' +
+    '</select>' +
+    '</div>',
+    props: ['value', 'category'],
+    ready: function() {
+        var self = this,
+            xhr,
+            $select,
+            select;
+
+        this.$watch('category', function(value) {
+            if (!value.length) return;
+            select.disable();
+            select.clearOptions();
+            select.load(function(callback) {
+                xhr && xhr.abort();
+                xhr = $.ajax({
+                    url: '/product_categories/' + value + '/subcategories',
+                    success: function(results) {
+                        select.enable();
+                        callback(results);
+                    },
+                    error: function() {
+                        callback();
+                    }
+                })
+            });
+        });
+
+        $select = $(self.$els.select).selectize({
+            valueField: 'id',
+            searchField: 'label',
+            labelField: 'label',
+            create: false,
+            placeholder: 'Subcategory',
+            onChange: function (value) {
+                self.value = value;
+            }
+        });
+
+        select = $select[0].selectize;
+
+        select.disable();
+
 
     }
 });
 Vue.component('profile-photo', {
     name: 'ProfilePhoto',
     template: '<div class="profile-photo" v-el:profile-photo>' +
-    '<div class="image-container" v-if="user.photo.thumbnail_path">' +
+    '<div class="image-container" v-if="user.photo">' +
     '<img :src="user.photo.thumbnail_path" alt="User Profile Image" class="img-circle">' +
     '</div>' +
     '<div class="initials" v-else>' +
@@ -3395,10 +3468,12 @@ Vue.component('team-member-selecter', {
 });
 Vue.component('user-projects-selecter', {
     name: 'userProjectsSelecter',
-    template: '<select-picker :options="projects" ' +
+    template: '<div class="project-selecter">' +
+    '<select-picker :options="projects" ' +
     '               :name.sync="name"'+
     '               :placeholder="' + "'Pick a Project...'" + '">' +
-    '           </select-picker>',
+    '           </select-picker>' +
+    '</div>',
     data: function() {
         return {
             projects: []

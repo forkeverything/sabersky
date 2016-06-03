@@ -5927,7 +5927,7 @@ button.close {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 50px);
   overflow-x: hidden; }
   #main-stage #side-menu {
     -webkit-flex: 0 0 180px;
@@ -6205,7 +6205,8 @@ button.close {
     font-size: 1em; }
 
 #top-nav {
-  border-radius: 0; }
+  border-radius: 0;
+  height: 50px; }
 
 .guest-nav {
   z-index: 8; }
@@ -9067,17 +9068,17 @@ table {
   background: #E9E9E9;
   color: #5A5A5A; }
 
-.modal-item-add .form-item-add .brand-name-wrap {
+.add-item .modal-item-add .form-item-add .brand-name-wrap {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex; }
-  .modal-item-add .form-item-add .brand-name-wrap .brand-selection {
+  .add-item .modal-item-add .form-item-add .brand-name-wrap .brand-selection {
     margin: 0 15px 0 0;
     min-width: 150px;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1; }
-  .modal-item-add .form-item-add .brand-name-wrap .enter-name {
+  .add-item .modal-item-add .form-item-add .brand-name-wrap .enter-name {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1; }
@@ -9202,7 +9203,8 @@ table {
       background: transparent;
       font-size: 1.5em;
       color: #353535;
-      opacity: 0.2; }
+      opacity: 0.2;
+      padding: 0.5em 1em; }
       .modal-overlay .modal-body .button-hide-modal:focus, .modal-overlay .modal-body .button-hide-modal:hover, .modal-overlay .modal-body .button-hide-modal:active {
         box-shadow: none;
         opacity: 0.5;
@@ -9918,7 +9920,7 @@ body {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
-  .title-with-buttons h1, .title-with-buttons h2, .title-with-buttons h3, .title-with-buttons h4 {
+  .title-with-buttons > h1, .title-with-buttons > h2, .title-with-buttons > h3, .title-with-buttons > h4 {
     margin: 0; }
 
 .page-title {

@@ -48,6 +48,14 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/countries/currency/search/{query}', 'CountriesController@getSearchCurrency');
 
     /*
+     * Product Categories
+     */
+    Route::get('/product_categories', 'ProductCategoriesController@getCategories');
+    Route::get('/product_categories/{productCategory}/subcategories', 'ProductCategoriesController@getSubcategories');
+    Route::get('/product_categories/subcategories/search/{term}', 'ProductCategoriesController@getSearchSubcategories');
+    
+
+    /*
      * Address
      */
     // api

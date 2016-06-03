@@ -59,6 +59,7 @@ class ItemsController extends Controller
         $search = $request->query('search');
 
         $items = CompanyItemsRepository::forCompany(Auth::user()->company)
+                                       ->belongsToCategory($request->category)
                                        ->withBrand($brand)
                                        ->withName($name)
                                        ->forProject($project)
@@ -143,7 +144,6 @@ class ItemsController extends Controller
     }
 
 
-
     /**
      * Receives a Query and performs a DB search on:
      * sku, brand, and name - returns full item
@@ -178,7 +178,7 @@ class ItemsController extends Controller
     {
 
         $item = Item::add($request, Auth::user());
-        
+
         if ($files = $request->file('item_photos')) $item->handleFiles($files);
         if ($item) return $item->load(['photos']);
         return response("Could not create item", 500);

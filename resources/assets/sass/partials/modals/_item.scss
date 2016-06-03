@@ -1,20 +1,22 @@
-.modal-item-add {
+.add-item {
+  .modal-item-add {
 
-  .form-item-add {
+    .form-item-add {
 
-    .brand-name-wrap {
-      display: flex;
+      .brand-name-wrap {
+        display: flex;
 
-      .brand-selection {
-        margin: 0 15px 0 0;
-        min-width: 150px;
-        flex: 1;
+        .brand-selection {
+          margin: 0 15px 0 0;
+          min-width: 150px;
+          flex: 1;
+        }
+
+        .enter-name {
+          flex: 1;
+        }
+
       }
-
-      .enter-name {
-        flex: 1;
-      }
-
     }
   }
 }

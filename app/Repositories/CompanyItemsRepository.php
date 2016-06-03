@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\ProductCategory;
 use App\Project;
 use App\Repositories\apiRepository;
 use App\Company;
@@ -36,6 +37,23 @@ class CompanyItemsRepository extends apiRepository
     {
 
         return Item::where('company_id', $company->id);
+    }
+
+    /**
+     * Filters only items that belong to a given Category
+     *
+     * @param null $categoryId
+     * @return $this
+     */
+    public function belongsToCategory($categoryId = null)
+    {
+        if ($categoryId) {
+            $productCategory = ProductCategory::find($categoryId);
+            $this->{'category'} = ProductCategory::find($categoryId)->label;
+            $this->query->whereIn('product_subcategory_id', $productCategory->subcategories->pluck('id')->toArray());
+        }
+
+        return $this;
     }
 
     /**
@@ -80,7 +98,7 @@ class CompanyItemsRepository extends apiRepository
         // If we have a Project ID and it is an Integer
         if ($projectID && is_int((int)$projectID)) {
             $project = Project::find($projectID);
-            $this->{'project'} = $project;
+            $this->{'project'} = $project->name;
             $this->query->whereExists(function ($query) use ($projectID) {
                 $query->select(DB::raw(1))
                       ->from('purchase_requests')

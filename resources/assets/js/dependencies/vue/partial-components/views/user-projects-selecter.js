@@ -1,9 +1,11 @@
 Vue.component('user-projects-selecter', {
     name: 'userProjectsSelecter',
-    template: '<select-picker :options="projects" ' +
+    template: '<div class="project-selecter">' +
+    '<select-picker :options="projects" ' +
     '               :name.sync="name"'+
     '               :placeholder="' + "'Pick a Project...'" + '">' +
-    '           </select-picker>',
+    '           </select-picker>' +
+    '</div>',
     data: function() {
         return {
             projects: []

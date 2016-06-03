@@ -8,6 +8,7 @@ new Vue({
     el: '#app-layout',
     data: {
         user: {
+            photo: '',
             company: {
                 address: {},
                 settings: {

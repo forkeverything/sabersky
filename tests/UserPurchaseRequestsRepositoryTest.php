@@ -2,6 +2,7 @@
 
 use App\Company;
 use App\Item;
+use App\ProductCategory;
 use App\Project;
 use App\PurchaseRequest;
 use App\Repositories\UserPurchaseRequestsRepository;
@@ -53,11 +54,15 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
      *
      * @return mixed
      */
-    protected function makeProject()
+    protected function makeProject(User $user = null)
     {
-        return factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'company_id' => static::$company->id
         ]);
+        if ($user) {
+            $project->addTeamMember($user);
+        }
+        return $project;
     }
 
     /**
@@ -365,6 +370,46 @@ class UserPurchaseRequestsRepositoryTest extends TestCase
             if($condition[0] == " 2016-06-01") dd(UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterDateField('purchase_requests.created_at', $condition[0])->getWithoutQueryProperties()->pluck('created_at'));
             $this->assertCount($condition[1], UserPurchaseRequestsRepository::forUser(User::find(static::$user->id))->filterDateField('purchase_requests.created_at', $condition[0])->getWithoutQueryProperties());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function it_finds_the_right_requests_for_a_category()
+    {
+        $targetCategory = ProductCategory::all()->random();
+
+        // Make 5 items for target cat
+        for ($i = 0; $i < 5; $i++) {
+            $item = factory(Item::class)->create([
+                'company_id' => static::$company->id,
+                'product_subcategory_id' => $targetCategory->subcategories->random()->id
+            ]);
+            $project = $this->makeProject(static::$user);
+            $this->makePurchaseRequests(1, $project, ['state' => 'open'], $item);
+        }
+
+        // Make 10 for different categories
+        for ($j = 0; $j < 10; $j++) {
+            do {
+                $irrelevantCategory = ProductCategory::all()->random();
+            } while ($irrelevantCategory->id === $targetCategory->id);
+            $item = factory(Item::class)->create([
+                'company_id' => static::$company->id,
+                'product_subcategory_id' => $irrelevantCategory->subcategories->random()->id
+            ]);
+            $project = $this->makeProject(static::$user);
+            $this->makePurchaseRequests(1, $project, ['state' => 'open'], $item);
+        }
+
+
+        // Unfiltered get 15
+        $this->assertCount(15, UserPurchaseRequestsRepository::forUser(static::$user)->getWithoutQueryProperties());
+
+        // Target Category = 5
+        $this->assertCount(5, UserPurchaseRequestsRepository::forUser(static::$user)->belongsToProductCategory($targetCategory->id)->getWithoutQueryProperties());
+
+
     }
 
 

@@ -63,6 +63,7 @@ class PurchaseRequestController extends Controller
                                              ->filterIntegerField('number', $request->number)
                                              ->forProject($request->project_id)
                                              ->filterIntegerField('quantity', $request->quantity)
+                                             ->belongsToProductCategory($request->category)
                                              ->filterByItem($request->item_brand, $request->item_name, $request->item_sku)
                                              ->filterDateField('due', $request->due)
                                              ->filterDateField('purchase_requests.created_at', $request->requested)
@@ -153,14 +154,14 @@ class PurchaseRequestController extends Controller
     public function deleteCancel(PurchaseRequest $purchaseRequest)
     {
         $this->authorize('view', $purchaseRequest);
-        if($purchaseRequest->cancel()) return response("Cancelled PR", 200);
+        if ($purchaseRequest->cancel()) return response("Cancelled PR", 200);
         return response("Could not cancel PR", 500);
     }
 
     /**
      * GET route that re-opens a cancelled PR so that it can be
      * fulfilled again
-     * 
+     *
      * @param PurchaseRequest $purchaseRequest
      * @return Response
      * @throws \Exception
@@ -168,7 +169,7 @@ class PurchaseRequestController extends Controller
     public function getReopen(PurchaseRequest $purchaseRequest)
     {
         $this->authorize('view', $purchaseRequest);
-        if($purchaseRequest->reopen()) return response("Reopened PR", 200);
+        if ($purchaseRequest->reopen()) return response("Reopened PR", 200);
         return response("Could not reopen PR", 500);
     }
 

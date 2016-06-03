@@ -1,6 +1,7 @@
 <?php
 
 use App\Company;
+use App\Http\Requests\AddItemRequest;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Item;
 use App\PurchaseRequest;
@@ -21,11 +22,13 @@ class ItemTest extends TestCase
      */
     public function it_adds_a_new_item()
     {
-        $request = m::mock(\App\Http\Requests\AddItemRequest::class);
-        $request->shouldReceive('input')->with('sku')->once()->andReturn('abcd1234');
-        $request->shouldReceive('input')->with('brand')->once()->andReturn('foo');
-        $request->shouldReceive('input')->with('name')->once()->andReturn('bar');
-        $request->shouldReceive('input')->with('specification')->once()->andReturn('best foobar in the world');
+        $request = new AddItemRequest([
+            'sku' => 'abcd1234',
+            'brand' => 'foo',
+            'name' => 'bar',
+            'specification' => 'best foobar in the world',
+            'product_subcategory_id' => 1
+        ]);
 
         $user = factory(User::class)->create();
 
@@ -55,6 +58,7 @@ class ItemTest extends TestCase
             'brand' => 'bazzo',
             'name' => 'foo',
             'specification' => 'bar',
+            'product_subcategory_id' => 1,
             'company_id' => factory(Company::class)->create()->id
         ]);
 

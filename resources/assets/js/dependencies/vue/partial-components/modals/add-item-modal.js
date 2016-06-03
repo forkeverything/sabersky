@@ -1,6 +1,7 @@
 Vue.component('add-item-modal', {
     name: 'addItemModal',
-    template: '<button type="button"' +
+    template: '<div class="add-item">' +
+    '<button type="button"' +
     '               class="btn button-add-item"' +
     '               :class="{' +
     "                   'btn-outline-blue': this.buttonType === 'blue'," +
@@ -16,7 +17,16 @@ Vue.component('add-item-modal', {
     '<form-errors></form-errors>' +
     '<h2>Add New Item</h2>' +
     '<div class="form-group">' +
-    '<product-category-selecter :name.sync="productSubcategoryId"></product-category-selecter>' +
+    '<div class="row">' +
+    '<div class="col-sm-6">' +
+    '<label>Category</label>' +
+    '<product-category-selecter :value.sync="productCategoryId"></product-category-selecter>' +
+    '</div>' +
+    '<div class="col-sm-6">' +
+    '<label class="required">Subcategory</label>' +
+    '<product-subcategory-selecter :category="productCategoryId" :value.sync="productSubcategoryId"></product-subcategory-selecter>' +
+    '</div>' +
+    '</div>' +
     '</div>' +
     '   <div class="form-group">' +
     '       <label>SKU</label>' +
@@ -57,6 +67,7 @@ Vue.component('add-item-modal', {
     '   </button>' +
     '</div>' +
     '</form>' +
+    '</div>' +
     '</div>',
     data: function () {
         return {
@@ -67,6 +78,7 @@ Vue.component('add-item-modal', {
             sku: '',
             brand: '',
             name: '',
+            productCategoryId: '',
             productSubcategoryId: '',
             specification: '',
             uploadedFiles: [],

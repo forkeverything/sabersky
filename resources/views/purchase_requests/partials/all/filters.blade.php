@@ -23,6 +23,12 @@
             <integer-range-field :min.sync="minFilterValue" :max.sync="maxFilterValue"></integer-range-field>
         </div>
 
+        <!-- Product Category Filter -->
+        <div class="category filter" v-show="filter === 'category'">
+            <p>is</p>
+            <product-category-selecter :value.sync="filterValue"></product-category-selecter>
+        </div>
+
         <!-- Item SKU Filter -->
         <div class="item-brand filter" v-show="filter === 'item_sku'">
             <p>is</p>

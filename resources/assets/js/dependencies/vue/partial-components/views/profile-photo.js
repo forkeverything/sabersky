@@ -1,7 +1,7 @@
 Vue.component('profile-photo', {
     name: 'ProfilePhoto',
     template: '<div class="profile-photo" v-el:profile-photo>' +
-    '<div class="image-container" v-if="user.photo.thumbnail_path">' +
+    '<div class="image-container" v-if="user.photo">' +
     '<img :src="user.photo.thumbnail_path" alt="User Profile Image" class="img-circle">' +
     '</div>' +
     '<div class="initials" v-else>' +

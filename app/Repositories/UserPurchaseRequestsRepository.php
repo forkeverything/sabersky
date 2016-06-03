@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Company;
+use App\ProductCategory;
 use App\Project;
 use App\PurchaseRequest;
 use App\User;
@@ -136,12 +137,32 @@ class UserPurchaseRequestsRepository extends apiRepository
         return $this;
     }
 
+    public function belongsToProductCategory($categoryId = null)
+    {
+        if ($categoryId) {
+
+            $productCategory = ProductCategory::find($categoryId);
+            $this->{'category'} = ProductCategory::find($categoryId)->label;
+
+            $this->query->whereExists(function ($query) use ($productCategory) {
+                $query->select(DB::raw(1))
+                      ->from('items')
+                      ->whereIn('product_subcategory_id', $productCategory->subcategories->pluck('id')->toArray())
+                      ->whereRaw('purchase_requests.item_id = items.id');
+            });
+
+        }
+
+        return $this;
+    }
+
     /**
      * Single function that can perform a filter for a PR's Item using
      * either Item Name, Brand or Both (makes a unique combination)
      *
-     * @param null $itemBrand
-     * @param null $itemName
+     * @param null $brand
+     * @param null $name
+     * @param null $sku
      * @return $this
      */
     public function filterByItem($brand = null, $name = null, $sku = null)
@@ -149,7 +170,7 @@ class UserPurchaseRequestsRepository extends apiRepository
         $ref = new ReflectionMethod($this, 'filterByItem');
         foreach ($ref->getParameters() as $param) {
             $column = $argName = $param->name;
-            if($term = $$argName){
+            if ($term = $$argName) {
                 $this->{'item_' . $column} = $term;
                 $this->query->whereExists(function ($query) use ($column, $term) {
                     $query->select(DB::raw(1))
@@ -161,7 +182,7 @@ class UserPurchaseRequestsRepository extends apiRepository
         }
         return $this;
     }
-    
+
     /**
      * Whether we only want 'urgent' PR's
      *

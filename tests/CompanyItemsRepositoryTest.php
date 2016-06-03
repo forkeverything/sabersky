@@ -2,6 +2,7 @@
 
 use App\Company;
 use App\Item;
+use App\ProductCategory;
 use App\Project;
 use App\Repositories\CompanyItemsRepository;
 use App\User;
@@ -29,6 +30,37 @@ class CompanyItemsRepositoryTest extends TestCase
     {
         $instance = CompanyItemsRepository::forCompany(static::$company);
         $this->assertTrue($instance instanceof  CompanyItemsRepository);
+    }
+
+    /**
+     * @test
+     */
+    public function it_fetches_items_that_belong_to_certain_category()
+    {
+        $targetCategory = ProductCategory::all()->random();
+
+        // Make 5 items for target cat
+        factory(Item::class, 5)->create([
+            'company_id' => static::$company->id,
+            'product_subcategory_id' => $targetCategory->subcategories->random()->id
+        ]);
+
+        // Make 10 for different categories
+        for ($i = 0; $i < 10; $i++) {
+            do {
+                $irrelevantCategory = ProductCategory::all()->random();
+            } while ($irrelevantCategory->id === $targetCategory->id);
+            factory(Item::class)->create([
+                'company_id' => static::$company->id,
+                'product_subcategory_id' => $irrelevantCategory->subcategories->random()->id
+            ]);
+        }
+
+        // Unfiltered get 15
+        $this->assertCount(15, CompanyItemsRepository::forCompany(static::$company)->getWithoutQueryProperties());
+
+        // Target Category = 5
+        $this->assertCount(5, CompanyItemsRepository::forCompany(static::$company)->belongsToCategory($targetCategory->id)->getWithoutQueryProperties());
     }
 
     /**

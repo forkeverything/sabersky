@@ -93,7 +93,7 @@ class PurchaseOrderTest extends TestCase
         // shipping points to different address
         $this->assertNotEquals(static::$purchaseOrder->shippingAddress->id, static::$companyAddress->id);
         // Shipping address belongs to purchaseOrder
-        $this->assertEquals('purchase_order', $shippingAddress->owner_type);
+        $this->assertEquals('App\PurchaseOrder', $shippingAddress->owner_type);
     }
 
     /**
@@ -108,7 +108,7 @@ class PurchaseOrderTest extends TestCase
         // billing does NOT point to company
         $this->assertNotEquals(static::$purchaseOrder->billingAddress->id, static::$companyAddress->id);
         // Billing Address belongs to PO
-        $this->assertEquals('purchase_order', static::$purchaseOrder->billingAddress->owner_type);
+        $this->assertEquals('App\PurchaseOrder', static::$purchaseOrder->billingAddress->owner_type);
         // shipping points to billing
         $this->assertEquals(static::$purchaseOrder->shippingAddress->id, static::$purchaseOrder->billingAddress->id);
     }
@@ -125,11 +125,11 @@ class PurchaseOrderTest extends TestCase
         // Billing does NOT point to company
         $this->assertNotEquals(static::$purchaseOrder->billingAddress->id, static::$companyAddress->id);
         // Billing Address belongs to PO
-        $this->assertEquals('purchase_order', static::$purchaseOrder->billingAddress->owner_type);
+        $this->assertEquals('App\PurchaseOrder', static::$purchaseOrder->billingAddress->owner_type);
         // shippiing != billing
         $this->assertNotEquals(static::$purchaseOrder->shippingAddress->id, static::$purchaseOrder->billingAddress->id);
         // Shipping address belongs to purchaseOrder
-        $this->assertEquals('purchase_order', $shippingAddress->owner_type);
+        $this->assertEquals('App\PurchaseOrder', $shippingAddress->owner_type);
     }
 
     /**

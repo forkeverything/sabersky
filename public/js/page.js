@@ -9,6 +9,10 @@ Vue.component('items-all', apiRequestAllBaseComponent.extend({
             hasFilter: true,
             filterOptions: [
                 {
+                    value: 'category',
+                    label: 'Category'
+                },
+                {
                     value: 'brand',
                     label: 'Brand'
                 },
@@ -144,188 +148,6 @@ Vue.component('item-single', {
                 });
             }
         });
-    }
-});
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            existingUserId: '',
-            newUserName: '',
-            newUserEmail: '',
-            newUserRoleId: ''
-        };
-    },
-    props: ['project'],
-    computed: {
-
-    },
-    methods: {
-        addTeamMember: function() {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.project.id + '/team/add',
-                method: 'POST',
-                data: {
-                    "existing_user_id": self.existingUserId,
-                    "name": self.newUserName,
-                    "email": self.newUserEmail,
-                    "role_id": self.newUserRoleId
-                },
-                success: function(data) {
-                   // success
-
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: ['project'],
-    computed: {
-    },
-    methods: {
-
-    },
-    events: {
-    },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
     }
 });
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
@@ -672,6 +494,10 @@ Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
                     label: 'Quantity'
                 },
                 {
+                    value: 'category',
+                    label: 'Category'
+                },
+                {
                     value: 'item_sku',
                     label: 'Item - SKU'
                 },
@@ -898,6 +724,188 @@ Vue.component('purchase-requests-make', {
 });
 
 
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            existingUserId: '',
+            newUserName: '',
+            newUserEmail: '',
+            newUserRoleId: ''
+        };
+    },
+    props: ['project'],
+    computed: {
+
+    },
+    methods: {
+        addTeamMember: function() {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.project.id + '/team/add',
+                method: 'POST',
+                data: {
+                    "existing_user_id": self.existingUserId,
+                    "name": self.newUserName,
+                    "email": self.newUserEmail,
+                    "role_id": self.newUserRoleId
+                },
+                success: function(data) {
+                   // success
+
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: ['project'],
+    computed: {
+    },
+    methods: {
+
+    },
+    events: {
+    },
+    ready: function() {
+        var self = this;
+        if(!self.ajaxReady) return;
+        self.ajaxReady = false;
+    }
+});
 Vue.component('settings', {
     name: 'Settings',
     el: function () {
@@ -936,6 +944,96 @@ Vue.component('settings', {
     }
 });
 
+Vue.component('user-profile', {
+    name: 'userProfile',
+    el: function() {
+        return '#user-profile'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            editingContact: false,
+            editingBio: false,
+            showProfilePhotoMenu: false
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        togglePhotoMenu: function() {
+            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
+        },
+        toggleEditMode: function(section) {
+            this['editing' + section] = ! this['editing' + section];
+            this.editingSection = (this.editingSection ===  section) ? '' : section;
+        },
+        updateProfile: function(section) {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile',
+                method: 'PUT',
+                data: {
+                    "name": self.user.name,
+                    "email": self.user.email,
+                    "phone": self.user.phone,
+                    "bio": self.user.bio
+                },
+                success: function(data) {
+                   // success
+                    self.toggleEditMode(section);
+                    flashNotify('success', 'Updated profile');
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        showFileSelecter: function() {
+            $(this.$els.fileInput).click();
+        },
+        uploadProfilePhoto: function() {
+            $(this.$els.profilePhotoForm).submit();
+        },
+        removePhoto: function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile/photo',
+                method: 'DELETE',
+                success: function(data) {
+                   self.ajaxReady = true;
+                    flashNotifyNextRequest('success', 'Removed profile photo');
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove photo');
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+        
+    },
+    mixins: [userCompany],
+    ready: function() {
+        var self = this;
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
+                self.showProfilePhotoMenu = false;
+            }
+        });
+    }
+});
 Vue.component('team-all', {
     name: 'teamAll',
     el: function() {
@@ -1050,96 +1148,6 @@ Vue.component('team-single-user', {
     },
     ready: function() {
         var self = this;
-    }
-});
-Vue.component('user-profile', {
-    name: 'userProfile',
-    el: function() {
-        return '#user-profile'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            editingContact: false,
-            editingBio: false,
-            showProfilePhotoMenu: false
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        togglePhotoMenu: function() {
-            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
-        },
-        toggleEditMode: function(section) {
-            this['editing' + section] = ! this['editing' + section];
-            this.editingSection = (this.editingSection ===  section) ? '' : section;
-        },
-        updateProfile: function(section) {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile',
-                method: 'PUT',
-                data: {
-                    "name": self.user.name,
-                    "email": self.user.email,
-                    "phone": self.user.phone,
-                    "bio": self.user.bio
-                },
-                success: function(data) {
-                   // success
-                    self.toggleEditMode(section);
-                    flashNotify('success', 'Updated profile');
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        showFileSelecter: function() {
-            $(this.$els.fileInput).click();
-        },
-        uploadProfilePhoto: function() {
-            $(this.$els.profilePhotoForm).submit();
-        },
-        removePhoto: function() {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile/photo',
-                method: 'DELETE',
-                success: function(data) {
-                   self.ajaxReady = true;
-                    flashNotifyNextRequest('success', 'Removed profile photo');
-                    location.reload();
-                },
-                error: function(response) {
-                    console.log(response);
-                    flashNotify('error', 'Could not remove photo');
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {
-        
-    },
-    mixins: [userCompany],
-    ready: function() {
-        var self = this;
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
-                self.showProfilePhotoMenu = false;
-            }
-        });
     }
 });
 Vue.component('vendors-add-new', {

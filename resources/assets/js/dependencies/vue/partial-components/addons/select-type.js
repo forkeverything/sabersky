@@ -2,7 +2,7 @@ Vue.component('select-type', {
     name: 'selectType',
     template: '<select class="select-type" v-show="receivedOptions">' +
     '<option></option>' +
-    '               <option value="{{ option }}" v-for="option in options">{{ option }}</option>' + '' +
+    '               <option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' + '' +
     '          </select>',
     data: function () {
         return {
@@ -22,8 +22,8 @@ Vue.component('select-type', {
 
         var self = this;
 
-        var unique = this.unique || true,
-            create = this.create || true,
+        var unique = this.unique !== false,
+            create = this.create !== false;
             placeholder = this.placeholder || 'Type to select...';
 
         this.$watch('name', function (value) {

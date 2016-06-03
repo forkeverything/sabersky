@@ -9,6 +9,10 @@ Vue.component('items-all', apiRequestAllBaseComponent.extend({
             hasFilter: true,
             filterOptions: [
                 {
+                    value: 'category',
+                    label: 'Category'
+                },
+                {
                     value: 'brand',
                     label: 'Brand'
                 },
