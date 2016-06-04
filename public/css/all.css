@@ -6214,7 +6214,7 @@ button.close {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    height: 60px; }
+    height: 50px; }
     .guest-nav .container .navbar-toggle {
       -webkit-flex: 0 0 44px;
       -ms-flex: 0 0 44px;
@@ -6233,19 +6233,19 @@ button.close {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
+      -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+      justify-content: flex-start;
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center; }
       .guest-nav .container .navbar-logo img {
-        max-width: 25px; }
+        width: 175px; }
     .guest-nav .container .navbar-dropdown {
       list-style: none;
       margin: 0;
       position: absolute;
-      top: 60px;
+      top: 50px;
       background: #fff;
       width: 100%;
       left: 0;
@@ -6255,9 +6255,10 @@ button.close {
       -webkit-animation-duration: 0.15s;
       animation-duration: 0.15s; }
       .guest-nav .container .navbar-dropdown li {
-        padding: 10px 0; }
+        padding: 10px 15px; }
         .guest-nav .container .navbar-dropdown li a {
-          color: #757575; }
+          color: #757575;
+          padding: 0; }
           .guest-nav .container .navbar-dropdown li a:hover {
             color: #353535; }
     .guest-nav .container .navbar-right {
@@ -6265,9 +6266,7 @@ button.close {
       -ms-flex: 0 0 100px;
       flex: 0 0 100px;
       margin: 0;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
+      display: none;
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center; }
@@ -6279,7 +6278,14 @@ button.close {
         .guest-nav .container .navbar-logo {
           -webkit-flex: 300px;
           -ms-flex: 300px;
-          flex: 300px; }
+          flex: 300px;
+          -webkit-justify-content: center;
+          -ms-flex-pack: center;
+          justify-content: center; }
+        .guest-nav .container .navbar-right {
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex; }
         .guest-nav .container .navbar-dropdown {
           position: relative;
           top: 0;
@@ -6316,8 +6322,6 @@ button.close {
   border: 0;
   background: #3498DB;
   color: #fff; }
-  .user-nav a {
-    color: #fff; }
   .user-nav .button-show-side-menu {
     -webkit-flex: 0 0 40px;
     -ms-flex: 0 0 40px;
@@ -6346,6 +6350,8 @@ button.close {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
+    .user-nav .navbar-logo img {
+      width: 45px; }
 
 .form-control {
   border-color: #D2D2D2;

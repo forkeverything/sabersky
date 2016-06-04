@@ -3,7 +3,7 @@
 
   .container {
     display: flex;
-    height: 60px;
+    height: 50px;
 
     .navbar-toggle {
       flex: 0 0 44px;
@@ -25,11 +25,11 @@
     .navbar-logo {
       flex: 1;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
 
       img {
-        max-width: 25px;
+        width: 175px;
       }
     }
 
@@ -37,26 +37,21 @@
       list-style: none;
       margin: 0;
       position: absolute;
-      top: 60px;
+      top: 50px;
       background: #fff;
       width: 100%;
       left: 0;
       border-top: 1px solid #CDCFD2;
       padding: 10px 0;
-      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      -moz-box-shadow: 0 1px 3px  rgba(0, 0, 0, 0.2);
-      box-shadow: 0 1px 3px  rgba(0, 0, 0, 0.2);
-
-      -webkit-animation-duration: 0.15s;
-      -moz-animation-duration: 0.15s;
-      -o-animation-duration: 0.15s;
-      animation-duration: 0.15s;
+      @include box-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+      @include animation-duration(0.15s);
 
       li {
-        padding: 10px 0;
+        padding: 10px 15px;
 
         a {
           color: $dark-grey;
+          padding: 0;
 
           &:hover {
             color: $black;
@@ -68,15 +63,20 @@
     .navbar-right {
       flex: 0 0 100px;
       margin: 0;
-      display: flex;
+      display: none;
       align-items: center;
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: $screen-sm-min) {
       justify-content: space-between;
 
       .navbar-logo {
         flex: 300px;
+        justify-content: center;
+      }
+
+      .navbar-right {
+        display: flex;
       }
 
       .navbar-dropdown {

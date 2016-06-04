@@ -12,7 +12,7 @@
 
         <!-- Branding Image -->
         <a class="navbar-logo" href="{{ url('/') }}">
-            <img src="/images/logo/logo-pji.svg" class="nav-logo">
+            <img src="/images/logo/logo-blue.jpg" class="nav-logo">
         </a>
 
         <ul class="navbar-dropdown animated"
@@ -20,14 +20,8 @@
             @click.stop=""
             transition="fade-slide"
         >
-            <li><a href="{{ url('/info/pricing') }}">Pricing</a></li>
             <li><a href="{{ url('/login') }}">Login</a></li>
-        </ul>
-
-        <ul class="navbar-right list-unstyled">
-            <li>
-                @include('auth.partials.registration-popup')
-            </li>
+            <li>@include('auth.partials.registration-popup')</li>
         </ul>
     </div>
 </nav>

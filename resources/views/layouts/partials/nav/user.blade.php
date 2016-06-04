@@ -7,7 +7,7 @@
     </button>
     <div class="navbar-logo">
         <a class="link-logo" href="{{ url('/') }}">
-            <span class="navbar-name">SaberSky</span>
+            <img src="/images/logo/logo-cloud-white.png" class="nav-logo">
         </a>
     </div>
     {{--@if(isset($breadcrumbs))--}}
