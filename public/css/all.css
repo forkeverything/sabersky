@@ -6020,6 +6020,7 @@ button.close {
 .btn-outline, .btn-outline-green, .btn-outline-yellow, .btn-outline-red, .btn-outline-blue, .btn-outline-grey {
   background: transparent;
   display: inline-block;
+  border: 0;
   transition: all 0.15s ease-out; }
 
 .btn-outline-yellow:disabled,
@@ -7228,15 +7229,23 @@ label {
 #purchase-request-single h1 {
   margin: 0 0 10px; }
 
-#purchase-request-single .state-control {
+#purchase-request-single .top-control {
   margin: 0 0 30px; }
+
+#purchase-request-single .state-control {
+  margin: 15px 0 0 0;
+  text-align: center; }
   #purchase-request-single .state-control .cancel-pr .confirm-cancel {
-    text-align: right; }
+    text-align: center;
+    margin-bottom: -10px; }
     #purchase-request-single .state-control .cancel-pr .confirm-cancel p {
+      text-align: center;
       margin: 0 0 10px;
       color: #9CA1A8; }
     #purchase-request-single .state-control .cancel-pr .confirm-cancel .btn-return {
       margin: 0 10px 0 0; }
+    #purchase-request-single .state-control .cancel-pr .confirm-cancel .btn {
+      margin-bottom: 10px; }
 
 #purchase-request-single .item .top {
   display: -webkit-flex;

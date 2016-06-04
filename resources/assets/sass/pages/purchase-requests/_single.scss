@@ -4,14 +4,22 @@
     margin: 0 0 10px;
   }
 
-  .state-control {
+  .top-control {
     margin: 0 0 30px;
+  }
+
+  .state-control {
+    margin: 15px 0 0 0;
+    text-align: center;
 
     .cancel-pr {
 
       .confirm-cancel {
-        text-align: right;
+        text-align: center;
+        margin-bottom: -10px;
+
         p {
+          text-align: center;
           margin: 0 0 10px;
           color: $text-muted;
         }
@@ -19,9 +27,12 @@
         .btn-return {
           margin: 0 10px 0 0;
         }
+
+        .btn {
+          margin-bottom: 10px;
+        }
       }
     }
-
   }
 
   .item {
@@ -61,7 +72,6 @@
     }
 
     .item-images {
-
 
       .image-gallery {
         margin: 0 0 -10px;
@@ -103,7 +113,7 @@
 
         tr {
 
-          td,th  {
+          td, th {
             border: 0;
             padding: 5px 0;
           }
@@ -127,7 +137,6 @@
         }
       }
     }
-
 
   }
 
@@ -176,11 +185,6 @@
         }
       }
     }
-
-    
-
-
-
 
   }
 }

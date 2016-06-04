@@ -2,10 +2,14 @@
 @section('content')
     <div class="container" id="purchase-request-single">
 
-            <h1>Purchase Request #{{ $purchaseRequest->number }}</h1>
-        <div class="align-end">
-            <pr-single-cancel :purchase-request="{{ $purchaseRequest }}"></pr-single-cancel>
-        </div>
+        <h1>Purchase Request #{{ $purchaseRequest->number }}</h1>
+        @if($purchaseRequest->quantity > 0)
+            <div class="top-control align-end">
+                <a class="link-fulfill" href="/purchase_orders/submit?request={{ $purchaseRequest->id }}">
+                    <button type="button" class="btn btn-solid-green">Fulfill</button>
+                </a>
+            </div>
+        @endif
         <div class="row">
             <div class="col-sm-4">
                 <div class="item hidden-xs card">
@@ -56,6 +60,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <pr-single-cancel :purchase-request="{{ $purchaseRequest }}"></pr-single-cancel>
                 </div>
                 <div class="mobile-only item card visible-xs">
                     @include('purchase_requests.partials.single.item-card')
@@ -63,13 +68,14 @@
                 <div class="mobile-only project card visible-xs">
                     @include('purchase_requests.partials.single.project-card')
                 </div>
-                    <div class="notes card">
-                        <h4 class="card-title">Notes</h4>
-                        <notes subject="purchase_request" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
-                    </div>
-                    @include('layouts.partials.activities_log', ['activities' => $purchaseRequest->activities])
+                <div class="notes card">
+                    <h4 class="card-title">Notes</h4>
+                    <notes subject="purchase_request" subject_id="{{ $purchaseRequest->id }}" :user="user"></notes>
+                </div>
+                @include('layouts.partials.activities_log', ['activities' => $purchaseRequest->activities])
             </div>
         </div>
+
     </div>
 @endsection
 
