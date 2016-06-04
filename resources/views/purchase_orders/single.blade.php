@@ -10,17 +10,18 @@
 
             <div class="stats">
                 <div class="align-end">
-                    <a class="link-show-stats dotted" role="button" data-toggle="collapse" href="#po-stats-collapse" aria-expanded="false" aria-controls="po-stats-collapse">
+                    <a class="link-show-stats dotted" role="button" data-toggle="collapse" href="#po-stats-collapse"
+                       aria-expanded="false" aria-controls="po-stats-collapse">
                         View Stats
                     </a>
                 </div>
                 <div class="collapse" id="po-stats-collapse">
-                        @include('purchase_orders.partials.single.stats')
+                    @include('purchase_orders.partials.single.stats')
                 </div>
 
             </div>
 
-            <div class="order-main page-body">
+            <div class="order-main">
 
                 <div class="meta visible-xs">
                     @include('purchase_orders.partials.single.meta')
@@ -28,13 +29,13 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3>Vendor</h3>
+                        <h2>Vendor</h2>
                         <div class="vendor">
                             @include('purchase_orders.partials.single.vendor')
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <h3 class="visible-xs">Order</h3>
+                        <h2 class="visible-xs">Order</h2>
                         <div class="order">
                             @include('purchase_orders.partials.single.order')
                         </div>
@@ -43,9 +44,10 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <h3>Items</h3>
+                        <h2>Items</h2>
                         <div class="quick-actions">
-                            <button class="btn btn-small btn-outline-blue" @click="markAllPaid" :disabled="! purchaseOrder.approved || numPaidLineItems == numLineItems">Mark All Paid</button>
+                            <button class="btn btn-small btn-outline-blue" @click="markAllPaid" :disabled="
+                            ! purchaseOrder.approved || numPaidLineItems == numLineItems">Mark All Paid</button>
                         </div>
                         <div class="line-items">
                             @include('purchase_orders.partials.single.line-items')
@@ -72,14 +74,14 @@
 
             </div>
 
-            <div class="page-body">
-                <div class="po-notes">
-                    <h3>Notes</h3>
-                    <notes subject="purchase_order" subject_id="{{ $purchaseOrder->id }}" :user="user"></notes>
-                </div>
-                @include('layouts.partials.activities_log', ['activities' => $purchaseOrder->activities])
-            </div>
 
+            <div class="po-notes">
+                <h2>Notes</h2>
+                <notes subject="purchase_order" subject_id="{{ $purchaseOrder->id }}" :user="user"></notes>
+            </div>
+            @include('layouts.partials.activities_log', ['activities' => $purchaseOrder->activities])
         </div>
+
+
     </purchase-order-single>
 @endsection

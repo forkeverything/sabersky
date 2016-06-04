@@ -1,16 +1,16 @@
 Vue.component('add-address-modal', {
     name: 'addAddressModal',
     template: '<button type="button"' +
-    '                  class="btn btn-add-address btn-outline-green"' +
+    '                  class="btn btn-add-address btn-outline-blue"' +
     '                  @click="showModal"' +
     '                  >' +
-    '                  <i class="fa fa-plus"></i> New Address' +
+    '                  <i class="fa fa-plus"></i> Address' +
     '          </button>' +
     '          <div class="modal-overlay modal-address-add modal-form" v-show="visible" @click="hideModal">' +
     '               <form class="modal-body form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
     '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '                   <form-errors></form-errors>' +
-    '                   <h3>Add Address</h3>' +
+    '                   <h2>Add Address</h2>' +
     '                   <div class="row">' +
     '                       <div class="col-sm-6">' +
     '                           <div class="shift-label-input">' +

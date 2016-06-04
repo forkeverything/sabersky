@@ -1402,16 +1402,16 @@ Vue.component('number-input', {
 Vue.component('add-address-modal', {
     name: 'addAddressModal',
     template: '<button type="button"' +
-    '                  class="btn btn-add-address btn-outline-green"' +
+    '                  class="btn btn-add-address btn-outline-blue"' +
     '                  @click="showModal"' +
     '                  >' +
-    '                  <i class="fa fa-plus"></i> New Address' +
+    '                  <i class="fa fa-plus"></i> Address' +
     '          </button>' +
     '          <div class="modal-overlay modal-address-add modal-form" v-show="visible" @click="hideModal">' +
     '               <form class="modal-body form-address-add main-form" v-show="loaded" @click.stop="" @submit.prevent="addAddress">' +
     '                   <button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
     '                   <form-errors></form-errors>' +
-    '                   <h3>Add Address</h3>' +
+    '                   <h2>Add Address</h2>' +
     '                   <div class="row">' +
     '                       <div class="col-sm-6">' +
     '                           <div class="shift-label-input">' +
@@ -1933,60 +1933,314 @@ Vue.component('single-pr-modal', {
 });
 
 
+var apiRequestAllBaseComponent = Vue.extend({
+    name: 'APIRequestall',
+    data: function () {
+        return {
+            ajaxReady: true,
+            request: {},
+            response: {},
+            params: {},
+            showFiltersDropdown: false,
+            filter: '',
+            filterValue: '',
+            minFilterValue: '',
+            maxFilterValue: ''
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        checkSetup: function() {
+            if(!this.requestUrl) throw new Error("No Request URL set as 'requestUrl' ");
+            if(this.hasFilter && _.isEmpty(this.filterOptions)) throw new Error("Need filterOptions[] defined to use filters");
+        },
+        makeRequest: function (query) {
+            var self = this,
+                url = this.requestUrl;
+
+            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
+            query = query || window.location.href.split('?')[1];
+            // If we had a query (arg or parsed) - attach it to our url
+            if (query) url = url + '?' + query;
+
+            // self.finishLoading = false;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.request = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    // Attach filters
+                    // Reset obj
+                    self.params = {};
+                    // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.params[key] = value;
+                    });
+
+
+                    // push state (if query is different from url)
+                    pushStateIfDiffQuery(query);
+
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.params.sort === sort) {
+                var order = (this.params.order === 'asc') ? 'desc' : 'asc';
+                this.makeRequest(updateQueryString('order', order));
+            } else {
+                this.makeRequest(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        },
+        searchTerm: _.debounce(function () {
+            if (this.request && this.request.readyState != 4) this.request.abort();
+            var term = this.params.search || null;
+            this.makeRequest(updateQueryString({
+                search: term,
+                page: 1
+            }))
+        }, 200),
+        clearSearch: function () {
+            this.params.search = '';
+            this.searchTerm();
+        },
+        resetFilterInput: function() {
+            this.filter = '';
+            this.filterValue = '';
+            this.minFilterValue = '';
+            this.maxFilterValue = '';
+        },
+        addFilter: function () {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
+            this.makeRequest(updateQueryString(queryObj));
+            this.resetFilterInput();
+            this.showFiltersDropdown = false;
+        },
+        removeFilter: function(filter) {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[filter] = null;
+            this.makeRequest(updateQueryString(queryObj));
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.makeRequest(updateQueryString(queryObj));
+        }
+    },
+    events: {},
+    ready: function () {
+        this.checkSetup();
+        this.makeRequest();
+        onPopCallFunction(this.makeRequest);
+    }
+});
+var baseChart = Vue.extend({
+    name: 'BaseChart',
+    template: '<canvas v-el:canvas class="canvas-chart"></canvas>',
+    data: function () {
+        return {
+            mode: 'url',
+            chartLabel: '',
+            showZeroValues: false,
+            chartType: 'bar',
+            chart: '',
+            theme: 'red'
+        }
+    },
+    props: [],
+    computed: {
+        colors: function() {
+            switch(this.theme) {
+                case 'red':
+                    return {
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)"
+                    };
+                    break;
+                case 'blue':
+                    return {
+                        backgroundColor: "rgba(52,152,219,0.2)",
+                        borderColor: "rgba(52,152,219,1)",
+                        hoverBackgroundColor: "rgba(52,152,219,0.4)",
+                        hoverBorderColor: "rgba(52,152,219,1)"
+                    };
+                    break;
+                case 'green':
+                    return {
+                        backgroundColor: "rgba(46,204,113,0.2)",
+                        borderColor: "rgba(46,204,113,1)",
+                        hoverBackgroundColor: "rgba(46,204,113,0.4)",
+                        hoverBorderColor: "rgba(46,204,113,1)"
+                    };
+                    break;
+                default:
+                    break;
+            }
+
+        },
+        backgroundColor: function() {
+            return this.colors.backgroundColor;
+        },
+        borderColor: function(){
+            return this.colors.borderColor;
+        },
+        hoverBackgroundColor: function() {
+            return this.colors.hoverBackgroundColor;
+        },
+        hoverBorderColor: function() {
+            return this.colors.hoverBorderColor;
+        }
+    },
+    methods: {
+        load: function () {
+            var self = this;
+
+            if(this.mode === 'url') {
+                this.fetchData().done(function (data) {
+                    self.render(data);
+                });
+            }
+            self.render(this.chartData);
+        },
+        fetchData: function () {
+            return $.get(this.chartURL);
+        },
+        render: function (data) {
+
+            // Remove 0 values from our data
+            if (!this.showZeroValues) data = this.removeZeroValues(data);
+
+            this.chart = new Chart(this.$els.canvas.getContext('2d'), {
+                type: this.chartType,
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [
+                        {
+                            data: _.map(data, function (val) {
+                                return val;
+                            }),
+                            label: this.chartLabel,
+                            backgroundColor: this.backgroundColor,
+                            borderColor: this.borderColor,
+                            borderWidth: 1,
+                            hoverBackgroundColor: this.hoverBackgroundColor,
+                            hoverBorderColor: this.hoverBorderColor
+                        }
+                    ]
+                }
+            });
+        },
+        removeZeroValues: function(data) {
+            return _.pickBy(data, function (value) {
+                return value > 0
+            });
+        },
+        reload: function () {
+            if (!_.isEmpty(this.chart)) this.chart.destroy();
+            this.load();
+        }
+    },
+    events: {},
+    ready: function () {
+        if(this.mode === 'url' && !this.chartURL) throw new Error("Chart Mode: url - no URL to retrieve chart data");
+
+        var watchVariable = this.mode === 'url' ? 'chartURL' : 'chartData';
+
+        this.$watch(watchVariable, function () {
+            this.reload();
+        }.bind(this));
+
+        this.load();
+
+
+    }
+});
 Vue.component('address', {
     name: 'singleAddress',
-    template: '<div class="address" v-if="address">' +
-    '<span v-if="address.contact_person" class="contact_person display-block">{{ address.contact_person }}</span>' +
-    '<span v-if="company" class="company_name display-block">{{ company.name }}</span>' +
-    '<span class="address_1 display-block">{{ address.address_1 }}</span>' +
-    '<span v-if="address.address_2" class="address_2 display-block">{{ address.address_2 }}</span>' +
-    '<span class="city">{{ address.city }}</span>,' +
+    template: '<div class="address">' +
+    '<div class="contact-person">' +
+    '<h3 class="left">Contact Person</h3>' +
+    '<span class="name">{{ address.contact_person }}</span>' +
+    '</div>' +
+    '<div class="phone">' +
+    '<h3 class="left">Phone</h3>' +
+    '<span class="phone">{{ address.phone }}</span>' +
+    '</div>' +
+    '<div class="address">' +
+    '<h3 class="left">Address</h3>' +
+    '<span class="address_1 block">{{ address.address_1 }}</span>' +
+    '<span class="address_2 block" v-if="address.address_2">{{ address.address_2 }}</span>' +
+    '<span class="city">{{ address.city }}</span>' +
     '<span class="zip">{{ address.zip }}</span>' +
-    '<div class="state-country display-block">' +
+    '<div class="state-country block">' +
     '<span class="state">{{ address.state }}</span>,' +
-    '<span class="country">{{ address.country }}</span><br>' +
-    '<span class="phone"><abbr title="Phone">P:</abbr> {{ address.phone }}</span>' +
+    '<span class="country">{{ address.country }}</span>' +
+    '</div>' +
     '</div>' +
     '</div>',
     props: ['address', 'company']
 });
 Vue.component('bank-account', {
     name: 'singleBankAccount',
-    template: '<div class="bank_account" v-if="bankAccount">' +
-    '<div class="info bank_name">' +
-    '<label>Bank</label>' +
-    '<span>{{ bankAccount.bank_name }}</span>' +
+    template: '<div class="bank-account card">' +
+    '<p class="card-title">{{ account.bank_name }}</p>' +
+    '<hr>' +
+    '<h3>Account</h3>' +
+    '<div class="account-name text-center">' +
+    '{{ account.account_name }}' +
     '</div>' +
-    '<div class="name-number">' +
-    '<div class="account_name info">' +
-    '<label>Account Name</label>' +
-    '<span>{{ bankAccount.account_name }}</span>' +
+    '<div class="account-number text-center">' +
+    '{{ account.account_number }}' +
     '</div>' +
-    '<div class="number info">' +
-    '<label>Account Number</label>' +
-    '<span class="account_number">{{ bankAccount.account_number }}</span>' +
+    '<hr>' +
+    '<h3>Bank</h3>' +
+    '<div class="extra-info text-center">' +
+    '<div class="bank-name"><strong>{{ account.bank_name }}</strong></div>' +
+    '<div class="bank-phone">' +
+    '<span class="bank-label">Phone Number: </span>' +
+    '<span v-if="account.bank_phone">{{ account.bank_phone }}</span>' +
+    '<span v-else>-</span>' +
     '</div>' +
+    '<div class="bank-address">' +
+    '<span class="bank-label">Branch Address: </span>' +
+    '<span v-if="account.bank_address">{{ account.bank_address }}</span>' +
+    '<span v-else>-</span>' +
     '</div>' +
-    '<div class="phone_swift">' +
-    '<div class="bank_phone info">' +
-    '<label>Phone</label>' +
-    '<span v-if="bankAccount.bank_phone">{{ bankAccount.bank_phone }}</span><span v-else>-</span>' +
+    '<div class="swift">' +
+    '<span class="bank-label">SWIFT / IBAN: </span>' +
+    '<span v-if="account.swift swift">{{ account.swift }}</span>' +
+    '<span v-else>-</span>' +
     '</div>' +
-    '<div class="info swift">' +
-    '<label>SWIFT / IBAN</label>' +
-    '<span>' +
-    '<span v-if="bankAccount.swift">{{ bankAccount.swift }}</span><span v-else>-</span>' +
-    '</span>' +
-    '</div>' +
-    '</div>' +
-    '<div class="info bank_address">' +
-    '<label>Address</label>' +
-    '<span>' +
-    '<span v-if="bankAccount.bank_address">{{ bankAccount.bank_address }}</span><span v-else>-</span>' +
-    '</span>' +
     '</div>' +
     '</div>',
-    props: ['bank-account']
+    props: ['account']
 });
 Vue.component('company-currency-selecter', {
     template: '<select v-model="id" class="themed-select" v-el:select>' +
@@ -2462,26 +2716,18 @@ Vue.component('line-item-price-input', {
 });
 Vue.component('modal-select-address', {
     name: 'modalSelectAddress',
-    template: '<button type="button" v-show="! selected" class="btn btn-small button-select-address btn-outline-blue" @click="showModal">Select Address</button>' +
+    template: '<div><button type="button" v-show="! selected" class="btn btn-small button-select-address btn-outline-blue" @click="showModal">Select Address</button>' +
     '<div class="modal-select-address modal-overlay" v-show="visible" @click="hideModal">' +
     '<div class="modal-body" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '<h3>Select an Address</h3>' +
+    '<h2>Select an Address</h2>' +
     '<ul class="list-unstyled list-address" v-if="addresses.length > 0">' +
     '<li class="single-address clickable" v-for="address in addresses" @click="select(address)">' +
-    '<span class="contact_person display-block" v-if="address.contact_person">{{ address.contact_person }}</span>' +
-    '<span class="address_1 display-block">{{ address.address_1 }}</span>' +
-    '<span class="address_2 display-block" v-if="address.address_2">{{ address.address_2 }}</span>' +
-    '<span class="city">{{ address.city }}</span>,' +
-    '<div class="zip">{{ address.zip }}</div>' +
-    '<div class="state-country display-block">' +
-    '<span class="state">{{ address.state }}</span>,' +
-    '<span class="country">{{ address.country }}</span><br>' +
-    '<span class="phone"><abbr title="Phone">P:</abbr> {{ address.phone }}</span>' +
+    '<address :address="address"></address>' +
     '</div>' +
     '</li>' +
     '</ul>' +
-    '<em v-else>No Addresses found, add an address to a Vendor to select it here.</em>' +
+    '<em v-if="addresses.length == 0">No Addresses found, add an address to a Vendor to select it here.</em>' +
     '</div>' +
     '</div>' +
     '<div class="single-address clickable selected" v-show="selected">' +
@@ -2489,16 +2735,9 @@ Vue.component('modal-select-address', {
     '<i class="fa fa-close"></i>' +
     '<h3>Remove</h3>' +
     '</div>' +
-    '<span class="contact_person display-block" v-if="selected.contact_person">{{ selected.contact_person }}</span>' +
-    '<span class="address_1 display-block">{{ selected.address_1 }}</span>' +
-    '<span class="address_2 display-block" v-if="selected.address_2">{{ selected.address_2 }}</span>' +
-    '<span class="city">{{ selected.city }}</span>,' +
-    '<span class="zip">{{ selected.zip }}</span>' +
-    '<div class="state-country display-block">' +
-    '<span class="state">{{ selected.state }}</span>,' +
-    '<span class="country">{{ selected.country }}</span><br>' +
-    '<span class="phone"><abbr title="Phone">P:</abbr> {{ selected.phone }}</span>' +
+    '<address :address="selected"></address>' +
     '</div>' +
+    '</div>'+
     '</div>',
     data: function () {
         return {
@@ -2533,15 +2772,10 @@ Vue.component('modal-select-bank-account', {
     '<div class="modal-select-account modal-overlay" v-show="visible" @click="hideModal">' +
     '<div class="modal-body" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '<h3>Select a Bank Account</h3>' +
+    '<h2>Select a Bank Account</h2>' +
     '<ul class="list-unstyled list-accounts" v-if="accounts.length > 0">' +
     '<li class="single-account clickable" v-for="account in accounts" @click="select(account)">' +
-    '<span class="account-name">{{ account.account_name }}</span>' +
-    '<span class="account-number">{{ account.account_number }}</span>' +
-    '<span class="bank-name">{{ account.bank_name }}</span>' +
-    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ account.bank_phone }}</span>' +
-    '<span class="bank-address" v-if="account.bank_address">{{ account.bank_address }}</span>' +
-    '<span class="swift" v-if="account.swift">SWIFT / IBAN: {{ account.swift }}</span>' +
+    '<bank-account :account="account"></bank-account>' +
     '</li>' +
     '</ul>' +
     '<em v-else>No Bank Accounts found. Add one to Vendor before selecting it here.</em>' +
@@ -2552,12 +2786,7 @@ Vue.component('modal-select-bank-account', {
     '<i class="fa fa-close"></i>' +
     '<h3>Remove</h3>' +
     '</div>' +
-    '<span class="account-name">{{ selected.account_name }}</span>' +
-    '<span class="account-number">{{ selected.account_number }}</span>' +
-    '<span class="bank-name">{{ selected.bank_name }}</span>' +
-    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ selected.bank_phone }}</span>' +
-    '<span class="bank-address" v-if="selected.bank_address">{{ selected.bank_address }}</span>' +
-    '<span class="swift" v-if="selected.swift">SWIFT / IBAN: {{ selected.swift }}</span>' +
+    '<bank-account :account="selected"></bank-account>' +
     '</div>',
     data: function () {
         return {
@@ -3311,255 +3540,6 @@ Vue.component('vendor-selecter', {
                 value ? self.fetchVendor(value) : self.clearVendor();
             }
         });
-    }
-});
-var apiRequestAllBaseComponent = Vue.extend({
-    name: 'APIRequestall',
-    data: function () {
-        return {
-            ajaxReady: true,
-            request: {},
-            response: {},
-            params: {},
-            showFiltersDropdown: false,
-            filter: '',
-            filterValue: '',
-            minFilterValue: '',
-            maxFilterValue: ''
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        checkSetup: function() {
-            if(!this.requestUrl) throw new Error("No Request URL set as 'requestUrl' ");
-            if(this.hasFilter && _.isEmpty(this.filterOptions)) throw new Error("Need filterOptions[] defined to use filters");
-        },
-        makeRequest: function (query) {
-            var self = this,
-                url = this.requestUrl;
-
-            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
-            query = query || window.location.href.split('?')[1];
-            // If we had a query (arg or parsed) - attach it to our url
-            if (query) url = url + '?' + query;
-
-            // self.finishLoading = false;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.request = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    // Attach filters
-                    // Reset obj
-                    self.params = {};
-                    // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
-                    _.forEach(response.data.query_parameters, function (value, key) {
-                        self.params[key] = value;
-                    });
-
-
-                    // push state (if query is different from url)
-                    pushStateIfDiffQuery(query);
-
-                    document.getElementById('body-content').scrollTop = 0;
-
-                    self.ajaxReady = true;
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeSort: function (sort) {
-            if (this.params.sort === sort) {
-                var order = (this.params.order === 'asc') ? 'desc' : 'asc';
-                this.makeRequest(updateQueryString('order', order));
-            } else {
-                this.makeRequest(updateQueryString({
-                    sort: sort,
-                    order: 'asc',
-                    page: 1
-                }));
-            }
-        },
-        searchTerm: _.debounce(function () {
-            if (this.request && this.request.readyState != 4) this.request.abort();
-            var term = this.params.search || null;
-            this.makeRequest(updateQueryString({
-                search: term,
-                page: 1
-            }))
-        }, 200),
-        clearSearch: function () {
-            this.params.search = '';
-            this.searchTerm();
-        },
-        resetFilterInput: function() {
-            this.filter = '';
-            this.filterValue = '';
-            this.minFilterValue = '';
-            this.maxFilterValue = '';
-        },
-        addFilter: function () {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
-            this.makeRequest(updateQueryString(queryObj));
-            this.resetFilterInput();
-            this.showFiltersDropdown = false;
-        },
-        removeFilter: function(filter) {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[filter] = null;
-            this.makeRequest(updateQueryString(queryObj));
-        },
-        removeAllFilters: function() {
-            var self = this;
-            var queryObj = {};
-            _.forEach(self.filterOptions, function (option) {
-                queryObj[option.value] = null;
-            });
-            this.makeRequest(updateQueryString(queryObj));
-        }
-    },
-    events: {},
-    ready: function () {
-        this.checkSetup();
-        this.makeRequest();
-        onPopCallFunction(this.makeRequest);
-    }
-});
-var baseChart = Vue.extend({
-    name: 'BaseChart',
-    template: '<canvas v-el:canvas class="canvas-chart"></canvas>',
-    data: function () {
-        return {
-            mode: 'url',
-            chartLabel: '',
-            showZeroValues: false,
-            chartType: 'bar',
-            chart: '',
-            theme: 'red'
-        }
-    },
-    props: [],
-    computed: {
-        colors: function() {
-            switch(this.theme) {
-                case 'red':
-                    return {
-                        backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)"
-                    };
-                    break;
-                case 'blue':
-                    return {
-                        backgroundColor: "rgba(52,152,219,0.2)",
-                        borderColor: "rgba(52,152,219,1)",
-                        hoverBackgroundColor: "rgba(52,152,219,0.4)",
-                        hoverBorderColor: "rgba(52,152,219,1)"
-                    };
-                    break;
-                case 'green':
-                    return {
-                        backgroundColor: "rgba(46,204,113,0.2)",
-                        borderColor: "rgba(46,204,113,1)",
-                        hoverBackgroundColor: "rgba(46,204,113,0.4)",
-                        hoverBorderColor: "rgba(46,204,113,1)"
-                    };
-                    break;
-                default:
-                    break;
-            }
-
-        },
-        backgroundColor: function() {
-            return this.colors.backgroundColor;
-        },
-        borderColor: function(){
-            return this.colors.borderColor;
-        },
-        hoverBackgroundColor: function() {
-            return this.colors.hoverBackgroundColor;
-        },
-        hoverBorderColor: function() {
-            return this.colors.hoverBorderColor;
-        }
-    },
-    methods: {
-        load: function () {
-            var self = this;
-
-            if(this.mode === 'url') {
-                this.fetchData().done(function (data) {
-                    self.render(data);
-                });
-            }
-            self.render(this.chartData);
-        },
-        fetchData: function () {
-            return $.get(this.chartURL);
-        },
-        render: function (data) {
-
-            // Remove 0 values from our data
-            if (!this.showZeroValues) data = this.removeZeroValues(data);
-
-            this.chart = new Chart(this.$els.canvas.getContext('2d'), {
-                type: this.chartType,
-                data: {
-                    labels: Object.keys(data),
-                    datasets: [
-                        {
-                            data: _.map(data, function (val) {
-                                return val;
-                            }),
-                            label: this.chartLabel,
-                            backgroundColor: this.backgroundColor,
-                            borderColor: this.borderColor,
-                            borderWidth: 1,
-                            hoverBackgroundColor: this.hoverBackgroundColor,
-                            hoverBorderColor: this.hoverBorderColor
-                        }
-                    ]
-                }
-            });
-        },
-        removeZeroValues: function(data) {
-            return _.pickBy(data, function (value) {
-                return value > 0
-            });
-        },
-        reload: function () {
-            if (!_.isEmpty(this.chart)) this.chart.destroy();
-            this.load();
-        }
-    },
-    events: {},
-    ready: function () {
-        if(this.mode === 'url' && !this.chartURL) throw new Error("Chart Mode: url - no URL to retrieve chart data");
-
-        var watchVariable = this.mode === 'url' ? 'chartURL' : 'chartData';
-
-        this.$watch(watchVariable, function () {
-            this.reload();
-        }.bind(this));
-
-        this.load();
-
-
     }
 });
 Vue.component('modal-close-button', {

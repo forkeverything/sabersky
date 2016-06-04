@@ -1,4 +1,4 @@
-<h3>Vendor</h3>
+<span class="card-title">Vendor</span>
 <div class="vendor-selecter">
 <vendor-selecter :vendor.sync="vendor"></vendor-selecter>
 </div>

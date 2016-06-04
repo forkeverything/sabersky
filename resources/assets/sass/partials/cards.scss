@@ -21,6 +21,7 @@ properties but with background and padding.
     color: $midnight;
     margin: 0 0 12px;
     text-align: center;
+    display: block;
   }
 
   hr {
@@ -30,7 +31,7 @@ properties but with background and padding.
     margin: 12px;
   }
 
-  h3 {
+  > h3 {
     font-size: 0.7em;
     color: $text-muted;
     line-height: 12px;
@@ -41,5 +42,9 @@ properties but with background and padding.
 
   p, a, span {
     font-size: 1em;
+  }
+
+  .left {
+    text-align: left;
   }
 }

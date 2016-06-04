@@ -1,19 +1,19 @@
 <div id="po-submit-1" v-show="step === 1" class="submit-step row animated" transition="slide">
     <div class="col-md-8">
-        <div class="page-body select-vendor visible-xs">
+        <div class="card select-vendor visible-xs">
             @include('purchase_orders.partials.submit.select-vendor')
         </div>
-        <div class="page-body select-pr">
-            <h3>Search For Requests</h3>
+        <div class="card select-pr">
+            <span class="card-title">Search For Requests</span>
             <select-line-items :line-items.sync="lineItems"></select-line-items>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="page-body vendor hidden-xs">
+        <div class="card vendor hidden-xs">
             @include('purchase_orders.partials.submit.select-vendor')
         </div>
-        <div class="page-body line-items">
-            <h3>Selected Items</h3>
+        <div class="card line-items">
+            <span class="card-title">Selected Items</span>
             <div class="table-responsive line-items-container" v-show="hasLineItems">
                 <!-- Line Items Table -->
                 <table class="table table-standard table-striped">
@@ -47,7 +47,7 @@
                 <p>Add items by selecting some requests</p>
             </div>
             <div class="line-items-control" v-show="hasLineItems">
-                <button type="button" class="btn btn-outline-grey btn-clear" @click="clearAllLineItems"><i class="fa fa-trash"></i> Clear All</button>
+                <button type="button" class="btn btn-outline-grey btn-clear" @click="clearAllLineItems"><i class="fa fa-trash"></i> Clear</button>
                 <button type="button" class="btn btn-solid-blue btn-next" @click="goStep(2)" :disabled="! hasLineItems || ! vendor.id">Next Step <i class="fa fa-angle-double-right"></i></button>
             </div>
         </div>

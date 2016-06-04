@@ -1,16 +1,16 @@
 Vue.component('select-line-items', {
     name: 'selectLineItems',
     template: '<div class="project-selecter">'+
-    '<h5>Project</h5>'+
+    '<h4>Project</h4>'+
     '<user-projects-selecter :name.sync="projectID"></user-projects-selecter>'+
-    '</div>'+
+    '</div>' +
     '<div class="purchase_requests"'+
     ':class="{'+
     "'inactive': ! projectID"+
     '}"'+
     '>'+
     '<div class="overlay"></div>'+
-    '<h5>Purchase Requests</h5>'+
+    '<h4>Purchase Requests</h4>'+
     '<div class="pr-controls">'+
     '<form class="form-pr-search" @submit.prevent="searchPurchaseRequests">'+
     '<input class="form-control input-item-search"'+

@@ -48,15 +48,6 @@ Vue.component('purchase-orders-submit', {
         sortedLineItems: function () {
             return _.orderBy(this.lineItems, 'item.id');
         },
-        vendorAddresses: function () {
-            // Only if we have a vendor
-            if (!this.vendor.id) return [];
-            // Grab the addresses associated with Vendor model
-            var vendorAddresses = this.vendor.addresses || [];
-            // If we have addresses and a linked company - add the Company's address
-            if (vendorAddresses && this.vendor.linked_company_id) vendorAddresses.push(this.vendor.linked_company.address);
-            return vendorAddresses;
-        },
         validBillingAddress: function () {
             return !!this.billingAddress.phone && !!this.billingAddress.address_1 && !!this.billingAddress.city && !!this.billingAddress.zip && !!this.billingAddress.country_id && !!this.billingAddress.state;
         },

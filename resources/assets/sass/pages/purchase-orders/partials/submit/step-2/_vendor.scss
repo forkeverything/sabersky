@@ -56,6 +56,7 @@
       .single-address {
         @include flex-wrap-fix(800px, 2000px, 10px, 10px);
         margin-bottom: 20px;
+        cursor: pointer;
       }
     }
 
@@ -71,6 +72,7 @@
       &.selected {
         position: relative;
         &:hover {
+          border-color: $red;
           .change-overlay {
             display: flex;
           }
@@ -81,48 +83,32 @@
 
   .bank-selection {
 
-    .single-account {
-      @include border-radius(4px);
-      .account-name, .account-number, .bank-name, .bank-phone, .bank-address, .swift {
-        display: block;
-      }
-
-      .account-name {
-        font-weight: bold;
-      }
-
-      .account-name, .account-number {
-        font-size: 1.2em;
-      }
-
-      .account-number {
-        border-bottom: 1px solid $grey;
-        padding: 0 0 5px 0;
-        margin: 0 0 5px 0;
-      }
-    }
-
     .list-accounts {
       display: flex;
       flex-wrap: wrap;
       margin: 0 -10px -20px -10px;
 
       .single-account {
-        @include flex-wrap-fix(800px, 2000px, 10px, 10px);
-        margin-bottom: 20px;
-        &:hover {
-          border-color: $blue;
+        @include flex-wrap-fix(500px, 2000px, 10px, 10px);
+
+        .bank-account {
+          &:hover {
+            border-color: $blue;
+          }
         }
       }
     }
 
     .single-account {
-      border: 1px solid $grey;
-      padding: 10px;
 
       &.selected {
         position: relative;
+
         &:hover {
+
+          .bank-account {
+            border-color: $red;
+          }
           .change-overlay {
             display: flex;
           }

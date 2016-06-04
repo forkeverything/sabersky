@@ -4,15 +4,10 @@ Vue.component('modal-select-bank-account', {
     '<div class="modal-select-account modal-overlay" v-show="visible" @click="hideModal">' +
     '<div class="modal-body" @click.stop="">' +
     '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>' +
-    '<h3>Select a Bank Account</h3>' +
+    '<h2>Select a Bank Account</h2>' +
     '<ul class="list-unstyled list-accounts" v-if="accounts.length > 0">' +
     '<li class="single-account clickable" v-for="account in accounts" @click="select(account)">' +
-    '<span class="account-name">{{ account.account_name }}</span>' +
-    '<span class="account-number">{{ account.account_number }}</span>' +
-    '<span class="bank-name">{{ account.bank_name }}</span>' +
-    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ account.bank_phone }}</span>' +
-    '<span class="bank-address" v-if="account.bank_address">{{ account.bank_address }}</span>' +
-    '<span class="swift" v-if="account.swift">SWIFT / IBAN: {{ account.swift }}</span>' +
+    '<bank-account :account="account"></bank-account>' +
     '</li>' +
     '</ul>' +
     '<em v-else>No Bank Accounts found. Add one to Vendor before selecting it here.</em>' +
@@ -23,12 +18,7 @@ Vue.component('modal-select-bank-account', {
     '<i class="fa fa-close"></i>' +
     '<h3>Remove</h3>' +
     '</div>' +
-    '<span class="account-name">{{ selected.account_name }}</span>' +
-    '<span class="account-number">{{ selected.account_number }}</span>' +
-    '<span class="bank-name">{{ selected.bank_name }}</span>' +
-    '<span class="bank-phone"><abbr title="Phone">P:</abbr> {{ selected.bank_phone }}</span>' +
-    '<span class="bank-address" v-if="selected.bank_address">{{ selected.bank_address }}</span>' +
-    '<span class="swift" v-if="selected.swift">SWIFT / IBAN: {{ selected.swift }}</span>' +
+    '<bank-account :account="selected"></bank-account>' +
     '</div>',
     data: function () {
         return {

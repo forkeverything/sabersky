@@ -4,7 +4,7 @@ Vue.component('add-bank-account-modal', {
     '               class="btn btn-add-modal btn-outline-blue btn-add-bank-account"' +
     '               @click="showModal"' +
     '          >' +
-    '           New Account' +
+    '          <i class="fa fa-plus"></i> Account' +
     '</button>' +
     '          <div class="modal-bank-account-add modal-form modal-overlay" v-show="visible" @click="hideModal">' +
     '               <form class="form-add-bank-account main-form modal-body" @click.stop="" @submit.prevent="addBankAccount">' +

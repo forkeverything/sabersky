@@ -201,6 +201,7 @@ label {
 
 .checkbox {
   &.styled {
+    display: inline-block;
     margin: 0;
     padding: 2px 3px 0 2px;
 
@@ -208,6 +209,9 @@ label {
       width: 14px;
       text-align: left;
       padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       i {
         font-size: 1.75em;

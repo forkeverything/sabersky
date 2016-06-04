@@ -1,8 +1,16 @@
 .single-address, address, .address {
-  .contact_person, .company_name {
-    font-size: 1.4em;
+
+  h3 {
+    color: $midnight-light;
+    margin: 0 0 3px;
   }
-  .address_1 {
-    margin: 5px 0 0 0;
+
+  .block {
+    display: block;
+  }
+
+
+  .contact-person, .phone {
+    margin: 0 0 10px 0;
   }
 }

@@ -12,27 +12,13 @@ Vue.component('po-billing-address', {
     '</label>' +
     '</div>' +
     '<div class="company-address" v-show="companyAddress && billingAddressSameAsCompany">' +
-    '<address>' +
-    '<span class="company_name">{{ company.name }}</span>' +
-    '<span class="display-block v-if="companyAddress.contact_person" >' +
-    '{{ companyAddress.contact_person }}' +
-    '</span>' +
-    '<span class="address_1 display-block">{{ companyAddress.address_1 }}</span>' +
-    '<span class="address_2 display-block" v-if="companyAddress.address_2">{{ companyAddress.address_2 }}</span>' +
-    '<span class="city">{{ companyAddress.city }}</span>,' +
-    '<span class="zip">{{ companyAddress.zip }}</span>' +
-    '<div class="state-country display-block">' +
-    '<span class="state">{{ companyAddress.state }}</span>,' +
-    '<span class="country">{{ companyAddress.country }}</span><br>' +
-    '<span class="phone"><abbr title="Phone">P:</abbr> {{ companyAddress.phone }}</span>' +
+    '<address :address="companyAddress"></address>' +
     '</div>' +
-    '</address>' +
-    '</div>' +
-    '<div class="address-fields" v-show="companyAddress && ! billingAddressSameAsCompany">' +
+        '<div class="address-fields" v-show="companyAddress && ! billingAddressSameAsCompany">' +
     '<div class="row">' +
     '<div class="col-sm-6">' +
     '<div class="shift-label-input">' +
-    '<input type="text" class="not-required" v-model="billingAddress.contact_person" :class="{' +  "'filled': billingAddress.contact_person" + '}" :value="companyAddress.contact_person" >' +
+    '<input type="text" class="not-required" v-model="billingAddress.contact_person" :class="{' + "'filled': billingAddress.contact_person" + '}" :value="companyAddress.contact_person" >' +
     '<label placeholder="Contact Person"></label>' +
     '</div>' +
     '</div>' +
@@ -75,7 +61,7 @@ Vue.component('po-billing-address', {
     '<div class="col-sm-6">' +
     '<div class="form-group shift-select">' +
     '<label class="required">State</label>' +
-    '<state-selecter :name.sync="billingAddress.state" :default="companyAddress.state" :listen="'+ "'selected-billing - country'" + '"></state-selecter>'+
+    '<state-selecter :name.sync="billingAddress.state" :default="companyAddress.state" :listen="' + "'selected-billing - country'" + '"></state-selecter>' +
     '</div>' +
     '</div>' +
     '</div>' +

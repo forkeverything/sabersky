@@ -39,50 +39,19 @@
                      v-if="vendor.bank_accounts.length > 0"
                 >
 
-                    <div class="single-bank-account card"
+                    <div class="single-bank-account"
                          v-for="account in vendor.bank_accounts"
                          :class="{ 'primary': account.primary }"
                     >
-
-                        <p class="card-title">@{{ account.bank_name }}</p>
-
-                        <hr>
-
-                        <div class="account-controls">
-                        <a class="dotted clickable link-set-account-primary" @click="bankSetPrimary(account)
+                        <div class="controls">
+                            <a class="dotted clickable link-set-account-primary" @click="bankSetPrimary(account)
                         " v-if="! account.primary">Set primary</a>
-                        <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
-                        <a class="link-remove-account clickable" @click.prevent="deleteAccount(account)">remove</a>
+                            <span v-else class="label-primary"><i class="fa fa-check"></i>Primary</span>
+                            <a class="remove clickable" @click.prevent="deleteAccount(account)"><i
+                                        class="fa fa-close"></i></a>
                         </div>
 
-                        <h3>Account</h3>
-                        <div class="account-name text-center">
-                            @{{ account.account_name }}
-                        </div>
-                        <div class="account-number text-center">
-                            @{{ account.account_number }}
-                        </div>
-                        <hr>
-
-                        <h3>Bank</h3>
-                        <div class="extra-info text-center">
-                        <div class="bank-name"><strong>@{{ account.bank_name }}</strong></div>
-                        <div class="bank-phone">
-                        <span class="bank-label">Phone Number: </span><span
-                        v-if="account.bank_phone">@{{ account.bank_phone }}</span><span
-                        v-else>-</span>
-                        </div>
-                        <div class="bank-address">
-                        <span class="bank-label">Branch Address: </span>
-                        <span v-if="account.bank_address">@{{ account.bank_address }}</span><span
-                        v-else>-</span>
-                        </div>
-                        <div class="swift">
-                        <span class="bank-label">SWIFT / IBAN: </span>
-                        <span v-if="account.swift swift">@{{ account.swift }}</span><span
-                        v-else>-</span>
-                        </div>
-                        </div>
+                        <bank-account :account="account"></bank-account>
                     </div>
 
                 </div>
@@ -115,26 +84,9 @@
                                             class="fa fa-close"></i></a>
                                 </div>
                             @endcan
-                            <div class="contact-person">
-                                <label>Contact Person</label>
-                                <span class="name">@{{ address.contact_person }}</span>
-                            </div>
-                            <div class="phone">
-                                <label>Phone</label>
-                                <span class="phone">@{{ address.phone }}</span>
-                            </div>
-                            <div class="address">
-                                <label>Address</label>
-                                <span class="address_1 block">@{{ address.address_1 }}</span>
-            <span class="address_2 block"
-                  v-if="address.address_2">@{{ address.address_2 }}</span>
-                                <span class="city">@{{ address.city }}</span>
-                                <span class="zip">@{{ address.zip }}</span>
-                                <div class="state-country block">
-                                    <span class="state">@{{ address.state }}</span>,
-                                    <span class="country">@{{ address.country }}</span>
-                                </div>
-                            </div>
+
+                            <address :address="address"></address>
+
                         </div>
                     </div>
                 </div>

@@ -100,7 +100,8 @@
                 'success': purchaseRequest.state === 'open',
                 'disabled': purchaseRequest.state === 'fulfilled',
                 'danger': purchaseRequest.state === 'cancelled'
-            }">
+            }"
+        >
                   @{{ purchaseRequest.state }}
         </td>
 

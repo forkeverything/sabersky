@@ -13,12 +13,12 @@
     <template v-for="(index, item) in purchaseOrder.items">
         <tr>
             <td class="col-index no-wrap fit-to-content">@{{ index + 1 }}</td>
-            <td class="col-sku no-wrap fit-to-content">@{{  item.sku }}</td>
+            <td class="col-sku no-wrap fit-to-content"><span class="item-sku">@{{  item.sku }}</span></td>
             <td class="col-details">
                         <span class="item-brand-name">
-                        <span class="brand" v-if="item.brand">@{{ item.brand }}
+                        <span class="item-brand" v-if="item.brand">@{{ item.brand }}
                             - </span>
-                        <span class="name">@{{ item.name }}</span>
+                        <span class="item-name">@{{ item.name }}</span>
                     </span>
                     <span class="item-specification">
                         @{{ item.specification }}

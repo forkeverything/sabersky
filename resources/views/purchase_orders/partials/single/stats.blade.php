@@ -1,21 +1,21 @@
 
-<div class="stats-body no-print">
+<div class="stats-body card">
 
     <div class="requests">
         <!-- Stats - Requests Table -->
         <table class="table requests">
             <tbody>
             <tr class="row-num-line-items">
-            <td class="col-heading"><h3>Requests</h3></td>
-            <td class="number fit-to-content no-wrap"><h3>@{{ numLineItems }}</h3></td>
+            <td class="col-heading"><h2>Requests</h2></td>
+            <td class="number fit-to-content no-wrap"><h2>@{{ numLineItems }}</h2></td>
             </tr>
             <tr class="row-paid">
-            <td class="col-heading"><h5>Paid</h5></td>
-            <td class="number fit-to-content no-wrap"><h5>@{{ numPaidLineItems }}</h5></td>
+            <td class="col-heading"><h4>Paid</h4></td>
+            <td class="number fit-to-content no-wrap"><h4>@{{ numPaidLineItems }}</h4></td>
             </tr>
             <tr class="row-num-received-line-items">
-                <td class="col-heading"><h5>Received</h5></td>
-                <td class="number fit-to-content no-wrap"><h5>@{{ numReceivedLineItems }}</h5></td>
+                <td class="col-heading"><h4>Received</h4></td>
+                <td class="number fit-to-content no-wrap"><h4>@{{ numReceivedLineItems }}</h4></td>
             </tr>
             <tr class="row-accepted">
             <td class="col-heading">Accepted</td>
@@ -36,8 +36,8 @@
         <table class="table items">
             <tbody>
             <tr class="row-num-items">
-                <td class="col-heading"><h3>Number of Items</h3></td>
-                <td class="number fit-to-content no-wrap"><h3>@{{ numItems }}</h3></td>
+                <td class="col-heading"><h2>Number of Items</h2></td>
+                <td class="number fit-to-content no-wrap"><h2>@{{ numItems }}</h2></td>
             </tr>
             </tbody>
         </table>

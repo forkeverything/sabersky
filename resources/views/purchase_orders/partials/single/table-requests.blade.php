@@ -18,13 +18,13 @@
         <tr>
             <td class="text-center">@{{ index + 1 }}</td>
             <td class="fit-to-content">#@{{ lineItem.purchase_request.number }}</td>
-            <td><span v-if="lineItem.purchase_request.item.sku"></span>@{{ lineItem.purchase_request.item.sku }}
+            <td><span class="item-sku" v-if="lineItem.purchase_request.item.sku">@{{ lineItem.purchase_request.item.sku }}</span>
                 <span v-else>-</span></td>
             <td class="col-details">
                     <span class="item-brand-name">
-                        <span class="brand" v-if="lineItem.purchase_request.item.brand">@{{ lineItem.purchase_request.item.brand }}
+                        <span class="item-brand" v-if="lineItem.purchase_request.item.brand">@{{ lineItem.purchase_request.item.brand }}
                             - </span>
-                        <span class="name">@{{ lineItem.purchase_request.item.name }}</span>
+                        <span class="item-name">@{{ lineItem.purchase_request.item.name }}</span>
                     </span>
                     <span class="item-specification">
                         @{{ lineItem.purchase_request.item.specification }}

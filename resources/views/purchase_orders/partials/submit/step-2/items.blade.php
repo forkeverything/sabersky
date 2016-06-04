@@ -1,4 +1,4 @@
-<h3>Items</h3>
+<span class="card-title">Items</span>
 <div class="quick-actions">
     <button class="btn btn-small btn-outline-blue" @click="fillAllLineItemQuantities">Fill All Quantities</button>
 </div>

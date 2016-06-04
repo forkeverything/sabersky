@@ -7,7 +7,7 @@
                alt="Link to single POs"
                class="underline"
             >
-            #@{{ order.number }}
+                #@{{ order.number }}
             </a>
         </td>
 
@@ -28,13 +28,14 @@
 
 
         <!-- Status -->
-        <td class="col-status">
-            <span class="badge po-badge"
-                  :class="{
-                'badge-warning': order.status === 'pending',
-                'badge-success': order.status === 'approved',
-                'badge-danger': order.status === 'rejected'
-            }">@{{ order.status }}</span>
+        <td class="col-status"
+            :class="{
+                'warning': order.status === 'pending',
+                'success': order.status === 'approved',
+                'danger': order.status === 'rejected'
+            }"
+        >
+            @{{ order.status }}
         </td>
 
         <!-- Paid (Approved only) -->
@@ -68,7 +69,7 @@
 
         <!-- Total -->
         <td class="no-wrap col-total content-right fit-to-content">
-             @{{ formatNumber(order.total, currencyDecimalPoints) }}
+            @{{ formatNumber(order.total, currencyDecimalPoints) }}
         </td>
 
     </tr>

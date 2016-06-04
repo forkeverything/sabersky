@@ -66,8 +66,8 @@ class PusakaSetupSeeder extends Seeder
              ->makeProject()
              ->createVendors()
             ->createPurchaseRequests()
-//             ->makeRules()
-//             ->createPurchaseOrders()
+             ->makeRules()
+             ->createPurchaseOrders()
         ;
     }
 
