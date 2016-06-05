@@ -29,7 +29,9 @@ elixir(function(mix) {
         'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
         'bootstrap-select/dist/css/bootstrap-select.min.css',
         'blueimp-file-upload/css/jquery.fileupload.css',
-        'toastr/toastr.min.css'
+        'toastr/toastr.min.css',
+        // Resource folder
+        '../../../resources/assets/css/*.css'
     ], 'public/css/all.css', 'resources/assets/bower');
 
     mix.copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');

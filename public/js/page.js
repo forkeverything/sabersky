@@ -1,5 +1,7 @@
-Vue.component('dashboard', {
+Vue.component('dashboard',
+    {
     name: 'dashboard',
+
     el: function() {
         return '#dashboard'
     },
@@ -21,7 +23,7 @@ Vue.component('dashboard', {
 
     },
     ready: function() {
-
+        
     }
 });
 Vue.component('items-all', apiRequestAllBaseComponent.extend({

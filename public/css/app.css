@@ -6840,25 +6840,45 @@ label {
         margin: 0;
         width: 100%; } }
 
-#dashboard .date .month-year {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  font-size: 2em; }
-
-#dashboard .date .day {
-  text-align: center;
-  font-size: 3.5em; }
-  #dashboard .date .day.weekday {
-    margin: 10px 0 0 0; }
-  #dashboard .date .day.calendar {
-    margin: 0 0 15px; }
-
-#dashboard .actionables h1 {
-  text-align: center; }
+#dashboard .company-overview {
+  color: #fff; }
+  #dashboard .company-overview .panel-body {
+    padding: 10px;
+    height: 110px;
+    border-radius: 3px; }
+    #dashboard .company-overview .panel-body .details {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      #dashboard .company-overview .panel-body .details .number {
+        font-size: 1.5em;
+        margin: 0;
+        color: #fff; }
+        @media screen and (min-width: 992px) {
+          #dashboard .company-overview .panel-body .details .number {
+            font-size: 2em; } }
+        @media screen and (min-width: 1200px) {
+          #dashboard .company-overview .panel-body .details .number {
+            font-size: 3em; } }
+      #dashboard .company-overview .panel-body .details .icon-overview {
+        display: inline-block; }
+        #dashboard .company-overview .panel-body .details .icon-overview svg {
+          width: 70px !important;
+          height: 70px !important; }
+  #dashboard .company-overview .vendors {
+    background: #FFB400; }
+  #dashboard .company-overview .items {
+    background: #C0392B; }
+  #dashboard .company-overview .requests {
+    background: #27AE60; }
+  #dashboard .company-overview .orders {
+    background: #2980B9; }
 
 #projects-all .project-list .project-single {
   padding: 15px 10px;

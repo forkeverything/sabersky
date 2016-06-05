@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Repositories\CompanyPurchaseOrdersRepository;
 use App\Repositories\UserPurchaseRequestsRepository;
 use App\User;
@@ -21,17 +22,24 @@ class PagesController extends Controller
     {
         if ($user = Auth::user()) {
             $user->load('projects');
-            $numUnfulfilledRequests = UserPurchaseRequestsRepository::forUser($user)->fulfillable()
-                                                                       ->getWithoutQueryProperties()
-                                                                       ->count();
 
-            $numApprovableOrders = CompanyPurchaseOrdersRepository::forCompany($user->company)
-                                                                  ->onlyWhereApprovableBy(1, $user)
-                                                                  ->whereStatus('pending')
-                                                                  ->getWithoutQueryProperties()
-                                                                  ->count();
 
-            return view('dashboard', compact('user', 'numUnfulfilledRequests', 'numApprovableOrders'));
+            $variables = [
+                'user' => $user,
+                'numUnfulfilledRequests' => UserPurchaseRequestsRepository::forUser($user)->fulfillable()
+                                                                          ->getWithoutQueryProperties()
+                                                                          ->count(),
+                'numApprovableOrders' => CompanyPurchaseOrdersRepository::forCompany($user->company)
+                                                                        ->onlyWhereApprovableBy(1, $user)
+                                                                        ->whereStatus('pending')
+                                                                        ->getWithoutQueryProperties()
+                                                                        ->count(),
+                'numVendors' => $user->company->vendors->count(),
+                'numItems' => $user->company->items->count(),
+                'numRequests' => $user->company->purchaseRequests->count(),
+                'numOrders' => $user->company->purchaseOrders->count(),
+            ];
+            return view('dashboard', $variables);
         }
         return view('landing');
     }
