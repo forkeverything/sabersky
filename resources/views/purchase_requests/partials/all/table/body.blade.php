@@ -7,20 +7,7 @@
 
         <!-- Checkbox -->
         <td class="col-checkbox fit-to-content">
-            <div class="checkbox styled">
-                <label v-if="purchaseRequest.state === 'open'">
-                    <i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>
-                    <i class="fa fa-square-o empty" v-else></i>
-                    <input class="clickable hidden"
-                           type="checkbox"
-                    @change="selectPR(purchaseRequest)"
-                    :checked="alreadySelectedPR(purchaseRequest)"
-                    >
-                </label>
-                <label v-else>
-                    <i class="fa fa-square-o empty disabled"></i>
-                </label>
-            </div>
+            <checkbox :model="alreadySelectedPR(purchaseRequest)" :change-function="selectPR" :function-params="[purchaseRequest]"></checkbox>
         </td>
 
         <!-- Number -->

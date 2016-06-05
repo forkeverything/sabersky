@@ -25,7 +25,7 @@
                 <div class="tab-content">
 
                     <!-- Controls -->
-                    <div class="pr-controls table-controls">
+                    <div class="pr-controls table-controls with-right">
                         <div class="controls-left controls-filter-search">
                             <div class="filters with-search" v-dropdown-toggle="showFiltersDropdown">
                                 <div class="dropdown">

@@ -25,18 +25,13 @@
 
 Route::group(['middleware' => 'web'], function () {
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
 
-    Route::auth();
-
+    Route::get('/', 'PagesController@getHome');
 
     /*
-     * App Setup
+     * Out-the-box Authentication Endpoints
      */
-    Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'PagesController@showDashboard']);;
-    Route::get('/desk', ['as' => 'desk', 'uses' => 'PagesController@showDesk']);
+    Route::auth();
 
     /*
      * Countries
@@ -53,7 +48,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/product_categories', 'ProductCategoriesController@getCategories');
     Route::get('/product_categories/{productCategory}/subcategories', 'ProductCategoriesController@getSubcategories');
     Route::get('/product_categories/subcategories/search/{term}', 'ProductCategoriesController@getSearchSubcategories');
-    
+
 
     /*
      * Address
@@ -233,8 +228,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
 
-    Route::get('test', function() {
-        return \App\User::all()->random();
+    Route::get('test', function () {
+//        return App\PurchaseOrder::all();
+        $user = App\User::first();
+        return App\PurchaseOrder::join('purchase_order_rule', 'purchase_order_rule.purchase_order_id', '=', 'purchase_orders.id')
+                                ->join('role_rule', 'role_rule.rule_id', '=', 'purchase_order_rule.rule_id')
+                                ->where('role_rule.role_id', '=', $user->role_id)
+                                ->where('status', '=', 'pending')
+                                ->select(DB::raw('purchase_orders.*'))
+                                ->groupBy('purchase_orders.id')
+                                ->get();
     });
 
 });

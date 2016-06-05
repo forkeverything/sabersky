@@ -8,6 +8,7 @@ use App\Company;
 use App\Country;
 use App\Project;
 use App\PurchaseOrder;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use ReflectionMethod;
 
@@ -184,6 +185,25 @@ class CompanyPurchaseOrdersRepository extends apiRepository
         }
         return $this;
     }
-    
+
+    /**
+     * Retrieves Orders that are approval by given User. Note, it will retrieve
+     * regardless of status
+     *
+     * @param int $approvableOnly
+     * @param User $user
+     * @return $this
+     */
+    public function onlyWhereApprovableBy($approvableOnly = 0, User $user)
+    {
+        $this->{'approvable_only'} = ($approvableOnly == 1) ?: 0;
+        if($approvableOnly) {
+            $this->query->join('purchase_order_rule', 'purchase_order_rule.purchase_order_id', '=', 'purchase_orders.id')
+                        ->join('role_rule', 'role_rule.rule_id', '=', 'purchase_order_rule.rule_id')
+                        ->where('role_rule.role_id', '=', $user->role_id);
+        }
+        
+            return $this;
+    }
 
 }

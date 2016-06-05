@@ -6502,6 +6502,14 @@ label {
   display: inline-block;
   margin: 0;
   padding: 2px 3px 0 2px; }
+  .checkbox.styled.checked .checked {
+    display: block; }
+  .checkbox.styled.checked .empty {
+    display: none; }
+  .checkbox.styled .checked {
+    display: none; }
+  .checkbox.styled .empty {
+    display: block; }
   .checkbox.styled label {
     width: 14px;
     text-align: left;
@@ -6519,9 +6527,21 @@ label {
       font-size: 1.75em; }
       .checkbox.styled label i.checked {
         color: #3498DB; }
-  .checkbox.styled .disabled {
-    color: #E9E9E9;
-    cursor: not-allowed; }
+    .checkbox.styled label .disabled {
+      color: #E9E9E9;
+      cursor: not-allowed; }
+
+.checkbox-component {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .checkbox-component .checkbox.with-label {
+    margin: 0 5px 0 0; }
+  .checkbox-component .checkbox-label {
+    margin: 0; }
 
 .integer-range-field, .date-range-field {
   display: -webkit-flex;
@@ -6820,42 +6840,25 @@ label {
         margin: 0;
         width: 100%; } }
 
-#dashboard-nav .dashboard-link {
-  color: #000;
-  font-weight: bold;
-  border: 1px solid #c7c7c7;
-  padding: 75px 0;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
+#dashboard .date .month-year {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
-  transition: 0.15s ease-in;
-  background: #FFFFFF; }
-  #dashboard-nav .dashboard-link:hover {
-    text-decoration: none;
-    background: #FFED87;
-    color: #fff;
-    border-color: #FFED87; }
-  @media screen and (max-width: 991px) {
-    #dashboard-nav .dashboard-link {
-      margin-bottom: 15px; } }
-  #dashboard-nav .dashboard-link .icon-dashboard {
-    -webkit-flex: 100%;
-    -ms-flex: 100%;
-    flex: 100%;
-    font-size: 38px;
-    display: block;
-    text-align: center;
-    margin: 0 0 10px; }
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  font-size: 2em; }
+
+#dashboard .date .day {
+  text-align: center;
+  font-size: 3.5em; }
+  #dashboard .date .day.weekday {
+    margin: 10px 0 0 0; }
+  #dashboard .date .day.calendar {
+    margin: 0 0 15px; }
+
+#dashboard .actionables h1 {
+  text-align: center; }
 
 #projects-all .project-list .project-single {
   padding: 15px 10px;
@@ -7061,56 +7064,6 @@ label {
     @media screen and (min-width: 768px) {
       #purchase-requests-all .top .link-make-pr {
         width: initial; } }
-
-#purchase-requests-all .pr-controls {
-  margin: -10px 0 15px 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
-  #purchase-requests-all .pr-controls .controls-left {
-    margin: 10px 0 0 0;
-    -webkit-flex: 1000 0 300px;
-    -ms-flex: 1000 0 300px;
-    flex: 1000 0 300px; }
-  #purchase-requests-all .pr-controls .controls-right {
-    margin: 10px 0 0 30px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex: 1 0 120px;
-    -ms-flex: 1 0 120px;
-    flex: 1 0 120px;
-    -webkit-justify-content: flex-end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center; }
-    #purchase-requests-all .pr-controls .controls-right .control-urgent {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center; }
-      #purchase-requests-all .pr-controls .controls-right .control-urgent input {
-        margin: 0 5px 0 0; }
-      #purchase-requests-all .pr-controls .controls-right .control-urgent label {
-        display: inline-block;
-        margin: 0; }
-  #purchase-requests-all .pr-controls .active-filters {
-    -webkit-flex: 100%;
-    -ms-flex: 100%;
-    flex: 100%; }
 
 #purchase-requests-all .page-controls-bottom .pr-paginate {
   margin: 0; }
@@ -7833,6 +7786,17 @@ label {
           width: initial; } }
       #purchase-orders-all .top .link-create-order #button-submit-purchase-order {
         width: 100%; }
+  #purchase-orders-all .control-approvable {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #purchase-orders-all .control-approvable .checkbox {
+      margin: 0 5px 0 0; }
+    #purchase-orders-all .control-approvable h4 {
+      margin: 0; }
   #purchase-orders-all .table-purchase-orders-all .col-status .badge {
     width: 80px;
     display: block; }
@@ -8931,6 +8895,39 @@ table {
 
 .table-controls {
   margin: 0 0 15px 0; }
+  .table-controls.with-right {
+    margin: -10px 0 15px 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+    .table-controls.with-right .controls-left {
+      margin: 10px 0 0 0;
+      -webkit-flex: 1000 0 300px;
+      -ms-flex: 1000 0 300px;
+      flex: 1000 0 300px; }
+    .table-controls.with-right .controls-right {
+      margin: 10px 0 0 30px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex: 1 0 120px;
+      -ms-flex: 1 0 120px;
+      flex: 1 0 120px;
+      -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
 
 @media screen and (min-width: 768px) {
   .table-standard {
@@ -9803,12 +9800,14 @@ properties but with background and padding.
     margin: 0 0 12px;
     text-align: center;
     display: block; }
+    .card .card-title.small {
+      font-size: 1.2em; }
   .card hr {
     background: #F5F5F5;
     height: 1px;
     border: 0;
     margin: 12px; }
-  .card > h3 {
+  .card > h3, .card .subheading {
     font-size: 0.7em;
     color: #9CA1A8;
     line-height: 12px;

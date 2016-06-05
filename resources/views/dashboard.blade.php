@@ -1,54 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="page-header">
-                    <h1 class="page-title">Dashboard</h1>
+    <dashboard inline-template :user="{{ $user }}">
+        <div id="dashboard" class="container">
+            <div class="row">
+                <div class="col-sm-3 hidden-xs">
+                    <div class="date card">
+                        <div class="month-year">
+                            <span class="month">@{{ date.format('MMMM') }}</span>
+                            <span class="year">@{{ date.format('YYYY') }}</span>
+                        </div>
+                        <h1 class="day weekday">@{{ date.format('dddd') }}</h1>
+                        <h1 class="day calendar">@{{ date.format('Do') }}</h1>
+                    </div>
                 </div>
-                <div id="dashboard-nav">
-                    <div class="row">
-                        <div class="col-sm-4"><a class="dashboard-link" href="/projects">
-                                <i class="fa fa-flash icon-dashboard"></i>Projects & Teams
-                            </a></div>
-                        <div class="col-sm-4"><a class="dashboard-link" href="/purchase_requests">
-                                <i class="fa fa-shopping-basket icon-dashboard"></i>
-                                Purchase Requests
-                            </a>
-                        </div>
-                        <div class="col-sm-4"><a class="dashboard-link" href="/vendors">
-                                <i class="fa fa-truck icon-dashboard"></i>
-                                Vendors
-                            </a></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4"><a class="dashboard-link" href="/items">
-                                <i class="fa fa-legal icon-dashboard"></i>
-                                Items
-                            </a></div>
-                        <div class="col-sm-4"><a class="dashboard-link" href="/purchase_orders">
-                                <i class="fa fa-clipboard icon-dashboard"></i>
-                                Purchase Orders
-                            </a>
-                        </div>
-                        @can('report_view')
-                        <div class="col-sm-4"><a class="dashboard-link" href="/reports">
-                                <i class="fa fa-bar-chart icon-dashboard"></i>
-                                Reports
-                            </a></div>
+                <div class="col-sm-9">
+                    <div class="actionables card">
+                        <span class="card-title left small">Actionables</span>
+                        <hr>
+                        @can('po_submit')
+                            <div class="requests-unfulfilled">
+                                <h3 class="subheading">Unfulfilled Requests</h3>
+                                <a href="/purchase_requests"><h1>{{ $numUnfulfilledRequests }}</h1></a>
+                            </div>
                         @endcan
-                    </div>
-                    <div class="row">
-                        @can('settings_change')
-                        <div class="col-sm-4"><a class="dashboard-link" href="/settings">
-                                <i class="fa fa-gears icon-dashboard"></i>
-                                Settings
-                            </a></div>
-                        @endcan
+
+                        @can('po_payments')
+                            <div class="orders-unpaid">
+                                <h3 class="subheading">Orders - Unpaid</h3>
+                                <a href="/purchase-orders"><h1>4</h1></a>
+                            </div>
+                            @endcan
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </dashboard>
 @endsection

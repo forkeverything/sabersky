@@ -1,39 +1,30 @@
-#dashboard-nav {
+#dashboard {
 
-  .dashboard-link {
-    color: #000;
-    font-weight: bold;
-    border: 1px solid #c7c7c7;
-    padding: 75px 0;
-    justify-content: center;
-    align-items: center;
-    display:  flex;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    -webkit-transition: 0.15s ease-in;
-    -moz-transition: 0.15s ease-in;
-    -ms-transition: 0.15s ease-in;
-    -o-transition: 0.15s ease-in;
-    transition: 0.15s ease-in;
-    background: #FFFFFF;
-
-    &:hover {
-      text-decoration: none;
-      background: $yellow;
-      color: #fff;
-      border-color: $yellow;
+  .date {
+    .month-year {
+      display: flex;
+      justify-content: space-between;
+      font-size: 2em;
     }
 
-    @media screen and (max-width: $screen-sm-max) {
-      margin-bottom: 15px;
-    }
-
-    .icon-dashboard {
-      flex: 100%;
-      font-size: 38px;
-      display: block;
+    .day {
       text-align: center;
-      margin: 0 0 10px;
+      font-size: 3.5em;
+
+      &.weekday {
+        margin: 10px 0 0 0;
+      }
+
+      &.calendar {
+        margin: 0 0 15px;
+      }
     }
   }
+
+  .actionables {
+    h1 {
+      text-align: center;
+    }
+  }
+
 }

@@ -16,45 +16,6 @@
     }
   }
 
-  .pr-controls {
-    margin: -10px 0 15px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .controls-left {
-      margin: 10px 0 0 0;
-      flex: 1000 0 300px;
-    }
-
-    .controls-right {
-      margin: 10px 0 0 30px;
-      display: flex;
-      flex: 1 0 120px;
-      justify-content: flex-end;
-      align-items: center;
-
-      .control-urgent {
-        display: flex;
-        align-items: center;
-
-        input {
-          margin: 0 5px 0 0;
-        }
-
-        label {
-          display: inline-block;
-          margin: 0;
-        }
-      }
-    }
-
-    .active-filters {
-      flex: 100%;
-    }
-  }
-
   .page-controls-bottom {
     .pr-paginate {
       margin: 0;

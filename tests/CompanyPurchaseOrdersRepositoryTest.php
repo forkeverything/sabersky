@@ -237,5 +237,68 @@ class CompanyPurchaseOrdersRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * @test
+     */
+    public function it_only_fetches_approvable_orders()
+    {
+        $user = factory(User::class)->create();
+
+        $approvableRule = factory(\App\Rule::class)->create([
+            'company_id' => $user->company_id
+        ]);
+
+        $randomRule = factory(\App\Rule::class)->create([
+            'company_id' => $user->company_id
+        ]);
+
+        $approvableRule->attachUserRole($user);
+
+        // Create PO's that are approvable by User and a diff Rule
+        for ($i = 0; $i < 8; $i++) {
+            $purchaseOrder = factory(PurchaseOrder::class)->create([
+                'company_id' => $user->company_id
+            ]);
+
+            $lineItem = factory(\App\LineItem::class)->create([
+                'purchase_order_id' => $purchaseOrder->id
+            ]);
+
+            $purchaseOrder->rules()->attach($approvableRule);
+            $purchaseOrder->rules()->attach($randomRule);
+        }
+
+        // PO's with different Rule only
+        for ($i = 0; $i < 5; $i++) {
+            $purchaseOrder = factory(PurchaseOrder::class)->create([
+                'company_id' => $user->company_id
+            ]);
+
+            $lineItem = factory(\App\LineItem::class)->create([
+                'purchase_order_id' => $purchaseOrder->id
+            ]);
+
+            $purchaseOrder->rules()->attach($randomRule);
+        }
+
+        // Create PO's with no rules
+        for ($i = 0; $i < 20; $i++) {
+            $purchaseOrder = factory(PurchaseOrder::class)->create([
+                'company_id' => $user->company_id
+            ]);
+
+            $lineItem = factory(\App\LineItem::class)->create([
+                'purchase_order_id' => $purchaseOrder->id
+            ]);
+        }
+
+
+        $this->assertCount(33, CompanyPurchaseOrdersRepository::forCompany($user->company)->getWithoutQueryProperties());
+
+        $this->assertCount(8, CompanyPurchaseOrdersRepository::forCompany($user->company)->onlyWhereApprovableBy(1, $user)->getWithoutQueryProperties());
+
+
+    }
+
 
 }

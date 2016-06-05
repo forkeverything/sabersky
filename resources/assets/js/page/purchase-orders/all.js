@@ -70,6 +70,14 @@ Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
                 page: 1
             }));
         },
+        toggleApprovableOnly: function () {
+            var approvableOnly = this.params.approvable_only ? 0 : 1;
+            this.makeRequest(updateQueryString({
+                status: status,
+                page: 1,
+                approvable_only: approvableOnly
+            }));
+        },
         checkUrgent: function (purchaseOrder) {
             // takes a purchaseOrder and sees
             // if there are any PR's with urgent tags

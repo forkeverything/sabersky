@@ -196,4 +196,16 @@ class UserPurchaseRequestsRepository extends apiRepository
         return $this;
     }
 
+    /**
+     * Only return open and unfulfilled Requests
+     * 
+     * @return $this
+     */
+    public function fulfillable()
+    {
+        $this->whereState('open');
+        $this->query->where('quantity', '>', 0);
+        return $this;
+    }
+
 }

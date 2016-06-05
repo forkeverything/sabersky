@@ -61,6 +61,6 @@
 <!-- Global Vue Instance -->
 <script src="{{ asset('/js/vue-root.js') }}"></script>
 <!-- Flash Notification -->
-@include('flash')
+@include('layouts.partials.flash')
 </body>
 </html>

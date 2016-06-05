@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CompanyPurchaseOrdersRepository;
+use App\Repositories\UserPurchaseRequestsRepository;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
+
     }
 
-    public function showDashboard()
+    public function getHome(Request $request)
     {
-        return view('dashboard');
-    }
+        if ($user = Auth::user()) {
+            $user->load('projects');
+            $numUnfulfilledRequests = UserPurchaseRequestsRepository::forUser($user)->fulfillable()
+                                                                       ->getWithoutQueryProperties()
+                                                                       ->count();
 
-    public function showDesk()
-    {
-        $projects = Auth::user()->projects;
-        return view('desk');
-    }
+            $numApprovableOrders = CompanyPurchaseOrdersRepository::forCompany($user->company)
+                                                                  ->onlyWhereApprovableBy(1, $user)
+                                                                  ->whereStatus('pending')
+                                                                  ->getWithoutQueryProperties()
+                                                                  ->count();
 
+            return view('dashboard', compact('user', 'numUnfulfilledRequests', 'numApprovableOrders'));
+        }
+        return view('landing');
+    }
 }

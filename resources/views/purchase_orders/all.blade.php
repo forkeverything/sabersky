@@ -17,7 +17,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="table-controls">
+                    <div class="table-controls with-right">
                         <div class="controls-left controls-filter-search">
                             <div class="filters with-search" v-dropdown-toggle="showFiltersDropdown">
                                 <div class="dropdown">
@@ -25,6 +25,9 @@
                                 </div>
                             </div>
                             @include('layouts.partials.form-search-repository')
+                        </div>
+                        <div class="controls-right">
+                                <checkbox :model="params.approvable_only" :label="'Approvable'" :change-function="toggleApprovableOnly"></checkbox>
                         </div>
                         <div class="active-filters">
                             @include('purchase_orders.partials.all.active-filters')

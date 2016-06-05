@@ -61,6 +61,7 @@ class PurchaseOrdersController extends Controller
     {
         return CompanyPurchaseOrdersRepository::forCompany(Auth::user()->company)
                                               ->whereStatus($request->status)
+                                              ->onlyWhereApprovableBy($request->approvable_only, Auth::user())
                                               ->filterIntegerField('number', $request->number)
                                               ->hasRequestForProject($request->project_id)
                                               ->withCurrency($request->currency_id)
@@ -150,9 +151,9 @@ class PurchaseOrdersController extends Controller
      */
     public function getHandleRule(PurchaseOrder $purchaseOrder, Rule $rule, $action)
     {
-        if($action !== 'reject' && $action !== 'approve') return response("Rules can only be approved or rejected.", 500);
+        if ($action !== 'reject' && $action !== 'approve') return response("Rules can only be approved or rejected.", 500);
         if (Gate::allows('view', $purchaseOrder)) {
-            if($purchaseOrder->handleRule($action, $rule, Auth::user())) return $purchaseOrder;
+            if ($purchaseOrder->handleRule($action, $rule, Auth::user())) return $purchaseOrder;
             return response("Could not check that rule", 500);
         }
         return response("Not allowed to view that order", 403);
@@ -160,7 +161,7 @@ class PurchaseOrdersController extends Controller
 
     /**
      * Req. to mark a specific line item as paid
-     * 
+     *
      * @param PurchaseOrder $purchaseOrder
      * @param LineItem $lineItem
      * @return LineItem
@@ -168,7 +169,7 @@ class PurchaseOrdersController extends Controller
     public function getMarkLineItemPaid(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
         if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
-            if($lineItem->markPaid(Auth::user())) return 1;
+            if ($lineItem->markPaid(Auth::user())) return 1;
             return response("Could not mark line item as paid");
         }
         return response("Can't change that Line Item", 403);
@@ -177,7 +178,7 @@ class PurchaseOrdersController extends Controller
     public function getMarkLineItemReceived(PurchaseOrder $purchaseOrder, LineItem $lineItem, $status)
     {
         if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
-            if($lineItem->markReceived($status, Auth::user())) return $lineItem;
+            if ($lineItem->markReceived($status, Auth::user())) return $lineItem;
             return response("Could not mark line item as delivered");
         }
         return response("Can't change that Line Item", 403);

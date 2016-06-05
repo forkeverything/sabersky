@@ -1,20 +1,7 @@
 <!-- Select All -->
 <th class="heading-center heading-select padding-even">
-    <div class="checkbox styled"
-         :class="{
-                'has-selected': selectedRequests.length > 0
-             }"
-    >
-        <label>
-            <i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>
-            <i class="fa fa-square-o empty" v-else></i>
-            <input class="clickable hidden"
-                   type="checkbox"
-            @change="selectAll"
-            :checked="allPurchaseRequestsChecked"
-            >
-        </label>
-    </div>
+
+    <checkbox :model="allPurchaseRequestsChecked" :change-function="selectAll"></checkbox>
 
     <div class="bulk-actions"
          v-show="selectedRequests.length > 0"
@@ -22,7 +9,8 @@
          v-dropdown-toggle="showBulkActionsMenu"
     >
         <div class="popover-container">
-            <button class="btn-selected btn-bulk btn btn-small">@{{ selectedRequests.length }} Request(s) selected <i class="fa fa-caret-down"></i></button>
+            <button class="btn-selected btn-bulk btn btn-small">@{{ selectedRequests.length }} Request(s) selected <i
+                        class="fa fa-caret-down"></i></button>
             <div class="popover-content popover bottom"
                  v-show="showBulkActionsMenu"
             >

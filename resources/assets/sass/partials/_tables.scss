@@ -57,6 +57,27 @@ table {
 
 .table-controls {
   margin: 0 0 15px 0;
+
+  &.with-right {
+    margin: -10px 0 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .controls-left {
+      margin: 10px 0 0 0;
+      flex: 1000 0 300px;
+    }
+
+    .controls-right {
+      margin: 10px 0 0 30px;
+      display: flex;
+      flex: 1 0 120px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
 }
 
 .table-standard {

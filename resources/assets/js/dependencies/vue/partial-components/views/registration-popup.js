@@ -115,7 +115,7 @@ Vue.component('registration-popup', {
                 },
                 success: function (data) {
                     // success
-                    window.location.href = "/dashboard";
+                    window.location.href = "/";
                     self.ajaxReady = true;
                 },
                 error: function (response) {

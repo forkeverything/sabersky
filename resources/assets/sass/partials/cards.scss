@@ -22,6 +22,10 @@ properties but with background and padding.
     margin: 0 0 12px;
     text-align: center;
     display: block;
+
+    &.small {
+      font-size: 1.2em;
+    }
   }
 
   hr {
@@ -31,7 +35,7 @@ properties but with background and padding.
     margin: 12px;
   }
 
-  > h3 {
+  > h3, .subheading {
     font-size: 0.7em;
     color: $text-muted;
     line-height: 12px;

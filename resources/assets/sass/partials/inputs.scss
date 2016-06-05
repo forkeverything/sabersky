@@ -194,31 +194,45 @@ label {
       color: $grey;
     }
 
-
   }
 
 }
 
-.checkbox {
-  &.styled {
-    display: inline-block;
-    margin: 0;
-    padding: 2px 3px 0 2px;
+.checkbox.styled {
+  display: inline-block;
+  margin: 0;
+  padding: 2px 3px 0 2px;
 
-    label {
-      width: 14px;
-      text-align: left;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  &.checked {
+    .checked {
+      display: block;
+    }
+    .empty {
+      display: none;
+    }
+  }
 
-      i {
-        font-size: 1.75em;
+  .checked {
+    display: none;
+  }
 
-        &.checked {
-          color: $blue;
-        }
+  .empty {
+    display: block;
+  }
+
+  label {
+    width: 14px;
+    text-align: left;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      font-size: 1.75em;
+
+      &.checked {
+        color: $blue;
       }
     }
 
@@ -226,6 +240,22 @@ label {
       color: $light-grey;
       cursor: not-allowed;
     }
+  }
+
+}
+
+.checkbox-component {
+  display: flex;
+  align-items: center;
+
+  .checkbox {
+    &.with-label {
+      margin: 0 5px 0 0;
+    }
+  }
+
+  .checkbox-label {
+    margin: 0;
   }
 }
 
@@ -240,7 +270,6 @@ label {
 
     label {
       margin: 0 0 3px;
-
 
     }
 
