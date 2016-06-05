@@ -17,6 +17,7 @@
     &:hover, &:active, &:focus {
       color: $dark-grey;
       @include box-shadow(inset 0px 0px 0px 1px $dark-grey);
+      background: #fff;
     }
   }
 }

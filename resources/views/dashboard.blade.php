@@ -8,7 +8,7 @@
 
             <div class="row">
                 <div class="col-sm-8">
-                    
+                    <div id="dashboard-calendar"></div>
                 </div>
             </div>
 

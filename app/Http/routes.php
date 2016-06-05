@@ -27,6 +27,8 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::get('/', 'PagesController@getHome');
+    
+    
 
     /*
      * Out-the-box Authentication Endpoints
@@ -99,6 +101,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/accept_invitation/{invite_key}', 'UsersController@getAcceptView');
     Route::post('/accept_invitation/{invite_key}', ['as' => 'acceptInvitation', 'uses' => 'UsersController@postAcceptInvitation']);
     Route::get('/user', 'UsersController@getLoggedUser');
+    Route::get('/user/calendar_events', 'UsersController@getCalendarEvents');
     Route::get('/user/profile', 'UsersController@getOwnProfile');
     Route::put('/user/profile', 'UsersController@putUpdateProfile');
     Route::post('/user/profile/photo', 'UsersController@postProfilePhoto');

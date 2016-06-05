@@ -30,6 +30,7 @@ elixir(function(mix) {
         'bootstrap-select/dist/css/bootstrap-select.min.css',
         'blueimp-file-upload/css/jquery.fileupload.css',
         'toastr/toastr.min.css',
+        'fullcalendar/dist/fullcalendar.css',
         // Resource folder
         '../../../resources/assets/css/*.css'
     ], 'public/css/all.css', 'resources/assets/bower');
@@ -57,7 +58,8 @@ elixir(function(mix) {
         'js-cookie/src/js.cookie.js',
         'toastr/toastr.js',
         'accounting.js/accounting.min.js',
-        'Chart.js/dist/Chart.js'
+        'Chart.js/dist/Chart.js',
+        'fullcalendar/dist/fullcalendar.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
 

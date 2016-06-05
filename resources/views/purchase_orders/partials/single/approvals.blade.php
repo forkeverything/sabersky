@@ -15,7 +15,7 @@
         <table class="table table-rules table-bordered">
             <tbody>
             <template v-for="rule in purchaseOrder.rules">
-                <po-single-rule :purchase-order.sync="purchaseOrder" :rule.sync="rule" :user="user"></po-single-rule>
+                <po-single-rule :purchase-order.sync="purchaseOrder" :rule.sync="rule" :user="user" :xhr.sync="xhr"></po-single-rule>
             </template>
             </tbody>
         </table>

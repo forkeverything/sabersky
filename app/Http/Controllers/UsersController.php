@@ -7,10 +7,12 @@ use App\Http\Requests\AddStaffRequest;
 use App\Http\Requests\ChangeUserRoleRequest;
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Requests\UploadImageRequest;
+use App\LineItem;
 use App\Mailers\UserMailer;
 use App\Role;
 use App\User;
 use App\Utilities\BuildPhoto;
+use App\Utilities\CalendarEventsPlanner;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -289,6 +291,30 @@ class UsersController extends Controller
     public function apiGetAllProjects()
     {
         return Auth::user()->projects;
+    }
+
+    /**
+     * Retrieves all calendar events for logged-in User
+     *
+     * @return array
+     */
+    public function getCalendarEvents()
+    {
+        $events = [];
+
+        $planner = CalendarEventsPlanner::forUser(Auth::user());
+
+        if(Gate::allows('po_payments')) {
+            $payableEvents = $planner->getPayables();
+            $events = array_merge($events, $payableEvents);
+        }
+
+        if (Gate::allows('po_warehousing')) {
+            $deliveryEvents = $planner->getDeliveries();
+            $events = array_merge($events, $deliveryEvents);
+        }
+
+        return $planner->filterUnique($events);
     }
 
 

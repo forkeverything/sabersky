@@ -6040,7 +6040,8 @@ button.close {
   .btn-outline-blue:disabled:active,
   .btn-outline-blue:disabled:focus {
     color: #757575;
-    box-shadow: inset 0px 0px 0px 1px #757575; }
+    box-shadow: inset 0px 0px 0px 1px #757575;
+    background: #fff; }
 
 .btn-outline-green {
   color: #2ECC71;
@@ -6879,6 +6880,36 @@ label {
     background: #27AE60; }
   #dashboard .company-overview .orders {
     background: #2980B9; }
+
+#dashboard #dashboard-calendar .fc-button {
+  box-shadow: none;
+  background-image: none;
+  background: #fff;
+  border: 1px solid #E6E9EB;
+  color: #AEBAC7; }
+  #dashboard #dashboard-calendar .fc-button:hover, #dashboard #dashboard-calendar .fc-button:focus, #dashboard #dashboard-calendar .fc-button:active {
+    outline: 0; }
+    #dashboard #dashboard-calendar .fc-button:hover:disabled, #dashboard #dashboard-calendar .fc-button:focus:disabled, #dashboard #dashboard-calendar .fc-button:active:disabled {
+      cursor: not-allowed; }
+  #dashboard #dashboard-calendar .fc-button:hover:not([disabled]) {
+    color: #3498DB; }
+
+#dashboard #dashboard-calendar .fc-event {
+  border: 0;
+  border-radius: 0;
+  padding: 5px 10px; }
+  #dashboard #dashboard-calendar .fc-event:hover, #dashboard #dashboard-calendar .fc-event:focus, #dashboard #dashboard-calendar .fc-event:active {
+    color: #fff; }
+
+#dashboard #dashboard-calendar .event-payable {
+  background: #2980B9; }
+  #dashboard #dashboard-calendar .event-payable:hover {
+    background: #3498DB; }
+
+#dashboard #dashboard-calendar .event-delivery {
+  background: #27AE60; }
+  #dashboard #dashboard-calendar .event-delivery:hover {
+    background: #2ECC71; }
 
 #projects-all .project-list .project-single {
   padding: 15px 10px;

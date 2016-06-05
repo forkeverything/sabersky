@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <purchase-order-single inline-template :user="user" :purchase-order="{{ $purchaseOrder }}">
+    <purchase-order-single inline-template :user="user" :purchase-order="{{ $purchaseOrder }}" :xhr.sync="xhr">
 
         <div id="purchase-order-single" class="container">
             <div class="approvals no-print">

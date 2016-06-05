@@ -1,4 +1,5 @@
 #dashboard {
+
   .company-overview {
     color: #fff;
 
@@ -53,4 +54,51 @@
       background: $dark-blue;
     }
   }
+
+  #dashboard-calendar {
+
+    .fc-button {
+      @include box-shadow(none);
+      background-image: none;
+      background: #fff;
+      border: 1px solid $border-light;
+      color: $midnight-light;
+
+      &:hover, &:focus, &:active {
+        outline: 0;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      &:hover:not([disabled]) {
+        color: $blue;
+      }
+    }
+
+    .fc-event {
+      border: 0;
+      border-radius: 0;
+      padding: 5px 10px;
+      &:hover, &:focus, &:active {
+        color: #fff;
+      }
+    }
+
+    .event-payable {
+      background: $dark-blue;
+      &:hover {
+        background: $blue;
+      }
+    }
+
+    .event-delivery {
+      background: $dark-green;
+      &:hover {
+        background: $green;
+      }
+    }
+  }
+
 }

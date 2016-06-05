@@ -343,7 +343,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             'company_id' => $this->company->id
         ]);
 
-//        $newVendor->attachUserRole($this->user);
+        $newVendor->attachUserRole($this->user);
 
         return $this;
     }

@@ -7,6 +7,7 @@ var vueEventBus = new Vue();
 new Vue({
     el: '#app-layout',
     data: {
+        xhr: '',    // store currently happening request - like a shared ajaxReady
         user: {
             photo: '',
             company: {

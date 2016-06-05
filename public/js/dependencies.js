@@ -3282,22 +3282,26 @@ Vue.component('po-single-rule', {
     '</tr>',
     name: 'purchaseOrderSingleRule',
     data: function () {
-        return {};
+        return {
+
+        };
     },
-    props: ['purchase-order', 'rule'],
+    props: ['xhr', 'purchase-order', 'rule'],
     computed: {
-        set: function() {
+        set: function () {
             return this.rule.pivot.approved !== null;
         },
-        approved: function() {
+        approved: function () {
             return this.rule.pivot.approved;
         },
-        rejected: function() {
+        rejected: function () {
             return this.rule.pivot.approved === 0;
         },
-        allowedUser: function() {
+        allowedUser: function () {
             var self = this;
-            return _.findIndex(this.rule.roles, function(role) { return role.id == self.user.role_id; }) !== -1;
+            return _.findIndex(this.rule.roles, function (role) {
+                    return role.id == self.user.role_id;
+                }) !== -1;
         }
     },
     methods: {
@@ -3308,6 +3312,9 @@ Vue.component('po-single-rule', {
         processRule: function (action, rule) {
             var self = this;
 
+            console.log(self.xhr);
+            if(self.xhr) return;
+
             function updatePOStatus(data) {
                 self.purchaseOrder.status = data.status;
                 self.purchaseOrder.pending = data.pending;
@@ -3316,14 +3323,16 @@ Vue.component('po-single-rule', {
             }
 
             if (action === 'approve') {
-                $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/approve', function (data) {
+                self.xhr = $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/approve', function (data) {
                     rule.pivot.approved = 1;
                     updatePOStatus(data);
+                    self.xhr = '';
                 })
             } else {
-                $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/reject', function (data) {
+                self.xhr = $.get('/purchase_orders/' + self.purchaseOrder.id + '/rule/' + rule.id + '/reject', function (data) {
                     rule.pivot.approved = 0;
                     updatePOStatus(data);
+                    self.xhr = '';
                 })
             }
         }

@@ -1,31 +1,32 @@
 Vue.component('dashboard',
     {
-    name: 'dashboard',
+        name: 'dashboard',
 
-    el: function() {
-        return '#dashboard'
-    },
-    data: function() {
-        return {
+        el: function () {
+            return '#dashboard'
+        },
+        data: function () {
+            return {};
+        },
+        props: ['user'],
+        computed: {
+            date: function () {
+                return moment();
+            }
+        },
+        methods: {},
+        events: {},
+        ready: function () {
 
-        };
-    },
-    props: ['user'],
-    computed: {
-        date: function() {
-            return moment();
+            $(document).ready(function () {
+                $.get('/user/calendar_events', function (events) {
+                    $('#dashboard-calendar').fullCalendar({
+                        events: events
+                    })
+                });
+            });
         }
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-        
-    }
-});
+    });
 Vue.component('items-all', apiRequestAllBaseComponent.extend({
     name: 'allItems',
     el: function () {
@@ -1876,7 +1877,7 @@ Vue.component('purchase-order-single', {
             tableView: 'requests'
         };
     },
-    props: ['purchase-order'],
+    props: ['purchase-order', 'xhr'],
     computed: {
         numItems: function () {
             return this.purchaseOrder.items.length;

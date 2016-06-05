@@ -8,7 +8,7 @@ Vue.component('purchase-order-single', {
             tableView: 'requests'
         };
     },
-    props: ['purchase-order'],
+    props: ['purchase-order', 'xhr'],
     computed: {
         numItems: function () {
             return this.purchaseOrder.items.length;
