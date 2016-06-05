@@ -43,7 +43,6 @@ class CalendarEventsPlanner
      */
     protected function formatDate(Carbon $date)
     {
-        return "2016-06-05";
         return $date->format('Y-m-d');
     }
 
