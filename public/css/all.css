@@ -6842,74 +6842,100 @@ label {
         width: 100%; } }
 
 #dashboard .company-overview {
-  color: #fff; }
-  #dashboard .company-overview .panel-body {
-    padding: 10px;
-    height: 110px;
-    border-radius: 3px; }
-    #dashboard .company-overview .panel-body .details {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center; }
-      #dashboard .company-overview .panel-body .details .number {
-        font-size: 1.5em;
-        margin: 0;
-        color: #fff; }
-        @media screen and (min-width: 992px) {
-          #dashboard .company-overview .panel-body .details .number {
-            font-size: 2em; } }
-        @media screen and (min-width: 1200px) {
-          #dashboard .company-overview .panel-body .details .number {
-            font-size: 3em; } }
-      #dashboard .company-overview .panel-body .details .icon-overview {
-        display: inline-block; }
-        #dashboard .company-overview .panel-body .details .icon-overview svg {
-          width: 70px !important;
-          height: 70px !important; }
-  #dashboard .company-overview .vendors {
-    background: #FFB400; }
-  #dashboard .company-overview .items {
-    background: #C0392B; }
-  #dashboard .company-overview .requests {
-    background: #27AE60; }
-  #dashboard .company-overview .orders {
-    background: #2980B9; }
-
-#dashboard #dashboard-calendar .fc-button {
-  box-shadow: none;
-  background-image: none;
-  background: #fff;
-  border: 1px solid #E6E9EB;
-  color: #AEBAC7; }
-  #dashboard #dashboard-calendar .fc-button:hover, #dashboard #dashboard-calendar .fc-button:focus, #dashboard #dashboard-calendar .fc-button:active {
-    outline: 0; }
-    #dashboard #dashboard-calendar .fc-button:hover:disabled, #dashboard #dashboard-calendar .fc-button:focus:disabled, #dashboard #dashboard-calendar .fc-button:active:disabled {
-      cursor: not-allowed; }
-  #dashboard #dashboard-calendar .fc-button:hover:not([disabled]) {
-    color: #3498DB; }
-
-#dashboard #dashboard-calendar .fc-event {
-  border: 0;
-  border-radius: 0;
-  padding: 5px 10px; }
-  #dashboard #dashboard-calendar .fc-event:hover, #dashboard #dashboard-calendar .fc-event:focus, #dashboard #dashboard-calendar .fc-event:active {
+  margin: 0 0 15px; }
+  @media screen and (min-width: 768px) {
+    #dashboard .company-overview {
+      margin: 0 -15px 30px -15px; } }
+  #dashboard .company-overview.full {
     color: #fff; }
+    #dashboard .company-overview.full .panel-body {
+      padding: 10px;
+      height: 110px;
+      border-radius: 3px; }
+      #dashboard .company-overview.full .panel-body .details {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
+        #dashboard .company-overview.full .panel-body .details .number {
+          font-size: 1.5em;
+          margin: 0;
+          color: #fff; }
+          @media screen and (min-width: 992px) {
+            #dashboard .company-overview.full .panel-body .details .number {
+              font-size: 2em; } }
+          @media screen and (min-width: 1200px) {
+            #dashboard .company-overview.full .panel-body .details .number {
+              font-size: 3em; } }
+        #dashboard .company-overview.full .panel-body .details .icon-overview {
+          display: inline-block; }
+          #dashboard .company-overview.full .panel-body .details .icon-overview svg {
+            width: 70px !important;
+            height: 70px !important; }
+    #dashboard .company-overview.full .vendors {
+      background: #FFB400; }
+    #dashboard .company-overview.full .items {
+      background: #C0392B; }
+    #dashboard .company-overview.full .requests {
+      background: #27AE60; }
+    #dashboard .company-overview.full .orders {
+      background: #2980B9; }
+  #dashboard .company-overview.compact ul li {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    font-size: 1.2em;
+    margin: 5px 0; }
+    #dashboard .company-overview.compact ul li .icon-overview {
+      display: inline-block;
+      width: 25px !important; }
+      #dashboard .company-overview.compact ul li .icon-overview svg {
+        width: 25px !important;
+        height: 25px !important; }
 
-#dashboard #dashboard-calendar .event-payable {
-  background: #2980B9; }
-  #dashboard #dashboard-calendar .event-payable:hover {
+#dashboard #dashboard-calendar {
+  margin: 0 0 15px; }
+  @media screen and (min-width: 768px) {
+    #dashboard #dashboard-calendar {
+      margin: 0 0 30px; } }
+  #dashboard #dashboard-calendar .fc-button {
+    box-shadow: none;
+    background-image: none;
+    background: #fff;
+    border: 1px solid #E6E9EB;
+    color: #AEBAC7; }
+    #dashboard #dashboard-calendar .fc-button:hover, #dashboard #dashboard-calendar .fc-button:focus, #dashboard #dashboard-calendar .fc-button:active {
+      outline: 0; }
+      #dashboard #dashboard-calendar .fc-button:hover:disabled, #dashboard #dashboard-calendar .fc-button:focus:disabled, #dashboard #dashboard-calendar .fc-button:active:disabled {
+        cursor: not-allowed; }
+    #dashboard #dashboard-calendar .fc-button:hover:not([disabled]) {
+      color: #3498DB; }
+  #dashboard #dashboard-calendar .fc-event {
+    border: 0;
+    padding: 3px 5px; }
+    #dashboard #dashboard-calendar .fc-event:hover, #dashboard #dashboard-calendar .fc-event:focus, #dashboard #dashboard-calendar .fc-event:active {
+      color: #fff; }
+  #dashboard #dashboard-calendar .event-payable {
     background: #3498DB; }
-
-#dashboard #dashboard-calendar .event-delivery {
-  background: #27AE60; }
-  #dashboard #dashboard-calendar .event-delivery:hover {
+    #dashboard #dashboard-calendar .event-payable:hover {
+      background: #2980B9; }
+  #dashboard #dashboard-calendar .event-delivery {
     background: #2ECC71; }
+    #dashboard #dashboard-calendar .event-delivery:hover {
+      background: #27AE60; }
+
+#dashboard #dashboard-quick-links ul {
+  margin: 0; }
+  #dashboard #dashboard-quick-links ul li {
+    text-align: center; }
 
 #projects-all .project-list .project-single {
   padding: 15px 10px;

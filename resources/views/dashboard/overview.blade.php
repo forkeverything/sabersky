@@ -1,4 +1,4 @@
-<div class="row hidden-xs company-overview">
+<div class="row hidden-xs company-overview full">
     <div class="col-xs-3">
         <div class="panel-body vendors">
             <span class=panel-label>Vendors</span>
@@ -43,4 +43,26 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="company-overview compact visible-xs">
+<h2>Company Overview</h2>
+    <ul class="list-unstyled">
+        <li><span class="overview-label">
+                <i class="livicon-evo icon-overview" data-options="name:building.svg; repeat: loop; eventOn: grandparent; style: lines;"></i>
+                Vendors
+            </span><span class="number">{{ $numVendors }}</span></li>
+        <li><span class="overview-label">
+                <i class="livicon-evo icon-overview" data-options="name: hammer.svg; repeat: loop; eventOn: grandparent; style: lines;"></i>
+                Items
+            </span><span class="number">{{ $numItems }}</span></li>
+        <li><span class="overview-label">
+                <i class="livicon-evo icon-overview" data-options="name: shoppingcart-in.svg; repeat: loop; eventOn: grandparent; style: lines;"></i>
+                P.Requests
+            </span><span class="number">{{ $numRequests }}</span></li>
+        <li><span class="overview-label">
+                <i class="livicon-evo icon-overview" data-options="name: print-doc.svg; repeat: loop; eventOn: grandparent; style: lines;"></i>
+                P.Orders
+            </span><span class="number">{{ $numOrders }}</span></li>
+    </ul>
 </div>

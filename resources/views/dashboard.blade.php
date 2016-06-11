@@ -10,6 +10,9 @@
                 <div class="col-sm-8">
                     <div id="dashboard-calendar"></div>
                 </div>
+                <div class="col-sm-4">
+                    @include('dashboard.quick-links')
+                </div>
             </div>
 
         </div>
