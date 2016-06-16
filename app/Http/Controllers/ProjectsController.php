@@ -165,8 +165,7 @@ class ProjectsController extends Controller
 
             if (Gate::allows('edit', $user)) {
                 $project->addTeamMember($user);
-                flash()->success('Added Team Member to the Project');
-                return redirect(route('singleProject', [$project->id]));
+                return response("Added team member to project");
             }
 
             abort(403, 'You are unauthorized to change that user');
@@ -182,7 +181,7 @@ class ProjectsController extends Controller
             // Add to Project
             $project->addTeamMember($user);
             // Send Invite
-            $userMailer->sendNewUserInvitation($user);
+            $userMailer->sendNewUserInvitation($user, Auth::user());
 
             flash()->success('Sent invitation to join Project');
             return redirect(route('singleProject', [$project->id]));

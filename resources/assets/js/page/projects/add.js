@@ -33,7 +33,8 @@ Vue.component('projects-add-team', {
                 },
                 success: function(data) {
                    // success
-
+                    flashNotifyNextRequest('success', 'Added ' + self.newUserName + ' to project ' + self.project.name);
+                    location.href = "/projects/" + self.project.id;
                    self.ajaxReady = true;
                 },
                 error: function(response) {

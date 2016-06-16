@@ -1,15 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" id="accept-invitation">
-        <div class="page-header">
-            <h1 class="page-title">Welcome to the team {{ $user->name }},</h1>
-        </div>
-        <p class="intro">Thank you for choosing to join us. We know you'll meet our high expectations and look forward to working
+        <h1 class="text-center">Welcome to the team {{ $user->name }},</h1>
+        <p class="text-center">Thank you for choosing to join us. We know you'll meet our high expectations and look forward to working
             together with you.</p>
-        <section class="details">
-            <h2>Details</h2>
-            <p>You will be operating as a <span class="capitalize"><strong>{{ $user->role->position }}</strong></span> for the <strong><span class="capitalize">{{ $user->projects()->first()->name }}</span></strong> project.</p>
-        </section>
+        <section>
             <h2>Set Credentials</h2>
             @include('errors.list')
             <form action="{{ route('acceptInvitation', $user->invite_key) }}" id="form-invited-user" method="POST">
@@ -24,7 +19,7 @@
                 </div>
                 <!-- Submit -->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary form-control">Accept Invitation</button>
+                    <button type="submit" class="btn btn-solid-green">Accept Invitation</button>
                 </div>
             </form>
         </section>

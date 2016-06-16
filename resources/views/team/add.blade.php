@@ -5,7 +5,7 @@
         <form action="/team/add" method="POST">
             {{ csrf_field() }}
             @include('errors.list')
-                @include('team.partials.new-user-fields')
+            @include('team.partials.new-user-fields')
             <div class="bottom align-end">
                 <button type="submit" class="btn btn-solid-green">Send Invitation</button>
             </div>

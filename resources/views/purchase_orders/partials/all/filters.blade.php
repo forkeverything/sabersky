@@ -56,7 +56,7 @@
 
     <!-- Made By (User) -->
     <div class="made_by filter" v-show="filter === 'user_id'">
-        <p>Employee Name</p>
+        <p>Staff</p>
         <company-employee-search-selecter :name.sync="filterValue"></company-employee-search-selecter>
     </div>
 

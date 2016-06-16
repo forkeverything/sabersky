@@ -8,11 +8,12 @@ Vue.component('company-employee-search-selecter', {
         var self = this;
         $('.company-employee-search-selecter').selectize({
             valueField: 'id',
-            searchField: 'name',
+            searchField: ['name', 'email'],
             create: false,
-            placeholder: 'Search for Company Employee',
+            placeholder: 'Name or email',
             render: {
                 option: function(item, escape) {
+                    // TODO ::: Add email info
                     return '<div class="single-name-option">' + escape(item.name) + '</div>'
                 },
                 item: function(item, escape) {

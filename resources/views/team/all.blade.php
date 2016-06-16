@@ -13,7 +13,7 @@
                     </div>
                 @endcan
             </div>
-            <h5><span class="capitalize">@{{ user.company.name }}</span> Staff</h5>
+            <h2 class="capitalize">@{{ user.company.name }} Staff List</h2>
             <div class="table-employees">
                 <power-table :headers="tableHeaders" :data="employees" :sort="true" :hover="true"></power-table>
             </div>

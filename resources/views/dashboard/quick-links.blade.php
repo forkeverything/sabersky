@@ -14,6 +14,10 @@
             </li>
         @endcan
 
+            <li>
+                <a href="/items" alt="link manage items">Manage Items</a>
+            </li>
+
         @can('vendor_manage')
             <li>
                 <a href="/vendors/add" alt="link add vendor">Add Vendor</a>

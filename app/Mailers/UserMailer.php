@@ -3,6 +3,8 @@ namespace App\Mailers;
 
 
 
+use App\User;
+
 class UserMailer extends Mailer
 {
 
@@ -21,15 +23,14 @@ class UserMailer extends Mailer
 //        $this->sendTo($waitlistUser->email, $waitlistUser->company, $subject, $view, $data);
 //    }
 
-    public function sendNewUserInvitation($recipientUser)
+    public function sendNewUserInvitation(User $recipient, User $sender)
     {
-        $subject = 'SaberSky - Team Member Invitation';
+        $subject = 'Team Member Invitation';
         $view = 'emails.user.invitation';
-        $data = [
-            'user' => $recipientUser
-        ];
 
-        $this->sendTo($recipientUser->email, $recipientUser->name, $subject, $view, $data);
+        $data = compact('recipient', 'sender');
+
+        $this->sendTo($recipient->email, $recipient->name, $subject, $view, $data);
     }
 
 }

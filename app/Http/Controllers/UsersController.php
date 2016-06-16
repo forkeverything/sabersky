@@ -32,7 +32,7 @@ class UsersController extends Controller
                 'getCheckEmailAvailability'
             ]
         ]);
-        
+
         $this->middleware('api.only', [
             'only' => ['apiGetTeam', 'apiGetSearchTeamMembers', 'apiGetSearchCompanyEmployees', 'apiGetAllProjects']
         ]);
@@ -65,7 +65,7 @@ class UsersController extends Controller
 
             flash()->success('Accepted invitation, welcome aboard!');
             Auth::login($user);
-            return redirect(route('singleProject', $user->projects()->first()->id));
+            return redirect('/');
         }
         flash()->error('Could join Team. Please request a new invitation key');
         return redirect('/');
@@ -115,7 +115,7 @@ class UsersController extends Controller
      */
     public function putUpdateProfile(UpdateUserProfileRequest $request)
     {
-        if(Auth::user()->update($request->all())) return response("Updated user profile", 200);
+        if (Auth::user()->update($request->all())) return response("Updated user profile", 200);
         return response("Could not update profile", 500);
     }
 
@@ -128,19 +128,19 @@ class UsersController extends Controller
     public function postProfilePhoto(UploadImageRequest $request)
     {
         $photo = BuildPhoto::profile($request->image, Auth::user());
-        if($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
+        if ($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
         Auth::user()->photo()->save($photo) ? flash()->success('Changed profile photo') : flash()->error('Could not change profile photo');
         return redirect()->back();
     }
 
     /**
      * Removes the profile photo for logged-in user
-     * 
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function deleteProfilePhoto()
     {
-        if($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
+        if ($existingPhoto = Auth::user()->photo) $existingPhoto->remove();
         return response("Removed profile photo", 200);
     }
 
@@ -172,16 +172,20 @@ class UsersController extends Controller
     /**
      * Search for Users who are from the same Company as the logged-user. In other
      * words we're looking for other Employees from the Client's Company.
-     * 
+     *
      * @param $query
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function apiGetSearchCompanyEmployees($query)
+    public function apiGetSearchCompanyEmployees($term)
     {
-        if(!$query) return response("No search term given", 500);
+        if (!$term) return response("No search term given", 500);
         return User::where('company_id', Auth::user()->company_id)
-            ->where('name', 'LIKE', '%' . $query . '%')
-            ->select(['id', 'name'])->get();
+                   ->where(function ($query) use ($term) {
+                       $query->where('name', 'LIKE', '%' . $term . '%')
+                             ->orWhere('email', 'LIKE', '%' . $term . '%');
+                   })
+                   ->with('role')
+                   ->get();
     }
 
     /**
@@ -208,7 +212,6 @@ class UsersController extends Controller
         }
         return response("No search term given", 500);
     }
-
 
 
     /**
@@ -242,8 +245,8 @@ class UsersController extends Controller
         if (!Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
         $user = User::make($request->input('name'), $request->input('email'), null, $request->input('role_id'), true);
         Auth::user()->company->addEmployee($user);
-        $userMailer->sendNewUserInvitation($user);
-        flash()->success('Sent invitation to join ' . ucwords(Auth::user()->company->name));
+        $userMailer->sendNewUserInvitation($user, Auth::user());
+        flash()->success('Sent invitation to join ' . ucwords(Auth::user()->company->name) . ' on Sabersky');
         return redirect('/team');
     }
 
@@ -304,7 +307,7 @@ class UsersController extends Controller
 
         $planner = CalendarEventsPlanner::forUser(Auth::user());
 
-        if(Gate::allows('po_payments')) {
+        if (Gate::allows('po_payments')) {
             $payableEvents = $planner->getPayables();
             $events = array_merge($events, $payableEvents);
         }
