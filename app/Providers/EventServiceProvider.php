@@ -4,10 +4,12 @@ namespace App\Providers;
 
 
 use App\Events\AddedTeamMemberToProject;
+use App\Events\InvitedStaffMember;
 use App\Events\NewCompanySignedUp;
 use App\Events\PurchaseOrderSubmitted;
 use App\Events\PurchaseRequestMade;
 use App\Listeners\EmailConfirmAddedToProject;
+use App\Listeners\EmailJoinStaffInvitation;
 use App\Listeners\EmailNewOrderNotification;
 use App\Listeners\EmailNewRequestNotification;
 use App\Listeners\EmailWelcomeMessage;
@@ -32,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewCompanySignedUp::class => [
             EmailWelcomeMessage::class,
+        ],
+        InvitedStaffMember::class => [
+            EmailJoinStaffInvitation::class
         ],
         AddedTeamMemberToProject::class => [
             EmailConfirmAddedToProject::class

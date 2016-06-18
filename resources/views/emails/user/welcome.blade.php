@@ -17,7 +17,7 @@ Tailor your purchasing system to your needs by going through the following steps
 <br>
 3. <a href="{{ env('DOMAIN') }}/settings/rules">Define rules for purchasing control</a>
 <br>
-4. <a href="{{ env('DOMAIN') }}/team/add">Send out invites to staff members you wish to enroll</a>
+4. <a href="{{ env('DOMAIN') }}/staff/add">Send out invites to staff members you wish to enroll</a>
 <br>
 5. <a href="{{ env('DOMAIN') }}/vendors/add">Add a Vendor</a>
 <br>

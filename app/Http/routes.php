@@ -107,16 +107,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/user/profile/photo', 'UsersController@postProfilePhoto');
     Route::delete('/user/profile/photo', 'UsersController@deleteProfilePhoto');
     Route::get('/user/email/{email}/check', 'UsersController@getCheckEmailAvailability');
-    Route::get('/team', 'UsersController@getTeam');
-    Route::get('/team/add', 'UsersController@getAddStaffForm');
-    Route::post('/team/add', 'UsersController@postSaveStaff');
-    Route::get('/team/user/{user}', 'UsersController@getSingleUser');
-    Route::put('/team/user/{user}/role', 'UsersController@putChangeRole');
-    Route::delete('/team/user/{user}', 'UsersController@deleteUser');
+    Route::get('/staff', 'UsersController@getStaff');
+    Route::get('/staff/add', 'UsersController@getAddStaffForm');
+    Route::post('/staff/add', 'UsersController@postSaveStaff');
+    Route::get('/staff/{user}', 'UsersController@getSingleUser');
+    Route::put('/staff/{user}/role', 'UsersController@putChangeRole');
+    Route::delete('/staff/{user}', 'UsersController@deleteUser');
     // api
-    Route::get('/api/users/company/search/{query}', 'UsersController@apiGetSearchCompanyEmployees');
-    Route::get('/api/users/team', 'UsersController@apiGetTeam');
-    Route::get('/api/users/team/members/search/{query}', 'UsersController@apiGetSearchTeamMembers');
+    Route::get('/api/staff/search/{query}', 'UsersController@apiGetSearchStaff');
+    Route::get('/api/staff', 'UsersController@apiGetStaff');
+    Route::get('/api/staff/team/search/{query}', 'UsersController@apiGetSearchTeamMembers');
     Route::get('/api/user/projects', 'UsersController@apiGetAllProjects');
 
     /**

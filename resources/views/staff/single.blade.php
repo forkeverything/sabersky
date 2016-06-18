@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <team-single-user inline-template>
-        <div class="container" id="team-single-user">
+    <staff-single inline-template>
+        <div class="container" id="staff-single">
             <div class="title-with-buttons">
                 <h1>{{ $user->name }}</h1>
                 <div class="buttons">
@@ -25,7 +25,7 @@
             @if($user->role->position === 'admin' || ! Gate::allows('team_manage'))
                 <p>{{ ucwords($user->role->position) }}</p>
             @else
-                <form class="form-change-role " action="/team/user/{{ $user->id }}/role"
+                <form class="form-change-role " action="/staff/{{ $user->id }}/role"
                       method="POST">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
@@ -62,5 +62,5 @@
 
             <modal></modal>
         </div>
-    </team-single-user>
+    </staff-single>
 @stop

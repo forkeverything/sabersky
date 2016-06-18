@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvitedStaffMember;
 use App\Http\Requests\AcceptInvitationRequest;
 use App\Http\Requests\AddStaffRequest;
 use App\Http\Requests\ChangeUserRoleRequest;
@@ -19,6 +20,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
@@ -34,7 +36,7 @@ class UsersController extends Controller
         ]);
 
         $this->middleware('api.only', [
-            'only' => ['apiGetTeam', 'apiGetSearchTeamMembers', 'apiGetSearchCompanyEmployees', 'apiGetAllProjects']
+            'only' => ['apiGetStaff', 'apiGetSearchTeamMembers', 'apiGetSearchStaff', 'apiGetAllProjects']
         ]);
     }
 
@@ -150,12 +152,9 @@ class UsersController extends Controller
      *
      * @return mixed
      */
-    public function getTeam()
+    public function getStaff()
     {
-        $breadcrumbs = [
-            ['<i class="fa fa-users"></i> Team', '/team']
-        ];
-        return view('team.all', compact('employees', 'breadcrumbs'));
+        return view('staff.all');
     }
 
     /**
@@ -164,7 +163,7 @@ class UsersController extends Controller
      *
      * @return mixed
      */
-    public function apiGetTeam()
+    public function apiGetStaff()
     {
         return Auth::user()->company->employees->load('role');
     }
@@ -173,12 +172,12 @@ class UsersController extends Controller
      * Search for Users who are from the same Company as the logged-user. In other
      * words we're looking for other Employees from the Client's Company.
      *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @param $term
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Symfony\Component\HttpFoundation\Response|static[]
      */
-    public function apiGetSearchCompanyEmployees($term)
+    public function apiGetSearchStaff($term)
     {
-        if (!$term) return response("No search term given", 500);
+        if (!$term) return response("No search term given", 404);
         return User::where('company_id', Auth::user()->company_id)
                    ->where(function ($query) use ($term) {
                        $query->where('name', 'LIKE', '%' . $term . '%')
@@ -192,12 +191,12 @@ class UsersController extends Controller
      * Search for Team Members (Users from same Project)
      * by their name.
      *
-     * @param $query
      * @return mixed
+     * @internal param $query
      */
-    public function apiGetSearchTeamMembers($query)
+    public function apiGetSearchTeamMembers($term)
     {
-        if ($query) {
+        if ($term) {
             $projectIDs = Auth::user()->projects->pluck('id');
             $users = User::where('company_id', Auth::user()->company_id)
                          ->whereExists(function ($query) use ($projectIDs) {
@@ -206,8 +205,12 @@ class UsersController extends Controller
                                    ->whereIn('project_id', $projectIDs)
                                    ->whereRaw('users.id = user_id');
                          })
-                         ->where('name', 'LIKE', '%' . $query . '%')
-                         ->select(['id', 'name'])->get();
+                         ->where(function ($query) use ($term) {
+                             $query->where('name', 'LIKE', '%' . $term . '%')
+                                   ->orWhere('email', 'LIKE', '%' . $term . '%');
+                         })
+                         ->with('role')
+                         ->get();
             return $users;
         }
         return response("No search term given", 500);
@@ -223,12 +226,8 @@ class UsersController extends Controller
     public function getAddStaffForm()
     {
         if (!Gate::allows('team_manage')) abort(403, "Not authorized to add Staff");
-        $breadcrumbs = [
-            ['<i class="fa fa-users"></i> Team', '/team'],
-            ['Add', '#']
-        ];
         $roles = Auth::user()->company->getRolesNotAdmin();
-        return view('team.add', compact('roles', 'breadcrumbs'));
+        return view('staff.add', compact('roles', 'breadcrumbs'));
     }
 
     /**
@@ -245,9 +244,9 @@ class UsersController extends Controller
         if (!Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
         $user = User::make($request->input('name'), $request->input('email'), null, $request->input('role_id'), true);
         Auth::user()->company->addEmployee($user);
-        $userMailer->sendNewUserInvitation($user, Auth::user());
+        Event::fire(new InvitedStaffMember($user, Auth::user()));
         flash()->success('Sent invitation to join ' . ucwords(Auth::user()->company->name) . ' on Sabersky');
-        return redirect('/team');
+        return redirect('/staff');
     }
 
     /**
@@ -260,12 +259,8 @@ class UsersController extends Controller
     public function getSingleUser(User $user)
     {
         if (!Gate::allows('edit', $user)) abort(403, "Not authorized to view that User");
-        $breadcrumbs = [
-            ['<i class="fa fa-users"></i> Team', '/team'],
-            [$user->name, '#']
-        ];
         $roles = Auth::user()->company->getRolesNotAdmin()->sortBy('position');
-        return view('team.single_user', compact('user', 'breadcrumbs', 'roles'));
+        return view('staff.single', compact('user', 'roles'));
     }
 
     public function putChangeRole(ChangeUserRoleRequest $request, $userId)

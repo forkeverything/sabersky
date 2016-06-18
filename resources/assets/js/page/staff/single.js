@@ -1,7 +1,7 @@
-Vue.component('team-single-user', {
-    name: 'teamSingleUser',
+Vue.component('staff-single', {
+    name: 'staffSingle',
     el: function() {
-        return '#team-single-user'
+        return '#staff-single'
     },
     data: function() {
         return {
@@ -36,12 +36,12 @@ Vue.component('team-single-user', {
             if(!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/team/user/' + self.userToDelete.id,
+                url: '/staff/' + self.userToDelete.id,
                 method: 'DELETE',
                 success: function(data) {
                    // success
                    self.ajaxReady = true;
-                    window.location.href = '/team';
+                    window.location.href = '/staff';
                 },
                 error: function(response) {
                     self.ajaxReady = true;

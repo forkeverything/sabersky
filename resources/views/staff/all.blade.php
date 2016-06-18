@@ -1,22 +1,21 @@
 @extends('layouts.app')
 @section('content')
-    <team-all inline-template :user="user">
-        <div class="container" id="team-all">
+    <staff-all inline-template :user="user">
+        <div class="container" id="staff-all">
             <div class="title-with-buttons">
-                <h1>Team</h1>
+                <h1 class="capitalize">@{{ user.company.name }} Staff</h1>
                 @can('team_manage')
                     <div class="buttons">
-                        <a href="/team/add" class="link-add-team button-right">
-                            <button class="btn btn-solid-green"><i class="fa fa-user-plus fa-btn"></i>Invite User
+                        <a href="/staff/add" class="link-add-team button-right">
+                            <button class="btn btn-solid-green"><i class="fa fa-user-plus fa-btn"></i>Invite Staff
                             </button>
                         </a>
                     </div>
                 @endcan
             </div>
-            <h2 class="capitalize">@{{ user.company.name }} Staff List</h2>
             <div class="table-employees">
                 <power-table :headers="tableHeaders" :data="employees" :sort="true" :hover="true"></power-table>
             </div>
         </div>
-    </team-all>
+    </staff-all>
 @stop

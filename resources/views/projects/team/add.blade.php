@@ -9,7 +9,7 @@
                     <form-errors></form-errors>
                         <h2>Search Company Staff</h2>
                         <div class="form-group">
-                            <company-employee-search-selecter :name.sync="existingUserId"></company-employee-search-selecter>
+                            <staff-selecter :name.sync="existingUserId"></staff-selecter>
                         </div>
                 <div class="bottom">
                     <button type="submit" class="btn btn-solid-blue">Add Team Member

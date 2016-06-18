@@ -34,9 +34,9 @@
                 </a>
             </li>
             <li class="single-list-item">
-                <a href="/team">
+                <a href="/staff">
                     <i class="livicon-evo icon-sidemenu" data-options="name:users.svg; repeat: loop; eventOn: parent; style: solid;"></i>
-                    Team
+                    Staff
                 </a>
             </li>
             <li class="single-list-item">

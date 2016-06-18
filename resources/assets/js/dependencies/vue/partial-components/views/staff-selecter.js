@@ -1,12 +1,12 @@
-Vue.component('company-employee-search-selecter', {
-    name: 'companyEmployeeSearchSelecter',
-    template: '<select class="company-employee-search-selecter">' +
+Vue.component('staff-selecter', {
+    name: 'staffSelecter',
+    template: '<select class="staff-selecter">' +
     '<option></option>' +
     '</select>',
     props: ['name'],
     ready: function() {
         var self = this;
-        $('.company-employee-search-selecter').selectize({
+        $('.staff-selecter').selectize({
             valueField: 'id',
             searchField: ['name', 'email'],
             create: false,
@@ -23,7 +23,7 @@ Vue.component('company-employee-search-selecter', {
             load: function(query, callback) {
                 if (!query.length) return callback();
                 $.ajax({
-                    url: '/api/users/company/search/' + encodeURI(query),
+                    url: '/api/staff/search/' + encodeURI(query),
                     type: 'GET',
                     error: function () {
                         callback();

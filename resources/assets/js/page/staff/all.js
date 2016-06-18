@@ -1,7 +1,7 @@
-Vue.component('team-all', {
-    name: 'teamAll',
+Vue.component('staff-all', {
+    name: 'staffAll',
     el: function() {
-        return '#team-all'
+        return '#staff-all'
     },
     data: function() {
         return {
@@ -43,13 +43,13 @@ Vue.component('team-all', {
     ready: function() {
         var self = this;
         $.ajax({
-            url: '/api/users/team',
+            url: '/api/staff',
             method: 'GET',
             success: function(data) {
                // success
                self.employees = _.map(data, function(staff) {
-                   staff.name = '<a href="/team/user/' + staff.id + '">' + staff.name + '</a>';
-                   staff.status = staff.invite_key ? '<span class="badge badge-warning">Pending</span>' : '<span class="badge badge-success">Confirmed</span>';
+                   staff.name = '<a href="/staff/' + staff.id + '">' + staff.name + '</a>';
+                   staff.status = staff.invite_key ? 'Pending' : 'Confirmed';
                    return staff;
                });
             },

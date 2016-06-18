@@ -10,7 +10,7 @@
 
         @can('team_manage')
             <li>
-                <a href="/team/add" alt="link to invite team member">Invite Team Member</a>
+                <a href="/staff/add" alt="link to invite team member">Invite Team Member</a>
             </li>
         @endcan
 

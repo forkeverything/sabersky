@@ -57,7 +57,7 @@ class UserMailer extends Mailer
     }
 
     /**
-     * PR Notificatin to those that can submit Orders
+     * PR notification to those that can submit Orders
      * 
      * @param PurchaseRequest $purchaseRequest
      * @param User $recipient
@@ -70,6 +70,12 @@ class UserMailer extends Mailer
         $this->sendTo($recipient->email, $recipient->name, $subject, $view, compact('purchaseRequest', 'recipient', 'requester'));
     }
 
+    /**
+     * PO Notification to those that can approve the Order
+     * @param PurchaseOrder $purchaseOrder
+     * @param User $recipient
+     * @param User $submitter
+     */
     public function sendPurchaseOrderNotification(PurchaseOrder $purchaseOrder, User $recipient, User $submitter)
     {
         $subject = 'New Purchase Order';
