@@ -3,6 +3,14 @@
 namespace App\Providers;
 
 
+use App\Events\AddedTeamMemberToProject;
+use App\Events\NewCompanySignedUp;
+use App\Events\PurchaseOrderSubmitted;
+use App\Events\PurchaseRequestMade;
+use App\Listeners\EmailConfirmAddedToProject;
+use App\Listeners\EmailNewOrderNotification;
+use App\Listeners\EmailNewRequestNotification;
+use App\Listeners\EmailWelcomeMessage;
 use App\Listeners\LogUserLastLogin;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -21,6 +29,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         Login::class => [
             LogUserLastLogin::class
+        ],
+        NewCompanySignedUp::class => [
+            EmailWelcomeMessage::class,
+        ],
+        AddedTeamMemberToProject::class => [
+            EmailConfirmAddedToProject::class
+        ],
+        PurchaseRequestMade::class => [
+            EmailNewRequestNotification::class
+        ],
+        PurchaseOrderSubmitted::class => [
+            EmailNewOrderNotification::class
         ]
     ];
 

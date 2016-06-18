@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Events\PurchaseOrderSubmitted;
 use App\Http\Requests\AddNoteRequest;
 use App\Http\Requests\ApprovePurchaseOrderRequest;
 use App\Http\Requests\SaveLineItemRequest;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class PurchaseOrdersController extends Controller
@@ -102,7 +104,9 @@ class PurchaseOrdersController extends Controller
      */
     public function apiPostSubmit(SubmitPurchaseOrderRequest $request)
     {
-        return PurchaseOrderFactory::make($request, Auth::user());
+        $purchaseOrder = PurchaseOrderFactory::make($request, Auth::user());
+        Event::fire(new PurchaseOrderSubmitted($purchaseOrder, Auth::user()));
+        return $purchaseOrder;
     }
 
 

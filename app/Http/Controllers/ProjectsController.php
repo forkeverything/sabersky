@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddedTeamMemberToProject;
 use App\Http\Requests\SaveTeamMemberRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class ProjectsController extends Controller
@@ -155,37 +157,17 @@ class ProjectsController extends Controller
      */
     public function postSaveTeamMember(Project $project, SaveTeamMemberRequest $request, UserMailer $userMailer)
     {
-        // Are we selecting a new user?
-        if ($existingUserId = $request->input('existing_user_id')) {
-            // Adding existing user
-            $user = User::find($existingUserId);     // fetch user
 
-            // Whenever we are changing a User Model - lets make sure the acting user
-            // is authorized to do it.
+        // Adding existing user
+        $user = User::find($request->existing_user_id);     // fetch user
 
-            if (Gate::allows('edit', $user)) {
-                $project->addTeamMember($user);
-                return response("Added team member to project");
-            }
+        // Whenever we are changing a User Model - lets make sure the acting user
+        // is authorized to do it.
+        if (! Gate::allows('edit', $user)) abort(403, 'You are unauthorized to change that user');
 
-            abort(403, 'You are unauthorized to change that user');
-        } else {
-
-            $role = Role::Find($request->input('role_id'));
-            if(! Gate::allows('attaching', $role)) abort(403, "Selected Role is not allowed: does not belong to Company or is Admin");
-
-            // Make a new User
-            $user = User::make($request->input('name'), $request->input('email'), null, $request->input('role_id'), true);
-            // Add to company
-            $this->company->addEmployee($user);
-            // Add to Project
-            $project->addTeamMember($user);
-            // Send Invite
-            $userMailer->sendNewUserInvitation($user, Auth::user());
-
-            flash()->success('Sent invitation to join Project');
-            return redirect(route('singleProject', [$project->id]));
-        }
+        $project->addTeamMember($user);
+        Event::fire(new AddedTeamMemberToProject($project, $user, Auth::user()));
+        return response("Added team member to project");
     }
 
     /**
@@ -230,7 +212,7 @@ class ProjectsController extends Controller
     public function delete(Project $project)
     {
         $this->checkProjectAuthorization($project);
-        if($project->delete()) return 'Successfully deleted Project';
+        if ($project->delete()) return 'Successfully deleted Project';
         return response("Error: Could not delete Project", 500);
     }
 
@@ -242,11 +224,9 @@ class ProjectsController extends Controller
      */
     protected function checkProjectAuthorization($project)
     {
-        if (! Gate::allows('view', $project))  abort(403, "You are not authorized to edit that project");
+        if (!Gate::allows('view', $project)) abort(403, "You are not authorized to edit that project");
         return true;
     }
-
-
 
 
 }

@@ -1,6 +1,5 @@
  <div class="table-controls table-view-select">
-        View:
-        <div class="requests">
+    <div class="requests">
             <a class="clickable dotted"
                :class="{ 'active': tableView === 'requests' }"
             @click="changeTable('requests')"

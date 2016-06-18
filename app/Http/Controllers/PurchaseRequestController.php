@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PurchaseRequestMade;
 use App\Http\Requests\AddNoteRequest;
 use App\Http\Requests\CancelPurchaseRequestRequest;
 use App\Http\Requests\MakePurchaseRequestRequest;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class PurchaseRequestController extends Controller
@@ -120,7 +122,10 @@ class PurchaseRequestController extends Controller
         $item = Item::findOrFail($request->input('item_id'));
 
         // Create the Purchase Request
-        if (PurchaseRequest::make($request, Auth::user())) return response("Made a new Purchase Request", 200);
+        if ($purchaseRequest = PurchaseRequest::make($request, Auth::user())) {
+            Event::fire(new PurchaseRequestMade($purchaseRequest, Auth::user()));
+            return response("Made a new Purchase Request", 200);  
+        } 
         return response("Could not make Purchase Request", 500);
 
     }

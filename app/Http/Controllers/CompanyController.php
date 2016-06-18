@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\CompanySettings;
 use App\Country;
+use App\Events\NewCompanySignedUp;
 use App\Http\Requests\CompanyAddCurrencyRequest;
 use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\SaveCompanyRequest;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class CompanyController extends Controller
@@ -47,6 +49,8 @@ class CompanyController extends Controller
         $company = Company::register($request->input('company_name'));
         // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));
+        // Fire Event
+        Event::fire(new NewCompanySignedUp($company, $user));
         // Add User as employee of company
         $company->addEmployee($user);
 

@@ -1,4 +1,4 @@
-Hi {{ $recipient->name }},
+Hi {{ ucfirst($recipient->name) }},
 <br>
 <br>
 You've been invited by {{ $sender->name }} to join {{ $sender->company->name }} on Sabersky for the role of {{ ucfirst($recipient->role->position) }}.
@@ -13,9 +13,4 @@ If you believe this has been sent as a mistake, you can go ahead and ignore this
 Sabersky is a purchasing system built for rapid growth businesses. For more information, please visit us at http://www.sabersky.com
 <br>
 <br>
-<em>If you have any questions, feel free to send an email to: help@sabersky.com</em>
-<br>
-<br>
-Thanks,
-<br>
-The Sabersky Team
+@include('emails.partials.signature')
