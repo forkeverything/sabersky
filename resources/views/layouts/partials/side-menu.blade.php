@@ -29,12 +29,14 @@
         <ul class="nav-links">
             <li class="single-list-item">
                 <a href="/projects">
-                    <i class="fa fa-flash"></i>Projects
+                    <i class="livicon-evo icon-sidemenu" data-options="name:lightning.svg; repeat: loop; eventOn: parent; style: solid;"></i>
+                    Projects
                 </a>
             </li>
             <li class="single-list-item">
                 <a href="/team">
-                    <i class="fa fa-users"></i>Team
+                    <i class="livicon-evo icon-sidemenu" data-options="name:users.svg; repeat: loop; eventOn: parent; style: solid;"></i>
+                    Team
                 </a>
             </li>
             <li class="single-list-item">
@@ -44,7 +46,8 @@
                         'expanded': expandedSection === 'purchase'
                     }"
                 >
-                    <i class="fa fa-shopping-basket"></i> Purchase
+                    <i class="livicon-evo icon-sidemenu" data-options="name:shoppingcart-in.svg; repeat: loop; eventOn: parent; style: solid;"></i>
+                    Purchase
                 </a>
                 <ul class="list-unstyled list-sublinks"
                     :class="{
@@ -65,13 +68,13 @@
             </li>
             <li class="single-list-item">
                 <a href="/vendors">
-                    <i class="fa fa-truck"></i>
+                    <i class="livicon-evo icon-sidemenu" data-options="name:building.svg; repeat: loop; eventOn: parent; style: solid;"></i>
                     Vendors
                 </a>
             </li>
             <li class="single-list-item">
                 <a href="/items">
-                    <i class="fa fa-legal"></i>
+                    <i class="livicon-evo icon-sidemenu" data-options="name:hammer.svg; repeat: loop; eventOn: parent; style: solid;"></i>
                     Items
                 </a>
             </li>
@@ -83,7 +86,7 @@
                         'expanded': expandedSection === 'reports'
                     }"
                     >
-                        <i class="fa fa-bar-chart"></i>
+                        <i class="livicon-evo icon-sidemenu" data-options="name:line-chart.svg; repeat: loop; eventOn: parent; style: solid;"></i>
                         Reports
                     </a>
                     <ul class="list-unstyled list-sublinks"
@@ -111,7 +114,8 @@
                         'expanded': expandedSection === 'settings'
                     }"
                     >
-                        <i class="fa fa-gears"></i> Settings
+                        <i class="livicon-evo icon-sidemenu" data-options="name:settings.svg; repeat: loop; eventOn: parent; style: solid;"></i>
+                        Settings
                     </a>
                     <ul class="list-unstyled list-sublinks"
                         :class="{

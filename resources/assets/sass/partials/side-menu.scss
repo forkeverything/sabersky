@@ -105,6 +105,15 @@
           font-size: 1.4em;
         }
 
+        .icon-sidemenu {
+          width: 25px !important;
+          display: inline-block;
+          svg {
+            width: 25px !important;
+            height: 25px !important;
+          }
+        }
+
         &:hover {
           opacity: 0.8;
         }
@@ -120,7 +129,7 @@
           font-size: 0.6em;
           position: absolute;
           right: 12px;
-          top: 7px;
+          top: 14px;
         }
 
         &.expanded {

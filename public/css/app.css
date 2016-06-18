@@ -6846,12 +6846,21 @@ label {
   @media screen and (min-width: 768px) {
     #dashboard .company-overview {
       margin: 0 -15px 30px -15px; } }
+  #dashboard .company-overview .vendors {
+    color: #FFB400; }
+  #dashboard .company-overview .items {
+    color: #C0392B; }
+  #dashboard .company-overview .requests {
+    color: #27AE60; }
+  #dashboard .company-overview .orders {
+    color: #2980B9; }
   #dashboard .company-overview.full {
     color: #fff; }
     #dashboard .company-overview.full .panel-body {
       padding: 10px;
       height: 110px;
-      border-radius: 3px; }
+      border-radius: 3px;
+      border: 2px solid #E6E9EB; }
       #dashboard .company-overview.full .panel-body .details {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -6863,9 +6872,9 @@ label {
         -ms-flex-align: center;
         align-items: center; }
         #dashboard .company-overview.full .panel-body .details .number {
+          color: inherit;
           font-size: 1.5em;
-          margin: 0;
-          color: #fff; }
+          margin: 0; }
           @media screen and (min-width: 992px) {
             #dashboard .company-overview.full .panel-body .details .number {
               font-size: 2em; } }
@@ -6878,28 +6887,31 @@ label {
             width: 70px !important;
             height: 70px !important; }
     #dashboard .company-overview.full .vendors {
-      background: #FFB400; }
+      border-color: #FFB400; }
     #dashboard .company-overview.full .items {
-      background: #C0392B; }
+      border-color: #C0392B; }
     #dashboard .company-overview.full .requests {
-      background: #27AE60; }
+      border-color: #27AE60; }
     #dashboard .company-overview.full .orders {
-      background: #2980B9; }
-  #dashboard .company-overview.compact ul li {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    font-size: 1.2em;
-    margin: 5px 0; }
-    #dashboard .company-overview.compact ul li .icon-overview {
-      display: inline-block;
-      width: 25px !important; }
-      #dashboard .company-overview.compact ul li .icon-overview svg {
-        width: 25px !important;
-        height: 25px !important; }
+      border-color: #2980B9; }
+  #dashboard .company-overview.compact ul {
+    border: 2px solid #E6E9EB;
+    padding: 10px 15px; }
+    #dashboard .company-overview.compact ul li {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      font-size: 1.2em;
+      margin: 5px 0; }
+      #dashboard .company-overview.compact ul li .icon-overview {
+        display: inline-block;
+        width: 25px !important; }
+        #dashboard .company-overview.compact ul li .icon-overview svg {
+          width: 25px !important;
+          height: 25px !important; }
 
 #dashboard #dashboard-calendar {
   margin: 0 0 15px; }
@@ -8882,6 +8894,12 @@ label {
           text-align: center;
           margin: 0 10px 0 0;
           font-size: 1.4em; }
+        #side-menu .nav-links .single-list-item a .icon-sidemenu {
+          width: 25px !important;
+          display: inline-block; }
+          #side-menu .nav-links .single-list-item a .icon-sidemenu svg {
+            width: 25px !important;
+            height: 25px !important; }
         #side-menu .nav-links .single-list-item a:hover {
           opacity: 0.8; }
       #side-menu .nav-links .single-list-item .show-sublinks {
@@ -8893,7 +8911,7 @@ label {
           font-size: 0.6em;
           position: absolute;
           right: 12px;
-          top: 7px; }
+          top: 14px; }
         #side-menu .nav-links .single-list-item .show-sublinks.expanded:after {
           content: "\f078"; }
       #side-menu .nav-links .single-list-item .list-sublinks {

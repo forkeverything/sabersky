@@ -7,6 +7,22 @@
       margin: 0 -15px 30px -15px;
     }
 
+    .vendors {
+      color: $dark-yellow;
+    }
+
+    .items {
+      color: $dark-red;
+    }
+
+    .requests {
+      color: $dark-green;
+    }
+
+    .orders {
+      color: $dark-blue;
+    }
+
     &.full {
       color: #fff;
 
@@ -14,6 +30,7 @@
         padding: 10px;
         height: 110px;
         @include border-radius($small-border-radius);
+        border: 2px solid $border-light;
 
         .details {
           display: flex;
@@ -21,9 +38,9 @@
           align-items: center;
 
           .number {
+            color: inherit;
             font-size: 1.5em;
             margin: 0;
-            color: #fff;
 
             @media screen and (min-width: $screen-md-min) {
               font-size: 2em;
@@ -46,25 +63,28 @@
       }
 
       .vendors {
-        background: $dark-yellow;
+        border-color: $dark-yellow;
       }
 
       .items {
-        background: $dark-red;
+        border-color: $dark-red;
       }
 
       .requests {
-        background: $dark-green;
+        border-color: $dark-green;
       }
 
       .orders {
-        background: $dark-blue;
+        border-color: $dark-blue;
       }
     }
 
     &.compact {
 
       ul {
+        border: 2px solid $border-light;
+        padding: 10px 15px;
+
         li {
           display: flex;
           justify-content: space-between;
