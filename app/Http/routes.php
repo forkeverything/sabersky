@@ -112,7 +112,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/staff/add', 'UsersController@postSaveStaff');
     Route::get('/staff/{user}', 'UsersController@getSingleUser');
     Route::put('/staff/{user}/role', 'UsersController@putChangeRole');
-    Route::delete('/staff/{user}', 'UsersController@deleteUser');
+    Route::put('/staff/{user}/active', 'UsersController@toggleActive');
     Route::delete('/admin', 'UsersController@deleteAdmin');
     // api
     Route::get('/api/staff/search/{query}', 'UsersController@apiGetSearchStaff');

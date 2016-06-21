@@ -51,6 +51,7 @@ class User extends Authenticatable
         'password',
         'role_id',
         'invite_key',
+        'active',
         'company_id',
         'last_login'
     ];
@@ -124,9 +125,24 @@ class User extends Authenticatable
         return $this->hasMany(PurchaseRequest::class);
     }
 
+    /**
+     * A User has a single photo (profile)
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
     public function photo()
     {
         return $this->morphOne(Photo::class, 'model');
+    }
+
+    /**
+     * Toggles User active / deactive
+     *
+     * @return bool
+     */
+    public function toggleActive()
+    {
+        $this->active = ! $this->active;
+        return $this->save();
     }
 
     /**

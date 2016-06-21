@@ -5,12 +5,10 @@
         <div class="container" id="staff-single">
             <div class="title-with-buttons">
                 <h1>{{ $user->name }}</h1>
-                <div class="buttons">
-                    <button class="btn btn-outline-red  button-delete-user"
-                            type="button"
-                    @click="confirmDelete({{ $user }})"
-                    ><i class="fa fa-trash"></i>Delete</button>
-                </div>
+
+                @if(Auth::user()->hasRole('admin') && ! $user->hasRole('admin'))
+                    @include('staff.partials.single.toggle-active')
+                @endif
             </div>
 
             <h4>Status</h4>
@@ -35,11 +33,11 @@
                                     @if($role->position === $user->role->position) selected @endif>{{ $role->position }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-solid-green button-change-role"
+                    <button type="submit" class="btn btn-outline-blue button-change-role"
                             v-show="changeButton">Change
                     </button>
                 </form>
-                @endif
+            @endif
 
             <h4>Projects</h4>
             @if($user->projects->first())

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Address;
+use App\Extensions\ExtendedEloquentUserProvider;
 use App\Item;
 use App\LineItem;
 use App\Note;
@@ -65,6 +66,14 @@ class AuthServiceProvider extends ServiceProvider
                 });
             }
         }
+
+        // Define custom provider: extended
+        \Auth::provider('extended', function($app, array $config) {
+            return new ExtendedEloquentUserProvider($this->app['hash'], $config['model']);
+
+
+        });
+
     }
 
     /**

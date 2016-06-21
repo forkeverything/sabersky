@@ -65,10 +65,16 @@ return [
     */
 
     'providers' => [
+
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
+            'driver' => 'extended',         // Defined in AuthServiceProvider
+            'model' => App\User::class
+        ]
+
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',

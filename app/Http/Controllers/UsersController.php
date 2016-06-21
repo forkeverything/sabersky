@@ -270,16 +270,6 @@ class UsersController extends Controller
         return redirect()->back();
     }
 
-    public function deleteUser(User $user)
-    {
-        if (!Gate::allows('edit', $user) && !Gate::allows('team_manage') && $user->role->position !== 'admin') abort(403, "Can not delete that User");
-        if ($user->delete()) {
-            flash()->success('Permanently deleted user');
-            return response("Deleted User", 200);
-        }
-        abort(500, "Something went sideways. Could not delete User");
-    }
-
     /**
      * Returns all the Projects that the currently
      * Authenticated user is a part of
@@ -315,7 +305,33 @@ class UsersController extends Controller
         return $planner->filterUnique($events);
     }
 
+    /**
+     * Toggles whether user is active / deactive
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function toggleActive(User $user)
+    {
+        if (!Auth::user()->hasRole('admin') && !Gate::allows('edit', $user) && $user->role->position !== 'admin') abort(403, "Not allowed to deactivate that user");
+        if ($user->toggleActive()) {
+            if($user->active) {
+                flash()->success('Activated user');
+            } else {
+                flash()->info('Deactivated user');
+            }
+            return redirect()->back();
+        }
+        return response("Something went sideways. Could not delete User", 500);
+    }
 
+    /**
+     * Remove an Admin account which also deletes the Company, all staff users and all associated DB records as
+     * well as physical files. PERMANENT WIPE.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteAdmin()
     {
         $user = Auth::user();

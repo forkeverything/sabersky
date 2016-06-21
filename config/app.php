@@ -170,7 +170,7 @@ return [
          */
         App\Providers\CompanyServiceProvider::class,
         App\Providers\PurchasingServiceProvider::class,
-        App\Providers\PhotoServiceProvider::class,
+        App\Providers\PhotoServiceProvider::class
 
 
     ],
