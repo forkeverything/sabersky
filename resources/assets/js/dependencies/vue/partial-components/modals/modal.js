@@ -8,7 +8,7 @@ Vue.component('modal', {
             callbackEventName: ''
         }
     },
-    template: '<div class="modal-roles modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+    template: '<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
     '<div class="vertical-alignment-helper">' +
     '<div class="modal-dialog vertical-align-center">' +
     '<div class="modal-content">' +

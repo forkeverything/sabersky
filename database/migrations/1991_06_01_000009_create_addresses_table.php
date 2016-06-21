@@ -30,7 +30,7 @@ class CreateAddressesTable extends Migration
             $table->string('owner_type');
 
             $table->integer('country_id')->unsigned();
-            $table->foreign('country_id')->references('id')->on('countries');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
     }
 

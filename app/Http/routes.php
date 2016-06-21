@@ -113,6 +113,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/staff/{user}', 'UsersController@getSingleUser');
     Route::put('/staff/{user}/role', 'UsersController@putChangeRole');
     Route::delete('/staff/{user}', 'UsersController@deleteUser');
+    Route::delete('/admin', 'UsersController@deleteAdmin');
     // api
     Route::get('/api/staff/search/{query}', 'UsersController@apiGetSearchStaff');
     Route::get('/api/staff', 'UsersController@apiGetStaff');

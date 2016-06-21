@@ -358,7 +358,7 @@ class PurchaseOrder extends Model
     /**
      * Attaches Address models as Billing and Shipping Addresses respectively. We will always attach
      * billing_address_id and shipping_address_id - so it allows them to both reference different
-     * Address models. If an Address has no owner, we will also attach this PO as the owner.
+     * Address models. If address is specific to this PO, it will be attached as the owner.
      *
      * @param Address $billingAddress
      * @param Address $shippingAddress

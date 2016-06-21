@@ -7,14 +7,18 @@
                 <div class="left">
                     <div class="popover-container clickable profile-popup" @click.stop="togglePhotoMenu">
                         <profile-photo :user="user"></profile-photo>
-                        <div class="popover-content animated center" v-show="showProfilePhotoMenu" transition="fade-slide">
+                        <div class="popover-content animated center" v-show="showProfilePhotoMenu"
+                             transition="fade-slide">
                             <ul class="list list-unstyled">
-                                <li><a @click="showFileSelecter">Change</a></li>
-                                <li><a @click="removePhoto">Remove</a></li>
+                                <li><a @click="showFileSelecter">Upload</a></li>
+                                @if($user->photo)
+                                    <li><a @click="removePhoto">Remove</a></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
-                    <form v-el:profile-photo-form enctype="multipart/form-data" action="/user/profile/photo" method="POST">
+                    <form v-el:profile-photo-form enctype="multipart/form-data" action="/user/profile/photo"
+                          method="POST">
                         {{ csrf_field() }}
                         <input v-el:file-input class="hidden" name="image" type="file" @change="uploadProfilePhoto">
                     </form>
@@ -55,8 +59,10 @@
                                 </button>
                             </div>
                             <div class="submit-edit" v-else>
-                                <button type="button" class="btn btn-outline-grey" @click="toggleEditMode('Contact')">Cancel</button>
-                                <button type="submit" class="btn btn-solid-blue" @click="updateProfile('Contact')">Save</button>
+                                <button type="button" class="btn btn-outline-grey" @click="toggleEditMode('Contact')">
+                                Cancel</button>
+                                <button type="submit" class="btn btn-solid-blue" @click="updateProfile('Contact')">
+                                Save</button>
                             </div>
                         </div>
                     </section>
@@ -64,7 +70,8 @@
                         <form @submit.prevent="updateProfile('Bio')" v-show="editingBio">
                             <div class="form-group">
                                 <label for="profile-bio">Bio</label>
-                                <textarea name="bio" id="profile-bio" class="form-control autosize" v-model="user.bio"></textarea>
+                                <textarea name="bio" id="profile-bio" class="form-control autosize"
+                                          v-model="user.bio"></textarea>
                             </div>
                         </form>
                         <div class="info" v-else>
@@ -82,8 +89,10 @@
                                 </button>
                             </div>
                             <div class="submit-edit" v-else>
-                                <button type="button" class="btn btn-outline-grey" @click="toggleEditMode('Bio')">Cancel</button>
-                                <button type="submit" class="btn btn-solid-blue" @click="updateProfile('Bio')">Save</button>
+                                <button type="button" class="btn btn-outline-grey" @click="toggleEditMode('Bio')">
+                                Cancel</button>
+                                <button type="submit" class="btn btn-solid-blue" @click="updateProfile('Bio')">
+                                Save</button>
                             </div>
                         </div>
                     </section>

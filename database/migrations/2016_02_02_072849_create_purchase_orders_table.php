@@ -27,7 +27,7 @@ class CreatePurchaseOrdersTable extends Migration
                 $table->foreign('vendor_id')->references('id')->on('vendors');
                 // Address - Can be NULL depending on Company Settings
                 $table->integer('vendor_address_id')->unsigned()->nullable();
-                $table->foreign('vendor_address_id')->references('id')->on('addresses');
+                $table->foreign('vendor_address_id')->references('id')->on('addresses')->onDelete('set null');
                 // Account - Can be NULL depending on Company Settings
                 $table->integer('vendor_bank_account_id')->unsigned()->nullable();
                 $table->foreign('vendor_bank_account_id')->references('id')->on('bank_accounts');
@@ -38,10 +38,10 @@ class CreatePurchaseOrdersTable extends Migration
                 $table->foreign('currency_id')->references('id')->on('countries');
                 // Compulsory billing address - NULL at first, attach after creating model
                 $table->integer('billing_address_id')->unsigned()->nullable();
-                $table->foreign('billing_address_id')->references('id')->on('addresses');
+                $table->foreign('billing_address_id')->references('id')->on('addresses')->onDelete('set null');
                 // Either points to same Address as Billing or different Address model
                 $table->integer('shipping_address_id')->unsigned()->nullable();
-                $table->foreign('shipping_address_id')->references('id')->on('addresses');
+                $table->foreign('shipping_address_id')->references('id')->on('addresses')->onDelete('set null');
 
             // Summary - fields we calculate and store so they can be retrieved, sorted, and filtered faster than calculating dynamically
             $table->float('subtotal', 15, 2);
@@ -53,7 +53,7 @@ class CreatePurchaseOrdersTable extends Migration
 
             // Company
             $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
         });
     }

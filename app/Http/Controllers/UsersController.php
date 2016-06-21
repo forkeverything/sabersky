@@ -316,4 +316,18 @@ class UsersController extends Controller
     }
 
 
+    public function deleteAdmin()
+    {
+        $user = Auth::user();
+        if (!$user->hasRole('admin')) {
+            flash()->error('Account to be deleted was not an admin');
+            return redirect()->back();
+        }
+
+        $user->company->delete();
+
+        Auth::logout();
+        return redirect()->back();
+    }
+
 }

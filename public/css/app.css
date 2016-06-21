@@ -9245,6 +9245,38 @@ table {
           .modal-overlay.single-pr .item .details .item-images .image-gallery .single-item-image img {
             width: 100%; }
 
+.modal .vertical-alignment-helper {
+  display: table;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  /* This makes sure that we can still click outside of the modal to close it */ }
+
+.modal .vertical-align-center {
+  /* To center vertically */
+  display: table-cell;
+  vertical-align: middle;
+  pointer-events: none; }
+
+.modal .modal-content {
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width: inherit;
+  height: inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+  pointer-events: all; }
+
+.modal h5 {
+  margin: 0; }
+
+.modal p {
+  margin: 0 0 10px; }
+  .modal p:last-child {
+    margin: 0; }
+
+.modal .btn-confirm {
+  text-transform: capitalize; }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -10238,33 +10270,6 @@ li.active {
       font-size: 20px; } }
 
 .capitalize {
-  text-transform: capitalize; }
-
-.modal .vertical-alignment-helper {
-  display: table;
-  height: 100%;
-  width: 100%;
-  pointer-events: none;
-  /* This makes sure that we can still click outside of the modal to close it */ }
-
-.modal .vertical-align-center {
-  /* To center vertically */
-  display: table-cell;
-  vertical-align: middle;
-  pointer-events: none; }
-
-.modal .modal-content {
-  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-  width: inherit;
-  height: inherit;
-  /* To center horizontally */
-  margin: 0 auto;
-  pointer-events: all; }
-
-.modal h5, .modal p {
-  margin: 0; }
-
-.modal .btn-confirm {
   text-transform: capitalize; }
 
 [v-cloak] {

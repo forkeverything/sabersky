@@ -21,7 +21,7 @@ class CreateVendorsTable extends Migration
 
             // The Company that this Vendor record belongs to
             $table->integer('base_company_id')->unsigned();
-            $table->foreign('base_company_id')->references('id')->on('companies');
+            $table->foreign('base_company_id')->references('id')->on('companies')->onDelete('cascade');
 
             // If this Vendor profile points to a registered Company
             $table->boolean('verified')->default(0);

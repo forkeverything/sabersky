@@ -26,8 +26,8 @@ class CreatePurchaseRequestsTable extends Migration
             $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
 
-            $table->foreign('item_id')->references('id')->on('items');
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -4,7 +4,6 @@ namespace App;
 
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Http\Requests\StartProjectRequest;
-use App\Utilities\BuildPhoto;
 use App\Utilities\Traits\RecordsActivity;
 use DB;
 use Illuminate\Database\Eloquent\Model;

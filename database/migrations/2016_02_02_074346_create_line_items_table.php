@@ -25,11 +25,11 @@ class CreateLineItemsTable extends Migration
 
             // Orders
             $table->integer('purchase_order_id')->unsigned();
-            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
 
             // Requests
             $table->integer('purchase_request_id')->unsigned();
-            $table->foreign('purchase_request_id')->references('id')->on('purchase_requests');
+            $table->foreign('purchase_request_id')->references('id')->on('purchase_requests')->onDelete('cascade');
 
             /*
              * Line Items are like Pivot-tables between Orders and the Requests they fulfill. Except

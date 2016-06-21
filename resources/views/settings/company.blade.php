@@ -11,6 +11,10 @@
                     team.
                 </p>
 
+                @if(Auth::user()->hasRole('admin'))
+                    @include('settings.partials.delete-admin')
+                @endif
+
                 <div class="information">
                     <form-errors></form-errors>
                     <div class="form-group">
@@ -55,11 +59,9 @@
                             @click="updateCompany"
                             :disabled="! canUpdateCompany"
                             >
-                            Update</button>
+                            Update Changes</button>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </settings-company>

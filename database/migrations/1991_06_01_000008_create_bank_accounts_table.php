@@ -33,7 +33,7 @@ class CreateBankAccountsTable extends Migration
 
 
             $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
         });
     }
 
