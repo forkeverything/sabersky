@@ -4,7 +4,7 @@ Hi {{ ucfirst($recipient->name) }},
 You've been invited by {{ $sender->name }} to join {{ $sender->company->name }} on Sabersky for the role of {{ ucfirst($recipient->role->position) }}.
 <br>
 <br>
-If you believe this has been sent as a mistake, you can go ahead and ignore this message.
+If you believe this has been sent as a mistake please ignore this message or <a href="http://www.sabersky.com">check us out anyway.</a>
 <br>
 <br>
 <strong><a href="{{ env('DOMAIN') }}/accept_invitation/{{ $recipient->invite_key }}">Click here to complete the sign-up process.</a></strong>

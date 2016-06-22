@@ -62,6 +62,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
+        'status',
         'num_requests',
         'num_orders'
     ];
@@ -113,6 +114,18 @@ class User extends Authenticatable
     public function getNumOrdersAttribute()
     {
         return $this->purchaseOrders->count();
+    }
+
+    /**
+     * Accessor for custom 'status' attribute
+     *
+     * @return string
+     */
+    public function getStatusAttribute()
+    {
+        if($this->invite_key) return 'pending';
+        if($this->active) return 'active';
+        return 'inactive';
     }
 
     /**

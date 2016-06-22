@@ -26,7 +26,7 @@ class SaveTeamMemberRequest extends Request
     public function rules()
     {
         return [
-            'existing_user_id' => 'required',
+            'existing_user_id' => 'required|unique:project_user,user_id,NULL,NULL,project_id,' . $this->project->id,
         ];
     }
 
@@ -34,6 +34,7 @@ class SaveTeamMemberRequest extends Request
     {
         return [
             'existing_user_id.required' => 'No staff member was selected',
+            'existing_user_id.unique' => 'Staff member already a part of project team'
         ];
     }
 }

@@ -5,16 +5,17 @@ Vue.component('staff-single', {
     },
     data: function () {
         return {
-            roles: [],
+            showChangeRoleForm: false,
             changeButton: false,
-            ajaxReady: true
+            ajaxReady: true,
+            newRoleId: ''
         };
     },
-    props: [],
+    props: ['staff'],
     computed: {},
     methods: {
-        showChangeButton: function () {
-            this.changeButton = true;
+        toggleRoleForm: function() {
+            this.showChangeRoleForm = !this.showChangeRoleForm;
         }
     },
     events: {

@@ -6142,6 +6142,11 @@ button.close {
   height: 2em;
   padding: 0 1em; }
 
+.btn-text {
+  border: 0;
+  background: transparent;
+  padding: 0; }
+
 .btn-danger {
   color: #E74C3C; }
 
@@ -8255,45 +8260,29 @@ label {
   .vendor-connection.pending {
     color: #FFA339; }
 
-#staff-all .table-employees tbody td:nth-child(2) {
-  text-transform: capitalize; }
+.staff-status.active {
+  color: #2ECC71; }
 
-#staff-all .table-employees tbody td:nth-child(3) {
-  text-transform: lowercase; }
+.staff-status.pending {
+  color: #FFA339; }
 
-#staff-all .table-employees tbody td {
-  vertical-align: middle; }
-  #staff-all .table-employees tbody td .badge {
-    width: 100px;
-    padding: 10px 10px; }
+.staff-status.inactive {
+  color: #9CA1A8; }
 
-#staff-single .table-user-details {
-  min-height: 250px; }
-  #staff-single .table-user-details th, #staff-single .table-user-details td {
-    vertical-align: middle; }
-  #staff-single .table-user-details th {
-    width: 75px;
-    font-weight: normal; }
-  #staff-single .table-user-details ul {
-    margin: 0; }
-  #staff-single .table-user-details .form-change-role {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex; }
-    #staff-single .table-user-details .form-change-role .bootstrap-select {
-      margin: 0 10px 0 0;
-      -webkit-flex: 0 1 220px;
-      -ms-flex: 0 1 220px;
-      flex: 0 1 220px;
-      width: initial; }
-      #staff-single .table-user-details .form-change-role .bootstrap-select .filter-option {
-        text-transform: capitalize; }
-      #staff-single .table-user-details .form-change-role .bootstrap-select .dropdown-menu {
-        max-height: 150px !important; }
-        #staff-single .table-user-details .form-change-role .bootstrap-select .dropdown-menu li {
-          text-transform: capitalize; }
-    #staff-single .table-user-details .form-change-role .button-change-role {
-      height: 34px; }
+#staff-single .role-position {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 0 30px; }
+
+#staff-single .form-change-role .btn-cancel {
+  margin: 0 10px 0 0; }
 
 #toast-container {
   position: fixed;

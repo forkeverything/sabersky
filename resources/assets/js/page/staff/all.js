@@ -5,7 +5,7 @@ Vue.component('staff-all', {
     },
     data: function() {
         return {
-            employees: [],
+            staff: [],
             tableHeaders: [
                 {
                     label: 'Name',
@@ -42,20 +42,8 @@ Vue.component('staff-all', {
     },
     ready: function() {
         var self = this;
-        $.ajax({
-            url: '/api/staff',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.employees = _.map(data, function(staff) {
-                   staff.name = '<a href="/staff/' + staff.id + '">' + staff.name + '</a>';
-                   staff.status = staff.invite_key ? 'Pending' : 'Confirmed';
-                   return staff;
-               });
-            },
-            error: function(response) {
-                console.log(response);
-            }
+        $.get('/api/staff', function (data) {
+            self.staff = data;
         });
     }
 });

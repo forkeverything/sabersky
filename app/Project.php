@@ -135,4 +135,16 @@ class Project extends Model
         return $this;
     }
 
+    /**
+     * Removes a user from list of team members.
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function removeTeamMember(User $user)
+    {
+        $this->teamMembers()->detach([$user->id]);
+        return $this->save();
+    }
+
 }

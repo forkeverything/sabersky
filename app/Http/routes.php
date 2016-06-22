@@ -92,6 +92,7 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/projects/{project}/team/add', ['as' => 'addTeamMember', 'uses' => 'ProjectsController@getAddTeamMember']);
     Route::post('/projects/{project}/team/add', ['as' => 'saveTeamMember', 'uses' => 'ProjectsController@postSaveTeamMember']);
+    Route::put('/projects/{project}/team/remove', 'ProjectsController@putRemoveTeamMember');
     // api
     Route::get('/api/projects/{project}/team', 'ProjectsController@apiGetTeamMembers');
 

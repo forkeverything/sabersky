@@ -1,70 +1,30 @@
-#staff-all {
 
-  .table-employees {
 
-    tbody {
-      td:nth-child(2) {
-        text-transform: capitalize;
-      }
-      td:nth-child(3) {
-        text-transform: lowercase;
-      }
-
-      td {
-        vertical-align: middle;
-
-        .badge {
-          width: 100px;
-          padding: 10px 10px;
-        }
-      }
-    }
+.staff-status {
+  &.active {
+    color: $green;
+  }
+  &.pending {
+    color: $orange;
+  }
+  &.inactive {
+    color: $text-muted;
   }
 }
 
 #staff-single {
 
+  .role-position {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 30px;
+  }
 
-  .table-user-details {
-    min-height: 250px;
+  .form-change-role {
 
-    th, td {
-      vertical-align: middle;
-    }
-
-    th {
-      width: 75px;
-      font-weight: normal;
-    }
-
-    ul {
-      margin: 0;
-    }
-
-    .form-change-role {
-      display: flex;
-
-      .bootstrap-select {
-        margin: 0 10px 0 0;
-        flex: 0 1 220px;
-        width: initial;
-
-        .filter-option {
-          text-transform: capitalize;
-        }
-
-        .dropdown-menu {
-          max-height: 150px!important;
-
-          li {
-            text-transform: capitalize;
-          }
-        }
-      }
-
-      .button-change-role {
-        height: 34px;
-      }
+    .btn-cancel {
+      margin: 0 10px 0 0;
     }
   }
 }

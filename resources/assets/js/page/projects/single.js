@@ -30,13 +30,29 @@ Vue.component('project-single', {
     computed: {
     },
     methods: {
-
+        removeStaff: function(staff) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.project.id + '/team/remove',
+                method: 'PUT',
+                data: {
+                  user_id: staff.id
+                },
+                success: function() {
+                    self.project.team_members = _.reject(self.project.team_members, staff);
+                    flashNotify('success', 'Removed ' + strCapitalize(staff.name));
+                    self.ajaxReady = true;
+                },
+                error: function(res) {
+                    console.log(res);
+                    self.ajaxReady = true;
+                }
+            })
+        }
     },
     events: {
     },
-    ready: function() {
-        var self = this;
-        if(!self.ajaxReady) return;
-        self.ajaxReady = false;
-    }
+    ready: function() {}
 });

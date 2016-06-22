@@ -101,10 +101,7 @@ class ProjectsController extends Controller
      */
     public function getSingle(Project $project)
     {
-        $breadcrumbs = [
-            ['<i class="fa fa-flash"></i> Projects', '/projects'],
-            [$project->name, '#']
-        ];
+
         $project = $project->load('teamMembers', 'teamMembers.role', 'activities');
         if (Gate::allows('view', $project)) return view('projects.single', compact('project', 'breadcrumbs'));
         return redirect('/projects');
@@ -120,7 +117,6 @@ class ProjectsController extends Controller
     public function apiGetTeamMembers(Project $project)
     {
         $this->checkProjectAuthorization($project);
-//        if (! Gate::allows('view', $project))  return response("You are not authorized to edit that project", 403);
         return $project->teamMembers->load('role');
     }
 
@@ -217,6 +213,27 @@ class ProjectsController extends Controller
     }
 
     /**
+     * PUT request to remove a User from Project
+     *
+     * @param Project $project
+     * @param Request $request
+     * @return bool
+     */
+    public function putRemoveTeamMember(Project $project, Request $request)
+    {
+        $this->checkProjectAuthorization($project);
+
+        if (Auth::user()->can('team_manage')) {
+            if($project->removeTeamMember(User::find($request->user_id))) return response("Removed staff from project team");
+            abort(500, "Could not remove from project team");
+        }
+
+        abort(403, "Not allowed to remove team members");
+
+    }
+
+
+    /**
      * Check is user is authorized to view a Project.
      *
      * @param $project
@@ -224,7 +241,7 @@ class ProjectsController extends Controller
      */
     protected function checkProjectAuthorization($project)
     {
-        if (!Gate::allows('view', $project)) abort(403, "You are not authorized to edit that project");
+        if (!Gate::allows('view', $project)) abort(403, "You are not authorized to view that project");
         return true;
     }
 
