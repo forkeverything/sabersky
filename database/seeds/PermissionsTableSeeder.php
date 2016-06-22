@@ -7,13 +7,13 @@ class PermissionsTableSeeder extends Seeder
 {
 
     protected $permissions = [
-        'project_manage' => 'Projects',
+        'project_manage' => 'Add & Remove Projects',
         'team_manage' => 'Manage Team',
-        'vendor_manage' => 'Manage Vendors',
+        'vendor_manage' => 'Edit Vendors',
         'pr_make' => 'Make Purchase Requests',
         'po_submit' => 'Submit Purchase Orders',
-        'po_payments' => 'Mark Paid',
-        'po_warehousing' => 'Mark Received',
+        'po_payments' => 'Mark Line Items - Paid',
+        'po_warehousing' => 'Mark Line Items - Received',
         'report_view' => 'View Reports',
         'settings_change' => 'Change Settings'
     ];

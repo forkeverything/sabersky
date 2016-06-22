@@ -49,14 +49,14 @@ $factory->define(Rule::class, function (Faker\Generator $faker) {
         'rule_trigger_id' => $selectedTrigger->id,
         'limit' => $limit,
         'currency_id' => $currencyID,
-        'company_id' => factory(\App\Company::class)->create()->id
+        'company_id' => factory(Company::class)->create()->id
     ];
 });
 
 $factory->define(Role::class, function (Faker\Generator $faker) {
     return [
         'position' => $faker->word,
-        'company_id' => 1
+        'company_id' => factory(Company::class)->create()->id
     ];
 });
 

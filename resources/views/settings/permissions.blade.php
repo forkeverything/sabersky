@@ -1,5 +1,5 @@
 @extends('settings.partials.layout')
-@section('tab-content')
+@section('settings-content')
     @include('settings.partials.nav', ['page' => 'permissions'])
 
     <div class="tab-content">

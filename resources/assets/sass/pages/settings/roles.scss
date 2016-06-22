@@ -1,0 +1,75 @@
+#settings-roles {
+
+  #form-add-role {
+    .btn-cancel {
+      margin: 0 10px 0 0;
+    }
+  }
+
+  #role-modal {
+
+    #modal-input-role-position {
+      font-size: 1.7em;
+      margin: 0 0 18px;
+      line-height: 1.25em;
+      font-weight: 300;
+      color: $midnight;
+    }
+
+    .buttons {
+      margin: 0 0 30px;
+
+      .btn:first-child {
+        margin: 0 10px 0 0;
+      }
+    }
+
+    #table-role-permissions {
+      margin: 0 0 30px;
+
+      .permission-check {
+        width: 50px;
+        text-align: center;
+      }
+
+      td {
+        height: 41px;
+      }
+
+      .td-has-permission {
+
+        .fa-close {
+          display: none;
+          color: $text-muted;
+        }
+
+        .fa-check {
+          color: $green;
+        }
+
+        &:hover:not(.admin) {
+          .fa-check {
+            display: none;
+          }
+          .fa-close {
+            display: block;
+          }
+        }
+      }
+      .td-no-permission {
+
+        .fa-check {
+          color: $text-muted;
+          display: none;
+        }
+
+        &:hover {
+          .fa-check {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+}

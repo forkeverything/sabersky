@@ -45,22 +45,21 @@ class RolesController extends Controller
         if(Auth::user()->company->roles->contains('position', $newPosition)) abort(409, 'That role already exists.');
         return Auth::user()->company->roles()->create([
             'position' => $newPosition
-        ])->load('permissions');
+        ])->load('permissions', 'users');
     }
 
     /**
-     * POST Request to remove a Role
+     * Delete a Role
      *
-     * @param ModifyRolesRequest $request
-     * @return mixed
+     * @param Role $role
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
-    public function postRemoveRole(ModifyRolesRequest $request)
+    public function deleteRole(Role $role)
     {
-        $role = Role::findOrFail($request->input('role')['id']);
-        if($role->position === 'admin') abort(403, 'Not allowed to delete admin!');
-        if(count($role->users)) abort(406, "Cannot remove Role that still has active Users");
+        if($role->position === 'admin' ||  $role->company_id !== Auth::user()->company_id) abort(403, 'Not allowed to delete admin or role that does not belong to same company');
         $role->delete();
-        return response("Succesfully removed role.", 201);
+        return response("Succesfully removed role.");
     }
 
     /**
@@ -100,7 +99,7 @@ class RolesController extends Controller
     public function putUpdatePosition(Role $role, ModifyRolesRequest $request)
     {
         $newPosition = $request->input('newPosition');
-        if($role->position === 'admin' || Auth::user()->company->roles->contains('position', $newPosition)) abort(403, 'Not allowed. Is Role position Admin or duplicate?');
+        if($role->position === 'admin' || Auth::user()->company->roles->contains('position', $newPosition) && $newPosition !== $role->position) abort(403, 'Not allowed. Is Role position Admin or duplicate?');
         $role->position = $newPosition;
         $role->save();
         return $role->load('permissions');

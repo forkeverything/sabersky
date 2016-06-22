@@ -27,10 +27,20 @@ class SettingsController extends Controller
      */
     public function getCompany()
     {
-        $breadcrumbs = [
-            ['Settings - Company', '#']
-        ];
-        return view('settings.company', compact('breadcrumbs'));
+        return view('settings.company', ['page' => 'company']);
+    }
+
+    /**
+     * GET Settings - Roles View
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getRoles()
+    {
+        $page = 'roles';
+        $roles = Auth::user()->company->roles->load('users', 'permissions');
+        $permissions = Permission::all(); // System-wide defined permissions, shared by all Users
+        return view('settings.roles', compact('page', 'roles', 'permissions'));
     }
 
     /**
@@ -45,7 +55,8 @@ class SettingsController extends Controller
         $breadcrumbs = [
             ['Settings - Permissions', '#']
         ];
-        return view('settings.permissions', compact('breadcrumbs', 'permissions', 'roles'));
+        $page = 'permissions';
+        return view('settings.permissions', compact('breadcrumbs', 'permissions', 'roles', 'page'));
     }
 
     /**

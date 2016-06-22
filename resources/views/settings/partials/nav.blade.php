@@ -1,11 +1,5 @@
-<ul class="nav nav-tabs" role="tablist" v-autofit-tabs>
-    <li class="clickable @if($page === 'company') active @endif" role="presentation">
-        <a href="/settings/company">Company</a>
-    </li>
-    <li class="clickable @if($page === 'permissions') active @endif" role="presentation">
-        <a href="/settings/permissions">Permissions</a>
-    </li>
-    <li class="clickable @if($page === 'rules') active @endif" role="presentation">
-        <a href="/settings/rules">Rules</a>
-    </li>
+<ul id="settings-nav" class="list-unstyled">
+    <li><a class="@if($page === 'company') active @endif" href="/settings/company">Company</a></li>
+    <li><a class="@if($page === 'roles') active @endif" href="/settings/roles">Roles</a></li>
+    <li><a class="@if($page === 'purchasing') active @endif" href="/settings/purchasing">Purchasing</a></li>
 </ul>

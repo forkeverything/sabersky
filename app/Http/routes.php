@@ -173,6 +173,7 @@ Route::group(['middleware' => 'web'], function () {
      * Settings
      */
     Route::get('/settings/company', 'SettingsController@getCompany');
+    Route::get('/settings/roles', 'SettingsController@getRoles');
     Route::get('/settings/permissions', 'SettingsController@getPermissions');
     Route::get('/settings/rules', 'SettingsController@getRules');
     Route::post('/settings', ['as' => 'saveSettings', 'uses' => 'SettingsController@save']);
@@ -183,10 +184,10 @@ Route::group(['middleware' => 'web'], function () {
     //api
     Route::get('/api/roles', 'RolesController@apiGetRoles');
     Route::post('/api/roles', 'RolesController@postNewRole');
-    Route::post('/api/roles/delete', 'RolesController@postRemoveRole');
     Route::post('/api/roles/remove_permission', 'RolesController@postRemovePermission');
     Route::post('/api/roles/give_permission', 'RolesController@postGivePermission');
     Route::put('/api/roles/{role}', 'RolesController@putUpdatePosition');
+    Route::delete('/api/roles/{role}', 'RolesController@deleteRole');
 
     /**
      * Rules

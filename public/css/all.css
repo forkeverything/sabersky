@@ -8478,18 +8478,23 @@ label {
   text-transform: uppercase; }
 
 #system-settings #settings-nav {
-  font-size: 1.1em;
-  margin: 0 0 30px;
-  font-weight: bold;
-  border-bottom: 3px solid #D2D2D2;
-  color: #D2D2D2; }
+  height: 100%;
+  border-right: 2px solid #D2D2D2;
+  margin: 0;
+  padding: 15px 0; }
   #system-settings #settings-nav li {
-    margin: 0 0 -3px 0;
-    padding: 0 30px 10px 30px; }
-    #system-settings #settings-nav li:hover, #system-settings #settings-nav li.active {
-      border-bottom: 3px solid #2ECC71;
-      padding: 0 30px 7px 30px;
-      color: #2ECC71; }
+    margin: 10px 0; }
+    #system-settings #settings-nav li:first-child {
+      margin-top: 0; }
+    #system-settings #settings-nav li a {
+      color: #7F94A1; }
+      #system-settings #settings-nav li a.active {
+        color: #3498DB; }
+      #system-settings #settings-nav li a:hover {
+        border-bottom: 1px solid #3498DB; }
+
+#system-settings #settings-content {
+  padding: 15px 0; }
 
 #system-settings .triggers {
   margin: 0 0 30px; }
@@ -8512,6 +8517,43 @@ label {
         opacity: 1; }
     #system-settings #settings-company .available-currencies .list-currencies .single-currency:hover .close {
       display: initial; }
+
+#system-settings #settings-roles #form-add-role .btn-cancel {
+  margin: 0 10px 0 0; }
+
+#system-settings #settings-roles #role-modal #modal-input-role-position {
+  font-size: 1.7em;
+  margin: 0 0 18px;
+  line-height: 1.25em;
+  font-weight: 300;
+  color: #294661; }
+
+#system-settings #settings-roles #role-modal .buttons {
+  margin: 0 0 30px; }
+  #system-settings #settings-roles #role-modal .buttons .btn:first-child {
+    margin: 0 10px 0 0; }
+
+#system-settings #settings-roles #role-modal #table-role-permissions {
+  margin: 0 0 30px; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .permission-check {
+    width: 50px;
+    text-align: center; }
+  #system-settings #settings-roles #role-modal #table-role-permissions td {
+    height: 41px; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-has-permission .fa-close {
+    display: none;
+    color: #9CA1A8; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-has-permission .fa-check {
+    color: #2ECC71; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-has-permission:hover:not(.admin) .fa-check {
+    display: none; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-has-permission:hover:not(.admin) .fa-close {
+    display: block; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-no-permission .fa-check {
+    color: #9CA1A8;
+    display: none; }
+  #system-settings #settings-roles #role-modal #table-role-permissions .td-no-permission:hover .fa-check {
+    display: block; }
 
 #system-settings #settings-permissions td .fa-circle {
   font-size: 0.7em;
@@ -8730,7 +8772,7 @@ label {
           color: #3498DB !important; }
     .custom-tabs .nav-tabs .collapse-box {
       width: 60px;
-      height: 42px; }
+      height: 45px; }
       .custom-tabs .nav-tabs .collapse-box ul {
         margin-top: 11px;
         left: inherit;
