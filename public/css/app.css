@@ -8498,6 +8498,14 @@ label {
       #system-settings #settings-nav li a:hover {
         border-bottom: 1px solid #3498DB; }
 
+#system-settings #settings-mobile-nav {
+  margin: 0 0 15px; }
+  #system-settings #settings-mobile-nav button {
+    text-transform: capitalize;
+    font-size: 1.2em; }
+  #system-settings #settings-mobile-nav .dropdown-menu.open {
+    margin-top: 37px !important; }
+
 #system-settings #settings-content {
   padding: 15px 0; }
 
