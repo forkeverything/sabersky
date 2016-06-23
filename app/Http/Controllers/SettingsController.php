@@ -44,6 +44,20 @@ class SettingsController extends Controller
     }
 
     /**
+     * GET Settings - Purchasing View
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getPurchasing()
+    {
+        $page = 'purchasing';
+        $roles = Auth::user()->company->roles;
+        $ruleProperties = getRuleProperties();
+        $rules = Auth::user()->company->rules;
+        return view('settings.purchasing', compact('page', 'roles', 'rules', 'ruleProperties'));
+    }
+
+    /**
      * GET Settings - Permissions view
      *
      * @return mixed

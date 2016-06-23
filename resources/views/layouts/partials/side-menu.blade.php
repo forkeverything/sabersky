@@ -128,13 +128,13 @@
                             </a>
                         </li>
                         <li class="sublink">
-                            <a href="/settings/permissions">
-                                Permissions
+                            <a href="/settings/roles">
+                                Roles
                             </a>
                         </li>
                         <li class="sublink">
-                            <a href="/settings/rules">
-                                Rules
+                            <a href="/settings/purchasing">
+                                Purchasing
                             </a>
                         </li>
                     </ul>

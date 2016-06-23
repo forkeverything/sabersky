@@ -43,4 +43,33 @@
     }
 
   }
+
+
+  #settings-rule-modal {
+
+    .description {
+      margin: 0 0 15px;
+    }
+
+    h4 {
+      margin: 0 0 10px;
+    }
+
+    .list-roles {
+      margin: 0 0 15px;
+      padding: 0 0 0 10px;
+      border-left: 2px solid $blue;
+    }
+
+    .confirm-delete {
+      button {
+        margin: 0 0 15px;
+
+        &:first-child {
+          margin-right: 10px;
+        }
+      }
+    }
+
+  }
 }

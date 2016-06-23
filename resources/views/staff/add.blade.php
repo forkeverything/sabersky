@@ -30,7 +30,7 @@
                     @endforeach
                 </select>
     <span class="small">
-        You can add more Roles from the <a href="/settings/permissions">Settings Page</a>
+        You can add more Roles from the <a href="/settings/roles">Settings Page</a>
     </span>
             </div>
 

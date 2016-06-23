@@ -13,9 +13,9 @@ Tailor your purchasing system to your needs by going through the following steps
 <br>
 1. <a href="{{ env('DOMAIN') }}/settings/company">Set company preferences and fill out some general info</a>
 <br>
-2. <a href="{{ env('DOMAIN') }}/settings/permissions">Create Staff roles for your company</a>
+2. <a href="{{ env('DOMAIN') }}/settings/roles">Create Staff roles for your company</a>
 <br>
-3. <a href="{{ env('DOMAIN') }}/settings/rules">Define rules for purchasing control</a>
+3. <a href="{{ env('DOMAIN') }}/settings/purchasing">Define rules for purchasing control</a>
 <br>
 4. <a href="{{ env('DOMAIN') }}/staff/add">Send out invites to staff members you wish to enroll</a>
 <br>

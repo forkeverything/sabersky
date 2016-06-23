@@ -6654,6 +6654,11 @@ label {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; }
 
+.selectize-control.multi .item {
+  background: #3498DB !important;
+  color: #fff !important;
+  padding: 2px 8px !important; }
+
 .selectize-control:before {
   top: calc(50% - 14px);
   right: 35px;
@@ -8687,6 +8692,22 @@ label {
   top: 5px;
   right: 5px;
   display: block; }
+
+#system-settings #settings-rules #settings-rule-modal .description {
+  margin: 0 0 15px; }
+
+#system-settings #settings-rules #settings-rule-modal h4 {
+  margin: 0 0 10px; }
+
+#system-settings #settings-rules #settings-rule-modal .list-roles {
+  margin: 0 0 15px;
+  padding: 0 0 0 10px;
+  border-left: 2px solid #3498DB; }
+
+#system-settings #settings-rules #settings-rule-modal .confirm-delete button {
+  margin: 0 0 15px; }
+  #system-settings #settings-rules #settings-rule-modal .confirm-delete button:first-child {
+    margin-right: 10px; }
 
 @-webkit-keyframes fadeInDownSmall {
   from {

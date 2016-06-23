@@ -6,19 +6,18 @@ Vue.component('settings-rules', {
     data: function () {
         return {
             ajaxReady: true,
-            roles: [],
-            rules: [],
-            ruleProperties: [],
             selectedProperty: false,
             selectedTrigger: false,
             selectedRuleRoles: [],
             ruleLimit: '',
             currency: '',
-            ruleToRemove: false
+            ruleToRemove: false,
+            selectedRule: '',
+            confirmDelete: false
         };
     },
     props: [
-        'user'
+        'user', 'rules', 'rule-properties'
     ],
     computed: {
         ruleHasLimit: function () {
@@ -32,7 +31,7 @@ Vue.component('settings-rules', {
 
             if (!this.selectedTrigger) valid = false;
 
-            if(! this.selectedRuleRoles || ! this.selectedRuleRoles.length > 0) valid = false;
+            if (!this.selectedRuleRoles || !this.selectedRuleRoles.length > 0) valid = false;
 
             if (this.ruleHasLimit && !this.ruleLimit > 0) valid = false;
 
@@ -43,6 +42,9 @@ Vue.component('settings-rules', {
         },
         hasRules: function () {
             return !_.isEmpty(this.rules);
+        },
+        sortedRules: function() {
+            return _.sortBy(this.rules, function(rule) { return rule.rule_property_id; });
         }
     },
     methods: {
@@ -66,22 +68,15 @@ Vue.component('settings-rules', {
                 method: 'POST',
                 data: postData,
                 success: function (data) {
-                    // success
-                    self.fetchRules();
-                    flashNotify('success', 'Successfully added a new Rule');
+                    self.rules.push(data);
+                    flashNotify('success', 'Added new rule');
                     self.resetRuleValues();
                 },
                 error: function (response) {
-                    console.log('Request Error!');
                     console.log(response);
                     vueValidation(response, self);
                     self.resetRuleValues();
-                    if (response.status === 409) {
-                        flashNotify('error', 'Rule already exists');
-                    } else {
-                        flashNotify('error', 'Could not add Rule');
-                    }
-
+                    flashNotify('error', 'Could not add rule');
                 }
             });
         },
@@ -104,11 +99,14 @@ Vue.component('settings-rules', {
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
             $.ajax({
-                url: '/api/rules/' + self.ruleToRemove.id + '/remove',
+                url: '/api/rules/' + self.selectedRule.id,
                 method: 'DELETE',
                 success: function (data) {
                     // success
-                    self.fetchRules();
+                    self.rules = _.reject(self.rules, self.selectedRule);
+                    self.selectedRule = '';
+                    self.confirmDelete = false;
+                    flashNotify('info', 'Removed rule');
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -118,20 +116,15 @@ Vue.component('settings-rules', {
                 }
             });
         },
-        fetchRules: function () {
-            var self = this;
-            $.ajax({
-                url: '/api/rules',
-                method: 'GET',
-                success: function (data) {
-                    // success
-                    self.rules = data;
-                },
-                error: function (response) {
-                    console.log('Request Error!');
-                    console.log(response);
-                }
-            });
+        showRule: function(rule) {
+            this.selectedRule = rule;
+        },
+        hideModal: function() {
+            this.selectedRule = '';
+            self.confirmDelete = false;
+        },
+        toggleConfirmDelete: function() {
+            this.confirmDelete = ! this.confirmDelete;
         }
     },
     events: {
@@ -141,33 +134,5 @@ Vue.component('settings-rules', {
     },
     mixins: [userCompany],
     ready: function () {
-        var self = this;
-
-        // GET company roles
-        $.ajax({
-            url: '/api/roles',
-            method: 'GET',
-            success: function (data) {
-                self.roles = data;
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-
-        $.ajax({
-            url: '/api/rules/properties_triggers',
-            method: 'GET',
-            success: function (data) {
-                // success
-                self.ruleProperties = data;
-            },
-            error: function (response) {
-                console.log('Request Error!');
-                console.log(response);
-            }
-        });
-
-        self.fetchRules();
     }
 });

@@ -39,8 +39,7 @@ class RuleFactory
     public static function make(MakeRuleRequest $request, User $user)
     {
         $factory = new static($request, $user);
-        $factory->duplicateChecker()
-                ->createRule()
+        $factory->createRule()
                 ->attachRoles();
 
         return $factory->rule;
@@ -59,22 +58,6 @@ class RuleFactory
         $this->user = $user;
     }
 
-
-    /**
-     * Check for duplicate Rule, we can catch the Exception and handle it
-     * better here than an SQL error.
-     *
-     * TODO ::: handle error exception
-     *
-     * @return $this
-     */
-    protected function duplicateChecker()
-    {
-        foreach ($this->user->company->rules as $rule) {
-            if ($rule->rule_property_id == $this->request->rule_property_id && $rule->rule_trigger_id == $this->request->rule_trigger_id && $rule->currency_id == $this->request->currency_id) abort(409, 'Rule already exists');
-        }
-        return $this;
-    }
 
     /**
      * Create our Rule
@@ -102,8 +85,7 @@ class RuleFactory
      */
     protected function attachRoles()
     {
-        $roleIds = array_pluck($this->request->roles, 'id');
-        $this->rule->roles()->attach($roleIds);
+        $this->rule->roles()->attach($this->request->roles);
 
         return $this;
     }

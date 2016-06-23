@@ -67,70 +67,91 @@ class PurchasingServiceProvider extends ServiceProvider
 
         // Custom validation Rules for purchasing
 
-            // PR & Line Items
+        // PR & Line Items
 
-                // Line Item - Can't have quantities greater than their Request's quantity (can't order more than we need)
-                Validator::extend('line_item_quantity', function ($attribute, $value, $parameters, $validator) {
-                    if($value['order_quantity'] < 1) return false;
-                    return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
-                });
+        // Line Item - Can't have quantities greater than their Request's quantity (can't order more than we need)
+        Validator::extend('line_item_quantity', function ($attribute, $value, $parameters, $validator) {
+            if ($value['order_quantity'] < 1) return false;
+            return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
+        });
 
-                // Line Item - Can't have different price for same item in the same (single) order
-                Validator::extend('line_item_price', function ($attribute, $value, $parameters, $validator) {
+        // Line Item - Can't have different price for same item in the same (single) order
+        Validator::extend('line_item_price', function ($attribute, $value, $parameters, $validator) {
 
-                    $currentLineItem = $value;
-                    $currentItem = PurchaseRequest::find($currentLineItem["id"])->item;
+            $currentLineItem = $value;
+            $currentItem = PurchaseRequest::find($currentLineItem["id"])->item;
 
-                    $allLineItems = collect(array_get($validator->getData(), "line_items"));
+            $allLineItems = collect(array_get($validator->getData(), "line_items"));
 
-                    $lineItemsWithSameItem = $allLineItems->filter(function ($lineItem) use ($currentItem) {
-                        $item = PurchaseRequest::find($lineItem["id"])->item;
-                        return $currentItem->id == $item->id;
-                    });
+            $lineItemsWithSameItem = $allLineItems->filter(function ($lineItem) use ($currentItem) {
+                $item = PurchaseRequest::find($lineItem["id"])->item;
+                return $currentItem->id == $item->id;
+            });
 
-                    $samePrice = $lineItemsWithSameItem->unique('order_price');
+            $samePrice = $lineItemsWithSameItem->unique('order_price');
 
-                    return count($samePrice) === 1;
-                });
+            return count($samePrice) === 1;
+        });
 
-                Validator::extend('pr_state_open', function ($attribute, $value, $parameters, $validator) {
-                    return $value['state'] === 'open';
-                });
+        Validator::extend('pr_state_open', function ($attribute, $value, $parameters, $validator) {
+            return $value['state'] === 'open';
+        });
 
-                Validator::extend('pr_can_fulfill', function ($attribute, $value, $parameters, $validator) {
-                    return Gate::allows('fulfill', PurchaseRequest::find($value['id']));
-                });
+        Validator::extend('pr_can_fulfill', function ($attribute, $value, $parameters, $validator) {
+            return Gate::allows('fulfill', PurchaseRequest::find($value['id']));
+        });
 
-            // Rules
+        // Rules
 
-                Validator::extend('rule_property', function ($attribute, $value, $parameters, $validator) {
-                    $properties = getRuleProperties();
-                    $propertyIDs = $properties->pluck('id')->toArray();
-                    return in_array($value, $propertyIDs);
-                });
+        Validator::extend('rule_property', function ($attribute, $value, $parameters, $validator) {
+            $properties = getRuleProperties();
+            $propertyIDs = $properties->pluck('id')->toArray();
+            return in_array($value, $propertyIDs);
+        });
 
 
-                Validator::extend('rule_trigger', function ($attribute, $value, $parameters, $validator) {
-                    $propertyID = array_get($validator->getData(), "rule_property_id");
-                    $properties = getRuleProperties();
-                    $triggerIDs = collect($properties->where('id', (int)$propertyID)->first()->triggers)->pluck('id')->all();
-                    return in_array($value, $triggerIDs);
-                });
+        Validator::extend('rule_trigger', function ($attribute, $value, $parameters, $validator) {
+            $propertyID = array_get($validator->getData(), "rule_property_id");
+            $properties = getRuleProperties();
+            $triggerIDs = collect($properties->where('id', (int)$propertyID)->first()->triggers)->pluck('id')->all();
+            return in_array($value, $triggerIDs);
+        });
 
-                Validator::extend('rule_roles', function ($attribute, $value, $parameters, $validator) {
-                    $validRoles = true;
+        Validator::extend('rule_unique', function ($attribute, $value, $parameters, $validator) {
 
-                    foreach ($value as $roleCollection) {
-                        $role = Role::find($roleCollection['id']);
-                        if(! Auth::user()->company->roles->contains($role)) {
-                            $validRoles = false;
-                            break;
-                        }
-                    }
+            $formData = $validator->getData();
 
-                    return $validRoles;
+            $propertyId = array_get($formData, "rule_property_id");
+            $triggerId = array_get($formData, "rule_trigger_id");
+            $currencyId = array_get($formData, "currency_id");
 
-                });
+            $hasCurrency = array_get($formData, "has_currency");
+
+            $query = \DB::table('rules')
+                        ->select(\DB::raw(1))
+                        ->where('rule_property_id', '=', $propertyId)
+                        ->where('rule_trigger_id', '=', $triggerId);
+
+            if($hasCurrency) $query->where('currency_id', '=', $currencyId);
+
+            return ! $query->get();
+        });
+
+        Validator::extend('rule_roles', function ($attribute, $value, $parameters, $validator) {
+            $roleIds = $value;
+            $validRoles = true;
+
+            foreach ($roleIds as $roleId) {
+                $role = Role::find($roleId);
+                if (!Auth::user()->company->roles->contains($role)) {
+                    $validRoles = false;
+                    break;
+                }
+            }
+
+            return $validRoles;
+
+        });
 
 
     }

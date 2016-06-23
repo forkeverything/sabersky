@@ -110,6 +110,14 @@
 
 .selectize-control {
 
+  &.multi {
+    .item {
+      background: $blue!important;
+      color: #fff!important;
+      padding: 2px 8px!important;
+    }
+  }
+
   &:before {
     top: calc(50% - 14px);
     right: 35px;
@@ -219,6 +227,7 @@
 .shift-select {
 
   .selectize-control {
+
     .selectize-input {
       border: 1px solid #E0E0E0 !important;
       @include border-radius(0 !important);

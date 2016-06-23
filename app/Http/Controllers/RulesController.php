@@ -25,17 +25,6 @@ class RulesController extends Controller
     }
 
     /**
-     * GET all the rules for the logged-in
-     * User's company.
-     *
-     * @return mixed
-     */
-    public function getRules()
-    {
-        return Auth::user()->company->rules->groupBy('property.label');
-    }
-
-    /**
      * Handles GET request and fetches the list of
      * available rule properties & triggers.
      *
