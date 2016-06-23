@@ -4,6 +4,7 @@ use App\Address;
 use App\BankAccount;
 use App\Company;
 use App\Factories\PurchaseOrderFactory;
+use App\Http\Requests\AddItemRequest;
 use App\Http\Requests\AddNewVendorRequest;
 use App\Http\Requests\StartProjectRequest;
 use App\Item;
@@ -12,6 +13,7 @@ use App\ProductSubcategory;
 use App\Project;
 use App\PurchaseOrder;
 use App\PurchaseRequest;
+use App\Role;
 use App\Rule;
 use App\User;
 use App\Vendor;
@@ -65,7 +67,7 @@ class PusakaSetupSeeder extends Seeder
              ->createUserMike()
              ->makeProject()
              ->createVendors()
-            ->createPurchaseRequests()
+             ->createPurchaseRequests()
              ->makeRules()
              ->createPurchaseOrders()
         ;
@@ -203,16 +205,19 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
         $this->command->info('Purchase Requests... ');
         // Purchase Requests
         for ($i = 0; $i < 10; $i++) {
-            $request = new \App\Http\Requests\AddItemRequest([
+            $request = new AddItemRequest([
                 'sku' => str_random(10),
                 'brand' => $this->faker->name,
                 'name' => $this->faker->word,
                 'specification' => $this->faker->paragraph(2),
-                'company_id' => 1,
+                'company_id' => $this->company->id,
                 'product_subcategory_id' => $this->faker->randomElement(ProductSubcategory::all()->pluck('id')->toArray())
             ]);
-            $user = factory(\App\User::class)->create([
-                'company_id' => 1
+            $user = factory(User::class)->create([
+                'company_id' => $this->company->id,
+                'role_id' => factory(Role::class)->create([
+                    'company_id' => $this->company->id
+                ])->id
             ]);
             $item = Item::add($request, $user);
             factory(PurchaseRequest::class)->create([
@@ -247,7 +252,12 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
             $shippingAddressSameAsBilling = $this->faker->boolean(50);
             $shippingAddress = $shippingAddressSameAsBilling ? $billingAddress : factory(Address::class)->create(['owner_id' => 0, 'owner_type' => '']);
             // Make our PO
-            $userMakingOrder = factory(User::class)->create(['company_id' => $this->company->id]);
+            $userMakingOrder = factory(User::class)->create([
+                'company_id' => $this->company->id,
+                'role_id' => factory(Role::class)->create([
+                    'company_id' => $this->company->id
+                ])->id
+            ]);
             $order = PurchaseOrder::create([
                 'vendor_id' => $vendor->id,
                 'vendor_address_id' => $vendorAddress->id,
@@ -267,10 +277,13 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                         'state' => 'open',
                         'project_id' => 1,
                         'item_id' => factory(Item::class)->create([
-                            'company_id' => 1
+                            'company_id' => $this->company->id
                         ])->id,
-                        'user_id' => factory(\App\User::class)->create([
-                            'company_id' => 1
+                        'user_id' => factory(User::class)->create([
+                            'company_id' => $this->company->id,
+                            'role_id' => factory(Role::class)->create([
+                                'company_id' => $this->company->id
+                            ])->id
                         ])->id
                     ]);
                 }
@@ -282,7 +295,7 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
                 } else {
                     foreach ($purchaseRequests as $purchaseRequest) {
                         $request = PurchaseRequest::find($purchaseRequest->id);
-                            $this->makeLineItem($order, $request);
+                        $this->makeLineItem($order, $request);
                     }
                 }
             }
