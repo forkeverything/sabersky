@@ -66,20 +66,21 @@ return [
 
     'providers' => [
 
-        'users' => [
-            'driver' => 'extended',         // Defined in AuthServiceProvider
-            'model' => App\User::class
-        ]
-
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\User::class,
-        // ],
+         'users' => [
+             'driver' => 'eloquent',
+             'model' => App\User::class,
+         ],
 
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+//        // Custom extended provider to add custom login functionality
+//        'users' => [
+//            'driver' => 'extended',         // Defined in AuthServiceProvider
+//            'model' => App\User::class
+//        ]
     ],
 
     /*

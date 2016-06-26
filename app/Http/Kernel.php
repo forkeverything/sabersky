@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\APIOnly;
+use App\Http\Middleware\BillingSubscription;
 use App\Http\Middleware\ChangeSettings;
 use App\Http\Middleware\HasCompany;
 use App\Http\Middleware\ViewReports;
@@ -56,6 +57,7 @@ class Kernel extends HttpKernel
         'company' => HasCompany::class,
         'settings.change' => ChangeSettings::class,
         'api.only' => APIOnly::class,
-        'reports.view' => ViewReports::class
+        'reports.view' => ViewReports::class,
+        'billing' => BillingSubscription::class
     ];
 }

@@ -17,6 +17,9 @@ class SettingsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('billing', [
+            'except' => 'getBilling'
+        ]);
         $this->middleware('settings.change');
     }
 
@@ -58,31 +61,24 @@ class SettingsController extends Controller
     }
 
     /**
-     * GET Settings - Permissions view
+     * Settings - Billing & Subscription page
      *
-     * @return mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getPermissions()
+    public function getBilling()
     {
-        $permissions = Permission::all(); // System-wide defined permissions, shared by all Users
-        $roles = Auth::user()->company->roles;
-        $breadcrumbs = [
-            ['Settings - Permissions', '#']
-        ];
-        $page = 'permissions';
-        return view('settings.permissions', compact('breadcrumbs', 'permissions', 'roles', 'page'));
-    }
+        $user = Auth::user();
+        $page = 'billing';
+        $subscribed = $user->company->subscribed('main');
+        $plan = null;
+        if($user->company->subscribedToPlan('growth', 'main')) $plan = 'growth';
+        if($user->company->subscribedToPlan('enterprise', 'main')) $plan = 'enterprise';
 
-    /**
-     * GET Settings - Rules view
-     *
-     * @return mixed
-     */
-    public function getRules()
-    {
-        $breadcrumbs = [
-            ['Settings - Rules', '#']
-        ];
-        return view('settings.rules', compact('breadcrumbs'));
+        $numBilledStaff = 0;
+        if($subscription = $user->company->subscriptions->first()) {
+            $numBilledStaff = $subscription->quantity;
+        };
+
+        return view('settings.billing', compact('page', 'subscribed', 'plan', 'numBilledStaff'));
     }
 }

@@ -27,16 +27,22 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', [
+        $this->middleware(['auth', 'billing'], [
             'except' => [
                 'getAcceptView',
                 'postAcceptInvitation',
-                'getCheckEmailAvailability'
+                'getCheckEmailAvailability',
+                'getLoggedUser'
             ]
         ]);
 
         $this->middleware('api.only', [
-            'only' => ['apiGetStaff', 'apiGetSearchTeamMembers', 'apiGetSearchStaff', 'apiGetAllProjects']
+            'only' => ['apiGetStaff',
+                'apiGetSearchTeamMembers',
+                'apiGetSearchStaff',
+                'apiGetAllProjects',
+                'getLoggedUser'
+            ]
         ]);
     }
 

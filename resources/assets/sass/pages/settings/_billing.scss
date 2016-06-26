@@ -1,0 +1,48 @@
+#settings-billing {
+  #subscription-plan-panel {
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    width: 300px;
+    max-width: 100%;
+    border: 1px solid $grey;
+
+    .icon {
+      width: 150px!important;
+    }
+
+    h1 {
+      font-weight: bold;
+      margin: 0 0 10px;
+      color: $grey;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    &.growth {
+      border: 1px solid $orange;
+
+      h1 {
+        color: $dark-orange;
+      }
+    }
+
+    &.enterprise {
+      border: 1px solid $blue;
+
+      h1 {
+        color: $dark-blue;
+      }
+    }
+  }
+
+  #billed-staff {
+    .count {
+      font-size: 5em;
+      margin: 0;
+      line-height: 1em;
+    }
+  }
+}

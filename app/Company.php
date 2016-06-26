@@ -155,6 +155,16 @@ class Company extends Model
     }
 
     /**
+     * Only retrieve employees that have an active account
+     * 
+     * @return mixed
+     */
+    public function activeStaff()
+    {
+        return $this->employees()->where('active', '1')->get();
+    }
+
+    /**
      * Adds an Employee (User) to a
      * company.
      *

@@ -25,6 +25,15 @@ class Authenticate
             }
         }
 
+        $user = Auth::user();
+
+        // Active users only
+        if(! $user->active) {
+            Auth::logout();
+            flash()->error('Account has been deactivated');
+            return redirect('/login');
+        }
+        
         return $next($request);
     }
 }

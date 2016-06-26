@@ -3,6 +3,7 @@
 @import "resources/assets/bower/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "partials/bootstrap-ms";
 @import "partials/layout";
+@import "pages/error";
 @import "partials/buttons";
 @import "partials/navbar";
 @import "partials/inputs";
@@ -240,6 +241,19 @@ p {
   &.text-muted {
     margin: 0 0 10px;
   }
+
+  &.text-success {
+    color: $green;
+  }
+
+  &.text-warning {
+    color: $orange;
+  }
+
+  &.text-danger {
+    color: $dark-red;
+  }
+
 }
 
 ul {

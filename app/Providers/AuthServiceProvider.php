@@ -67,12 +67,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         }
 
-        // Define custom provider: extended
-        \Auth::provider('extended', function($app, array $config) {
-            return new ExtendedEloquentUserProvider($this->app['hash'], $config['model']);
-
-
-        });
+//        // Define custom provider: extended - DEPRACATED * Using auth middleware instead
+//        \Auth::provider('extended', function($app, array $config) {
+//            return new ExtendedEloquentUserProvider($this->app['hash'], $config['model']);
+//        });
 
     }
 

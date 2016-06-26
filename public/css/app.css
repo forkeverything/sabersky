@@ -6009,6 +6009,36 @@ button.close {
       .row.flexing > [class*='col-'] {
         width: 100%; } }
 
+#error-body {
+  background: #eff9fd;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 15px; }
+  #error-body #content {
+    background: #fff;
+    width: 800px;
+    padding: 30px;
+    border-radius: 15px; }
+    #error-body #content #logo {
+      width: 120px; }
+    #error-body #content #code {
+      text-align: center;
+      font-size: 5em;
+      color: #294661;
+      font-weight: bold;
+      margin: 0 0 15px; }
+    #error-body #content #title {
+      text-align: center; }
+
 .btn {
   background: transparent;
   padding: 0.8em 3.2em 0.7em;
@@ -8589,154 +8619,34 @@ label {
   #system-settings #settings-roles #role-modal #table-role-permissions .td-no-permission:hover .fa-check {
     display: block; }
 
-#system-settings #settings-permissions td .fa-circle {
-  font-size: 0.7em;
-  color: #3498DB; }
-
-#system-settings #settings-permissions .td-has-permission .fa-close {
-  display: none; }
-
-#system-settings #settings-permissions .td-has-permission:hover .fa-circle {
-  display: none; }
-
-#system-settings #settings-permissions .td-has-permission:hover .fa-close {
-  display: block; }
-
-#system-settings #settings-permissions .td-no-permission .fa-circle {
-  display: none; }
-
-#system-settings #settings-permissions .td-no-permission:hover .fa-circle {
-  display: block; }
-
-#system-settings #settings-permissions .role-row.changeable td:hover .fa {
-  color: #B2B2B2; }
-
-#system-settings #settings-permissions .input-editing-role {
-  text-transform: capitalize; }
-
-#system-settings #settings-permissions .wrap-table-roles .table-roles {
-  margin: 0; }
-  #system-settings #settings-permissions .wrap-table-roles .table-roles tr {
-    height: 43px; }
-  #system-settings #settings-permissions .wrap-table-roles .table-roles td, #system-settings #settings-permissions .wrap-table-roles .table-roles th {
-    vertical-align: middle;
-    text-align: center; }
-  #system-settings #settings-permissions .wrap-table-roles .table-roles th {
-    color: #757575; }
-    #system-settings #settings-permissions .wrap-table-roles .table-roles th.removable {
-      position: relative; }
-      #system-settings #settings-permissions .wrap-table-roles .table-roles th.removable .overlay {
-        display: none;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        color: #FACACD; }
-      #system-settings #settings-permissions .wrap-table-roles .table-roles th.removable:hover .overlay {
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-justify-content: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-align-items: center;
-        -ms-flex-align: center;
-        align-items: center; }
-      #system-settings #settings-permissions .wrap-table-roles .table-roles th.removable .input-editing-role {
-        width: 100%;
-        text-align: center; }
-  #system-settings #settings-permissions .wrap-table-roles .table-roles .role-add-row {
-    height: 47px; }
-    #system-settings #settings-permissions .wrap-table-roles .table-roles .role-add-row #link-add-role {
-      border-bottom: 0;
-      color: #757575;
-      font-weight: bold;
-      font-size: 1em; }
-      #system-settings #settings-permissions .wrap-table-roles .table-roles .role-add-row #link-add-role:before {
-        font-family: FontAwesome;
-        content: "\f067  "; }
-    #system-settings #settings-permissions .wrap-table-roles .table-roles .role-add-row input {
-      font-size: 1em; }
-  @media screen and (min-width: 1200px) {
-    #system-settings #settings-permissions .wrap-table-roles .table-roles {
-      table-layout: fixed; }
-      #system-settings #settings-permissions .wrap-table-roles .table-roles td, #system-settings #settings-permissions .wrap-table-roles .table-roles th {
-        overflow: hidden;
-        word-wrap: break-word;
-        white-space: normal;
-        width: 100%; } }
-
-#system-settings #settings-permissions .roles-mobile .permissions .top {
-  margin: 0 0 10px;
-  position: relative;
-  height: 26px; }
-  #system-settings #settings-permissions .roles-mobile .permissions .top .remove-span {
-    color: #757575;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 0.8em; }
-  #system-settings #settings-permissions .roles-mobile .permissions .top .selected-role {
-    color: #757575;
-    font-weight: bold;
-    font-size: 1.2em; }
-  #system-settings #settings-permissions .roles-mobile .permissions .top .input-editing-role {
-    font-size: 1.2em; }
-
-#system-settings #settings-permissions .roles-mobile .permissions table td {
+#system-settings #settings-billing #subscription-plan-panel {
+  border-radius: 15px;
+  padding: 30px;
   text-align: center;
-  vertical-align: middle;
-  width: 50px; }
-  #system-settings #settings-permissions .roles-mobile .permissions table td.admin-permission:hover i {
-    color: #3498DB;
-    display: inline-block; }
-
-#system-settings #settings-permissions .roles-mobile .permissions table .permission {
-  color: #757575;
-  text-align: left;
-  width: initial; }
-
-#system-settings #settings-rules .new-rule {
-  margin: 0 0 30px; }
-  #system-settings #settings-rules .new-rule .rule-generator th {
-    width: 150px;
-    vertical-align: middle;
-    text-align: right; }
-
-#system-settings #settings-rules .table-existing-rules th, #system-settings #settings-rules .table-existing-rules td {
-  vertical-align: middle;
-  width: 25%; }
-
-#system-settings #settings-rules .table-existing-rules td {
-  position: relative; }
-  #system-settings #settings-rules .table-existing-rules td ul {
+  width: 300px;
+  max-width: 100%;
+  border: 1px solid #D2D2D2; }
+  #system-settings #settings-billing #subscription-plan-panel .icon {
+    width: 150px !important; }
+  #system-settings #settings-billing #subscription-plan-panel h1 {
+    font-weight: bold;
+    margin: 0 0 10px;
+    color: #D2D2D2; }
+  #system-settings #settings-billing #subscription-plan-panel p {
     margin: 0; }
+  #system-settings #settings-billing #subscription-plan-panel.growth {
+    border: 1px solid #FFA339; }
+    #system-settings #settings-billing #subscription-plan-panel.growth h1 {
+      color: #D35400; }
+  #system-settings #settings-billing #subscription-plan-panel.enterprise {
+    border: 1px solid #3498DB; }
+    #system-settings #settings-billing #subscription-plan-panel.enterprise h1 {
+      color: #2980B9; }
 
-#system-settings #settings-rules .table-existing-rules tr .button-remove {
-  display: none;
-  color: #FACACD;
-  font-size: 1.3em; }
-
-#system-settings #settings-rules .table-existing-rules tr:hover .button-remove {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: block; }
-
-#system-settings #settings-rules #settings-rule-modal .description {
-  margin: 0 0 15px; }
-
-#system-settings #settings-rules #settings-rule-modal h4 {
-  margin: 0 0 10px; }
-
-#system-settings #settings-rules #settings-rule-modal .list-roles {
-  margin: 0 0 15px;
-  padding: 0 0 0 10px;
-  border-left: 2px solid #3498DB; }
-
-#system-settings #settings-rules #settings-rule-modal .confirm-delete button {
-  margin: 0 0 15px; }
-  #system-settings #settings-rules #settings-rule-modal .confirm-delete button:first-child {
-    margin-right: 10px; }
+#system-settings #settings-billing #billed-staff .count {
+  font-size: 5em;
+  margin: 0;
+  line-height: 1em; }
 
 @-webkit-keyframes fadeInDownSmall {
   from {
@@ -10236,6 +10146,12 @@ p {
   margin: 0 0 30px; }
   p.text-muted {
     margin: 0 0 10px; }
+  p.text-success {
+    color: #2ECC71; }
+  p.text-warning {
+    color: #FFA339; }
+  p.text-danger {
+    color: #C0392B; }
 
 ul {
   margin: 0 0 30px; }

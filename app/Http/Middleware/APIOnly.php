@@ -21,7 +21,7 @@ class APIOnly
          * here.
          */
         
-        if(! $request->ajax()) return response("Wrong way, go back!", 500);
+        if(! $request->ajax()) return abort(400, "Wrong way, go back!");
         return $next($request);
     }
 }

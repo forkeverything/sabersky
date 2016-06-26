@@ -27,6 +27,7 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::get('/', 'PagesController@getHome');
+    Route::get('/dashboard', 'PagesController@getDashboard');
     
     
 
@@ -175,6 +176,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/settings/company', 'SettingsController@getCompany');
     Route::get('/settings/roles', 'SettingsController@getRoles');
     Route::get('/settings/purchasing', 'SettingsController@getPurchasing');
+    Route::get('/settings/billing', 'SettingsController@getBilling');
 
     /**
      * Roles
@@ -230,6 +232,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
+
+    // Billing - stripe
+    Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook');
 
     Route::get('test', function () {
 //        return App\PurchaseOrder::all();
