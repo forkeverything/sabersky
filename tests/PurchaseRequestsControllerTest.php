@@ -10,7 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PurchaseRequestsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithoutMiddleware;
+
 
     /**
      * @test
