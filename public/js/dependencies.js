@@ -259,6 +259,10 @@ $(document).ready(function () {
 // });
 //
 
+$('.select-picker').selectpicker({
+    iconBase: 'fa',
+    tickIcon: 'fa-check'
+});
 /**
  * Selectize Instantiator
  *
@@ -955,6 +959,61 @@ Vue.directive('table-bulk-actions', function () {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
+var userCompany = {
+    props: ['user'],
+    computed: {
+        company: function () {
+            return this.user.company;
+        },
+        availableCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.settings.currencies;
+        },
+        companyCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.currencies;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        }
+    }
+};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -1087,61 +1146,6 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
-var userCompany = {
-    props: ['user'],
-    computed: {
-        company: function () {
-            return this.user.company;
-        },
-        availableCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.settings.currencies;
-        },
-        companyCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.currencies;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        }
-    }
-};
 Vue.component('checkbox', {
     name: 'styledCheckbox',
     template: '<div class="checkbox-component">'+
@@ -3430,139 +3434,6 @@ Vue.component('profile-photo', {
         $(window).on('resize', _.debounce(this.resizeInitials, 150));
     }
 });
-Vue.component('registration-popup', {
-    name: 'registration-popup',
-    el: function () {
-        return '#registration-popup'
-    },
-    data: function () {
-        return {
-            showRegisterPopup: false,
-            companyName: '',
-            validCompanyName: 'unfilled',
-            companyNameError: '',
-            email: '',
-            validEmail: 'unfilled',
-            emailError: '',
-            password: '',
-            validPassword: 'unfilled',
-            name: '',
-            validName: 'unfilled',
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        toggleShowRegistrationPopup: function () {
-            this.showRegisterPopup = !this.showRegisterPopup;
-        },
-        checkCompanyName: function () {
-            var self = this;
-            self.validCompanyName = 'unfilled';
-            if (self.companyName.length > 0) {
-                // No symbols in name
-                if (!alphaNumeric(self.companyName)) {
-                    self.validCompanyName = false;
-                    self.companyNameError = 'Company name cannot contain symbols';
-                    return;
-                }
-                self.validCompanyName = 'loading';
-                if (!self.ajaxReady) return;
-                self.ajaxReady = false;
-                $.ajax({
-                    url: '/api/company/profile/' + encodeURI(self.companyName),
-                    method: '',
-                    success: function (data) {
-                        // success
-                        if (!_.isEmpty(data)) {
-                            self.validCompanyName = false;
-                            self.companyNameError = 'That Company name is already taken'
-                        } else {
-                            self.validCompanyName = true;
-                            self.companyNameError = '';
-                        }
-                        self.ajaxReady = true;
-                    },
-                    error: function (response) {
-                        console.log(response);
-                        self.ajaxReady = true;
-                    }
-                });
-            }
-        },
-        checkEmail: function () {
-            var self = this;
-            self.validEmail = 'unfilled';
-            if (self.email.length > 0) {
-                if (validateEmail(self.email)) {
-                    self.validEmail = 'loading';
-                    if (!self.ajaxReady) return;
-                    self.ajaxReady = false;
-                    $.ajax({
-                        url: '/user/email/' + self.email + '/check',
-                        method: 'GET',
-                        success: function (data) {
-                            // success
-                            if (data) {
-                                self.validEmail = true;
-                                self.emailError = '';
-                            }
-                            self.ajaxReady = true;
-                        },
-                        error: function (response) {
-                            console.log(response);
-                            self.ajaxReady = true;
-                            self.validEmail = false;
-                            self.emailError = 'Account already exists for that email';
-                        }
-                    });
-                } else {
-                    self.validEmail = false;
-                    self.emailError = 'Invalid email format - you@example.com';
-                }
-            }
-        },
-        checkPassword: function () {
-            this.validPassword = 'unfilled';
-            if (this.password.length > 0) {
-                this.validPassword = (this.password.length >= 6);
-            }
-        },
-        checkName: function () {
-            this.validName = this.name.length > 0 ? true : 'unfilled';
-        },
-        registerNewCompany: function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/company',
-                method: 'POST',
-                data: {
-                    company_name: self.companyName,
-                    name: self.name,
-                    email: self.email,
-                    password: self.password
-                },
-                success: function (data) {
-                    // success
-                    window.location.href = "/";
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-});
 Vue.component('settings-dropdown-nav', {
     name: 'settingsDropdownNav',
     template: '<div id="settings-mobile-nav">' +
@@ -3888,6 +3759,15 @@ Vue.component('vendor-selecter', {
         });
     }
 });
+Vue.component('modal-close-button', {
+    name: 'modalClose',
+    template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
+    methods: {
+        hideModal: function() {
+            vueEventBus.$emit('modal-close');
+        }
+    }
+});
 var spendingsReport = Vue.extend({
     name: 'SpendingsReport',
     template: '',
@@ -3925,13 +3805,234 @@ var spendingsReport = Vue.extend({
     }
 });
 
-Vue.component('modal-close-button', {
-    name: 'modalClose',
-    template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
-    methods: {
-        hideModal: function() {
-            vueEventBus.$emit('modal-close');
+Vue.component('registration-account', {
+    name: 'registrationAccountDetails',
+    template: '<div class="#registration-account">' +
+    '<form id="form-registration-account">' +
+    '<div class="shift-label-input validated-input"' +
+    ':class="{' +
+    "'is-filled': validCompanyName !== 'unfilled'," +
+    "'is-loading': validCompanyName === 'loading'," +
+    "'is-success': validCompanyName," +
+    "'is-error': validCompanyName === false" +
+    '}"' +
+    '>' +
+    '<input id="register-popup-company-name" type="text" name="company_name" required @blur="checkCompanyName" v-model="companyName">' +
+    '<label for="register_name" placeholder="Company Name" class="label_auth"></label>' +
+    '<span class="error-msg" v-show="companyNameError">@{{ companyNameError }}</span>' +
+    '</div>' +
+    '<div class="shift-label-input validated-input" :class="{' +
+    "'is-filled': validName !== 'unfilled'," +
+    "'is-success': validName," +
+    "'is-error': ! validName" +
+    '}">' +
+    '<input id="register_name" type="text" name="name" required @blur="checkName" v-model="name" >' +
+    '<label alt="register_name" placeholder="Full Name" class="label_auth"></label>' +
+    '</div>' +
+    '<div class="shift-label-input validated-input" :class="{' +
+    "'is-filled': validEmail !== 'unfilled'," +
+    "'is-success': validEmail," +
+    "'is-loading': validEmail === 'loading'," +
+    "'is-error': !validEmail" +
+    '}">' +
+    '<input id="register-popup-email" type="text" name="email" required @blur="checkEmail" v-model="email" >' +
+    '<label for="register_email" placeholder="Email" class="label_auth"></label>' +
+    '<span class="error-msg" v-show="emailError">@{{ emailError }}</span>' +
+    '</div>' +
+    '<div class="shift-label-input validated-input" :class="{' +
+    "'is-filled': validPassword !== 'unfilled'," +
+    "'is-success': validPassword," +
+    "'is-error': ! validPassword" +
+    '}">' +
+    '<input id="register_password" type="password" name="password" required @blur="checkPassword" v-model="password" >' +
+    '<label alt="register_password" placeholder="Password" class="label_auth"></label>' +
+    '</div>' +
+    '<button type="button" class="btn btn-solid-green  button-register-company" :disabled="validCompanyName !== true || validName !== true || validEmail !== true || validPassword !== true" @click="registerNewCompany" >Enter billing details</button>' +
+    '</form>' +
+    '</div>',
+    data: function () {
+        return {};
+    },
+    props: [],
+    computed: {},
+    methods: {},
+    events: {},
+    ready: function () {
+
+    }
+});
+Vue.component('registration-popup', {
+    name: 'registration-popup',
+    el: function () {
+        return '#registration-popup'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+            showRegisterPopup: false,
+            section: 'account',
+            companyName: '',
+            validCompanyName: 'unfilled',
+            companyNameError: '',
+            email: '',
+            validEmail: 'unfilled',
+            emailError: '',
+            password: '',
+            validPassword: 'unfilled',
+            name: '',
+            validName: 'unfilled',
+            cardError: '',
+            submitting: false,
+            waitingStripeResponse: false,
+            ccName: '',
+            ccNumber: '',
+            ccExpMonth: '',
+            ccExpYear: '',
+            ccCVC: ''
+        };
+    },
+    props: [],
+    computed: {
+        validCardDetails: function() {
+            return ! this.waitingStripeResponse && this.ccName && this.ccNumber && this.ccExpMonth && this.ccExpYear && this.ccCVC;
+        },
+        registerButtonText: function() {
+            if(this.waitingStripeResponse) return 'hold on...';
+            return 'Register company';
         }
+    },
+    methods: {
+        toggleShowRegistrationPopup: function () {
+            this.showRegisterPopup = !this.showRegisterPopup;
+        },
+        checkCompanyName: function () {
+            var self = this;
+            self.validCompanyName = 'unfilled';
+            if (self.companyName.length > 0) {
+                // No symbols in name
+                if (!alphaNumeric(self.companyName)) {
+                    self.validCompanyName = false;
+                    self.companyNameError = 'Company name cannot contain symbols';
+                    return;
+                }
+                self.validCompanyName = 'loading';
+                if (!self.ajaxReady) return;
+                self.ajaxReady = false;
+                $.ajax({
+                    url: '/api/company/profile/' + encodeURI(self.companyName),
+                    method: '',
+                    success: function (data) {
+                        // success
+                        if (!_.isEmpty(data)) {
+                            self.validCompanyName = false;
+                            self.companyNameError = 'That Company name is already taken'
+                        } else {
+                            self.validCompanyName = true;
+                            self.companyNameError = '';
+                        }
+                        self.ajaxReady = true;
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        self.ajaxReady = true;
+                    }
+                });
+            }
+        },
+        checkEmail: function () {
+            var self = this;
+            self.validEmail = 'unfilled';
+            if (self.email.length > 0) {
+                if (validateEmail(self.email)) {
+                    self.validEmail = 'loading';
+                    if (!self.ajaxReady) return;
+                    self.ajaxReady = false;
+                    $.ajax({
+                        url: '/user/email/' + self.email + '/check',
+                        method: 'GET',
+                        success: function (data) {
+                            // success
+                            if (data) {
+                                self.validEmail = true;
+                                self.emailError = '';
+                            }
+                            self.ajaxReady = true;
+                        },
+                        error: function (response) {
+                            console.log(response);
+                            self.ajaxReady = true;
+                            self.validEmail = false;
+                            self.emailError = 'Account already exists for that email';
+                        }
+                    });
+                } else {
+                    self.validEmail = false;
+                    self.emailError = 'Invalid email format - you@example.com';
+                }
+            }
+        },
+        checkPassword: function () {
+            this.validPassword = 'unfilled';
+            if (this.password.length > 0) {
+                this.validPassword = (this.password.length >= 6);
+            }
+        },
+        checkName: function () {
+            this.validName = this.name.length > 0 ? true : 'unfilled';
+        },
+        goToSection: function(section) {
+            this.section = section;
+        },
+        submitBilling: function() {
+
+            var $form = $(this.$els.stripeForm);
+
+            this.cardError = '';
+            this.waitingStripeResponse = true;
+
+            Stripe.card.createToken($form, function(status, response) {
+
+                if(response.error) { // Card error
+                    this.cardError = response.error;
+                    this.waitingStripeResponse = false;
+
+                } else {
+                    this.registerNewCompany(response.id);
+                }
+            }.bind(this));
+        },
+        registerNewCompany: function (creditCardToken) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/company',
+                method: 'POST',
+                data: {
+                    company_name: self.companyName,
+                    name: self.name,
+                    email: self.email,
+                    password: self.password,
+                    credit_card_token: creditCardToken
+                },
+                success: function (data) {
+                    // success
+                    location.href = "/";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    flashNotify('Registration error - please contact support');
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {},
+    ready: function () {
+        this.$watch('showRegisterPopup', function (val) {
+            if (val) $('#register-popup-icon').playLiviconEvo();
+        });
     }
 });
 //# sourceMappingURL=dependencies.js.map

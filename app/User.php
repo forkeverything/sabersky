@@ -5,6 +5,7 @@ namespace App;
 use App\Company;
 use App\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 
 /**
  * App\User
@@ -37,6 +38,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
+    use Billable;
+
     /**
      * Mass-assignable fields for
      * a User

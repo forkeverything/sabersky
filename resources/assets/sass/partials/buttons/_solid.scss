@@ -66,12 +66,12 @@
 
 .btn-solid-grey {
   @extend .btn-solid;
-  border-color: $grey;
-  background-color: $grey;
-  color: $dark-grey;
+  border-color: $dark-grey;
+  background-color: $dark-grey;
+  color: #fff;
 
   &:hover, &:focus, &:active, &.active {
-    background-color: $dark-grey;
-    border-color: $dark-grey;
+    background-color: $extra-dark-grey;
+    border-color: $extra-dark-grey;
   }
 }

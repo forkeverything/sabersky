@@ -21,7 +21,7 @@
             transition="fade-slide"
         >
             <li><a href="{{ url('/login') }}">Login</a></li>
-            <li>@include('auth.partials.registration-popup')</li>
+            <li>@include('auth.register.popup')</li>
         </ul>
     </div>
 </nav>

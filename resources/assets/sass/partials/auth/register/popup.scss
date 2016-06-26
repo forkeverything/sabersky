@@ -1,0 +1,124 @@
+#registration-popup-overlay {
+  top: 0;
+  left: 0;
+  background-color: $dark-blue;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 8000;
+  flex-wrap: wrap;
+  -webkit-animation-duration: 0.15s;
+  color: #fff;
+  animation-duration: 0.15s;
+
+  h4 {
+    color: #fff;
+    margin: 0 0 15px;
+    font-size: 1.2em;
+  }
+
+  .popup-content {
+    width: 490px;
+    position: relative;
+
+    .button-remove {
+      position: absolute;
+      right: 0;
+      top: -1.5em;
+      font-size: 1.5em;
+    }
+
+    .popup-header {
+      display: flex;
+      margin: 0 0 15px 0;
+
+      #register-popup-icon {
+        padding-bottom: 5px;
+        margin-right: 5px;
+
+        @media screen and (min-width: $screen-sm-min) {
+          width: 70px!important;
+        }
+      }
+
+      .popup-title {
+        font-size: 36px;
+        margin: 0;
+        color: #fff;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .shift-label-input {
+      margin: 0 0 20px;
+
+      input {
+        border: 0;
+      }
+    }
+
+    .btn {
+      width: initial;
+      height: 3em;
+      padding: 0 45px;
+      font-size: 1.2em;
+      float: right;
+      margin: 15px 0 0 0;
+
+      &:disabled {
+        background: $body-background;
+        color: $black;
+      }
+    }
+
+    #form-registration-billing {
+      .expiry {
+        display: flex;
+
+        > div {
+          flex: 1;
+        }
+
+
+
+        .separator {
+          margin: 0 10px;
+          line-height: 55px;
+          font-size: 2.5em;
+        }
+      }
+
+      .card-error-message {
+        background: $extra-light-red;
+        color: $red;
+        padding: 1em 0.5em;
+      }
+
+      .billing-buttons {
+        button:first-child {
+          margin-left: 15px;
+        }
+      }
+    }
+
+  }
+
+  @media screen and (max-width: $screen-xs-max) {
+
+    .popup-content {
+      width: 300px;
+
+      .popup-header {
+        margin: 0 0 15px 0;
+
+        .popup-title {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}

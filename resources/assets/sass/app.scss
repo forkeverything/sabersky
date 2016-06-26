@@ -7,7 +7,7 @@
 @import "partials/navbar";
 @import "partials/inputs";
 @import "partials/select";
-@import "partials/registration-popup";
+@import "partials/auth/register/popup";
 @import "pages/dashboard";
 @import "pages/projects";
 @import "pages/invitation";
@@ -119,6 +119,10 @@ section {
 .align-end {
   display: flex;
   justify-content: flex-end;
+}
+
+.livicon-evo {
+  display: inline-block;
 }
 
 a {

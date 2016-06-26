@@ -47,6 +47,9 @@ class CompanyController extends Controller
     {
         // Create Company
         $company = Company::register($request->input('company_name'));
+
+        $company->newSubscription('main', 'growth')->create($request->credit_card_token);
+
         // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));
         // Fire Event

@@ -5,7 +5,9 @@ Vue.component('registration-popup', {
     },
     data: function () {
         return {
+            ajaxReady: true,
             showRegisterPopup: false,
+            section: 'account',
             companyName: '',
             validCompanyName: 'unfilled',
             companyNameError: '',
@@ -16,11 +18,26 @@ Vue.component('registration-popup', {
             validPassword: 'unfilled',
             name: '',
             validName: 'unfilled',
-            ajaxReady: true
+            cardError: '',
+            submitting: false,
+            waitingStripeResponse: false,
+            ccName: '',
+            ccNumber: '',
+            ccExpMonth: '',
+            ccExpYear: '',
+            ccCVC: ''
         };
     },
     props: [],
-    computed: {},
+    computed: {
+        validCardDetails: function() {
+            return ! this.waitingStripeResponse && this.ccName && this.ccNumber && this.ccExpMonth && this.ccExpYear && this.ccCVC;
+        },
+        registerButtonText: function() {
+            if(this.waitingStripeResponse) return 'hold on...';
+            return 'Register company';
+        }
+    },
     methods: {
         toggleShowRegistrationPopup: function () {
             this.showRegisterPopup = !this.showRegisterPopup;
@@ -100,7 +117,28 @@ Vue.component('registration-popup', {
         checkName: function () {
             this.validName = this.name.length > 0 ? true : 'unfilled';
         },
-        registerNewCompany: function () {
+        goToSection: function(section) {
+            this.section = section;
+        },
+        submitBilling: function() {
+
+            var $form = $(this.$els.stripeForm);
+
+            this.cardError = '';
+            this.waitingStripeResponse = true;
+
+            Stripe.card.createToken($form, function(status, response) {
+
+                if(response.error) { // Card error
+                    this.cardError = response.error;
+                    this.waitingStripeResponse = false;
+
+                } else {
+                    this.registerNewCompany(response.id);
+                }
+            }.bind(this));
+        },
+        registerNewCompany: function (creditCardToken) {
             var self = this;
             if (!self.ajaxReady) return;
             self.ajaxReady = false;
@@ -111,17 +149,17 @@ Vue.component('registration-popup', {
                     company_name: self.companyName,
                     name: self.name,
                     email: self.email,
-                    password: self.password
+                    password: self.password,
+                    credit_card_token: creditCardToken
                 },
                 success: function (data) {
                     // success
-                    window.location.href = "/";
+                    location.href = "/";
                     self.ajaxReady = true;
                 },
                 error: function (response) {
+                    flashNotify('Registration error - please contact support');
                     console.log(response);
-
-                    vueValidation(response, self);
                     self.ajaxReady = true;
                 }
             });
@@ -129,5 +167,8 @@ Vue.component('registration-popup', {
     },
     events: {},
     ready: function () {
+        this.$watch('showRegisterPopup', function (val) {
+            if (val) $('#register-popup-icon').playLiviconEvo();
+        });
     }
 });

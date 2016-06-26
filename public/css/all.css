@@ -6128,12 +6128,12 @@ button.close {
     border-color: #C0392B; }
 
 .btn-solid-grey {
-  border-color: #D2D2D2;
-  background-color: #D2D2D2;
-  color: #757575; }
+  border-color: #757575;
+  background-color: #757575;
+  color: #fff; }
   .btn-solid-grey:hover, .btn-solid-grey:focus, .btn-solid-grey:active, .btn-solid-grey.active {
-    background-color: #757575;
-    border-color: #757575; }
+    background-color: #5A5A5A;
+    border-color: #5A5A5A; }
 
 .btn-full {
   width: 100%; }
@@ -6799,6 +6799,10 @@ label {
   color: #fff;
   -webkit-animation-duration: 0.15s;
   animation-duration: 0.15s; }
+  #registration-popup-overlay h4 {
+    color: #fff;
+    margin: 0 0 15px;
+    font-size: 1.2em; }
   #registration-popup-overlay .popup-content {
     width: 490px;
     position: relative; }
@@ -6811,45 +6815,62 @@ label {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      margin: 0 0 30px 0; }
+      margin: 0 0 15px 0; }
+      #registration-popup-overlay .popup-content .popup-header #register-popup-icon {
+        padding-bottom: 5px;
+        margin-right: 5px; }
+        @media screen and (min-width: 768px) {
+          #registration-popup-overlay .popup-content .popup-header #register-popup-icon {
+            width: 70px !important; } }
       #registration-popup-overlay .popup-content .popup-header .popup-title {
         font-size: 36px;
         margin: 0;
-        color: #fff; }
-      #registration-popup-overlay .popup-content .popup-header .popup-subheading {
-        display: block;
-        font-size: 16px;
-        margin: 0;
-        text-align: right; }
-    #registration-popup-overlay .popup-content #form-registration .shift-label-input {
+        color: #fff;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
+    #registration-popup-overlay .popup-content .shift-label-input {
       margin: 0 0 20px; }
-      #registration-popup-overlay .popup-content #form-registration .shift-label-input input {
+      #registration-popup-overlay .popup-content .shift-label-input input {
         border: 0; }
-    #registration-popup-overlay .popup-content #form-registration .button-register-company {
+    #registration-popup-overlay .popup-content .btn {
       width: initial;
-      height: 4em;
+      height: 3em;
       padding: 0 45px;
       font-size: 1.2em;
       float: right;
       margin: 15px 0 0 0; }
-      #registration-popup-overlay .popup-content #form-registration .button-register-company:disabled {
+      #registration-popup-overlay .popup-content .btn:disabled {
         background: #FCFCFC;
         color: #353535; }
+    #registration-popup-overlay .popup-content #form-registration-billing .expiry {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex; }
+      #registration-popup-overlay .popup-content #form-registration-billing .expiry > div {
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1; }
+      #registration-popup-overlay .popup-content #form-registration-billing .expiry .separator {
+        margin: 0 10px;
+        line-height: 55px;
+        font-size: 2.5em; }
+    #registration-popup-overlay .popup-content #form-registration-billing .card-error-message {
+      background: #FAE5E5;
+      color: #E74C3C;
+      padding: 1em 0.5em; }
+    #registration-popup-overlay .popup-content #form-registration-billing .billing-buttons button:first-child {
+      margin-left: 15px; }
   @media screen and (max-width: 767px) {
     #registration-popup-overlay .popup-content {
       width: 300px; }
       #registration-popup-overlay .popup-content .popup-header {
         margin: 0 0 15px 0; }
         #registration-popup-overlay .popup-content .popup-header .popup-title {
-          font-size: 22px; }
-      #registration-popup-overlay .popup-content #form-registration .button-register-company {
-        font-size: 1em;
-        height: 3em;
-        margin: 0;
-        width: 100%; } }
+          font-size: 22px; } }
 
 #dashboard .company-overview {
   margin: 0 0 15px; }
@@ -10129,6 +10150,9 @@ section {
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end; }
+
+.livicon-evo {
+  display: inline-block; }
 
 a {
   cursor: pointer;

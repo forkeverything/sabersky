@@ -9,6 +9,8 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravel\Cashier\Billable;
+use Laravel\Cashier\Subscription;
 
 /**
  * App\Company
@@ -43,6 +45,8 @@ use Illuminate\Support\Facades\DB;
 class Company extends Model
 {
 
+    use Billable;
+    
     /**
      * Mass-Fillable fields for a company
      *
@@ -57,6 +61,16 @@ class Company extends Model
         'connection',
         'currencies'
     ];
+
+    /**
+     * Over-write Laravel Billable trait - so we can use company_id instead of user_id
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'company_id')->orderBy('created_at', 'desc');
+    }
 
     /**
      * Checks the connection status for logged-user's Company
@@ -379,6 +393,9 @@ class Company extends Model
 
     public function getCurrenciesAttribute()
     {
+        // If we're only fetching public Company info (profile)
+        if(! $this->settings) return;
+
         $companyCurrencies = $this->settings->currencies;
 
         $purchaseOrderCurrencies = Country::currencyOnly()->join('purchase_orders', 'countries.id', '=', 'purchase_orders.currency_id')

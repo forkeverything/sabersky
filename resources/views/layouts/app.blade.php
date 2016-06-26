@@ -16,7 +16,10 @@
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
     <!-- Fonts -->
     <script src="https://use.typekit.net/qkf3ndw.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script>try {
+            Typekit.load({async: true});
+        } catch (e) {
+        }</script>
     {{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
 </head>
 
@@ -33,34 +36,39 @@
              :class="{
              'with-menu': showingMenu
              }"
-            @click="hideOverlays"
-        >
-        @yield('content')
-        </div>
-    @else
-        <div id="body-content"
         @click="hideOverlays"
         >
         @yield('content')
-        </div>
-    @endif
 </div>
+@else
+    <div id="body-content"
+    @click="hideOverlays"
+    >
+    @yield('content')
+    </div>
+    @endif
+    </div>
 
 
-<!--
-========== Scripts ===========
--->
-<!-- Plugins / Frameworks -->
-<script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
-<!-- Setup & Initz' -->
-<script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
-<!-- Global (helpers) -->
-<script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
-<!-- Page Specific Components -->
-<script type="text/javascript" src="{{ asset('/js/page.js') }}"></script>
-<!-- Global Vue Instance -->
-<script src="{{ asset('/js/vue-root.js') }}"></script>
-<!-- Flash Notification -->
-@include('layouts.partials.flash')
+    <!--
+    ========== Scripts ===========
+    -->
+    <!-- Plugins / Frameworks -->
+    <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
+    <!-- Stripe -->
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        Stripe.setPublishableKey('{{ env('STRIPE_KEY') }}');
+    </script>
+    <!-- Setup & Initz' -->
+    <script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
+    <!-- Global (helpers) -->
+    <script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
+    <!-- Page Specific Components -->
+    <script type="text/javascript" src="{{ asset('/js/page.js') }}"></script>
+    <!-- Global Vue Instance -->
+    <script src="{{ asset('/js/vue-root.js') }}"></script>
+    <!-- Flash Notification -->
+    @include('layouts.partials.flash')
 </body>
 </html>
