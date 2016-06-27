@@ -357,6 +357,7 @@ class UsersController extends Controller
         }
 
         $user->company->delete();
+        Auth::user()->company->subscription->cancel();
 
         Auth::logout();
         return redirect()->back();
