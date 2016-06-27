@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\InvitedStaffMember;
+use App\Factories\SubscriptionFactory;
 use App\Http\Requests\AcceptInvitationRequest;
 use App\Http\Requests\AddStaffRequest;
 use App\Http\Requests\ChangeUserRoleRequest;
@@ -60,10 +61,17 @@ class UsersController extends Controller
         if ($user = User::fetchFromInviteKey($inviteKey)) {
             return view('auth.accept', compact('user'));
         };
-        flash()->error('Invite Key was incorrect or invalid');
-        return redirect('/');
+        abort(403, "Invalid invite key provided");
     }
 
+    /**
+     * Accept an invitation to join Sabersky as a staff for
+     * an existing Company
+     * 
+     * @param AcceptInvitationRequest $request
+     * @param $inviteKey
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function postAcceptInvitation(AcceptInvitationRequest $request, $inviteKey)
     {
         if ($user = User::fetchFromInviteKey($inviteKey)) {
@@ -73,7 +81,8 @@ class UsersController extends Controller
 
             flash()->success('Accepted invitation, welcome aboard!');
             Auth::login($user);
-            return redirect('/');
+            SubscriptionFactory::updateSubscription(Auth::user()->company);
+            return redirect('/dashboard');
         }
         flash()->error('Could join Team. Please request a new invitation key');
         return redirect('/');
@@ -100,8 +109,8 @@ class UsersController extends Controller
      */
     public function getLoggedUser()
     {
-        $user = Auth::user()->load('company', 'company.address', 'company.settings', 'role');
-        return $user;
+        if($user = Auth::user()) return $user->load('company', 'company.address', 'company.settings', 'role');
+        return response("No user logged in");
     }
 
     /**
@@ -327,9 +336,10 @@ class UsersController extends Controller
             } else {
                 flash()->info('Deactivated user');
             }
+            SubscriptionFactory::updateSubscription(Auth::user()->company);
             return redirect()->back();
         }
-        return response("Something went sideways. Could not delete User", 500);
+        abort(500, "Could not activate/deactivate user");
     }
 
     /**

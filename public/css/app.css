@@ -6833,6 +6833,8 @@ label {
     color: #fff;
     margin: 0 0 15px;
     font-size: 1.2em; }
+  #registration-popup-overlay a {
+    color: #fff; }
   #registration-popup-overlay .popup-content {
     width: 490px;
     position: relative; }
@@ -6876,24 +6878,10 @@ label {
       #registration-popup-overlay .popup-content .btn:disabled {
         background: #FCFCFC;
         color: #353535; }
-    #registration-popup-overlay .popup-content #form-registration-billing .expiry {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex; }
-      #registration-popup-overlay .popup-content #form-registration-billing .expiry > div {
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1; }
-      #registration-popup-overlay .popup-content #form-registration-billing .expiry .separator {
-        margin: 0 10px;
-        line-height: 55px;
-        font-size: 2.5em; }
-    #registration-popup-overlay .popup-content #form-registration-billing .card-error-message {
-      background: #FAE5E5;
-      color: #E74C3C;
-      padding: 1em 0.5em; }
-    #registration-popup-overlay .popup-content #form-registration-billing .billing-buttons button:first-child {
-      margin-left: 15px; }
+    #registration-popup-overlay .popup-content #registration-billing .link-return-account {
+      margin: 10px 0 0 0;
+      text-align: right;
+      display: block; }
   @media screen and (max-width: 767px) {
     #registration-popup-overlay .popup-content {
       width: 300px; }
@@ -8648,6 +8636,13 @@ label {
   margin: 0;
   line-height: 1em; }
 
+#system-settings #settings-billing #billed-staff .info-billed-quantity {
+  margin: 0 0 15px;
+  display: block; }
+
+#system-settings #settings-billing .subscription .link-cancel-add-card {
+  margin: 10px 0 0 0; }
+
 @-webkit-keyframes fadeInDownSmall {
   from {
     opacity: 0;
@@ -9991,6 +9986,27 @@ properties but with background and padding.
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
+
+.credit-card-form .expiry {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .credit-card-form .expiry > div {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; }
+  .credit-card-form .expiry .separator {
+    margin: 0 10px;
+    line-height: 55px;
+    font-size: 2.5em; }
+
+.credit-card-form .card-error-message {
+  background: #FAE5E5;
+  color: #E74C3C;
+  padding: 1em 0.5em; }
+
+.credit-card-form .billing-buttons button:first-child {
+  margin-left: 15px; }
 
 body {
   font-family: proxima-nova, Helvetica, sans-serif;

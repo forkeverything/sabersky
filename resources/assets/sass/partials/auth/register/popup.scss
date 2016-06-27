@@ -20,6 +20,10 @@
     font-size: 1.2em;
   }
 
+  a {
+    color: #fff;
+  }
+
   .popup-content {
     width: 490px;
     position: relative;
@@ -75,33 +79,11 @@
       }
     }
 
-    #form-registration-billing {
-      .expiry {
-        display: flex;
-
-        > div {
-          flex: 1;
-        }
-
-
-
-        .separator {
-          margin: 0 10px;
-          line-height: 55px;
-          font-size: 2.5em;
-        }
-      }
-
-      .card-error-message {
-        background: $extra-light-red;
-        color: $red;
-        padding: 1em 0.5em;
-      }
-
-      .billing-buttons {
-        button:first-child {
-          margin-left: 15px;
-        }
+    #registration-billing {
+      .link-return-account {
+        margin: 10px 0 0 0;
+        text-align: right;
+        display: block;
       }
     }
 

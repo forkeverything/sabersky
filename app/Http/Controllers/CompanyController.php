@@ -6,6 +6,7 @@ use App\Company;
 use App\CompanySettings;
 use App\Country;
 use App\Events\NewCompanySignedUp;
+use App\Factories\SubscriptionFactory;
 use App\Http\Requests\CompanyAddCurrencyRequest;
 use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\SaveCompanyRequest;
@@ -48,7 +49,8 @@ class CompanyController extends Controller
         // Create Company
         $company = Company::register($request->input('company_name'));
 
-        $company->newSubscription('main', 'growth')->create($request->credit_card_token);
+        // Subscribe to billing
+        SubscriptionFactory::make($company, $request->credit_card_token);
 
         // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));

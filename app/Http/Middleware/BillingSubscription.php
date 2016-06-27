@@ -18,7 +18,7 @@ class BillingSubscription
     {
         // Billing status
         $user = Auth::user();
-        if (! $user->company->subscribed('main')) {
+        if (! $user->company->subscription) {
 
             if($request->ajax()) return response("402", "Unauthorized due to inactive payment subscription.");
 

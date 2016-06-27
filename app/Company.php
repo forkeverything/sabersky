@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
-use Laravel\Cashier\Subscription;
+use App\Subscription;
 
 /**
  * App\Company
@@ -155,13 +155,25 @@ class Company extends Model
     }
 
     /**
-     * Only retrieve employees that have an active account
+     * Accessor: Only retrieve employees that have an active account
      * 
      * @return mixed
      */
-    public function activeStaff()
+    public function getActiveStaffAttribute()
     {
-        return $this->employees()->where('active', '1')->get();
+        if (!array_key_exists('activeStaff', $this->relations)) $this->setRelation('activeStaff', $this->employees()->where('active', '1')->get());
+        return $this->getRelation("activeStaff");
+    }
+
+    /**
+     * Accessor: To only retrieve Company's only subscription (main)
+     *
+     * @return mixed
+     */
+    public function getSubscriptionAttribute()
+    {
+        if (!array_key_exists('subscription', $this->relations)) $this->setRelation('subscription', $this->subscription('main'));
+        return $this->getRelation("subscription");
     }
 
     /**

@@ -236,6 +236,13 @@ Route::group(['middleware' => 'web'], function () {
     // Billing - stripe
     Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook');
 
+    /**
+     * Subscriptions
+     */
+    Route::post('/subscription/new', 'SubscriptionsController@postNew');
+    Route::post('/subscription/cancel', 'SubscriptionsController@postCancel');
+    Route::post('/subscription/resume', 'SubscriptionsController@postResume');
+
     Route::get('test', function () {
 //        return App\PurchaseOrder::all();
         $user = App\User::first();

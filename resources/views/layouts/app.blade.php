@@ -9,6 +9,7 @@
 
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <meta name="stripe-key" content="{{ env('STRIPE_KEY') }}"/>
 
     <!--
     ========== Stylez ===========
@@ -57,9 +58,7 @@
     <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
     <!-- Stripe -->
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
-        Stripe.setPublishableKey('{{ env('STRIPE_KEY') }}');
-    </script>
+
     <!-- Setup & Initz' -->
     <script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
     <!-- Global (helpers) -->

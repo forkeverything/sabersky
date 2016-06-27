@@ -17,27 +17,11 @@ Vue.component('registration-popup', {
             password: '',
             validPassword: 'unfilled',
             name: '',
-            validName: 'unfilled',
-            cardError: '',
-            submitting: false,
-            waitingStripeResponse: false,
-            ccName: '',
-            ccNumber: '',
-            ccExpMonth: '',
-            ccExpYear: '',
-            ccCVC: ''
+            validName: 'unfilled'
         };
     },
     props: [],
-    computed: {
-        validCardDetails: function() {
-            return ! this.waitingStripeResponse && this.ccName && this.ccNumber && this.ccExpMonth && this.ccExpYear && this.ccCVC;
-        },
-        registerButtonText: function() {
-            if(this.waitingStripeResponse) return 'hold on...';
-            return 'Register company';
-        }
-    },
+    computed: {},
     methods: {
         toggleShowRegistrationPopup: function () {
             this.showRegisterPopup = !this.showRegisterPopup;
@@ -120,24 +104,6 @@ Vue.component('registration-popup', {
         goToSection: function(section) {
             this.section = section;
         },
-        submitBilling: function() {
-
-            var $form = $(this.$els.stripeForm);
-
-            this.cardError = '';
-            this.waitingStripeResponse = true;
-
-            Stripe.card.createToken($form, function(status, response) {
-
-                if(response.error) { // Card error
-                    this.cardError = response.error;
-                    this.waitingStripeResponse = false;
-
-                } else {
-                    this.registerNewCompany(response.id);
-                }
-            }.bind(this));
-        },
         registerNewCompany: function (creditCardToken) {
             var self = this;
             if (!self.ajaxReady) return;
@@ -165,8 +131,14 @@ Vue.component('registration-popup', {
             });
         }
     },
-    events: {},
     ready: function () {
+
+        var self = this;
+
+        vueEventBus.$on('new-cc-token', function (creditCardToken) {
+            self.registerNewCompany(creditCardToken);
+        });
+
         this.$watch('showRegisterPopup', function (val) {
             if (val) $('#register-popup-icon').playLiviconEvo();
         });

@@ -74,11 +74,12 @@ class SettingsController extends Controller
         if($user->company->subscribedToPlan('growth', 'main')) $plan = 'growth';
         if($user->company->subscribedToPlan('enterprise', 'main')) $plan = 'enterprise';
 
-        $numBilledStaff = 0;
-        if($subscription = $user->company->subscriptions->first()) {
-            $numBilledStaff = $subscription->quantity;
-        };
+        $numActiveStaff = $user->company->activeStaff->count();
 
-        return view('settings.billing', compact('page', 'subscribed', 'plan', 'numBilledStaff'));
+        $subscription = $user->company->subscription;
+
+
+
+        return view('settings.billing', compact('page', 'subscribed', 'plan', 'numActiveStaff', 'subscription'));
     }
 }

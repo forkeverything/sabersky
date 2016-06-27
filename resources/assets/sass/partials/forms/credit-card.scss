@@ -1,0 +1,29 @@
+.credit-card-form {
+  .expiry {
+    display: flex;
+
+    > div {
+      flex: 1;
+    }
+
+
+
+    .separator {
+      margin: 0 10px;
+      line-height: 55px;
+      font-size: 2.5em;
+    }
+  }
+
+  .card-error-message {
+    background: $extra-light-red;
+    color: $red;
+    padding: 1em 0.5em;
+  }
+
+  .billing-buttons {
+    button:first-child {
+      margin-left: 15px;
+    }
+  }
+}

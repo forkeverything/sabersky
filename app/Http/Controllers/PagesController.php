@@ -15,7 +15,7 @@ class PagesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['only' => 'getDashboard']);
+        $this->middleware(['auth', 'billing'], ['only' => 'getDashboard']);
     }
 
     /**
