@@ -31,7 +31,7 @@ class VendorTest extends TestCase
     /**
      * @test
      */
-    public function it_manually_add_a_vendor_to_user_company()
+    public function it_adds_a_vendor_to_a_company()
     {
         $request = m::mock(\App\Http\Requests\AddNewVendorRequest::class);
         $request->shouldReceive('input')->with('name')->andReturn('Saber');
@@ -47,35 +47,7 @@ class VendorTest extends TestCase
         $this->assertEquals('Saber', User::find(static::$user->id)->company->vendors->first()->name);
         $this->seeInDatabase('activities', ['name' => 'added_vendor', 'user_id' => static::$user->id]);
     }
-
-    /**
-     * @test
-     */
-    public function it_automatically_creates_a_vendor_from_a_company()
-    {
-        $linkedCompany = factory(Company::class)->create();
-
-        $this->assertEmpty(User::find(static::$user->id)->company->vendors);
-        $this->dontSeeInDatabase('activities', ['name' => 'added_vendor', 'user_id' => static::$user->id]);
-
-        Vendor::createAndLinkFromCompany(static::$user, $linkedCompany);
-
-        // Created a Vendor - with the same name as the linked company
-        $this->assertEquals($linkedCompany->name, User::find(static::$user->id)->company->vendors->first()->name);
-        // Activity recorded
-        $this->seeInDatabase('activities', ['name' => 'added_vendor', 'user_id' => static::$user->id]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_marks_vendor_as_verified()
-    {
-
-        $this->assertNull(static::$vendor->verified);
-        static::$vendor->verify();
-        $this->assertEquals(1, static::$vendor->verified);
-    }
+    
 
     /**
      * @test
@@ -147,24 +119,6 @@ class VendorTest extends TestCase
 
         $this->assertCount(1, Vendor::find(static::$vendor->id)->addresses);
     }
-
-    /**
-     * @test
-     */
-    public function it_copies_company_address_to_vendor()
-    {
-        $company = factory(Company::class)->create();
-        $address = factory(Address::class)->create([
-            'address_1' => '17 Foobar Street',
-            'owner_type' => 'App\Company',
-            'owner_id' => $company->id
-        ]);
-
-        $this->assertEmpty(Vendor::find(static::$vendor->id)->addresses);
-
-        static::$vendor->copyCompanyAddress($company);
-
-        $this->assertEquals('17 Foobar Street', Vendor::find(static::$vendor->id)->addresses->first()->address_1);
-    }
+    
 
 }

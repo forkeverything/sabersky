@@ -2,8 +2,8 @@
 @section('content')
     <div id="system-settings" class="container">
 
-        <div id="settings-title">
-            @yield('settings-title')
+        <div id="settings-header">
+            @yield('settings-header')
         </div>
 
         <div class="row flexing">

@@ -19,7 +19,7 @@ class CompanyVendorsRepository extends apiRepository
      */
     protected function setQuery(Company $company)
     {
-        return Vendor::where('base_company_id', $company->id);
+        return Vendor::where('company_id', $company->id);
     }
 
     /**

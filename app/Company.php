@@ -57,11 +57,6 @@ class Company extends Model
         'description'
     ];
 
-    protected $appends = [
-        'connection',
-        'currencies'
-    ];
-
     /**
      * Over-write Laravel Billable trait - so we can use company_id instead of user_id
      *
@@ -72,29 +67,9 @@ class Company extends Model
         return $this->hasMany(Subscription::class, 'company_id')->orderBy('created_at', 'desc');
     }
 
-    /**
-     * Checks the connection status for logged-user's Company
-     * and this Company model
-     *
-     * @return string
-     */
-    public function getConnectionAttribute()
-    {
-        if (Auth::check()) {
-            $userCompany = Auth::user()->company;
-
-            $vendor = DB::table('vendors')->select(DB::raw(1))
-                        ->where('base_company_id', $userCompany->id)
-                        ->where('linked_company_id', $this->id)
-                        ->select(['verified'])
-                        ->first();
-
-            if ($vendor) return $vendor->verified ? 'verified' : 'pending';
-
-            return 'No connection to this company';
-        }
-        return 'Can\'t determine connection without logged User Company';
-    }
+    protected $appends = [
+        'currencies'
+    ];
 
 
     /**
@@ -245,8 +220,7 @@ class Company extends Model
     }
 
     /**
-     * Returns all Company's roles, removing
-     * Admin
+     * Returns all Company's roles, excluding Admin
      *
      * @return static
      */
@@ -320,113 +294,28 @@ class Company extends Model
      */
     public function vendors()
     {
-        return $this->hasMany(Vendor::class, 'base_company_id');
+        return $this->hasMany(Vendor::class);
     }
+    
 
     /**
-     * Retrieves all the Vendor models that have this Company
-     * linked to it
-     *
-     * @param int $verifiedOnly
-     * @return mixed
+     * All the possible currencies a Company has.
      */
-    public function customerVendors($verifiedOnly = 1)
-    {
-        return $this->hasMany(Vendor::class, 'linked_company_id')
-                    ->where('verified', $verifiedOnly);
-    }
-
-
-    /**
-     * Companies that have linked their Vendor model to this
-     * Company. We will also only retrieve the requests
-     * that have been verified.
-     *
-     * @return $this
-     */
-    public function customerCompanies($verifiedOnly = 1)
-    {
-        return $this->belongsToMany(Company::class, 'vendors', 'linked_company_id', 'base_company_id')
-                    ->wherePivot('verified', '=', $verifiedOnly)
-                    ->withPivot('verified');
-    }
-
-    /**
-     * Returns the Companies that this Company's Vendor models
-     * are linked to.
-     *
-     * @return $this
-     */
-    public function supplierCompanies($verifiedOnly = 1)
-    {
-        return $this->belongsToMany(Company::class, 'vendors', 'base_company_id', 'linked_company_id')
-                    ->wherePivot('verified', '=', $verifiedOnly)
-                    ->withPivot('verified');
-    }
-
-    /**
-     * Connects are both: Companies that our Vendors are linked
-     * to, as well as the Companies that have us linked to a
-     * Vendor model.
-     *
-     * @return mixed
-     */
-    public function getConnectsAttribute()
-    {
-        /*
-        Accessor to see if the relationship has been loaded and loads
-        it if it hasn't. Usually this would be a Eloquent relation
-        but instead we are including our inverted relationship.
-         */
-
-        // If we haven't loaded our connects - load it up
-        if (!array_key_exists('connects', $this->relations)) $this->loadConnects();
-        // And return it
-        return $this->getRelation("connects");
-    }
-
-    /**
-     * Sets a dynamic relation 'connects' to the Company model
-     */
-    protected function loadConnects()
-    {
-        // only if we have NOT loaded it yet...
-        if (!array_key_exists('connects', $this->relations)) {
-
-            // Call the function that merges two way many-to-many relations
-            $connects = $this->mergeConnects();
-
-            // Set the relation to be retrieved by getRelation()
-            $this->setRelation('connects', $connects);
-        }
-    }
-
-    /**
-     * This function just merges the 2 collections together using the
-     * merge() method on the collections. We merge because we need
-     * to retrieve all connects regardless of who initiated it.
-     *
-     * @return mixed
-     */
-    protected function mergeConnects()
-    {
-        return $this->customerCompanies->merge($this->supplierCompanies);
-    }
-
     public function getCurrenciesAttribute()
     {
-        // If we're only fetching public Company info (profile)
+        // If we're only fetching public Company info (profile) w/o settings
         if(! $this->settings) return;
 
+        // Currencies added to list of currencies in Company settings page
         $companyCurrencies = $this->settings->currencies;
 
+        // Currencies from P/O(s) that have been previously issued
         $purchaseOrderCurrencies = Country::currencyOnly()->join('purchase_orders', 'countries.id', '=', 'purchase_orders.currency_id')
             ->where('purchase_orders.company_id', '=', $this->id)
             ->groupBy('countries.id')
             ->get();
 
-
-
+        // Merge both lists of currencies
         return $companyCurrencies->merge($purchaseOrderCurrencies);
     }
 

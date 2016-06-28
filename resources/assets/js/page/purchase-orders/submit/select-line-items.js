@@ -30,10 +30,12 @@ Vue.component('select-line-items', {
     '<thead>'+
     '<tr>'+
     '<th class="heading-center heading-select-all padding-even">'+
-    '<div class="checkbox styled">'+
+    '<div class="checkbox styled" :class="{' +
+    "'checked': allPurchaseRequestsChecked" +
+    '}">'+
     '<label>'+
-    '<i class="fa fa-check-square-o checked" v-show="allPurchaseRequestsChecked"></i>'+
-    '<i class="fa fa-square-o empty" v-else></i>'+
+    '<i class="fa fa-check-square-o checked"></i>'+
+    '<i class="fa fa-square-o empty"></i>'+
     '<input class="clickable hidden"'+
     'type="checkbox"'+
     '@change="selectAllPR"'+
@@ -74,10 +76,12 @@ Vue.component('select-line-items', {
     '<template v-for="purchaseRequest in purchaseRequests">'+
     '<tr class="row-single-pr">'+
     '<td class="col-checkbox">'+
-    '<div class="checkbox styled">'+
+    '<div class="checkbox styled" :class="{' +
+    "'checked': alreadySelectedPR(purchaseRequest)" +
+    '}">'+
     '<label>'+
-    '<i class="fa fa-check-square-o checked" v-if="alreadySelectedPR(purchaseRequest)"></i>'+
-    '<i class="fa fa-square-o empty" v-else></i>'+
+    '<i class="fa fa-check-square-o checked"></i>'+
+    '<i class="fa fa-square-o empty"></i>'+
     '<input class="clickable hidden"'+
     'type="checkbox"'+
     '@change="selectPR(purchaseRequest)"'+

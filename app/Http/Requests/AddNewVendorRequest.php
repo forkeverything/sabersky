@@ -28,7 +28,7 @@ class AddNewVendorRequest extends Request
     {
         $companyID = Auth::user()->company_id;
         return [
-            'name' => 'required|unique:vendors,name,NULL,id,base_company_id,' . $companyID
+            'name' => 'required|unique:vendors,name,NULL,id,company_id,' . $companyID
         ];
     }
 

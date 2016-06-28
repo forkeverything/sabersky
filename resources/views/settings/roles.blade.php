@@ -1,7 +1,7 @@
 @extends('settings.partials.layout')
 
-@section('settings-title')
-    <h2>Settings - Roles</h2>
+@section('settings-header')
+    <h1>Settings - Roles</h1>
     <p>
         Define staff roles and their permissions for your company. Every registered staff member of your company must be
         assigned a role, which determines what they can do in the app. You can create or edit roles freely but you

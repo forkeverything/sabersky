@@ -8106,25 +8106,6 @@ label {
 .po-badge {
   text-transform: capitalize; }
 
-#vendor-add-search .vendor-connection {
-  margin: 0 0 0 10px; }
-
-#vendor-add-search .company-single-option.disabled {
-  color: #9CA1A8 !important;
-  background: #fff !important;
-  cursor: not-allowed; }
-
-#vendor-add-search .company-selected label {
-  margin: 0 0 5px; }
-
-#vendor-add-search .company-selected .name {
-  font-weight: bold;
-  display: block;
-  margin: 0 0 10px 0; }
-
-#vendor-add-search .company-selected.disabled {
-  color: #9CA1A8; }
-
 #vendor-single .description .no-description {
   font-style: italic; }
 
@@ -8247,41 +8228,6 @@ label {
       display: flex; }
     #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-number, #vendor-single .bank-accounts .bank-accounts-collection .single-bank-account .account-name {
       font-size: 1.6em; }
-
-#vendor-requests .list-pending-requests .single-requests {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border-top: 1px solid #E6E9EB;
-  border-bottom: 0;
-  padding: 20px 0;
-  margin: 0 0 -10px 0; }
-  #vendor-requests .list-pending-requests .single-requests:last-child {
-    border-bottom: 1px solid #E6E9EB; }
-  #vendor-requests .list-pending-requests .single-requests .thumbnail-name {
-    -webkit-flex: 1 0 300px;
-    -ms-flex: 1 0 300px;
-    flex: 1 0 300px;
-    font-weight: bold;
-    margin: 0 0 10px 0; }
-  #vendor-requests .list-pending-requests .single-requests .request-controls {
-    margin: 0 -15px 10px 0;
-    white-space: nowrap;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex; }
-    #vendor-requests .list-pending-requests .single-requests .request-controls button {
-      width: 100px;
-      margin: 0 15px 0 0; }
 
 .company-search-selecter .option.disabled:hover {
   background: #fff !important;

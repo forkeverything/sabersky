@@ -112,7 +112,7 @@ class SubscriptionFactory
             $quantity = 1;
         }
 
-        if($subscription->quantity !== $quantity) $subscription->updateQuantity($quantity);
+        if($subscription && $subscription->quantity !== $quantity) $subscription->updateQuantity($quantity);
 
         return $this;
     }

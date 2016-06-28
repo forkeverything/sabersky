@@ -18,9 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property string $name
  * @property string $description
- * @property integer $base_company_id
  * @property boolean $verified
- * @property integer $linked_company_id
  * @property-read Company $baseCompany
  * @property-read Company $linkedCompany
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BankAccount[] $allBankAccounts
@@ -44,59 +42,38 @@ class Vendor extends Model
 
     use HasNotes, RecordsActivity;
 
+    /**
+     * Mass-assignable fields for Vendor
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'description',
-        'base_company_id',
-        'verified',
-        'linked_company_id'
+        'company_id'
     ];
 
+    /**
+     * Dynamic properties to be appended
+     *
+     * @var array
+     */
     protected $appends = [
         'number_po',
         'average_po',
         'bank_accounts'
     ];
 
-
     /**
-     * Mutator to save linked_company_id field as NULL
-     * instead of an empty string.
-     *
-     * @param $value
-     */
-    public function setLinkedCompanyIdAttribute($value)
-    {
-        if (empty($value)) {
-            $this->attributes['linked_company_id'] = NULL;
-        } else {
-            $this->attributes['linked_company_id'] = $value;
-        }
-    }
-
-
-    /**
-     * A Vendor is always owned as a record of a base
-     * Company.
-     *
+     * Vendor belongs to a Company
+     * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function baseCompany()
+    public function company()
     {
-        return $this->belongsTo(Company::class, 'base_company_id');
+        return $this->belongsTo(Company::class);
     }
-
-    /**
-     * A Vendor can also be optionally linked to another Company
-     * in the system.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function linkedCompany()
-    {
-        return $this->belongsTo(Company::class, 'linked_company_id');
-    }
-
+    
     /**
      * Lots of Purchase Orders can be made to the same
      * Vendor.
@@ -145,7 +122,7 @@ class Vendor extends Model
         $vendor = static::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'base_company_id' => $user->company_id
+            'company_id' => $user->company_id
         ]);
 
         // record activity
@@ -153,48 +130,7 @@ class Vendor extends Model
 
         return $vendor;
     }
-
-    /**
-     * Takes a base Company (usually owned by the logged User) and
-     * a link Company and creates a new Vendor while linking the
-     * Link Company in one process.
-     *
-     * @param Company $linkCompany
-     * @param User $user
-     * @return static
-     * @throws \Exception
-     */
-    public static function createAndLinkFromCompany(User $user, Company $linkCompany)
-    {
-        $vendor = static::create([
-            'name' => $linkCompany->name,
-            'base_company_id' => $user->company_id,
-            'linked_company_id' => $linkCompany->id
-        ]);
-
-        $vendor->copyCompanyAddress($linkCompany);
-
-        $user->recordActivity('added', $vendor);
-
-        return $vendor;
-    }
-
-    /**
-     * Takes a Company and copies it's address over to this Vendor
-     *
-     * @param \App\Company $company
-     * @return $this
-     */
-    public function copyCompanyAddress(Company $company)
-    {
-        if($companyAddress = $company->address) {
-            $vendorAddress = $companyAddress->replicate();
-            $this->addAddress($vendorAddress);
-        }
-
-        return $this;
-    }
-
+    
     /**
      * Adds an Address model to this Vendor
      *
@@ -206,19 +142,6 @@ class Vendor extends Model
         $this->addresses()->save($address);
         return $this;
     }
-
-    /**
-     * Verify the Vendor Link to Company
-     * Model
-     *
-     * @return bool
-     */
-    public function verify()
-    {
-        $this->verified = 1;
-        return $this->save();
-    }
-
 
     /**
      * When we only want to retrieve Active Bank accounts. Set an accessor

@@ -1,7 +1,7 @@
 @extends('settings.partials.layout')
 
-@section('settings-title')
-    <h2>Settings - Purchasing</h2>
+@section('settings-header')
+    <h1>Settings - Purchasing</h1>
     <p>
         Control precisely when a Purchase Order needs approval and who can clear each rule.When there are
         multiple rules that apply to a single Purchase Order, then all of them have to be cleared for the order

@@ -86,8 +86,7 @@ $factory->define(Vendor::class, function (Faker\Generator $faker) {
     return [
         'name' => 'PT.' . $faker->company,
         'description' => $faker->paragraph(3),
-        'base_company_id' => factory(Company::class)->create()->id,
-        'linked_company_id' => factory(Company::class)->create()->id,
+        'company_id' => factory(Company::class)->create()->id
     ];
 });
 
@@ -148,9 +147,9 @@ $factory->define(PurchaseOrder::class, function (Faker\Generator $faker) {
         'vendor_address_id' => $vendorAddress->id,
         'vendor_bank_account_id' => $vendorBankAccount->id,
         'user_id' => factory(User::class)->create([
-            'company_id' => $vendor->base_company_id
+            'company_id' => $vendor->company_id
         ])->id,
-        'company_id' => $vendor->base_company_id
+        'company_id' => $vendor->company_id
     ];
 });
 

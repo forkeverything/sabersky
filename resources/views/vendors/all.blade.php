@@ -19,7 +19,7 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Connection</th>
+                        <th>Description</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -28,10 +28,10 @@
                             <td><a href="/vendors/{{ $vendor->id }}" alt="Single vendor link">{{ $vendor->name }}</a>
                             </td>
                             <td>
-                                @if($vendor->linkedCompany)
-                                    <span class="vendor-connection {{ $vendor->linkedCompany->connection }}">{{ $vendor->linkedCompany->connection }}</span>
+                                @if($vendor->description)
+                                    {{ str_limit($vendor->description, 150) }}
                                 @else
-                                    <span class="vendor-connection custom">custom</span>
+                                    -
                                 @endif
                             </td>
                         </tr>
@@ -40,7 +40,11 @@
                 </table>
             </div>
         @else
-            <span class="page-error">No vendors have been registered for your company. Create a purchase order to register vendors.</span>
+            <div v-else class="empty-stage">
+                <i class="fa fa-building"></i>
+                <h4>No Vendors Found</h4>
+                <p>Add a vendor first before you can submit purchase orders to them</p>
+            </div>
         @endif
     </div>
 @endsection

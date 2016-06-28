@@ -1,7 +1,7 @@
 @extends('settings.partials.layout')
 
-@section('settings-title')
-    <h2>Settings - Billing & Subscription</h2>
+@section('settings-header')
+    <h1>Settings - Billing & Subscription</h1>
     <p>
         Control your monthly subscription to Sabersky. Any changes will take effect on the next billing cycle.
     </p>

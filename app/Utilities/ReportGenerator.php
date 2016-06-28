@@ -71,12 +71,9 @@ class ReportGenerator
 
     public function spendingsVendors()
     {
-        // TODO ::: Remove vendor name accessor when we change it so that you can't link an existing Vendor
-
-        return $this->query->rightJoin('vendors', 'vendors.id', '=', 'purchase_orders.vendor_id')
-                           ->leftJoin('companies', 'vendors.linked_company_id', '=', 'companies.id')
+        return $this->query->join('vendors', 'vendors.id', '=', 'purchase_orders.vendor_id')
                            ->selectRaw('
-                                IF(vendors.linked_company_id IS NOT NULL, companies.name, vendors.name) as vendor,
+                                vendors.name as vendor,
                                 SUM(IF(line_items.paid = 1,line_items.price * line_items.quantity,0)) as total_cost
                             ')
                            ->groupBy('vendor')

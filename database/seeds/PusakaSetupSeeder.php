@@ -152,50 +152,25 @@ A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laore
     protected function createVendors()
     {
         $this->command->info('Vendors... ');
-        // Create 3 Verified Vendors
-        for ($i = 0; $i < 3; $i++) {
-            $company = factory(Company::class)->create();
-            $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
-            $vendor->verify();
-            factory(Address::class)->create([
-                'owner_id' => $vendor->id,
-                'owner_type' => 'App\Vendor'
-            ]);
-            factory(BankAccount::class, 3)->create([
-                'vendor_id' => $vendor->id
-            ]);
-        }
-
-        // Pending Vendors
-        for ($i = 0; $i < 2; $i++) {
-            $company = factory(Company::class)->create();
-            $vendor = Vendor::createAndLinkFromCompany($this->user, $company);
-            factory(Address::class)->create([
-                'owner_id' => $vendor->id,
-                'owner_type' => 'App\Vendor'
-            ]);
-            factory(BankAccount::class, 3)->create([
-                'vendor_id' => $vendor->id
-            ]);
-        }
 
         // Custom Vendors
-        $request = new AddNewVendorRequest([
-            'name' => 'PT.' . $this->faker->company,
-            'description' => $this->faker->paragraph(3),
-            'base_company_id' => $this->company->id
-        ]);
-        $vendor = Vendor::add($request, $this->user);
+        for($i = 0; $i < 5; $i ++) {
+            $request = new AddNewVendorRequest([
+                'name' => 'PT.' . $this->faker->company,
+                'description' => $this->faker->paragraph(3),
+                'company_id' => $this->company->id
+            ]);
+            $vendor = Vendor::add($request, $this->user);
 
-        factory(Address::class, 3)->create([
-            'owner_id' => $vendor->id,
-            'owner_type' => 'App\Vendor'
-        ]);
+            factory(Address::class, 3)->create([
+                'owner_id' => $vendor->id,
+                'owner_type' => 'App\Vendor'
+            ]);
 
-        factory(BankAccount::class)->create([
-            'vendor_id' => $vendor->id
-        ]);
-
+            factory(BankAccount::class)->create([
+                'vendor_id' => $vendor->id
+            ]);
+        }
 
         return $this;
     }

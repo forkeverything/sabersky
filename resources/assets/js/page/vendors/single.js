@@ -13,15 +13,7 @@ Vue.component('vendor-single', {
         };
     },
     props: ['vendor'],
-    computed: {
-        vendorLink: function () {
-            if (this.vendor.linked_company_id) {
-                if (this.vendor.verified) return 'verified';
-                return 'pending';
-            }
-            return 'custom';
-        }
-    },
+    computed: {},
     methods: {
         startEditDescription: function () {
             this.editDescription = true;

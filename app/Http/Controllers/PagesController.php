@@ -59,6 +59,7 @@ class PagesController extends Controller
             'numRequests' => $user->company->purchaseRequests->count(),
             'numOrders' => $user->company->purchaseOrders->count(),
         ];
+
         return view('dashboard', $variables);
     }
 

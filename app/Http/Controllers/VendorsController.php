@@ -35,13 +35,8 @@ class VendorsController extends Controller
      */
     public function getAll()
     {
-        $breadcrumbs = [
-            ['<i class="fa fa-truck"></i> Vendors', '#']
-        ];
-
         $vendors = Auth::user()->company->vendors;
-
-        return view('vendors.all', compact('vendors', 'breadcrumbs'));
+        return view('vendors.all', compact('vendors'));
     }
 
     /**
@@ -64,6 +59,7 @@ class VendorsController extends Controller
      * Handle POST request to add a new Vendor
      *
      * @param AddNewVendorRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function postAddCustomVendor(AddNewVendorRequest $request)
     {
@@ -72,19 +68,6 @@ class VendorsController extends Controller
         flash()->success('Created a new custom vendor');
 
         return redirect('/vendors/' . $vendor->id);
-    }
-
-    /**
-     * POST request to link a Company to the an currently authenticated
-     * User's Company's Vendor.
-     *
-     * @param LinkCompanyToVendorRequest $request
-     * @return static
-     */
-    public function postLinkCompanyToVendor(LinkCompanyToVendorRequest $request)
-    {
-        $companyToAddAsVendor = Company::find($request->input('linked_company_id'));
-        return Vendor::createAndLinkFromCompany(Auth::user(), $companyToAddAsVendor);
     }
 
     /**
@@ -115,12 +98,8 @@ class VendorsController extends Controller
     public function getSingle(Vendor $vendor)
     {
         if (Gate::allows('view', $vendor)) {
-            $breadcrumbs = [
-                ['<i class="fa fa-truck"></i> Vendors', '/vendors'],
-                [$vendor->name, '#']
-            ];
-            $vendor->load('addresses', 'linkedCompany', 'linkedCompany.address', 'activities');
-            return view('vendors.single', compact('breadcrumbs', 'vendor'));
+            $vendor->load('addresses', 'activities');
+            return view('vendors.single', compact('vendor'));
         };
         return redirect('/vendors');
     }
@@ -133,7 +112,7 @@ class VendorsController extends Controller
     public function apiGetSingle(Vendor $vendor)
     {
         if (Gate::allows('view', $vendor)) {
-            return $vendor->load('addresses', 'linkedCompany', 'linkedCompany.address');
+            return $vendor->load('addresses');
         }
         return response("Not authorized to view that Vendor");
     }
@@ -214,68 +193,6 @@ class VendorsController extends Controller
         return response("Not allowed to edit that Bank Account", 403);
     }
 
-    /**
-     * Handle POST request to either verify or dismiss
-     * a Vendor that has linked to the User's Company
-     *
-     * @param Vendor $vendor
-     * @param $action
-     * @return mixed
-     */
-    public function postVerifyVendor(Vendor $vendor, $action)
-    {
-        // User must be allowed to accept reqeusts, as well as accept vendor
-        if (Gate::allows('vendor_manage') && Gate::allows('handleRequest', $vendor)) {
-            switch ($action) {
-                case 'verify':
-                    $vendor->verify();
-                    return response("Verified vendor request", 200);
-                    break;
-                case 'dismiss':
-                    $vendor->unlinkCompany();
-                    return response("Dismissed vendor request", 200);
-                    break;
-                default:
-                    return response("No action taken for request", 500);
-            }
-        }
-
-        return response("Not authorized to verify that vendor", 403);
-    }
-
-    /**
-     * Shows view for Requests page so that the client can accept / reject
-     * Vendor requests that want to link the client's Company to a
-     * Vendor model
-     *
-     * @return mixed
-     */
-    public function getRequestsPage()
-    {
-        if (Gate::allows('vendor_manage')) {
-            $breadcrumbs = [
-                ['<i class="fa fa-truck"></i> Vendors', '/vendors'],
-                ['Requests', '#']
-            ];
-            return view('vendors.requests', compact('breadcrumbs'));
-        }
-        flash("Need permission to accept vendor requests");
-        return redirect('/vendors');
-    }
-
-    /**
-     * Handle api request to see Pending requests to be linked a Vendor
-     * for the Client's Company
-     *
-     * @return mixed
-     */
-    public function apiGetPendingRequests()
-    {
-        if (Gate::allows('vendor_manage')) {
-            return Auth::user()->company->customerVendors(0)->with('baseCompany')->get();
-        }
-        return response("Not allowed to manage vendors", 403);
-    }
 
     /**
      * Handle GET request to perform a search for logged-in
@@ -288,7 +205,6 @@ class VendorsController extends Controller
     {
         if ($query) {
             $results = CompanyVendorsRepository::forCompany(Auth::user()->company)
-                                               ->searchFor($query, ['name', 'vendors.linked_company_id.companies.name'])
                                                ->getWithoutQueryProperties();
             return $results;
         }

@@ -1,7 +1,7 @@
 @extends('settings.partials.layout')
 
-@section('settings-title')
-    <h2>Settings - Company</h2>
+@section('settings-header')
+    <h1>Settings - Company</h1>
     <p>
         View and update your company information as well as define system-wide company settings for your
         team.

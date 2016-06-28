@@ -201,9 +201,7 @@ Route::group(['middleware' => 'web'], function () {
      * Vendors
      */
     Route::get('/vendors', ['as' => 'showVendors', 'uses' => 'VendorsController@getAll']);
-    Route::get('/vendors/requests', ['as' => 'showVendorRequests', 'uses' => 'VendorsController@getRequestsPage']);
     Route::get('/vendors/add', ['as' => 'addVendor', 'uses' => 'VendorsController@getAddForm']);
-    Route::post('/vendors/link', 'VendorsController@postLinkCompanyToVendor');
     Route::put('/vendors/{vendor}/unlink', 'VendorsController@putUnlinkCompanyToVendor');
     Route::post('/vendors/add', 'VendorsController@postAddCustomVendor');
     Route::get('/vendors/{vendor}', 'VendorsController@getSingle');
@@ -211,7 +209,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/vendors/{vendor}/bank_accounts', 'VendorsController@postAddBankAccount');
     Route::delete('/vendors/{vendor}/bank_accounts/{bank_account_id}', 'VendorsController@deleteBankAccount');
     Route::post('/vendors/{vendor}/bank_accounts/{bank_account_id}/set_primary', 'VendorsController@postBankAccountSetPrimary');
-    Route::post('/vendors/{vendor}/request/{action}', 'VendorsController@postVerifyVendor');
 
     /**
      * Reports
@@ -229,7 +226,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::delete('/notes/{subject}/{subject_id}/{note}', 'NotesController@deleteNote');
 
     // api
-    Route::get('/api/vendors/pending_requests', 'VendorsController@apiGetPendingRequests');
     Route::get('/api/vendors/search/{query}', 'VendorsController@apiGetSearchVendors');
     Route::get('/api/vendors/{vendor}', 'VendorsController@apiGetSingle');
 
