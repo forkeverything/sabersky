@@ -136,7 +136,7 @@ class Item extends Model
             $this->attributes['brand'] = $value;
         }
     }
-    
+
 
     /**
      * Item has many project
@@ -272,7 +272,7 @@ class Item extends Model
     public function getMean()
     {
         $arg = func_get_arg(0);
-
+        
         if(is_int($arg)) {
             if(array_key_exists ($arg,$this->means)) return $this->means[$arg][1];
         } else {

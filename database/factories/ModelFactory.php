@@ -151,8 +151,7 @@ $factory->define(PurchaseOrder::class, function (Faker\Generator $faker) {
         'user_id' => factory(User::class)->create([
             'company_id' => $vendor->company_id
         ])->id,
-        'company_id' => $vendor->company_id,
-        'currency_id' => Country::all()->random()->id
+        'company_id' => $vendor->company_id
     ];
 });
 

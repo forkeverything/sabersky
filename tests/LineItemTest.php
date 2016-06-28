@@ -63,7 +63,8 @@ class LineItemTest extends TestCase
         $LI_1 = factory(LineItem::class)->create([
             'price' => '1000',
             'quantity' => 1,
-            'purchase_request_id' => $pr->id
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['currency_id' => 392])->id
         ]);
 
         $LI_1->purchaseOrder->markApproved(static::$user);
@@ -71,7 +72,8 @@ class LineItemTest extends TestCase
         $LI_2 = factory(LineItem::class)->create([
             'price' => '2000',
             'quantity' => 1,
-            'purchase_request_id' => $pr->id
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['currency_id' => 392])->id
         ]);
 
         $LI_2->purchaseOrder->markApproved(static::$user);

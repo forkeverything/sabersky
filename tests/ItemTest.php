@@ -161,21 +161,21 @@ class ItemTest extends TestCase
 
             factory(\App\LineItem::class)->create([
                 'purchase_request_id' => $pr->id,
-                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 840])->id,
                 'quantity' => 10,
                 'price' => 5.5
             ]);
 
             factory(\App\LineItem::class)->create([
                 'purchase_request_id' => $pr->id,
-                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 840])->id,
                 'quantity' => 10,
                 'price' => 13
             ]);
 
             factory(\App\LineItem::class)->create([
                 'purchase_request_id' => $pr->id,
-                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved'])->id,
+                'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 840])->id,
                 'quantity' => 10,
                 'price' => 32.28
             ]);
