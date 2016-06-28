@@ -42,31 +42,6 @@ class ItemTest extends TestCase
     }
 
     /** @test */
-    public function it_finds_an_existing_item()
-    {
-        $existingItem = factory(Item::class)->create();
-        $item = Item::findOrCreate($existingItem->id);
-
-        $this->assertEquals($existingItem->id, $item->id);
-    }
-
-    /** @test */
-    public function it_creates_an_existing_item()
-    {
-        $item = Item::findOrCreate(null, [
-            'sku' => 'abcd1234',
-            'brand' => 'bazzo',
-            'name' => 'foo',
-            'specification' => 'bar',
-            'product_subcategory_id' => 1,
-            'company_id' => factory(Company::class)->create()->id
-        ]);
-
-        $this->assertEquals('foo', $item->name);
-        $this->assertEquals('bar', $item->specification);
-    }
-
-    /** @test */
     public function it_calls_attachPhoto_for_matching_files()
     {
         // Create partial mock with methods to stub out
@@ -225,4 +200,100 @@ class ItemTest extends TestCase
         // JPY Mean
         $this->assertEquals(15, Item::find($item->id)->getMean('JPY'));
     }
+
+    /**
+     * @test
+     * @group driven
+     */
+    public function it_sets_sku_as_null()
+    {
+        $item = factory(Item::class)->create(['sku' => '']);
+        $this->assertNull($item->sku);
+    }
+
+    /**
+     * @test
+     * @group driven
+     */
+    public function it_sets_brand_as_null()
+    {
+        $item = factory(Item::class)->create(['brand' => '']);
+        $this->assertNull($item->brand);
+    }
+
+    /**
+     * @test
+     * @group driven
+     */
+    public function it_determines_if_item_is_new_without_approved_line_items()
+    {
+        $item = factory(Item::class)->create();
+
+        $this->assertTrue(Item::find($item->id)->new);;
+
+        $pr = factory(PurchaseRequest::class)->create([
+            'item_id' => $item->id,
+            'project_id' => factory(\App\Project::class)->create([
+                'company_id' => $item->company_id
+            ])->id,
+            'user_id' => factory(User::class)->create([
+                'company_id' => $item->company_id,
+            ])->id,
+            'quantity' => 30
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 392])->id,
+            'quantity' => 10,
+            'price' => 10
+        ]);
+
+        $this->assertFalse(Item::find($item->id)->new);
+    }
+
+    /**
+     * @test
+     * @group driven
+     */
+    public function it_gets_line_items_that_are_approved()
+    {
+        $item = factory(Item::class)->create();
+
+        $pr = factory(PurchaseRequest::class)->create([
+            'item_id' => $item->id,
+            'project_id' => factory(\App\Project::class)->create([
+                'company_id' => $item->company_id
+            ])->id,
+            'user_id' => factory(User::class)->create([
+                'company_id' => $item->company_id,
+            ])->id,
+            'quantity' => 30
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 392])->id,
+            'quantity' => 10,
+            'price' => 10
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'approved', 'currency_id' => 392])->id,
+            'quantity' => 10,
+            'price' => 10
+        ]);
+
+        factory(\App\LineItem::class)->create([
+            'purchase_request_id' => $pr->id,
+            'purchase_order_id' => factory(\App\PurchaseOrder::class)->create(['status' => 'pending', 'currency_id' => 392])->id,
+            'quantity' => 10,
+            'price' => 10
+        ]);
+
+        $this->assertCount(2, Item::find($item->id)->approvedLineItems);
+    }
+
+
 }

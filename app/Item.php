@@ -126,7 +126,7 @@ class Item extends Model
     /**
      * Set Brand attribute as NULL, same as
      * Sku
-     * 
+     *
      * @param $value
      */
     public function setBrandAttribute($value) {
@@ -136,26 +136,7 @@ class Item extends Model
             $this->attributes['brand'] = $value;
         }
     }
-
-    /**
-     * Finds an Item Instance from it's primary key
-     * or creates one from the given attributes.
-     *
-     * @param $id
-     * @param null $attributes
-     * @return static
-     */
-    public static function findOrCreate($id, $attributes = null)
-    {
-        if($existingPR = static::find($id)) return $existingPR;
-
-        if ($attributes) {
-            return static::create($attributes);
-        }
-
-        return new static;
-    }
-
+    
 
     /**
      * Item has many project

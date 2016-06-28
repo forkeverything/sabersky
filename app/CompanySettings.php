@@ -61,6 +61,8 @@ class CompanySettings extends Model
     /**
      * We only want certain fields from the Country model that
      * are relevant to the currency
+     *
+     * Tested in Company model
      * 
      * @return mixed
      */
