@@ -14,6 +14,7 @@
 use App\Address;
 use App\BankAccount;
 use \App\Company;
+use App\Country;
 use \App\Item;
 use App\LineItem;
 use App\Note;
@@ -25,6 +26,7 @@ use App\PurchaseOrderAdditionalCost;
 use App\PurchaseRequest;
 use App\Role;
 use App\Rule;
+use App\Subscription;
 use App\User;
 use App\Vendor;
 
@@ -111,7 +113,7 @@ $factory->define(Address::class, function (Faker\Generator $faker) {
         'state' => $faker->city,
         'zip' => $faker->postcode,
         'phone' => $faker->phoneNumber,
-        'country_id' => $faker->randomElement(\App\Country::all()->toArray())['id'],
+        'country_id' => $faker->randomElement(Country::all()->toArray())['id'],
         'owner_id' => factory(Vendor::class)->create()->id,
         'owner_type' => 'App\Vendor'
     ];
@@ -149,7 +151,8 @@ $factory->define(PurchaseOrder::class, function (Faker\Generator $faker) {
         'user_id' => factory(User::class)->create([
             'company_id' => $vendor->company_id
         ])->id,
-        'company_id' => $vendor->company_id
+        'company_id' => $vendor->company_id,
+        'currency_id' => Country::all()->random()->id
     ];
 });
 
@@ -202,6 +205,17 @@ $factory->define(Note::class, function (Faker\Generator $faker) {
     return [
         'content' => $faker->paragraph(2, true),
         'user_id' => factory(User::class)->create()->id
+    ];
+});
+
+$factory->define(Subscription::class, function (Faker\Generator $faker) {
+    $plan = $faker->randomElement(['growth', 'enterprise']);
+    return [
+        'company_id' => factory(Company::class)->create()->id,
+        'name' => 'main',
+        'stripe_id' => str_random(21),
+        'stripe_plan' => $plan,
+        'quantity' => $plan === 'growth' ? 1 : $faker->numberBetween(200, 1000)
     ];
 });
 

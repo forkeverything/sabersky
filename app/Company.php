@@ -58,6 +58,14 @@ class Company extends Model
     ];
 
     /**
+     * Append these dynamic properties
+     * @var array
+     */
+    protected $appends = [
+        'currencies'
+    ];
+
+    /**
      * Over-write Laravel Billable trait - so we can use company_id instead of user_id
      *
      * @return \Illuminate\Database\Eloquent\Collection
@@ -66,10 +74,6 @@ class Company extends Model
     {
         return $this->hasMany(Subscription::class, 'company_id')->orderBy('created_at', 'desc');
     }
-
-    protected $appends = [
-        'currencies'
-    ];
 
 
     /**

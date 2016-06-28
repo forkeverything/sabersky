@@ -14,7 +14,6 @@ class CreateCompanyCurrencyTable extends Migration
     {
         Schema::create('company_currency', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
 
             $table->integer('company_id')->unsigned();
             $table->integer('currency_id')->unsigned();
