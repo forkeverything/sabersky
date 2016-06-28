@@ -15,4 +15,4 @@ Details</th>
                                         }"
 >
 SKU</th>
-<th>Projects</th>
+<th class="heading-center">Projects</th>

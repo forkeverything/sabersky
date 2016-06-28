@@ -71,7 +71,6 @@ class Address extends Model
     }
 
     /**
-     * :::UNTESTED:::
      *
      * Wrapper func to manually set an Address's owner
      * using a type (string) and id (int)
@@ -90,6 +89,7 @@ class Address extends Model
 
     /**
      * Append the Address's country's name
+     *
      * @return mixed
      */
     public function getCountryAttribute()
@@ -103,15 +103,29 @@ class Address extends Model
      */
     public function setAsPrimary()
     {
-        // Grab all the addresses that belong to the same model
-        $allAddresses = $this->owner->addresses;
-        // unset them
-        foreach ($allAddresses as $address) {
-            $address->unsetPrimary();
-        }
+        $this->unsetPrimaryForAllAddresses();
         // set this one
         $this->primary = 1;
         return $this->save();
+    }
+
+    /**
+     * Unsets primary for all addresses that belong to the same owner
+     * as this Address
+     *
+     * @return $this
+     */
+    public function unsetPrimaryForAllAddresses()
+    {
+        // If parent model has multiple addresses
+        if ($allAddresses = $this->owner->addresses) {
+            // unset each one
+            foreach ($allAddresses as $address) {
+                $address->unsetPrimary();
+            }
+        }
+
+        return $this;
     }
 
     /**
