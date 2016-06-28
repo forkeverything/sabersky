@@ -80,7 +80,7 @@ class BankAccount extends Model
      * Deactives (soft-deletes) this model
      * @return bool
      */
-    protected function deactivate()
+    public function deactivate()
     {
         $this->active = 0;
         return $this->save();
