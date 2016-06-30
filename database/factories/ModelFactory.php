@@ -162,7 +162,7 @@ $factory->define(PurchaseOrderAdditionalCost::class, function (Faker\Generator $
         'name' => $faker->word,
         'type' => $faker->randomElement(['fixed', '%']),
         'amount' => $amount,
-        'purchase_order_id' => factory(PurchaseOrder::class)->create()
+        'purchase_order_id' => factory(PurchaseOrder::class)->create()->id
     ];
 });
 

@@ -7,11 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseOrder.php" afterPath="$PROJECT_DIR$/app/PurchaseOrder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Rule.php" afterPath="$PROJECT_DIR$/app/Rule.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/ItemTest.php" afterPath="$PROJECT_DIR$/tests/ItemTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseOrderTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,13 +27,44 @@
   <component name="FavoritesManager">
     <favorites_list name="procure" />
   </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="PurchaseOrderAdditionalCost.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/PurchaseOrderAdditionalCost.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="PurchaseOrderAdditionalCostTest.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="567">
+                  <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" />
         <option value="$PROJECT_DIR$/database/migrations/1991_06_01_000007_create_vendors_table.php" />
         <option value="$PROJECT_DIR$/app/Factories/SubscriptionFactory.php" />
         <option value="$PROJECT_DIR$/resources/views/vendors/partials/add/custom.blade.php" />
@@ -82,12 +109,13 @@
         <option value="$PROJECT_DIR$/app/Item.php" />
         <option value="$PROJECT_DIR$/tests/LineItemTest.php" />
         <option value="$PROJECT_DIR$/tests/RuleTest.php" />
-        <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
         <option value="$PROJECT_DIR$/app/Note.php" />
         <option value="$PROJECT_DIR$/tests/ItemTest.php" />
         <option value="$PROJECT_DIR$/app/Rule.php" />
         <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
+        <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+        <option value="$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php" />
       </list>
     </option>
   </component>
@@ -735,16 +763,16 @@
       <workItem from="1467122788005" duration="11416000" />
       <workItem from="1467139440487" duration="96000" />
       <workItem from="1467237019065" duration="1142000" />
-      <workItem from="1467240091692" duration="4649000" />
+      <workItem from="1467240091692" duration="5258000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1393965000" />
+    <option name="totallyTimeSpent" value="1394574000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -786,27 +814,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="171" column="54" selection-start-line="171" selection-start-column="54" selection-end-line="171" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/CompanyServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-378">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Providers/EventServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -947,6 +954,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1277">
           <caret line="169" column="6" selection-start-line="169" selection-start-column="6" selection-end-line="169" selection-end-column="6" />
+          <folding>
+            <marker date="1461932514000" expanded="true" signature="28:5953" ph=" @property string $name ..." />
+            <marker date="1461932514000" expanded="true" signature="5971:7922" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6090:6154" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6190:6235" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6275:6403" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6311:6344" ph="..." />
+            <marker date="1461932514000" expanded="true" signature="6352:6396" ph="..." />
+            <marker date="1461932514000" expanded="true" signature="6465:6559" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6568:6598" ph=" @return Callable ..." />
+            <marker date="1461932514000" expanded="true" signature="6645:7124" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="6703:6762" ph="..." />
+            <marker date="1461932514000" expanded="true" signature="6813:7025" ph="..." />
+            <marker date="1461932514000" expanded="true" signature="6869:7015" ph="..." />
+            <marker date="1461932514000" expanded="true" signature="7133:7316" ph=" Replaces tokens ('{{ tokenName }}') with the result from the token method call ..." />
+            <marker date="1461932514000" expanded="true" signature="7353:7477" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="7533:7588" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="7597:7635" ph=" @param string $attribute ..." />
+            <marker date="1461932514000" expanded="true" signature="7675:7729" ph="{...}" />
+            <marker date="1461932514000" expanded="true" signature="7738:7805" ph=" @param string $method ..." />
+            <marker date="1461932514000" expanded="true" signature="7856:7920" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1012,13 +1041,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="739">
-          <caret line="165" column="6" selection-start-line="165" selection-start-column="6" selection-end-line="165" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/LineItemTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
@@ -1038,6 +1060,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1464096432000" expanded="false" signature="27:104" ph="..." />
+            <marker date="1464096432000" expanded="true" signature="130:968" ph="{...}" />
+            <marker date="1464096432000" expanded="true" signature="187:229" ph="..." />
+            <marker date="1464096432000" expanded="true" signature="256:278" ph="..." />
+            <marker date="1464096432000" expanded="true" signature="289:429" ph=" The subject the note is referring to: Item, Vendor etc.. ..." />
+            <marker date="1464096432000" expanded="true" signature="461:506" ph="{...}" />
+            <marker date="1464096432000" expanded="true" signature="515:630" ph=" The user that posted the note ..." />
+            <marker date="1464096432000" expanded="true" signature="661:730" ph="{...}" />
+            <marker date="1464096432000" expanded="true" signature="739:857" ph=" Query scope that retrieves notes from latest -&gt; oldest ..." />
+            <marker date="1464096432000" expanded="true" signature="899:965" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1085,6 +1119,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-206">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1464697927000" expanded="true" signature="102:631" ph="{...}" />
+            <marker date="1464697927000" expanded="true" signature="145:279" ph=" Every subcategory belongs to a broader category ..." />
+            <marker date="1464697927000" expanded="true" signature="312:404" ph="{...}" />
+            <marker date="1464697927000" expanded="true" signature="413:543" ph=" Subcategory can contain many individual Items ..." />
+            <marker date="1464697927000" expanded="true" signature="573:629" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1212,6 +1253,49 @@
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseOrderAdditionalCost.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_05_03_071939_create_purchase_order_additional_costs_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
+          <folding>
+            <marker date="1462882059000" expanded="false" signature="11:94" ph="..." />
+            <marker date="1462882059000" expanded="true" signature="159:1045" ph="{...}" />
+            <marker date="1462882059000" expanded="true" signature="169:229" ph=" Run the migrations. ..." />
+            <marker date="1462882059000" expanded="true" signature="256:872" ph="{...}" />
+            <marker date="1462882059000" expanded="true" signature="286:864" ph="..." />
+            <marker date="1462882059000" expanded="true" signature="350:863" ph="..." />
+            <marker date="1462882059000" expanded="true" signature="881:945" ph=" Reverse the migrations. ..." />
+            <marker date="1462882059000" expanded="true" signature="974:1043" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/factories/ModelFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="163" column="28" selection-start-line="163" selection-start-column="28" selection-end-line="163" selection-end-column="28" />
+          <folding>
+            <element signature="e#396#412#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
