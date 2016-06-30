@@ -47,7 +47,23 @@ class VendorTest extends TestCase
         $this->assertEquals('Saber', User::find(static::$user->id)->company->vendors->first()->name);
         $this->seeInDatabase('activities', ['name' => 'added_vendor', 'user_id' => static::$user->id]);
     }
-    
+
+    /**
+     * @test
+     */
+    public function it_adds_a_address_to_vendor()
+    {
+        $this->assertEmpty(Vendor::find(static::$vendor->id)->addresses);
+
+        $address = factory(Address::class)->create([
+            'owner_type' => '',
+            'owner_id' => ''
+        ]);
+
+        static::$vendor->addAddress($address);
+
+        $this->assertCount(1, Vendor::find(static::$vendor->id)->addresses);
+    }
 
     /**
      * @test
@@ -102,23 +118,7 @@ class VendorTest extends TestCase
 
         $this->assertEquals(3000, Vendor::find(static::$vendor->id)->average_p_o);
     }
-
-    /**
-     * @test
-     */
-    public function it_adds_a_address_to_vendor()
-    {
-        $this->assertEmpty(Vendor::find(static::$vendor->id)->addresses);
-
-        $address = factory(Address::class)->create([
-            'owner_type' => '',
-            'owner_id' => ''
-        ]);
-
-        static::$vendor->addAddress($address);
-
-        $this->assertCount(1, Vendor::find(static::$vendor->id)->addresses);
-    }
+    
     
 
 }
