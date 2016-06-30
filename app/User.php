@@ -97,7 +97,7 @@ class User extends Authenticatable
      */
     public function isPending()
     {
-        return $this->invite_key;
+        return !! $this->invite_key;
     }
 
     /**
@@ -299,9 +299,7 @@ class User extends Authenticatable
     public function recordActivity($name, $related)
     {
         // Make sure the model we want to record has recordActivity() from RecordsActivity traits
-        if (! method_exists($related, 'recordActivity')) {
-            throw new \Exception('Trying to record activity for an invalid model');
-        }
+        if (! method_exists($related, 'recordActivity')) abort(400, 'Trying to record activity for an invalid model');
         
         return $related->recordActivity($name, $this);
     }
