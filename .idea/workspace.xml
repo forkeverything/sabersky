@@ -7,7 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c155642-dbf1-4ff8-9dfd-0f7f9d09b334" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/factories/ModelFactory.php" afterPath="$PROJECT_DIR$/database/factories/ModelFactory.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Utilities/Traits/LineItemsActivities.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseOrder.php" afterPath="$PROJECT_DIR$/app/PurchaseOrder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/PurchaseRequest.php" afterPath="$PROJECT_DIR$/app/PurchaseRequest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PurchaseRequestTest.php" afterPath="$PROJECT_DIR$/tests/PurchaseRequestTest.php" />
     </list>
     <ignored path="procure.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,47 +32,12 @@
   <component name="FavoritesManager">
     <favorites_list name="procure" />
   </component>
-  <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="PurchaseOrderAdditionalCost.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/PurchaseOrderAdditionalCost.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="PurchaseOrderAdditionalCostTest.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="567">
-                  <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/1991_06_01_000007_create_vendors_table.php" />
-        <option value="$PROJECT_DIR$/app/Factories/SubscriptionFactory.php" />
-        <option value="$PROJECT_DIR$/resources/views/vendors/partials/add/custom.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/page/vendors/add-new.js" />
         <option value="$PROJECT_DIR$/resources/assets/sass/pages/vendors.scss" />
         <option value="$PROJECT_DIR$/resources/views/vendors/add.blade.php" />
@@ -112,10 +82,13 @@
         <option value="$PROJECT_DIR$/app/Note.php" />
         <option value="$PROJECT_DIR$/tests/ItemTest.php" />
         <option value="$PROJECT_DIR$/app/Rule.php" />
-        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderTest.php" />
         <option value="$PROJECT_DIR$/database/factories/ModelFactory.php" />
         <option value="$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php" />
+        <option value="$PROJECT_DIR$/app/PurchaseOrder.php" />
+        <option value="$PROJECT_DIR$/app/Utilities/Traits/LineItemsActivities.php" />
+        <option value="$PROJECT_DIR$/app/PurchaseRequest.php" />
+        <option value="$PROJECT_DIR$/tests/PurchaseRequestTest.php" />
       </list>
     </option>
   </component>
@@ -186,7 +159,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -498,8 +470,31 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pusaka-group" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utilities" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Traits" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -763,20 +758,20 @@
       <workItem from="1467122788005" duration="11416000" />
       <workItem from="1467139440487" duration="96000" />
       <workItem from="1467237019065" duration="1142000" />
-      <workItem from="1467240091692" duration="5258000" />
+      <workItem from="1467240091692" duration="6828000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1394574000" />
+    <option name="totallyTimeSpent" value="1396144000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1353" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24652778" sideWeight="0.47647497" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24648437" sideWeight="0.47647497" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -814,55 +809,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Providers/EventServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/PurchasingServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3178">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/RouteServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Repositories/apiRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/FormatNumberPropertyTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/ImageEditor.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/ReportGenerator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Utilities/StringSimilarity.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1936">
@@ -1238,14 +1184,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="671" column="6" selection-start-line="671" selection-start-column="6" selection-end-line="671" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/PurchaseOrderTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="602">
@@ -1253,14 +1191,6 @@
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/PurchaseOrderAdditionalCost.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1286,15 +1216,218 @@
         <state relative-caret-position="425">
           <caret line="163" column="28" selection-start-line="163" selection-start-column="28" selection-end-line="163" selection-end-column="28" />
           <folding>
-            <element signature="e#396#412#0#PHP" expanded="true" />
+            <element signature="e#396#412#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseOrderAdditionalCost.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+          <folding>
+            <marker date="1462892706000" expanded="true" signature="67:1102" ph=" App\PurchaseOrderAdditionalCost ..." />
+            <marker date="1462892706000" expanded="true" signature="1152:1641" ph="{...}" />
+            <marker date="1462892706000" expanded="true" signature="1182:1236" ph="..." />
+            <marker date="1462892706000" expanded="true" signature="1247:1489" ph=" When we first set the Cost Type, we display the User's currency. But ..." />
+            <marker date="1462892706000" expanded="true" signature="1536:1639" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/PurchaseOrderAdditionalCostTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+        <state relative-caret-position="189">
+          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/activities/types/created_purchase_request.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_01_31_154047_create_purchase_requests_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1161">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/BuildPhoto.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1464675799000" expanded="false" signature="38:267" ph="..." />
+            <marker date="1464675799000" expanded="true" signature="285:2818" ph="{...}" />
+            <marker date="1464675799000" expanded="true" signature="296:363" ph=" Root folder to save uploads ..." />
+            <marker date="1464675799000" expanded="true" signature="410:441" ph=" @var UploadedFile ..." />
+            <marker date="1464675799000" expanded="true" signature="471:501" ph=" @var ImageEditor ..." />
+            <marker date="1464675799000" expanded="true" signature="539:707" ph=" Instantiate a BuildPhoto class to handle photos / images from ..." />
+            <marker date="1464675799000" expanded="true" signature="794:897" ph="{...}" />
+            <marker date="1464675799000" expanded="true" signature="906:994" ph=" Make a file name, based on the uploaded file. ..." />
+            <marker date="1464675799000" expanded="true" signature="1034:1242" ph="{...}" />
+            <marker date="1464675799000" expanded="true" signature="1062:1129" ph="..." />
+            <marker date="1464675799000" expanded="true" signature="1251:1407" ph=" Process images to be attached to an announcement and ..." />
+            <marker date="1464675799000" expanded="true" signature="1446:2076" ph="{...}" />
+            <marker date="1464675799000" expanded="true" signature="2144:2813" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/Traits/NeedsLineItemsActivities.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseOrder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="355" column="5" selection-start-line="355" selection-start-column="5" selection-end-line="355" selection-end-column="5" />
+          <folding>
+            <marker date="1467247330000" expanded="false" signature="27:282" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="288:1972" ph=" App\PurchaseOrder ..." />
+            <marker date="1467247330000" expanded="true" signature="2008:17562" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="2102:2176" ph=" Mass-Assignable fields for an Order ..." />
+            <marker date="1467247330000" expanded="true" signature="2206:2474" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="2485:2577" ph=" Dynamically determine these and append to every Order ..." />
+            <marker date="1467247330000" expanded="true" signature="2606:2903" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="2914:2977" ph=" Default attribute values ..." />
+            <marker date="1467247330000" expanded="true" signature="3009:3044" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="3055:3128" ph=" Model events to record as Activity ..." />
+            <marker date="1467247330000" expanded="true" signature="3169:3192" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="3203:3286" ph=" Accessor - Check if PO has status: pending ..." />
+            <marker date="1467247330000" expanded="true" signature="3330:3386" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="3395:3479" ph=" Accessor - Check if PO has status: approved ..." />
+            <marker date="1467247330000" expanded="true" signature="3524:3581" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="3590:3674" ph=" Accessor - Check if PO has status: successs ..." />
+            <marker date="1467247330000" expanded="true" signature="3719:3776" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="3786:3916" ph=" A Purchase Order belongs to a single Company ..." />
+            <marker date="1467247330000" expanded="true" signature="3948:4009" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="4018:4135" ph=" A PO is made to a single Vendor ..." />
+            <marker date="1467247330000" expanded="true" signature="4166:4226" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="4235:4352" ph=" A PO can contain many Line Items. ..." />
+            <marker date="1467247330000" expanded="true" signature="4386:4446" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="4455:4574" ph=" The User that submitted the Order ..." />
+            <marker date="1467247330000" expanded="true" signature="4603:4661" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="4670:4816" ph=" The country model we'll use to retrieve currency information ..." />
+            <marker date="1467247330000" expanded="true" signature="4856:4932" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="4941:5071" ph=" Every Order has a  single currency (Country) ..." />
+            <marker date="1467247330000" expanded="true" signature="5116:5194" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="5204:5274" ph=" Currency Accessor (appended) ..." />
+            <marker date="1467247330000" expanded="true" signature="5330:5388" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="5397:5467" ph=" Currency Accessor (appended) ..." />
+            <marker date="1467247330000" expanded="true" signature="5516:5566" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="5575:5645" ph=" Currency Accessor (appended) ..." />
+            <marker date="1467247330000" expanded="true" signature="5694:5744" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="5753:5823" ph=" Currency Accessor (appended) ..." />
+            <marker date="1467247330000" expanded="true" signature="5874:5926" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="5935:6091" ph=" Will update the quantities for any PRs that are ..." />
+            <marker date="1467247330000" expanded="true" signature="6138:6523" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="6194:6494" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="6381:6483" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="6382:6482" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="6533:6661" ph=" Calculates the subtotal and then saves it as the 'subtotal' ..." />
+            <marker date="1467247330000" expanded="true" signature="6697:6941" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="6776:6852" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="6950:7145" ph=" Calculate the 'total' field which takes into account each ..." />
+            <marker date="1467247330000" expanded="true" signature="7178:7639" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="7332:7554" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="7380:7472" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="7480:7544" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="7649:7760" ph=" Mark this PO as approvied ..." />
+            <marker date="1467247330000" expanded="true" signature="7807:7989" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="7998:8103" ph=" Mark PO as rejected ..." />
+            <marker date="1467247330000" expanded="true" signature="8150:8421" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="8431:8676" ph=" A purchase order can have many rules which apply. ..." />
+            <marker date="1467247330000" expanded="true" signature="8706:8851" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="8794:8804" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="8860:8967" ph=" Quick 'string' checker wrapper for PO status ..." />
+            <marker date="1467247330000" expanded="true" signature="9008:9062" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="9072:9474" ph=" Attaches Address models as Billing and Shipping Addresses respectively. We will always attach ..." />
+            <marker date="1467247330000" expanded="true" signature="9581:10076" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="10085:10204" ph=" Wrapper function that delegates out rule assignment ..." />
+            <marker date="1467247330000" expanded="true" signature="10270:10689" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="10564:10621" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="10699:10810" ph=" Updates the Order's status if necessary ..." />
+            <marker date="1467247330000" expanded="true" signature="10857:11499" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="11116:11209" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="11217:11260" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="11508:11580" ph=" Set Order status to pending... ..." />
+            <marker date="1467247330000" expanded="true" signature="11616:11708" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="11717:11841" ph=" Quick checker to see if all the attached rules to this PO is ..." />
+            <marker date="1467247330000" expanded="true" signature="11890:12092" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="12101:12192" ph=" Check whether Order has a rule that is 'rejected' ..." />
+            <marker date="1467247330000" expanded="true" signature="12232:12318" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="12328:12519" ph=" A PO Could be made out to an address that belongs to ..." />
+            <marker date="1467247330000" expanded="true" signature="12557:12639" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="12648:12779" ph=" PO made out to a single Vendor's Bank Account ..." />
+            <marker date="1467247330000" expanded="true" signature="12821:12912" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="12921:13046" ph=" PO Made out to a single Billing Address ..." />
+            <marker date="1467247330000" expanded="true" signature="13085:13168" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="13177:13361" ph=" Optionally, PO can be made out to a Shipping Address that differs ..." />
+            <marker date="1467247330000" expanded="true" signature="13401:13485" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="13495:13681" ph=" A PO can have many other Additional Costs (or Discounts), such ..." />
+            <marker date="1467247330000" expanded="true" signature="13721:13800" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="13809:14002" ph=" Checks if this PO is over a given limit, for a ..." />
+            <marker date="1467247330000" expanded="true" signature="14058:14169" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="14178:14381" ph=" Checks whether this PO's vendor is 'new', ie. is there a previous PO ..." />
+            <marker date="1467247330000" expanded="true" signature="14415:14522" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="14531:14628" ph=" Check if Order billing address same as Company's address ..." />
+            <marker date="1467247330000" expanded="true" signature="14692:14778" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="14787:14868" ph=" Check if Order shipping address same as billing ..." />
+            <marker date="1467247330000" expanded="true" signature="14933:15018" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="15027:15133" ph=" Mutator to get the Items that were ordered from a Purchase Order ..." />
+            <marker date="1467247330000" expanded="true" signature="15175:15309" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="15318:15427" ph=" Loads Items for the PO and sets it as a relation, to be returned ..." />
+            <marker date="1467247330000" expanded="true" signature="15464:16391" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="15561:15626" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="15656:15731" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="15764:15834" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="15865:15911" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="15943:16265" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="15952:16264" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="16298:16308" ph="..." />
+            <marker date="1467247330000" expanded="true" signature="16400:16638" ph=" Handles a Rule attached to this Order. We need to know the User ..." />
+            <marker date="1467247330000" expanded="true" signature="16704:17207" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="17216:17372" ph=" Records all the ordered Line Item's activities as cancelled by ..." />
+            <marker date="1467247330000" expanded="true" signature="17437:17557" ph="{...}" />
+            <marker date="1467247330000" expanded="true" signature="17493:17550" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/PurchaseRequestTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="979">
+          <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+          <folding>
+            <element signature="e#7#20#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/PurchaseRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1007">
+          <caret line="246" column="0" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/Traits/LineItemsActivities.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
           <folding />
         </state>
       </provider>

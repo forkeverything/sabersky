@@ -9,7 +9,6 @@ class PurchaseOrderAdditionalCostTest extends TestCase
 {
     /**
      * @test
-     * @group driven
      */
     public function it_sets_correct_type_attribute()
     {

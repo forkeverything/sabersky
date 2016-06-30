@@ -5,6 +5,7 @@ namespace App;
 use App\Country;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\LineItemsActivities;
 use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +45,7 @@ use Illuminate\Support\Facades\DB;
  */
 class PurchaseOrder extends Model
 {
-    use FormatNumberPropertyTrait, HasNotes, RecordsActivity;
+    use FormatNumberPropertyTrait, HasNotes, RecordsActivity, LineItemsActivities;
 
     /**
      * Mass-Assignable fields for an Order
@@ -632,61 +633,6 @@ class PurchaseOrder extends Model
         }
     }
 
-    /**
-     * Over-write activities() so we can pull in relevant
-     * Line Item activities too
-     *
-     * @return mixed
-     */
-    public function getActivitiesAttribute()
-    {
-        $activites = $this->getAllActivities();
-        $this->setRelation('activities', $activites);
-        return $this->getRelation('activities');
-    }
-
-    /**
-     * Get all activities - including Line Item activities
-     *
-     * @return mixed
-     */
-    public function getAllActivities()
-    {
-        $PRActivities = $this->purchaseOrderActivities;
-        $LIActivities = $this->lineItemsActivities();
-        return $PRActivities->merge($LIActivities);
-    }
-
-    /**
-     * Renamed relationship to activities to get this PO's activities
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function purchaseOrderActivities()
-    {
-        return $this->morphMany(Activity::class, 'subject');
-    }
-
-    /**
-     * Get all the relevant Line Item activities
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function lineItemsActivities()
-    {
-        $relevantActivities = [
-            'paid_line_item',
-            'received_line_item'
-        ];
-
-        $activities = [];
-        foreach ($this->lineItems as $lineItem) {
-            foreach ($relevantActivities as $relevantActivity) {
-                if($activity =  $lineItem->activities->where('name', $relevantActivity)->first()) array_push($activities, $activity);
-            }
-        }
-        return collect($activities)->sortBy('created_at');
-    }
 
 
 }

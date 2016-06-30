@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Requests\MakePurchaseRequestRequest;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
+use App\Utilities\Traits\LineItemsActivities;
 use App\Utilities\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Exception;
@@ -36,7 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereNumber($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereQuantity($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereDue($value)
- * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereState($value)
+ * @method static \Illuminate\Dat\abase\Query\Builder|\App\PurchaseRequest whereState($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereUrgent($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereItemId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereProjectId($value)
@@ -46,7 +47,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseRequest extends Model
 {
 
-    use FormatNumberPropertyTrait, HasNotes, RecordsActivity;
+    use FormatNumberPropertyTrait, HasNotes, RecordsActivity, LineItemsActivities;
 
     /**
      * Fillable (mass-assignable) DB Fields
@@ -194,7 +195,7 @@ class PurchaseRequest extends Model
      */
     public function cancel()
     {
-        if(! $this->state === 'open') throw new Exception("Cannot cancel PR unless it's open", 500);
+        if(! $this->state === 'open') abort(400, "Cannot cancel request unless it's open");
         $this->state = 'cancelled';
         $this->save();
         return $this;
@@ -208,7 +209,7 @@ class PurchaseRequest extends Model
      */
     public function reopen()
     {
-        if(! $this->state === 'cancelled') throw new Exception("Cannot reopen PR unless it's cancelled", 500);
+        if(! $this->state === 'cancelled') abort(400, "Cannot reopen request unless it's cancelled");
         $this->state = 'open';
         $this->save();
         return $this;
@@ -241,57 +242,9 @@ class PurchaseRequest extends Model
     {
         return $this->quantity + $this->fulfilledQuantity;
     }
+    
 
-    /**
-     * Over-write activities() so we can pull in relevant
-     * Line Item activities too
-     *
-     * @return mixed
-     */
-    public function getActivitiesAttribute()
-    {
-        $activites = $this->getAllActivities();
-        $this->setRelation('activities', $activites);
-        return $this->getRelation('activities');
-    }
 
-    /**
-     * Get all activities - including Line Item ones so we know when quantities
-     * were fulfilled and by whom.
-     *
-     * @return mixed
-     */
-    public function getAllActivities()
-    {
-        $PRActivities = $this->purchaseRequestActivities;
-        $LIActivities = $this->lineItemsActivities();
-        return $PRActivities->merge($LIActivities);
-    }
-
-    /**
-     * Renamed relationship to activities to get this PR's activities
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function purchaseRequestActivities()
-    {
-        return $this->morphMany(Activity::class, 'subject');
-    }
-
-    /**
-     * Get all the relevent Line Item activities
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function lineItemsActivities()
-    {
-        $activities = [];
-        foreach ($this->lineItems as $lineItem) {
-            if($added = $lineItem->activities->where('name', 'added_line_item')->first())array_push($activities,  $added);
-            if($rejected = $lineItem->activities->where('name', 'rejected_line_item')->first())array_push($activities, $rejected);
-        }
-        return collect($activities)->sortBy('created_at');
-    }
 
 
 
