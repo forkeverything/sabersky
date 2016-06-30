@@ -8,6 +8,7 @@ use App\Project;
 use App\PurchaseOrder;
 use App\Rule;
 use App\User;
+use App\Vendor;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -33,6 +34,18 @@ class PurchaseOrderTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_gets_the_right_status()
+    {
+        $statuses = ['pending', 'approved', 'rejected'];
+        foreach ($statuses as $status) {
+            $PO = factory(PurchaseOrder::class)->create(['status' => $status]);
+            $this->assertTrue($PO->{$status});
+        }
+    }
+
+    /**
      * Generates a new fake address without any owner (parent)
      * model
      *
@@ -44,6 +57,18 @@ class PurchaseOrderTest extends TestCase
             'owner_type' => '',
             'owner_id' => 0
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_marks_a_po_as_approved_and_records_activity()
+    {
+        $po = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+        $this->assertCount(1, PurchaseOrder::find($po->id)->getAllActivities());
+        $user = factory(User::class)->create();
+        $po->markApproved($user);
+        $this->assertCount(2, PurchaseOrder::find($po->id)->getAllActivities());
     }
 
     /**
@@ -475,6 +500,263 @@ class PurchaseOrderTest extends TestCase
         $this->assertEquals('rejected', PurchaseOrder::find(static::$purchaseOrder->id)->status);
         $this->seeInDatabase('activities', ['name' => 'rejected_purchase_order', 'user_id' => $user->id]);
     }
+
+    /**
+     * @test
+     */
+    public function it_updates_status_correctly()
+    {
+        $user = factory(User::class)->create();
+        $rule = factory(Rule::class)->create();
+
+        // An approved PO should still be approved
+        $approvedPO = factory(PurchaseOrder::class)->create(['status' => 'approved']);
+        $approvedPO->updateStatus($user);
+        $this->assertTrue($approvedPO->approved);
+
+        // A PO w/ rejected rule should be marked 'rejected'
+        $rejectedPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+        $rejectedPO->rules()->attach($rule);
+        $rejectedPO->rules->first()->setPurchaseOrderApproved(0);
+        $this->assertTrue($rejectedPO->pending);
+        $rejectedPO->updatestatus($user);
+        $this->assertTrue($rejectedPO->rejected);
+
+        // Pending PO w/ rule - should still be pending!
+        $pendingPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+        $pendingPO->rules()->attach($rule);
+        $pendingPO->updateStatus($user);
+        $this->assertTrue($pendingPO->pending);
+
+        // Pending PO w/o any rules should be marked approved
+        $markedApprovedPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
+        $markedApprovedPO->updateStatus($user);
+        $this->assertTrue($markedApprovedPO->approved);
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_marks_po_pending()
+    {
+        $PO = factory(PurchaseOrder::class)->create(['status' => 'approved']);
+        $this->assertFalse($PO->pending);
+        $PO->markPending();
+        $this->assertTrue($PO->pending);
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_all_attached_rules_are_approved()
+    {
+        $cases = [
+            // PO no rules
+            [
+                'total' => 0,
+                'rejected' => 0,
+                'return' => true
+            ],
+            // PO w/ rules - 1 rejected
+            [
+                'total' => 3,
+                'rejected' => 1,
+                'return' => false
+            ],
+            // PO with rules all approved
+            [
+                'total' => 2,
+                'rejected' => 0,
+                'return' => true
+            ]
+        ];
+
+        foreach ($cases as $case) {
+
+            $po = factory(PurchaseOrder::class)->create();
+
+            $this->assertEmpty($po->rules);
+
+            // Attach our rules
+            for ($i = 0; $i < $case['total']; $i++) {
+                $rule = factory(Rule::class)->create();
+                $po->rules()->attach($rule);
+            }
+            // All attached
+            $this->assertEquals($case['total'], PurchaseOrder::find($po->id)->rules->count());
+
+            // If we need to reject a rule
+            if ($case['rejected']) {
+                // reject the first one
+                PurchaseOrder::find($po->id)->rules->first()->setPurchaseOrderApproved(0);
+            }
+
+            // Approve all remaining rules
+            foreach (PurchaseOrder::find($po->id)->rules as $rule) {
+                $rule->setPurchaseOrderApproved(1);
+            }
+
+            $this->assertEquals($case['return'], PurchaseOrder::find($po->id)->attachedRulesAllApproved());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_total_exceeds_given_limit_for_given_currency()
+    {
+        $limit = 1000;
+        $total = 2000;
+
+        $cases = [
+            [
+                'currency' => 840,
+                'exceeds' => false
+            ],
+            [
+                'currency' => 360,
+                'exceeds' => true
+            ]
+        ];
+
+        foreach ($cases as $case) {
+            $po = factory(PurchaseOrder::class)->create(['currency_id' => $case['currency'], 'total' => $total]);
+            $this->assertEquals($case['exceeds'], $po->totalExceeds($limit, 360));
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_whether_po_vendor_is_new()
+    {
+        $cases = [
+            [
+                'num_po' => 0,
+                'new' => true
+            ],
+            [
+                'num_po' => 3,
+                'approved_po' => 0,
+                'new' => true
+            ],
+            [
+                'num_po' => 5,
+                'approved_po' => 1,
+                'new' => false
+            ]
+        ];
+
+        foreach ($cases as $case) {
+            $vendor = factory(Vendor::class)->create();
+
+            $targetPO = factory(PurchaseOrder::class)->create([
+                'vendor_id' => $vendor->id
+            ]);
+
+            for ($i = 0; $i < $case['num_po']; $i++) {
+                $PO = factory(PurchaseOrder::class)->create([
+                    'vendor_id' => $vendor->id,
+                    'status' => $case['approved_po'] ? 'approved' : 'pending'
+                ]);
+            }
+
+            $this->assertEquals($case['new'], $targetPO->newVendor());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_addresses_are_the_same()
+    {
+        $billingAddress = factory(Address::class)->create();
+        $shipping = factory(Address::class)->create();
+        static::$purchaseOrder->attachBillingAndShippingAddresses($billingAddress, $shipping);
+
+        $this->assertFalse(static::$purchaseOrder->billingAddressSameAsCompany);
+        $this->assertFalse(static::$purchaseOrder->shippingAddressSameAsBilling);
+
+        $po = factory(PurchaseOrder::class)->create();
+        $companyAddrses = factory(Address::class)->create();
+        $po->company->address()->save($companyAddrses);
+        $billingAddress = $po->company->address;
+        $shippingAddress = $billingAddress;
+        $po->attachBillingAndShippingAddresses($billingAddress, $shippingAddress);
+
+        $this->assertTrue($po->billingAddressSameAsCompany);
+        $this->assertTrue($po->shippingAddressSameAsBilling);
+    }
+
+    /**
+     * @test
+     */
+    public function it_fetches_po_items()
+    {
+        $this->assertEquals(0, PurchaseOrder::find(static::$purchaseOrder->id)->items->count());
+        for ($i = 0; $i < 5; $i++) {
+            $item = factory(Item::class)->create(['company_id' => static::$purchaseOrder->company_id]);
+            $pr = factory(\App\PurchaseRequest::class)->create(['item_id' => $item->id]);
+            factory(LineItem::class)->create([
+                'purchase_request_id'=> $pr->id,
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+        }
+        $this->assertEquals(5, PurchaseOrder::find(static::$purchaseOrder->id)->items->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_records_all_its_line_items_as_rejected()
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $item = factory(Item::class)->create(['company_id' => static::$purchaseOrder->company_id]);
+            $pr = factory(\App\PurchaseRequest::class)->create(['item_id' => $item->id]);
+            $lineItem = factory(LineItem::class)->create([
+                'purchase_request_id'=> $pr->id,
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+            $this->assertCount(0, $lineItem->activities);
+        }
+
+        $user = factory(User::class)->create();
+        static::$purchaseOrder->recordLineItemRejectedActivity($user);
+
+        foreach (static::$purchaseOrder->lineItems as $lineItem) {
+            $this->assertEquals('rejected_line_item', $lineItem->activities->first()->name);
+            $this->assertEquals($user->id, $lineItem->activities->first()->user_id);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_all_relevant_activities()
+    {
+        $this->assertCount(1, static::$purchaseOrder->activities);
+
+        $user = factory(User::class)->create();
+        for ($i = 0; $i < 5; $i++) {
+            $item = factory(Item::class)->create(['company_id' => static::$purchaseOrder->company_id]);
+            $pr = factory(\App\PurchaseRequest::class)->create(['item_id' => $item->id]);
+            $lineItem = factory(LineItem::class)->create([
+                'purchase_request_id'=> $pr->id,
+                'purchase_order_id' => static::$purchaseOrder->id
+            ]);
+            $lineItem->markPaid($user); // +5
+            $lineItem->markReceived('accepted', $user); // +5
+        }
+
+        $this->assertCount(11, PurchaseOrder::find(static::$purchaseOrder->id)->activities);
+    }
+
+
+
+
+
+
 
 
 

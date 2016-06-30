@@ -297,8 +297,9 @@ class Rule extends Model
     }
 
     /**
-     * Mark the pivot table (for Purchase Order)'s
-     * approved column
+     * Mark the pivot table (for Purchase Order)'s approved column. Remember
+     * you have to call this method from a PO to access
+     * the right pivot object.
      * 
      * @param $val
      * @return mixed

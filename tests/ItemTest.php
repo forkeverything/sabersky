@@ -203,7 +203,6 @@ class ItemTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_sets_sku_as_null()
     {
@@ -213,7 +212,6 @@ class ItemTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_sets_brand_as_null()
     {
@@ -223,7 +221,6 @@ class ItemTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_determines_if_item_is_new_without_approved_line_items()
     {
@@ -254,7 +251,6 @@ class ItemTest extends TestCase
 
     /**
      * @test
-     * @group driven
      */
     public function it_gets_line_items_that_are_approved()
     {

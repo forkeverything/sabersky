@@ -668,16 +668,22 @@ class PurchaseOrder extends Model
     }
 
     /**
-     * Get all the relevent Line Item activities
+     * Get all the relevant Line Item activities
      *
      * @return \Illuminate\Support\Collection
      */
     public function lineItemsActivities()
     {
+        $relevantActivities = [
+            'paid_line_item',
+            'received_line_item'
+        ];
+
         $activities = [];
         foreach ($this->lineItems as $lineItem) {
-            if ($added = $lineItem->activities->where('name', 'paid_line_item')->first()) array_push($activities, $added);
-            if ($rejected = $lineItem->activities->where('name', 'received_line_item')->first()) array_push($activities, $rejected);
+            foreach ($relevantActivities as $relevantActivity) {
+                if($activity =  $lineItem->activities->where('name', $relevantActivity)->first()) array_push($activities, $activity);
+            }
         }
         return collect($activities)->sortBy('created_at');
     }
