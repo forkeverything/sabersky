@@ -135,6 +135,10 @@ Vue.component('registration-popup', {
 
         var self = this;
 
+        vueEventBus.$on('clicked-join-button', function() {
+            self.toggleShowRegistrationPopup();
+        });
+
         vueEventBus.$on('new-cc-token', function (creditCardToken) {
             self.registerNewCompany(creditCardToken);
         });

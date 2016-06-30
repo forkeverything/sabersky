@@ -29,7 +29,7 @@ class PagesController extends Controller
         if (Auth::check()) {
             return redirect('/dashboard');
         }
-        return view('landing');
+        return view('landing', ['page' => 'landing']);
     }
 
     /**

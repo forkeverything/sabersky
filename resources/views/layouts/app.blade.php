@@ -44,6 +44,7 @@
 @else
     <div id="body-content"
     @click="hideOverlays"
+    @if(isset($page) && $page === 'landing')class="landing-layout"@endif
     >
     @yield('content')
     </div>
