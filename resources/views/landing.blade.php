@@ -17,7 +17,7 @@
                     <div class="container">
                         <div class="grid_align">
                             <h1 class="hidden-xs">Expansive Purchasing System</h1>
-                            <h5 class="col-md-7 center-block">We help you expand your business through better
+                            <h5 class="col-md-7 center-block">We help your business grow through better
                                 purchasing.</h5>
                             <span class="display-block">View features</span>
                             <a href="#features" id="link-features">
@@ -96,7 +96,7 @@
                         </div>
                         <div class="team_wrap col-md-6 wrapper">
                             <i class="livicon-evo icon-overview"
-                               data-options="name: truck.svg; size: 70px; eventOn: parent; repeat: loop; style: lines; strokeColor: #2980B9;"></i>
+                               data-options="name: truck.svg; size: 70px; eventOn: parent; repeat: loop; style: lines; strokeColor: #C0392B;"></i>
 
                             <h2>Vendor Management</h2>
 
@@ -124,11 +124,13 @@
                             <p class="month">
                                 / month
                             </p>
-                            <p>
-                                For company's with 200 or more active staff
-                                <br>
-                                $2.50 / staff / month for every staff over 200
-                            </p>
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <p>
+                                        For company's with 200 or more active staff $2.50 / staff / month for every user over 200
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div id="pricing-growth" class="col-sm-6 price-section">
                             <h3>Growth</h3>
@@ -138,11 +140,13 @@
                             <p class="month">
                                 / month
                             </p>
-                            <p>
-                                No hidden fees, no contracts. Cancel anytime if
-                                <br>
-                                you feel you're not getting your dollar's worth.
-                            </p>
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <p>
+                                        Less than 200 staff. No hidden fees, no contracts. Cancel anytime if you feel you're not getting your dollar's worth.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

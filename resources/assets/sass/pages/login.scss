@@ -1,0 +1,198 @@
+#login_body, #register_body, #shopify_login_body {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .auth_fields {
+    input {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      height: -webkit-calc(3em + 2px);
+      height: calc(3em + 2px);
+      margin: 0 0 15px 0;
+      padding: 1em;
+      background: #FFFFFF;
+      resize: none;
+      outline: none;
+      position: static;
+      border: 1px solid #E0E0E0;
+    }
+
+    label, label[placeholder] {
+      display: block;
+      pointer-events: none;
+      line-height: 1em;
+      margin-top: -webkit-calc(-3em - 2px);
+      margin-top: calc(-3em - 2px);
+      margin-bottom: -webkit-calc((3em - 1em) + 2px);
+      margin-bottom: calc((3em - 1em) + 2px);
+    }
+
+    label:before {
+      content: attr(placeholder);
+      display: inline-block;
+      margin: 0 -webkit-calc(1em + 2px);
+      margin: 0 calc(1em + 2px);
+      padding: 0 2px;
+      white-space: nowrap;
+      -webkit-transition: 0.3s ease-in-out;
+      transition: 0.3s ease-in-out;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#FFFFFF));
+      background-image: -webkit-linear-gradient(top, #FFFFFF, #FFFFFF);
+      background-image: linear-gradient(to bottom, #FFFFFF, #FFFFFF);
+      -webkit-background-size: 100% 5px;
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    input[type="text"].not-required:focus + label[placeholder]:before,
+    input[type="text"].not-required:valid + label[placeholder]:before,
+    input[type="text"][required]:focus + label[placeholder]:before,
+    input[type="text"][required]:valid + label[placeholder]:before,
+    input[type="email"][required]:focus + label[placeholder]:before,
+    input[type="email"][required]:valid + label[placeholder]:before,
+    input[type="password"][required]:focus + label[placeholder]:before,
+    input[type="password"][required]:valid + label[placeholder]:before {
+      -webkit-transition-duration: .2s;
+      transition-duration: .2s;
+      -webkit-transform: translate(0, -1.9em) scale(0.9, 0.9);
+      -ms-transform: translate(0, -1.9em) scale(0.9, 0.9);
+      transform: translate(0, -1.9em) scale(0.9, 0.9);
+      font-weight: bold;
+    }
+
+  } // auth_fields
+
+  #shopify_login_middle, .login_wrap, #register_wrap {
+    position: relative;
+
+    .home_link_wrapper {
+      position: absolute;
+      top: -30px;
+      left: 0;
+      z-index: 1;
+      border-bottom: 1px dotted #fff;
+      padding:0 0 2px 0;
+
+      a {
+        color: #fff;
+        font-size: 0.875em;
+
+        i {
+          margin-right: 5px;
+        }
+      }
+
+      &:hover {
+        border-color: $green;
+
+        a {
+          color: $green;
+        }
+      }
+    }
+  }
+
+  #register_wrap {
+
+    .home_link_wrapper {
+      top: 30px;
+      left: 15px;
+      border-color: $border-dark;
+      a {
+        color: $text-muted;
+      }
+    }
+  }
+
+
+}
+
+
+.auth_heading {
+  font-size: 2.5em;
+  margin: 0 0 10px 0;
+  font-weight: normal;
+  text-align: center;
+}
+
+.auth_tagline {
+  display: block;
+  font-size: 1.125em;
+  text-align: center;
+  margin: 0 0 30px 0;
+}
+
+.auth_button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1em;
+}
+
+.valid {
+  border: 1px solid $green !important;
+
+  & + label[placeholder] {
+    color: $green;
+  }
+}
+
+#login_body {
+  background: url('/images/bg_people.jpg') center center no-repeat;
+  background-size: cover;
+  position: relative;
+
+  .bg_overlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  #form_login {
+    position: relative;
+    width: 450px;
+    background: #FFFFFF;
+    padding: 20px 20px 30px 20px;
+    margin: 0 0 30px 0;
+    z-index: 2;
+
+    .login_errors {
+      padding: 0;
+      background: $red;
+      margin-bottom: 30px;
+
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+
+      &.exists {
+        padding: 15px 0;
+      }
+
+      ul {
+        margin: 0;
+        li {
+          color: #FFFFFF;
+          text-align: center;
+        }
+      }
+    }
+
+  }
+}

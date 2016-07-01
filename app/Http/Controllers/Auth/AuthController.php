@@ -30,6 +30,27 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+
+    /**
+     * Over-write default - to make page full-layout
+     *
+     * Show the application login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        $view = property_exists($this, 'loginView')
+            ? $this->loginView : 'auth.authenticate';
+
+        if (view()->exists($view)) {
+            return view($view);
+        }
+
+        return view('auth.login', ['fullPage' => true]);
+    }
+
+
     /**
      * Create a new authentication controller instance.
      *

@@ -1,324 +1,321 @@
-.landing-layout {
-  padding: 0!important;
 
-  #landing {
+#landing {
 
-    h1, h2 {
-      font-weight: 100;
+  h1, h2 {
+    font-weight: 100;
+  }
+
+  h3, h4, h5, p, button {
+    font-weight: 200;
+    letter-spacing: 1px;
+  }
+
+  h1 {
+    font-size: 70px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  h4 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  h5 {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 768px) {
+    p {
+      font-size: 18px;
+      line-height: 30px !important;
     }
+  }
 
-    h3, h4, h5, p, button {
-      font-weight: 200;
-      letter-spacing: 1px;
+  #hero_div {
+    position: relative;
+    display: block;
+
+    h1, h3 {
+      color: #fff;
     }
 
     h1 {
-      font-size: 70px;
+      line-height: 1em;
+      margin: 0;
     }
 
-    h2 {
-      font-size: 40px;
+    .hero_video_wrap {
+      width: 100%;
+      position: relative;
+      z-index: 0;
+      height: 720px;
+      overflow: hidden;
+      zoom: 1;
+
+      video {
+        position: relative;
+        width: 100%;
+        height: auto;
+        left: auto;
+        min-width: 1280px;
+      }
     }
 
-    h3 {
-      font-size: 30px;
+    .hero_image {
+      width: 100%;
+      height: auto;
     }
 
-    h4 {
-      font-size: 24px;
-      font-weight: bold;
-    }
+    .hero_content {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.4);
+      height: 100%;
+      color: #fff;
+      text-align: center;
+      top: 0;
+      width: 100%;
 
-    h5 {
-      font-size: 18px;
+      .container {
+        height: 100%;
+        display: table;
+      }
+
+      .grid_align {
+        display: table-cell;
+        vertical-align: middle;
+        h1 {
+          margin-top: 0px;
+        }
+
+        h3 {
+          margin-top: 14px;
+          letter-spacing: 7px;
+        }
+
+        h5 {
+          margin-top: 24px;
+          float: none;
+          line-height: 30px;
+        }
+
+        .hero_button {
+          width: 50px;
+          height: 50px;
+          border-radius: 100% !important;
+          color: #fff;
+          margin-top: 10px;
+          border: 2px solid #fff;
+          padding: 0;
+          @include transition(all 0.2s ease-in-out);
+
+          &:hover {
+            background: $blue;
+            border-color: $blue;
+          }
+        }
+      }
+    }
+  }
+
+  #problem {
+    padding: 50px 0;
+
+    @media screen and (min-width: $screen-md-min) {
+      padding: 64px 0 50px;
     }
 
     p {
-      font-size: 16px;
+      margin: 0;
     }
 
-    @media screen and (max-width: 768px) {
-      p {
-        font-size: 18px;
-        line-height: 30px !important;
-      }
+    .icon-rocket {
+      position: absolute;
+      top: -64px;
+      left: calc(50% - 150px);
     }
+  }
 
-    #hero_div {
-      position: relative;
-      display: block;
+  #join {
+    padding: 0 15px;
 
-      h1, h3 {
-        color: #fff;
-      }
-
-      h1 {
-        line-height: 1em;
-        margin: 0;
-      }
-
-      .hero_video_wrap {
-        width: 100%;
-        position: relative;
-        z-index: 0;
-        height: 720px;
-        overflow: hidden;
-        zoom: 1;
-
-        video {
-          position: relative;
-          width: 100%;
-          height: auto;
-          left: auto;
-          min-width: 1280px;
-        }
-      }
-
-      .hero_image {
-        width: 100%;
-        height: auto;
-      }
-
-      .hero_content {
-        position: absolute;
-        background: rgba(0, 0, 0, 0.4);
-        height: 100%;
-        color: #fff;
-        text-align: center;
-        top: 0;
-        width: 100%;
-
-        .container {
-          height: 100%;
-          display: table;
-        }
-
-        .grid_align {
-          display: table-cell;
-          vertical-align: middle;
-          h1 {
-            margin-top: 0px;
-          }
-
-          h3 {
-            margin-top: 14px;
-            letter-spacing: 7px;
-          }
-
-          h5 {
-            margin-top: 24px;
-            float: none;
-            line-height: 30px;
-          }
-
-          .hero_button {
-            width: 50px;
-            height: 50px;
-            border-radius: 100% !important;
-            color: #fff;
-            margin-top: 10px;
-            border: 2px solid #fff;
-            padding: 0;
-            @include transition(all 0.2s ease-in-out);
-
-            &:hover {
-              background: $blue;
-              border-color: $blue;
-            }
-          }
-        }
-      }
-    }
-
-    #problem {
-      padding: 50px 0;
+    h2 {
+      text-align: center;
+      color: $orange;
+      margin: 0 0 1em;
 
       @media screen and (min-width: $screen-md-min) {
-        padding: 64px 0 50px;
+        margin: 2em 0 1em;
       }
+    }
+  }
 
-      p {
-        margin: 0;
-      }
+  #features {
+    background: $light-grey;
+    padding-top: 100px;
+    padding-bottom: 100px;
 
-      .icon-rocket {
-        position: absolute;
-        top: -64px;
-        left: calc(50% - 150px);
+    @media screen and (max-width: 992px) {
+      padding-top: 0;
+    }
+
+    .row.two {
+      margin-top: 100px;
+      @media screen and (max-width: 992px) {
+        margin-top: 0;
       }
     }
 
-    #join {
-      padding: 0 15px;
+    .wrapper {
+      text-align: center;
+      height: 350px;
+
+      @media screen and (max-width: 992px) {
+        margin-top: 100px;
+      }
+
+      h2 {
+        margin-top: 30px;
+      }
+
+      p {
+        line-height: 26px;
+        color: #979797;
+        width: 475px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+
+        @media screen and (max-width: 480px) {
+          width: 100%;
+        }
+      }
+    }
+
+    .search_wrap {
+      img {
+        margin-top: 50px;
+
+        @media screen and (max-width: 480px) {
+          margin-top: 0px;
+          height: 115px;
+          margin-bottom: 28px;
+        }
+      }
+    }
+
+    .meetings_wrap {
+      img {
+        height: 191px;
+
+        @media screen and (max-width: 480px) {
+          height: 115px;
+        }
+
+      }
+    }
+
+    .follows_wrap {
+      img {
+        height: 191px;
+
+        @media screen and (max-width: 480px) {
+          height: 143px;
+        }
+
+      }
+    }
+
+    .team_wrap {
+      img {
+        width: 280px;
+        margin-top: 17px;
+
+        @media screen and (max-width: 480px) {
+          height: 143px;
+        }
+      }
+    }
+  }
+
+  #pricing {
+    padding: 30px 60px;
+
+    .header {
+      border-bottom: 1px dashed $midnight-light;
+      margin: 0 0 2em;
 
       h2 {
         text-align: center;
-        color: $orange;
-        margin: 0 0 1em;
-
-        @media screen and (min-width: $screen-md-min) {
-          margin: 2em 0 1em;
-        }
-      }
-    }
-
-    #features {
-      background: $light-grey;
-      padding-top: 100px;
-      padding-bottom: 100px;
-
-      @media screen and (max-width: 992px) {
-        padding-top: 0;
+        margin: 0 0 10px;
       }
 
-      .row.two {
-        margin-top: 100px;
-        @media screen and (max-width: 992px) {
-          margin-top: 0;
-        }
-      }
-
-      .wrapper {
+      .subheading {
         text-align: center;
-        height: 350px;
-
-        @media screen and (max-width: 992px) {
-          margin-top: 100px;
-        }
-
-        h2 {
-          margin-top: 30px;
-        }
-
-        p {
-          line-height: 26px;
-          color: #979797;
-          width: 475px;
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 20px;
-
-          @media screen and (max-width: 480px) {
-            width: 100%;
-          }
-        }
-      }
-
-      .search_wrap {
-        img {
-          margin-top: 50px;
-
-          @media screen and (max-width: 480px) {
-            margin-top: 0px;
-            height: 115px;
-            margin-bottom: 28px;
-          }
-        }
-      }
-
-      .meetings_wrap {
-        img {
-          height: 191px;
-
-          @media screen and (max-width: 480px) {
-            height: 115px;
-          }
-
-        }
-      }
-
-      .follows_wrap {
-        img {
-          height: 191px;
-
-          @media screen and (max-width: 480px) {
-            height: 143px;
-          }
-
-        }
-      }
-
-      .team_wrap {
-        img {
-          width: 280px;
-          margin-top: 17px;
-
-          @media screen and (max-width: 480px) {
-            height: 143px;
-          }
-        }
       }
     }
 
-    #pricing {
-      padding: 30px 60px;
+    .pricing-container {
 
-      .header {
+      .price-section {
+        text-align: center;
+
+        .price {
+          margin: 0;
+        }
+
+        .month {
+          color: $midnight;
+        }
+      }
+
+      #pricing-enterprise {
         border-bottom: 1px dashed $midnight-light;
         margin: 0 0 2em;
 
-        h2 {
-          text-align: center;
-          margin: 0 0 10px;
-        }
-
-        .subheading {
-          text-align: center;
-        }
-      }
-
-      .pricing-container {
-
-        .price-section {
-          text-align: center;
-
-          .price {
-            margin: 0;
-          }
-
-          .month {
-            color: $midnight;
-          }
-        }
-
-        #pricing-enterprise {
-          border-bottom: 1px dashed $midnight-light;
-          margin: 0 0 2em;
-
-          @media screen and (min-width: $screen-sm-min) {
-            border-right: 1px dashed $midnight-light;
-            border-bottom: 0;
-          }
+        @media screen and (min-width: $screen-sm-min) {
+          border-right: 1px dashed $midnight-light;
+          border-bottom: 0;
         }
       }
     }
+  }
 
-    #about {
-      background: $dark-blue;
-      color: #f2f2f2;
-      padding: 2em 0;
+  #about {
+    background: $dark-blue;
+    color: #f2f2f2;
+    padding: 2em 0;
 
-      .left {
-        align-items: center;
-        margin: 0 0 2em;
+    .left {
+      align-items: center;
+      margin: 0 0 2em;
 
-        h2 {
-          margin-bottom: 1em;
-          text-align: center;
-          color: #fff;
-        }
-
-        #bottom-logo {
-          width: 200px;
-        }
+      h2 {
+        margin-bottom: 1em;
+        text-align: center;
+        color: #fff;
       }
 
-      .right {
-        @media screen and (min-width: $screen-md-min) {
-          justify-content: center;
-          align-items: center;
-        }
+      #bottom-logo {
+        width: 200px;
+      }
+    }
+
+    .right {
+      @media screen and (min-width: $screen-md-min) {
+        justify-content: center;
+        align-items: center;
       }
     }
   }

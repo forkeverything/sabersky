@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Pusaka Group</title>
+    <title>Sabersky</title>
 
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
@@ -44,7 +44,7 @@
 @else
     <div id="body-content"
     @click="hideOverlays"
-    @if(isset($page) && $page === 'landing')class="landing-layout"@endif
+    @if(isset($fullPage) && $fullPage)class="full-page"@endif
     >
     @yield('content')
     </div>

@@ -87,6 +87,10 @@
     min-height: 500px;
     padding: 10px 0;
 
+    &.full-page {
+      padding: 0!important;
+    }
+
     @media screen and (min-width: $screen-sm-min) {
       padding: 25px 35px;
     }
