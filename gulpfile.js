@@ -81,7 +81,7 @@ elixir(function(mix) {
         ],
         'public/css');
 
-    mix.browserSync({proxy: 'pusakagroup.app'});
+    mix.browserSync({proxy: 'sabersky.app'});
 
     mix.phpUnit(null, {group: 'driven'});
 });

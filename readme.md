@@ -1,3 +1,3 @@
-## Custom Procurement / Purchasing Software for PJI
+## Expansive Purchasing System
 
-Ease of use, accountability and reliability in a custom system aimed at streamlining departments: Management, Engineering, Procurement, Accounting and Site Technician.
+Designed to help businesses grow through better purchasing.
