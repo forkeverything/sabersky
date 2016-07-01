@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,12 @@ class Handler extends ExceptionHandler
             //Redirect to login form if session expires
             return redirect($request->fullUrl());
         }
+
+        if ($e instanceof NotFoundHttpException){
+            //Redirect to login form if session expires
+            return response()->view('errors.page-not-found');
+        }
+
 
         return parent::render($request, $e);
     }
