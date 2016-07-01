@@ -251,4 +251,9 @@ Route::group(['middleware' => 'web'], function () {
                                 ->get();
     });
 
+    Route::get('/test', function () {
+        Event::fire(new \App\Events\NewCompanySignedUp(\App\Company::first(), \App\User::first()));
+    });
+    Route::get('/systems/status', 'SystemsController@getStatus');
+
 });

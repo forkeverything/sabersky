@@ -8,18 +8,23 @@
     <title>Sabersky</title>
 
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <meta name="stripe-key" content="{{ env('STRIPE_KEY') }}"/>
+
+    <meta name="pusher-key" content="{{ env('PUSHER_KEY') }}"/>
 
     <!--
     ========== Stylez ===========
      -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+    <!-- Fonts -->
+    <script src="https://use.typekit.net/qkf3ndw.js"></script>
+    <script>try {
+            Typekit.load({async: true});
+        } catch (e) {
+        }</script>
+
     <!--
     ========== External Scripts ==========
     -->
-    <!-- Stripe -->
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <!-- Pusher -->
     <script type="text/javascript" src="https://js.pusher.com/3.1/pusher.min.js"></script>
     <!-- Typekit -->
@@ -32,39 +37,19 @@
 
 <body id="app-layout">
 
-<!--
-========== Content ===========
- -->
-@include('layouts.partials.nav')
-<div id="main-stage" v-cloak>
-    @if(Auth::user())
-        @include('layouts.partials.side-menu')
-        <div id="body-content"
-             :class="{
-             'with-menu': showingMenu
-             }"
-        @click="hideOverlays"
-        >
-        @yield('content')
-</div>
-@else
-    <div id="body-content"
-    @click="hideOverlays"
-    @if(isset($fullPage) && $fullPage)class="full-page"@endif
-    >
-    @yield('content')
-    </div>
-    @endif
-    </div>
-
+    <system-status inline-template :company-count="{{ $companyCount }}">
+        <div id="system-status">
+            <h1>
+                @{{ companyCount }}
+            </h1>
+        </div>
+    </system-status>
 
     <!--
     ========== Scripts ===========
     -->
     <!-- Plugins / Frameworks -->
     <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
-    <!-- Pusher -->
-    <script type="text/javascript" src="https://js.pusher.com/3.1/pusher.min.js"></script>
     <!-- Setup & Initz' -->
     <script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
     <!-- Global (helpers) -->
@@ -77,3 +62,4 @@
     @include('layouts.partials.flash')
 </body>
 </html>
+

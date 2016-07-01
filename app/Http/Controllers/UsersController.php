@@ -81,6 +81,7 @@ class UsersController extends Controller
 
             flash()->success('Accepted invitation, welcome aboard!');
             Auth::login($user);
+
             SubscriptionFactory::updateSubscription(Auth::user()->company);
             return redirect('/dashboard');
         }

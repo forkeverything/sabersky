@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewCompanySignedUp extends Event
+class NewCompanySignedUp extends Event implements ShouldBroadcast
 {
     use SerializesModels;
     /**
@@ -39,6 +39,6 @@ class NewCompanySignedUp extends Event
      */
     public function broadcastOn()
     {
-        return [];
+        return ['system'];
     }
 }
