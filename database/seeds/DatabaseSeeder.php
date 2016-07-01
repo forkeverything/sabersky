@@ -23,9 +23,11 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Seeded Rule Properties & Triggers');
         $this->call(ProductCategoriesTableSeeder::class);
 
-        $this->command->info('...Seeding dev data');
-        $this->call(PusakaSetupSeeder::class);
-        $this->command->info('Seeded Dev: Company, Project, User');
+        if(App::environment('local')) {
+            $this->command->info('...Seeding dev data');
+            $this->call(PusakaSetupSeeder::class);
+            $this->command->info('Seeded Dev: Company, Project, User');
+        }
 
         $this->command->info('...done seeding!');
 
