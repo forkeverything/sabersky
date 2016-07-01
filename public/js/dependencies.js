@@ -611,138 +611,6 @@ Vue.transition('slide-down', {
     enterClass: 'slideInDown',
     leaveClass: 'slideOutUp'
 });
-Vue.filter('capitalize', function (str) {
-    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-});
-Vue.filter('chunk', function (array, length) {
-    if(! array) return;
-    var totalChunks = [];
-    var chunkLength = parseInt(length, 10);
-
-    if (chunkLength <= 0) {
-        return array;
-    }
-
-    for (var i = 0; i < array.length; i += chunkLength) {
-        totalChunks.push(array.slice(i, i + chunkLength));
-    }
-
-
-    return totalChunks;
-});
-Vue.filter('diffHuman', function (value) {
-    if(! value || value == '') return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
-    }
-    return value;
-});
-Vue.filter('properDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        if (value.replace(/\s/g, "").length > 0) {
-            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        if(val.replace(/\s/g, "").length > 0) {
-            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
-        }
-        return val;
-    }
-});
-Vue.filter('dateTime', function (value) {
-    if(! value || value == '') return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
-    }
-    return value;
-});
-
-Vue.filter('date', function (value) {
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
-    }
-    return value;
-});
-Vue.filter('easyDate', function (value) {
-    if(!value) return;
-    if (value !== '0000-00-00 00:00:00') {
-        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
-    }
-    return value;
-});
-
-Vue.filter('easyDateModel', {
-    // model -> view
-    // formats the value when updating the input element.
-    read: function (value) {
-        console.log(value);
-        var date = moment(value, "DD-MM-YYYY");
-        if (value && date) {
-            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
-        }
-        return value;
-    },
-    // view -> model
-    // formats the value when writing to the data.
-    write: function (val, oldVal) {
-        return val;
-    }
-});
-Vue.filter('limitString', function (val, limit) {
-    if (val && val.length > limit) {
-        var trimmedString = val.substring(0, limit);
-        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-        return trimmedString
-    }
-
-    return val;
-});
-Vue.filter('numberFormat', function (val) {
-    if(isNaN(parseFloat(val))) return val;
-    //Seperates the components of the number
-    var n = val.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
-});
-Vue.filter('numberModel', {
-    read: function (val) {
-        if(val) {
-            //Seperates the components of the number
-            var n = val.toString().split(".");
-            //Comma-fies the first part
-            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //Combines the two sections
-            return n.join(".");
-        }
-    },
-    write: function (val, oldVal, limit) {
-        val = val.replace(/\s/g, ''); // remove spaces
-        limit = limit || 0; // is there a limit?
-        if(limit) {
-            val = val.substring(0, limit); // if there is a limit, trim the value
-        }
-        //val = val.replace(/[^0-9.]/g, ""); // remove characters
-        // Trim invalid characters, and round to 2 decimal places
-        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
-    }
-});
-Vue.filter('percentage', {
-    read: function(val) {
-        return (val * 100);
-    },
-    write: function(val, oldVal){
-        val = val.replace(/[^0-9.]/g, "");
-        return val / 100;
-    }
-});
 Vue.directive('autofit-tabs', {
     bind: function () {
         var self = this;
@@ -1146,6 +1014,644 @@ var userCompany = {
         }
     }
 };
+Vue.filter('capitalize', function (str) {
+    if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+});
+Vue.filter('chunk', function (array, length) {
+    if(! array) return;
+    var totalChunks = [];
+    var chunkLength = parseInt(length, 10);
+
+    if (chunkLength <= 0) {
+        return array;
+    }
+
+    for (var i = 0; i < array.length; i += chunkLength) {
+        totalChunks.push(array.slice(i, i + chunkLength));
+    }
+
+
+    return totalChunks;
+});
+Vue.filter('diffHuman', function (value) {
+    if(! value || value == '') return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
+    }
+    return value;
+});
+Vue.filter('properDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        if (value.replace(/\s/g, "").length > 0) {
+            return moment(value, "YYYY-MM-DD").format('DD/MM/YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        if(val.replace(/\s/g, "").length > 0) {
+            return moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+        }
+        return val;
+    }
+});
+Vue.filter('dateTime', function (value) {
+    if(! value || value == '') return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY, h:mm a');
+    }
+    return value;
+});
+
+Vue.filter('date', function (value) {
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD/MM/YYYY');
+    }
+    return value;
+});
+Vue.filter('easyDate', function (value) {
+    if(!value) return;
+    if (value !== '0000-00-00 00:00:00') {
+        return moment(value, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+    }
+    return value;
+});
+
+Vue.filter('easyDateModel', {
+    // model -> view
+    // formats the value when updating the input element.
+    read: function (value) {
+        console.log(value);
+        var date = moment(value, "DD-MM-YYYY");
+        if (value && date) {
+            return moment(value, "DD-MM-YYYY").format('DD MMM YYYY');
+        }
+        return value;
+    },
+    // view -> model
+    // formats the value when writing to the data.
+    write: function (val, oldVal) {
+        return val;
+    }
+});
+Vue.filter('limitString', function (val, limit) {
+    if (val && val.length > limit) {
+        var trimmedString = val.substring(0, limit);
+        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+        return trimmedString
+    }
+
+    return val;
+});
+Vue.filter('numberFormat', function (val) {
+    if(isNaN(parseFloat(val))) return val;
+    //Seperates the components of the number
+    var n = val.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+});
+Vue.filter('numberModel', {
+    read: function (val) {
+        if(val) {
+            //Seperates the components of the number
+            var n = val.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    },
+    write: function (val, oldVal, limit) {
+        val = val.replace(/\s/g, ''); // remove spaces
+        limit = limit || 0; // is there a limit?
+        if(limit) {
+            val = val.substring(0, limit); // if there is a limit, trim the value
+        }
+        //val = val.replace(/[^0-9.]/g, ""); // remove characters
+        // Trim invalid characters, and round to 2 decimal places
+        return Math.round(val.replace(/[^0-9\.]/g, "") * 100) / 100;
+    }
+});
+Vue.filter('percentage', {
+    read: function(val) {
+        return (val * 100);
+    },
+    write: function(val, oldVal){
+        val = val.replace(/[^0-9.]/g, "");
+        return val / 100;
+    }
+});
+Vue.component('checkbox', {
+    name: 'styledCheckbox',
+    template: '<div class="checkbox-component">'+
+    '<div class="checkbox styled" :class="{' +
+    "'with-label': label," +
+    "'checked': model" +
+    '}">' +
+    '<label>' +
+    '<i class="fa fa-check-square-o checked"></i>' +
+    '<i class="fa fa-square-o empty"></i>' +
+    '<input class="clickable hidden" type="checkbox" @change="callFunction" :checked="model">' +
+    '</label>' +
+    '</div>' +
+    '<h4 v-if="label" class="no-wrap clickable checkbox-label" @click="callFunction">{{{ label }}}</h4>' +
+    '</div>',
+    props: ['model', 'label', 'change-function', 'function-params'],
+    methods: {
+        callFunction: function() {
+
+            this.changeFunction.apply(this.changeFunction, this.functionParams);
+
+            /*
+             We wrap our function call because Vue doesn't let us pass parameters with our
+             functions so we have to pass it in separately in functionParams (array)
+             */
+
+        }
+    }
+});
+Vue.component('form-errors', {
+    template: '<div class="validation-errors" v-show="errors.length > 0">' +
+    '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
+    '<ul class="errors-list list-unstyled"' +
+    'v-show="errors.length > 0"' +
+    '>' +
+    '<li v-for="error in errors">{{ error }}</li>' +
+    '</ul>' +
+    '</div>',
+    data: function () {
+        return {
+            errors: []
+        }
+    },
+    events: {
+        'new-errors': function(errors) {
+            var self = this;
+            var newErrors = [];
+            _.forEach(errors, function (error) {
+                if(newErrors.indexOf(error[0]) == -1) newErrors.push(error[0]);
+            });
+            self.errors = newErrors;
+        },
+        'clear-errors': function() {
+            this.errors = [];
+        }
+    }
+});
+Vue.component('paginator', {
+    name: 'paginator',
+    template: '<div class="api-paginator">' +
+    '<ul class="list-unstyled list-inline">' +
+    '   <li class="paginate-nav to-first"' +
+    '       :class="{' +
+    "           'disabled': currentPage < 3  || currentPage > lastPage" +
+    '       }"' +
+    '       @click="goToPage(1)"' +
+    '   >'+
+    '       <i class="fa fa-angle-double-left"></i>' +
+    '   </li>'+
+    '   <li class="paginate-nav prev"' +
+    '       :class="{'+
+    "           'disabled': (currentPage - 1) < 1 || currentPage > lastPage" +
+    '       }"'+
+    '       @click="goToPage(currentPage - 1)"'+
+    '   >'+
+    '       <i class="fa fa-angle-left"></i>'+
+    '   </li>'+
+    '   <li class="paginate-link"'+
+    '       v-for="page in paginatedPages"'+
+    '       :class="{' +
+                "'current_page': currentPage === page,"+
+                "'disabled': page > lastPage"+
+    '       }"'+
+    '       @click="goToPage(page)"'+
+    '   >'+
+    '       {{ page }}'+
+    '   </li>'+
+    '   <li class="paginate-nav next"'+
+    '       :class="{'+
+                "'disabled': currentPage >= lastPage"+
+    '       }"'+
+    '       @click="goToPage(currentPage + 1)"'+
+    '    >'+
+    '       <i class="fa fa-angle-right"></i>'+
+    '   </li>'+
+    '   <li class="paginate-nav to-last"'+
+    '       :class="{'+
+    "           'disabled': currentPage > (lastPage - 2)"+
+    '       }"'+
+    '       @click="goToPage(lastPage)"'+
+    '   >'+
+    '       <i class="fa fa-angle-double-right"></i>'+
+    '   </li>'+
+    '</ul>'+
+    '</div>',
+    data: function() {
+        return {
+
+        };
+    },
+    props: ['response', 'reqFunction', 'event-name'],
+    computed: {
+        currentPage: function() {
+            return this.response.current_page;
+        },
+        lastPage: function() {
+            return this.response.last_page
+        },
+        paginatedPages: function () {
+            var startPage;
+            var endPage;
+            switch (this.currentPage) {
+                case 1:
+                case 2:
+                    // First 2 pages - always return first 5 pages
+                    return this.makePagesArray(1, 5);
+                    break;
+                case this.lastPage:
+                case this.lastPage - 1:
+                    // Last 2 pages - return last 5 pages
+                        // If we have more than 5 pages count back 4 pages. Else start at page 1
+                        startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
+                        endPage = (this.lastPage > 5 ) ? this.lastPage : 5;
+                    return this.makePagesArray(startPage, endPage);
+                    break;
+                default:
+                    startPage = this.currentPage - 2;
+                    endPage = this.currentPage + 2;
+                    return this.makePagesArray(startPage, endPage);
+            }
+        }
+    },
+    methods: {
+        makePagesArray: function (startPage, endPage) {
+            var pagesArray = [];
+            for (var i = startPage; i <= endPage; i++) {
+                pagesArray.push(i);
+            }
+            return pagesArray;
+        },
+        goToPage: function (page) {
+            // if we get a custom event name - fire it
+            if(this.eventName) vueEventBus.$emit(this.eventName, page);
+            vueEventBus.$emit('go-to-page', page);
+            this.$dispatch('go-to-page', page);         // TODO ::: REMOVE WILL BE DEPRACATED Vue 2.0 <
+            if (0 < page && page <= this.lastPage && typeof(this.reqFunction) == 'function') this.reqFunction(updateQueryString('page', page));
+        }
+    },
+    events: {
+
+    },
+    ready: function() {
+
+    }
+});
+Vue.component('per-page-picker', {
+    name: 'itemsPerPagePicker',
+    template: '<div class="per-page-picker">' +
+    '<span>Results Per Page</span>' +
+    '<select-picker :name.sync="newItemsPerPage" :options.sync="itemsPerPageOptions" :function="changeItemsPerPage"></select-picker>' +
+    '</div>',
+    el: function() {
+        return ''
+    },
+    data: function() {
+        return {
+            newItemsPerPage: '',
+            itemsPerPageOptions: [
+                {
+                    value: 8,
+                    label: 8
+                }, {
+                    value: 16,
+                    label: 16
+                },
+                {
+                    value: 32,
+                    label: 32
+                }
+            ]
+        };
+    },
+    props: ['response', 'reqFunction'],
+    computed: {
+        itemsPerPage: function() {
+            return this.response.per_page;
+        }
+    },
+    methods: {
+        changeItemsPerPage: function() {
+            var self = this;
+            if(self.newItemsPerPage !== self.itemsPerPage) {
+                self.reqFunction(updateQueryString({
+                    page: 1, // Reset to page 1
+                    per_page: self.newItemsPerPage // Update items per page
+                }));
+            }
+        }
+    }
+});
+Vue.component('power-table', {
+    name: 'powerTable',
+    template: '<div class="table-responsive">' +
+    '<table class="table power-table"' +
+    '       :class="{' +
+    "           'table-hover': hover" +
+    '       }"' +
+    '>' +
+    '<thead>' +
+    '<tr>' +
+    '<template v-for="header in headers">' +
+    '<th v-if="header.sort"' +
+    '    @click="changeSort(header.sort)"' +
+    '    :class="{' +
+    "       'active': sortField === header.sort," +
+    "       'asc'   : sortAsc === 1," +
+    "       'desc'  : sortAsc === -1," +
+    "       'clickable'  : sort" +
+    '    }"' +
+    '>' +
+    '{{ header.label }}' +
+    '</th>' +
+    '<th v-else>' +
+    '{{ header.label }}' +
+    '</th>' +
+    '</template>' +
+    '</tr>' +
+    '</thead>' +
+    '<tbody>' +
+    '<template' +
+    '   v-for="item in data | orderBy sortField sortAsc"' +
+    '>' +
+    '<tr>' +
+    '<td v-for="header in headers" ' +
+    '    @click="clickEvent(item, field, parseItemValue(header, item))"' +
+    '    :class="{' +
+    "       'clickable': header.click === true" +
+    '    }"' +
+    '> {{{ parseItemValue(header, item) }}}</td>' +
+    '</tr>' +
+    '' +
+    '</template>' +
+    '</tbody>' +
+    '' +
+    '</table>' +
+    '</div>',
+    data: function() {
+        return {
+            sortField: '',
+            sortAsc: 1
+        };
+    },
+    props: [
+        'headers',
+        'data',
+        'filter',    // TO DO ::: Hook up way to filter data
+        'sort',
+        'hover'     // Set table-hover class
+    ],
+    computed: {
+
+    },
+    methods: {
+        parseItemValue: function(header, item) {
+            var value;
+            _.forEach(header.path, function (path, key) {
+                value = (key === 0) ? item[path] : value[path];
+            });
+            return value;
+        },
+        changeSort: function(field) {
+            if(! this.sort) return;
+
+            if(this.sortField === field) {
+                this.sortAsc = (this.sortAsc === 1) ? -1 : 1;
+            } else {
+                this.sortField = field;
+                this.sortAsc = 1;
+            }
+        },
+        clickEvent: function(item, field, value) {
+            this.$dispatch('click-table-cell', {
+                item: item,
+                field: field,
+                value: value
+            });
+        }
+    },
+    events: {
+
+    },
+    ready: function() {
+
+    }
+});
+Vue.component('select-picker', {
+    template: '<select v-model="name" class="themed-select" @change="callChangeFunction">' +
+    '<option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
+    '<option v-if="option && option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
+    '</select>',
+    name: 'selectpicker',
+    props: ['options', 'name', 'function', 'placeholder'],
+    methods: {
+        callChangeFunction: function () {
+            if (this.function && typeof this.function === 'function') {
+                this.function();
+            }
+        }
+    },
+    ready: function () {
+
+        // Init our picker
+        $(this.$el).selectpicker({
+            iconBase: 'fa',
+            tickIcon: 'fa-check'
+        });
+
+        this.$watch('name', function (val) {
+            $(this.$el).val(val);
+            $(this.$el).selectpicker('render');
+        });
+
+        // Update whenever options change
+        this.$watch('options', function (val) {
+            // Refresh our picker UI
+            $(this.$el).selectpicker('refresh');
+            // Update manually because v-model won't catch
+            this.name = $(this.$el).selectpicker('val');
+        }.bind(this))
+    }
+});
+Vue.component('select-type', {
+    name: 'selectType',
+    template: '<select class="select-type" v-show="receivedOptions">' +
+    '<option></option>' +
+    '               <option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' + '' +
+    '          </select>',
+    data: function () {
+        return {
+            receivedOptions: false,
+            selectize: {}
+        };
+    },
+    props: [
+        'name',
+        'options',
+        'create',
+        'unique',
+        'placeholder'
+    ],
+    ready: function () {
+
+
+        var self = this;
+
+        var unique = this.unique !== false,
+            create = this.create !== false;
+            placeholder = this.placeholder || 'Type to select...';
+
+        this.$watch('name', function (value) {
+            if(! value)this.selectize.clear();
+        });
+
+        this.$watch('options', function () {
+            this.receivedOptions = true;
+            if (!_.isEmpty(this.selectize)) this.selectize.destroy();
+            this.selectize = $(this.$el).selectize({
+                create: create,
+                sortField: 'text',
+                placeholder: placeholder,
+                createFilter: function (input) {
+                    input = input.toLowerCase();
+                    var optionsArray = $.map(unique.options, function (value) {
+                        return [value];
+                    });
+                    var unmatched = true;
+                    _.forEach(optionsArray, function (option) {
+                        if ((option.text).toLowerCase() === input) {
+                            unmatched = false;
+                        }
+                    });
+                    return unmatched;   // true if unmatched (ie. new) value
+                },
+                onChange: function (value) {
+                    // When we select / enter a new value - enter it into our data
+                    self.name = value;
+                }
+            })[0].selectize;
+            // Let parent component know select is loaded
+            this.$dispatch('select-loaded');
+        });
+
+
+        // TODO :: Add ability to re-render when options changes
+        //      - Maybe define options on selectize and render options / item through plugin (instead of Vue)
+        //      - Call clearOption()?
+        //      - Clear Cache? Some bug, unknown if fixed
+
+    },
+    beforeDestroy: function () {
+        this.selectize.destroy();   // TODO :: Check if valid & necessary
+    }
+});
+Vue.component('text-clipper', {
+    name: 'textClipper',
+    template: '<div class="text-clipper"' +
+    '               :class="{' +
+    "                   'expanded': !clip" +
+    '               }"' +
+    '           >' +
+    '               <div v-if="isClipped" class="clipped">' +
+    '                   {{ text | limitString limit }}' +
+    '                   <a class="btn-show-more-text" @click.prevent.stop="unclip">' +
+    '                       <span class="clickable">...</span>' +
+    '                   </a>' +
+    '               </div>' +
+    '               <div v-else class="unclipped">' +
+    '                   {{ text }}' +
+    '               </div>' +
+    '            </div>',
+    data: function() {
+        return {
+            limit: 150,
+            clip: true
+        };
+    },
+    props: ['text'],
+    computed: {
+        isClipped: function() {
+            return this.text.length > this.limit && this.clip;
+        }
+    },
+    methods: {
+        unclip: function() {
+            // Set max-height dynamically - depending on amount of text
+            $(this.$el).css('max-height', $(this.$el).height());
+            // Playing it safe
+            setTimeout(function() {
+                this.clip = false;
+            }.bind(this), 150);
+        }
+    },
+    ready: function() {
+        // If the data changes but we're still using the same Component instance
+        this.$watch('text', function () {
+            // Reset it - ie. clip text
+            this.clip = true;
+        });
+    }
+});
+Vue.component('toast-alert', {
+    name: 'toaster',
+    template: '<div id="toast-plate">' +
+    '               <div class="toast animated"' +
+    '                    v-for="(index, alert) in alerts"' +
+    '                    transition="fade"' +
+    '                    :class="alert.type">' +
+    '<button type="button" class="btn-close" @click="dismiss(alert) "><i class="fa fa-close"></i></button>' +
+    '{{{ alert.content }}}' +
+    '</div>' +
+    '</div>',
+    data: function() {
+        return {
+            alerts: []
+        };
+    },
+    methods: {
+        addToQueue: function(alert) {
+            // Attach a timeout ID and use it as unique id
+            alert.timerID = setTimeout(function () {
+                // dismiss (hide) the alert after 3 secs...
+                this.dismiss(alert);
+            }.bind(this), 3000);
+            // finally push alert
+            this.alerts.push(alert);
+        },
+        dismiss: function(alert) {
+            // if we prematurely cleared it.. clear the timeout
+            clearTimeout(alert.timerID);
+            // Remove it from array (will work because of unique timerID)
+            this.alerts = _.reject(this.alerts, alert);
+        }
+    },
+    events: {
+        'serve-toast': function(alert) {
+            this.addToQueue(alert);
+        }
+    },
+    ready: function() {
+        /*
+        TODO ::: Implement this component to handle alerts if/when we
+        make the jump to Vue for handling all client-side. Which
+        includes routing, auth etc.
+         */
+    }
+});
 Vue.component('date-range-field', {
     name: 'dateRangeField',
     template: '<div class="date-range-field">' +
@@ -1737,512 +2243,6 @@ Vue.component('single-pr-modal', {
 });
 
 
-Vue.component('checkbox', {
-    name: 'styledCheckbox',
-    template: '<div class="checkbox-component">'+
-    '<div class="checkbox styled" :class="{' +
-    "'with-label': label," +
-    "'checked': model" +
-    '}">' +
-    '<label>' +
-    '<i class="fa fa-check-square-o checked"></i>' +
-    '<i class="fa fa-square-o empty"></i>' +
-    '<input class="clickable hidden" type="checkbox" @change="callFunction" :checked="model">' +
-    '</label>' +
-    '</div>' +
-    '<h4 v-if="label" class="no-wrap clickable checkbox-label" @click="callFunction">{{{ label }}}</h4>' +
-    '</div>',
-    props: ['model', 'label', 'change-function', 'function-params'],
-    methods: {
-        callFunction: function() {
-
-            this.changeFunction.apply(this.changeFunction, this.functionParams);
-
-            /*
-             We wrap our function call because Vue doesn't let us pass parameters with our
-             functions so we have to pass it in separately in functionParams (array)
-             */
-
-        }
-    }
-});
-Vue.component('form-errors', {
-    template: '<div class="validation-errors" v-show="errors.length > 0">' +
-    '<h5 class="errors-heading"><i class="fa fa-warning"></i>Could not process request due to</h5>' +
-    '<ul class="errors-list list-unstyled"' +
-    'v-show="errors.length > 0"' +
-    '>' +
-    '<li v-for="error in errors">{{ error }}</li>' +
-    '</ul>' +
-    '</div>',
-    data: function () {
-        return {
-            errors: []
-        }
-    },
-    events: {
-        'new-errors': function(errors) {
-            var self = this;
-            var newErrors = [];
-            _.forEach(errors, function (error) {
-                if(newErrors.indexOf(error[0]) == -1) newErrors.push(error[0]);
-            });
-            self.errors = newErrors;
-        },
-        'clear-errors': function() {
-            this.errors = [];
-        }
-    }
-});
-Vue.component('paginator', {
-    name: 'paginator',
-    template: '<div class="api-paginator">' +
-    '<ul class="list-unstyled list-inline">' +
-    '   <li class="paginate-nav to-first"' +
-    '       :class="{' +
-    "           'disabled': currentPage < 3  || currentPage > lastPage" +
-    '       }"' +
-    '       @click="goToPage(1)"' +
-    '   >'+
-    '       <i class="fa fa-angle-double-left"></i>' +
-    '   </li>'+
-    '   <li class="paginate-nav prev"' +
-    '       :class="{'+
-    "           'disabled': (currentPage - 1) < 1 || currentPage > lastPage" +
-    '       }"'+
-    '       @click="goToPage(currentPage - 1)"'+
-    '   >'+
-    '       <i class="fa fa-angle-left"></i>'+
-    '   </li>'+
-    '   <li class="paginate-link"'+
-    '       v-for="page in paginatedPages"'+
-    '       :class="{' +
-                "'current_page': currentPage === page,"+
-                "'disabled': page > lastPage"+
-    '       }"'+
-    '       @click="goToPage(page)"'+
-    '   >'+
-    '       {{ page }}'+
-    '   </li>'+
-    '   <li class="paginate-nav next"'+
-    '       :class="{'+
-                "'disabled': currentPage >= lastPage"+
-    '       }"'+
-    '       @click="goToPage(currentPage + 1)"'+
-    '    >'+
-    '       <i class="fa fa-angle-right"></i>'+
-    '   </li>'+
-    '   <li class="paginate-nav to-last"'+
-    '       :class="{'+
-    "           'disabled': currentPage > (lastPage - 2)"+
-    '       }"'+
-    '       @click="goToPage(lastPage)"'+
-    '   >'+
-    '       <i class="fa fa-angle-double-right"></i>'+
-    '   </li>'+
-    '</ul>'+
-    '</div>',
-    data: function() {
-        return {
-
-        };
-    },
-    props: ['response', 'reqFunction', 'event-name'],
-    computed: {
-        currentPage: function() {
-            return this.response.current_page;
-        },
-        lastPage: function() {
-            return this.response.last_page
-        },
-        paginatedPages: function () {
-            var startPage;
-            var endPage;
-            switch (this.currentPage) {
-                case 1:
-                case 2:
-                    // First 2 pages - always return first 5 pages
-                    return this.makePagesArray(1, 5);
-                    break;
-                case this.lastPage:
-                case this.lastPage - 1:
-                    // Last 2 pages - return last 5 pages
-                        // If we have more than 5 pages count back 4 pages. Else start at page 1
-                        startPage = (this.lastPage > 5) ? this.lastPage - 4 : 1;
-                        endPage = (this.lastPage > 5 ) ? this.lastPage : 5;
-                    return this.makePagesArray(startPage, endPage);
-                    break;
-                default:
-                    startPage = this.currentPage - 2;
-                    endPage = this.currentPage + 2;
-                    return this.makePagesArray(startPage, endPage);
-            }
-        }
-    },
-    methods: {
-        makePagesArray: function (startPage, endPage) {
-            var pagesArray = [];
-            for (var i = startPage; i <= endPage; i++) {
-                pagesArray.push(i);
-            }
-            return pagesArray;
-        },
-        goToPage: function (page) {
-            // if we get a custom event name - fire it
-            if(this.eventName) vueEventBus.$emit(this.eventName, page);
-            vueEventBus.$emit('go-to-page', page);
-            this.$dispatch('go-to-page', page);         // TODO ::: REMOVE WILL BE DEPRACATED Vue 2.0 <
-            if (0 < page && page <= this.lastPage && typeof(this.reqFunction) == 'function') this.reqFunction(updateQueryString('page', page));
-        }
-    },
-    events: {
-
-    },
-    ready: function() {
-
-    }
-});
-Vue.component('per-page-picker', {
-    name: 'itemsPerPagePicker',
-    template: '<div class="per-page-picker">' +
-    '<span>Results Per Page</span>' +
-    '<select-picker :name.sync="newItemsPerPage" :options.sync="itemsPerPageOptions" :function="changeItemsPerPage"></select-picker>' +
-    '</div>',
-    el: function() {
-        return ''
-    },
-    data: function() {
-        return {
-            newItemsPerPage: '',
-            itemsPerPageOptions: [
-                {
-                    value: 8,
-                    label: 8
-                }, {
-                    value: 16,
-                    label: 16
-                },
-                {
-                    value: 32,
-                    label: 32
-                }
-            ]
-        };
-    },
-    props: ['response', 'reqFunction'],
-    computed: {
-        itemsPerPage: function() {
-            return this.response.per_page;
-        }
-    },
-    methods: {
-        changeItemsPerPage: function() {
-            var self = this;
-            if(self.newItemsPerPage !== self.itemsPerPage) {
-                self.reqFunction(updateQueryString({
-                    page: 1, // Reset to page 1
-                    per_page: self.newItemsPerPage // Update items per page
-                }));
-            }
-        }
-    }
-});
-Vue.component('power-table', {
-    name: 'powerTable',
-    template: '<div class="table-responsive">' +
-    '<table class="table power-table"' +
-    '       :class="{' +
-    "           'table-hover': hover" +
-    '       }"' +
-    '>' +
-    '<thead>' +
-    '<tr>' +
-    '<template v-for="header in headers">' +
-    '<th v-if="header.sort"' +
-    '    @click="changeSort(header.sort)"' +
-    '    :class="{' +
-    "       'active': sortField === header.sort," +
-    "       'asc'   : sortAsc === 1," +
-    "       'desc'  : sortAsc === -1," +
-    "       'clickable'  : sort" +
-    '    }"' +
-    '>' +
-    '{{ header.label }}' +
-    '</th>' +
-    '<th v-else>' +
-    '{{ header.label }}' +
-    '</th>' +
-    '</template>' +
-    '</tr>' +
-    '</thead>' +
-    '<tbody>' +
-    '<template' +
-    '   v-for="item in data | orderBy sortField sortAsc"' +
-    '>' +
-    '<tr>' +
-    '<td v-for="header in headers" ' +
-    '    @click="clickEvent(item, field, parseItemValue(header, item))"' +
-    '    :class="{' +
-    "       'clickable': header.click === true" +
-    '    }"' +
-    '> {{{ parseItemValue(header, item) }}}</td>' +
-    '</tr>' +
-    '' +
-    '</template>' +
-    '</tbody>' +
-    '' +
-    '</table>' +
-    '</div>',
-    data: function() {
-        return {
-            sortField: '',
-            sortAsc: 1
-        };
-    },
-    props: [
-        'headers',
-        'data',
-        'filter',    // TO DO ::: Hook up way to filter data
-        'sort',
-        'hover'     // Set table-hover class
-    ],
-    computed: {
-
-    },
-    methods: {
-        parseItemValue: function(header, item) {
-            var value;
-            _.forEach(header.path, function (path, key) {
-                value = (key === 0) ? item[path] : value[path];
-            });
-            return value;
-        },
-        changeSort: function(field) {
-            if(! this.sort) return;
-
-            if(this.sortField === field) {
-                this.sortAsc = (this.sortAsc === 1) ? -1 : 1;
-            } else {
-                this.sortField = field;
-                this.sortAsc = 1;
-            }
-        },
-        clickEvent: function(item, field, value) {
-            this.$dispatch('click-table-cell', {
-                item: item,
-                field: field,
-                value: value
-            });
-        }
-    },
-    events: {
-
-    },
-    ready: function() {
-
-    }
-});
-Vue.component('select-picker', {
-    template: '<select v-model="name" class="themed-select" @change="callChangeFunction">' +
-    '<option v-if="placeholder" value="" selected disabled>{{ placeholder }}</option>' +
-    '<option v-if="option && option.value" value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' +
-    '</select>',
-    name: 'selectpicker',
-    props: ['options', 'name', 'function', 'placeholder'],
-    methods: {
-        callChangeFunction: function () {
-            if (this.function && typeof this.function === 'function') {
-                this.function();
-            }
-        }
-    },
-    ready: function () {
-
-        // Init our picker
-        $(this.$el).selectpicker({
-            iconBase: 'fa',
-            tickIcon: 'fa-check'
-        });
-
-        this.$watch('name', function (val) {
-            $(this.$el).val(val);
-            $(this.$el).selectpicker('render');
-        });
-
-        // Update whenever options change
-        this.$watch('options', function (val) {
-            // Refresh our picker UI
-            $(this.$el).selectpicker('refresh');
-            // Update manually because v-model won't catch
-            this.name = $(this.$el).selectpicker('val');
-        }.bind(this))
-    }
-});
-Vue.component('select-type', {
-    name: 'selectType',
-    template: '<select class="select-type" v-show="receivedOptions">' +
-    '<option></option>' +
-    '               <option value="{{ option.value }}" v-for="option in options">{{ option.label }}</option>' + '' +
-    '          </select>',
-    data: function () {
-        return {
-            receivedOptions: false,
-            selectize: {}
-        };
-    },
-    props: [
-        'name',
-        'options',
-        'create',
-        'unique',
-        'placeholder'
-    ],
-    ready: function () {
-
-
-        var self = this;
-
-        var unique = this.unique !== false,
-            create = this.create !== false;
-            placeholder = this.placeholder || 'Type to select...';
-
-        this.$watch('name', function (value) {
-            if(! value)this.selectize.clear();
-        });
-
-        this.$watch('options', function () {
-            this.receivedOptions = true;
-            if (!_.isEmpty(this.selectize)) this.selectize.destroy();
-            this.selectize = $(this.$el).selectize({
-                create: create,
-                sortField: 'text',
-                placeholder: placeholder,
-                createFilter: function (input) {
-                    input = input.toLowerCase();
-                    var optionsArray = $.map(unique.options, function (value) {
-                        return [value];
-                    });
-                    var unmatched = true;
-                    _.forEach(optionsArray, function (option) {
-                        if ((option.text).toLowerCase() === input) {
-                            unmatched = false;
-                        }
-                    });
-                    return unmatched;   // true if unmatched (ie. new) value
-                },
-                onChange: function (value) {
-                    // When we select / enter a new value - enter it into our data
-                    self.name = value;
-                }
-            })[0].selectize;
-            // Let parent component know select is loaded
-            this.$dispatch('select-loaded');
-        });
-
-
-        // TODO :: Add ability to re-render when options changes
-        //      - Maybe define options on selectize and render options / item through plugin (instead of Vue)
-        //      - Call clearOption()?
-        //      - Clear Cache? Some bug, unknown if fixed
-
-    },
-    beforeDestroy: function () {
-        this.selectize.destroy();   // TODO :: Check if valid & necessary
-    }
-});
-Vue.component('text-clipper', {
-    name: 'textClipper',
-    template: '<div class="text-clipper"' +
-    '               :class="{' +
-    "                   'expanded': !clip" +
-    '               }"' +
-    '           >' +
-    '               <div v-if="isClipped" class="clipped">' +
-    '                   {{ text | limitString limit }}' +
-    '                   <a class="btn-show-more-text" @click.prevent.stop="unclip">' +
-    '                       <span class="clickable">...</span>' +
-    '                   </a>' +
-    '               </div>' +
-    '               <div v-else class="unclipped">' +
-    '                   {{ text }}' +
-    '               </div>' +
-    '            </div>',
-    data: function() {
-        return {
-            limit: 150,
-            clip: true
-        };
-    },
-    props: ['text'],
-    computed: {
-        isClipped: function() {
-            return this.text.length > this.limit && this.clip;
-        }
-    },
-    methods: {
-        unclip: function() {
-            // Set max-height dynamically - depending on amount of text
-            $(this.$el).css('max-height', $(this.$el).height());
-            // Playing it safe
-            setTimeout(function() {
-                this.clip = false;
-            }.bind(this), 150);
-        }
-    },
-    ready: function() {
-        // If the data changes but we're still using the same Component instance
-        this.$watch('text', function () {
-            // Reset it - ie. clip text
-            this.clip = true;
-        });
-    }
-});
-Vue.component('toast-alert', {
-    name: 'toaster',
-    template: '<div id="toast-plate">' +
-    '               <div class="toast animated"' +
-    '                    v-for="(index, alert) in alerts"' +
-    '                    transition="fade"' +
-    '                    :class="alert.type">' +
-    '<button type="button" class="btn-close" @click="dismiss(alert) "><i class="fa fa-close"></i></button>' +
-    '{{{ alert.content }}}' +
-    '</div>' +
-    '</div>',
-    data: function() {
-        return {
-            alerts: []
-        };
-    },
-    methods: {
-        addToQueue: function(alert) {
-            // Attach a timeout ID and use it as unique id
-            alert.timerID = setTimeout(function () {
-                // dismiss (hide) the alert after 3 secs...
-                this.dismiss(alert);
-            }.bind(this), 3000);
-            // finally push alert
-            this.alerts.push(alert);
-        },
-        dismiss: function(alert) {
-            // if we prematurely cleared it.. clear the timeout
-            clearTimeout(alert.timerID);
-            // Remove it from array (will work because of unique timerID)
-            this.alerts = _.reject(this.alerts, alert);
-        }
-    },
-    events: {
-        'serve-toast': function(alert) {
-            this.addToQueue(alert);
-        }
-    },
-    ready: function() {
-        /*
-        TODO ::: Implement this component to handle alerts if/when we
-        make the jump to Vue for handling all client-side. Which
-        includes routing, auth etc.
-         */
-    }
-});
 var apiRequestAllBaseComponent = Vue.extend({
     name: 'APIRequestall',
     data: function () {
