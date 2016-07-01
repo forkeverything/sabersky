@@ -1,6 +1,4 @@
 <?php
-namespace App\Http;
-
 use Vinkla\Hashids\Facades\Hashids;
 
 /**
