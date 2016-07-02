@@ -3,7 +3,6 @@
 use App\Company;
 use App\Subscription;
 use App\User;
-use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 class LiveAccountSeeder extends Seeder
