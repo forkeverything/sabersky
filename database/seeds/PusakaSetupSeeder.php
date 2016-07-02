@@ -15,6 +15,7 @@ use App\PurchaseOrder;
 use App\PurchaseRequest;
 use App\Role;
 use App\Rule;
+use App\Subscription;
 use App\User;
 use App\Vendor;
 use Faker\Factory as Faker;
@@ -64,6 +65,7 @@ class PusakaSetupSeeder extends Seeder
         // Clear our tables - Make our records
         $this->truncateTables()
              ->setUpCompany()
+            ->createSubscription()
              ->createUserMike()
              ->makeProject()
              ->createVendors()
@@ -110,6 +112,15 @@ class PusakaSetupSeeder extends Seeder
         ]);
 
         $this->company = $company;
+
+        return $this;
+    }
+
+    protected function createSubscription()
+    {
+        factory(Subscription::class)->create([
+            'company_id' => $this->company->id
+        ]);
 
         return $this;
     }

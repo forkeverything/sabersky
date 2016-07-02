@@ -29,6 +29,13 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Seeded Dev: Company, Project, User');
         }
 
+        if (App::environment('production')) {
+            $this->command->info('...Seeding LIVE TEST data');
+            $this->call(LiveAccountSeeder::class);
+        }
+
+
+
         $this->command->info('...done seeding!');
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
