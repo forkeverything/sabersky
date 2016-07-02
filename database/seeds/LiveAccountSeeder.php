@@ -1,11 +1,32 @@
 <?php
 
 use App\Company;
+use App\Subscription;
 use App\User;
 use Illuminate\Database\Seeder;
 
 class LiveAccountSeeder extends Seeder
 {
+
+    /**
+     * List of table names that we affect
+     * @var array
+     */
+    protected $tables = [
+        'companies',
+        'users',
+        'items',
+        'projects',
+        'vendors',
+        'addresses',
+        'roles',
+        'bank_accounts',
+        'purchase_requests',
+        'purchase_orders',
+        'line_items',
+        'subscriptions'
+    ];
+    
     /**
      * Run the database seeds.
      *

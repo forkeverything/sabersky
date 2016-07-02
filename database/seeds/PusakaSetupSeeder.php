@@ -38,7 +38,8 @@ class PusakaSetupSeeder extends Seeder
         'bank_accounts',
         'purchase_requests',
         'purchase_orders',
-        'line_items'
+        'line_items',
+        'subscriptions'
     ];
 
     protected $company;
