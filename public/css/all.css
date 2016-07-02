@@ -10322,6 +10322,26 @@ properties but with background and padding.
 .credit-card-form .billing-buttons button:first-child {
   margin-left: 15px; }
 
+#system-status {
+  background: #294661;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #fff; }
+  #system-status h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 25em; }
+
 body {
   font-family: proxima-nova, Helvetica, sans-serif;
   color: rgba(41, 70, 97, 0.6);

@@ -1121,7 +1121,6 @@ Vue.component('system-status', {
         this.pusherChannel = this.pusher.subscribe('system');
 
         this.pusherChannel.bind('App\\Events\\NewCompanySignedUp', function(message) {
-            alert('caught!');
             self.companyCount ++;
         });
         

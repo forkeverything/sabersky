@@ -959,61 +959,6 @@ Vue.directive('table-bulk-actions', function () {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
-var userCompany = {
-    props: ['user'],
-    computed: {
-        company: function () {
-            return this.user.company;
-        },
-        availableCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.settings.currencies;
-        },
-        companyCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.currencies;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        }
-    }
-};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -1146,6 +1091,61 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
+var userCompany = {
+    props: ['user'],
+    computed: {
+        company: function () {
+            return this.user.company;
+        },
+        availableCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.settings.currencies;
+        },
+        companyCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.currencies;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        }
+    }
+};
 Vue.component('checkbox', {
     name: 'styledCheckbox',
     template: '<div class="checkbox-component">'+

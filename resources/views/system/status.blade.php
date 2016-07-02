@@ -38,9 +38,9 @@
 <body id="app-layout">
 
     <system-status inline-template :company-count="{{ $companyCount }}">
-        <div id="system-status">
+        <div id="system-status" v-cloak>
             <h1>
-                @{{ companyCount }}
+                @{{ companyCount | numberFormat }}
             </h1>
         </div>
     </system-status>

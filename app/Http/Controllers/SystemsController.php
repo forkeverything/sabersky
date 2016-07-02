@@ -9,6 +9,7 @@ use App\Http\Requests;
 
 class SystemsController extends Controller
 {
+
     /**
      * Status overview page of app-system
      * 
