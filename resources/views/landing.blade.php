@@ -172,6 +172,7 @@
                     </div>
                 </div>
             </div>
+            @include('layouts.partials.registration-popup')
         </div>
     </landing>
 @endsection

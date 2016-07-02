@@ -43,6 +43,9 @@ new Vue({
         },
         toggleNavDropdown: function() {
             this.showNavDropdown = !this.showNavDropdown;
+        },
+        getStarted: function() {
+            vueEventBus.$emit('clicked-join-button');
         }
     },
     ready: function () {
