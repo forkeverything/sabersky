@@ -3,6 +3,7 @@
 use App\Company;
 use App\Subscription;
 use App\User;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 class LiveAccountSeeder extends Seeder
@@ -26,7 +27,7 @@ class LiveAccountSeeder extends Seeder
         'line_items',
         'subscriptions'
     ];
-    
+
     /**
      * Run the database seeds.
      *
@@ -75,6 +76,7 @@ class LiveAccountSeeder extends Seeder
 
     protected function createSubscription()
     {
+        $this->command->info('Subscription... ');
         factory(Subscription::class)->create([
             'company_id' => $this->company->id
         ]);
