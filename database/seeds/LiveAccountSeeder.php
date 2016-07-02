@@ -81,6 +81,14 @@ class LiveAccountSeeder extends Seeder
             'company_id' => $this->company->id
         ]);
 
+        Subscription::create([
+            'company_id' => $this->company->id,
+            'name' => 'main',
+            'stripe_id' => str_random(21),
+            'stripe_plan' => 'growth',
+            'quantity' => 1
+        ]);
+
         return $this;
     }
 
