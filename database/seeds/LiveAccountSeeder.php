@@ -76,10 +76,7 @@ class LiveAccountSeeder extends Seeder
     protected function createSubscription()
     {
         $this->command->info('Subscription... ');
-        factory(Subscription::class)->create([
-            'company_id' => $this->company->id
-        ]);
-
+        
         Subscription::create([
             'company_id' => $this->company->id,
             'name' => 'main',
