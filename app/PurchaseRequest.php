@@ -85,7 +85,17 @@ class PurchaseRequest extends Model
         'created'
     ];
 
-    
+    /**
+     * Always append these dynamic properties
+     * 
+     * @var array
+     */
+    protected $appends = [
+        'initialQuantity',
+        'fulfilledQuantity'
+    ];
+
+
     /**
      * Every PR has belongs to a single Item
      * which it is requesting.
@@ -203,7 +213,7 @@ class PurchaseRequest extends Model
 
     /**
      * Re-open a previously cancelled PR
-     * 
+     *
      * @return $this
      * @throws Exception
      */
@@ -242,7 +252,7 @@ class PurchaseRequest extends Model
     {
         return $this->quantity + $this->fulfilledQuantity;
     }
-    
+
 
 
 

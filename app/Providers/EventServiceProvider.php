@@ -8,6 +8,7 @@ use App\Events\InvitedStaffMember;
 use App\Events\NewCompanySignedUp;
 use App\Events\PurchaseOrderSubmitted;
 use App\Events\PurchaseRequestMade;
+use App\Events\PurchaseRequestUpdated;
 use App\Listeners\EmailConfirmAddedToProject;
 use App\Listeners\EmailJoinStaffInvitation;
 use App\Listeners\EmailNewOrderNotification;
@@ -46,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PurchaseOrderSubmitted::class => [
             EmailNewOrderNotification::class
+        ],
+        PurchaseRequestUpdated::class => [
+            
         ]
     ];
 

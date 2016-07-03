@@ -252,7 +252,7 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     Route::get('/test', function () {
-        Event::fire(new \App\Events\NewCompanySignedUp(\App\Company::first(), \App\User::first()));
+        Event::fire(new \App\Events\PurchaseRequestUpdated(\App\PurchaseRequest::find(20)));
     });
 
     /**

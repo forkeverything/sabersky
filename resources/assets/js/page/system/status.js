@@ -5,7 +5,8 @@ Vue.component('system-status', {
     },
     data: function() {
         return {
-
+            pusher: '',
+            pusherChannel: ''
         };
     },
     props: ['company-count'],

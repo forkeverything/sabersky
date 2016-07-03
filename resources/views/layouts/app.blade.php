@@ -8,8 +8,8 @@
     <title>Sabersky</title>
 
     <link rel="shortcut icon" href="{{ asset('/images/icons/favicon.png') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <meta name="stripe-key" content="{{ env('STRIPE_KEY') }}"/>
+
+    @include('layouts.partials.meta-fields')
 
     <!--
     ========== Stylez ===========

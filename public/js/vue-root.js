@@ -17,6 +17,8 @@ new Vue({
                 }
             }
         },
+        pusher: '',
+        pusherChannel: '',
         showingMenu: false,
         showNavDropdown: false
     },

@@ -14,7 +14,7 @@ Vue.component('notes', {
     '<ul class="list-unstyled list-notes">' +
     '<li v-for="note in notes" class="single-note">' +
     '<a v-if="canDelete(note)" @click="deleteNote(note)" class="btn-close small"><i class="fa fa-close"></i></a>' +
-    '<div class="notes-meta">'+
+    '<div class="notes-meta">' +
     '<span class="poster">{{ note.poster.name }}</span><span class="posted">{{ note.created_at | diffHuman }}</span>' +
     '</div>' +
     '<p class="content">{{ note.content }}</p>' +
@@ -66,8 +66,9 @@ Vue.component('notes', {
                 }
             });
         },
-        canDelete: function(note) {
-          if(this.user.role.position === 'admin') return true;
+        canDelete: function (note) {
+            if (!this.user) return false;
+            if (this.user.role.position === 'admin') return true;
             return this.user.id === note.user_id;
         },
         deleteNote: function (note) {

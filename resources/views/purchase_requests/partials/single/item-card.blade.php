@@ -2,44 +2,37 @@
 <hr>
 <div class="top">
     <div class="main-photo">
-        @if($mainPhoto = $purchaseRequest->item->photos->first())
-            <a href="{{ $mainPhoto->path }}" class="fancybox image-item-main" rel="group"><img
-                        src="{{ $mainPhoto->thumbnail_path }}" alt="Item Main Photo"></a>
-        @else
-            <div class="placeholder">
+            <a v-if="purchaseRequest.item.photos.length > 0" :href="purchaseRequest.item.photos[0].path" class="fancybox image-item-main" rel="group"><img
+                        :src="purchaseRequest.item.photos[0].thumbnail_path" alt="Item Main Photo"></a>
+            <div class="placeholder" v-else>
                 <i class="fa fa-image"></i>
             </div>
-        @endif
     </div>
     <div class="details-item">
-        @if($sku = $purchaseRequest->item->sku)
-            <div><span class="item-sku">{{ $sku }}</span></div>
-        @endif
-        <a class="dotted item-link" href="{{ route('getSingleItem', $purchaseRequest->item->id) }}">
-            @if($purchaseRequest->item->brand)
-            <span class="item-brand">{{ $purchaseRequest->item->brand }}</span> -
-            @endif
-            <span class="item-name">{{ $purchaseRequest->item->name }}</span>
+            <div v-if="purchaseRequest.item.sku">
+                <span class="item-sku">@{{ purchaseRequest.item.sku }}</span>
+            </div>
+        <a class="dotted item-link" :href="'/items/' + purchaseRequest.item.id">
+            <span class="item-brand" v-if="purchaseRequest.item.brand">@{{ purchaseRequest.item.brand }}</span> -
+            <span class="item-name">@{{ purchaseRequest.item.name }}</span>
         </a>
     </div>
 </div>
-<p class="specification">{{ $purchaseRequest->item->specification }}</p>
-@if($purchaseRequest->item->photos->count() > 1)
-    <hr>
-    <div class="item-images">
+<p class="specification">@{{ purchaseRequest.item.specification }}</p>
+    <div class="item-images" v-if="purchaseRequest.item.photos.length > 1">
+        <hr>
         <h3>Photos</h3>
         <ul class="image-gallery list-unstyled list-inline">
-            @foreach($purchaseRequest->item->photos as $photo)
-                <li class="single-item-image"><a href="{{ $photo->path }}" class="fancybox"
-                                                 rel="group"><img
-                                src="{{ $photo->thumbnail_path }}" alt="item image"></a></li>
-            @endforeach
+                <li class="single-item-image" v-for="photo in purchaseRequest.item.photos">
+                    <a :href="photo.path" class="fancybox" rel="group">
+                        <img :src="photo.thumbnail_path" alt="item image">
+                    </a>
+                </li>
         </ul>
     </div>
-@endif
-@if($purchaseRequest->item->lineItems->count() > 0)
-    <hr>
-    <div class="order-history">
+
+    <div class="order-history" v-if="purchaseRequest.item.line_items.length > 0">
+        <hr>
         <h3>Recent Orders</h3>
         <div class="table-responsive">
             <table class="table table-hover table-standard">
@@ -51,15 +44,12 @@
                 <tr>
                 </thead>
                 <tbody>
-                @foreach($purchaseRequest->item->lineItems->take(5) as $lineItem)
-                    <tr>
-                        <td class="content-center padding-even"><a href="{{ route('singlePurchaseOrder', $lineItem->purchaseOrder->id) }}" alt="Single PO Link">#{{ $lineItem->purchaseOrder->number }}</a></td>
-                        <td>{{ $lineItem->purchaseOrder->vendor->name }}</td>
-                        <td class="content-center padding-even">{{ $lineItem->quantity }}</td>
+                    <tr v-for="lineItem in lineItems">
+                        <td class="content-center padding-even"><a :href="'/purchase_orders/' + lineItem.purchase_order.id" alt="Single PO Link">#@{{ lineItem.purchase_order.number }}</a></td>
+                        <td>@{{ lineItem.purchase_order.vendor.name }}</td>
+                        <td class="content-center padding-even">@{{ lineItem.quantity }}</td>
                     </tr>
-                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-@endif
