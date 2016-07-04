@@ -175,7 +175,10 @@ class PurchaseRequestController extends Controller
     public function getReopen(PurchaseRequest $purchaseRequest)
     {
         $this->authorize('view', $purchaseRequest);
-        if ($purchaseRequest->reopen()){} return response("Reopened PR", 200);
+        if ($purchaseRequest->reopen()){
+            Event::fire(new PurchaseRequestUpdated($purchaseRequest));
+            return response("Reopened PR", 200);
+        }
         return response("Could not reopen PR", 500);
     }
 

@@ -11,6 +11,9 @@ Vue.component('purchase-request-single', {
     },
     props: ['purchase-request'],
     computed: {
+        canFulfill: function() {
+            return this.purchaseRequest.state === 'open' && this.purchaseRequest.quantity > 0
+        },
         lineItems: function() {
             // Only return first 5 line items
             return _.take(this.purchaseRequest.item.line_items, 5);
@@ -36,6 +39,7 @@ Vue.component('purchase-request-single', {
             this.showConfirm = !this.showConfirm;
         },
         sendRequest: function(action) {
+            this.showConfirm = false;
             var method = 'DELETE';
             var url = '/purchase_requests/' + this.purchaseRequest.id;
 
@@ -51,10 +55,10 @@ Vue.component('purchase-request-single', {
                 url: url,
                 method: method,
                 success: function(data) {
-                    location.reload();
+                    // Updated using pusher
+                    self.ajaxReady = true;
                 },
                 error: function(response) {
-                    console.log(response);
                     self.ajaxReady = true;
                 }
             });
@@ -67,8 +71,11 @@ Vue.component('purchase-request-single', {
     ready: function() {
         var self = this;
         pusherChannel.bind('App\\Events\\PurchaseRequestUpdated', function(data) {
-            self.purchaseRequest = data.purchaseRequest;
             console.log(data);
+            // status
+            self.purchaseRequest.state = data.purchaseRequest.state;
+            // qty
+            self.purchaseRequest.quantity = data.purchaseRequest.quantity;
         });
     }
 });

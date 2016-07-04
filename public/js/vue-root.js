@@ -3,6 +3,10 @@
 // Initialize our event bus
 var vueEventBus = new Vue();
 
+// Pusher
+var pusher,
+    pusherChannel;
+
 // root Vue instance
 new Vue({
     el: '#app-layout',
@@ -32,6 +36,13 @@ new Vue({
           var self = this;
             $.get('/user', function (data) {
                 self.user = data;
+
+                // listen to pusher events
+                pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
+                    cluster: 'ap1',
+                    encrypted: true
+                });
+                pusherChannel = pusher.subscribe('user.' + data.id);
             });
         },
         toggleSideMenu: function () {

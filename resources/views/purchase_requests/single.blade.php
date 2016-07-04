@@ -8,7 +8,7 @@
 
             <h1>Purchase Request #@{{ purchaseRequest.number }}</h1>
 
-            <div class="top-control align-end" v-if="purchaseRequest.quantity > 0">
+            <div class="top-control align-end" v-if="canFulfill">
                 <a class="link-fulfill" :href="'/purchase_orders/submit?request=' + purchaseRequest.id">
                     <button type="button" class="btn btn-solid-green">Fulfill</button>
                 </a>

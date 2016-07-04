@@ -1153,63 +1153,6 @@ var userCompany = {
         }
     }
 };
-Vue.component('date-range-field', {
-    name: 'dateRangeField',
-    template: '<div class="date-range-field">' +
-    '<div class="starting">' +
-    '<label>starting</label>'+
-    '<input type="text" class="filter-datepicker" v-model="min | properDateModel" placeholder="date">'+
-    '</div>' +
-    '<span class="dash">-</span>' +
-    '<div class="ending">' +
-    '<label>Ending</label>' +
-    '<input type="text" class="filter-datepicker" v-model="max | properDateModel" placeholder="date">' +
-    '</div>'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('integer-range-field', {
-    name: 'integerRangeField',
-    template: '<div class="integer-range-field">'+
-    '<input type="number" class="form-control" v-model="min" min="0">'+
-    '<span class="dash">-</span>'+
-    '<input type="number" class="form-control" v-model="max" min="0">'+
-    '</div>',
-    props: ['min', 'max']
-});
-Vue.component('number-input', {
-    name: 'numberInput',
-    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
-    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
-    computed: {
-        precision: function() {
-            return this.decimal || 0;
-        },
-        inputVal: {
-            get: function() {
-                if(this.model === 0) return 0;
-                if(! this.model) return;
-                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
-                return accounting.formatNumber(this.model, this.precision, ",");
-            },
-            set: function(newVal) {
-                // Acts like a 2 way filter
-                var decimal = this.decimal || 0;
-                this.model = accounting.toFixed(newVal, this.precision);
-
-                if(this.onChangeEventName) {
-                    var data = this.onChangeEventData || null;
-                    vueEventBus.$emit(this.onChangeEventName, {
-                        newVal: newVal,
-                        attached: data
-                    });
-                }
-            }
-        }
-    },
-    ready: function() {
-    }
-});
 Vue.component('checkbox', {
     name: 'styledCheckbox',
     template: '<div class="checkbox-component">'+
@@ -1714,6 +1657,63 @@ Vue.component('toast-alert', {
         make the jump to Vue for handling all client-side. Which
         includes routing, auth etc.
          */
+    }
+});
+Vue.component('date-range-field', {
+    name: 'dateRangeField',
+    template: '<div class="date-range-field">' +
+    '<div class="starting">' +
+    '<label>starting</label>'+
+    '<input type="text" class="filter-datepicker" v-model="min | properDateModel" placeholder="date">'+
+    '</div>' +
+    '<span class="dash">-</span>' +
+    '<div class="ending">' +
+    '<label>Ending</label>' +
+    '<input type="text" class="filter-datepicker" v-model="max | properDateModel" placeholder="date">' +
+    '</div>'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('integer-range-field', {
+    name: 'integerRangeField',
+    template: '<div class="integer-range-field">'+
+    '<input type="number" class="form-control" v-model="min" min="0">'+
+    '<span class="dash">-</span>'+
+    '<input type="number" class="form-control" v-model="max" min="0">'+
+    '</div>',
+    props: ['min', 'max']
+});
+Vue.component('number-input', {
+    name: 'numberInput',
+    template: '<input type="text" :class="class" v-model="inputVal" :placeholder="placeholder" :disabled="disabled">',
+    props: ['model', 'placeholder', 'decimal', 'currency', 'class', 'disabled', 'on-change-event-name', 'on-change-event-data'],
+    computed: {
+        precision: function() {
+            return this.decimal || 0;
+        },
+        inputVal: {
+            get: function() {
+                if(this.model === 0) return 0;
+                if(! this.model) return;
+                if(this.currency) return accounting.formatMoney(this.model, this.currency + ' ', this.precision);
+                return accounting.formatNumber(this.model, this.precision, ",");
+            },
+            set: function(newVal) {
+                // Acts like a 2 way filter
+                var decimal = this.decimal || 0;
+                this.model = accounting.toFixed(newVal, this.precision);
+
+                if(this.onChangeEventName) {
+                    var data = this.onChangeEventData || null;
+                    vueEventBus.$emit(this.onChangeEventName, {
+                        newVal: newVal,
+                        attached: data
+                    });
+                }
+            }
+        }
+    },
+    ready: function() {
     }
 });
 Vue.component('add-address-modal', {
