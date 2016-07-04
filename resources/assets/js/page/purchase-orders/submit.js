@@ -138,13 +138,16 @@ Vue.component('purchase-orders-submit', {
                     "shipping_zip": self.shippingAddress.zip,
                     "shipping_country_id": self.shippingAddress.country_id,
                     "shipping_state": self.shippingAddress.state,
-                    "line_items": self.lineItems,
+                    "line_items": _.map(self.lineItems, function(lineItem){
+                        // Remove unecessary data, otherwise Laravel's validator will struggle
+                        return _.omit(lineItem, ['user', 'project', 'item', 'line_items']);
+                    }),
                     "additional_costs": self.additionalCosts
                 },
                 success: function (data) {
                     // success
                     flashNotifyNextRequest('success', 'Submitted Purchase Order');
-                    location.href = "/purchase_orders";
+                    location.href = "/purchase_orders/" + data.id;
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -200,7 +203,7 @@ Vue.component('purchase-orders-submit', {
             var preSelectedRequestIDs = getParameterByName('request').split(',');
             _.forEach(preSelectedRequestIDs, function (id) {
                 $.get('/api/purchase_requests/' + id, function (request) {
-                    if (request.state === 'open') self.lineItems.push(request);
+                    if (request.state === 'open') vueEventBus.$emit('po-add-line-item', request);
                 });
             });
         }

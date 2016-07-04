@@ -226,6 +226,12 @@ Vue.component('select-line-items', {
             } else {
                 var self = this;
 
+                // Define properties
+                purchaseRequest.order_quantity = '';
+                purchaseRequest.order_price = '';
+                purchaseRequest.order_payable = '';
+                purchaseRequest.order_delivery = '';
+
                 var sameItemLineItem = _.find(self.lineItems, function (lineItem) {
                     return lineItem.item.id === purchaseRequest.item.id;
                 });
@@ -255,15 +261,22 @@ Vue.component('select-line-items', {
     mixins: [modalSinglePR],
     ready: function() {
 
+        var self = this;
+
+
         // select a new project -> load relevant PRs
         this.$watch('projectID', function (val) {
             if (!val) return;
-            this.fetchPurchaseRequests();
+            self.fetchPurchaseRequests();
         });
 
         // listen to our custom go to page event name
         vueEventBus.$on('po-submit-pr-page', function (page) {
-            this.fetchPurchaseRequests(page);
-        }.bind(this));
+            self.fetchPurchaseRequests(page);
+        });
+
+        vueEventBus.$on('po-add-line-item', function(request) {
+            self.selectPR(request);
+        })
     }
 });

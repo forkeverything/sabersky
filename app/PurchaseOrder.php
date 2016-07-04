@@ -551,7 +551,8 @@ class PurchaseOrder extends Model
      */
     public function getBillingAddressSameAsCompanyAttribute()
     {
-        return $this->billingAddress->id === $this->company->address->id;
+        if($this->billingAddress) return $this->billingAddress->id === $this->company->address->id;
+        return false;
     }
 
     /**
@@ -560,7 +561,8 @@ class PurchaseOrder extends Model
      */
     public function getShippingAddressSameAsBillingAttribute()
     {
-        return $this->shippingAddress->id === $this->billingAddress->id;
+        if($this->shippingAddress) return $this->shippingAddress->id === $this->billingAddress->id;
+        return false;
     }
 
     /**

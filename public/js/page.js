@@ -650,13 +650,16 @@ Vue.component('purchase-orders-submit', {
                     "shipping_zip": self.shippingAddress.zip,
                     "shipping_country_id": self.shippingAddress.country_id,
                     "shipping_state": self.shippingAddress.state,
-                    "line_items": self.lineItems,
+                    "line_items": _.map(self.lineItems, function(lineItem){
+                        // Remove unecessary data, otherwise Laravel's validator will struggle
+                        return _.omit(lineItem, ['user', 'project', 'item', 'line_items']);
+                    }),
                     "additional_costs": self.additionalCosts
                 },
                 success: function (data) {
                     // success
                     flashNotifyNextRequest('success', 'Submitted Purchase Order');
-                    location.href = "/purchase_orders";
+                    location.href = "/purchase_orders/" + data.id;
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -712,7 +715,7 @@ Vue.component('purchase-orders-submit', {
             var preSelectedRequestIDs = getParameterByName('request').split(',');
             _.forEach(preSelectedRequestIDs, function (id) {
                 $.get('/api/purchase_requests/' + id, function (request) {
-                    if (request.state === 'open') self.lineItems.push(request);
+                    if (request.state === 'open') vueEventBus.$emit('po-add-line-item', request);
                 });
             });
         }
@@ -1096,133 +1099,6 @@ Vue.component('settings', {
     }
 });
 
-Vue.component('system-status', {
-    name: 'SystemStatus',
-    el: function() {
-        return '#system-status'
-    },
-    data: function() {
-        return {
-            pusher: '',
-            pusherChannel: ''
-        };
-    },
-    props: ['company-count'],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-        var self = this;
-
-        this.pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
-            cluster: 'ap1',
-            encrypted: true
-        });
-
-        this.pusherChannel = this.pusher.subscribe('system');
-
-        this.pusherChannel.bind('App\\Events\\NewCompanySignedUp', function(message) {
-            self.companyCount ++;
-        });
-        
-    }
-}); 
-Vue.component('user-profile', {
-    name: 'userProfile',
-    el: function() {
-        return '#user-profile'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            editingContact: false,
-            editingBio: false,
-            showProfilePhotoMenu: false
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        togglePhotoMenu: function() {
-            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
-        },
-        toggleEditMode: function(section) {
-            this['editing' + section] = ! this['editing' + section];
-            this.editingSection = (this.editingSection ===  section) ? '' : section;
-        },
-        updateProfile: function(section) {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile',
-                method: 'PUT',
-                data: {
-                    "name": self.user.name,
-                    "email": self.user.email,
-                    "phone": self.user.phone,
-                    "bio": self.user.bio
-                },
-                success: function(data) {
-                   // success
-                    self.toggleEditMode(section);
-                    flashNotify('success', 'Updated profile');
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        showFileSelecter: function() {
-            $(this.$els.fileInput).click();
-        },
-        uploadProfilePhoto: function() {
-            $(this.$els.profilePhotoForm).submit();
-        },
-        removePhoto: function() {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile/photo',
-                method: 'DELETE',
-                success: function(data) {
-                   self.ajaxReady = true;
-                    flashNotifyNextRequest('success', 'Removed profile photo');
-                    location.reload();
-                },
-                error: function(response) {
-                    console.log(response);
-                    flashNotify('error', 'Could not remove photo');
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {
-        
-    },
-    mixins: [userCompany],
-    ready: function() {
-        var self = this;
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
-                self.showProfilePhotoMenu = false;
-            }
-        });
-    }
-});
 Vue.component('staff-all', {
     name: 'staffAll',
     el: function() {
@@ -1298,6 +1174,43 @@ Vue.component('staff-single', {
         var self = this;
     }
 });
+Vue.component('system-status', {
+    name: 'SystemStatus',
+    el: function() {
+        return '#system-status'
+    },
+    data: function() {
+        return {
+            pusher: '',
+            pusherChannel: ''
+        };
+    },
+    props: ['company-count'],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+        var self = this;
+
+        this.pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
+            cluster: 'ap1',
+            encrypted: true
+        });
+
+        this.pusherChannel = this.pusher.subscribe('system');
+
+        this.pusherChannel.bind('App\\Events\\NewCompanySignedUp', function(message) {
+            self.companyCount ++;
+        });
+        
+    }
+}); 
 Vue.component('vendor-single', {
     name: 'vendorSingle',
     el: function () {
@@ -1469,6 +1382,96 @@ Vue.component('vendor-single', {
     mixins: [userCompany],
     ready: function () {
         var self = this;
+    }
+});
+Vue.component('user-profile', {
+    name: 'userProfile',
+    el: function() {
+        return '#user-profile'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            editingContact: false,
+            editingBio: false,
+            showProfilePhotoMenu: false
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        togglePhotoMenu: function() {
+            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
+        },
+        toggleEditMode: function(section) {
+            this['editing' + section] = ! this['editing' + section];
+            this.editingSection = (this.editingSection ===  section) ? '' : section;
+        },
+        updateProfile: function(section) {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile',
+                method: 'PUT',
+                data: {
+                    "name": self.user.name,
+                    "email": self.user.email,
+                    "phone": self.user.phone,
+                    "bio": self.user.bio
+                },
+                success: function(data) {
+                   // success
+                    self.toggleEditMode(section);
+                    flashNotify('success', 'Updated profile');
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        showFileSelecter: function() {
+            $(this.$els.fileInput).click();
+        },
+        uploadProfilePhoto: function() {
+            $(this.$els.profilePhotoForm).submit();
+        },
+        removePhoto: function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile/photo',
+                method: 'DELETE',
+                success: function(data) {
+                   self.ajaxReady = true;
+                    flashNotifyNextRequest('success', 'Removed profile photo');
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove photo');
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+        
+    },
+    mixins: [userCompany],
+    ready: function() {
+        var self = this;
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
+                self.showProfilePhotoMenu = false;
+            }
+        });
     }
 });
 Vue.component('po-billing-address', {
@@ -1861,6 +1864,12 @@ Vue.component('select-line-items', {
             } else {
                 var self = this;
 
+                // Define properties
+                purchaseRequest.order_quantity = '';
+                purchaseRequest.order_price = '';
+                purchaseRequest.order_payable = '';
+                purchaseRequest.order_delivery = '';
+
                 var sameItemLineItem = _.find(self.lineItems, function (lineItem) {
                     return lineItem.item.id === purchaseRequest.item.id;
                 });
@@ -1890,16 +1899,23 @@ Vue.component('select-line-items', {
     mixins: [modalSinglePR],
     ready: function() {
 
+        var self = this;
+
+
         // select a new project -> load relevant PRs
         this.$watch('projectID', function (val) {
             if (!val) return;
-            this.fetchPurchaseRequests();
+            self.fetchPurchaseRequests();
         });
 
         // listen to our custom go to page event name
         vueEventBus.$on('po-submit-pr-page', function (page) {
-            this.fetchPurchaseRequests(page);
-        }.bind(this));
+            self.fetchPurchaseRequests(page);
+        });
+
+        vueEventBus.$on('po-add-line-item', function(request) {
+            self.selectPR(request);
+        })
     }
 });
 Vue.component('purchase-order-single', {

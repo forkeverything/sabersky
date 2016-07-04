@@ -71,8 +71,7 @@ class PurchasingServiceProvider extends ServiceProvider
 
         // Line Item - Can't have quantities greater than their Request's quantity (can't order more than we need)
         Validator::extend('line_item_quantity', function ($attribute, $value, $parameters, $validator) {
-            if ($value['order_quantity'] < 1) return false;
-            return PurchaseRequest::find($value['id'])->quantity >= $value['order_quantity'];
+            return $value['order_quantity'] >= 1 && $value['quantity'] >= $value['order_quantity'];
         });
 
         // Line Item - Can't have different price for same item in the same (single) order
