@@ -20,4 +20,7 @@ var pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
 });
 
 var userId = $('meta[name="user-id"]').attr('content');
-if(userId) var pusherChannel = pusher.subscribe('private-user.' + userId );
+var pusherChannel;
+if(userId) {
+     pusherChannel = pusher.subscribe('private-user.' + userId );
+}
