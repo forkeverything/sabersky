@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Events\LineItemUpdated;
 use App\Utilities\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 
 /**
  * App\LineItem
@@ -174,6 +176,7 @@ class LineItem extends Model
     {
         $this->paid = 1;
         $this->save();
+        Event::fire(new LineItemUpdated($this));
         $user->recordActivity('paid', $this);
         return $this;
     }
@@ -193,6 +196,7 @@ class LineItem extends Model
         if(! in_array($status, $allowedStatuses)) abort(500, "Invalid line item status");
         $this->status = $status;
         $this->save();
+        Event::fire(new LineItemUpdated($this));
         $user->recordActivity('received', $this);
         return $this;
     }

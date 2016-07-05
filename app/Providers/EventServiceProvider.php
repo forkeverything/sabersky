@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use App\Events\AddedTeamMemberToProject;
 use App\Events\InvitedStaffMember;
+use App\Events\LineItemUpdated;
 use App\Events\NewCompanySignedUp;
 use App\Events\PurchaseOrderSubmitted;
 use App\Events\PurchaseOrderUpdated;
@@ -12,6 +13,7 @@ use App\Events\PurchaseRequestMade;
 use App\Events\PurchaseRequestUpdated;
 use App\Events\RuleProcessed;
 use App\Events\RuleUpdated;
+use App\LineItem;
 use App\Listeners\EmailConfirmAddedToProject;
 use App\Listeners\EmailJoinStaffInvitation;
 use App\Listeners\EmailNewOrderNotification;
@@ -53,7 +55,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         PurchaseRequestUpdated::class => [],
         PurchaseOrderUpdated::class => [],
-        RuleProcessed::class => []
+        RuleProcessed::class => [],
+        LineItemUpdated::class => []
     ];
 
     /**

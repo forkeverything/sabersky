@@ -58,14 +58,23 @@ Vue.component('purchase-order-single', {
     ready: function () {
 
         var self = this;
-        pusherChannel.bind('App\\Events\\PurchaseOrderUpdated', function(data) {
+        pusherChannel.bind('App\\Events\\PurchaseOrderUpdated', function (data) {
             // status
             self.purchaseOrder.status = data.purchaseOrder.status;
         });
 
-        pusherChannel.bind('App\\Events\\RuleProcessed', function(data) {
-            var rule = _.find(self.purchaseOrder.rules, { 'id': data.rule.id });
+        pusherChannel.bind('App\\Events\\RuleProcessed', function (data) {
+            var rule = _.find(self.purchaseOrder.rules, {'id': data.rule.id});
             rule.pivot.approved = data.approval;
+        });
+
+        pusherChannel.bind('App\\Events\\LineItemUpdated', function (data) {
+            // fetch our LineItem
+            var lineItem = _.find(self.purchaseOrder.line_items, {'id': data.lineItem.id});
+            // update status
+            lineItem.status = data.lineItem.status;
+            // update paid
+            lineItem.paid = data.lineItem.paid;
         });
 
     }
