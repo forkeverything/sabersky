@@ -28,8 +28,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/', 'PagesController@getHome');
     Route::get('/dashboard', 'PagesController@getDashboard');
-    
-    
+
 
     /*
      * Out-the-box Authentication Endpoints
@@ -252,19 +251,18 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     Route::get('/test', function () {
-
-//        $pusher = new Pusher( env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'), ['cluster' => 'ap1']);
-//        $pusher->trigger( 'user.1', 'App\Events\PurchaseRequestUpdated', ['foo' => 'bar'] );
-//        dd($pusher);
-
-//        dd(\App\PurchaseRequest::find(18)->toArray());
-
-        Event::fire(new \App\Events\PurchaseRequestUpdated(\App\PurchaseRequest::find(18)));
+        Event::fire(new \App\Events\PurchaseOrderUpdated(\App\PurchaseOrder::find(2)));
     });
 
     /**
      * System
      */
     Route::get('/system/status', 'SystemsController@getStatus');
+
+    /**
+     * 3rd Party Services
+     */
+    // Pusher
+    Route::post('/pusher/auth', 'PusherController@postAuthPrivateUserChannel');
 
 });

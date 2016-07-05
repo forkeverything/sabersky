@@ -56,5 +56,17 @@ Vue.component('purchase-order-single', {
     events: {},
     mixins: [userCompany, numberFormatter],
     ready: function () {
+
+        var self = this;
+        pusherChannel.bind('App\\Events\\PurchaseOrderUpdated', function(data) {
+            // status
+            self.purchaseOrder.status = data.purchaseOrder.status;
+        });
+
+        pusherChannel.bind('App\\Events\\RuleProcessed', function(data) {
+            var rule = _.find(self.purchaseOrder.rules, { 'id': data.rule.id });
+            rule.pivot.approved = data.approval;
+        });
+
     }
 });

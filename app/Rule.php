@@ -4,9 +4,11 @@ namespace App;
 
 use App\Company;
 use App\Country;
+use App\Events\RuleProcessed;
 use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 /**
  * App\Rule
@@ -311,7 +313,13 @@ class Rule extends Model
     {
         // If we've already approved / rejected - then don't allow anymore changes
         if($val !== 1 && $val !== 0 || $this->pivot->approved !== null) return;
+        
+        // 0 = rejected, 1 = approved
         $this->pivot->approved = $val;
+        
+        // Fire event
+        Event::fire(new RuleProcessed($this, $val));
+        
         return $this->pivot->save();
     }
 

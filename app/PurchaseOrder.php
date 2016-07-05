@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Country;
+use App\Events\PurchaseOrderUpdated;
 use App\Events\PurchaseRequestUpdated;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
@@ -114,10 +115,7 @@ class PurchaseOrder extends Model
         'currency_code',
         'currency_symbol',
         'billing_address_same_as_company',
-        'shipping_address_same_as_billing',
-        'pending',
-        'approved',
-        'rejected'
+        'shipping_address_same_as_billing'
     ];
 
     /**
@@ -444,6 +442,7 @@ class PurchaseOrder extends Model
      */
     public function updateStatus(User $user)
     {
+        $previousStatus = $this->status;
         // Can't un-approve a status - a rejected Order can be approved but not vice-versa.
         if ($this->hasStatus('approved')) return;
 
@@ -457,6 +456,8 @@ class PurchaseOrder extends Model
 
         // If we don't have any rules or all rules are approved - then we can consider Order approved
         if ((count($this->rules) === 0 || $this->attachedRulesAllApproved())) $this->markApproved($user);
+        
+        if($previousStatus !== $this->status) Event::fire(new PurchaseOrderUpdated($this));
 
         return $this;
     }

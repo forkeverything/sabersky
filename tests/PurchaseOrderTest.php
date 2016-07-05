@@ -512,26 +512,26 @@ class PurchaseOrderTest extends TestCase
         // An approved PO should still be approved
         $approvedPO = factory(PurchaseOrder::class)->create(['status' => 'approved']);
         $approvedPO->updateStatus($user);
-        $this->assertTrue($approvedPO->approved);
+        $this->assertTrue($approvedPO->hasStatus('approved'));
 
         // A PO w/ rejected rule should be marked 'rejected'
         $rejectedPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
         $rejectedPO->rules()->attach($rule);
         $rejectedPO->rules->first()->setPurchaseOrderApproved(0);
-        $this->assertTrue($rejectedPO->pending);
+        $this->assertTrue($rejectedPO->hasStatus('pending'));
         $rejectedPO->updatestatus($user);
-        $this->assertTrue($rejectedPO->rejected);
+        $this->assertTrue($rejectedPO->hasStatus('rejected'));
 
         // Pending PO w/ rule - should still be pending!
         $pendingPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
         $pendingPO->rules()->attach($rule);
         $pendingPO->updateStatus($user);
-        $this->assertTrue($pendingPO->pending);
+        $this->assertTrue($pendingPO->hasStatus('pending'));
 
         // Pending PO w/o any rules should be marked approved
         $markedApprovedPO = factory(PurchaseOrder::class)->create(['status' => 'pending']);
         $markedApprovedPO->updateStatus($user);
-        $this->assertTrue($markedApprovedPO->approved);
+        $this->assertTrue($markedApprovedPO->hasStatus('approved'));
     }
 
 
@@ -541,9 +541,9 @@ class PurchaseOrderTest extends TestCase
     public function it_marks_po_pending()
     {
         $PO = factory(PurchaseOrder::class)->create(['status' => 'approved']);
-        $this->assertFalse($PO->pending);
+        $this->assertFalse($PO->hasStatus('pending'));
         $PO->markPending();
-        $this->assertTrue($PO->pending);
+        $this->assertTrue($PO->hasStatus('pending'));
     }
 
     /**

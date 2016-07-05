@@ -47,7 +47,7 @@
                         <h2>Items</h2>
                         <div class="quick-actions">
                             <button class="btn btn-small btn-outline-blue" @click="markAllPaid" :disabled="
-                            ! purchaseOrder.approved || numPaidLineItems == numLineItems">Mark All Paid</button>
+                            ! purchaseOrder.status === 'approved' || numPaidLineItems == numLineItems">Mark All Paid</button>
                         </div>
                         <div class="line-items">
                             @include('purchase_orders.partials.single.line-items')

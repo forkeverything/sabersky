@@ -71,7 +71,6 @@ Vue.component('purchase-request-single', {
     ready: function() {
         var self = this;
         pusherChannel.bind('App\\Events\\PurchaseRequestUpdated', function(data) {
-            console.log(data);
             // status
             self.purchaseRequest.state = data.purchaseRequest.state;
             // qty

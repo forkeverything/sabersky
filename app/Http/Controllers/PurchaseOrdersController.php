@@ -173,7 +173,7 @@ class PurchaseOrdersController extends Controller
      */
     public function getMarkLineItemPaid(PurchaseOrder $purchaseOrder, LineItem $lineItem)
     {
-        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->hasStatus('approved')) {
             if ($lineItem->markPaid(Auth::user())) return 1;
             return response("Could not mark line item as paid");
         }
@@ -182,7 +182,7 @@ class PurchaseOrdersController extends Controller
 
     public function getMarkLineItemReceived(PurchaseOrder $purchaseOrder, LineItem $lineItem, $status)
     {
-        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->approved) {
+        if (Gate::allows('view', $purchaseOrder) && Auth::user()->can('po_payments') && $purchaseOrder->hasStatus('approved')) {
             if ($lineItem->markReceived($status, Auth::user())) return $lineItem;
             return response("Could not mark line item as delivered");
         }

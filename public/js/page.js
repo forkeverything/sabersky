@@ -1,354 +1,3 @@
-Vue.component('items-all', apiRequestAllBaseComponent.extend({
-    name: 'allItems',
-    el: function () {
-        return '#items-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/items',
-            hasFilter: true,
-            filterOptions: [
-                {
-                    value: 'category',
-                    label: 'Category'
-                },
-                {
-                    value: 'brand',
-                    label: 'Brand'
-                },
-                {
-                    value: 'name',
-                    label: 'Name'
-                },
-                {
-                    value: 'project',
-                    label: 'Project'
-                }
-            ]
-        };
-    },
-    computed: {
-        items: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        hasItems: function() {
-            return !_.isEmpty(this.items);
-        }
-    },
-    methods: {
-        getItemProjects: function (item) {
-            // Parses out project names from an Item's Purchase Requests
-            var projects = [];
-            _.forEach(item.purchase_requests, function (pr) {
-                projects.push(pr.project);
-            });
-            return _.uniqBy(projects, 'id');
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-}));
-Vue.component('item-single', {
-    name: 'itemSingle',
-    el: function () {
-        return '#item-single'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-
-            fileErrors: []
-        };
-    },
-    props: ['item'],
-    computed: {
-    },
-    methods: {
-        deletePhoto: function(photo) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                    console.log(data);
-                   self.item.photos = _.reject(self.item.photos, photo);
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearErrors: function() {
-            this.fileErrors = [];
-        }
-    },
-    events: {},
-    mixins: [userCompany],
-    ready: function () {
-
-        var self = this;
-
-        // Fetch item photos
-        $.ajax({
-            url: '/api/items/' + self.item.id,
-            method: 'GET',
-            success: function(data) {
-               // success
-                self.item.photos = data.photos
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-
-        new Dropzone("#item-photo-uploader", {
-            autoProcessQueue: true,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            previewTemplate: '<div class="dz-image-row">' +
-            '                       <div class="dz-image">' +
-            '                           <img data-dz-thumbnail>' +
-            '                       </div>' +
-            '                       <div class="dz-file-details">' +
-            '                           <div class="name-status">' +
-            '                               <span data-dz-name class="file-name"></span>' +
-            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
-            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
-            '                           </div>' +
-            '                           <span class="file-size" data-dz-size></span>' +
-            '                           <div class="dz-progress progress">' +
-            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                </div>',
-            init: function () {
-                this.on("complete", function (file) {
-                    setTimeout(function () {
-                        this.removeFile(file);
-                    }.bind(this), 5000);
-                });
-                this.on("success", function (files, response) {
-                    // Upload was successful, receive response
-                    // of Photo Model back from the server.
-                    self.item.photos.push(response);
-                });
-                this.on("error", function (file, err) {
-                    if(typeof err === 'object') {
-                        _.forEach(err.file, function (error) {
-                            self.fileErrors.push(file.name + ': ' + error);
-                        });
-                    } else {
-                        self.fileErrors.push(file.name + ': ' + err);
-                    }
-                });
-            }
-        });
-    }
-});
-Vue.component('projects-add-team', {
-    name: 'projectAddTeam',
-    el: function() {
-        return '#projects-team-add'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            existingUserId: '',
-            newUserName: '',
-            newUserEmail: '',
-            newUserRoleId: ''
-        };
-    },
-    props: ['project'],
-    computed: {
-
-    },
-    methods: {
-        addTeamMember: function() {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.project.id + '/team/add',
-                method: 'POST',
-                data: {
-                    "existing_user_id": self.existingUserId,
-                    "name": self.newUserName,
-                    "email": self.newUserEmail,
-                    "role_id": self.newUserRoleId
-                },
-                success: function(data) {
-                   // success
-                    flashNotifyNextRequest('success', 'Added ' + self.newUserName + ' to project ' + self.project.name);
-                    location.href = "/projects/" + self.project.id;
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    events: {
-
-    },
-    ready: function() {
-    }
-});
-Vue.component('projects-all', {
-    name: 'projectsAll',
-    el: function () {
-        return '#projects-all'
-    },
-    data: function () {
-        return {
-            projects: [],
-            popupVisible: true,
-            projectToDelete: {},
-            ajaxReady: true
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        deleteProject: function (project) {
-            this.projectToDelete = project;
-
-            var settings = {
-                title: 'Confirm Delete ' + project.name,
-                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
-                buttonText: 'Permanently Remove ' + project.name,
-                buttonClass: 'btn btn-danger',
-                callbackEventName: 'remove-project'
-            };
-            this.$broadcast('new-modal', settings);
-        }
-    },
-    events: {
-        'remove-project': function () {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.projectToDelete.id,
-                method: 'DELETE',
-                success: function (data) {
-                    // success
-                    self.projects = _.reject(self.projects, self.projectToDelete);
-                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
-                    self.projectToDelete = {};
-                    self.ajaxReady = true;
-                },
-                error: function (response) {
-                    self.ajaxReady = true;
-                }
-            });
-        }
-    },
-    ready: function () {
-
-        // Fetch projects
-        var self = this;
-        $.ajax({
-            url: '/api/projects',
-            method: 'GET',
-            success: function(data) {
-               // success
-               self.projects = data;
-            },
-            error: function(response) {
-            }
-        });
-
-        // Popup Stuff
-            // Bind click
-            $(document).on('click', '.button-project-dropdown', function (e) {
-                e.stopPropagation();
-
-                $('.button-project-dropdown.active').removeClass('active');
-                $(this).addClass('active');
-
-                $('.project-popup').hide();
-                $(this).next('.project-popup').show();
-            });
-
-            // To hide popup
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
-                    $('.button-project-dropdown.active').removeClass('active');
-                    $('.project-popup').hide();
-                }
-            });
-
-    }
-});
-Vue.component('project-single', {
-    name: 'projectSingle',
-    el: function() {
-        return '#project-single-view'
-    },
-    data: function() {
-        return {
-            ajaxReady: true,
-            teamMembers: [],
-            tableHeaders: [
-                {
-                    label: 'Name',
-                    path: ['name'],
-                    sort: 'name'
-                },
-                {
-                    label: 'Role',
-                    path: ['role', 'position'],
-                    sort: 'role.position'
-                },
-                {
-                    label: 'Email',
-                    path: ['email'],
-                    sort: 'email'
-                }
-            ]
-        };
-    },
-    props: ['project'],
-    computed: {
-    },
-    methods: {
-        removeStaff: function(staff) {
-            var self = this;
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/projects/' + self.project.id + '/team/remove',
-                method: 'PUT',
-                data: {
-                  user_id: staff.id
-                },
-                success: function() {
-                    self.project.team_members = _.reject(self.project.team_members, staff);
-                    flashNotify('success', 'Removed ' + strCapitalize(staff.name));
-                    self.ajaxReady = true;
-                },
-                error: function(res) {
-                    console.log(res);
-                    self.ajaxReady = true;
-                }
-            })
-        }
-    },
-    events: {
-    },
-    ready: function() {}
-});
 Vue.component('dashboard',
     {
         name: 'dashboard',
@@ -726,6 +375,357 @@ Vue.component('purchase-orders-submit', {
 
     }
 });
+Vue.component('projects-add-team', {
+    name: 'projectAddTeam',
+    el: function() {
+        return '#projects-team-add'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            existingUserId: '',
+            newUserName: '',
+            newUserEmail: '',
+            newUserRoleId: ''
+        };
+    },
+    props: ['project'],
+    computed: {
+
+    },
+    methods: {
+        addTeamMember: function() {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.project.id + '/team/add',
+                method: 'POST',
+                data: {
+                    "existing_user_id": self.existingUserId,
+                    "name": self.newUserName,
+                    "email": self.newUserEmail,
+                    "role_id": self.newUserRoleId
+                },
+                success: function(data) {
+                   // success
+                    flashNotifyNextRequest('success', 'Added ' + self.newUserName + ' to project ' + self.project.name);
+                    location.href = "/projects/" + self.project.id;
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+
+    },
+    ready: function() {
+    }
+});
+Vue.component('projects-all', {
+    name: 'projectsAll',
+    el: function () {
+        return '#projects-all'
+    },
+    data: function () {
+        return {
+            projects: [],
+            popupVisible: true,
+            projectToDelete: {},
+            ajaxReady: true
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        deleteProject: function (project) {
+            this.projectToDelete = project;
+
+            var settings = {
+                title: 'Confirm Delete ' + project.name,
+                body: 'Deleting a Project is permanent and cannot be reversed. Deleting a project will mean Team Members (staff) who are a part of the project will no longer receive notifications or perform actions for the Project. If you started the Project again, you will have to re-add all Team Members individually.',
+                buttonText: 'Permanently Remove ' + project.name,
+                buttonClass: 'btn btn-danger',
+                callbackEventName: 'remove-project'
+            };
+            this.$broadcast('new-modal', settings);
+        }
+    },
+    events: {
+        'remove-project': function () {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.projectToDelete.id,
+                method: 'DELETE',
+                success: function (data) {
+                    // success
+                    self.projects = _.reject(self.projects, self.projectToDelete);
+                    flashNotify('success', 'Permanently Deleted ' + self.projectToDelete.name);
+                    self.projectToDelete = {};
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    ready: function () {
+
+        // Fetch projects
+        var self = this;
+        $.ajax({
+            url: '/api/projects',
+            method: 'GET',
+            success: function(data) {
+               // success
+               self.projects = data;
+            },
+            error: function(response) {
+            }
+        });
+
+        // Popup Stuff
+            // Bind click
+            $(document).on('click', '.button-project-dropdown', function (e) {
+                e.stopPropagation();
+
+                $('.button-project-dropdown.active').removeClass('active');
+                $(this).addClass('active');
+
+                $('.project-popup').hide();
+                $(this).next('.project-popup').show();
+            });
+
+            // To hide popup
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.project-popup').length && !$(event.target).is('.project-popup')) {
+                    $('.button-project-dropdown.active').removeClass('active');
+                    $('.project-popup').hide();
+                }
+            });
+
+    }
+});
+Vue.component('project-single', {
+    name: 'projectSingle',
+    el: function() {
+        return '#project-single-view'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            teamMembers: [],
+            tableHeaders: [
+                {
+                    label: 'Name',
+                    path: ['name'],
+                    sort: 'name'
+                },
+                {
+                    label: 'Role',
+                    path: ['role', 'position'],
+                    sort: 'role.position'
+                },
+                {
+                    label: 'Email',
+                    path: ['email'],
+                    sort: 'email'
+                }
+            ]
+        };
+    },
+    props: ['project'],
+    computed: {
+    },
+    methods: {
+        removeStaff: function(staff) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/projects/' + self.project.id + '/team/remove',
+                method: 'PUT',
+                data: {
+                  user_id: staff.id
+                },
+                success: function() {
+                    self.project.team_members = _.reject(self.project.team_members, staff);
+                    flashNotify('success', 'Removed ' + strCapitalize(staff.name));
+                    self.ajaxReady = true;
+                },
+                error: function(res) {
+                    console.log(res);
+                    self.ajaxReady = true;
+                }
+            })
+        }
+    },
+    events: {
+    },
+    ready: function() {}
+});
+Vue.component('items-all', apiRequestAllBaseComponent.extend({
+    name: 'allItems',
+    el: function () {
+        return '#items-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/items',
+            hasFilter: true,
+            filterOptions: [
+                {
+                    value: 'category',
+                    label: 'Category'
+                },
+                {
+                    value: 'brand',
+                    label: 'Brand'
+                },
+                {
+                    value: 'name',
+                    label: 'Name'
+                },
+                {
+                    value: 'project',
+                    label: 'Project'
+                }
+            ]
+        };
+    },
+    computed: {
+        items: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
+    methods: {
+        getItemProjects: function (item) {
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                projects.push(pr.project);
+            });
+            return _.uniqBy(projects, 'id');
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+}));
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+
+            fileErrors: []
+        };
+    },
+    props: ['item'],
+    computed: {
+    },
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.item.photos = _.reject(self.item.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
+    events: {},
+    mixins: [userCompany],
+    ready: function () {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.item.id,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.item.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.item.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
+                    } else {
+                        self.fileErrors.push(file.name + ': ' + err);
+                    }
+                });
+            }
+        });
+    }
+});
 Vue.component('purchase-requests-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseRequests',
     el: function () {
@@ -1053,7 +1053,6 @@ Vue.component('purchase-request-single', {
     ready: function() {
         var self = this;
         pusherChannel.bind('App\\Events\\PurchaseRequestUpdated', function(data) {
-            console.log(data);
             // status
             self.purchaseRequest.state = data.purchaseRequest.state;
             // qty
@@ -1476,70 +1475,6 @@ Vue.component('vendor-single', {
         var self = this;
     }
 });
-Vue.component('report-spendings-employees', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-employees'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/employees/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Employee Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-items', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-items'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/items/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Item Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-projects', spendingsReport.extend({
-    name: 'ReportSpendingsForProjects',
-    el: function() {
-        return '#report-spendings-projects'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/projects/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Project Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-vendors', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-vendors'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Vendor Spendings for ' + this.currency.code;
-        }
-    }
-}));
 Vue.component('po-billing-address', {
     name: 'purchaseOrderSubmitBillingAddress',
     data: function () {
@@ -2042,6 +1977,18 @@ Vue.component('purchase-order-single', {
     events: {},
     mixins: [userCompany, numberFormatter],
     ready: function () {
+
+        var self = this;
+        pusherChannel.bind('App\\Events\\PurchaseOrderUpdated', function(data) {
+            // status
+            self.purchaseOrder.status = data.purchaseOrder.status;
+        });
+
+        pusherChannel.bind('App\\Events\\RuleProcessed', function(data) {
+            var rule = _.find(self.purchaseOrder.rules, { 'id': data.rule.id });
+            rule.pivot.approved = data.approval;
+        });
+
     }
 });
 Vue.component('po-submit-summary', {
@@ -2149,6 +2096,70 @@ Vue.component('po-submit-summary', {
     ready: function () {
     }
 });
+Vue.component('report-spendings-employees', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-employees'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/employees/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Employee Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-items', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-items'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/items/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Item Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-projects', spendingsReport.extend({
+    name: 'ReportSpendingsForProjects',
+    el: function() {
+        return '#report-spendings-projects'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/projects/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Project Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-vendors', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-vendors'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Vendor Spendings for ' + this.currency.code;
+        }
+    }
+}));
 Vue.component('settings-billing', {
     name: 'settingsBillingPage',
     el: function() {

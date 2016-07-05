@@ -54,9 +54,6 @@ Vue.component('po-single-rule', {
 
             function updatePOStatus(data) {
                 self.purchaseOrder.status = data.status;
-                self.purchaseOrder.pending = data.pending;
-                self.purchaseOrder.approved = data.approved;
-                self.purchaseOrder.rejected = data.rejected;
             }
 
             if (action === 'approve') {
