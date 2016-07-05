@@ -36,6 +36,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereVerified($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereLinkedCompanyId($value)
  * @mixin \Eloquent
+ * @property integer $company_id
+ * @property-read \App\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @method static \Illuminate\Database\Query\Builder|\App\Vendor whereCompanyId($value)
  */
 class Vendor extends Model
 {

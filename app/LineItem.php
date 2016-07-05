@@ -36,6 +36,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\LineItem wherePurchaseOrderId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\LineItem wherePurchaseRequestId($value)
  * @mixin \Eloquent
+ * @property-read mixed $total
+ * @property-read mixed $received
+ * @property-read mixed $accepted
+ * @property-read mixed $returned
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  */
 class LineItem extends Model
 {

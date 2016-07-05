@@ -252,7 +252,14 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     Route::get('/test', function () {
-        Event::fire(new \App\Events\PurchaseRequestUpdated(\App\PurchaseRequest::find(20)));
+
+//        $pusher = new Pusher( env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'), ['cluster' => 'ap1']);
+//        $pusher->trigger( 'user.1', 'App\Events\PurchaseRequestUpdated', ['foo' => 'bar'] );
+//        dd($pusher);
+
+//        dd(\App\PurchaseRequest::find(18)->toArray());
+
+        Event::fire(new \App\Events\PurchaseRequestUpdated(\App\PurchaseRequest::find(18)));
     });
 
     /**

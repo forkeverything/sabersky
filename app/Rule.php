@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Query\Builder|\App\Rule whereRuleTriggerId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Rule whereCompanyId($value)
  * @mixin \Eloquent
+ * @property integer $currency_id
+ * @property-read mixed $currency
+ * @method static \Illuminate\Database\Query\Builder|\App\Rule whereCurrencyId($value)
  */
 class Rule extends Model
 {

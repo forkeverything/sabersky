@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class PurchaseRequestUpdated extends Event implements ShouldBroadcast
 {
     use SerializesModels;
+    
     /**
      * @var PurchaseRequest
      */
@@ -32,11 +33,8 @@ class PurchaseRequestUpdated extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // Broadcast to every user a part of project
-        $channels = [];
-        foreach ($this->purchaseRequest->project->teamMembers as $user) {
-            array_push($channels, 'user.' . $user->id);
-        }
-        return $channels;
+        return $this->purchaseRequest->project->teamMembers->pluck('id')->map(function ($id) {
+            return 'user.' . $id;
+        })->toArray();
     }
 }

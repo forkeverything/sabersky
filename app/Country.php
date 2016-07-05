@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Country whereCallingCode($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Country whereFlag($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|\App\Country currencyOnly()
  */
 class Country extends Model
 {

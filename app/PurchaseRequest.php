@@ -43,6 +43,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereProjectId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseRequest whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $modelActivities
  */
 class PurchaseRequest extends Model
 {
@@ -87,12 +90,12 @@ class PurchaseRequest extends Model
 
     /**
      * Always append these dynamic properties
-     * 
+     *
      * @var array
      */
     protected $appends = [
-        'initialQuantity',
-        'fulfilledQuantity'
+        'initial_quantity',
+        'fulfilled_quantity'
     ];
 
 
@@ -137,6 +140,35 @@ class PurchaseRequest extends Model
     public function lineItems()
     {
         return $this->hasMany(LineItem::class);
+    }
+
+    /**
+     * Calculates how many quantities of this PR's Item has
+     * already been fulfilled (by 'approved' POs).
+     *
+     * @return int
+     */
+    public function getFulfilledQuantityAttribute()
+    {
+        $fulfilledQuantities = \DB::table('line_items')
+            ->join('purchase_orders', 'line_items.purchase_order_id', '=', 'purchase_orders.id')
+            ->select('line_items.quantity')
+            ->where('purchase_request_id', $this->id)
+            ->where('purchase_orders.status', '!=', 'rejected')
+            ->pluck('quantity');
+        return array_sum($fulfilledQuantities);
+    }
+
+    /**
+     * Calculates how many quantities were originally requested in
+     * this PR. Remember we 'add back' quantities when a PO has
+     * been rejected.
+     *
+     * @return int
+     */
+    public function getInitialQuantityAttribute()
+    {
+        return $this->quantity + $this->fulfilledQuantity;
     }
 
 
@@ -225,33 +257,7 @@ class PurchaseRequest extends Model
         return $this;
     }
 
-    /**
-     * Calculates how many quantities of this PR's Item has
-     * already been fulfilled (by 'approved' POs).
-     *
-     * @return int
-     */
-    public function getFulfilledQuantityAttribute()
-    {
-        $fulfilledQuantities = 0;
-        $lineItems = $this->lineItems;
-        foreach ($lineItems as $lineItem) {
-            if (! $lineItem->purchaseOrder->hasStatus('rejected')) $fulfilledQuantities += $lineItem->quantity;
-        }
-        return $fulfilledQuantities;
-    }
 
-    /**
-     * Calculates how many quantities were originally requested in
-     * this PR. Remember we 'add back' quantities when a PO has
-     * been rejected.
-     *
-     * @return int
-     */
-    public function getInitialQuantityAttribute()
-    {
-        return $this->quantity + $this->fulfilledQuantity;
-    }
 
 
 

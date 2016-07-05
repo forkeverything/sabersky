@@ -3,12 +3,14 @@
 namespace App;
 
 use App\Country;
+use App\Events\PurchaseRequestUpdated;
 use App\Utilities\FormatNumberPropertyTrait;
 use App\Utilities\Traits\HasNotes;
 use App\Utilities\Traits\LineItemsActivities;
 use App\Utilities\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 
 /**
@@ -42,6 +44,39 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereAddressId($value)
  * @mixin \Eloquent
+ * @property integer $number
+ * @property integer $vendor_address_id
+ * @property integer $vendor_bank_account_id
+ * @property integer $currency_id
+ * @property integer $billing_address_id
+ * @property integer $shipping_address_id
+ * @property float $subtotal
+ * @property float $total
+ * @property integer $company_id
+ * @property-read mixed $pending
+ * @property-read mixed $approved
+ * @property-read mixed $rejected
+ * @property-read \App\Country $currencyCountry
+ * @property-read mixed $currency
+ * @property-read mixed $currency_country_name
+ * @property-read mixed $currency_name
+ * @property-read mixed $currency_code
+ * @property-read mixed $currency_symbol
+ * @property-read mixed $billing_address_same_as_company
+ * @property-read mixed $shipping_address_same_as_billing
+ * @property-read mixed $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $modelActivities
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereNumber($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereVendorAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereVendorBankAccountId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereCurrencyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereBillingAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereShippingAddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereSubtotal($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereTotal($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\PurchaseOrder whereCompanyId($value)
  */
 class PurchaseOrder extends Model
 {
@@ -250,6 +285,7 @@ class PurchaseOrder extends Model
             $lineItem->purchaseRequest->update([
                 'quantity' => $lineItem->purchaseRequest->quantity - $lineItemQuantity
             ]);
+            Event::fire(new PurchaseRequestUpdated($lineItem->purchaseRequest));
         }
         return $this;
     }

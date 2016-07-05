@@ -4,6 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\ProductSubcategory
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $label
+ * @property integer $product_category_id
+ * @property-read \App\ProductCategory $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @method static \Illuminate\Database\Query\Builder|\App\ProductSubcategory whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ProductSubcategory whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ProductSubcategory whereLabel($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\ProductSubcategory whereProductCategoryId($value)
+ * @mixin \Eloquent
+ */
 class ProductSubcategory extends Model
 {
     public $timestamps = false;

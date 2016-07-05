@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\CompanyStatistics wherePrCount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\CompanyStatistics whereCompanyId($value)
  * @mixin \Eloquent
+ * @property integer $po_count
+ * @method static \Illuminate\Database\Query\Builder|\App\CompanyStatistics wherePoCount($value)
  */
 class CompanyStatistics extends Model
 {

@@ -76,6 +76,8 @@ Vue.component('purchase-request-single', {
             self.purchaseRequest.state = data.purchaseRequest.state;
             // qty
             self.purchaseRequest.quantity = data.purchaseRequest.quantity;
+            self.purchaseRequest.fulfilled_quantity = data.purchaseRequest.fulfilled_quantity;
+            self.purchaseRequest.initial_quantity = data.purchaseRequest.initial_quantity;
         });
     }
 });

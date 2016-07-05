@@ -39,6 +39,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereSpecification($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereCompanyId($value)
  * @mixin \Eloquent
+ * @property integer $product_subcategory_id
+ * @property-read \App\ProductSubcategory $subcategory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\LineItem[] $lineItems
+ * @property-read mixed $approved_line_items
+ * @property-read mixed $means
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereProductSubcategoryId($value)
  */
 class Item extends Model
 {

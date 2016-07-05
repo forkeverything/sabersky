@@ -35,6 +35,20 @@ use Laravel\Cashier\Billable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereCompanyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereRoleId($value)
  * @mixin \Eloquent
+ * @property string $last_login
+ * @property string $bio
+ * @property string $phone
+ * @property boolean $active
+ * @property-read mixed $num_requests
+ * @property-read mixed $num_orders
+ * @property-read mixed $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
+ * @property-read \App\Photo $photo
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereLastLogin($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereBio($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereActive($value)
  */
 class User extends Authenticatable
 {

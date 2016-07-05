@@ -67,9 +67,8 @@ Vue.component('notes', {
             });
         },
         canDelete: function (note) {
-            if (!this.user) return false;
-            if (this.user.role.position === 'admin') return true;
-            return this.user.id === note.user_id;
+            if (!this.user || !this.user.role) return false;
+            return this.user.role.position === 'admin' || this.user.id === note.user_id;
         },
         deleteNote: function (note) {
             var self = this;

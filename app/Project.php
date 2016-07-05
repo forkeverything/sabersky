@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Query\Builder|\App\Project whereOperational($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Project whereCompanyId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  */
 class Project extends Model
 {

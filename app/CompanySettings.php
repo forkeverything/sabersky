@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\CompanySettings whereCurrencyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\CompanySettings whereCompanyId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Country[] $currencyCountries
+ * @property-read mixed $currencies
  */
 class CompanySettings extends Model
 {

@@ -41,6 +41,19 @@ use App\Subscription;
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereDescription($value)
  * @mixin \Eloquent
+ * @property string $stripe_id
+ * @property string $card_brand
+ * @property string $card_last_four
+ * @property string $trial_ends_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Subscription[] $subscriptions
+ * @property-read mixed $active_staff
+ * @property-read mixed $subscription
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PurchaseRequest[] $purchaseRequests
+ * @property-read mixed $currencies
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereStripeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereCardBrand($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereCardLastFour($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Company whereTrialEndsAt($value)
  */
 class Company extends Model
 {

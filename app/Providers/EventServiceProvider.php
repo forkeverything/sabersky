@@ -48,9 +48,7 @@ class EventServiceProvider extends ServiceProvider
         PurchaseOrderSubmitted::class => [
             EmailNewOrderNotification::class
         ],
-        PurchaseRequestUpdated::class => [
-            
-        ]
+        PurchaseRequestUpdated::class => []
     ];
 
     /**

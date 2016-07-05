@@ -1716,6 +1716,255 @@ Vue.component('number-input', {
     ready: function() {
     }
 });
+var apiRequestAllBaseComponent = Vue.extend({
+    name: 'APIRequestall',
+    data: function () {
+        return {
+            ajaxReady: true,
+            request: {},
+            response: {},
+            params: {},
+            showFiltersDropdown: false,
+            filter: '',
+            filterValue: '',
+            minFilterValue: '',
+            maxFilterValue: ''
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        checkSetup: function() {
+            if(!this.requestUrl) throw new Error("No Request URL set as 'requestUrl' ");
+            if(this.hasFilter && _.isEmpty(this.filterOptions)) throw new Error("Need filterOptions[] defined to use filters");
+        },
+        makeRequest: function (query) {
+            var self = this,
+                url = this.requestUrl;
+
+            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
+            query = query || window.location.href.split('?')[1];
+            // If we had a query (arg or parsed) - attach it to our url
+            if (query) url = url + '?' + query;
+
+            // self.finishLoading = false;
+
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            self.request = $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    // Update data
+                    self.response = response;
+
+                    // Attach filters
+                    // Reset obj
+                    self.params = {};
+                    // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
+                    _.forEach(response.data.query_parameters, function (value, key) {
+                        self.params[key] = value;
+                    });
+
+
+                    // push state (if query is different from url)
+                    pushStateIfDiffQuery(query);
+
+                    document.getElementById('body-content').scrollTop = 0;
+
+                    self.ajaxReady = true;
+                },
+                error: function (res, status, req) {
+                    console.log(status);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        changeSort: function (sort) {
+            if (this.params.sort === sort) {
+                var order = (this.params.order === 'asc') ? 'desc' : 'asc';
+                this.makeRequest(updateQueryString('order', order));
+            } else {
+                this.makeRequest(updateQueryString({
+                    sort: sort,
+                    order: 'asc',
+                    page: 1
+                }));
+            }
+        },
+        searchTerm: _.debounce(function () {
+            if (this.request && this.request.readyState != 4) this.request.abort();
+            var term = this.params.search || null;
+            this.makeRequest(updateQueryString({
+                search: term,
+                page: 1
+            }))
+        }, 200),
+        clearSearch: function () {
+            this.params.search = '';
+            this.searchTerm();
+        },
+        resetFilterInput: function() {
+            this.filter = '';
+            this.filterValue = '';
+            this.minFilterValue = '';
+            this.maxFilterValue = '';
+        },
+        addFilter: function () {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
+            this.makeRequest(updateQueryString(queryObj));
+            this.resetFilterInput();
+            this.showFiltersDropdown = false;
+        },
+        removeFilter: function(filter) {
+            var queryObj = {
+                page: 1
+            };
+            queryObj[filter] = null;
+            this.makeRequest(updateQueryString(queryObj));
+        },
+        removeAllFilters: function() {
+            var self = this;
+            var queryObj = {};
+            _.forEach(self.filterOptions, function (option) {
+                queryObj[option.value] = null;
+            });
+            this.makeRequest(updateQueryString(queryObj));
+        }
+    },
+    events: {},
+    ready: function () {
+        this.checkSetup();
+        this.makeRequest();
+        onPopCallFunction(this.makeRequest);
+    }
+});
+var baseChart = Vue.extend({
+    name: 'BaseChart',
+    template: '<canvas v-el:canvas class="canvas-chart"></canvas>',
+    data: function () {
+        return {
+            mode: 'url',
+            chartLabel: '',
+            showZeroValues: false,
+            chartType: 'bar',
+            chart: '',
+            theme: 'red'
+        }
+    },
+    props: [],
+    computed: {
+        colors: function() {
+            switch(this.theme) {
+                case 'red':
+                    return {
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)"
+                    };
+                    break;
+                case 'blue':
+                    return {
+                        backgroundColor: "rgba(52,152,219,0.2)",
+                        borderColor: "rgba(52,152,219,1)",
+                        hoverBackgroundColor: "rgba(52,152,219,0.4)",
+                        hoverBorderColor: "rgba(52,152,219,1)"
+                    };
+                    break;
+                case 'green':
+                    return {
+                        backgroundColor: "rgba(46,204,113,0.2)",
+                        borderColor: "rgba(46,204,113,1)",
+                        hoverBackgroundColor: "rgba(46,204,113,0.4)",
+                        hoverBorderColor: "rgba(46,204,113,1)"
+                    };
+                    break;
+                default:
+                    break;
+            }
+
+        },
+        backgroundColor: function() {
+            return this.colors.backgroundColor;
+        },
+        borderColor: function(){
+            return this.colors.borderColor;
+        },
+        hoverBackgroundColor: function() {
+            return this.colors.hoverBackgroundColor;
+        },
+        hoverBorderColor: function() {
+            return this.colors.hoverBorderColor;
+        }
+    },
+    methods: {
+        load: function () {
+            var self = this;
+
+            if(this.mode === 'url') {
+                this.fetchData().done(function (data) {
+                    self.render(data);
+                });
+            }
+            self.render(this.chartData);
+        },
+        fetchData: function () {
+            return $.get(this.chartURL);
+        },
+        render: function (data) {
+
+            // Remove 0 values from our data
+            if (!this.showZeroValues) data = this.removeZeroValues(data);
+
+            this.chart = new Chart(this.$els.canvas.getContext('2d'), {
+                type: this.chartType,
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [
+                        {
+                            data: _.map(data, function (val) {
+                                return val;
+                            }),
+                            label: this.chartLabel,
+                            backgroundColor: this.backgroundColor,
+                            borderColor: this.borderColor,
+                            borderWidth: 1,
+                            hoverBackgroundColor: this.hoverBackgroundColor,
+                            hoverBorderColor: this.hoverBorderColor
+                        }
+                    ]
+                }
+            });
+        },
+        removeZeroValues: function(data) {
+            return _.pickBy(data, function (value) {
+                return value > 0
+            });
+        },
+        reload: function () {
+            if (!_.isEmpty(this.chart)) this.chart.destroy();
+            this.load();
+        }
+    },
+    events: {},
+    ready: function () {
+        if(this.mode === 'url' && !this.chartURL) throw new Error("Chart Mode: url - no URL to retrieve chart data");
+
+        var watchVariable = this.mode === 'url' ? 'chartURL' : 'chartData';
+
+        this.$watch(watchVariable, function () {
+            this.reload();
+        }.bind(this));
+
+        this.load();
+
+
+    }
+});
 Vue.component('add-address-modal', {
     name: 'addAddressModal',
     template: '<button type="button"' +
@@ -2250,255 +2499,6 @@ Vue.component('single-pr-modal', {
 });
 
 
-var apiRequestAllBaseComponent = Vue.extend({
-    name: 'APIRequestall',
-    data: function () {
-        return {
-            ajaxReady: true,
-            request: {},
-            response: {},
-            params: {},
-            showFiltersDropdown: false,
-            filter: '',
-            filterValue: '',
-            minFilterValue: '',
-            maxFilterValue: ''
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        checkSetup: function() {
-            if(!this.requestUrl) throw new Error("No Request URL set as 'requestUrl' ");
-            if(this.hasFilter && _.isEmpty(this.filterOptions)) throw new Error("Need filterOptions[] defined to use filters");
-        },
-        makeRequest: function (query) {
-            var self = this,
-                url = this.requestUrl;
-
-            // If we got a new query parameter, use it in our request - otherwise, try get query form address bar
-            query = query || window.location.href.split('?')[1];
-            // If we had a query (arg or parsed) - attach it to our url
-            if (query) url = url + '?' + query;
-
-            // self.finishLoading = false;
-
-            if (!self.ajaxReady) return;
-            self.ajaxReady = false;
-            self.request = $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    // Update data
-                    self.response = response;
-
-                    // Attach filters
-                    // Reset obj
-                    self.params = {};
-                    // Loop through and attach everything (Only pre-defined keys in data obj above will be accessible with Vue)
-                    _.forEach(response.data.query_parameters, function (value, key) {
-                        self.params[key] = value;
-                    });
-
-
-                    // push state (if query is different from url)
-                    pushStateIfDiffQuery(query);
-
-                    document.getElementById('body-content').scrollTop = 0;
-
-                    self.ajaxReady = true;
-                },
-                error: function (res, status, req) {
-                    console.log(status);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        changeSort: function (sort) {
-            if (this.params.sort === sort) {
-                var order = (this.params.order === 'asc') ? 'desc' : 'asc';
-                this.makeRequest(updateQueryString('order', order));
-            } else {
-                this.makeRequest(updateQueryString({
-                    sort: sort,
-                    order: 'asc',
-                    page: 1
-                }));
-            }
-        },
-        searchTerm: _.debounce(function () {
-            if (this.request && this.request.readyState != 4) this.request.abort();
-            var term = this.params.search || null;
-            this.makeRequest(updateQueryString({
-                search: term,
-                page: 1
-            }))
-        }, 200),
-        clearSearch: function () {
-            this.params.search = '';
-            this.searchTerm();
-        },
-        resetFilterInput: function() {
-            this.filter = '';
-            this.filterValue = '';
-            this.minFilterValue = '';
-            this.maxFilterValue = '';
-        },
-        addFilter: function () {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[this.filter] = this.filterValue || [this.minFilterValue, this.maxFilterValue];
-            this.makeRequest(updateQueryString(queryObj));
-            this.resetFilterInput();
-            this.showFiltersDropdown = false;
-        },
-        removeFilter: function(filter) {
-            var queryObj = {
-                page: 1
-            };
-            queryObj[filter] = null;
-            this.makeRequest(updateQueryString(queryObj));
-        },
-        removeAllFilters: function() {
-            var self = this;
-            var queryObj = {};
-            _.forEach(self.filterOptions, function (option) {
-                queryObj[option.value] = null;
-            });
-            this.makeRequest(updateQueryString(queryObj));
-        }
-    },
-    events: {},
-    ready: function () {
-        this.checkSetup();
-        this.makeRequest();
-        onPopCallFunction(this.makeRequest);
-    }
-});
-var baseChart = Vue.extend({
-    name: 'BaseChart',
-    template: '<canvas v-el:canvas class="canvas-chart"></canvas>',
-    data: function () {
-        return {
-            mode: 'url',
-            chartLabel: '',
-            showZeroValues: false,
-            chartType: 'bar',
-            chart: '',
-            theme: 'red'
-        }
-    },
-    props: [],
-    computed: {
-        colors: function() {
-            switch(this.theme) {
-                case 'red':
-                    return {
-                        backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)"
-                    };
-                    break;
-                case 'blue':
-                    return {
-                        backgroundColor: "rgba(52,152,219,0.2)",
-                        borderColor: "rgba(52,152,219,1)",
-                        hoverBackgroundColor: "rgba(52,152,219,0.4)",
-                        hoverBorderColor: "rgba(52,152,219,1)"
-                    };
-                    break;
-                case 'green':
-                    return {
-                        backgroundColor: "rgba(46,204,113,0.2)",
-                        borderColor: "rgba(46,204,113,1)",
-                        hoverBackgroundColor: "rgba(46,204,113,0.4)",
-                        hoverBorderColor: "rgba(46,204,113,1)"
-                    };
-                    break;
-                default:
-                    break;
-            }
-
-        },
-        backgroundColor: function() {
-            return this.colors.backgroundColor;
-        },
-        borderColor: function(){
-            return this.colors.borderColor;
-        },
-        hoverBackgroundColor: function() {
-            return this.colors.hoverBackgroundColor;
-        },
-        hoverBorderColor: function() {
-            return this.colors.hoverBorderColor;
-        }
-    },
-    methods: {
-        load: function () {
-            var self = this;
-
-            if(this.mode === 'url') {
-                this.fetchData().done(function (data) {
-                    self.render(data);
-                });
-            }
-            self.render(this.chartData);
-        },
-        fetchData: function () {
-            return $.get(this.chartURL);
-        },
-        render: function (data) {
-
-            // Remove 0 values from our data
-            if (!this.showZeroValues) data = this.removeZeroValues(data);
-
-            this.chart = new Chart(this.$els.canvas.getContext('2d'), {
-                type: this.chartType,
-                data: {
-                    labels: Object.keys(data),
-                    datasets: [
-                        {
-                            data: _.map(data, function (val) {
-                                return val;
-                            }),
-                            label: this.chartLabel,
-                            backgroundColor: this.backgroundColor,
-                            borderColor: this.borderColor,
-                            borderWidth: 1,
-                            hoverBackgroundColor: this.hoverBackgroundColor,
-                            hoverBorderColor: this.hoverBorderColor
-                        }
-                    ]
-                }
-            });
-        },
-        removeZeroValues: function(data) {
-            return _.pickBy(data, function (value) {
-                return value > 0
-            });
-        },
-        reload: function () {
-            if (!_.isEmpty(this.chart)) this.chart.destroy();
-            this.load();
-        }
-    },
-    events: {},
-    ready: function () {
-        if(this.mode === 'url' && !this.chartURL) throw new Error("Chart Mode: url - no URL to retrieve chart data");
-
-        var watchVariable = this.mode === 'url' ? 'chartURL' : 'chartData';
-
-        this.$watch(watchVariable, function () {
-            this.reload();
-        }.bind(this));
-
-        this.load();
-
-
-    }
-});
 Vue.component('address', {
     name: 'singleAddress',
     template: '<div class="address">' +
@@ -3258,9 +3258,8 @@ Vue.component('notes', {
             });
         },
         canDelete: function (note) {
-            if (!this.user) return false;
-            if (this.user.role.position === 'admin') return true;
-            return this.user.id === note.user_id;
+            if (!this.user || !this.user.role) return false;
+            return this.user.role.position === 'admin' || this.user.id === note.user_id;
         },
         deleteNote: function (note) {
             var self = this;
@@ -3865,15 +3864,6 @@ Vue.component('vendor-selecter', {
         });
     }
 });
-Vue.component('modal-close-button', {
-    name: 'modalClose',
-    template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
-    methods: {
-        hideModal: function() {
-            vueEventBus.$emit('modal-close');
-        }
-    }
-});
 var spendingsReport = Vue.extend({
     name: 'SpendingsReport',
     template: '',
@@ -3911,6 +3901,15 @@ var spendingsReport = Vue.extend({
     }
 });
 
+Vue.component('modal-close-button', {
+    name: 'modalClose',
+    template: '<button type="button" @click="hideModal" class="btn button-hide-modal"><i class="fa fa-close"></i></button>',
+    methods: {
+        hideModal: function() {
+            vueEventBus.$emit('modal-close');
+        }
+    }
+});
 Vue.component('registration-account', {
     name: 'registrationAccountDetails',
     template: '<div class="#registration-account">' +

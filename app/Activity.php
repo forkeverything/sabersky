@@ -4,6 +4,27 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Activity
+ *
+ * @property integer $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property integer $subject_id
+ * @property string $subject_type
+ * @property string $name
+ * @property integer $user_id
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $subject
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereSubjectId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereSubjectType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Activity whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Activity extends Model
 {
     protected $fillable = [

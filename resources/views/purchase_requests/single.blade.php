@@ -50,11 +50,11 @@
                                 <tbody>
                                 <tr>
                                     <th>Initially Requested</th>
-                                    <td>@{{ purchaseRequest.initialQuantity }}</td>
+                                    <td>@{{ purchaseRequest.initial_quantity }}</td>
                                 </tr>
                                 <tr>
                                     <th>Fulfilled</th>
-                                    <td>@{{ purchaseRequest.fulfilledQuantity }}</td>
+                                    <td>@{{ purchaseRequest.fulfilled_quantity }}</td>
                                 </tr>
                                 <tr>
                                     <th><strong>Outstanding</strong></th>

@@ -1,58 +1,3 @@
-Vue.component('dashboard',
-    {
-        name: 'dashboard',
-
-        el: function () {
-            return '#dashboard'
-        },
-        data: function () {
-            return {};
-        },
-        props: ['user'],
-        computed: {
-            date: function () {
-                return moment();
-            }
-        },
-        methods: {},
-        events: {},
-        ready: function () {
-
-            $(document).ready(function () {
-                $.get('/user/calendar_events', function (events) {
-                    $('#dashboard-calendar').fullCalendar({
-                        events: events
-                    })
-                });
-            });
-        }
-    });
-Vue.component('landing', {
-    name: 'LandingPage',
-    el: function() {
-        return '#landing'
-    },
-    data: function() {
-        return {
-        
-        };
-    },
-    props: [],
-    computed: {
-        
-    },
-    methods: {
-        clickedJoin: function() {
-            vueEventBus.$emit('clicked-join-button');
-        }
-    },
-    events: {
-        
-    },
-    ready: function() {
-        
-    }
-});
 Vue.component('items-all', apiRequestAllBaseComponent.extend({
     name: 'allItems',
     el: function () {
@@ -403,6 +348,61 @@ Vue.component('project-single', {
     events: {
     },
     ready: function() {}
+});
+Vue.component('dashboard',
+    {
+        name: 'dashboard',
+
+        el: function () {
+            return '#dashboard'
+        },
+        data: function () {
+            return {};
+        },
+        props: ['user'],
+        computed: {
+            date: function () {
+                return moment();
+            }
+        },
+        methods: {},
+        events: {},
+        ready: function () {
+
+            $(document).ready(function () {
+                $.get('/user/calendar_events', function (events) {
+                    $('#dashboard-calendar').fullCalendar({
+                        events: events
+                    })
+                });
+            });
+        }
+    });
+Vue.component('landing', {
+    name: 'LandingPage',
+    el: function() {
+        return '#landing'
+    },
+    data: function() {
+        return {
+        
+        };
+    },
+    props: [],
+    computed: {
+        
+    },
+    methods: {
+        clickedJoin: function() {
+            vueEventBus.$emit('clicked-join-button');
+        }
+    },
+    events: {
+        
+    },
+    ready: function() {
+        
+    }
 });
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
@@ -1058,6 +1058,8 @@ Vue.component('purchase-request-single', {
             self.purchaseRequest.state = data.purchaseRequest.state;
             // qty
             self.purchaseRequest.quantity = data.purchaseRequest.quantity;
+            self.purchaseRequest.fulfilled_quantity = data.purchaseRequest.fulfilled_quantity;
+            self.purchaseRequest.initial_quantity = data.purchaseRequest.initial_quantity;
         });
     }
 });
@@ -1211,6 +1213,96 @@ Vue.component('system-status', {
         
     }
 }); 
+Vue.component('user-profile', {
+    name: 'userProfile',
+    el: function() {
+        return '#user-profile'
+    },
+    data: function() {
+        return {
+            ajaxReady: true,
+            editingContact: false,
+            editingBio: false,
+            showProfilePhotoMenu: false
+        };
+    },
+    props: [],
+    computed: {},
+    methods: {
+        togglePhotoMenu: function() {
+            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
+        },
+        toggleEditMode: function(section) {
+            this['editing' + section] = ! this['editing' + section];
+            this.editingSection = (this.editingSection ===  section) ? '' : section;
+        },
+        updateProfile: function(section) {
+            var self = this;
+            vueClearValidationErrors(self);
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile',
+                method: 'PUT',
+                data: {
+                    "name": self.user.name,
+                    "email": self.user.email,
+                    "phone": self.user.phone,
+                    "bio": self.user.bio
+                },
+                success: function(data) {
+                   // success
+                    self.toggleEditMode(section);
+                    flashNotify('success', 'Updated profile');
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    console.log(response);
+
+                    vueValidation(response, self);
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        showFileSelecter: function() {
+            $(this.$els.fileInput).click();
+        },
+        uploadProfilePhoto: function() {
+            $(this.$els.profilePhotoForm).submit();
+        },
+        removePhoto: function() {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/user/profile/photo',
+                method: 'DELETE',
+                success: function(data) {
+                   self.ajaxReady = true;
+                    flashNotifyNextRequest('success', 'Removed profile photo');
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response);
+                    flashNotify('error', 'Could not remove photo');
+                    self.ajaxReady = true;
+                }
+            });
+        }
+    },
+    events: {
+        
+    },
+    mixins: [userCompany],
+    ready: function() {
+        var self = this;
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
+                self.showProfilePhotoMenu = false;
+            }
+        });
+    }
+});
 Vue.component('vendor-single', {
     name: 'vendorSingle',
     el: function () {
@@ -1384,96 +1476,70 @@ Vue.component('vendor-single', {
         var self = this;
     }
 });
-Vue.component('user-profile', {
-    name: 'userProfile',
+Vue.component('report-spendings-employees', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
     el: function() {
-        return '#user-profile'
+        return '#report-spendings-employees'
     },
-    data: function() {
-        return {
-            ajaxReady: true,
-            editingContact: false,
-            editingBio: false,
-            showProfilePhotoMenu: false
-        };
-    },
-    props: [],
-    computed: {},
-    methods: {
-        togglePhotoMenu: function() {
-            this.showProfilePhotoMenu = !this.showProfilePhotoMenu;
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/employees/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
         },
-        toggleEditMode: function(section) {
-            this['editing' + section] = ! this['editing' + section];
-            this.editingSection = (this.editingSection ===  section) ? '' : section;
-        },
-        updateProfile: function(section) {
-            var self = this;
-            vueClearValidationErrors(self);
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile',
-                method: 'PUT',
-                data: {
-                    "name": self.user.name,
-                    "email": self.user.email,
-                    "phone": self.user.phone,
-                    "bio": self.user.bio
-                },
-                success: function(data) {
-                   // success
-                    self.toggleEditMode(section);
-                    flashNotify('success', 'Updated profile');
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    console.log(response);
-
-                    vueValidation(response, self);
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        showFileSelecter: function() {
-            $(this.$els.fileInput).click();
-        },
-        uploadProfilePhoto: function() {
-            $(this.$els.profilePhotoForm).submit();
-        },
-        removePhoto: function() {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/user/profile/photo',
-                method: 'DELETE',
-                success: function(data) {
-                   self.ajaxReady = true;
-                    flashNotifyNextRequest('success', 'Removed profile photo');
-                    location.reload();
-                },
-                error: function(response) {
-                    console.log(response);
-                    flashNotify('error', 'Could not remove photo');
-                    self.ajaxReady = true;
-                }
-            });
+        title: function() {
+            return 'Employee Spendings for ' + this.currency.code;
         }
-    },
-    events: {
-        
-    },
-    mixins: [userCompany],
-    ready: function() {
-        var self = this;
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.profile-popup').length && !$(event.target).is('.profile-popup')) {
-                self.showProfilePhotoMenu = false;
-            }
-        });
     }
-});
+}));
+Vue.component('report-spendings-items', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-items'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/items/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Item Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-projects', spendingsReport.extend({
+    name: 'ReportSpendingsForProjects',
+    el: function() {
+        return '#report-spendings-projects'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/projects/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Project Spendings for ' + this.currency.code;
+        }
+    }
+}));
+Vue.component('report-spendings-vendors', spendingsReport.extend({
+    name: 'ReportSpendingsForVendors',
+    el: function() {
+        return '#report-spendings-vendors'
+    },
+    computed: {
+        dataURL: function() {
+            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
+            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
+            return url;
+        },
+        title: function() {
+            return 'Vendor Spendings for ' + this.currency.code;
+        }
+    }
+}));
 Vue.component('po-billing-address', {
     name: 'purchaseOrderSubmitBillingAddress',
     data: function () {
@@ -2083,70 +2149,6 @@ Vue.component('po-submit-summary', {
     ready: function () {
     }
 });
-Vue.component('report-spendings-employees', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-employees'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/employees/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Employee Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-items', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-items'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/items/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Item Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-projects', spendingsReport.extend({
-    name: 'ReportSpendingsForProjects',
-    el: function() {
-        return '#report-spendings-projects'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/projects/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Project Spendings for ' + this.currency.code;
-        }
-    }
-}));
-Vue.component('report-spendings-vendors', spendingsReport.extend({
-    name: 'ReportSpendingsForVendors',
-    el: function() {
-        return '#report-spendings-vendors'
-    },
-    computed: {
-        dataURL: function() {
-            var url = '/reports/spendings/vendors/currency/' + this.currencyId;
-            if(this.dateMin || this.dateMax) url += '?date=' + this.dateMin + '+' + this.dateMax;
-            return url;
-        },
-        title: function() {
-            return 'Vendor Spendings for ' + this.currency.code;
-        }
-    }
-}));
 Vue.component('settings-billing', {
     name: 'settingsBillingPage',
     el: function() {
