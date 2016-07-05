@@ -19,4 +19,5 @@ var pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
     }
 });
 
-var pusherChannel = pusher.subscribe('private-user.' + $('meta[name="user-id"]').attr('content'));
+var userId = $('meta[name="user-id"]').attr('content');
+if(userId) var pusherChannel = pusher.subscribe('private-user.' + userId );
