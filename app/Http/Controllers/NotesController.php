@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NoteDeleted;
 use App\Http\Requests\AddNoteRequest;
 use App\Note;
 use App\PurchaseOrder;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class NotesController extends Controller
 {
@@ -81,7 +83,8 @@ class NotesController extends Controller
     {
         $this->fetchModel($subject, $subjectId);
         $this->authorize('delete', $note);
-        if($note->delete())return response("Deleted a note");
-        return response("Could not delete note", 500);
+        Event::fire(new NoteDeleted($note));
+        $note->delete();
+        return response("Deleted a note");
     }
 }

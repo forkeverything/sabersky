@@ -981,61 +981,6 @@ Vue.directive('table-bulk-actions', function () {
 Vue.directive('tooltip', function() {
     $(this.el).tooltip();
 });
-var modalSinglePR = {
-    created: function () {
-    },
-    methods: {
-        showSinglePR: function (purchaseRequest) {
-            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
-        }
-    }
-};
-var numberFormatter = {
-    created: function () {
-    },
-    methods: {
-        formatNumber: function (number, decimalPoints, currencySymbol) {
-
-            // Default decimal points
-            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
-
-            // If we gave a currency symbol - format it as money
-            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
-
-            // otherwise just a norma lnumber format will do
-            return accounting.formatNumber(number, decimalPoints, ',');
-        }
-    }
-};
-var userCompany = {
-    props: ['user'],
-    computed: {
-        company: function () {
-            return this.user.company;
-        },
-        availableCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.settings.currencies;
-        },
-        companyCurrencies: function() {
-            if(! this.user.id) return [];
-            return this.user.company.currencies;
-        },
-        currencyDecimalPoints: function () {
-            return this.user.company.settings.currency_decimal_points;
-        },
-        companyAddress: function () {
-            if (_.isEmpty(this.user.company.address)) return false;
-            return this.user.company.address;
-        },
-        PORequiresAddress: function () {
-            return this.user.company.settings.po_requires_address;
-        },
-        PORequiresBankAccount: function () {
-            return this.user.company.settings.po_requires_bank_account;
-        }
-    }
-};
 Vue.filter('capitalize', function (str) {
     if(str && str.length > 0) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 });
@@ -1168,6 +1113,61 @@ Vue.filter('percentage', {
         return val / 100;
     }
 });
+var modalSinglePR = {
+    created: function () {
+    },
+    methods: {
+        showSinglePR: function (purchaseRequest) {
+            vueEventBus.$emit('modal-single-pr-show', purchaseRequest);
+        }
+    }
+};
+var numberFormatter = {
+    created: function () {
+    },
+    methods: {
+        formatNumber: function (number, decimalPoints, currencySymbol) {
+
+            // Default decimal points
+            if(decimalPoints === null || decimalPoints === '') decimalPoints = 2;
+
+            // If we gave a currency symbol - format it as money
+            if(currencySymbol) return accounting.formatMoney(number, currencySymbol, decimalPoints, ',');
+
+            // otherwise just a norma lnumber format will do
+            return accounting.formatNumber(number, decimalPoints, ',');
+        }
+    }
+};
+var userCompany = {
+    props: ['user'],
+    computed: {
+        company: function () {
+            return this.user.company;
+        },
+        availableCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.settings.currencies;
+        },
+        companyCurrencies: function() {
+            if(! this.user.id) return [];
+            return this.user.company.currencies;
+        },
+        currencyDecimalPoints: function () {
+            return this.user.company.settings.currency_decimal_points;
+        },
+        companyAddress: function () {
+            if (_.isEmpty(this.user.company.address)) return false;
+            return this.user.company.address;
+        },
+        PORequiresAddress: function () {
+            return this.user.company.settings.po_requires_address;
+        },
+        PORequiresBankAccount: function () {
+            return this.user.company.settings.po_requires_bank_account;
+        }
+    }
+};
 Vue.component('checkbox', {
     name: 'styledCheckbox',
     template: '<div class="checkbox-component">'+
@@ -3210,10 +3210,10 @@ Vue.component('notes', {
     '<form-errors></form-errors>' +
     '<form class="form-post-note" @submit.prevent="add">' +
     '<div class="form-group">' +
-    '<textarea class="form-control autosize" placeholder="Add a new note..." v-model="content"></textarea>' +
+    '<textarea class="form-control autosize" placeholder="Add a new note..." v-model="content" :disabled="! ajaxReady"></textarea>' +
     '</div>' +
     '<div class="form-group align-end">' +
-    '<button type="submit" class="btn btn-solid-blue btn-small" :disabled="! content">Post</button>' +
+    '<button type="submit" class="btn btn-solid-blue btn-small" :disabled="! content || ! ajaxReady">Post</button>' +
     '</div>' +
     '</form>' +
     '<div class="existing-notes" v-show="notes.length > 0">' +
@@ -3261,7 +3261,6 @@ Vue.component('notes', {
                 success: function (data) {
                     // success
                     self.content = '';
-                    self.notes.unshift(data);
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -3285,7 +3284,6 @@ Vue.component('notes', {
                 method: 'DELETE',
                 success: function (data) {
                     // success
-                    self.notes = _.reject(self.notes, note);
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -3297,7 +3295,20 @@ Vue.component('notes', {
     mixins: [userCompany],
     events: {},
     ready: function () {
-        this.fetch();
+
+        var self = this;
+
+        self.fetch();
+
+        pusherChannel.bind('App\\Events\\NoteAdded', function (data) {
+            self.notes.unshift(data.note);
+        });
+
+        pusherChannel.bind('App\\Events\\NoteDeleted', function (data) {
+            self.notes = _.reject(self.notes, data.note);
+        });
+
+
     }
 });
 Vue.component('po-mark-received-popover', {

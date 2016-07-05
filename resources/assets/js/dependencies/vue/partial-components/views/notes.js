@@ -4,10 +4,10 @@ Vue.component('notes', {
     '<form-errors></form-errors>' +
     '<form class="form-post-note" @submit.prevent="add">' +
     '<div class="form-group">' +
-    '<textarea class="form-control autosize" placeholder="Add a new note..." v-model="content"></textarea>' +
+    '<textarea class="form-control autosize" placeholder="Add a new note..." v-model="content" :disabled="! ajaxReady"></textarea>' +
     '</div>' +
     '<div class="form-group align-end">' +
-    '<button type="submit" class="btn btn-solid-blue btn-small" :disabled="! content">Post</button>' +
+    '<button type="submit" class="btn btn-solid-blue btn-small" :disabled="! content || ! ajaxReady">Post</button>' +
     '</div>' +
     '</form>' +
     '<div class="existing-notes" v-show="notes.length > 0">' +
@@ -55,7 +55,6 @@ Vue.component('notes', {
                 success: function (data) {
                     // success
                     self.content = '';
-                    self.notes.unshift(data);
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -79,7 +78,6 @@ Vue.component('notes', {
                 method: 'DELETE',
                 success: function (data) {
                     // success
-                    self.notes = _.reject(self.notes, note);
                     self.ajaxReady = true;
                 },
                 error: function (response) {
@@ -91,6 +89,19 @@ Vue.component('notes', {
     mixins: [userCompany],
     events: {},
     ready: function () {
-        this.fetch();
+
+        var self = this;
+
+        self.fetch();
+
+        pusherChannel.bind('App\\Events\\NoteAdded', function (data) {
+            self.notes.unshift(data.note);
+        });
+
+        pusherChannel.bind('App\\Events\\NoteDeleted', function (data) {
+            self.notes = _.reject(self.notes, data.note);
+        });
+
+
     }
 });

@@ -7,6 +7,8 @@ use App\Events\AddedTeamMemberToProject;
 use App\Events\InvitedStaffMember;
 use App\Events\LineItemUpdated;
 use App\Events\NewCompanySignedUp;
+use App\Events\NoteAdded;
+use App\Events\NoteDeleted;
 use App\Events\PurchaseOrderSubmitted;
 use App\Events\PurchaseOrderUpdated;
 use App\Events\PurchaseRequestMade;
@@ -56,7 +58,9 @@ class EventServiceProvider extends ServiceProvider
         PurchaseRequestUpdated::class => [],
         PurchaseOrderUpdated::class => [],
         RuleProcessed::class => [],
-        LineItemUpdated::class => []
+        LineItemUpdated::class => [],
+        NoteAdded::class => [],
+        NoteDeleted::class => []
     ];
 
     /**

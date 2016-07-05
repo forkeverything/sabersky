@@ -4,8 +4,10 @@
 namespace App\Utilities\Traits;
 
 
+use App\Events\NoteAdded;
 use App\Note;
 use App\User;
+use Illuminate\Support\Facades\Event;
 
 trait HasNotes
 {
@@ -35,6 +37,8 @@ trait HasNotes
         ]);
 
         $note->load('poster');
+
+        Event::fire(new NoteAdded($note));
 
         return $note;
     }
