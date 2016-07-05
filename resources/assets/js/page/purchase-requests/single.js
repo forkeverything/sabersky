@@ -16,7 +16,7 @@ Vue.component('purchase-request-single', {
         },
         lineItems: function() {
             // Only return first 5 line items
-            return _.take(this.purchaseRequest.item.line_items, 5);
+            return _.take(this.purchaseRequest.item.line_items, 3);
         },
         numOpenRequests: function() {
             return _.filter(this.purchaseRequest.project.purchase_requests, function(o) {

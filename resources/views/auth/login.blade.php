@@ -37,4 +37,5 @@
             </form>
         </div>
     </div>
+    @include('layouts.partials.registration-popup')
 @endsection

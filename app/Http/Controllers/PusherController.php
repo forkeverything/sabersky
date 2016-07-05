@@ -12,7 +12,7 @@ class PusherController extends Controller
 {
     public function postAuthPrivateUserChannel(Request $request)
     {
-        if ($request->channel_name === 'private-user.' . Auth::user()->id) {
+        if (Auth::check() && $request->channel_name === 'private-user.' . Auth::user()->id) {
             $pusher = new Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'), ['cluster' => 'ap1']);
             return $pusher->socket_auth($request->channel_name, $request->socket_id);
         }

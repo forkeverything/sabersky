@@ -6892,12 +6892,8 @@ label {
         #registration-popup-overlay .popup-content .popup-header .popup-title {
           font-size: 22px; } }
 
-#login_body, #register_body, #shopify_login_body {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+#login_body {
+  height: 100vh;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -6907,7 +6903,7 @@ label {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center; }
-  #login_body .auth_fields input, #register_body .auth_fields input, #shopify_login_body .auth_fields input {
+  #login_body .auth_fields input {
     box-sizing: border-box;
     width: 100%;
     height: calc(3em + 2px);
@@ -6918,13 +6914,13 @@ label {
     outline: none;
     position: static;
     border: 1px solid #E0E0E0; }
-  #login_body .auth_fields label, #login_body .auth_fields label[placeholder], #register_body .auth_fields label, #register_body .auth_fields label[placeholder], #shopify_login_body .auth_fields label, #shopify_login_body .auth_fields label[placeholder] {
+  #login_body .auth_fields label, #login_body .auth_fields label[placeholder] {
     display: block;
     pointer-events: none;
     line-height: 1em;
     margin-top: calc(-3em - 2px);
     margin-bottom: calc((3em - 1em) + 2px); }
-  #login_body .auth_fields label:before, #register_body .auth_fields label:before, #shopify_login_body .auth_fields label:before {
+  #login_body .auth_fields label:before {
     content: attr(placeholder);
     display: inline-block;
     margin: 0 calc(1em + 2px);
@@ -6942,48 +6938,34 @@ label {
   #login_body .auth_fields input[type="email"][required]:focus + label[placeholder]:before,
   #login_body .auth_fields input[type="email"][required]:valid + label[placeholder]:before,
   #login_body .auth_fields input[type="password"][required]:focus + label[placeholder]:before,
-  #login_body .auth_fields input[type="password"][required]:valid + label[placeholder]:before, #register_body .auth_fields input[type="text"].not-required:focus + label[placeholder]:before,
-  #register_body .auth_fields input[type="text"].not-required:valid + label[placeholder]:before,
-  #register_body .auth_fields input[type="text"][required]:focus + label[placeholder]:before,
-  #register_body .auth_fields input[type="text"][required]:valid + label[placeholder]:before,
-  #register_body .auth_fields input[type="email"][required]:focus + label[placeholder]:before,
-  #register_body .auth_fields input[type="email"][required]:valid + label[placeholder]:before,
-  #register_body .auth_fields input[type="password"][required]:focus + label[placeholder]:before,
-  #register_body .auth_fields input[type="password"][required]:valid + label[placeholder]:before, #shopify_login_body .auth_fields input[type="text"].not-required:focus + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="text"].not-required:valid + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="text"][required]:focus + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="text"][required]:valid + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="email"][required]:focus + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="email"][required]:valid + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="password"][required]:focus + label[placeholder]:before,
-  #shopify_login_body .auth_fields input[type="password"][required]:valid + label[placeholder]:before {
+  #login_body .auth_fields input[type="password"][required]:valid + label[placeholder]:before {
     transition-duration: .2s;
     -webkit-transform: translate(0, -1.9em) scale(0.9, 0.9);
     transform: translate(0, -1.9em) scale(0.9, 0.9);
     font-weight: bold; }
-  #login_body #shopify_login_middle, #login_body .login_wrap, #login_body #register_wrap, #register_body #shopify_login_middle, #register_body .login_wrap, #register_body #register_wrap, #shopify_login_body #shopify_login_middle, #shopify_login_body .login_wrap, #shopify_login_body #register_wrap {
+  #login_body #shopify_login_middle, #login_body .login_wrap, #login_body #register_wrap {
     position: relative; }
-    #login_body #shopify_login_middle .home_link_wrapper, #login_body .login_wrap .home_link_wrapper, #login_body #register_wrap .home_link_wrapper, #register_body #shopify_login_middle .home_link_wrapper, #register_body .login_wrap .home_link_wrapper, #register_body #register_wrap .home_link_wrapper, #shopify_login_body #shopify_login_middle .home_link_wrapper, #shopify_login_body .login_wrap .home_link_wrapper, #shopify_login_body #register_wrap .home_link_wrapper {
+    #login_body #shopify_login_middle .home_link_wrapper, #login_body .login_wrap .home_link_wrapper, #login_body #register_wrap .home_link_wrapper {
       position: absolute;
       top: -30px;
       left: 0;
       z-index: 1;
       border-bottom: 1px dotted #fff;
       padding: 0 0 2px 0; }
-      #login_body #shopify_login_middle .home_link_wrapper a, #login_body .login_wrap .home_link_wrapper a, #login_body #register_wrap .home_link_wrapper a, #register_body #shopify_login_middle .home_link_wrapper a, #register_body .login_wrap .home_link_wrapper a, #register_body #register_wrap .home_link_wrapper a, #shopify_login_body #shopify_login_middle .home_link_wrapper a, #shopify_login_body .login_wrap .home_link_wrapper a, #shopify_login_body #register_wrap .home_link_wrapper a {
+      #login_body #shopify_login_middle .home_link_wrapper a, #login_body .login_wrap .home_link_wrapper a, #login_body #register_wrap .home_link_wrapper a {
         color: #fff;
         font-size: 0.875em; }
-        #login_body #shopify_login_middle .home_link_wrapper a i, #login_body .login_wrap .home_link_wrapper a i, #login_body #register_wrap .home_link_wrapper a i, #register_body #shopify_login_middle .home_link_wrapper a i, #register_body .login_wrap .home_link_wrapper a i, #register_body #register_wrap .home_link_wrapper a i, #shopify_login_body #shopify_login_middle .home_link_wrapper a i, #shopify_login_body .login_wrap .home_link_wrapper a i, #shopify_login_body #register_wrap .home_link_wrapper a i {
+        #login_body #shopify_login_middle .home_link_wrapper a i, #login_body .login_wrap .home_link_wrapper a i, #login_body #register_wrap .home_link_wrapper a i {
           margin-right: 5px; }
-      #login_body #shopify_login_middle .home_link_wrapper:hover, #login_body .login_wrap .home_link_wrapper:hover, #login_body #register_wrap .home_link_wrapper:hover, #register_body #shopify_login_middle .home_link_wrapper:hover, #register_body .login_wrap .home_link_wrapper:hover, #register_body #register_wrap .home_link_wrapper:hover, #shopify_login_body #shopify_login_middle .home_link_wrapper:hover, #shopify_login_body .login_wrap .home_link_wrapper:hover, #shopify_login_body #register_wrap .home_link_wrapper:hover {
+      #login_body #shopify_login_middle .home_link_wrapper:hover, #login_body .login_wrap .home_link_wrapper:hover, #login_body #register_wrap .home_link_wrapper:hover {
         border-color: #2ECC71; }
-        #login_body #shopify_login_middle .home_link_wrapper:hover a, #login_body .login_wrap .home_link_wrapper:hover a, #login_body #register_wrap .home_link_wrapper:hover a, #register_body #shopify_login_middle .home_link_wrapper:hover a, #register_body .login_wrap .home_link_wrapper:hover a, #register_body #register_wrap .home_link_wrapper:hover a, #shopify_login_body #shopify_login_middle .home_link_wrapper:hover a, #shopify_login_body .login_wrap .home_link_wrapper:hover a, #shopify_login_body #register_wrap .home_link_wrapper:hover a {
+        #login_body #shopify_login_middle .home_link_wrapper:hover a, #login_body .login_wrap .home_link_wrapper:hover a, #login_body #register_wrap .home_link_wrapper:hover a {
           color: #2ECC71; }
-  #login_body #register_wrap .home_link_wrapper, #register_body #register_wrap .home_link_wrapper, #shopify_login_body #register_wrap .home_link_wrapper {
+  #login_body #register_wrap .home_link_wrapper {
     top: 30px;
     left: 15px;
     border-color: #A1A4AA; }
-    #login_body #register_wrap .home_link_wrapper a, #register_body #register_wrap .home_link_wrapper a, #shopify_login_body #register_wrap .home_link_wrapper a {
+    #login_body #register_wrap .home_link_wrapper a {
       color: #9CA1A8; }
 
 .auth_heading {
