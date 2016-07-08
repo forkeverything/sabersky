@@ -4,28 +4,31 @@
     <landing inline-template>
         <div id="landing">
             <div id="hero_div">
-                <div class="hero_video_wrap hidden-xs">
-                    <video id="hero-vid" autoplay muted loop>
-                        <source src="videos/landing_hero_v1.mp4" type="video/mp4">
-                        <img class="hero-still" src="images/landing_hero_v1.jpg">
-                    </video>
-                </div>
-                <div class="hero_image_wrap visible-xs">
-                    <img class="hero_image" src="images/landing_hero_v1.jpg">
+                <div class="hero_image_wrap">
+                    <img class="hero_image" src="images/construction.jpg">
                 </div>
                 <div class="hero_content">
                     <div class="container">
-                        <div class="grid_align">
-                            <h1 class="hidden-xs">Expansive Purchasing System</h1>
-                            <h5 class="col-md-7 center-block">We help your business grow through better
-                                purchasing.</h5>
-                            <span class="display-block">View features</span>
-                            <a href="#features" id="link-features">
-                                <button class="hero_button btn btn-default">
-                                    <i class="livicon-evo icon-overview"
-                                       data-options="name:chevron-bottom.svg; size: 25px; repeat: loop; style: lines; strokeColor: #FFF; eventOn: parent; strokeWidth: 3px;"></i>
-                                </button>
-                            </a>
+                        <div class="row">
+                                <div class="hand-ipad col-sm-4 hidden-xs">
+                                    <div class="ipad-wrap">
+                                        <img class="img-ipad" src="images/ipad-hands-600.png" alt="ipad">
+                                        <div class="screen-wrap">
+                                            <img class="img-screen" src="images/po-screen.jpg" alt="Purchase Order screenshot">
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="col-sm-8 hero-text">
+                                <h1 class="hidden-xs">Better purchasing, better business.</h1>
+                                <h5 class="col-md-7 center-block">An expansive purchasing system that builds your company.</h5>
+                                <span class="display-block">View features</span>
+                                <a href="#features" id="link-features">
+                                    <button class="hero_button btn btn-default">
+                                        <i class="livicon-evo icon-overview"
+                                           data-options="name:chevron-bottom.svg; size: 25px; repeat: loop; style: lines; strokeColor: #FFF; eventOn: parent; strokeWidth: 3px;"></i>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
