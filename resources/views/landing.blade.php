@@ -14,7 +14,7 @@
                                     <div class="ipad-wrap">
                                         <img class="img-ipad" src="images/ipad-hands-600.png" alt="ipad">
                                         <div class="screen-wrap">
-                                            <img class="img-screen" src="images/po-screen-1200.jpg" alt="Purchase Order screenshot">
+                                            <img class="img-screen" src="images/po-screen-1500.jpg" alt="Purchase Order screenshot">
                                         </div>
                                     </div>
                                 </div>

@@ -12,7 +12,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-logo" href="{{ url('/') }}">
-                <img src="/images/logo/logo-blue.jpg" class="nav-logo">
+                <img src="/images/logo/logo-blue-600.jpg" class="nav-logo">
             </a>
 
             <ul class="navbar-dropdown animated"
