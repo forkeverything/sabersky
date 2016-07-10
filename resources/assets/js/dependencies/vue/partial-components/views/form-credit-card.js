@@ -9,14 +9,11 @@ Vue.component('form-credit-card', {
     '<input data-stripe="number" type="text" required size="20" v-model="ccNumber" >'+
     '<label placeholder="Card Number"></label>'+
     '</div>'+
-    '<div class="row">'+
-    '<div class="col-sm-6">'+
     '<div class="shift-label-input">'+
     '<input data-stripe="name" type="text" required v-model="ccName">'+
     '<label placeholder="Name On Card"></label>'+
     '</div>'+
-    '</div>'+
-    '<div class="col-sm-6 expiry">'+
+    '<div class="expiry">'+
     '<div class="shift-label-input month validated-input" '+
     ':class="{'+
         "'is-filled': ccExpMonth,"+
@@ -33,7 +30,6 @@ Vue.component('form-credit-card', {
     '}">'+
     '<input data-stripe="exp_year" type="text" required size="4" v-model="ccExpYear">'+
     '<label placeholder="YYYY"></label>'+
-    '</div>'+
     '</div>'+
     '</div>'+
     '<div class="shift-label-input validated-input" '+
@@ -59,14 +55,23 @@ Vue.component('form-credit-card', {
             ccCVC: ''
         };
     },
-    props: [],
+    props: {
+        buttonText: {
+            type: String,
+            default: 'Add Card'
+        },
+        canSubmit: {
+            type: Boolean,
+            default: true
+        }
+    },
     computed: {
         validCardDetails: function() {
-            return ! this.waitingStripeResponse && this.ccName && this.ccNumber && this.ccExpMonth && this.ccExpYear && this.ccCVC;
+            return this.canSubmit && ! this.waitingStripeResponse && this.ccName && this.ccNumber && this.ccExpMonth && this.ccExpYear && this.ccCVC;
         },
         submitButtonText: function() {
             if(this.waitingStripeResponse) return 'processing...';
-            return 'Add card';
+            return this.buttonText;
         }
     },
     methods: {

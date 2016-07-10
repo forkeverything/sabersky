@@ -1,82 +1,97 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {!! csrf_field() !!}
+    <register inline-template>
+        <div id="register" class="container">
+            <h1 class="text-center no-margin">Sign-up</h1>
+            <p class="text-center">Fill out this quick form and say goodbye to purchasing headaches forever.</p>
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
+            <div class="row">
+                <form action="#register-form" class="col-sm-8 col-sm-offset-2">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label>Account</label>
+                            <div class="shift-label-input validated-input"
+                                 :class="{
+                    'is-filled': validCompanyName !== 'unfilled',
+                    'is-loading': validCompanyName === 'loading',
+                    'is-success': validCompanyName,
+                    'is-error': validCompanyName === false
+                 }"
+                            >
+                                <input id="register-popup-company-name"
+                                       type="text"
+                                       name="company_name"
+                                       required
+                                       @blur="checkCompanyName"
+                                       v-model="companyName"
+                                >
+                                <label for="register_name" placeholder="Company Name" class="label_auth"></label>
+                    <span class="error-msg"
+                          v-show="companyNameError"
+                    >@{{ companyNameError }}</span>
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                            <div class="shift-label-input validated-input"
+                                 :class="{
+                    'is-filled': validName !== 'unfilled',
+                    'is-success': validName,
+                    'is-error': ! validName
+                }"
+                            >
+                                <input id="register_name"
+                                       type="text"
+                                       name="name"
+                                       required
+                                       @blur="checkName"
+                                       v-model="name"
+                                >
+                                <label alt="register_name" placeholder="Full Name" class="label_auth"></label>
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                            <div class="shift-label-input validated-input"
+                                 :class="{
+                    'is-filled': validEmail !== 'unfilled',
+                    'is-success': validEmail,
+                    'is-loading': validEmail === 'loading',
+                    'is-error': !validEmail
+                 }"
+                            >
+                                <input id="register-popup-email"
+                                       type="text"
+                                       name="email"
+                                       required
+                                       @blur="checkEmail"
+                                       v-model="email"
+                                >
+                                <label for="register_email" placeholder="Email" class="label_auth"></label>
+                                        <span class="error-msg"
+                                              v-show="emailError"
+                                        >@{{ emailError }}</span>
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
+                            <div class="shift-label-input validated-input"
+                                 :class="{
+                    'is-filled': validPassword !== 'unfilled',
+                    'is-success': validPassword,
+                    'is-error': ! validPassword
+                }"
+                            >
+                                <input id="register_password"
+                                       type="password"
+                                       name="password"
+                                       required
+                                       @blur="checkPassword"
+                                       v-model="password"
+                                >
+                                <label alt="register_password" placeholder="Password" class="label_auth"></label>
                             </div>
+                            <hr class="hidden-md hidden-lg">
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i>Register
-                                </button>
-                            </div>
+                        <div class="col-md-5">
+                            <label>Billing</label>
+                            <form-credit-card :button-text="'Join'" :can-submit="accountFieldsValid"></form-credit-card>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
-</div>
+    </register>
 @endsection

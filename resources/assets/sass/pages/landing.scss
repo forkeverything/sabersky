@@ -1,3 +1,8 @@
+@import "../mixins";
+@import "../partials/variables";
+@import "../../bower/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../partials/navbar";
+@import "../partials/buttons";
 
 #landing {
 
@@ -139,6 +144,7 @@
           border: 2px solid #fff;
           padding: 0;
           @include transition(all 0.2s ease-in-out);
+          background: transparent;
 
           &:hover {
             background: $blue;

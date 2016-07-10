@@ -23,7 +23,7 @@
                 <li><a href="{{ url('/login') }}">Login</a></li>
                 <li>
                     <button type="button"
-                            class="btn btn-solid-green button-nav-signup "
+                            class="btn btn-solid-green button-nav-signup btn-small"
                     @click="getStarted"
                     >
                     Get started</button>
