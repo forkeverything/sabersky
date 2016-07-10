@@ -108,6 +108,262 @@ Vue.component('register', {
 
     }
 });
+Vue.component('dashboard',
+    {
+        name: 'dashboard',
+
+        el: function () {
+            return '#dashboard'
+        },
+        data: function () {
+            return {};
+        },
+        props: ['user'],
+        computed: {
+            date: function () {
+                return moment();
+            }
+        },
+        methods: {},
+        events: {},
+        ready: function () {
+
+            $(document).ready(function () {
+                $.get('/user/calendar_events', function (events) {
+                    $('#dashboard-calendar').fullCalendar({
+                        events: events
+                    })
+                });
+            });
+        }
+    });
+Vue.component('landing', {
+    name: 'LandingPage',
+    el: function() {
+        return '#landing'
+    },
+    data: function() {
+        return {
+        
+        };
+    },
+    props: [],
+    computed: {
+        
+    },
+    methods: {
+        clickedJoin: function() {
+            vueEventBus.$emit('clicked-join-button');
+        }
+    },
+    events: {
+        
+    },
+    ready: function() {
+
+    }
+});
+
+
+$(document).ready(function () {
+    var $ipad = $('.img-ipad');
+    var $screenWrap = $('.screen-wrap');
+    var position = parseInt($screenWrap.css('top'));
+    var height = parseInt($screenWrap.css('height'));
+
+    function setIpadDimensions() {
+
+        var ipadHeight = $ipad.height();
+        var ipadWidth = $ipad.width();
+
+        $screenWrap.css({
+            top: 0.055 * ipadHeight + "px",
+            left: 0.225 * ipadWidth + "px",
+            height: 0.732 * ipadHeight + "px",
+            width: 0.555 * ipadWidth + "px"
+        });
+
+        position = 0.055 * ipadHeight;
+        height = 0.732 * ipadHeight;
+
+        $('#hero_div').css({
+            opacity: 1
+        });
+
+    }
+
+
+
+    function moveScrollIpad() {
+        var scrolled = $('#body-content').scrollTop();
+        $screenWrap.css({
+            top: position - (0.2 * scrolled) + "px",
+            height: height + (0.2 * scrolled) + "px"
+        });
+    }
+
+    $(window).load(function () {
+        setIpadDimensions();
+    });
+
+    $(window).on('resize', setIpadDimensions);
+
+    $('#body-content').on('scroll', moveScrollIpad);
+});
+
+
+Vue.component('items-all', apiRequestAllBaseComponent.extend({
+    name: 'allItems',
+    el: function () {
+        return '#items-all';
+    },
+    data: function () {
+        return {
+            requestUrl: '/api/items',
+            hasFilter: true,
+            filterOptions: [
+                {
+                    value: 'category',
+                    label: 'Category'
+                },
+                {
+                    value: 'brand',
+                    label: 'Brand'
+                },
+                {
+                    value: 'name',
+                    label: 'Name'
+                },
+                {
+                    value: 'project',
+                    label: 'Project'
+                }
+            ]
+        };
+    },
+    computed: {
+        items: function() {
+            return _.omit(this.response.data, 'query_parameters');
+        },
+        hasItems: function() {
+            return !_.isEmpty(this.items);
+        }
+    },
+    methods: {
+        getItemProjects: function (item) {
+            // Parses out project names from an Item's Purchase Requests
+            var projects = [];
+            _.forEach(item.purchase_requests, function (pr) {
+                projects.push(pr.project);
+            });
+            return _.uniqBy(projects, 'id');
+        }
+    },
+    events: {},
+    ready: function () {
+    }
+}));
+Vue.component('item-single', {
+    name: 'itemSingle',
+    el: function () {
+        return '#item-single'
+    },
+    data: function () {
+        return {
+            ajaxReady: true,
+
+            fileErrors: []
+        };
+    },
+    props: ['item'],
+    computed: {
+    },
+    methods: {
+        deletePhoto: function(photo) {
+            var self = this;
+            if(!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
+                method: 'DELETE',
+                success: function(data) {
+                   // success
+                    console.log(data);
+                   self.item.photos = _.reject(self.item.photos, photo);
+                   self.ajaxReady = true;
+                },
+                error: function(response) {
+                    self.ajaxReady = true;
+                }
+            });
+        },
+        clearErrors: function() {
+            this.fileErrors = [];
+        }
+    },
+    events: {},
+    mixins: [userCompany],
+    ready: function () {
+
+        var self = this;
+
+        // Fetch item photos
+        $.ajax({
+            url: '/api/items/' + self.item.id,
+            method: 'GET',
+            success: function(data) {
+               // success
+                self.item.photos = data.photos
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+
+        new Dropzone("#item-photo-uploader", {
+            autoProcessQueue: true,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            previewTemplate: '<div class="dz-image-row">' +
+            '                       <div class="dz-image">' +
+            '                           <img data-dz-thumbnail>' +
+            '                       </div>' +
+            '                       <div class="dz-file-details">' +
+            '                           <div class="name-status">' +
+            '                               <span data-dz-name class="file-name"></span>' +
+            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
+            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
+            '                           </div>' +
+            '                           <span class="file-size" data-dz-size></span>' +
+            '                           <div class="dz-progress progress">' +
+            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                </div>',
+            init: function () {
+                this.on("complete", function (file) {
+                    setTimeout(function () {
+                        this.removeFile(file);
+                    }.bind(this), 5000);
+                });
+                this.on("success", function (files, response) {
+                    // Upload was successful, receive response
+                    // of Photo Model back from the server.
+                    self.item.photos.push(response);
+                });
+                this.on("error", function (file, err) {
+                    if(typeof err === 'object') {
+                        _.forEach(err.file, function (error) {
+                            self.fileErrors.push(file.name + ': ' + error);
+                        });
+                    } else {
+                        self.fileErrors.push(file.name + ': ' + err);
+                    }
+                });
+            }
+        });
+    }
+});
 Vue.component('projects-add-team', {
     name: 'projectAddTeam',
     el: function() {
@@ -307,262 +563,6 @@ Vue.component('project-single', {
     },
     ready: function() {}
 });
-Vue.component('items-all', apiRequestAllBaseComponent.extend({
-    name: 'allItems',
-    el: function () {
-        return '#items-all';
-    },
-    data: function () {
-        return {
-            requestUrl: '/api/items',
-            hasFilter: true,
-            filterOptions: [
-                {
-                    value: 'category',
-                    label: 'Category'
-                },
-                {
-                    value: 'brand',
-                    label: 'Brand'
-                },
-                {
-                    value: 'name',
-                    label: 'Name'
-                },
-                {
-                    value: 'project',
-                    label: 'Project'
-                }
-            ]
-        };
-    },
-    computed: {
-        items: function() {
-            return _.omit(this.response.data, 'query_parameters');
-        },
-        hasItems: function() {
-            return !_.isEmpty(this.items);
-        }
-    },
-    methods: {
-        getItemProjects: function (item) {
-            // Parses out project names from an Item's Purchase Requests
-            var projects = [];
-            _.forEach(item.purchase_requests, function (pr) {
-                projects.push(pr.project);
-            });
-            return _.uniqBy(projects, 'id');
-        }
-    },
-    events: {},
-    ready: function () {
-    }
-}));
-Vue.component('item-single', {
-    name: 'itemSingle',
-    el: function () {
-        return '#item-single'
-    },
-    data: function () {
-        return {
-            ajaxReady: true,
-
-            fileErrors: []
-        };
-    },
-    props: ['item'],
-    computed: {
-    },
-    methods: {
-        deletePhoto: function(photo) {
-            var self = this;
-            if(!self.ajaxReady) return;
-            self.ajaxReady = false;
-            $.ajax({
-                url: '/api/items/' + self.item.id + '/photo/' + photo.id,
-                method: 'DELETE',
-                success: function(data) {
-                   // success
-                    console.log(data);
-                   self.item.photos = _.reject(self.item.photos, photo);
-                   self.ajaxReady = true;
-                },
-                error: function(response) {
-                    self.ajaxReady = true;
-                }
-            });
-        },
-        clearErrors: function() {
-            this.fileErrors = [];
-        }
-    },
-    events: {},
-    mixins: [userCompany],
-    ready: function () {
-
-        var self = this;
-
-        // Fetch item photos
-        $.ajax({
-            url: '/api/items/' + self.item.id,
-            method: 'GET',
-            success: function(data) {
-               // success
-                self.item.photos = data.photos
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        });
-
-        new Dropzone("#item-photo-uploader", {
-            autoProcessQueue: true,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            previewTemplate: '<div class="dz-image-row">' +
-            '                       <div class="dz-image">' +
-            '                           <img data-dz-thumbnail>' +
-            '                       </div>' +
-            '                       <div class="dz-file-details">' +
-            '                           <div class="name-status">' +
-            '                               <span data-dz-name class="file-name"></span>' +
-            '                               <div class="dz-success-mark status-marker"><span>✔</span></div>' +
-            '                               <div class="dz-error-mark status-marker"><span>✘</span></div>' +
-            '                           </div>' +
-            '                           <span class="file-size" data-dz-size></span>' +
-            '                           <div class="dz-progress progress">' +
-            '                               <span class="dz-upload progress-bar progress-bar-striped active" data-dz-uploadprogress></span>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                </div>',
-            init: function () {
-                this.on("complete", function (file) {
-                    setTimeout(function () {
-                        this.removeFile(file);
-                    }.bind(this), 5000);
-                });
-                this.on("success", function (files, response) {
-                    // Upload was successful, receive response
-                    // of Photo Model back from the server.
-                    self.item.photos.push(response);
-                });
-                this.on("error", function (file, err) {
-                    if(typeof err === 'object') {
-                        _.forEach(err.file, function (error) {
-                            self.fileErrors.push(file.name + ': ' + error);
-                        });
-                    } else {
-                        self.fileErrors.push(file.name + ': ' + err);
-                    }
-                });
-            }
-        });
-    }
-});
-Vue.component('dashboard',
-    {
-        name: 'dashboard',
-
-        el: function () {
-            return '#dashboard'
-        },
-        data: function () {
-            return {};
-        },
-        props: ['user'],
-        computed: {
-            date: function () {
-                return moment();
-            }
-        },
-        methods: {},
-        events: {},
-        ready: function () {
-
-            $(document).ready(function () {
-                $.get('/user/calendar_events', function (events) {
-                    $('#dashboard-calendar').fullCalendar({
-                        events: events
-                    })
-                });
-            });
-        }
-    });
-Vue.component('landing', {
-    name: 'LandingPage',
-    el: function() {
-        return '#landing'
-    },
-    data: function() {
-        return {
-        
-        };
-    },
-    props: [],
-    computed: {
-        
-    },
-    methods: {
-        clickedJoin: function() {
-            vueEventBus.$emit('clicked-join-button');
-        }
-    },
-    events: {
-        
-    },
-    ready: function() {
-
-    }
-});
-
-
-$(document).ready(function () {
-    var $ipad = $('.img-ipad');
-    var $screenWrap = $('.screen-wrap');
-    var position = parseInt($screenWrap.css('top'));
-    var height = parseInt($screenWrap.css('height'));
-
-    function setIpadDimensions() {
-
-        var ipadHeight = $ipad.height();
-        var ipadWidth = $ipad.width();
-
-        $screenWrap.css({
-            top: 0.055 * ipadHeight + "px",
-            left: 0.225 * ipadWidth + "px",
-            height: 0.732 * ipadHeight + "px",
-            width: 0.555 * ipadWidth + "px"
-        });
-
-        position = 0.055 * ipadHeight;
-        height = 0.732 * ipadHeight;
-
-        $('#hero_div').css({
-            opacity: 1
-        });
-
-    }
-
-
-
-    function moveScrollIpad() {
-        var scrolled = $('#body-content').scrollTop();
-        $screenWrap.css({
-            top: position - (0.2 * scrolled) + "px",
-            height: height + (0.2 * scrolled) + "px"
-        });
-    }
-
-    $(window).load(function () {
-        setIpadDimensions();
-    });
-
-    $(window).on('resize', setIpadDimensions);
-
-    $('#body-content').on('scroll', moveScrollIpad);
-});
-
-
 Vue.component('purchase-orders-all', apiRequestAllBaseComponent.extend({
     name: 'allPurchaseOrders',
     el: function () {
@@ -1340,6 +1340,43 @@ Vue.component('settings', {
     }
 });
 
+Vue.component('system-status', {
+    name: 'SystemStatus',
+    el: function() {
+        return '#system-status'
+    },
+    data: function() {
+        return {
+            pusher: '',
+            pusherChannel: ''
+        };
+    },
+    props: ['company-count'],
+    computed: {
+
+    },
+    methods: {
+
+    },
+    events: {
+
+    },
+    ready: function() {
+        var self = this;
+
+        this.pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
+            cluster: 'ap1',
+            encrypted: true
+        });
+
+        this.pusherChannel = this.pusher.subscribe('system');
+
+        this.pusherChannel.bind('App\\Events\\NewCompanySignedUp', function(message) {
+            self.companyCount ++;
+        });
+        
+    }
+}); 
 Vue.component('staff-all', {
     name: 'staffAll',
     el: function() {
@@ -1505,43 +1542,6 @@ Vue.component('user-profile', {
         });
     }
 });
-Vue.component('system-status', {
-    name: 'SystemStatus',
-    el: function() {
-        return '#system-status'
-    },
-    data: function() {
-        return {
-            pusher: '',
-            pusherChannel: ''
-        };
-    },
-    props: ['company-count'],
-    computed: {
-
-    },
-    methods: {
-
-    },
-    events: {
-
-    },
-    ready: function() {
-        var self = this;
-
-        this.pusher = new Pusher($('meta[name="pusher-key"]').attr('content'), {
-            cluster: 'ap1',
-            encrypted: true
-        });
-
-        this.pusherChannel = this.pusher.subscribe('system');
-
-        this.pusherChannel.bind('App\\Events\\NewCompanySignedUp', function(message) {
-            self.companyCount ++;
-        });
-        
-    }
-}); 
 Vue.component('vendor-single', {
     name: 'vendorSingle',
     el: function () {
