@@ -5,16 +5,16 @@
         <div id="landing">
             <div id="hero_div">
                 <div class="hero_image_wrap">
-                    <img class="hero_image" src="{{ env('CDN_URL') }}/images/construction.jpg">
+                    <img class="hero_image" src="images/construction.jpg">
                 </div>
                 <div class="hero_content">
                     <div class="container">
                         <div class="row">
                                 <div class="hand-ipad col-sm-4 hidden-xs">
                                     <div class="ipad-wrap">
-                                        <img class="img-ipad" src="{{ env('CDN_URL') }}/images/ipad-hands-600.png" alt="ipad">
+                                        <img class="img-ipad" src="images/ipad-hands-600.png" alt="ipad">
                                         <div class="screen-wrap">
-                                            <img class="img-screen" src="{{ env('CDN_URL') }}/images/po-screen-1200.jpg" alt="Purchase Order screenshot">
+                                            <img class="img-screen" src="images/po-screen-1200.jpg" alt="Purchase Order screenshot">
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                     <div class="row flexing">
                         <div class="col-md-5 left">
                             <h2>Build your business with you</h2>
-                            <img id="bottom-logo" src="{{ env('CDN_URL') }}/images/logo/logo-cloud-white.png">
+                            <img id="bottom-logo" src="images/logo/logo-cloud-white.png">
                         </div>
                         <div class="col-md-7 right">
                             <p>
