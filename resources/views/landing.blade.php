@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
 @section('content')
-    <landing inline-template>
         <div id="landing">
             <div id="hero_div">
                 <div class="hero_image_wrap">
@@ -168,14 +167,14 @@
                                 you. To put you ahead of your competitors by saving you time and money. Once you join, we're
                                 on your side and we play to win.
                             </p>
-                            <button type="button" class="btn btn-solid-green" @click="clickedJoin">
-                            Join Now
-                            </button>
+                            <a href="/register" alt="Register Link">
+                                <button type="button" class="btn btn-solid-green">
+                                Join Now
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            @include('layouts.partials.registration-popup')
         </div>
-    </landing>
 @endsection

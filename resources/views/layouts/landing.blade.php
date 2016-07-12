@@ -12,14 +12,10 @@
     <!--
     ========== Stylez ===========
      -->
-    <link href="{{ asset('/css/landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
     <!--
     ========== External Scripts ==========
     -->
-    <!-- Stripe -->
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <!-- Pusher -->
-    <script type="text/javascript" src="https://js.pusher.com/3.1/pusher.min.js"></script>
     <!-- Typekit -->
     <script src="https://use.typekit.net/qkf3ndw.js"></script>
     <script>try {
@@ -59,18 +55,11 @@
     <!--
     ========== Scripts ===========
     -->
-    <!-- Plugins / Frameworks -->
-    <script type="text/javascript" src="{{ asset('/js/vendor.js') }}"></script>
-    <!-- Pusher -->
-    <script type="text/javascript" src="https://js.pusher.com/3.1/pusher.min.js"></script>
-    <!-- Setup & Initz' -->
-    <script type="text/javascript" src="{{ asset('/js/dependencies.js') }}"></script>
-    <!-- Global (helpers) -->
-    <script type="text/javascript" src="{{ asset('/js/global.js') }}"></script>
-    <!-- Page Specific Components -->
-    <script type="text/javascript" src="{{ asset('/js/page.js') }}"></script>
-    <!-- Global Vue Instance -->
-    <script src="{{ asset('/js/vue-root.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/landing-vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/landing-dependencies.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/landing.js') }}"></script>
+
+
     <!-- Flash Notification -->
     @include('layouts.partials.flash')
 </body>

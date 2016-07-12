@@ -14,10 +14,6 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss');
 
-    mix.sass([
-        'pages/landing.scss'
-    ], 'public/assets/css');
-
     mix.styles([
         // App
         '../../../public/css/app.css',
@@ -66,6 +62,26 @@ elixir(function(mix) {
         'fullcalendar/dist/fullcalendar.js'
     ], 'public/js/vendor.js', 'resources/assets/bower');
 
+    mix.scripts([
+        'jquery/dist/jquery.js',
+        'bootstrap-sass/assets/javascripts/bootstrap.min.js',
+        'vue/dist/vue.js',
+        'lodash/lodash.js',
+        'moment/min/moment-with-locales.min.js',
+        'js-cookie/src/js.cookie.js',
+        'toastr/toastr.js',
+        'accounting.js/accounting.min.js'
+    ], 'public/js/landing-vendor.js', 'resources/assets/bower');
+
+    mix.scripts([
+        'LivIcons/*.js',
+        'vue/animations/animations.js',
+        'vue/filters/*.js',
+        'google-analytics-tracker.js',
+        'moment.js',
+        'toastr.js'
+    ], 'public/js/landing-dependencies.js', 'resources/assets/js/dependencies');
+
 
     mix.scriptsIn('resources/assets/js/dependencies', 'public/js/dependencies.js');
     mix.scriptsIn('resources/assets/js/global', 'public/js/global.js');
@@ -73,6 +89,8 @@ elixir(function(mix) {
 
     mix.scriptsIn('resources/assets/js/page/**/*', 'public/js/page.js');
     mix.copy('resources/assets/js/page/root.js', 'public/js/vue-root.js');
+    mix.copy('resources/assets/js/page/landing.js', 'public/js/landing.js');
+
 
     mix.copy(
         [

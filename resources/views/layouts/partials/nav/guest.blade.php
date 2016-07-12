@@ -15,18 +15,15 @@
                 <img src="/images/logo/logo-blue-600.jpg" class="nav-logo">
             </a>
 
-            <ul class="navbar-dropdown animated"
+            <ul class="navbar-dropdown"
                 v-show="showNavDropdown"
-                @click.stop=""
-                transition="fade-slide"
-            >
+                @click.stop="">
                 <li><a href="{{ url('/login') }}">Login</a></li>
                 <li>
-                    <button type="button"
-                            class="btn btn-solid-green button-nav-signup btn-small"
-                    @click="getStarted"
-                    >
-                    Get started</button>
+                    <a href="/register" alt="Register Link">
+                        <button type="button" class="btn btn-solid-green button-nav-signup btn-small">
+                        Get started</button>
+                    </a>
                 </li>
         </div>
     </nav>
