@@ -75,5 +75,6 @@
     <script src="{{ asset('/js/vue-root.js') }}"></script>
     <!-- Flash Notification -->
     @include('layouts.partials.flash')
+    @yield('google-tracking-code')
 </body>
 </html>
