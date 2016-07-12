@@ -50,7 +50,10 @@ class CompanyController extends Controller
         $company = Company::register($request->input('company_name'));
 
         // Subscribe to billing
-        SubscriptionFactory::make($company, $request->credit_card_token);
+        if(! SubscriptionFactory::make($company, $request->credit_card_token)) {
+            // If we couldn't make a subscription, delete company
+            $company->delete();
+        };
 
         // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));

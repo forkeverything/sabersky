@@ -99,12 +99,41 @@ Vue.component('register', {
         },
         checkName: function () {
             this.validName = this.name.length > 0 ? true : 'unfilled';
+        },
+        registerNewCompany: function (creditCardToken) {
+            var self = this;
+            if (!self.ajaxReady) return;
+            self.ajaxReady = false;
+            $.ajax({
+                url: '/company',
+                method: 'POST',
+                data: {
+                    company_name: self.companyName,
+                    name: self.name,
+                    email: self.email,
+                    password: self.password,
+                    credit_card_token: creditCardToken
+                },
+                success: function (data) {
+                    // success
+                    location.href = "/";
+                    self.ajaxReady = true;
+                },
+                error: function (response) {
+                    flashNotify('Registration error - please contact support');
+                    console.log(response);
+                    self.ajaxReady = true;
+                }
+            });
         }
     },
     events: {
         
     },
     ready: function() {
-
+        var self = this;
+        vueEventBus.$on('new-cc-token', function (creditCardToken) {
+            self.registerNewCompany(creditCardToken);
+        });
     }
 });

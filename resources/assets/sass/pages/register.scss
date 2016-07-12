@@ -1,0 +1,15 @@
+#register {
+  h1 {
+    margin: 0 0 15px;
+  }
+
+  #register-form {
+    padding: 15px;
+    border: 1px solid $blue;
+    border-radius: 10px;
+
+    @media screen and (min-width: $screen-md-min) {
+      padding: 30px;
+    }
+  }
+}

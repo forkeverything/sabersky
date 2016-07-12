@@ -3,11 +3,11 @@
 @section('content')
     <register inline-template>
         <div id="register" class="container">
-            <h1 class="text-center no-margin">Sign-up</h1>
+            <h1 class="text-center">Sign-up</h1>
             <p class="text-center">Fill out this quick form and say goodbye to purchasing headaches forever.</p>
 
             <div class="row">
-                <form action="#register-form" class="col-sm-8 col-sm-offset-2">
+                <form id="register-form" class="col-sm-8 col-sm-offset-2">
                     <div class="row">
                         <div class="col-md-7">
                             <label>Account</label>
