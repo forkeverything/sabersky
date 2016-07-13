@@ -273,43 +273,16 @@
   #pricing {
     padding: 30px 60px;
 
-    .header {
-      border-bottom: 1px dashed $midnight-light;
-      margin: 0 0 2em;
+    text-align: center;
 
-      h2 {
-        text-align: center;
-        margin: 0 0 10px;
-      }
-
-      .subheading {
-        text-align: center;
-      }
+    h2 {
+      margin: 0 0 10px;
     }
 
-    .pricing-container {
-
-      .price-section {
-        text-align: center;
-
-        .price {
-          margin: 0;
-        }
-
-        .month {
-          color: $midnight;
-        }
-      }
-
-      #pricing-enterprise {
-        border-bottom: 1px dashed $midnight-light;
-        margin: 0 0 2em;
-
-        @media screen and (min-width: $screen-sm-min) {
-          border-right: 1px dashed $midnight-light;
-          border-bottom: 0;
-        }
-      }
+    h1 {
+      font-size: 8em;
+      margin: 0 0 10px;
+      line-height: 1;
     }
   }
 

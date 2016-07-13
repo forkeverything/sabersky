@@ -20,9 +20,8 @@
                 @click.stop="">
                 <li><a href="{{ url('/login') }}">Login</a></li>
                 <li>
-                    <a href="/register" alt="Register Link">
-                        <button type="button" class="btn btn-solid-green button-nav-signup btn-small">
-                        Get started</button>
+                    <a href="/register" alt="Register Link" class="nav-register">
+                        <i class="fa fa-power-off"></i>
                     </a>
                 </li>
         </div>
