@@ -66,7 +66,7 @@ class PusakaSetupSeeder extends Seeder
         // Clear our tables - Make our records
         $this->truncateTables()
              ->setUpCompany()
-            ->createSubscription()
+//            ->createSubscription()
              ->createUserMike()
              ->makeProject()
              ->createVendors()
