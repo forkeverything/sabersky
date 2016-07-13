@@ -137,11 +137,11 @@
                                 Purchasing
                             </a>
                         </li>
-                        <li class="sublink">
-                            <a href="/settings/billing">
-                                Billing
-                            </a>
-                        </li>
+                        {{--<li class="sublink">--}}
+                            {{--<a href="/settings/billing">--}}
+                                {{--Billing--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
                     </ul>
                 </li>
             @endcan

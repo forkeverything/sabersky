@@ -59,7 +59,7 @@ class Company extends Model
 {
 
     use Billable;
-    
+
     /**
      * Mass-Fillable fields for a company
      *

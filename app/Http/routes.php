@@ -23,6 +23,7 @@
 |
 */
 
+
 Route::group(['middleware' => 'web'], function () {
 
 
@@ -175,7 +176,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/settings/company', 'SettingsController@getCompany');
     Route::get('/settings/roles', 'SettingsController@getRoles');
     Route::get('/settings/purchasing', 'SettingsController@getPurchasing');
-    Route::get('/settings/billing', 'SettingsController@getBilling');
+//    Route::get('/settings/billing', 'SettingsController@getBilling');
 
     /**
      * Roles
@@ -234,9 +235,9 @@ Route::group(['middleware' => 'web'], function () {
     /**
      * Subscriptions
      */
-    Route::post('/subscription/new', 'SubscriptionsController@postNew');
-    Route::post('/subscription/cancel', 'SubscriptionsController@postCancel');
-    Route::post('/subscription/resume', 'SubscriptionsController@postResume');
+//    Route::post('/subscription/new', 'SubscriptionsController@postNew');
+//    Route::post('/subscription/cancel', 'SubscriptionsController@postCancel');
+//    Route::post('/subscription/resume', 'SubscriptionsController@postResume');
 
     Route::get('test', function () {
 //        return App\PurchaseOrder::all();

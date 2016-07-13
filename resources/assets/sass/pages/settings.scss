@@ -28,6 +28,12 @@
 
   #settings-mobile-nav {
     margin: 0 0 15px;
+    display: inline-block;
+    width: 100%;
+
+    .bootstrap-select {
+      width: 100%;
+    }
 
     button {
       text-transform: capitalize;
@@ -35,7 +41,7 @@
     }
 
     .dropdown-menu.open {
-      margin-top: 37px!important;
+      margin-top: 37px !important;
     }
   }
 

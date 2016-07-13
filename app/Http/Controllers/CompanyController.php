@@ -6,7 +6,6 @@ use App\Company;
 use App\CompanySettings;
 use App\Country;
 use App\Events\NewCompanySignedUp;
-use App\Factories\SubscriptionFactory;
 use App\Http\Requests\CompanyAddCurrencyRequest;
 use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\SaveCompanyRequest;
@@ -46,15 +45,9 @@ class CompanyController extends Controller
      */
     public function postRegisterCompany(RegisterCompanyRequest $request)
     {
+        
         // Create Company
         $company = Company::register($request->input('company_name'));
-
-        // Subscribe to billing
-        if(! SubscriptionFactory::make($company, $request->credit_card_token)) {
-            // If we couldn't make a subscription, delete company
-            $company->delete();
-        };
-
         // Create User
         $user = User::make($request->input('name'), $request->input('email'), $request->input('password'));
         // Fire Event
@@ -72,9 +65,13 @@ class CompanyController extends Controller
         Auth::logout();
         Auth::login($user);
 
-        if (Auth::user()) return response("Registered new Company", 200);
+        if (Auth::user()){
+            flash()->success('Welcome to Sabersky!');
+            return redirect('/');
+        }
 
-        return response("Could not register Company or User", 500);
+        flash()->error('Sorry, please try again.');
+        return redirect()->back();
     }
 
     /**

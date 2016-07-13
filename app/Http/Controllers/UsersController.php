@@ -28,7 +28,7 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'billing'], [
+        $this->middleware(['auth'], [
             'except' => [
                 'getAcceptView',
                 'postAcceptInvitation',

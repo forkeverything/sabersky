@@ -17,9 +17,9 @@ class SettingsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('billing', [
-            'except' => 'getBilling'
-        ]);
+//        $this->middleware('billing', [
+//            'except' => 'getBilling'
+//        ]);
         $this->middleware('settings.change');
     }
 

@@ -31,7 +31,6 @@ class PurchaseOrdersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('billing');
         $this->middleware('api.only', [
             'only' => ['apiGetAll', 'apiPostSubmit', 'apiGetSingle']
         ]);

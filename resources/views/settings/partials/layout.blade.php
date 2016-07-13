@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div id="system-settings" class="container">
-
+        <settings-dropdown-nav :page="'{{ $page }}'"></settings-dropdown-nav>
         <div id="settings-header">
             @yield('settings-header')
         </div>

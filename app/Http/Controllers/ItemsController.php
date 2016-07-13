@@ -22,7 +22,6 @@ class ItemsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('billing');
         $this->middleware('company');
         $this->middleware('api.only', [
             'except' => ['getAll', 'getSingle']
